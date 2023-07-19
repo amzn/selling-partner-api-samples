@@ -1,6 +1,14 @@
-## Overview
-The Sample Solution App provides all required resources to deploy a fully functional SP-API application to the AWS cloud.
+# Overview
+This sample solution provides all required resources to deploy to the AWS cloud a fully functional SP-API application that implements the [Merchant Fulfillment use case](https://developer-docs.amazon.com/sp-api/docs/merchant-fulfillment-api-v0-use-case-guide) end-to-end. 
 Use this application to test the proposed solution, do changes and/or integrate it to your own product.
+
+## Merchant Fulfillment API
+The Merchant Fulfillment API helps you to build applications that allows sellers to use Amazon's Buy Shipping Services to purchase shipping for non-Prime and Prime orders.
+With this API you can build applications that can preview shipping service offers based on shipping requirements, create shipments, automatically pay for shipping, and receive and print shipping labels.
+
+If you haven't already, we recommend you to navigate the following resources:
+* [Merchant Fulfillment API Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/merchant-fulfillment-api-v0-use-case-guide)
+* [Merchant Fulfillment API v0 reference](https://developer-docs.amazon.com/sp-api/docs/merchant-fulfillment-api-v0-reference)
 
 ## Pre-requisites
 The pre-requisites for deploying the Sample Solution App to the AWS cloud are:
