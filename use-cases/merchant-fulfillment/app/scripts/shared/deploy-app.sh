@@ -12,7 +12,6 @@ done
 runtime=""
 case "${language}" in
   java) runtime="java11";;
-  javascript) runtime="nodejs18.x";;
   *) echo "Undefined language"; exit;;
 esac
 
@@ -102,19 +101,6 @@ if [ "$language" == "java" ]; then
   mvn package -f "${java_code_folder}pom.xml"
   AWS_ACCESS_KEY_ID=${access_key} AWS_SECRET_ACCESS_KEY=${secret_key} \
     aws s3 cp "${java_code_folder}${java_code_jar}" "s3://${bucket_name}/${code_s3_key}"
-elif [ "$language" == "javascript" ]; then
-  echo "Packaging and uploading JavaScript code"
-  js_code_folder="../../../code/javascript/"
-  js_code_zip="target/sp-api-javascript-app-1.0-upload.zip"
-  code_s3_key="src/sp-api-javascript-app.zip"
-  lambda_func_handler="index.handler"
-  (
-    cd "${js_code_folder}src" || exit
-    npm install
-    zip -rq "${js_code_folder}${js_code_zip}" .
-  )
-  AWS_ACCESS_KEY_ID=${access_key} AWS_SECRET_ACCESS_KEY=${secret_key} \
-    aws s3 cp "${js_code_folder}${js_code_zip}" "s3://${bucket_name}/${code_s3_key}"
 fi
 
 # Upload the StepFunctions state machine definition to S3
