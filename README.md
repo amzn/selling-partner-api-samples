@@ -19,8 +19,9 @@ We welcome contributions to this repo in the form of fixes or improvements to ex
 This is considered an intermediate learning resource, and should typically be referenced after reading the [SP-API Documentation](https://developer-docs.amazon.com/sp-api). Please see [Learning Resources](#learning) for additional resources.
 
 ## Use Cases <a name="use-cases"></a>
-| Use Case | Supported Languages |
-|----------|---------------------|
+| Use Case                                               | Supported Languages |
+|--------------------------------------------------------|---------------------|
+| [Merchant Fulfillment](use-cases/merchant-fulfillment) | Java |
 
 ## Learning Resources <a name="learning"></a>
 * [SP-API Website](https://developer.amazonservices.com)
