@@ -1,8 +1,7 @@
+build/
+target/
+tmp/
+.idea
 *.DS_Store
 *.iml
-.idea
-*/code/java/target/
-*/code/javascript/target/
-*/app/scripts/javascript/tmp/*
 node_modules
-*/build
