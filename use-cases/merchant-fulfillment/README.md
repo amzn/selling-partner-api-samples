@@ -1,0 +1,156 @@
+## Overview
+The Sample Solution App provides all required resources to deploy a fully functional SP-API application to the AWS cloud.
+Use this application to test the proposed solution, do changes and/or integrate it to your own product.
+
+## Pre-requisites
+The pre-requisites for deploying the Sample Solution App to the AWS cloud are:
+* [Registering as a developer for SP-API](https://developer-docs.amazon.com/sp-api/docs/registering-as-a-developer), and [registering an SP-API application](https://developer-docs.amazon.com/sp-api/docs/registering-your-application)
+* An [IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) with `IAMFullAccess` policy
+  * If you don't have one, you can create it following the steps  under **Usage - 2. Configure Sample Solution App's IAM user** 
+* The [AWS CLI](https://aws.amazon.com/cli/)
+  * If not present, it will be installed as part of the deployment script
+* [Maven](https://maven.apache.org/)
+  * Just for deploying a Java-based application
+  * If not present, it will be installed as part of the deployment script
+
+## Usage
+### 1. Update config file
+To allow the Sample Solution App to connect to SP-API, the config file has to be updated to match the set-up of your SP-API application.
+1. Open [app.config](app/app.config) file and replace all occurrences of `<dev_value>` following the instructions below:
+2. Update `RoleArn` attribute value with the arn of the IAM role registered in the SP-API application
+3. Update `AccessKey` and `SecretKey` attribute values with valid credentials for the IAM user that will assume the IAM role registered in the SP-API application
+4. Update `ClientId` and `ClientSecret` attribute values with [Client Id and Client Secret of the SP-API application](https://developer-docs.amazon.com/sp-api/docs/viewing-your-application-information-and-credentials) respectively
+5. Update `RefreshToken` attribute value with the refresh token of the selling partner you will be using for testing
+6. Update `RegionCode` attribute value with the region of the selling partner you will be using for testing
+7. Update `Email` attribute value with the email address where you want to receive shipping labels generated during testing
+
+>Note: While updating the config file, don't leave blank spaces before and after `=`, and don't use quotation marks
+
+#### Sample config file:
+```
+RoleArn=arn:aws:iam::123456789012:role/SPAPIRole
+AccessKey=AKIA1234ABCD6789WXYZ
+SecretKey=ABC123abc123XYZ789xyz789
+ClientId=amzn1.application-oa2-client.abc123def456xyz789
+ClientSecret=amzn1.oa2-cs.v1.abc123def456xyz789
+RefreshToken=Atzr|Abc123def456xyz789
+RegionCode=NA
+Email=login@mydomain.com
+```
+
+### 2. Configure Sample Solution App's IAM user
+#### I. Create IAM user
+In order to execute the deployment script, an IAM user with `IAMFullAccess` permissions is needed.
+To create a new IAM user with required permissions, follow the steps below. If you already have a user with `IAMFullAccess` policy, you can skip to **Configure IAM user credentials** section
+1. Open the [AWS console](https://console.aws.amazon.com/)
+2. Navigate to [IAM Users console](https://us-east-1.console.aws.amazon.com/iamv2/home#/users)
+3. Click **Add users**
+4. Select a name for your user
+5. In the **Set permissions** page, select **Attach policies directly**
+6. In the **Permissions policies**, search for `IAMFullAccess`. Check the policy, and click **Next**
+7. Review the changes and click **Create user**
+
+#### II. Retrieve IAM user credentials
+Security credentials for the IAM user will be requested during the deployment script execution.
+To create a new access key pair, follow the steps below. If you already have valid access key and secret access key, you can skip this section.
+1. Open the [AWS console](https://console.aws.amazon.com/)
+2. Navigate to [IAM Users console](https://us-east-1.console.aws.amazon.com/iamv2/home#/users)
+3. Select your IAM user, which has `IAMFullAccess` permissions
+4. Go to **Security credentials** tab
+5. Under **Access keys**, click **Create access key**
+6. In **Access key best practices & alternatives** page, select **Command Line Interface (CLI)**
+7. Acknowledge the recommendations, and click **Next**
+8. Click **Create access key**
+9. Copy `Access key` and `Secret access key`. This is the only time that these keys can be viewed or downloaded, and you will need them while executing the deployment script
+10. Click **Done**
+
+### 3. Execute the deployment script
+The deployment script will create a Sample Solution App in the AWS cloud.
+To execute the deployment script, follow the steps below.
+1. Identify the deployment script for the programming language you want for your Sample Solution App.
+   1. For example, for the Java application the file is [app/scripts/java/java-app.sh](app/scripts/java/java-app.sh)
+2. Execute the script from your terminal
+   1. For example, to execute the Java deployment script in a Unix-based system, run `bash java-app.sh`
+3. Wait for the CloudFormation stack creation to finish
+   1. Navigate to [CloudFormation console](https://console.aws.amazon.com/cloudformation/home)
+   2. Wait for the stack named **sp-api-app-\<language\>-*random_suffix*** to show status `CREATE_COMPLETE` 
+4. Confirm the subscription to Amazon SNS that you received via email. This subscription will notify you about new shipping labels generated during testing 
+
+### 4. Test the sample solution
+The deployment script creates a Sample Solution App in the AWS cloud. The solution consists of a [Step Functions](https://aws.amazon.com/step-functions/) state machine with a fully functional workflow.
+To test the sample solution, follow the steps below.
+1. Open the [AWS console](https://console.aws.amazon.com/)
+2. Navigate to [DynamoDB console](https://console.aws.amazon.com/dynamodbv2/home)
+3. Under **Tables**, click on **Explore items**
+4. Select the table created by the deployment script, named **SPAPIInventory-*random_suffix***
+5. Select **Create new item** and add the following attributes with the corresponding value:
+   1. **SKU** (Type `String`): The SKU that you will use for testing
+   2. **Height** (Type `Number`): The height of the item that you will use for testing
+   3. **Length** (Type `Number`): The length of the item that you will use for testing
+   4. **Width** (Type `Number`): The width of the item that you will use for testing
+   5. **SizeUnit** (Type `String`): The size unit. Must be `CENTIMETERS` or `INCHES`
+   6. **WeightValue** (Type `Number`): The weight of the item that you will use for testing
+   7. **WeightUnit** (Type `String`): The weight unit. Must be `G` or `OZ`.
+   8. **Stock** (Type `Number`): The available stock of the item that you will use for testing. Must be greater than zero.
+6. Navigate to [SQS console](https://console.aws.amazon.com/sqs/v2/home)
+7. Select the SQS queue created by the deployment script, named **sp-api-notifications-queue-*random_suffix***
+8. Select **Send and receive messages**
+9. Under **Message body**, insert the following simplified notification body. Replace `AmazonOrderId` with the Id of the order that you will use for testing
+    ```
+    {
+        "NotificationType": "ORDER_CHANGE",
+        "EventTime": "2023-07-01T15:30:00.000Z",
+        "Payload": {
+            "OrderChangeNotification": {
+                "NotificationLevel": "OrderLevel",
+                "AmazonOrderId": "123-1234567-1234567",
+                "Summary": {
+                    "OrderStatus": "Unshipped",
+                    "FulfillmentType": "MFN"
+                }
+            }
+        }
+    }
+    ```
+7. Click **Send message**
+8. Navigate to [Step Functions console](https://console.aws.amazon.com/states/home)
+9. Select the state machine created by the deployment script, named **SPAPIStateMachine-*random_suffix***
+10. Under **Executions**, you will see a workflow for the order submitted through SQS
+11. To check the workflow status and navigate into the individual steps, select the workflow and use the **Graph view** and **Step Detail** panels 
+12. After the order is processed and a shipping label is generated, you will receive an email with a presigned url. Open the link in your browser to view the label
+
+### 5. Extra
+The deployment script also creates a Lambda function that subscribes selling partners to notifications. You can integrate this function to your product to easily onboard to the notifications feature.
+To test the function, follow the steps below.
+1. Open the [AWS console](https://console.aws.amazon.com/)
+2. Navigate to [Lambda console](https://console.aws.amazon.com/lambda/home)
+3. Select the notification subscriber function, named **SPAPISubscribeNotificationsLambdaFunction-*random_suffix***
+4. Select **Test** tab
+5. Under **Event JSON**, insert the following payload. Replace `RefreshToken`, `RegionCode` and `NotificationType` with the corresponding values of the selling partner and notification type you want to subscribe to.
+    ```
+    {
+        "RefreshToken": "Atzr|Iw...",
+        "RegionCode": "NA|EU|FE",
+        "NotificationType": "ORDER_CHANGE"
+    }
+    ```
+6. Click **Test**
+7. The function will return `destination Id` and `subscription Id`
+
+### 6. Clean-up
+The deployment script creates a number of resources in the AWS cloud which you might want to delete after testing the solution.
+To clean up these resources, follow the steps below.
+1. Identify the clean-up script for the programming language of the Sample Solution App deployed to the AWS cloud.
+   1. For example, for the Java application the file is [app/scripts/java/java-app-clean.sh](app/scripts/java/java-app-clean.sh)
+2. Execute the script from your terminal
+   1. For example, to execute the Java clean-up script in a Unix-based system, run `bash java-app-clean.sh`
+   2. Wait for the script to finish
+
+### 7. Troubleshooting
+If the state machine execution fails, follow the steps below to identify the root-cause and retry the workflow
+1. Navigate to [Step Functions console](https://console.aws.amazon.com/states/home)
+2. Select the state machine created by the deployment script, named **SPAPIStateMachine-*random_suffix***
+3. Under **Executions**, you can use the **Status** column to identify failed executions
+4. To troubleshoot errors, select the corresponding workflow execution and use the **Graph view** and **Step Detail** panels
+5. After fixing the issues that caused the error, retry the workflow by clicking on **New execution**. The original input parameters will be automatically populated
+6. Click **Start execution**, and validate the results

@@ -1,0 +1,188 @@
+{
+  "Comment": "SP-API state machine",
+  "StartAt": "Retrieve Order",
+  "States": {
+    "Retrieve Order": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${RetrieveOrderLambdaFunctionArn}",
+        "Payload": {
+          "regionCode.$": "$.regionCode",
+          "refreshToken.$": "$.refreshToken",
+          "orderId.$": "$.orderId"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "ResultSelector": {
+        "orderItems.$": "$.Payload.orderItems",
+        "shipFromAddress.$": "$.Payload.shipFromAddress"
+      },
+      "ResultPath": "$.mfnOrder",
+      "Next": "Inventory Check"
+    },
+    "Inventory Check": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "InputPath": "$.mfnOrder",
+      "Parameters": {
+        "FunctionName": "${InventoryCheckLambdaFunctionArn}",
+        "Payload.$": "$"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "ResultSelector": {
+        "orderItems.$": "$.Payload.orderItems",
+        "shipFromAddress.$": "$.Payload.shipFromAddress",
+        "weight.$": "$.Payload.weight",
+        "packageDimensions.$": "$.Payload.packageDimensions"
+      },
+      "ResultPath": "$.mfnOrder",
+      "Next": "Eligible Shipment"
+    },
+    "Eligible Shipment": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${EligibleShipmentLambdaFunctionArn}",
+        "Payload.$": "$"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "ResultSelector": {
+        "orderItems.$": "$.Payload.orderItems",
+        "shipFromAddress.$": "$.Payload.shipFromAddress",
+        "weight.$": "$.Payload.weight",
+        "packageDimensions.$": "$.Payload.packageDimensions",
+        "shippingServiceList.$": "$.Payload.shippingServiceList"
+      },
+      "ResultPath": "$.mfnOrder",
+      "Next": "Select Shipment"
+    },
+    "Select Shipment": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "InputPath": "$.mfnOrder",
+      "Parameters": {
+        "FunctionName": "${SelectShipmentLambdaFunctionArn}",
+        "Payload.$": "$"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "ResultSelector": {
+        "orderItems.$": "$.Payload.orderItems",
+        "shipFromAddress.$": "$.Payload.shipFromAddress",
+        "weight.$": "$.Payload.weight",
+        "packageDimensions.$": "$.Payload.packageDimensions",
+        "shippingServiceList.$": "$.Payload.shippingServiceList",
+        "preferredShippingService.$": "$.Payload.preferredShippingService"
+      },
+      "ResultPath": "$.mfnOrder",
+      "Next": "Create Shipment"
+    },
+    "Create Shipment": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${CreateShipmentLambdaFunctionArn}",
+        "Payload.$": "$"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "ResultSelector": {
+        "labelFormat.$": "$.Payload.labelFormat",
+        "dimensions.$": "$.Payload.dimensions",
+        "fileContents.$": "$.Payload.fileContents"
+      },
+      "ResultPath": "$.label",
+      "Next": "Presign S3 Label"
+    },
+    "Presign S3 Label": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${PresignS3LabelLambdaFunctionArn}",
+        "Payload.$": "$"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "ResultSelector": {
+        "presignedUrl.$": "$.Payload"
+      },
+      "ResultPath": "$.label.s3",
+      "Next": "Notify Label Generation"
+    },
+    "Notify Label Generation": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "TopicArn": "${NotificationTopicArn}",
+        "Message": {
+          "LabelPresignedUrl.$": "$.label.s3.presignedUrl"
+        }
+      },
+      "End": true
+    }
+  }
+}
