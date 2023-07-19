@@ -1,5 +1,5 @@
 # Overview
-This sample solution provides all required resources to deploy to the AWS cloud a fully functional SP-API application that implements the [Merchant Fulfillment use case](https://developer-docs.amazon.com/sp-api/docs/merchant-fulfillment-api-v0-use-case-guide) end-to-end. 
+This Sample Solution provides all required resources to deploy to the AWS cloud a fully functional SP-API application that implements the [Merchant Fulfillment use case](https://developer-docs.amazon.com/sp-api/docs/merchant-fulfillment-api-v0-use-case-guide) end-to-end. 
 Use this application to test the proposed solution, do changes and/or integrate it to your own product.
 
 ## Merchant Fulfillment API
@@ -11,7 +11,7 @@ If you haven't already, we recommend you to navigate the following resources:
 * [Merchant Fulfillment API v0 reference](https://developer-docs.amazon.com/sp-api/docs/merchant-fulfillment-api-v0-reference)
 
 ## Solution
-This sample solution consists of the following components:
+This Sample Solution consists of the following components:
 * A [Step Functions](https://aws.amazon.com/step-functions/) state machine with a fully functional Merchant Fulfillment workflow
 * [Lambda](https://aws.amazon.com/lambda/) functions that support each of the steps of the state machine
 * An [SQS](https://aws.amazon.com/sqs/) queue to receive notifications for new or updated Amazon orders
@@ -94,9 +94,9 @@ To execute the deployment script, follow the steps below.
    2. Wait for the stack named **sp-api-app-\<language\>-*random_suffix*** to show status `CREATE_COMPLETE` 
 4. Confirm the subscription to Amazon SNS that you received via email. This subscription will notify you about new shipping labels generated during testing 
 
-### 4. Test the sample solution
-The deployment script creates a Sample Solution App in the AWS cloud. The solution consists of a [Step Functions](https://aws.amazon.com/step-functions/) state machine with a fully functional workflow.
-To test the sample solution, follow the steps below.
+### 4. Test the Sample Solution
+The deployment script creates a Sample Solution App in the AWS cloud.
+To test it, follow the steps below.
 1. Open the [AWS console](https://console.aws.amazon.com/)
 2. Navigate to [DynamoDB console](https://console.aws.amazon.com/dynamodbv2/home)
 3. Under **Tables**, click on **Explore items**
