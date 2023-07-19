@@ -1,0 +1,655 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: This template creates the resources of an SP-API application
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: SP-API Default Configuration
+        Parameters:
+          - AccessKey
+          - SecretKey
+          - RoleArn
+          - ClientId
+          - ClientSecret
+          - RefreshToken
+          - RegionCode
+      - Label:
+          default: Sample Solution Configuration
+        Parameters:
+          - ProgrammingLanguage
+          - RandomSuffix
+          - ArtifactsS3BucketName
+          - LambdaFunctionsCodeS3Key
+          - SPAPIRetrieveOrderLambdaFunctionHandler
+          - SPAPIInventoryCheckLambdaFunctionHandler
+          - SPAPIEligibleShipmentLambdaFunctionHandler
+          - SPAPISelectShipmentLambdaFunctionHandler
+          - SPAPICreateShipmentLambdaFunctionHandler
+          - SPAPIPresignS3LabelLambdaFunctionHandler
+          - SPAPIProcessNotificationLambdaFunctionHandler
+          - SPAPISubscribeNotificationsLambdaFunctionHandler
+          - StepFunctionsStateMachineDefinitionS3Key
+          - NotificationEmail
+    ParameterLabels:
+      AccessKey:
+        default: Access Key
+      SecretKey:
+        default: Secret Key
+      RoleArn:
+        default: Role Arn
+      ClientId:
+        default: Client Id
+      ClientSecret:
+        default: Client Secret
+      RefreshToken:
+        default: Refresh Token
+      RegionCode:
+        default: Region Code
+      ProgrammingLanguage:
+        default: Programming Language
+      RandomSuffix:
+        default: Random suffix
+      ArtifactsS3BucketName:
+        default: Artifacts S3 Bucket Name
+      LambdaFunctionsCodeS3Key:
+        default: Lambda Functions Code S3 Key
+      SPAPIRetrieveOrderLambdaFunctionHandler:
+        default: Handler of Retrieve Order Lambda Function
+      SPAPIInventoryCheckLambdaFunctionHandler:
+        default: Handler of Inventory Check Lambda Function
+      SPAPIEligibleShipmentLambdaFunctionHandler:
+        default: Handler of Eligible Shipment Lambda Function
+      SPAPISelectShipmentLambdaFunctionHandler:
+        default: Handler of Select Shipment Lambda Function
+      SPAPICreateShipmentLambdaFunctionHandler:
+        default: Handler of Create Shipment Lambda Function
+      SPAPIPresignS3LabelLambdaFunctionHandler:
+        default: Handler of Presign S3 Label Lambda Function
+      SPAPIProcessNotificationLambdaFunctionHandler:
+        default: Handler of Process Notification Lambda Function
+      SPAPISubscribeNotificationsLambdaFunctionHandler:
+        default: Handler of Subscribe Notifications Lambda Function
+      StepFunctionsStateMachineDefinitionS3Key:
+        default: Step Functions State Machine Definition S3 Key
+      NotificationEmail:
+        default: Email for Label Notifications
+Parameters:
+  AccessKey:
+    Type: String
+    MinLength: 1
+    Description: Access Key of the IAM User that will assume the IAM Role registered in the SP-API app
+    NoEcho: true
+  SecretKey:
+    Type: String
+    MinLength: 1
+    Description: Secret Key of the IAM User that will assume the IAM Role registered in the SP-API app
+    NoEcho: true
+  RoleArn:
+    Type: String
+    MinLength: 1
+    Description: Arn of the IAM Role registered in the SP-API app
+  ClientId:
+    Type: String
+    MinLength: 1
+    Description: Client Id of the SP-API app
+    NoEcho: true
+  ClientSecret:
+    Type: String
+    MinLength: 1
+    Description: Client Secret of the SP-API app
+    NoEcho: true
+  RefreshToken:
+    Type: String
+    MinLength: 1
+    Description: Refresh Token used for testing the SP-API app
+    NoEcho: true
+  RegionCode:
+    Type: String
+    MinLength: 1
+    Description: Region Code used for testing the SP-API app [NA/EU/FE]
+    NoEcho: true
+  ProgrammingLanguage:
+    Type: String
+    MinLength: 1
+    Description: Programming language of the Lambda functions
+    AllowedValues:
+      - java11
+      - nodejs18.x
+  RandomSuffix:
+    Type: String
+    MinLength: 6
+    MaxLength: 12
+    Description: Random suffix to append to generated resources
+  ArtifactsS3BucketName:
+    Type: String
+    MinLength: 1
+    Description: Name of the S3 bucket containing the application's artifacts
+  LambdaFunctionsCodeS3Key:
+    Type: String
+    MinLength: 1
+    Description: Key of the S3 file containing the Lambda functions code
+  SPAPIRetrieveOrderLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Retrieve Order Lambda Function
+  SPAPIInventoryCheckLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Inventory Check Lambda Function
+  SPAPIEligibleShipmentLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Eligible Shipment Lambda Function
+  SPAPISelectShipmentLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Select Shipment Lambda Function
+  SPAPICreateShipmentLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Create Shipment Lambda Function
+  SPAPIPresignS3LabelLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Presign S3 Label Lambda Function
+  SPAPIProcessNotificationLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Process Notification Lambda Function
+  SPAPISubscribeNotificationsLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Subscribe Notifications Lambda Function
+  StepFunctionsStateMachineDefinitionS3Key:
+    Type: String
+    MinLength: 1
+    Description: Key of the S3 file containing the Step Functions state machine definition
+  NotificationEmail:
+    Type: String
+    MinLength: 1
+    Description: Email for Label Notifications
+Resources:
+  SPAPIUserCredentials:
+    Type: 'AWS::SecretsManager::Secret'
+    Properties:
+      Name: !Join
+        - '-'
+        - - SPAPIUserCredentials
+          - !Ref RandomSuffix
+      Description: Secret containing SP-API IAM User credentials
+      SecretString: !Sub
+        - >-
+          {"AccessKeyId": "${AccessKeyIdValue}", "SecretKey":
+          "${SecretKeyValue}"}
+        - AccessKeyIdValue: !Ref AccessKey
+          SecretKeyValue: !Ref SecretKey
+  SPAPIAppCredentials:
+    Type: 'AWS::SecretsManager::Secret'
+    Properties:
+      Name: !Join
+        - '-'
+        - - SPAPIAppCredentials
+          - !Ref RandomSuffix
+      Description: Secret containing SP-API app credentials
+      SecretString: !Sub
+        - >-
+          {"AppClientId": "${AppClientIdValue}", "AppClientSecret":
+          "${AppClientSecretValue}"}
+        - AppClientIdValue: !Ref ClientId
+          AppClientSecretValue: !Ref ClientSecret
+  SPAPIRetrieveOrderLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPIRetrieveOrderLambdaFunction
+          - !Ref RandomSuffix
+      Description: Retrieve Order Lambda function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref SPAPIRetrieveOrderLambdaFunctionHandler
+      Role: !GetAtt
+        - SPAPILambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          IAM_USER_CREDENTIALS_SECRET_ARN: !Ref SPAPIUserCredentials
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+          ROLE_ARN: !Ref RoleArn
+          SHIP_FROM_EMAIL: !Ref NotificationEmail
+  SPAPIInventoryCheckLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPIInventoryCheckLambdaFunction
+          - !Ref RandomSuffix
+      Description: Inventory Check Lambda function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref SPAPIInventoryCheckLambdaFunctionHandler
+      Role: !GetAtt
+        - SPAPILambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          IAM_USER_CREDENTIALS_SECRET_ARN: !Ref SPAPIUserCredentials
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+          ROLE_ARN: !Ref RoleArn
+          INVENTORY_TABLE_NAME: !Ref SPAPIInventoryTable
+  SPAPIEligibleShipmentLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPIEligibleShipmentLambdaFunction
+          - !Ref RandomSuffix
+      Description: Eligible Shipment Lambda function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref SPAPIEligibleShipmentLambdaFunctionHandler
+      Role: !GetAtt
+        - SPAPILambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          IAM_USER_CREDENTIALS_SECRET_ARN: !Ref SPAPIUserCredentials
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+          ROLE_ARN: !Ref RoleArn
+  SPAPISelectShipmentLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPISelectShipmentLambdaFunction
+          - !Ref RandomSuffix
+      Description: Select Shipment Lambda function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref SPAPISelectShipmentLambdaFunctionHandler
+      Role: !GetAtt
+        - SPAPILambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          IAM_USER_CREDENTIALS_SECRET_ARN: !Ref SPAPIUserCredentials
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+          ROLE_ARN: !Ref RoleArn
+          SHIPMENT_FILTER_TYPE: CHEAPEST
+  SPAPICreateShipmentLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPICreateShipmentLambdaFunction
+          - !Ref RandomSuffix
+      Description: Create Shipment Lambda function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref SPAPICreateShipmentLambdaFunctionHandler
+      Role: !GetAtt
+        - SPAPILambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          IAM_USER_CREDENTIALS_SECRET_ARN: !Ref SPAPIUserCredentials
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+          ROLE_ARN: !Ref RoleArn
+          SHIPMENTS_TABLE_NAME: !Ref SPAPIShipmentsTable
+  SPAPIPresignS3LabelLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPIPresignS3LabelLambdaFunction
+          - !Ref RandomSuffix
+      Description: Presign S3 Label Lambda function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref SPAPIPresignS3LabelLambdaFunctionHandler
+      Role: !GetAtt
+        - SPAPILambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          IAM_USER_CREDENTIALS_SECRET_ARN: !Ref SPAPIUserCredentials
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+          ROLE_ARN: !Ref RoleArn
+          LABELS_S3_BUCKET_NAME: !Ref SPAPILabelsS3Bucket
+  SPAPIProcessNotificationLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPIProcessNotificationLambdaFunction
+          - !Ref RandomSuffix
+      Description: Process Notifications Lambda function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref SPAPIProcessNotificationLambdaFunctionHandler
+      Role: !GetAtt
+        - SPAPINotificationsLambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          STATE_MACHINE_ARN: !Ref SPAPIStateMachine
+          REFRESH_TOKEN: !Ref RefreshToken
+          REGION_CODE: !Ref RegionCode
+  SPAPISubscribeNotificationsLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPISubscribeNotificationsLambdaFunction
+          - !Ref RandomSuffix
+      Description: Subscribe Notifications Lambda function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref SPAPISubscribeNotificationsLambdaFunctionHandler
+      Role: !GetAtt
+        - SPAPILambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          IAM_USER_CREDENTIALS_SECRET_ARN: !Ref SPAPIUserCredentials
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+          ROLE_ARN: !Ref RoleArn
+          SQS_QUEUE_ARN: !GetAtt
+            - SPAPINotificationsQueue
+            - Arn
+  SPAPILambdaExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Join
+        - '-'
+        - - SPAPILambdaExecutionRole
+          - !Ref RandomSuffix
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: SecretsReaderPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 'secretsmanager:GetSecretValue'
+                Resource:
+                  - !Ref SPAPIUserCredentials
+                  - !Ref SPAPIAppCredentials
+        - PolicyName: DynamoDBReaderPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 'dynamodb:GetItem'
+                Resource: !GetAtt
+                  - SPAPIInventoryTable
+                  - Arn
+        - PolicyName: DynamoDBWriterPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 'dynamodb:PutItem'
+                Resource: !GetAtt
+                  - SPAPIShipmentsTable
+                  - Arn
+        - PolicyName: S3Policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:GetObject'
+                  - 's3:PutObject'
+                Resource: !Sub
+                  - '${BucketArn}/*'
+                  - BucketArn: !GetAtt
+                      - SPAPILabelsS3Bucket
+                      - Arn
+  SPAPINotificationsLambdaExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Join
+        - '-'
+        - - SPAPINotificationsLambdaExecutionRole
+          - !Ref RandomSuffix
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: SQSReaderPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'SQS:DeleteMessage'
+                  - 'SQS:GetQueueAttributes'
+                  - 'SQS:ReceiveMessage'
+                Resource: !GetAtt
+                  - SPAPINotificationsQueue
+                  - Arn
+        - PolicyName: StepFunctionsPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'states:StartExecution'
+                Resource: !Ref SPAPIStateMachine
+  SPAPIInventoryTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: !Join
+        - '-'
+        - - SPAPIInventory
+          - !Ref RandomSuffix
+      AttributeDefinitions:
+        - AttributeName: SKU
+          AttributeType: S
+      KeySchema:
+        - AttributeName: SKU
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+  SPAPIShipmentsTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: !Join
+        - '-'
+        - - SPAPIShipmentsTable
+          - !Ref RandomSuffix
+      AttributeDefinitions:
+        - AttributeName: OrderId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: OrderId
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+  SPAPILabelsS3Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Join
+        - '-'
+        - - sp-api-labels-s3-bucket
+          - !Ref RandomSuffix
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+  SPAPINotificationsQueue:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      QueueName: !Join
+        - '-'
+        - - sp-api-notifications-queue
+          - !Ref RandomSuffix
+      VisibilityTimeout: 300
+  SPAPINotificationsEventSourceMapping:
+    Type: 'AWS::Lambda::EventSourceMapping'
+    Properties:
+      BatchSize: 1
+      Enabled: true
+      EventSourceArn: !GetAtt
+        - SPAPINotificationsQueue
+        - Arn
+      FunctionName: !GetAtt
+        - SPAPIProcessNotificationLambdaFunction
+        - Arn
+  SPAPINotificationsQueuePolicy:
+    Type: 'AWS::SQS::QueuePolicy'
+    Properties:
+      Queues:
+        - !Ref SPAPINotificationsQueue
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'SQS:SendMessage'
+              - 'SQS:GetQueueAttributes'
+            Resource: !GetAtt
+              - SPAPINotificationsQueue
+              - Arn
+            Principal:
+              AWS:
+                - '437568002678'
+  SPAPINotificationSNSTopic:
+    Type: 'AWS::SNS::Topic'
+    Properties:
+      TopicName: !Join
+        - '-'
+        - - SPAPINotificationSNSTopic
+          - !Ref RandomSuffix
+  SPAPINotificationSubscription:
+      Type: 'AWS::SNS::Subscription'
+      Properties:
+        TopicArn: !Ref SPAPINotificationSNSTopic
+        Protocol: email
+        Endpoint: !Ref NotificationEmail
+  SPAPIStateMachine:
+    Type: 'AWS::StepFunctions::StateMachine'
+    Properties:
+      StateMachineName: !Join
+        - '-'
+        - - SPAPIStateMachine
+          - !Ref RandomSuffix
+      StateMachineType: STANDARD
+      DefinitionS3Location:
+        Bucket: !Ref ArtifactsS3BucketName
+        Key: !Ref StepFunctionsStateMachineDefinitionS3Key
+      DefinitionSubstitutions:
+        RetrieveOrderLambdaFunctionArn: !GetAtt
+          - SPAPIRetrieveOrderLambdaFunction
+          - Arn
+        InventoryCheckLambdaFunctionArn: !GetAtt
+          - SPAPIInventoryCheckLambdaFunction
+          - Arn
+        EligibleShipmentLambdaFunctionArn: !GetAtt
+          - SPAPIEligibleShipmentLambdaFunction
+          - Arn
+        SelectShipmentLambdaFunctionArn: !GetAtt
+          - SPAPISelectShipmentLambdaFunction
+          - Arn
+        CreateShipmentLambdaFunctionArn: !GetAtt
+          - SPAPICreateShipmentLambdaFunction
+          - Arn
+        PresignS3LabelLambdaFunctionArn: !GetAtt
+          - SPAPIPresignS3LabelLambdaFunction
+          - Arn
+        NotificationTopicArn: !Ref SPAPINotificationSNSTopic
+      RoleArn: !GetAtt
+        - SPAPIStateMachineExecutionRole
+        - Arn
+  SPAPIStateMachineExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: states.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: LambdaInvokePolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'lambda:InvokeFunction'
+                Resource:
+                  - !GetAtt
+                    - SPAPIRetrieveOrderLambdaFunction
+                    - Arn
+                  - !GetAtt
+                    - SPAPIInventoryCheckLambdaFunction
+                    - Arn
+                  - !GetAtt
+                    - SPAPIEligibleShipmentLambdaFunction
+                    - Arn
+                  - !GetAtt
+                    - SPAPISelectShipmentLambdaFunction
+                    - Arn
+                  - !GetAtt
+                    - SPAPICreateShipmentLambdaFunction
+                    - Arn
+                  - !GetAtt
+                    - SPAPIPresignS3LabelLambdaFunction
+                    - Arn
+        - PolicyName: SnsPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 'sns:Publish'
+                Resource: !Ref SPAPINotificationSNSTopic

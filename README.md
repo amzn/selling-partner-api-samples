@@ -29,7 +29,7 @@ This is considered an intermediate learning resource, and should typically be re
 
 ## Additional Examples <a name="additional-examples"></a>
 * [SP-API Quick Start](https://aws.amazon.com/solutions/implementations/selling-partner-api/)
-* [SP-API Reports Notification QuickStart](https://aws.amazon.com/quickstart/architecture/amazon-selling-partner-api-reports-notifications/)
+* [SP-API Reports Notification Quick Start](https://aws.amazon.com/quickstart/architecture/amazon-selling-partner-api-reports-notifications/)
 
 ## Security <a name="security"></a>
 
