@@ -10,6 +10,16 @@ If you haven't already, we recommend you to navigate the following resources:
 * [Merchant Fulfillment API Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/merchant-fulfillment-api-v0-use-case-guide)
 * [Merchant Fulfillment API v0 reference](https://developer-docs.amazon.com/sp-api/docs/merchant-fulfillment-api-v0-reference)
 
+## Solution
+This sample solution consists of the following components:
+* A [Step Functions](https://aws.amazon.com/step-functions/) state machine with a fully functional Merchant Fulfillment workflow
+* [Lambda](https://aws.amazon.com/lambda/) functions that support each of the steps of the state machine
+* An [SQS](https://aws.amazon.com/sqs/) queue to receive notifications for new or updated Amazon orders
+* [DynamoDB](https://aws.amazon.com/dynamodb/) tables to store SKU and shipment information
+* An [S3](https://aws.amazon.com/s3/) bucket to store generated shipping labels
+* An [SNS](https://aws.amazon.com/sns/) topic to send email notifications when new shipping labels are generated
+* [Secrets Manager](https://aws.amazon.com/secrets-manager/) secrets to securely store SP-API app and user credentials
+
 ## Pre-requisites
 The pre-requisites for deploying the Sample Solution App to the AWS cloud are:
 * [Registering as a developer for SP-API](https://developer-docs.amazon.com/sp-api/docs/registering-as-a-developer), and [registering an SP-API application](https://developer-docs.amazon.com/sp-api/docs/registering-your-application)
