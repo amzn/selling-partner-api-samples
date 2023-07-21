@@ -15,6 +15,11 @@ The bug is related to the following use case and programming language:
 * **Use case:** [e.g. Merchant Fulfillment]
 * **Programming language:** [e.g. Java]
 
+**Relevant code section**
+The root-cause of the bug is related to the following sections of the code:
+* [e.g. selling-partner-api-samples/use-cases/.../MyClass.java]
+* ...
+
 **To reproduce**
 Steps to reproduce the behavior:
 1. Go to '...'
