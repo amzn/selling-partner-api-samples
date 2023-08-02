@@ -29,7 +29,7 @@ install_maven () {
         [yY][eE][sS]|[yY])
           echo "Installing Maven ..."
           # Confirm that Homebrew is installed. Install it otherwise
-          brew --version >/dev/null 2> /dev/null || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          brew --version >/dev/null 2> /dev/null || xcode-select --install; /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
           brew install maven
           break;;
         [nN][oO]|[nN])
