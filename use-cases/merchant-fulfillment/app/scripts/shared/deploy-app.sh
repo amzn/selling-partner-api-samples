@@ -127,7 +127,7 @@ sp_api_email="$(grep "^Email=" "${config_file}" | cut -d"=" -f2)"
 
 # Create the CloudFormation stack
 echo "Creating CloudFormation stack"
-stack_name="sp-api-app-java-${random_string}"
+stack_name="sp-api-app-${random_string}"
 AWS_ACCESS_KEY_ID=${access_key} AWS_SECRET_ACCESS_KEY=${secret_key} \
   aws cloudformation create-stack \
     --stack-name "${stack_name}" \
