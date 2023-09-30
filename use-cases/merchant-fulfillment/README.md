@@ -10,6 +10,10 @@ If you haven't already, we recommend you to navigate the following resources:
 * [Merchant Fulfillment API Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/merchant-fulfillment-api-v0-use-case-guide)
 * [Merchant Fulfillment API v0 reference](https://developer-docs.amazon.com/sp-api/docs/merchant-fulfillment-api-v0-reference)
 
+## Sample Video Tutorial
+
+[![Merchant Fulfillment Solution: Setup and Installation Tutorial](https://img.youtube.com/vi/lUSKvRhK3AQ/maxresdefault.jpg)](https://www.youtube.com/watch?v=lUSKvRhK3AQ) 
+
 ## Solution
 This Sample Solution consists of the following components:
 * A [Step Functions](https://aws.amazon.com/step-functions/) state machine with a fully functional Merchant Fulfillment workflow
