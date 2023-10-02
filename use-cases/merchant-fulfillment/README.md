@@ -12,7 +12,7 @@ If you haven't already, we recommend you to navigate the following resources:
 
 ## Sample Video Tutorial
 
-[![Merchant Fulfillment Solution: Setup and Installation Tutorial](https://img.youtube.com/vi/lUSKvRhK3AQ/maxresdefault.jpg)](https://www.youtube.com/watch?v=lUSKvRhK3AQ) 
+[![Merchant Fulfillment Solution: Setup and Installation Tutorial](https://img.youtube.com/vi/lUSKvRhK3AQ/sddefault.jpg)](https://www.youtube.com/watch?v=lUSKvRhK3AQ) 
 
 ## Solution
 This Sample Solution consists of the following components:
