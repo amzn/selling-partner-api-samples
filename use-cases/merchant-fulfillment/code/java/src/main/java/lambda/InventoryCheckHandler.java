@@ -1,19 +1,19 @@
 package lambda;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.amazonaws.services.dynamodbv2.model.GetItemRequest;
-import com.amazonaws.services.dynamodbv2.model.GetItemResult;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.google.gson.Gson;
 import io.swagger.client.model.mfn.PackageDimensions;
 import io.swagger.client.model.mfn.UnitOfLength;
 import io.swagger.client.model.mfn.UnitOfWeight;
 import io.swagger.client.model.mfn.Weight;
 import lambda.utils.MfnOrder;
 import lambda.utils.MfnOrderItem;
+import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
+import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
+import software.amazon.awssdk.services.dynamodb.model.GetItemResponse;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -34,7 +34,7 @@ public class InventoryCheckHandler implements RequestHandler<MfnOrder, MfnOrder>
 
     public MfnOrder handleRequest(MfnOrder input, Context context) {
         LambdaLogger logger = context.getLogger();
-        logger.log("InventoryCheck Lambda input: " + input);
+        logger.log("InventoryCheck Lambda input: " + new Gson().toJson(input));
 
         long packageWeightValue = 0;
         String packageWeightUnit = "";
@@ -49,32 +49,33 @@ public class InventoryCheckHandler implements RequestHandler<MfnOrder, MfnOrder>
             //Retrieve the item from DynamoDB by SKU
             //Update this section to match your product's logic
             Map<String, AttributeValue> key = new HashMap<>();
-            key.put(INVENTORY_TABLE_HASH_KEY_NAME, new AttributeValue(orderItem.getSku()));
+            key.put(INVENTORY_TABLE_HASH_KEY_NAME, AttributeValue.fromS(orderItem.getSku()));
 
-            GetItemRequest getItemRequest = new GetItemRequest()
-                    .withTableName(System.getenv(INVENTORY_TABLE_NAME_ENV_VARIABLE))
-                    .withKey(key);
+            GetItemRequest getItemRequest = GetItemRequest.builder()
+                    .tableName(System.getenv(INVENTORY_TABLE_NAME_ENV_VARIABLE))
+                    .key(key)
+                    .build();
 
-            AmazonDynamoDB dynamoDB = AmazonDynamoDBClientBuilder.defaultClient();
-            GetItemResult getItemResult = dynamoDB.getItem(getItemRequest);
-            Map<String, AttributeValue> item = getItemResult.getItem();
+            DynamoDbClient dynamoDB = DynamoDbClient.builder().build();
+            GetItemResponse getItemResult = dynamoDB.getItem(getItemRequest);
+            Map<String, AttributeValue> item = getItemResult.item();
 
-            String stock = item.get(INVENTORY_TABLE_STOCK_ATTRIBUTE_NAME).getN();
+            String stock = item.get(INVENTORY_TABLE_STOCK_ATTRIBUTE_NAME).n();
             if (parseLong(stock) < orderItem.getQuantity()) {
                 throw new InternalError(
                         String.format("Stock level for SKU {%s} is not enough to fulfill the requested quantity",
                         orderItem.getSku()));
             }
 
-            long itemWeightValue = parseLong(item.get(INVENTORY_TABLE_WEIGHT_VALUE_ATTRIBUTE_NAME).getN());
+            long itemWeightValue = parseLong(item.get(INVENTORY_TABLE_WEIGHT_VALUE_ATTRIBUTE_NAME).n());
             //Valid values for the database records are uppercase: [OZ, G]
-            String itemWeightUnit = item.get(INVENTORY_TABLE_WEIGHT_UNIT_ATTRIBUTE_NAME).getS();
+            String itemWeightUnit = item.get(INVENTORY_TABLE_WEIGHT_UNIT_ATTRIBUTE_NAME).s();
 
-            long itemLength = parseLong(item.get(INVENTORY_TABLE_LENGTH_ATTRIBUTE_NAME).getN());
-            long itemWidth = parseLong(item.get(INVENTORY_TABLE_WIDTH_ATTRIBUTE_NAME).getN());
-            long itemHeight = parseLong(item.get(INVENTORY_TABLE_HEIGTH_ATTRIBUTE_NAME).getN());
+            long itemLength = parseLong(item.get(INVENTORY_TABLE_LENGTH_ATTRIBUTE_NAME).n());
+            long itemWidth = parseLong(item.get(INVENTORY_TABLE_WIDTH_ATTRIBUTE_NAME).n());
+            long itemHeight = parseLong(item.get(INVENTORY_TABLE_HEIGTH_ATTRIBUTE_NAME).n());
             //Valid values for the database records are uppercase: [INCHES, CENTIMETERS]
-            String itemSizeUnit = item.get(INVENTORY_TABLE_SIZE_UNIT_ATTRIBUTE_NAME).getS();
+            String itemSizeUnit = item.get(INVENTORY_TABLE_SIZE_UNIT_ATTRIBUTE_NAME).s();
 
             Weight itemWeight = new Weight();
             itemWeight.setValue(BigDecimal.valueOf(itemWeightValue));

@@ -1,9 +1,5 @@
 package lambda;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.amazonaws.services.dynamodbv2.model.PutItemRequest;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
@@ -14,7 +10,9 @@ import io.swagger.client.model.mfn.CreateShipmentResponse;
 import io.swagger.client.model.mfn.Label;
 import io.swagger.client.model.mfn.ShipmentRequestDetails;
 import lambda.utils.MfnLambdaInput;
-
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
+import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +28,7 @@ public class CreateShipmentHandler implements RequestHandler<MfnLambdaInput, Lab
 
     public Label handleRequest(MfnLambdaInput input, Context context) {
         LambdaLogger logger = context.getLogger();
-        logger.log("CreateShipment Lambda input: " + input);
+        logger.log("CreateShipment Lambda input: " + new Gson().toJson(input));
 
         try {
             //Create shipment for the selected shipping service
@@ -63,14 +61,15 @@ public class CreateShipmentHandler implements RequestHandler<MfnLambdaInput, Lab
 
     private void storeShipmentInformation(String orderId, String shipmentId) {
         Map<String, AttributeValue> item = new HashMap<>();
-        item.put(SHIPMENTS_TABLE_HASH_KEY_NAME, new AttributeValue(orderId));
-        item.put(SHIPMENTS_TABLE_SHIPMENT_ID_ATTRIBUTE_NAME, new AttributeValue(shipmentId));
+        item.put(SHIPMENTS_TABLE_HASH_KEY_NAME, AttributeValue.fromS(orderId));
+        item.put(SHIPMENTS_TABLE_SHIPMENT_ID_ATTRIBUTE_NAME, AttributeValue.fromS(shipmentId));
 
-        PutItemRequest putItemRequest = new PutItemRequest()
-                .withTableName(System.getenv(SHIPMENTS_TABLE_NAME_ENV_VARIABLE))
-                .withItem(item);
+        PutItemRequest putItemRequest = PutItemRequest.builder()
+                .tableName(System.getenv(SHIPMENTS_TABLE_NAME_ENV_VARIABLE))
+                .item(item)
+                .build();
 
-        AmazonDynamoDB dynamoDB = AmazonDynamoDBClientBuilder.defaultClient();
+        DynamoDbClient dynamoDB = DynamoDbClient.builder().build();
         dynamoDB.putItem(putItemRequest);
     }
 }

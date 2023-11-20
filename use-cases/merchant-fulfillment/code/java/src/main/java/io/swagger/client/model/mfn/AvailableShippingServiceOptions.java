@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiModelProperty;
  * The available shipping service options.
  */
 @ApiModel(description = "The available shipping service options.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-06-06T15:03:26.392+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-14T15:09:37.314+01:00")
 public class AvailableShippingServiceOptions {
   @SerializedName("AvailableCarrierWillPickUpOptions")
   private AvailableCarrierWillPickUpOptionsList availableCarrierWillPickUpOptions = null;

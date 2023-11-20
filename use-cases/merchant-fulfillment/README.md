@@ -39,20 +39,15 @@ The pre-requisites for deploying the Sample Solution App to the AWS cloud are:
 ### 1. Update config file
 To allow the Sample Solution App to connect to SP-API, the config file has to be updated to match the set-up of your SP-API application.
 1. Open [app.config](app/app.config) file and replace all occurrences of `<dev_value>` following the instructions below:
-2. Update `RoleArn` attribute value with the arn of the IAM role registered in the SP-API application
-3. Update `AccessKey` and `SecretKey` attribute values with valid credentials for the IAM user that will assume the IAM role registered in the SP-API application
-4. Update `ClientId` and `ClientSecret` attribute values with [Client Id and Client Secret of the SP-API application](https://developer-docs.amazon.com/sp-api/docs/viewing-your-application-information-and-credentials) respectively
-5. Update `RefreshToken` attribute value with the refresh token of the selling partner you will be using for testing
-6. Update `RegionCode` attribute value with the region of the selling partner you will be using for testing
-7. Update `Email` attribute value with the email address where you want to receive shipping labels generated during testing
+2. Update `ClientId` and `ClientSecret` attribute values with [Client Id and Client Secret of the SP-API application](https://developer-docs.amazon.com/sp-api/docs/viewing-your-application-information-and-credentials) respectively
+3. Update `RefreshToken` attribute value with the refresh token of the selling partner you will be using for testing
+4. Update `RegionCode` attribute value with the region of the selling partner you will be using for testing
+5. Update `Email` attribute value with the email address where you want to receive shipping labels generated during testing
 
 >Note: While updating the config file, don't leave blank spaces before and after `=`, and don't use quotation marks
 
 #### Sample config file:
 ```
-RoleArn=arn:aws:iam::123456789012:role/SPAPIRole
-AccessKey=AKIA1234ABCD6789WXYZ
-SecretKey=ABC123abc123XYZ789xyz789
 ClientId=amzn1.application-oa2-client.abc123def456xyz789
 ClientSecret=amzn1.oa2-cs.v1.abc123def456xyz789
 RefreshToken=Atzr|Abc123def456xyz789

@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiModelProperty;
  * Indicates whether the carrier will pick up the package, and what fee is charged, if any.
  */
 @ApiModel(description = "Indicates whether the carrier will pick up the package, and what fee is charged, if any.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-06-06T15:03:26.392+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-14T15:09:37.314+01:00")
 public class AvailableCarrierWillPickUpOption {
   @SerializedName("CarrierWillPickUpOption")
   private CarrierWillPickUpOption carrierWillPickUpOption = null;

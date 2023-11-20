@@ -6,9 +6,6 @@ Metadata:
       - Label:
           default: SP-API Default Configuration
         Parameters:
-          - AccessKey
-          - SecretKey
-          - RoleArn
           - ClientId
           - ClientSecret
           - RefreshToken
@@ -31,12 +28,6 @@ Metadata:
           - StepFunctionsStateMachineDefinitionS3Key
           - NotificationEmail
     ParameterLabels:
-      AccessKey:
-        default: Access Key
-      SecretKey:
-        default: Secret Key
-      RoleArn:
-        default: Role Arn
       ClientId:
         default: Client Id
       ClientSecret:
@@ -74,20 +65,6 @@ Metadata:
       NotificationEmail:
         default: Email for Label Notifications
 Parameters:
-  AccessKey:
-    Type: String
-    MinLength: 1
-    Description: Access Key of the IAM User that will assume the IAM Role registered in the SP-API app
-    NoEcho: true
-  SecretKey:
-    Type: String
-    MinLength: 1
-    Description: Secret Key of the IAM User that will assume the IAM Role registered in the SP-API app
-    NoEcho: true
-  RoleArn:
-    Type: String
-    MinLength: 1
-    Description: Arn of the IAM Role registered in the SP-API app
   ClientId:
     Type: String
     MinLength: 1
@@ -169,20 +146,6 @@ Parameters:
     MinLength: 1
     Description: Email for Label Notifications
 Resources:
-  SPAPIUserCredentials:
-    Type: 'AWS::SecretsManager::Secret'
-    Properties:
-      Name: !Join
-        - '-'
-        - - SPAPIUserCredentials
-          - !Ref RandomSuffix
-      Description: Secret containing SP-API IAM User credentials
-      SecretString: !Sub
-        - >-
-          {"AccessKeyId": "${AccessKeyIdValue}", "SecretKey":
-          "${SecretKeyValue}"}
-        - AccessKeyIdValue: !Ref AccessKey
-          SecretKeyValue: !Ref SecretKey
   SPAPIAppCredentials:
     Type: 'AWS::SecretsManager::Secret'
     Properties:
@@ -217,9 +180,7 @@ Resources:
       Timeout: 60
       Environment:
         Variables:
-          IAM_USER_CREDENTIALS_SECRET_ARN: !Ref SPAPIUserCredentials
           SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
-          ROLE_ARN: !Ref RoleArn
           SHIP_FROM_EMAIL: !Ref NotificationEmail
   SPAPIInventoryCheckLambdaFunction:
     Type: 'AWS::Lambda::Function'
@@ -241,9 +202,7 @@ Resources:
       Timeout: 60
       Environment:
         Variables:
-          IAM_USER_CREDENTIALS_SECRET_ARN: !Ref SPAPIUserCredentials
           SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
-          ROLE_ARN: !Ref RoleArn
           INVENTORY_TABLE_NAME: !Ref SPAPIInventoryTable
   SPAPIEligibleShipmentLambdaFunction:
     Type: 'AWS::Lambda::Function'
@@ -265,9 +224,7 @@ Resources:
       Timeout: 60
       Environment:
         Variables:
-          IAM_USER_CREDENTIALS_SECRET_ARN: !Ref SPAPIUserCredentials
           SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
-          ROLE_ARN: !Ref RoleArn
   SPAPISelectShipmentLambdaFunction:
     Type: 'AWS::Lambda::Function'
     Properties:
@@ -288,9 +245,7 @@ Resources:
       Timeout: 60
       Environment:
         Variables:
-          IAM_USER_CREDENTIALS_SECRET_ARN: !Ref SPAPIUserCredentials
           SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
-          ROLE_ARN: !Ref RoleArn
           SHIPMENT_FILTER_TYPE: CHEAPEST
   SPAPICreateShipmentLambdaFunction:
     Type: 'AWS::Lambda::Function'
@@ -312,9 +267,7 @@ Resources:
       Timeout: 60
       Environment:
         Variables:
-          IAM_USER_CREDENTIALS_SECRET_ARN: !Ref SPAPIUserCredentials
           SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
-          ROLE_ARN: !Ref RoleArn
           SHIPMENTS_TABLE_NAME: !Ref SPAPIShipmentsTable
   SPAPIPresignS3LabelLambdaFunction:
     Type: 'AWS::Lambda::Function'
@@ -336,9 +289,7 @@ Resources:
       Timeout: 60
       Environment:
         Variables:
-          IAM_USER_CREDENTIALS_SECRET_ARN: !Ref SPAPIUserCredentials
           SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
-          ROLE_ARN: !Ref RoleArn
           LABELS_S3_BUCKET_NAME: !Ref SPAPILabelsS3Bucket
   SPAPIProcessNotificationLambdaFunction:
     Type: 'AWS::Lambda::Function'
@@ -383,9 +334,7 @@ Resources:
       Timeout: 60
       Environment:
         Variables:
-          IAM_USER_CREDENTIALS_SECRET_ARN: !Ref SPAPIUserCredentials
           SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
-          ROLE_ARN: !Ref RoleArn
           SQS_QUEUE_ARN: !GetAtt
             - SPAPINotificationsQueue
             - Arn
@@ -415,7 +364,6 @@ Resources:
               - Effect: Allow
                 Action: 'secretsmanager:GetSecretValue'
                 Resource:
-                  - !Ref SPAPIUserCredentials
                   - !Ref SPAPIAppCredentials
         - PolicyName: DynamoDBReaderPolicy
           PolicyDocument:
