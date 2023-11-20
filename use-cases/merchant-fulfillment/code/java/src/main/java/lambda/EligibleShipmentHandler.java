@@ -20,7 +20,7 @@ public class EligibleShipmentHandler implements RequestHandler<MfnLambdaInput, M
 
     public MfnOrder handleRequest(MfnLambdaInput input, Context context) {
         LambdaLogger logger = context.getLogger();
-        logger.log("EligibleShipment Lambda input: " + input);
+        logger.log("EligibleShipment Lambda input: " + new Gson().toJson(input));
 
         MfnOrder mfnOrder = input.getMfnOrder();
 

@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiModelProperty;
  * Maps the additional seller input to the definition. The key to the map is the field name.
  */
 @ApiModel(description = "Maps the additional seller input to the definition. The key to the map is the field name.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-06-06T15:03:26.392+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-14T15:09:37.314+01:00")
 public class AdditionalInputs {
   @SerializedName("AdditionalInputFieldName")
   private String additionalInputFieldName = null;

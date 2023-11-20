@@ -3,6 +3,7 @@ package lambda;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.google.gson.Gson;
 import io.swagger.client.api.OrdersV0Api;
 import io.swagger.client.model.mfn.Address;
 import io.swagger.client.model.orders.GetOrderItemsResponse;
@@ -22,13 +23,14 @@ public class RetrieveOrderHandler implements RequestHandler<MfnLambdaInput, MfnO
 
     public MfnOrder handleRequest(MfnLambdaInput input, Context context) {
         LambdaLogger logger = context.getLogger();
-        logger.log("RetrieveOrder Lambda input: " + input);
+        logger.log("RetrieveOrder Lambda input: " + new Gson().toJson(input));
 
         try {
             OrdersV0Api ordersApi = getOrdersApi(input.getRegionCode(), input.getRefreshToken());
 
             //Get order and order items
             GetOrderResponse order = ordersApi.getOrder(input.getOrderId());
+            logger.log("Order: " + new Gson().toJson(order));
             GetOrderItemsResponse orderItems = ordersApi.getOrderItems(input.getOrderId(), null);
 
             MfnOrder mfnOrder = new MfnOrder();

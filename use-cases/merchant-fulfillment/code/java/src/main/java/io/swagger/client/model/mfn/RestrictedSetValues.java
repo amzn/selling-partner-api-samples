@@ -23,7 +23,7 @@ import java.util.List;
  * The set of fixed values in an additional seller input.
  */
 @ApiModel(description = "The set of fixed values in an additional seller input.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-06-06T15:03:26.392+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-14T15:09:37.314+01:00")
 public class RestrictedSetValues extends ArrayList<String> {
 
   @Override

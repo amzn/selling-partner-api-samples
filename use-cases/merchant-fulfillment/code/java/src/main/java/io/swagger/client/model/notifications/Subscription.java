@@ -1,6 +1,6 @@
 /*
  * Selling Partner API for Notifications
- * The Selling Partner API for Notifications lets you subscribe to notifications that are relevant to a selling partner's business. Using this API you can create a destination to receive notifications, subscribe to notifications, delete notification subscriptions, and more.
+ * The Selling Partner API for Notifications lets you subscribe to notifications that are relevant to a selling partner's business. Using this API you can create a destination to receive notifications, subscribe to notifications, delete notification subscriptions, and more.  For more information, see the [Notifications Use Case Guide](doc:notifications-api-v1-use-case-guide).
  *
  * OpenAPI spec version: v1
  * 
@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiModelProperty;
  * Represents a subscription to receive notifications.
  */
 @ApiModel(description = "Represents a subscription to receive notifications.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-11-24T16:14:21.819+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-14T15:13:21.253+01:00")
 public class Subscription {
   @SerializedName("subscriptionId")
   private String subscriptionId = null;
@@ -33,6 +33,9 @@ public class Subscription {
 
   @SerializedName("destinationId")
   private String destinationId = null;
+
+  @SerializedName("processingDirective")
+  private ProcessingDirective processingDirective = null;
 
   public Subscription subscriptionId(String subscriptionId) {
     this.subscriptionId = subscriptionId;
@@ -88,9 +91,27 @@ public class Subscription {
     this.destinationId = destinationId;
   }
 
+  public Subscription processingDirective(ProcessingDirective processingDirective) {
+    this.processingDirective = processingDirective;
+    return this;
+  }
+
+   /**
+   * Get processingDirective
+   * @return processingDirective
+  **/
+  @ApiModelProperty(value = "")
+  public ProcessingDirective getProcessingDirective() {
+    return processingDirective;
+  }
+
+  public void setProcessingDirective(ProcessingDirective processingDirective) {
+    this.processingDirective = processingDirective;
+  }
+
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -100,12 +121,13 @@ public class Subscription {
     Subscription subscription = (Subscription) o;
     return Objects.equals(this.subscriptionId, subscription.subscriptionId) &&
         Objects.equals(this.payloadVersion, subscription.payloadVersion) &&
-        Objects.equals(this.destinationId, subscription.destinationId);
+        Objects.equals(this.destinationId, subscription.destinationId) &&
+        Objects.equals(this.processingDirective, subscription.processingDirective);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(subscriptionId, payloadVersion, destinationId);
+    return Objects.hash(subscriptionId, payloadVersion, destinationId, processingDirective);
   }
 
 
@@ -117,6 +139,7 @@ public class Subscription {
     sb.append("    subscriptionId: ").append(toIndentedString(subscriptionId)).append("\n");
     sb.append("    payloadVersion: ").append(toIndentedString(payloadVersion)).append("\n");
     sb.append("    destinationId: ").append(toIndentedString(destinationId)).append("\n");
+    sb.append("    processingDirective: ").append(toIndentedString(processingDirective)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -125,7 +148,7 @@ public class Subscription {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

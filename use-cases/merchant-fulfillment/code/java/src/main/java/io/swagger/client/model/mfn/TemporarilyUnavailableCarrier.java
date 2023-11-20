@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiModelProperty;
  * A carrier who is temporarily unavailable, most likely due to a service outage experienced by the carrier.
  */
 @ApiModel(description = "A carrier who is temporarily unavailable, most likely due to a service outage experienced by the carrier.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-06-06T15:03:26.392+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-14T15:09:37.314+01:00")
 public class TemporarilyUnavailableCarrier {
   @SerializedName("CarrierName")
   private String carrierName = null;

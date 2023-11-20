@@ -4,10 +4,9 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.SQSEvent;
-import com.amazonaws.services.stepfunctions.AWSStepFunctions;
-import com.amazonaws.services.stepfunctions.AWSStepFunctionsClientBuilder;
-import com.amazonaws.services.stepfunctions.model.StartExecutionRequest;
-import com.amazonaws.services.stepfunctions.model.StartExecutionResult;
+import software.amazon.awssdk.services.sfn.SfnClient;
+import software.amazon.awssdk.services.sfn.model.StartExecutionRequest;
+import software.amazon.awssdk.services.sfn.model.StartExecutionResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lambda.utils.OrderChangeNotification;
@@ -15,6 +14,7 @@ import lambda.utils.NotificationOrderSummary;
 import lambda.utils.SPAPINotification;
 import lambda.utils.StateMachineInput;
 
+import java.io.IOException;
 import java.util.UUID;
 
 import static lambda.utils.Constants.MFN_FULFILLMENT_CODE;
@@ -64,7 +64,7 @@ public class ProcessNotificationHandler implements RequestHandler<SQSEvent, Stri
                             orderSummary.getFulfillmentType(),
                             orderSummary.getOrderStatus()));
                 }
-            } catch (JsonProcessingException e) {
+            } catch (IOException e) {
                 logger.log(String.format("Message body could not be mapped to a SP-API Notification: %s", e.getMessage()));
             }
         }
@@ -72,7 +72,7 @@ public class ProcessNotificationHandler implements RequestHandler<SQSEvent, Stri
         return "Finished processing incoming notifications";
     }
 
-    private SPAPINotification mapNotification(String notificationBody) throws JsonProcessingException {
+    private SPAPINotification mapNotification(String notificationBody) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         SPAPINotification notification = mapper.readValue(notificationBody, SPAPINotification.class);
 
@@ -84,15 +84,16 @@ public class ProcessNotificationHandler implements RequestHandler<SQSEvent, Stri
         StateMachineInput input = getStateMachineInput(orderNotification);
         String inputStr = mapper.writeValueAsString(input);
 
-        StartExecutionRequest request = new StartExecutionRequest();
-        request.setStateMachineArn(System.getenv(STATE_MACHINE_ARN_ENV_VARIABLE));
-        request.setName(String.format("%s-%s", orderNotification.getAmazonOrderId(), UUID.randomUUID()));
-        request.setInput(inputStr);
+        StartExecutionRequest request = StartExecutionRequest.builder()
+                .stateMachineArn(System.getenv(STATE_MACHINE_ARN_ENV_VARIABLE))
+                .name(String.format("%s-%s", orderNotification.getAmazonOrderId(), UUID.randomUUID()))
+                .input(inputStr)
+                .build();
 
-        AWSStepFunctions stepFunctions = AWSStepFunctionsClientBuilder.defaultClient();
-        StartExecutionResult result = stepFunctions.startExecution(request);
+        SfnClient stepFunctions = SfnClient.builder().build();
+        StartExecutionResponse result = stepFunctions.startExecution(request);
 
-        return result.getExecutionArn();
+        return result.executionArn();
     }
 
     private StateMachineInput getStateMachineInput(OrderChangeNotification orderNotification) {

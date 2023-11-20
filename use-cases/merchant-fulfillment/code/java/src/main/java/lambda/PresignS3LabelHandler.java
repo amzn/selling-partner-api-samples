@@ -1,24 +1,24 @@
 package lambda;
 
-import com.amazonaws.HttpMethod;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.google.gson.Gson;
 import io.swagger.client.model.mfn.Label;
 import lambda.utils.MfnLambdaInput;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
+import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.time.Instant;
+import java.time.Duration;
 import java.util.Base64;
-import java.util.Date;
 import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 
@@ -29,7 +29,7 @@ public class PresignS3LabelHandler implements RequestHandler<MfnLambdaInput, Str
 
     public String handleRequest(MfnLambdaInput input, Context context) {
         LambdaLogger logger = context.getLogger();
-        logger.log("PresignS3Label Lambda input: " + input);
+        logger.log("PresignS3Label Lambda input: " + new Gson().toJson(input));
 
         try {
             String s3BucketName = System.getenv(LABELS_S3_BUCKET_NAME_ENV_VARIABLE);
@@ -50,14 +50,17 @@ public class PresignS3LabelHandler implements RequestHandler<MfnLambdaInput, Str
     }
 
     private void storeLabel(String s3BucketName, String objectKey, Label label) {
+        PutObjectRequest request = PutObjectRequest.builder()
+                .bucket(s3BucketName)
+                .key(objectKey)
+                .contentType(CONTENT_TYPE_METADATA_MAP.get(label.getLabelFormat().getValue()))
+                .build();
+
         byte[] labelContentBytes = decodeLabelContent(label);
-        InputStream inputStream = new ByteArrayInputStream(labelContentBytes);
+        RequestBody body = RequestBody.fromBytes(labelContentBytes);
 
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentType(CONTENT_TYPE_METADATA_MAP.get(label.getLabelFormat().getValue()));
-
-        AmazonS3 s3 = AmazonS3ClientBuilder.defaultClient();
-        s3.putObject(s3BucketName, objectKey, inputStream, metadata);
+        S3Client s3 = S3Client.builder().build();
+        s3.putObject(request, body);
     }
 
     //Shipping labels are compressed and encoded
@@ -87,17 +90,19 @@ public class PresignS3LabelHandler implements RequestHandler<MfnLambdaInput, Str
     }
 
     private String generatePresignedUrl(String s3BucketName, String objectKey) {
+        GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+                .bucket(s3BucketName)
+                .key(objectKey)
+                .build();
+
         // Set the presigned URL to expire after one hour
-        Instant expirationTime = Instant.now().plusMillis(1000 * 60 * 60);
-        Date expirationDate = new Date(expirationTime.toEpochMilli());
+        GetObjectPresignRequest request = GetObjectPresignRequest.builder()
+                .signatureDuration(Duration.ofMinutes(60))
+                .getObjectRequest(getObjectRequest)
+                .build();
 
-        GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                new GeneratePresignedUrlRequest(s3BucketName, objectKey)
-                        .withMethod(HttpMethod.GET)
-                        .withExpiration(expirationDate);
-
-        AmazonS3 s3 = AmazonS3ClientBuilder.defaultClient();
-        URL url = s3.generatePresignedUrl(generatePresignedUrlRequest);
-        return url.toString();
+        S3Presigner s3Presigner = S3Presigner.builder().build();
+        PresignedGetObjectRequest result = s3Presigner.presignGetObject(request);
+        return result.url().toString();
     }
 }

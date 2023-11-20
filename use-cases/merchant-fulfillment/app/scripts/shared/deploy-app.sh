@@ -116,9 +116,6 @@ fi
 
 # Retrieve config values
 config_file="../../app.config"
-sp_api_access_key="$(grep "^AccessKey=" "${config_file}" | cut -d"=" -f2)"
-sp_api_secret_key="$(grep "^SecretKey=" "${config_file}" | cut -d"=" -f2)"
-sp_api_role_arn="$(grep "^RoleArn=" "${config_file}" | cut -d"=" -f2)"
 sp_api_client_id="$(grep "^ClientId=" "${config_file}" | cut -d"=" -f2)"
 sp_api_client_secret="$(grep "^ClientSecret=" "${config_file}" | cut -d"=" -f2)"
 sp_api_refresh_token="$(grep "^RefreshToken=" "${config_file}" | cut -d"=" -f2)"
@@ -134,9 +131,6 @@ AWS_ACCESS_KEY_ID=${access_key} AWS_SECRET_ACCESS_KEY=${secret_key} \
     --template-body file://../../app-template.yaml \
     --capabilities CAPABILITY_NAMED_IAM \
     --parameters \
-      ParameterKey="AccessKey",ParameterValue="${sp_api_access_key}" \
-      ParameterKey="SecretKey",ParameterValue="${sp_api_secret_key}" \
-      ParameterKey="RoleArn",ParameterValue="${sp_api_role_arn}" \
       ParameterKey="ClientId",ParameterValue="${sp_api_client_id}" \
       ParameterKey="ClientSecret",ParameterValue="${sp_api_client_secret}" \
       ParameterKey="RefreshToken",ParameterValue="${sp_api_refresh_token}" \

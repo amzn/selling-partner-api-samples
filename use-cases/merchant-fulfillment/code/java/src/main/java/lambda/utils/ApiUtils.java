@@ -1,7 +1,5 @@
 package lambda.utils;
 
-import com.amazon.SellingPartnerAPIAA.AWSAuthenticationCredentials;
-import com.amazon.SellingPartnerAPIAA.AWSAuthenticationCredentialsProvider;
 import com.amazon.SellingPartnerAPIAA.LWAAuthorizationCredentials;
 import com.amazon.SellingPartnerAPIAA.LWAClientScopes;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,10 +13,8 @@ import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueRespon
 import java.util.HashSet;
 import java.util.Set;
 
-import static lambda.utils.Constants.IAM_USER_CREDENTIALS_SECRET_ARN_ENV_VARIABLE;
 import static lambda.utils.Constants.LWA_ENDPOINT;
 import static lambda.utils.Constants.LWA_NOTIFICATIONS_SCOPE;
-import static lambda.utils.Constants.ROLE_ARN_ENV_VARIABLE;
 import static lambda.utils.Constants.SP_API_APP_CREDENTIALS_SECRET_ARN_ENV_VARIABLE;
 import static lambda.utils.Constants.VALID_SP_API_REGION_CONFIG;
 
@@ -27,65 +23,42 @@ public class ApiUtils {
     //Generate MFN API client
     public static MerchantFulfillmentApi getMFNApi (String regionCode, String refreshToken)
             throws Exception{
-        RegionConfig regionConfig = getRegionConfig(regionCode);
 
         ObjectMapper mapper = new ObjectMapper();
-
-        String iamUserCredentialsSecret = getSecretString(System.getenv(IAM_USER_CREDENTIALS_SECRET_ARN_ENV_VARIABLE));
-        IAMUserCredentials iamUserCredentials = mapper.readValue(iamUserCredentialsSecret, IAMUserCredentials.class);
-        AWSAuthenticationCredentials awsAuthenticationCredentials = getAWSAuthenticationCredentials(regionConfig, iamUserCredentials);
-
-        AWSAuthenticationCredentialsProvider awsAuthenticationCredentialsProvider = getAWSAuthenticationCredentialsProvider();
 
         String appCredentialsSecret = getSecretString(System.getenv(SP_API_APP_CREDENTIALS_SECRET_ARN_ENV_VARIABLE));
         AppCredentials appCredentials = mapper.readValue(appCredentialsSecret, AppCredentials.class);
         LWAAuthorizationCredentials lwaAuthorizationCredentials = getLWAAuthorizationCredentials(appCredentials, refreshToken);
 
+        String spApiEndpoint = getSpApiEndpoint(regionCode);
+
         return new MerchantFulfillmentApi.Builder()
-                .awsAuthenticationCredentials(awsAuthenticationCredentials)
-                .awsAuthenticationCredentialsProvider(awsAuthenticationCredentialsProvider)
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
-                .endpoint(regionConfig.getSpApiEndpoint())
+                .endpoint(spApiEndpoint)
                 .build();
     }
 
     //Generate Orders API client
     public static OrdersV0Api getOrdersApi (String regionCode, String refreshToken)
             throws Exception{
-        RegionConfig regionConfig = getRegionConfig(regionCode);
-
         ObjectMapper mapper = new ObjectMapper();
-
-        String iamUserCredentialsSecret = getSecretString(System.getenv(IAM_USER_CREDENTIALS_SECRET_ARN_ENV_VARIABLE));
-        IAMUserCredentials iamUserCredentials = mapper.readValue(iamUserCredentialsSecret, IAMUserCredentials.class);
-        AWSAuthenticationCredentials awsAuthenticationCredentials = getAWSAuthenticationCredentials(regionConfig, iamUserCredentials);
-
-        AWSAuthenticationCredentialsProvider awsAuthenticationCredentialsProvider = getAWSAuthenticationCredentialsProvider();
 
         String appCredentialsSecret = getSecretString(System.getenv(SP_API_APP_CREDENTIALS_SECRET_ARN_ENV_VARIABLE));
         AppCredentials appCredentials = mapper.readValue(appCredentialsSecret, AppCredentials.class);
         LWAAuthorizationCredentials lwaAuthorizationCredentials = getLWAAuthorizationCredentials(appCredentials, refreshToken);
 
+        String spApiEndpoint = getSpApiEndpoint(regionCode);
+
         return new OrdersV0Api.Builder()
-                .awsAuthenticationCredentials(awsAuthenticationCredentials)
-                .awsAuthenticationCredentialsProvider(awsAuthenticationCredentialsProvider)
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
-                .endpoint(regionConfig.getSpApiEndpoint())
+                .endpoint(spApiEndpoint)
                 .build();
     }
 
     //Generate Notifications API client
     public static NotificationsApi getNotificationsApi (String regionCode, String refreshToken, boolean isGrantlessOperation)
             throws Exception{
-        RegionConfig regionConfig = getRegionConfig(regionCode);
-
         ObjectMapper mapper = new ObjectMapper();
-
-        String iamUserCredentialsSecret = getSecretString(System.getenv(IAM_USER_CREDENTIALS_SECRET_ARN_ENV_VARIABLE));
-        IAMUserCredentials iamUserCredentials = mapper.readValue(iamUserCredentialsSecret, IAMUserCredentials.class);
-        AWSAuthenticationCredentials awsAuthenticationCredentials = getAWSAuthenticationCredentials(regionConfig, iamUserCredentials);
-
-        AWSAuthenticationCredentialsProvider awsAuthenticationCredentialsProvider = getAWSAuthenticationCredentialsProvider();
 
         String appCredentialsSecret = getSecretString(System.getenv(SP_API_APP_CREDENTIALS_SECRET_ARN_ENV_VARIABLE));
         AppCredentials appCredentials = mapper.readValue(appCredentialsSecret, AppCredentials.class);
@@ -97,26 +70,11 @@ public class ApiUtils {
             lwaAuthorizationCredentials = getLWAAuthorizationCredentials(appCredentials, refreshToken);
         }
 
+        String spApiEndpoint = getSpApiEndpoint(regionCode);
+
         return new NotificationsApi.Builder()
-                .awsAuthenticationCredentials(awsAuthenticationCredentials)
-                .awsAuthenticationCredentialsProvider(awsAuthenticationCredentialsProvider)
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
-                .endpoint(regionConfig.getSpApiEndpoint())
-                .build();
-    }
-
-    private static AWSAuthenticationCredentials getAWSAuthenticationCredentials(RegionConfig regionConfig, IAMUserCredentials iamUserCredentials) {
-        return AWSAuthenticationCredentials.builder()
-                .region(regionConfig.getAwsRegion())
-                .accessKeyId(iamUserCredentials.getAccessKeyId())
-                .secretKey(iamUserCredentials.getSecretKey())
-                .build();
-    }
-
-    private static AWSAuthenticationCredentialsProvider getAWSAuthenticationCredentialsProvider () {
-        return AWSAuthenticationCredentialsProvider.builder()
-                .roleArn(System.getenv(ROLE_ARN_ENV_VARIABLE))
-                .roleSessionName("sp-api-java-app")
+                .endpoint(spApiEndpoint)
                 .build();
     }
 
@@ -141,8 +99,8 @@ public class ApiUtils {
                 .build();
     }
 
-    //Get regional configuration (AWS region and SP-API endpoint) based on region code
-    private static RegionConfig getRegionConfig(String regionCode) {
+    //Get SP-API endpoint based on region code
+    private static String getSpApiEndpoint(String regionCode) {
         if (!VALID_SP_API_REGION_CONFIG.containsKey(regionCode)) {
             String msg = String.format("Region Code %s is not valid. Value must be one of %s",
                     regionCode,

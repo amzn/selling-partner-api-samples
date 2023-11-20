@@ -1,6 +1,6 @@
 /*
  * Selling Partner API for Orders
- * The Selling Partner API for Orders helps you programmatically retrieve order information. These APIs let you develop fast, flexible, custom applications in areas like order synchronization, order research, and demand-based decision support tools. The Orders API only supports orders that are less than two years old. Orders more than two years old will not show in the API response.
+ * The Selling Partner API for Orders helps you programmatically retrieve order information. These APIs let you develop fast, flexible, custom applications in areas like order synchronization, order research, and demand-based decision support tools. The Orders API supports orders that are two years old or less. Orders more than two years old will not show in the API response.  _Note:_ The Orders API supports orders from 2016 and after for the JP, AU, and SG marketplaces.
  *
  * OpenAPI spec version: v0
  * 
@@ -31,7 +31,7 @@ import java.util.List;
  * A single order item.
  */
 @ApiModel(description = "A single order item.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-06-06T16:13:40.229+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-14T15:12:33.649+01:00")
 public class OrderItem {
   @SerializedName("ASIN")
   private String ASIN = null;
@@ -41,6 +41,9 @@ public class OrderItem {
 
   @SerializedName("OrderItemId")
   private String orderItemId = null;
+
+  @SerializedName("AssociatedItems")
+  private List<AssociatedItem> associatedItems = null;
 
   @SerializedName("Title")
   private String title = null;
@@ -185,6 +188,12 @@ public class OrderItem {
   @SerializedName("SerialNumbers")
   private List<String> serialNumbers = null;
 
+  @SerializedName("SubstitutionPreferences")
+  private SubstitutionPreferences substitutionPreferences = null;
+
+  @SerializedName("Measurement")
+  private Measurement measurement = null;
+
   public OrderItem ASIN(String ASIN) {
     this.ASIN = ASIN;
     return this;
@@ -237,6 +246,32 @@ public class OrderItem {
 
   public void setOrderItemId(String orderItemId) {
     this.orderItemId = orderItemId;
+  }
+
+  public OrderItem associatedItems(List<AssociatedItem> associatedItems) {
+    this.associatedItems = associatedItems;
+    return this;
+  }
+
+  public OrderItem addAssociatedItemsItem(AssociatedItem associatedItemsItem) {
+    if (this.associatedItems == null) {
+      this.associatedItems = new ArrayList<AssociatedItem>();
+    }
+    this.associatedItems.add(associatedItemsItem);
+    return this;
+  }
+
+   /**
+   * A list of associated items that a customer has purchased with a product. For example, a tire installation service purchased with tires.
+   * @return associatedItems
+  **/
+  @ApiModelProperty(value = "A list of associated items that a customer has purchased with a product. For example, a tire installation service purchased with tires.")
+  public List<AssociatedItem> getAssociatedItems() {
+    return associatedItems;
+  }
+
+  public void setAssociatedItems(List<AssociatedItem> associatedItems) {
+    this.associatedItems = associatedItems;
   }
 
   public OrderItem title(String title) {
@@ -695,10 +730,10 @@ public class OrderItem {
   }
 
    /**
-   * When true, transparency codes are required.
+   * When true, the ASIN is enrolled in Transparency and the Transparency serial number that needs to be submitted can be determined by the following:  **1D or 2D Barcode:** This has a **T** logo. Submit either the 29-character alpha-numeric identifier beginning with **AZ** or **ZA**, or the 38-character Serialized Global Trade Item Number (SGTIN). **2D Barcode SN:** Submit the 7- to 20-character serial number barcode, which likely has the prefix **SN**. The serial number will be applied to the same side of the packaging as the GTIN (UPC/EAN/ISBN) barcode. **QR code SN:** Submit the URL that the QR code generates.
    * @return isTransparency
   **/
-  @ApiModelProperty(value = "When true, transparency codes are required.")
+  @ApiModelProperty(value = "When true, the ASIN is enrolled in Transparency and the Transparency serial number that needs to be submitted can be determined by the following:  **1D or 2D Barcode:** This has a **T** logo. Submit either the 29-character alpha-numeric identifier beginning with **AZ** or **ZA**, or the 38-character Serialized Global Trade Item Number (SGTIN). **2D Barcode SN:** Submit the 7- to 20-character serial number barcode, which likely has the prefix **SN**. The serial number will be applied to the same side of the packaging as the GTIN (UPC/EAN/ISBN) barcode. **QR code SN:** Submit the URL that the QR code generates.")
   public Boolean isIsTransparency() {
     return isTransparency;
   }
@@ -823,9 +858,45 @@ public class OrderItem {
     this.serialNumbers = serialNumbers;
   }
 
+  public OrderItem substitutionPreferences(SubstitutionPreferences substitutionPreferences) {
+    this.substitutionPreferences = substitutionPreferences;
+    return this;
+  }
+
+   /**
+   * Substitution preferences for the order item. This is an optional field and will only be present if seller supports substitutions like in case of some grocery sellers.
+   * @return substitutionPreferences
+  **/
+  @ApiModelProperty(value = "Substitution preferences for the order item. This is an optional field and will only be present if seller supports substitutions like in case of some grocery sellers.")
+  public SubstitutionPreferences getSubstitutionPreferences() {
+    return substitutionPreferences;
+  }
+
+  public void setSubstitutionPreferences(SubstitutionPreferences substitutionPreferences) {
+    this.substitutionPreferences = substitutionPreferences;
+  }
+
+  public OrderItem measurement(Measurement measurement) {
+    this.measurement = measurement;
+    return this;
+  }
+
+   /**
+   * Measurement information for the order item.
+   * @return measurement
+  **/
+  @ApiModelProperty(value = "Measurement information for the order item.")
+  public Measurement getMeasurement() {
+    return measurement;
+  }
+
+  public void setMeasurement(Measurement measurement) {
+    this.measurement = measurement;
+  }
+
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -836,6 +907,7 @@ public class OrderItem {
     return Objects.equals(this.ASIN, orderItem.ASIN) &&
         Objects.equals(this.sellerSKU, orderItem.sellerSKU) &&
         Objects.equals(this.orderItemId, orderItem.orderItemId) &&
+        Objects.equals(this.associatedItems, orderItem.associatedItems) &&
         Objects.equals(this.title, orderItem.title) &&
         Objects.equals(this.quantityOrdered, orderItem.quantityOrdered) &&
         Objects.equals(this.quantityShipped, orderItem.quantityShipped) &&
@@ -867,12 +939,14 @@ public class OrderItem {
         Objects.equals(this.deemedResellerCategory, orderItem.deemedResellerCategory) &&
         Objects.equals(this.buyerInfo, orderItem.buyerInfo) &&
         Objects.equals(this.buyerRequestedCancel, orderItem.buyerRequestedCancel) &&
-        Objects.equals(this.serialNumbers, orderItem.serialNumbers);
+        Objects.equals(this.serialNumbers, orderItem.serialNumbers) &&
+        Objects.equals(this.substitutionPreferences, orderItem.substitutionPreferences) &&
+        Objects.equals(this.measurement, orderItem.measurement);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(ASIN, sellerSKU, orderItemId, title, quantityOrdered, quantityShipped, productInfo, pointsGranted, itemPrice, shippingPrice, itemTax, shippingTax, shippingDiscount, shippingDiscountTax, promotionDiscount, promotionDiscountTax, promotionIds, coDFee, coDFeeDiscount, isGift, conditionNote, conditionId, conditionSubtypeId, scheduledDeliveryStartDate, scheduledDeliveryEndDate, priceDesignation, taxCollection, serialNumberRequired, isTransparency, iossNumber, storeChainStoreId, deemedResellerCategory, buyerInfo, buyerRequestedCancel, serialNumbers);
+    return Objects.hash(ASIN, sellerSKU, orderItemId, associatedItems, title, quantityOrdered, quantityShipped, productInfo, pointsGranted, itemPrice, shippingPrice, itemTax, shippingTax, shippingDiscount, shippingDiscountTax, promotionDiscount, promotionDiscountTax, promotionIds, coDFee, coDFeeDiscount, isGift, conditionNote, conditionId, conditionSubtypeId, scheduledDeliveryStartDate, scheduledDeliveryEndDate, priceDesignation, taxCollection, serialNumberRequired, isTransparency, iossNumber, storeChainStoreId, deemedResellerCategory, buyerInfo, buyerRequestedCancel, serialNumbers, substitutionPreferences, measurement);
   }
 
 
@@ -884,6 +958,7 @@ public class OrderItem {
     sb.append("    ASIN: ").append(toIndentedString(ASIN)).append("\n");
     sb.append("    sellerSKU: ").append(toIndentedString(sellerSKU)).append("\n");
     sb.append("    orderItemId: ").append(toIndentedString(orderItemId)).append("\n");
+    sb.append("    associatedItems: ").append(toIndentedString(associatedItems)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    quantityOrdered: ").append(toIndentedString(quantityOrdered)).append("\n");
     sb.append("    quantityShipped: ").append(toIndentedString(quantityShipped)).append("\n");
@@ -916,6 +991,8 @@ public class OrderItem {
     sb.append("    buyerInfo: ").append(toIndentedString(buyerInfo)).append("\n");
     sb.append("    buyerRequestedCancel: ").append(toIndentedString(buyerRequestedCancel)).append("\n");
     sb.append("    serialNumbers: ").append(toIndentedString(serialNumbers)).append("\n");
+    sb.append("    substitutionPreferences: ").append(toIndentedString(substitutionPreferences)).append("\n");
+    sb.append("    measurement: ").append(toIndentedString(measurement)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -924,7 +1001,7 @@ public class OrderItem {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

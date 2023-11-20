@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiModelProperty;
  * Extra services provided by a carrier.
  */
 @ApiModel(description = "Extra services provided by a carrier.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-06-06T15:03:26.392+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-14T15:09:37.314+01:00")
 public class ShippingServiceOptions {
   @SerializedName("DeliveryExperience")
   private DeliveryExperienceType deliveryExperience = null;

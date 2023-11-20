@@ -3,6 +3,7 @@ package lambda;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.google.gson.Gson;
 import io.swagger.client.model.mfn.ShippingService;
 import io.swagger.client.model.mfn.ShippingServiceList;
 import lambda.utils.MfnOrder;
@@ -18,7 +19,7 @@ public class SelectShipmentHandler implements RequestHandler<MfnOrder, MfnOrder>
 
     public MfnOrder handleRequest(MfnOrder input, Context context) {
         LambdaLogger logger = context.getLogger();
-        logger.log("SelectShipment Lambda input: " + input);
+        logger.log("SelectShipment Lambda input: " + new Gson().toJson(input));
 
         try {
             ShippingServiceList shippingServices = input.getShippingServiceList();
