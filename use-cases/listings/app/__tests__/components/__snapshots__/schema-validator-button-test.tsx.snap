@@ -1,0 +1,2647 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for the SchemaValidatorButton component verifies if the schema validation errors are shown in the dialog. 1`] = `
+<div
+  class="MuiDialog-root MuiModal-root css-zw3mfo-MuiModal-root-MuiDialog-root"
+  data-testid="fullScreenDialog"
+  role="presentation"
+>
+  <div
+    aria-hidden="true"
+    class="MuiBackdrop-root MuiModal-backdrop css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop"
+    style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+  />
+  <div
+    data-testid="sentinelStart"
+    tabindex="0"
+  />
+  <div
+    class="MuiDialog-container MuiDialog-scrollPaper css-hz1bth-MuiDialog-container"
+    role="presentation"
+    style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    tabindex="-1"
+  >
+    <div
+      aria-labelledby=":r1:"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm MuiDialog-paperFullScreen css-m9glnp-MuiPaper-root-MuiDialog-paper"
+      role="dialog"
+    >
+      <header
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionFixed mui-fixed css-10ghrmp-MuiPaper-root-MuiAppBar-root"
+        style="padding-right: 1024px;"
+      >
+        <div
+          class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular css-hyum1k-MuiToolbar-root"
+        >
+          <button
+            aria-label="Click to close the window"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeStart MuiIconButton-sizeMedium css-1d6w9lk-MuiButtonBase-root-MuiIconButton-root"
+            data-mui-internal-clone-element="true"
+            data-testid="cancelFullScreenDialog"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="CloseIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <div
+            class="MuiTypography-root MuiTypography-h6 css-18vlf2e-MuiTypography-root"
+          >
+            Schema Validation Errors
+          </div>
+        </div>
+      </header>
+      <div
+        class="MuiDialogContent-root MuiDialogContent-dividers css-1t4vnk2-MuiDialogContent-root"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
+          style="padding: 10px; margin: 15px;"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The validation keyword"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-0-keyword"
+                  >
+                    Keyword
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The validation keyword"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-0-keyword"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      type
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-0-schemaPath"
+                  >
+                    Schema Path
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-0-schemaPath"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      #/anyOf/0/type
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-0-params"
+                  >
+                    Additional Parameters
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-0-params"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {
+    "type": "string"
+}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-0-message"
+                  >
+                    Message
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-0-message"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      must be string
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-0-data"
+                  >
+                    Data
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-0-data"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The schema which was violated"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-0-schema"
+                  >
+                    Schema
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The schema which was violated"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-0-schema"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      "string"
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
+          style="padding: 10px; margin: 15px;"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The validation keyword"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-1-keyword"
+                  >
+                    Keyword
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The validation keyword"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-1-keyword"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      type
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-1-schemaPath"
+                  >
+                    Schema Path
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-1-schemaPath"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      #/anyOf/1/type
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-1-params"
+                  >
+                    Additional Parameters
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-1-params"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {
+    "type": "string"
+}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-1-message"
+                  >
+                    Message
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-1-message"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      must be string
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-1-data"
+                  >
+                    Data
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-1-data"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The schema which was violated"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-1-schema"
+                  >
+                    Schema
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The schema which was violated"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-1-schema"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      "string"
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
+          style="padding: 10px; margin: 15px;"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The validation keyword"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-2-keyword"
+                  >
+                    Keyword
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The validation keyword"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-2-keyword"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      enum
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-2-schemaPath"
+                  >
+                    Schema Path
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-2-schemaPath"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      #/anyOf/1/enum
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-2-params"
+                  >
+                    Additional Parameters
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-2-params"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {
+    "allowedValues": [
+        "ATVPDKIKX0DER"
+    ]
+}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-2-message"
+                  >
+                    Message
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-2-message"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      must be equal to one of the allowed values
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-2-data"
+                  >
+                    Data
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-2-data"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The schema which was violated"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-2-schema"
+                  >
+                    Schema
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The schema which was violated"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-2-schema"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      [
+    "ATVPDKIKX0DER"
+]
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
+          style="padding: 10px; margin: 15px;"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The validation keyword"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-3-keyword"
+                  >
+                    Keyword
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The validation keyword"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-3-keyword"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      anyOf
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-3-schemaPath"
+                  >
+                    Schema Path
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-3-schemaPath"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      #/anyOf
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-3-params"
+                  >
+                    Additional Parameters
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-3-params"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-3-message"
+                  >
+                    Message
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-3-message"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      must match a schema in anyOf
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-3-data"
+                  >
+                    Data
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-3-data"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The schema which was violated"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-3-schema"
+                  >
+                    Schema
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The schema which was violated"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-3-schema"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      [
+    {
+        "type": "string"
+    },
+    {
+        "type": "string",
+        "enum": [
+            "ATVPDKIKX0DER"
+        ],
+        "enumNames": [
+            "Amazon.com"
+        ]
+    }
+]
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
+          style="padding: 10px; margin: 15px;"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The validation keyword"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-4-keyword"
+                  >
+                    Keyword
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The validation keyword"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-4-keyword"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      type
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-4-schemaPath"
+                  >
+                    Schema Path
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-4-schemaPath"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      #/oneOf/0/type
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-4-params"
+                  >
+                    Additional Parameters
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-4-params"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {
+    "type": "string"
+}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-4-message"
+                  >
+                    Message
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-4-message"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      must be string
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-4-data"
+                  >
+                    Data
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-4-data"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The schema which was violated"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-4-schema"
+                  >
+                    Schema
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The schema which was violated"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-4-schema"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      "string"
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
+          style="padding: 10px; margin: 15px;"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The validation keyword"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-5-keyword"
+                  >
+                    Keyword
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The validation keyword"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-5-keyword"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      type
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-5-schemaPath"
+                  >
+                    Schema Path
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-5-schemaPath"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      #/oneOf/1/type
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-5-params"
+                  >
+                    Additional Parameters
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-5-params"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {
+    "type": "string"
+}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-5-message"
+                  >
+                    Message
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-5-message"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      must be string
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-5-data"
+                  >
+                    Data
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-5-data"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The schema which was violated"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-5-schema"
+                  >
+                    Schema
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The schema which was violated"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-5-schema"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      "string"
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
+          style="padding: 10px; margin: 15px;"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The validation keyword"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-6-keyword"
+                  >
+                    Keyword
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The validation keyword"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-6-keyword"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      enum
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-6-schemaPath"
+                  >
+                    Schema Path
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-6-schemaPath"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      #/oneOf/1/enum
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-6-params"
+                  >
+                    Additional Parameters
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-6-params"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {
+    "allowedValues": [
+        "ATVPDKIKX0DER"
+    ]
+}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-6-message"
+                  >
+                    Message
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-6-message"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      must be equal to one of the allowed values
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-6-data"
+                  >
+                    Data
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-6-data"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The schema which was violated"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-6-schema"
+                  >
+                    Schema
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The schema which was violated"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-6-schema"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      [
+    "ATVPDKIKX0DER"
+]
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
+          style="padding: 10px; margin: 15px;"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The validation keyword"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-7-keyword"
+                  >
+                    Keyword
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The validation keyword"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-7-keyword"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      oneOf
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-7-schemaPath"
+                  >
+                    Schema Path
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-7-schemaPath"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      #/oneOf
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-7-params"
+                  >
+                    Additional Parameters
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-7-params"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {
+    "passingSchemas": null
+}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-7-message"
+                  >
+                    Message
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-7-message"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      must match exactly one schema in oneOf
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-7-data"
+                  >
+                    Data
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-7-data"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The schema which was violated"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-7-schema"
+                  >
+                    Schema
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The schema which was violated"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-7-schema"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      [
+    {
+        "type": "string"
+    },
+    {
+        "type": "string",
+        "enum": [
+            "ATVPDKIKX0DER"
+        ],
+        "enumNames": [
+            "Amazon.com"
+        ]
+    }
+]
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
+          style="padding: 10px; margin: 15px;"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The validation keyword"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-8-keyword"
+                  >
+                    Keyword
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The validation keyword"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-8-keyword"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      required
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-8-schemaPath"
+                  >
+                    Schema Path
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-8-schemaPath"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      #/allOf/0/required
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-8-params"
+                  >
+                    Additional Parameters
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-8-params"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {
+    "missingProperty": "fulfillment_channel_code"
+}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-8-message"
+                  >
+                    Message
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-8-message"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      must have required property 'fulfillment_channel_code'
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-8-data"
+                  >
+                    Data
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-8-data"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The schema which was violated"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-8-schema"
+                  >
+                    Schema
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The schema which was violated"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-8-schema"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      [
+    "fulfillment_channel_code"
+]
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
+          style="padding: 10px; margin: 15px;"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The validation keyword"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-9-keyword"
+                  >
+                    Keyword
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The validation keyword"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-9-keyword"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      required
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-9-schemaPath"
+                  >
+                    Schema Path
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-9-schemaPath"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      #/required
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-9-params"
+                  >
+                    Additional Parameters
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-9-params"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {
+    "missingProperty": "name"
+}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-9-message"
+                  >
+                    Message
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-9-message"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      must have required property 'name'
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-9-data"
+                  >
+                    Data
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-9-data"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The schema which was violated"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-9-schema"
+                  >
+                    Schema
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The schema which was violated"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-9-schema"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      [
+    "name",
+    "birthDate"
+]
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            />
+          </div>
+        </div>
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
+          style="padding: 10px; margin: 15px;"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The validation keyword"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-10-keyword"
+                  >
+                    Keyword
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The validation keyword"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-10-keyword"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      required
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-10-schemaPath"
+                  >
+                    Schema Path
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="JSON Pointer to the location of the failing keyword in the schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-10-schemaPath"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      #/required
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-10-params"
+                  >
+                    Additional Parameters
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Additional information about the schema validation issue"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-10-params"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {
+    "missingProperty": "birthDate"
+}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-10-message"
+                  >
+                    Message
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Raw Schema Validation Error Message"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-10-message"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      must have required property 'birthDate'
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-10-data"
+                  >
+                    Data
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The section of the listing which violated schema"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-10-data"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="The schema which was violated"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="SchemaValidationError-10-schema"
+                  >
+                    Schema
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="The schema which was violated"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="SchemaValidationError-10-schema"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      [
+    "name",
+    "birthDate"
+]
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    data-testid="sentinelEnd"
+    tabindex="0"
+  />
+</div>
+`;

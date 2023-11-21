@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component renders 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+    >
+      <label
+        aria-label="HelpText"
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+        data-mui-internal-clone-element="true"
+        for="id"
+      >
+        Test
+      </label>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+    >
+      <div
+        aria-label="HelpText"
+        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-sizeSmall  css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+        data-mui-internal-clone-element="true"
+        data-testid="id"
+      >
+        <div
+          aria-disabled="true"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          aria-labelledby="id"
+          class="MuiSelect-select MuiSelect-outlined Mui-disabled MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputSizeSmall css-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+          id="id"
+          role="button"
+        >
+          <span
+            class="notranslate"
+          >
+            ​
+          </span>
+        </div>
+        <input
+          aria-hidden="true"
+          aria-invalid="false"
+          class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+          disabled=""
+          tabindex="-1"
+          value="Default"
+        />
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined Mui-disabled css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+          data-testid="ArrowDropDownIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M7 10l5 5 5-5z"
+          />
+        </svg>
+        <fieldset
+          aria-hidden="true"
+          class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+        >
+          <legend
+            class="css-ihdtdm"
+          >
+            <span
+              class="notranslate"
+            >
+              ​
+            </span>
+          </legend>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

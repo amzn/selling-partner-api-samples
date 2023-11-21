@@ -1,0 +1,161 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Create Feed Returns 200 on Success full feed creations 1`] = `
+{
+  "data": {
+    "feedId": "123456789",
+  },
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/feeds-api-v2021-06-30-reference#post-feeds2021-06-30documents",
+      "apiName": "CreateFeedDocument",
+      "request": {
+        "contentType": "application/json",
+      },
+      "response": {
+        "feedDocumentId": "123456",
+        "url": "https:feed.document/url",
+      },
+    },
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/feeds-api-v2021-06-30-reference#post-feeds2021-06-30feeds",
+      "apiName": "CreateFeed",
+      "request": {
+        "feedType": "JSON_LISTINGS_FEED",
+        "inputFeedDocumentId": "123456",
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+      },
+      "response": {
+        "feedId": "123456789",
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test Create Feed returns 500 on exception while creating feed 1`] = `
+{
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/feeds-api-v2021-06-30-reference#post-feeds2021-06-30documents",
+      "apiName": "CreateFeedDocument",
+      "request": {
+        "contentType": "application/json",
+      },
+      "response": {
+        "feedDocumentId": "123456",
+        "url": "https:feed.document/url",
+      },
+    },
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/feeds-api-v2021-06-30-reference#post-feeds2021-06-30feeds",
+      "apiName": "CreateFeed",
+      "request": {
+        "feedType": "JSON_LISTINGS_FEED",
+        "inputFeedDocumentId": "123456",
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+      },
+      "response": {
+        "error": 429,
+        "statusText": "Quota Exceeded",
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test Create Feed returns 500 on exception while uploading feed document 1`] = `
+{
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/feeds-api-v2021-06-30-reference#post-feeds2021-06-30documents",
+      "apiName": "CreateFeedDocument",
+      "request": {
+        "contentType": "application/json",
+      },
+      "response": {
+        "status": 500,
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test for the GET feeds API Returns 200 on successful retrieval of feeds 1`] = `
+{
+  "data": [
+    {
+      "createdTime": "2023-10-05T04:23:58+0000",
+      "feedId": "1000",
+      "feedType": "JSON_LISTINGS_FEED",
+      "processingStatus": "IN_PROGRESS",
+      "resultFeedDocumentId": "amzn1.tortuga.3.ed4cd0d8-447b-4c22-96b5-52da8ace1207.T3YUVYPGKE9BMY",
+    },
+    {
+      "createdTime": "2023-10-05T04:23:58+0000",
+      "feedId": "2000",
+      "feedType": "JSON_LISTINGS_FEED",
+      "processingStatus": "IN_PROGRESS",
+    },
+  ],
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/feeds-api-v2021-06-30-reference#get-feeds2021-06-30feeds",
+      "apiName": "GetFeeds",
+      "request": {
+        "feedTypes": [
+          "JSON_LISTINGS_FEED",
+        ],
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+        "pageSize": 20,
+      },
+      "response": {
+        "feeds": [
+          {
+            "createdTime": "2023-10-05T04:23:58+0000",
+            "feedId": "1000",
+            "feedType": "JSON_LISTINGS_FEED",
+            "processingStatus": "IN_PROGRESS",
+            "resultFeedDocumentId": "amzn1.tortuga.3.ed4cd0d8-447b-4c22-96b5-52da8ace1207.T3YUVYPGKE9BMY",
+          },
+          {
+            "createdTime": "2023-10-05T04:23:58+0000",
+            "feedId": "2000",
+            "feedType": "JSON_LISTINGS_FEED",
+            "processingStatus": "IN_PROGRESS",
+          },
+        ],
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test for the GET feeds API returns 404 on failure making call to the GetFeeds API 1`] = `
+{
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/feeds-api-v2021-06-30-reference#get-feeds2021-06-30feeds",
+      "apiName": "GetFeeds",
+      "request": {
+        "feedTypes": [
+          "JSON_LISTINGS_FEED",
+        ],
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+        "pageSize": 20,
+      },
+      "response": {
+        "status": 404,
+      },
+    },
+  ],
+}
+`;

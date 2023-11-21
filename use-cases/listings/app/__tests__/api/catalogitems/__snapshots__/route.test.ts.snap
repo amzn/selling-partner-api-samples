@@ -1,0 +1,256 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test GET catalogItems API returns 200 on successful call to Search Catalog API 1`] = `
+{
+  "data": [
+    {
+      "asin": "B00004SPEC",
+      "productType": "KITCHEN",
+      "title": "Krups 243-70 Power X Plus Combi Blender, DISCONTINUED",
+    },
+  ],
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/catalog-items-api-v2022-04-01-reference#searchcatalogitems",
+      "apiName": "SearchCatalogItems",
+      "request": {
+        "identifiers": [
+          "B00004SPEC",
+        ],
+        "identifiersType": "ASIN",
+        "includedData": [
+          "productTypes",
+          "summaries",
+        ],
+        "locale": "en_US",
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+      },
+      "response": {
+        "items": [
+          {
+            "asin": "B00004SPEC",
+            "productTypes": [
+              {
+                "marketplaceId": "ATVPDKIKX0DER",
+                "productType": "KITCHEN",
+              },
+            ],
+            "summaries": [
+              {
+                "adultProduct": false,
+                "autographed": false,
+                "brand": "KRUPS",
+                "browseClassification": {
+                  "classificationId": "289915",
+                  "displayName": "Countertop Blenders",
+                },
+                "itemClassification": "BASE_PRODUCT",
+                "itemName": "Krups 243-70 Power X Plus Combi Blender, DISCONTINUED",
+                "manufacturer": "KRUPS",
+                "marketplaceId": "ATVPDKIKX0DER",
+                "memorabilia": false,
+                "modelNumber": "243-70",
+                "packageQuantity": 1,
+                "partNumber": "243-70",
+                "style": "Modern",
+                "tradeInEligible": false,
+                "websiteDisplayGroup": "kitchen_display_on_website",
+                "websiteDisplayGroupName": "Kitchen",
+              },
+            ],
+          },
+        ],
+        "numberOfResults": 1,
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test GET catalogItems API returns 200 on successful call to Search Catalog API for SKU Identifiers 1`] = `
+{
+  "data": [
+    {
+      "asin": "B00004SPEC",
+      "productType": "KITCHEN",
+      "title": "Krups 243-70 Power X Plus Combi Blender, DISCONTINUED",
+    },
+  ],
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/catalog-items-api-v2022-04-01-reference#searchcatalogitems",
+      "apiName": "SearchCatalogItems",
+      "request": {
+        "identifiers": [
+          "B00004SPEC",
+        ],
+        "identifiersType": "SKU",
+        "includedData": [
+          "productTypes",
+          "summaries",
+        ],
+        "locale": "en_US",
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+        "sellerId": "ABCD878787R",
+      },
+      "response": {
+        "items": [
+          {
+            "asin": "B00004SPEC",
+            "productTypes": [
+              {
+                "marketplaceId": "ATVPDKIKX0DER",
+                "productType": "KITCHEN",
+              },
+            ],
+            "summaries": [
+              {
+                "adultProduct": false,
+                "autographed": false,
+                "brand": "KRUPS",
+                "browseClassification": {
+                  "classificationId": "289915",
+                  "displayName": "Countertop Blenders",
+                },
+                "itemClassification": "BASE_PRODUCT",
+                "itemName": "Krups 243-70 Power X Plus Combi Blender, DISCONTINUED",
+                "manufacturer": "KRUPS",
+                "marketplaceId": "ATVPDKIKX0DER",
+                "memorabilia": false,
+                "modelNumber": "243-70",
+                "packageQuantity": 1,
+                "partNumber": "243-70",
+                "style": "Modern",
+                "tradeInEligible": false,
+                "websiteDisplayGroup": "kitchen_display_on_website",
+                "websiteDisplayGroupName": "Kitchen",
+              },
+            ],
+          },
+        ],
+        "numberOfResults": 1,
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test GET catalogItems API returns 200 on successful call to Search Catalog API for keywords 1`] = `
+{
+  "data": [
+    {
+      "asin": "B00004SPEC",
+      "productType": "KITCHEN",
+      "title": "Krups 243-70 Power X Plus Combi Blender, DISCONTINUED",
+    },
+  ],
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/catalog-items-api-v2022-04-01-reference#searchcatalogitems",
+      "apiName": "SearchCatalogItems",
+      "request": {
+        "includedData": [
+          "productTypes",
+          "summaries",
+        ],
+        "keywords": [
+          "SHIRT",
+        ],
+        "locale": "en_US",
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+      },
+      "response": {
+        "items": [
+          {
+            "asin": "B00004SPEC",
+            "productTypes": [
+              {
+                "marketplaceId": "ATVPDKIKX0DER",
+                "productType": "KITCHEN",
+              },
+            ],
+            "summaries": [
+              {
+                "adultProduct": false,
+                "autographed": false,
+                "brand": "KRUPS",
+                "browseClassification": {
+                  "classificationId": "289915",
+                  "displayName": "Countertop Blenders",
+                },
+                "itemClassification": "BASE_PRODUCT",
+                "itemName": "Krups 243-70 Power X Plus Combi Blender, DISCONTINUED",
+                "manufacturer": "KRUPS",
+                "marketplaceId": "ATVPDKIKX0DER",
+                "memorabilia": false,
+                "modelNumber": "243-70",
+                "packageQuantity": 1,
+                "partNumber": "243-70",
+                "style": "Modern",
+                "tradeInEligible": false,
+                "websiteDisplayGroup": "kitchen_display_on_website",
+                "websiteDisplayGroupName": "Kitchen",
+              },
+            ],
+          },
+        ],
+        "numberOfResults": 1,
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test GET catalogItems API returns 200 on successful call to Search Catalog API with empty response 1`] = `
+{
+  "data": [],
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/catalog-items-api-v2022-04-01-reference#searchcatalogitems",
+      "apiName": "SearchCatalogItems",
+      "request": {
+        "identifiers": [
+          "B00004SPEC",
+        ],
+        "identifiersType": "ASIN",
+        "includedData": [
+          "productTypes",
+          "summaries",
+        ],
+        "locale": "en_US",
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+      },
+      "response": {
+        "numberOfResults": 0,
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test GET catalogItems API returns 404 on exception from Search Catalog API 1`] = `
+{
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/catalog-items-api-v2022-04-01-reference#searchcatalogitems",
+      "apiName": "SearchCatalogItems",
+      "request": {
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+      },
+      "response": {
+        "status": 404,
+      },
+    },
+  ],
+}
+`;

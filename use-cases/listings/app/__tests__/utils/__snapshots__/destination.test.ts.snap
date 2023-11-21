@@ -1,0 +1,134 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for all the SP-API Destination APIs Test for the createDestinations SP-API snapshot test for 200 response from CreateDestinations API 1`] = `
+{
+  "name": "Custom Destination",
+  "resourceSpecification": {
+    "eventBridge": {
+      "accountId": "123456",
+      "region": "us-east-1",
+    },
+  },
+}
+`;
+
+exports[`Test for all the SP-API Destination APIs Test for the createDestinations SP-API snapshot test for 200 response from CreateDestinations API 2`] = `
+[
+  {
+    "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-reference#post-notificationsv1destinations",
+    "apiName": "CreateDestinations",
+    "request": {
+      "body": CreateDestinationRequest {
+        "name": "EventBridgeDestination",
+        "resourceSpecification": DestinationResourceSpecification {
+          "eventBridge": EventBridgeResourceSpecification {
+            "accountId": "us-east-1",
+            "region": "123456",
+          },
+        },
+      },
+    },
+    "response": {
+      "name": "Custom Destination",
+      "resourceSpecification": {
+        "eventBridge": {
+          "accountId": "123456",
+          "region": "us-east-1",
+        },
+      },
+    },
+  },
+]
+`;
+
+exports[`Test for all the SP-API Destination APIs Test for the createDestinations SP-API snapshot test for the 404 response from CreateDestinations API 1`] = `
+[
+  {
+    "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-reference#post-notificationsv1destinations",
+    "apiName": "CreateDestinations",
+    "request": {
+      "body": CreateDestinationRequest {
+        "name": "EventBridgeDestination",
+        "resourceSpecification": DestinationResourceSpecification {
+          "eventBridge": EventBridgeResourceSpecification {
+            "accountId": "us-east-1",
+            "region": "123456",
+          },
+        },
+      },
+    },
+    "response": {
+      "status": 404,
+    },
+  },
+]
+`;
+
+exports[`Test for all the SP-API Destination APIs Test for the getEventBridgeDestinations snapshot test for 200 response from GetDestinations API 1`] = `
+DestinationList [
+  {
+    "destinationId": "5fe08e61-c5ec-4427-9f25-24a7b630cce2",
+    "name": "TestDestination",
+    "resource": {
+      "eventBridge": {
+        "accountId": "123456",
+        "name": "sellingpartnerapi.amazon.com/amzn1.sellerapps.app.15a75829-cd4a-4efc-b947-0cc39d874577",
+        "region": "us-east-1",
+      },
+    },
+  },
+]
+`;
+
+exports[`Test for all the SP-API Destination APIs Test for the getEventBridgeDestinations snapshot test for 200 response from GetDestinations API 2`] = `
+[
+  {
+    "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-reference#getdestinations",
+    "apiName": "GetDestinations",
+    "request": {},
+    "response": GetDestinationsResponse {
+      "payload": DestinationList [
+        {
+          "destinationId": "5fe08e61-c5ec-4427-9f25-24a7b630cce2",
+          "name": "TestDestination",
+          "resource": {
+            "eventBridge": {
+              "accountId": "123456",
+              "name": "sellingpartnerapi.amazon.com/amzn1.sellerapps.app.15a75829-cd4a-4efc-b947-0cc39d874577",
+              "region": "us-east-1",
+            },
+          },
+        },
+      ],
+    },
+  },
+]
+`;
+
+exports[`Test for all the SP-API Destination APIs Test for the getEventBridgeDestinations snapshot test for the 404 response from GetDestinations API 1`] = `undefined`;
+
+exports[`Test for all the SP-API Destination APIs Test for the getEventBridgeDestinations snapshot test for the 404 response from GetDestinations API 2`] = `
+[
+  {
+    "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-reference#getdestinations",
+    "apiName": "GetDestinations",
+    "request": {},
+    "response": {
+      "status": 404,
+    },
+  },
+]
+`;
+
+exports[`Test for all the SP-API Destination APIs Test for the getEventBridgeDestinations snapshot test for the 500 response from GetDestinations API 1`] = `
+[
+  {
+    "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-reference#getdestinations",
+    "apiName": "GetDestinations",
+    "request": {},
+    "response": {
+      "status": 500,
+    },
+  },
+]
+`;

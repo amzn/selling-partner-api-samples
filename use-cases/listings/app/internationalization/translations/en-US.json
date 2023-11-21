@@ -1,0 +1,363 @@
+{
+  "Home": {
+    "Common": {
+      "debugConsoleShortTitle": "Debug Console",
+      "submissionInfo": " will be displayed where you can submit your listing. Refer the ",
+      "moreInfo": " for more information on {useCase}.",
+      "debugConsoleText": " You can view the SP-API calls made during the operation in the ",
+      "listingManagementWorkflowGuide": "Listings Management Workflows Guide",
+      "attributesEditorForm": "attributes editor form"
+    },
+    "Intro": {
+      "title": "Intro",
+      "content1": "Welcome to the SellingPartnerAPIListingSampleApplication. This app demonstrates how to use some of the APIs listed in ",
+      "workflowGuideText": "Building Listings Management Workflows Guide",
+      "workflowGuideURL": "https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide",
+      "content2": " to construct some common listing management workflows using a simple UI. The Selling Partner API (SP-API) is a REST-based API that helps Amazon selling partners programmatically access their data on listings, orders, shipments, payments, and much more.  The Listings APIs are a subset of the SP-API which allows the users to build best-in-class listings creation and management workflows. This app shows how to develop a selling partner app for 6 common listing use cases."
+    },
+    "Navigate": {
+      "title": "How to Navigate",
+      "content": "Use the bar at top of the app to navigate across different listing workflows of the app. Use the Home icon at left of the bar to go to the home page and read this instructions or use the info icon on top right of each workflow to navigate to specific section of these instructions. Use the 6 different buttons to the right of the Home Icon to navigate to the listing workflows. Use the settings gear icon at top right corner of the screen (below the navigation bar) to configure the settings for the app. The listing workflows doesn't work if you do not configure the settings."
+    },
+    "Settings": {
+      "title": "How to configure settings",
+      "content": "Use the settings gear icon to access the settings page. The settings page displays a form to configure the settings. The form is empty if settings are not configured before. If the settings are configured before, then the form displays those settings. Please read the ReadMe file of the app to understand the prerequisites and detailed instructions on how to configure the settings. Once the form is filled with settings, click the save button at the bottom of the page to persist the settings."
+    },
+    "DebugConsole": {
+      "title": "How to use Debug Console",
+      "content": "Every workflow has a debug console button at the bottom of the page.  Click the debug console button to open a full screen window which contains the details of all Selling Partner API calls invoked so far for that workflow. Use the clear button on the right side of the full screen window to clear the debug content if there is too much content. To minimise the full screen window, click the close icon on the left of the window. To make the app more responsive, the debug content is erased up on navigation to a different page."
+    },
+    "BulkListing": {
+      "title": "Bulk Listing",
+      "content": "The Bulk Listing page can be used to build and submit JSON Feeds and also view past submitted feeds. Navigate to Bulk Listing page via the navigation tab. Currently only JSON_LISTINGS_FEED is supported in the app. Select a JSON feed file by clicking the Choose File button. Submit the selected file for processing by clicking the Submit button. You can view the past feeds by clicking on View Feeds or Refresh Feeds Button on the right section of the page. Refer the ",
+      "workflowGuideText": "Feeds API Use Case Guide",
+      "workflowGuideURL": "https://developer-docs.amazon.com/sp-api/docs/feeds-api-v2021-06-30-use-case-guide"
+    },
+    "CreateListing": {
+      "title": "Create Listing",
+      "content": "The Create Listing page can be used to create a new Listing in Amazon. Navigate to Create Listing page via the navigation tab. Search for product type under which you want your listing to be categorized. Choose the appropriate Product Type from the search result. After entering the SKU ",
+      "workflowGuideURL": "https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#list-an-item-that-does-not-already-exist-in-the-amazon-catalog"
+    },
+    "CreateOffer": {
+      "title": "Create Offer",
+      "content": "The Create Offer page can be used to create a new offer on an existing listing in Amazon. Navigate to Create Offer page via the navigation tab. You can search for existing products in Amazon by entering the appropriate identifiers and selecting the identifier type from the dropdown or using keywords. You can only search either identifier or keyword, not both. Click on Search Products button to retrieve a limited set of existing products matching the query. Click on View Conditions dropdown to view the condition types under  which you are allowed to list the product. If there are any valid condition types then List This Product button will be enabled. Click the button to enter SKU for your listing. Upon entering the SKU ",
+      "workflowGuideURL": "https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#list-an-offer-for-an-item-that-already-exists-in-the-amazon-catalog"
+    },
+    "DeleteListing": {
+      "title": "Delete Listing",
+      "content": "The Delete Listing page can be used to delete a Listing from Amazon. Navigate to Delete Listing page via the navigation tab. Enter the SKU which you wish to delete and click on Delete This Listing button to delete the listing. Refer the ",
+      "workflowGuideURL": "https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#deleting-a-listings-item"
+    },
+    "Notifications": {
+      "title": "Notifications",
+      "content": "The Notifications page can be used to subscribe to various Event Bridge based notifications. Navigate to Notifications page via the navigation tab. To subscribe to a notification type select the desired notification type from the drop down which displays the eligible notification type for either Seller or Vendor. Click on Create Subscription button to create the subscription. Upon successful creation a pop up will be displayed which contains the information of the subscription such as Subscription Id and Destination Id. To view the existing subscriptions click on View Subscriptions or Refresh Subscriptions button on the right side of the page. The page will display a list of current subscription and its metadata such as Event Bus, filter rule for this notification and SQS queue. All the resources will be created inside the AWS Account configured in the Settings page. Refer the ",
+      "eventBridgeWorkflowGuide": "Amazon EventBridge Workflow guide",
+      "workflowGuideURL": "https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-use-case-guide#tutorial-set-up-notifications-span-classnotranslateamazon-eventbridgespan-workflow"
+    },
+    "UpdateListing": {
+      "title": "Update Listing",
+      "content": "The Update Listing page can be used to update an existing listing in your catalog. Navigate to Update Listing page via the navigation tab. Enter the SKU you wish to update and click on Retrieve SKU button. If there are any issues associated with the SKU then View Issues button will be displayed. Click on this Button to understand the issues on the SKU. The ",
+      "content2": " will also be displayed along with a drop down for the submission mode for updating your listing. Refer the ",
+      "workflowGuideURL": "https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#updating-a-listings-item"
+    },
+    "AttributesEditor": {
+      "title": "Listing Attributes Editor",
+      "content": "The attributes editor form renders the applicable attributes of the product depending on the Product Type. Once the form has been filled  click on Run Schema Validations button to validate the entered values against the product type definitions schema. If there are any errors a Schema Validation Errors dialog will be displayed which explains the errors. Once the content has been validated you can either submit the listing to Amazon by clicking the Submit button. Upon successful acceptance of your contribution a popup will be displayed which will contain your submission id. Or you can convert the listing to a JSON feed by clicking Convert to JSON Listings Feed button. "
+    }
+  },
+  "CreateOffer": {
+    "pageTitle": "Search For Existing Products at Amazon",
+    "identifierLabelHelpText": "Comma-delimited list of product identifiers to search the Amazon catalog for",
+    "identifiers": "Identifiers",
+    "keywordsLabelHelpText": "Comma-delimited list of words or product identifiers to search the Amazon catalog for.",
+    "keywords": "Keywords",
+    "submit": "Search Products",
+    "submitHelpText": "Search products based on provided identifiers/keywords from the Amazon Catalog.",
+    "failureAlertTitle": "Error",
+    "failureAlertContent": "There was unexpected error happened while searching catalog. Please try again.",
+    "productSearchInvalidInput": "Error: Please provide either identifiers or keywords but not both.",
+    "productSearchResultsTitle": "Product Search Results",
+    "noProductSearchResults": "No products found matching the query.",
+    "ProductSearchResult": {
+      "title": "Title",
+      "titleHelpText": "Title of the product.",
+      "asin": "Asin",
+      "asinHelpText": "ASIN of the product.",
+      "productType": "Product Type",
+      "productTypeHelpText": "Product Type.",
+      "allowedConditions": "Allowed Conditions",
+      "allowedConditionsHelpText": "Conditions under which you are allowed to list this product.",
+      "allowedConditionsFieldLabel": "View Conditions",
+      "listProductButton": "List this Product",
+      "listProductButtonHelpText": "Generates the form to list this product",
+      "noAvailableOptionsText": "No available condition types"
+    }
+  },
+  "CreateListing": {
+    "pageTitle": "Search For Product Types at Amazon",
+    "keywordsLabelHelpText": "Comma-delimited list of words or product identifiers to search the Amazon catalog for.",
+    "keywords": "Keywords",
+    "submit": "Search Product Types",
+    "submitHelpText": "Search existing product types based on provided keywords from the Amazon Catalog.",
+    "failureAlertTitle": "Error",
+    "failureAlertContent": "There was unexpected error happened while obtaining product Types. Please try again.",
+    "ProductTypeChooser": {
+      "productTypeId": "ProductTypeChooser",
+      "defaultLabel": "Choose a Product Type",
+      "dropDownHelpText": "Product Types which are available for the provided Keywords.",
+      "noProductTypeSearchResults": "No Product Types matching the query found."
+    }
+  },
+  "DeleteListing": {
+    "pageTitle": "Delete a Listing",
+    "skuLabelHelpText": "SKU to delete.",
+    "sku": "SKU",
+    "submit": "Delete this listing",
+    "submitHelpText": "Delete the Listing that's represented by this SKU.",
+    "failureAlertTitle": "Error",
+    "failureAlertContent": "There was unexpected error while deleting the listing. Please try again.",
+    "confirmationTitle": "Are you sure?",
+    "confirmationContent": "This option cannot be undone, the SKU will be permanently deleted!",
+    "confirmationButtonContent": "I am sure",
+    "confirmationCancelButtonContent": "Cancel"
+  },
+  "Settings": {
+    "pageTitle": "Settings",
+    "region": "Region",
+    "regionHelpText": "Select the SP-API endpoint AWS region based on your selected marketplaceId. Refer to https://developer-docs.amazon.com/sp-api/docs/sp-api-endpoints. The app creates any infrastructure for the notifications workflow in the selected region.",
+    "accountId": "AWS Account Id",
+    "accountIdHelpText": "AWS AccountId to create the infrastructure to receive notifications and store app settings. Please delete all the subscriptions created through the app when you change the account Id",
+    "clientIdHelpText": "Client Id part of the selling partner application LWA credentials",
+    "clientId": "Client Id",
+    "clientSecret": "Client Secret",
+    "clientSecretHelpText": "Client Secret part of the selling partner application LWA credentials",
+    "refreshToken": "Refresh Token",
+    "refreshTokenHelpText": "Refresh Token used to get the access token",
+    "sellingPartnerId": "Selling Partner Id",
+    "sellingPartnerIdHelpText": "A selling partner identifier, such as a seller account or vendor code",
+    "sellingPartnerIdType": "Selling Partner Id Type",
+    "sellingPartnerIdTypeHelpText": "A selling partner identifier type",
+    "marketplaceId": "Marketplace Id",
+    "marketplaceIdHelpText": "The MarketplaceId to be used during the Listing Process",
+    "submit": "Save",
+    "submitHelpText": "Click the button to save the settings",
+    "cancel": "Cancel",
+    "failureAlertTitle": "Error",
+    "failureAlertContent": "There was unexpected error happened while saving the settings. Please try again.",
+    "successAlertTitle": "Success",
+    "successAlertContent": "The settings are successfully saved."
+  },
+  "SettingsProvider": {
+    "settingsMissingMessage": "Please configure the settings for the app before clicking any other tabs."
+  },
+  "Navigation": {
+    "bulkListing": "Bulk Listing",
+    "bulkListingHelpText": "Workflow to submit listing updates in bulk. See https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#creating-and-updating-listings-items-in-bulk to learn more",
+    "createListing": "Create Listing",
+    "createListingHelpText": "Workflow to list an item that does not already exist in the Amazon catalog. Refer to https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#list-an-item-that-does-not-already-exist-in-the-amazon-catalog to learn more",
+    "createOffer": "Create Offer",
+    "createOfferHelpText": "Workflow to list an offer for an item that already exists in the Amazon catalog. Refer to https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#list-an-offer-for-an-item-that-already-exists-in-the-amazon-catalog to learn more",
+    "deleteListing": "Delete Listing",
+    "deleteListingHelpText": "Workflow to delete an existing listings item. See https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#deleting-a-listings-item to learn more",
+    "notifications": "Notifications",
+    "notificationsHelpText": "Workflow to receive notifications through Amazon EventBridge. See https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-use-case-guide#notification-workflows to learn more",
+    "updateListing": "Update Listing",
+    "updateListingHelpText": "Workflow to update an existing listings item. Refer to https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#updating-a-listings-item to learn more",
+    "vendorCodesCannotCreateOffers": "Vendor Codes cannot create offers at this time"
+  },
+  "AlertDialog": {
+    "close": "Close"
+  },
+  "ListingCreationFormComponent": {
+    "sku": "Enter a SKU",
+    "skuHelpText": "A listing is uniquely identified by a SKU."
+  },
+  "ListingAttributesEditor": {
+    "failureAlertTitle": "Error",
+    "failureAlertContent": "There was unexpected error happened while loading the schema. Please try again."
+  },
+  "AsyncFormDropDown": {
+    "error": "Error",
+    "loadingErrorMessage": "Error while loading options"
+  },
+  "SchemaValidatorButton": {
+    "schemaValidationsButtonName": "Run Schema Validations",
+    "schemaValidationsButtonHelpText": "Click the button to validate the entered data with the product type definition schema."
+  },
+  "ListingSubmitButton": {
+    "buttonName": "Submit",
+    "buttonHelpText": "Click the button to submit the listing content to Amazon.",
+    "failureAlertTitle": "Error",
+    "failureAlertContent": "There was unexpected error happened while listing submission. Please try again."
+  },
+  "ListingSubmissionResultDialog": {
+    "successStatus": "Success",
+    "successMessage": "Submitted the listing with no issues to Amazon. The submission id is : {submissionId} and the status of the submission is {status}",
+    "successMessageWithIssues": "Submitted the listing to Amazon. The submission id is : {submissionId} and the status of the submission is {status}",
+    "closeButtonHelpText": "Click to close the window"
+  },
+  "IssueContainer": {
+    "message": "Message",
+    "messageHelpText": "Provides a human readable explanation of the issue.",
+    "code": "Code",
+    "codeHelpText": "Uniquely identifies the issues with the code.",
+    "severity": "Severity",
+    "severityHelpText": "Severity of the issue.",
+    "attributeNames": "Attribute Names",
+    "attributeNamesHelpText": "Names of the attributes associated with the issue."
+  },
+  "SchemaValidationErrorsDialog": {
+    "successStatus": "Success",
+    "successMessage": "Validated the listing data with the schema and no errors found.",
+    "schemaErrors": "Schema Validation Errors",
+    "closeButtonHelpText": "Click to close the window",
+    "SchemaValidationError": {
+      "keyword": "Keyword",
+      "keywordHelpText": "The validation keyword",
+      "instancePath": "Instance Path",
+      "instancePathHelpText": "JSON Pointer to the location in the data instance",
+      "schemaPath": "Schema Path",
+      "schemaPathHelpText": "JSON Pointer to the location of the failing keyword in the schema",
+      "params": "Additional Parameters",
+      "paramsHelpText": "Additional information about the schema validation issue",
+      "propertyName": "Property Name",
+      "propertyNameHelpText": "Set for errors in `propertyNames` keyword schema",
+      "message": "Message",
+      "messageHelpText": "Raw Schema Validation Error Message",
+      "data": "Data",
+      "dataHelpText": "The section of the listing which violated schema",
+      "schema": "Schema",
+      "schemaHelpText": "The schema which was violated"
+    }
+  },
+  "ConvertToJsonFeed": {
+    "buttonHelpText": "Use the button to export the entered listing content into Json Listings Feed.",
+    "buttonName": "Convert to Json Listings Feed",
+    "successStatus": "Success",
+    "successMessage": "Saved the listing content as Json Listing Feed to file : {fileName}",
+    "invalidStatus": "Invalid",
+    "invalidMessage": "Can not generate the Json Listing Feed. Found empty attributes or patches."
+  },
+  "DebugConsole": {
+    "buttonName": "Debug Console",
+    "buttonHelpText": "Click the button to view the Selling Partner API requests and responses",
+    "clearButtonName": "Clear",
+    "clearButtonNameHelpText": "Click the button to clear the contents",
+    "debugDialogTitle": "Debug Console",
+    "closeButtonHelpText": "Click to minimise the debug console",
+    "apiName": "Selling Partner API Name",
+    "apiNameHelpText": "Please visit the {url} to learn more about the Selling Partner API",
+    "request": "API Request",
+    "requestHelpText": "Actual request submitted to the Selling Partner API",
+    "response": "API Response",
+    "responseHelpText": "Actual response from the Selling Partner API"
+  },
+  "IssuesButton": {
+    "buttonHelpText": "Issues may occur on listings items during submission or during asynchronous processing after acceptance.",
+    "buttonName": "View Issues",
+    "buttonLabel": "Click to see issues for the listing",
+    "issuesDialogTitle": "Issues",
+    "closeButtonHelpText": "Click to close the dialog"
+  },
+  "FileSelect": {
+    "exceededMaxFileSize": "The chosen file exceeded maximum allowed file size : {maxSize} bytes. Please select another file.",
+    "incorrectFileType": "The chosen file has the incorrect file type : {currentType}. Please select the file with one of the types : {expectedTypes}"
+  },
+  "UploadFeeds": {
+    "pageTitle": "Upload Feeds",
+    "chooseFeedTypeLabel": "Choose Feed Type",
+    "chooseFeedTypeHelpText": "Uploading only the Json Listing Feeds is supported for now",
+    "fileChooserLabel": "Upload the feed",
+    "fileChooserButtonName": "Choose File",
+    "fileChooserHelpText": "Click the button to choose a Json Listings Feed file. The maximum size of the file is : {maxSize} bytes",
+    "feedContentLabel": "Feed Content",
+    "feedContentHelpText": "You can edit the chosen file content here before submission to Amazon",
+    "submitButtonName": "Submit",
+    "submitButtonHelpText": "Click the button to submit the feed content to Amazon",
+    "failureAlertTitle": "Error",
+    "failureAlertContent": "There was unexpected error happened while creation of the feed. Please try again",
+    "successAlertTitle": "Success",
+    "successAlertContent": "The feed was successfully submitted to Amazon. The feed submission Id is {feedId}"
+  },
+  "PastFeeds": {
+    "pageTitle": "Past Submitted Json Listing Feeds",
+    "getFeedsButtonName": "View Feeds",
+    "refreshFeedsButtonName": "Refresh Feeds",
+    "getFeedsButtonHelpText": "Click the button to retrieve the details of past submitted Json Listing Feeds",
+    "getFeedsFailureAlertTitle": "Error",
+    "getFeedsFailureAlertContent": "There was unexpected error happened while retrieval of past feeds. Please try again"
+  },
+  "FeedContainer": {
+    "id": "FeedID",
+    "idHelpText": "The identifier for the feed. This identifier is unique only in combination with a seller ID",
+    "type": "FeedType",
+    "typeHelpText": "Feed Type of the submission",
+    "createdTime": "Created Time",
+    "createdTimeHelpText": "The date and time when the feed was created, in ISO 8601 date time format",
+    "processingStatus": "Processing Status",
+    "processingStatusHelpText": "The processing status of the feed submission",
+    "actionButtonName": "Download Processing Report",
+    "actionButtonHelpText": "Click the button to download the processing report",
+    "getFeedFailureAlertTitle": "Error",
+    "getFeedFailureAlertContent": "There was unexpected error happened while retrieval of processing report download link. Please try again",
+    "successAlertTitle": "Success",
+    "successAlertContent": "The processing report downloaded successfully.",
+    "noFeedsFoundAlert": "No past feeds found."
+  },
+  "ViewSubscriptions": {
+    "pageTitle": "Current Listing Subscriptions",
+    "getSubscriptionsButtonName": "View Subscriptions",
+    "refreshSubscriptionsButtonName": "Refresh Subscriptions",
+    "getSubscriptionsButtonHelpText": "Click the button to retrieve the details of the current listing subscriptions",
+    "getSubscriptionsFailureAlertTitle": "Error",
+    "getSubscriptionsFailureAlertContent": "There was unexpected error happened while retrieval of current subscriptions. Please try again"
+  },
+  "CreateSubscription": {
+    "pageTitle": "Create Listing Subscription",
+    "chooseSubscriptionLabel": "Subscriptions",
+    "chooseSubscriptionHelperText": "The drop down lists all the supported notification types which belong to Listings Domain.",
+    "submitButtonName": "Create Subscription",
+    "submitButtonHelpText": "Click this button to create a subscription",
+    "failureAlertTitle": "Error",
+    "failureAlertContent": "There was unexpected error happened while creation of the subscription. Please try again",
+    "successAlertTitle": "Success",
+    "successAlertContent": "Created subscription successfully! The subscription ID is {subscriptionId}, payload version is {payloadVersion}, and destination ID is {destinationId}.",
+    "conflictResourceAlertContent": "Subscription already exists for the notification type. Please delete the associated subscription for this notification type before creating another one."
+  },
+  "SubscriptionContainer": {
+    "id": "Subscription Id",
+    "idHelpText": "The unique identifier for the subscription",
+    "type": "Notification Type",
+    "typeHelpText": "Type of the listing notification",
+    "eventBusName": "Event Bus Name",
+    "eventBusNameHelpText": "The name of the event bus which receives the notifications from SP API",
+    "filterRule": "Filter Rule Name",
+    "filterRuleHelpText": "The filter rule used to route the notifications from the even bridge to the SQS Queue",
+    "queueName": "SQS Queue Name",
+    "queueNameHelpText": "All the notifications for this subscription are routed to this SQS queue",
+    "actionButtonName": "Delete Subscription",
+    "actionButtonHelpText": "Click the button to delete the subscription",
+    "deleteSubscriptionFailureAlertTitle": "Error",
+    "deleteSubscriptionFailureAlertContent": "There was unexpected error happened while deletion of the subscription. Please try again",
+    "successAlertTitle": "Success",
+    "successAlertContent": "The subscription was deleted successfully",
+    "noSubscriptionAlert": "No subscriptions found."
+  },
+  "UpdateListing": {
+    "title": "Update Listing",
+    "skuLabel": "SKU",
+    "skuHelpText": "Enter a SKU",
+    "retrieveSKUButtonLabel": "Retrieve SKU",
+    "retrieveSKUButtonHelpText": "Retrieve SKU from Amazon",
+    "retrieveSKUFailureAlertTitle": "Error",
+    "retrieveSKUFailureAlertContent": "Error while retrieving the SKU. Try again later.",
+    "submissionModeLabel": "Choose Submission Mode",
+    "submissionModeHelpText": "Please see https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#updating-a-listings-item to understand the difference between both the APIs.",
+    "noSummaryWarning": "No product summary found. Product summary doesn't exist if the previous listing submission failed or is in progress.",
+    "noSkuFoundMessage": "No listing found matching provided SKU."
+  },
+  "QuickLinks": {
+    "infoToolTip": "Click to see more info about this page.",
+    "settingsToolTip": "Navigate to Settings page."
+  }
+}

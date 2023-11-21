@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot Test for the create offer home page 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiContainer-root MuiContainer-maxWidthMd css-xdmu94-MuiContainer-root"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-13mqtjd-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+        >
+          Search For Existing Products at Amazon
+        </h6>
+      </div>
+    </div>
+    <div>
+      <p>
+        ProductSearchFormComponent
+      </p>
+      <button>
+        ProductSearchFormComponentSubmit
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Snapshot Test for the create offer home page with search result 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiContainer-root MuiContainer-maxWidthMd css-xdmu94-MuiContainer-root"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-13mqtjd-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+        >
+          Search For Existing Products at Amazon
+        </h6>
+      </div>
+    </div>
+    <div>
+      <p>
+        ProductSearchFormComponent
+      </p>
+      <button>
+        ProductSearchFormComponentSubmit
+      </button>
+    </div>
+    <hr
+      class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+      style="margin: 1rem 0px; border-bottom-width: 3px; border-color: #333;"
+    />
+    <div>
+      <p>
+        ProductSearchResultComponent
+      </p>
+      <button>
+        ProductSearchResultComponentSubmit
+      </button>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Snapshot Test for the create offer home page with search result, choose result, and show listing offer only container 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiContainer-root MuiContainer-maxWidthMd css-xdmu94-MuiContainer-root"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-13mqtjd-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+        >
+          Search For Existing Products at Amazon
+        </h6>
+      </div>
+    </div>
+    <div>
+      <p>
+        ProductSearchFormComponent
+      </p>
+      <button>
+        ProductSearchFormComponentSubmit
+      </button>
+    </div>
+    <hr
+      class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+      style="margin: 1rem 0px; border-bottom-width: 3px; border-color: #333;"
+    />
+    <div>
+      <p>
+        ProductSearchResultComponent
+      </p>
+      <button>
+        ProductSearchResultComponentSubmit
+      </button>
+    </div>
+    <hr
+      class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+      style="margin: 1rem 0px; border-bottom-width: 3px; border-color: #333;"
+    />
+    <div>
+      <p>
+        ListingCreationFormComponent
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;

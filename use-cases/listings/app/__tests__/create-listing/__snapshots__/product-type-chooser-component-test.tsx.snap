@@ -1,0 +1,296 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for the ProductTypeChooserComponent Basic Snapshot Test for product type chooser component 1`] = `
+<DocumentFragment>
+  <form
+    data-testid="productTypeChooser"
+    id="productTypeChooserComponent"
+    style="margin-top: 5%;"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+      >
+        <label
+          aria-label="Product Types which are available for the provided Keywords."
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+          data-mui-internal-clone-element="true"
+          for="ProductTypeChooser"
+        >
+          Choose a Product Type
+        </label>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+      >
+        <div
+          aria-label="Product Types which are available for the provided Keywords."
+          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-sizeSmall  css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+          data-mui-internal-clone-element="true"
+          data-testid="ProductTypeChooser"
+        >
+          <div
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-labelledby="ProductTypeChooser"
+            class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+            id="ProductTypeChooser"
+            role="button"
+            tabindex="0"
+          >
+            3D_PRINTER
+          </div>
+          <input
+            aria-hidden="true"
+            aria-invalid="false"
+            class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+            tabindex="-1"
+            value="3D_PRINTER"
+          />
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+            data-testid="ArrowDropDownIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+          <fieldset
+            aria-hidden="true"
+            class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              class="css-ihdtdm"
+            >
+              <span
+                class="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </form>
+</DocumentFragment>
+`;
+
+exports[`Test for the ProductTypeChooserComponent Snapshot Test for product type chooser component after a single search result 1`] = `
+<DocumentFragment>
+  <form
+    data-testid="productTypeChooser"
+    id="productTypeChooserComponent"
+    style="margin-top: 5%;"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+      >
+        <label
+          aria-label="Product Types which are available for the provided Keywords."
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+          data-mui-internal-clone-element="true"
+          for="ProductTypeChooser"
+        >
+          Choose a Product Type
+        </label>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+      >
+        <div
+          aria-label="Product Types which are available for the provided Keywords."
+          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-sizeSmall  css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+          data-mui-internal-clone-element="true"
+          data-testid="ProductTypeChooser"
+        >
+          <div
+            aria-disabled="true"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-labelledby="ProductTypeChooser"
+            class="MuiSelect-select MuiSelect-outlined Mui-disabled MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputSizeSmall css-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+            id="ProductTypeChooser"
+            role="button"
+          >
+            CHAIR
+          </div>
+          <input
+            aria-hidden="true"
+            aria-invalid="false"
+            class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+            disabled=""
+            tabindex="-1"
+            value="CHAIR"
+          />
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined Mui-disabled css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+            data-testid="ArrowDropDownIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+          <fieldset
+            aria-hidden="true"
+            class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              class="css-ihdtdm"
+            >
+              <span
+                class="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </form>
+</DocumentFragment>
+`;
+
+exports[`Test for the ProductTypeChooserComponent Snapshot Test for product type chooser component after choosing a product type 1`] = `
+<DocumentFragment>
+  <form
+    data-testid="productTypeChooser"
+    id="productTypeChooserComponent"
+    style="margin-top: 5%;"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+      >
+        <label
+          aria-label="Product Types which are available for the provided Keywords."
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+          data-mui-internal-clone-element="true"
+          for="ProductTypeChooser"
+        >
+          Choose a Product Type
+        </label>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+      >
+        <div
+          aria-label="Product Types which are available for the provided Keywords."
+          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-sizeSmall  css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+          data-mui-internal-clone-element="true"
+          data-testid="ProductTypeChooser"
+        >
+          <div
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-labelledby="ProductTypeChooser"
+            class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+            id="ProductTypeChooser"
+            role="button"
+            tabindex="0"
+          >
+            INKJET_PRINTER_INK
+          </div>
+          <input
+            aria-hidden="true"
+            aria-invalid="false"
+            class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+            tabindex="-1"
+            value="INKJET_PRINTER_INK"
+          />
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+            data-testid="ArrowDropDownIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+          <fieldset
+            aria-hidden="true"
+            class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              class="css-ihdtdm"
+            >
+              <span
+                class="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </form>
+</DocumentFragment>
+`;
+
+exports[`Test for the ProductTypeChooserComponent Snapshot Test for product type chooser component after no search results 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root css-y1gt6f"
+  >
+    <div
+      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-pwcg7p-MuiCollapse-root"
+      style="min-height: 0px;"
+    >
+      <div
+        class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+      >
+        <div
+          class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+        >
+          <div
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardInfo MuiAlert-standard css-ethv1g-MuiPaper-root-MuiAlert-root"
+            data-testid="no-product-types-alert"
+            role="alert"
+          >
+            <div
+              class="MuiAlert-icon css-1ytlwq5-MuiAlert-icon"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                data-testid="InfoOutlinedIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
+                />
+              </svg>
+            </div>
+            <div
+              class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
+            >
+              No Product Types matching the query found.
+            </div>
+            <div
+              class="MuiAlert-action css-ki1hdl-MuiAlert-action"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

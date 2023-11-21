@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component renders 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+    >
+      <label
+        aria-label="HelpText"
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+        data-mui-internal-clone-element="true"
+        for="id"
+      >
+        Label
+      </label>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+    >
+      <div
+        aria-label="HelpText"
+        class="MuiFormControl-root MuiFormControl-marginNormal MuiFormControl-fullWidth MuiTextField-root css-17vbkzs-MuiFormControl-root-MuiTextField-root"
+        data-mui-internal-clone-element="true"
+      >
+        <div
+          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary Mui-disabled MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall MuiInputBase-multiline css-z1o969-MuiInputBase-root-MuiOutlinedInput-root"
+        >
+          <textarea
+            aria-invalid="false"
+            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputMultiline MuiInputBase-inputSizeSmall css-12tl3rr-MuiInputBase-input-MuiOutlinedInput-input"
+            disabled=""
+            id="id"
+            name="Label"
+            required=""
+            style="height: 0px; overflow: hidden;"
+          >
+            Test
+          </textarea>
+          <textarea
+            aria-hidden="true"
+            class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputMultiline MuiInputBase-inputSizeSmall css-12tl3rr-MuiInputBase-input-MuiOutlinedInput-input"
+            readonly=""
+            style="visibility: hidden; position: absolute; overflow: hidden; height: 0px; top: 0px; left: 0px; transform: translateZ(0); padding-top: 0px; padding-bottom: 0px; width: 100%;"
+            tabindex="-1"
+          />
+          <fieldset
+            aria-hidden="true"
+            class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              class="css-ihdtdm"
+            >
+              <span
+                class="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

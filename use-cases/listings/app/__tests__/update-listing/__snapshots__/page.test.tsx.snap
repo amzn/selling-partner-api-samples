@@ -1,0 +1,294 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tests for Update Listing page Attributes editor is not shown when listing is not present 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiContainer-root MuiContainer-maxWidthMd css-xdmu94-MuiContainer-root"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-13mqtjd-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <h6
+            class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+          >
+            Update Listing
+          </h6>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+        >
+          <label
+            aria-label="Enter a SKU"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+            data-mui-internal-clone-element="true"
+            for="sku"
+          >
+            SKU
+          </label>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+        >
+          <div
+            aria-label="Enter a SKU"
+            class="MuiFormControl-root MuiFormControl-marginNormal MuiTextField-root css-1rv3ei8-MuiFormControl-root-MuiTextField-root"
+            data-mui-internal-clone-element="true"
+          >
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+            >
+              <input
+                aria-invalid="false"
+                class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
+                id="sku"
+                name="SKU"
+                required=""
+                type="text"
+                value=""
+              />
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+              >
+                <legend
+                  class="css-ihdtdm"
+                >
+                  <span
+                    class="notranslate"
+                  >
+                    ​
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span
+        aria-label="Retrieve SKU from Amazon"
+        class=""
+        data-mui-internal-clone-element="true"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+          data-testid="retrieve-sku"
+          id="retrieve-sku"
+          tabindex="0"
+          type="button"
+        >
+          Retrieve SKU
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+      </span>
+      <div />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Tests for Update Listing page Attributes editor is shown when listing is present 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiContainer-root MuiContainer-maxWidthMd css-xdmu94-MuiContainer-root"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-13mqtjd-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <h6
+            class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+          >
+            Update Listing
+          </h6>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+        >
+          <label
+            aria-label="Enter a SKU"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+            data-mui-internal-clone-element="true"
+            for="sku"
+          >
+            SKU
+          </label>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+        >
+          <div
+            aria-label="Enter a SKU"
+            class="MuiFormControl-root MuiFormControl-marginNormal MuiTextField-root css-1rv3ei8-MuiFormControl-root-MuiTextField-root"
+            data-mui-internal-clone-element="true"
+          >
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+            >
+              <input
+                aria-invalid="false"
+                class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
+                id="sku"
+                name="SKU"
+                required=""
+                type="text"
+                value=""
+              />
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+              >
+                <legend
+                  class="css-ihdtdm"
+                >
+                  <span
+                    class="notranslate"
+                  >
+                    ​
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span
+        aria-label="Retrieve SKU from Amazon"
+        class=""
+        data-mui-internal-clone-element="true"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+          data-testid="retrieve-sku"
+          id="retrieve-sku"
+          tabindex="0"
+          type="button"
+        >
+          Retrieve SKU
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+      </span>
+    </div>
+    <div>
+       Mocked Listing Update Component 
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Tests for Update Listing page Initial Render 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiContainer-root MuiContainer-maxWidthMd css-xdmu94-MuiContainer-root"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-13mqtjd-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <h6
+            class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+          >
+            Update Listing
+          </h6>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+        >
+          <label
+            aria-label="Enter a SKU"
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+            data-mui-internal-clone-element="true"
+            for="sku"
+          >
+            SKU
+          </label>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+        >
+          <div
+            aria-label="Enter a SKU"
+            class="MuiFormControl-root MuiFormControl-marginNormal MuiTextField-root css-1rv3ei8-MuiFormControl-root-MuiTextField-root"
+            data-mui-internal-clone-element="true"
+          >
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-sizeSmall css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root"
+            >
+              <input
+                aria-invalid="false"
+                class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input"
+                id="sku"
+                name="SKU"
+                required=""
+                type="text"
+                value=""
+              />
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+              >
+                <legend
+                  class="css-ihdtdm"
+                >
+                  <span
+                    class="notranslate"
+                  >
+                    ​
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span
+        aria-label="Retrieve SKU from Amazon"
+        class=""
+        data-mui-internal-clone-element="true"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+          data-testid="retrieve-sku"
+          disabled=""
+          id="retrieve-sku"
+          tabindex="-1"
+          type="button"
+        >
+          Retrieve SKU
+        </button>
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
+`;

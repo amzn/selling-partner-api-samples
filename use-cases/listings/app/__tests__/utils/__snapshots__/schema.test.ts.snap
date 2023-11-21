@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for the cleanUpListing snapshot test for the cleanUpListing 1`] = `
+{
+  "description": [
+    {
+      "alternateValue": {
+        "value": 1234,
+      },
+    },
+  ],
+}
+`;
