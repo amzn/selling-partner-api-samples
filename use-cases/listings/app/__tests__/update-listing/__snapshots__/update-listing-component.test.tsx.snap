@@ -1,0 +1,235 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for the ListingUpdateComponent doesn't render the issues button with patch listings item submission mode 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+  >
+    <hr
+      class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+      style="margin: 1rem 0px; border-bottom-width: 3px; border-color: #333;"
+    />
+    <div
+      class="MuiGrid-root css-vj1n65-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item css-y014xb-MuiGrid-root"
+      />
+      <div
+        class="MuiGrid-root MuiGrid-item css-y014xb-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+          >
+            <label
+              aria-label="Please see https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#updating-a-listings-item to understand the difference between both the APIs."
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+              data-mui-internal-clone-element="true"
+              for="submissionMode"
+            >
+              Choose Submission Mode
+            </label>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+          >
+            <div
+              aria-label="Please see https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#updating-a-listings-item to understand the difference between both the APIs."
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-sizeSmall  css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+              data-mui-internal-clone-element="true"
+              data-testid="submissionMode"
+            >
+              <div
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                aria-labelledby="submissionMode"
+                class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+                id="submissionMode"
+                role="button"
+                tabindex="0"
+              >
+                PatchListingsItem
+              </div>
+              <input
+                aria-hidden="true"
+                aria-invalid="false"
+                class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+                tabindex="-1"
+                value="PatchListingsItem"
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+                data-testid="ArrowDropDownIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7 10l5 5 5-5z"
+                />
+              </svg>
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+              >
+                <legend
+                  class="css-ihdtdm"
+                >
+                  <span
+                    class="notranslate"
+                  >
+                    ​
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+      >
+        <div>
+           Mocked ListingAttributesEditorComponent 
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Test for the ListingUpdateComponent renders alert with no PT 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+  >
+    <hr
+      class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+      style="margin: 1rem 0px; border-bottom-width: 3px; border-color: #333;"
+    />
+    <div>
+       Mocked Alert 
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Test for the ListingUpdateComponent renders alert with no SKU info 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root css-y1gt6f"
+  >
+    <div>
+       Mocked Alert 
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Test for the ListingUpdateComponent renders the issues button with put listings item submission mode 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+  >
+    <hr
+      class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+      style="margin: 1rem 0px; border-bottom-width: 3px; border-color: #333;"
+    />
+    <div
+      class="MuiGrid-root css-vj1n65-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item css-y014xb-MuiGrid-root"
+      >
+        <div>
+           Mocked IssueButton 
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item css-y014xb-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+          >
+            <label
+              aria-label="Please see https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#updating-a-listings-item to understand the difference between both the APIs."
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+              data-mui-internal-clone-element="true"
+              for="submissionMode"
+            >
+              Choose Submission Mode
+            </label>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+          >
+            <div
+              aria-label="Please see https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#updating-a-listings-item to understand the difference between both the APIs."
+              class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-sizeSmall  css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+              data-mui-internal-clone-element="true"
+              data-testid="submissionMode"
+            >
+              <div
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                aria-labelledby="submissionMode"
+                class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+                id="submissionMode"
+                role="button"
+                tabindex="0"
+              >
+                PutListingsItem
+              </div>
+              <input
+                aria-hidden="true"
+                aria-invalid="false"
+                class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+                tabindex="-1"
+                value="PutListingsItem"
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+                data-testid="ArrowDropDownIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7 10l5 5 5-5z"
+                />
+              </svg>
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+              >
+                <legend
+                  class="css-ihdtdm"
+                >
+                  <span
+                    class="notranslate"
+                  >
+                    ​
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+      >
+        <div>
+           Mocked ListingAttributesEditorComponent 
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

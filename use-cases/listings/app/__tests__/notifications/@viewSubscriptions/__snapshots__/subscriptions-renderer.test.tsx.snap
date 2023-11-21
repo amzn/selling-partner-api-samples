@@ -1,0 +1,283 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for the SubscriptionsRenderer snapshot test on successful subscription deletion 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
+    style="padding: 10px; margin: 15px;"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+          >
+            <label
+              aria-label="The unique identifier for the subscription"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+              data-mui-internal-clone-element="true"
+              for="SubscriptionContainer-0-id"
+            >
+              Subscription Id
+            </label>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+          >
+            <div
+              aria-label="The unique identifier for the subscription"
+              class="MuiBox-root css-1v3tnle"
+              data-mui-internal-clone-element="true"
+              id="SubscriptionContainer-0-id"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              >
+                f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+          >
+            <label
+              aria-label="Type of the listing notification"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+              data-mui-internal-clone-element="true"
+              for="SubscriptionContainer-0-type"
+            >
+              Notification Type
+            </label>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+          >
+            <div
+              aria-label="Type of the listing notification"
+              class="MuiBox-root css-1v3tnle"
+              data-mui-internal-clone-element="true"
+              id="SubscriptionContainer-0-type"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              >
+                BRANDED_ITEM_CONTENT_CHANGE
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+          >
+            <label
+              aria-label="The name of the event bus which receives the notifications from SP API"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+              data-mui-internal-clone-element="true"
+              for="SubscriptionContainer-0-eventBusName"
+            >
+              Event Bus Name
+            </label>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+          >
+            <div
+              aria-label="The name of the event bus which receives the notifications from SP API"
+              class="MuiBox-root css-1v3tnle"
+              data-mui-internal-clone-element="true"
+              id="SubscriptionContainer-0-eventBusName"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              >
+                TestEventBus
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+          >
+            <label
+              aria-label="The filter rule used to route the notifications from the even bridge to the SQS Queue"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+              data-mui-internal-clone-element="true"
+              for="SubscriptionContainer-0-filterRule"
+            >
+              Filter Rule Name
+            </label>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+          >
+            <div
+              aria-label="The filter rule used to route the notifications from the even bridge to the SQS Queue"
+              class="MuiBox-root css-1v3tnle"
+              data-mui-internal-clone-element="true"
+              id="SubscriptionContainer-0-filterRule"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              >
+                SellingPartnerNotificationsAPIRule
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+          >
+            <label
+              aria-label="All the notifications for this subscription are routed to this SQS queue"
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+              data-mui-internal-clone-element="true"
+              for="SubscriptionContainer-0-queueName"
+            >
+              SQS Queue Name
+            </label>
+          </div>
+          <div
+            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+          >
+            <div
+              aria-label="All the notifications for this subscription are routed to this SQS queue"
+              class="MuiBox-root css-1v3tnle"
+              data-mui-internal-clone-element="true"
+              id="SubscriptionContainer-0-queueName"
+            >
+              <p
+                class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+              >
+                BrandedItemContentChange
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+      >
+        <span
+          aria-label="Click the button to delete the subscription"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+            data-testid="deleteSubscription-0"
+            id="deleteSubscription-0"
+            tabindex="0"
+            type="button"
+          >
+            Delete Subscription
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+        <div />
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Test for the SubscriptionsRenderer snapshot test on successful subscription deletion 2`] = `
+<div
+  class="MuiDialog-root MuiModal-root css-zw3mfo-MuiModal-root-MuiDialog-root"
+  data-testid="alertDialog"
+  role="presentation"
+>
+  <div
+    aria-hidden="true"
+    class="MuiBackdrop-root MuiModal-backdrop css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop"
+    style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+  />
+  <div
+    data-testid="sentinelStart"
+    tabindex="0"
+  />
+  <div
+    class="MuiDialog-container MuiDialog-scrollPaper css-hz1bth-MuiDialog-container"
+    role="presentation"
+    style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    tabindex="-1"
+  >
+    <div
+      aria-labelledby=":rb:"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm css-1t1j96h-MuiPaper-root-MuiDialog-paper"
+      role="dialog"
+    >
+      <h2
+        class="MuiTypography-root MuiTypography-h6 MuiDialogTitle-root css-bdhsul-MuiTypography-root-MuiDialogTitle-root"
+        id=":rb:"
+      >
+        Success
+      </h2>
+      <div
+        class="MuiDialogContent-root css-ypiqx9-MuiDialogContent-root"
+      >
+        <p
+          class="MuiTypography-root MuiDialogContentText-root MuiTypography-body1 MuiDialogContentText-root css-qfso29-MuiTypography-root-MuiDialogContentText-root"
+        >
+          The subscription was deleted successfully
+        </p>
+      </div>
+      <div
+        class="MuiDialogActions-root MuiDialogActions-spacing css-hlj6pa-MuiDialogActions-root"
+      >
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+          data-testid="cancelAlertDialog"
+          tabindex="0"
+          type="button"
+        >
+          Close
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    data-testid="sentinelEnd"
+    tabindex="0"
+  />
+</div>
+`;

@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for the global app level layout Snapshot Test for the global app level layout 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiContainer-root MuiContainer-maxWidthMd css-xdmu94-MuiContainer-root"
+  />
+  <div>
+     Mocked Navigation Component 
+  </div>
+  <div>
+     Mocked SettingsLink Component 
+  </div>
+  <h1>
+    Hello World
+  </h1>
+  <div
+    class="MuiBox-root css-ib9iq6"
+  >
+    <span
+      aria-label="Click the button to view the Selling Partner API requests and responses"
+      class=""
+      data-mui-internal-clone-element="true"
+    >
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth css-1dace1q-MuiButtonBase-root-MuiButton-root"
+        data-testid="debugButton"
+        tabindex="0"
+        type="button"
+      >
+        Debug Console
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </span>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Test for the global app level layout test the 404 response code scenario from settings api 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiContainer-root MuiContainer-maxWidthMd css-xdmu94-MuiContainer-root"
+  >
+    <div
+      class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-pwcg7p-MuiCollapse-root"
+      style="min-height: 0px;"
+    >
+      <div
+        class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+      >
+        <div
+          class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+        >
+          <div
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-standardError MuiAlert-standard css-18djxyj-MuiPaper-root-MuiAlert-root"
+            data-testid="noSettings"
+            role="alert"
+          >
+            <div
+              class="MuiAlert-icon css-1ytlwq5-MuiAlert-icon"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit css-1vooibu-MuiSvgIcon-root"
+                data-testid="ErrorOutlineIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                />
+              </svg>
+            </div>
+            <div
+              class="MuiAlert-message css-1pxa9xg-MuiAlert-message"
+            >
+              Please configure the settings for the app before clicking any other tabs.
+            </div>
+            <div
+              class="MuiAlert-action css-ki1hdl-MuiAlert-action"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+     Mocked Navigation Component 
+  </div>
+  <div>
+     Mocked SettingsLink Component 
+  </div>
+  <h1>
+    Hello World
+  </h1>
+  <div
+    class="MuiBox-root css-ib9iq6"
+  >
+    <span
+      aria-label="Click the button to view the Selling Partner API requests and responses"
+      class=""
+      data-mui-internal-clone-element="true"
+    >
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth css-1dace1q-MuiButtonBase-root-MuiButton-root"
+        data-testid="debugButton"
+        tabindex="0"
+        type="button"
+      >
+        Debug Console
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </span>
+  </div>
+</DocumentFragment>
+`;

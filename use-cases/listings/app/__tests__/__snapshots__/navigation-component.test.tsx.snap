@@ -1,0 +1,431 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for the Navigation component Snapshot test for Testing Navigation Component in Create Offer page 1`] = `
+<DocumentFragment>
+  <header
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic css-enyiw4-MuiPaper-root-MuiAppBar-root"
+  >
+    <div
+      class="MuiContainer-root css-ur2jdm-MuiContainer-root"
+    >
+      <div
+        class="MuiToolbar-root MuiToolbar-regular css-r6ewbb-MuiToolbar-root"
+      >
+        <button
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1sgem27-MuiButtonBase-root-MuiIconButton-root"
+          data-testid="homeButton"
+          tabindex="0"
+          type="button"
+        >
+          <div
+            class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-4vb5ob-MuiAvatar-root"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="HomeIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"
+              />
+            </svg>
+          </div>
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+        <span
+          aria-label="Workflow to submit listing updates in bulk. See https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#creating-and-updating-listings-items-in-bulk to learn more"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-17ofi9h-MuiButtonBase-root-MuiButton-root"
+            data-testid="bulkListing"
+            tabindex="0"
+            type="button"
+          >
+            Bulk Listing
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+        <span
+          aria-label="Workflow to list an item that does not already exist in the Amazon catalog. Refer to https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#list-an-item-that-does-not-already-exist-in-the-amazon-catalog to learn more"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-17ofi9h-MuiButtonBase-root-MuiButton-root"
+            data-testid="createListing"
+            tabindex="0"
+            type="button"
+          >
+            Create Listing
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+        <span
+          aria-label="Workflow to list an offer for an item that already exists in the Amazon catalog. Refer to https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#list-an-offer-for-an-item-that-already-exists-in-the-amazon-catalog to learn more"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-1khkkm6-MuiButtonBase-root-MuiButton-root"
+            data-testid="createOffer"
+            tabindex="0"
+            type="button"
+          >
+            Create Offer
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+        <span
+          aria-label="Workflow to delete an existing listings item. See https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#deleting-a-listings-item to learn more"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-17ofi9h-MuiButtonBase-root-MuiButton-root"
+            data-testid="deleteListing"
+            tabindex="0"
+            type="button"
+          >
+            Delete Listing
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+        <span
+          aria-label="Workflow to receive notifications through Amazon EventBridge. See https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-use-case-guide#notification-workflows to learn more"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-17ofi9h-MuiButtonBase-root-MuiButton-root"
+            data-testid="notifications"
+            tabindex="0"
+            type="button"
+          >
+            Notifications
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+        <span
+          aria-label="Workflow to update an existing listings item. Refer to https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#updating-a-listings-item to learn more"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-17ofi9h-MuiButtonBase-root-MuiButton-root"
+            data-testid="updateListing"
+            tabindex="0"
+            type="button"
+          >
+            Update Listing
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+      </div>
+    </div>
+  </header>
+</DocumentFragment>
+`;
+
+exports[`Test for the Navigation component Snapshot test for Testing Navigation Component in Home Page 1`] = `
+<DocumentFragment>
+  <header
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic css-enyiw4-MuiPaper-root-MuiAppBar-root"
+  >
+    <div
+      class="MuiContainer-root css-ur2jdm-MuiContainer-root"
+    >
+      <div
+        class="MuiToolbar-root MuiToolbar-regular css-r6ewbb-MuiToolbar-root"
+      >
+        <button
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1sgem27-MuiButtonBase-root-MuiIconButton-root"
+          data-testid="homeButton"
+          tabindex="0"
+          type="button"
+        >
+          <div
+            class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-4vb5ob-MuiAvatar-root"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="HomeIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"
+              />
+            </svg>
+          </div>
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+        <span
+          aria-label="Workflow to submit listing updates in bulk. See https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#creating-and-updating-listings-items-in-bulk to learn more"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-17ofi9h-MuiButtonBase-root-MuiButton-root"
+            data-testid="bulkListing"
+            tabindex="0"
+            type="button"
+          >
+            Bulk Listing
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+        <span
+          aria-label="Workflow to list an item that does not already exist in the Amazon catalog. Refer to https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#list-an-item-that-does-not-already-exist-in-the-amazon-catalog to learn more"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-17ofi9h-MuiButtonBase-root-MuiButton-root"
+            data-testid="createListing"
+            tabindex="0"
+            type="button"
+          >
+            Create Listing
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+        <span
+          aria-label="Workflow to list an offer for an item that already exists in the Amazon catalog. Refer to https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#list-an-offer-for-an-item-that-already-exists-in-the-amazon-catalog to learn more"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-17ofi9h-MuiButtonBase-root-MuiButton-root"
+            data-testid="createOffer"
+            tabindex="0"
+            type="button"
+          >
+            Create Offer
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+        <span
+          aria-label="Workflow to delete an existing listings item. See https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#deleting-a-listings-item to learn more"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-17ofi9h-MuiButtonBase-root-MuiButton-root"
+            data-testid="deleteListing"
+            tabindex="0"
+            type="button"
+          >
+            Delete Listing
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+        <span
+          aria-label="Workflow to receive notifications through Amazon EventBridge. See https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-use-case-guide#notification-workflows to learn more"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-17ofi9h-MuiButtonBase-root-MuiButton-root"
+            data-testid="notifications"
+            tabindex="0"
+            type="button"
+          >
+            Notifications
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+        <span
+          aria-label="Workflow to update an existing listings item. Refer to https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#updating-a-listings-item to learn more"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-17ofi9h-MuiButtonBase-root-MuiButton-root"
+            data-testid="updateListing"
+            tabindex="0"
+            type="button"
+          >
+            Update Listing
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+      </div>
+    </div>
+  </header>
+</DocumentFragment>
+`;
+
+exports[`Test for the Navigation component verifies that the createOffer button is disabled for Vendor Codes 1`] = `
+<DocumentFragment>
+  <header
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionStatic css-enyiw4-MuiPaper-root-MuiAppBar-root"
+  >
+    <div
+      class="MuiContainer-root css-ur2jdm-MuiContainer-root"
+    >
+      <div
+        class="MuiToolbar-root MuiToolbar-regular css-r6ewbb-MuiToolbar-root"
+      >
+        <button
+          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1sgem27-MuiButtonBase-root-MuiIconButton-root"
+          data-testid="homeButton"
+          tabindex="0"
+          type="button"
+        >
+          <div
+            class="MuiAvatar-root MuiAvatar-circular MuiAvatar-colorDefault css-4vb5ob-MuiAvatar-root"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="HomeIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"
+              />
+            </svg>
+          </div>
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+        <span
+          aria-label="Workflow to submit listing updates in bulk. See https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#creating-and-updating-listings-items-in-bulk to learn more"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-17ofi9h-MuiButtonBase-root-MuiButton-root"
+            data-testid="bulkListing"
+            tabindex="0"
+            type="button"
+          >
+            Bulk Listing
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+        <span
+          aria-label="Workflow to list an item that does not already exist in the Amazon catalog. Refer to https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#list-an-item-that-does-not-already-exist-in-the-amazon-catalog to learn more"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-17ofi9h-MuiButtonBase-root-MuiButton-root"
+            data-testid="createListing"
+            tabindex="0"
+            type="button"
+          >
+            Create Listing
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+        <span
+          aria-label="Vendor Codes cannot create offers at this time"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-17ofi9h-MuiButtonBase-root-MuiButton-root"
+            data-testid="createOffer"
+            disabled=""
+            tabindex="-1"
+            type="button"
+          >
+            Create Offer
+          </button>
+        </span>
+        <span
+          aria-label="Workflow to delete an existing listings item. See https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#deleting-a-listings-item to learn more"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-17ofi9h-MuiButtonBase-root-MuiButton-root"
+            data-testid="deleteListing"
+            tabindex="0"
+            type="button"
+          >
+            Delete Listing
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+        <span
+          aria-label="Workflow to receive notifications through Amazon EventBridge. See https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-use-case-guide#notification-workflows to learn more"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-17ofi9h-MuiButtonBase-root-MuiButton-root"
+            data-testid="notifications"
+            tabindex="0"
+            type="button"
+          >
+            Notifications
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+        <span
+          aria-label="Workflow to update an existing listings item. Refer to https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#updating-a-listings-item to learn more"
+          class=""
+          data-mui-internal-clone-element="true"
+        >
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-17ofi9h-MuiButtonBase-root-MuiButton-root"
+            data-testid="updateListing"
+            tabindex="0"
+            type="button"
+          >
+            Update Listing
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </span>
+      </div>
+    </div>
+  </header>
+</DocumentFragment>
+`;

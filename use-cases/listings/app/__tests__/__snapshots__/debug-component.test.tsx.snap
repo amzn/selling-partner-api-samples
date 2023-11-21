@@ -1,0 +1,246 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for the DebugComponent verifies if the debug console renders properly. 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root css-ib9iq6"
+  >
+    <span
+      aria-label="Click the button to view the Selling Partner API requests and responses"
+      class=""
+      data-mui-internal-clone-element="true"
+    >
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth css-1dace1q-MuiButtonBase-root-MuiButton-root"
+        data-testid="debugButton"
+        tabindex="0"
+        type="button"
+      >
+        Debug Console
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </span>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Test for the DebugComponent verifies if the debug console renders properly. 2`] = `
+<div
+  class="MuiDialog-root MuiModal-root css-zw3mfo-MuiModal-root-MuiDialog-root"
+  data-testid="fullScreenDialog"
+  role="presentation"
+>
+  <div
+    aria-hidden="true"
+    class="MuiBackdrop-root MuiModal-backdrop css-yiavyu-MuiBackdrop-root-MuiDialog-backdrop"
+    style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+  />
+  <div
+    data-testid="sentinelStart"
+    tabindex="0"
+  />
+  <div
+    class="MuiDialog-container MuiDialog-scrollPaper css-hz1bth-MuiDialog-container"
+    role="presentation"
+    style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    tabindex="-1"
+  >
+    <div
+      aria-labelledby=":r1:"
+      class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation24 MuiDialog-paper MuiDialog-paperScrollPaper MuiDialog-paperWidthSm MuiDialog-paperFullScreen css-m9glnp-MuiPaper-root-MuiDialog-paper"
+      role="dialog"
+    >
+      <header
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorPrimary MuiAppBar-positionFixed mui-fixed css-10ghrmp-MuiPaper-root-MuiAppBar-root"
+        style="padding-right: 1024px;"
+      >
+        <div
+          class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular css-hyum1k-MuiToolbar-root"
+        >
+          <button
+            aria-label="Click to minimise the debug console"
+            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeStart MuiIconButton-sizeMedium css-1d6w9lk-MuiButtonBase-root-MuiIconButton-root"
+            data-mui-internal-clone-element="true"
+            data-testid="cancelFullScreenDialog"
+            tabindex="0"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+              data-testid="CloseIcon"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+            </svg>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <div
+            class="MuiTypography-root MuiTypography-h6 css-18vlf2e-MuiTypography-root"
+          >
+            Debug Console
+          </div>
+          <span
+            aria-label="Click the button to clear the contents"
+            class=""
+            data-mui-internal-clone-element="true"
+          >
+            <button
+              class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit css-1y942vo-MuiButtonBase-root-MuiButton-root"
+              data-testid="actionButton"
+              tabindex="0"
+              type="button"
+            >
+              Clear
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </span>
+        </div>
+      </header>
+      <div
+        class="MuiDialogContent-root MuiDialogContent-dividers css-1t4vnk2-MuiDialogContent-root"
+      >
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation3 css-3su884-MuiPaper-root"
+          style="padding: 10px; margin: 15px;"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 css-mhc70k-MuiGrid-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Please visit the https://amazon.com to learn more about the Selling Partner API"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="ReqResponse-0-apiName"
+                  >
+                    Selling Partner API Name
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Please visit the https://amazon.com to learn more about the Selling Partner API"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="ReqResponse-0-apiName"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      GetListingsItem
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Actual request submitted to the Selling Partner API"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="ReqResponse-0-request"
+                  >
+                    API Request
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Actual request submitted to the Selling Partner API"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="ReqResponse-0-request"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {
+    "marketplaceId": "ATVPDKIKX0DER",
+    "locale": "en_US",
+    "asin": "A1F83G8C2ARO7P"
+}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-18ksmt-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4 css-gj1fbr-MuiGrid-root"
+                >
+                  <label
+                    aria-label="Actual response from the Selling Partner API"
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
+                    data-mui-internal-clone-element="true"
+                    for="ReqResponse-0-response"
+                  >
+                    API Response
+                  </label>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8 css-vok43g-MuiGrid-root"
+                >
+                  <div
+                    aria-label="Actual response from the Selling Partner API"
+                    class="MuiBox-root css-1v3tnle"
+                    data-mui-internal-clone-element="true"
+                    id="ReqResponse-0-response"
+                  >
+                    <p
+                      class="MuiTypography-root MuiTypography-body1 css-ahj2mt-MuiTypography-root"
+                    >
+                      {
+    "item": "Dummy Item"
+}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 css-1idn90j-MuiGrid-root"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    data-testid="sentinelEnd"
+    tabindex="0"
+  />
+</div>
+`;

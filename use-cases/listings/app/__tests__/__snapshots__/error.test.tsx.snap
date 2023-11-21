@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Error Component renders an error message 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiContainer-root MuiContainer-maxWidthMd css-xdmu94-MuiContainer-root"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-rl3d6r-MuiGrid-root"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+      >
+        <h6
+          class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
+        >
+          Something went wrong!
+        </h6>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

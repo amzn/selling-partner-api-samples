@@ -1,0 +1,278 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for the ListingAttributesEditorComponent renders the UI based on the fetched schema. 1`] = `
+<div
+  class="MuiGrid-root css-vj1n65-MuiGrid-root"
+  data-testid="listingAttributesEditor"
+>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column css-1vpwcmr-MuiGrid-root"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+    >
+      <div
+        class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+        id="#/properties/name"
+      >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-colorPrimary Mui-error Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root"
+          data-shrink="false"
+          for="#/properties/name-input"
+        >
+          Name
+          <span
+            aria-hidden="true"
+            class="MuiFormLabel-asterisk MuiInputLabel-asterisk Mui-error css-wgai2y-MuiFormLabel-asterisk"
+          >
+             
+            *
+          </span>
+        </label>
+        <div
+          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd css-l4u8b9-MuiInputBase-root-MuiInput-root"
+        >
+          <input
+            aria-invalid="true"
+            class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+            id="#/properties/name-input"
+            type="text"
+            value=""
+          />
+          <div
+            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+            style="display: none; position: absolute; right: 0px;"
+          >
+            <button
+              aria-label="Clear input field"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-mf1cb5-MuiButtonBase-root-MuiIconButton-root"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="CloseIcon"
+                focusable="false"
+                style="background: rgb(255, 255, 255); border-radius: 50%;"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                />
+              </svg>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+        <p
+          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium css-1d1r5q-MuiFormHelperText-root"
+        >
+          is a required property
+        </p>
+        <p
+          class="MuiFormHelperText-root Mui-error MuiFormHelperText-sizeMedium css-1d1r5q-MuiFormHelperText-root"
+        />
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+    >
+      <div
+        class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+      >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-colorPrimary Mui-error Mui-required MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root"
+          data-shrink="false"
+          for="#/properties/birthDate-input"
+          id="#/properties/birthDate-input-label"
+        >
+          Birth Date
+          <span
+            aria-hidden="true"
+            class="MuiFormLabel-asterisk MuiInputLabel-asterisk Mui-error css-wgai2y-MuiFormLabel-asterisk"
+          >
+             
+            *
+          </span>
+        </label>
+        <div
+          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary Mui-error MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd css-l4u8b9-MuiInputBase-root-MuiInput-root"
+        >
+          <input
+            aria-invalid="true"
+            autocomplete="off"
+            class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+            id="#/properties/birthDate-input"
+            inputmode="text"
+            placeholder="YYYY-MM-DD"
+            required=""
+            type="text"
+            value=""
+          />
+          <div
+            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+          >
+            <button
+              aria-label="Choose date"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="CalendarIcon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                />
+              </svg>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <p
+        class="MuiFormHelperText-root Mui-error css-1d1r5q-MuiFormHelperText-root"
+      >
+        is a required property
+      </p>
+      <p
+        class="MuiFormHelperText-root Mui-error css-1d1r5q-MuiFormHelperText-root"
+      />
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true css-1vd824g-MuiGrid-root"
+    >
+      <div
+        class="MuiFormControl-root MuiFormControl-fullWidth css-q8hpuo-MuiFormControl-root"
+        id="#/properties/occupation"
+      >
+        <label
+          class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-standard css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root"
+          data-shrink="false"
+          for="#/properties/occupation-input"
+        >
+          Occupation
+        </label>
+        <div
+          class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd css-l4u8b9-MuiInputBase-root-MuiInput-root"
+        >
+          <input
+            aria-invalid="false"
+            class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd css-1x51dt5-MuiInputBase-input-MuiInput-input"
+            id="#/properties/occupation-input"
+            type="text"
+            value=""
+          />
+          <div
+            class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-standard MuiInputAdornment-sizeMedium css-1laqsz7-MuiInputAdornment-root"
+            style="display: none; position: absolute; right: 0px;"
+          >
+            <button
+              aria-label="Clear input field"
+              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-mf1cb5-MuiButtonBase-root-MuiIconButton-root"
+              tabindex="0"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                data-testid="CloseIcon"
+                focusable="false"
+                style="background: rgb(255, 255, 255); border-radius: 50%;"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                />
+              </svg>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+        <p
+          class="MuiFormHelperText-root MuiFormHelperText-sizeMedium css-1d1r5q-MuiFormHelperText-root"
+        />
+        <p
+          class="MuiFormHelperText-root MuiFormHelperText-sizeMedium css-1d1r5q-MuiFormHelperText-root"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiGrid-root MuiGrid-container css-tzmz8p-MuiGrid-root"
+  >
+    <span
+      aria-label="Click the button to validate the entered data with the product type definition schema."
+      class=""
+      data-mui-internal-clone-element="true"
+    >
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+        data-testid="schemaValidatorButton"
+        tabindex="0"
+        type="button"
+      >
+        Run Schema Validations
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </span>
+  </div>
+  <div
+    class="MuiGrid-root MuiGrid-container css-tzmz8p-MuiGrid-root"
+  >
+    <span
+      aria-label="Click the button to submit the listing content to Amazon."
+      class=""
+      data-mui-internal-clone-element="true"
+    >
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+        data-testid="listingSubmitButton"
+        id="listingSubmitButton"
+        tabindex="0"
+        type="button"
+      >
+        Submit
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </span>
+  </div>
+  <div
+    class="MuiGrid-root MuiGrid-container css-tzmz8p-MuiGrid-root"
+  >
+    <span
+      aria-label="Use the button to export the entered listing content into Json Listings Feed."
+      class=""
+      data-mui-internal-clone-element="true"
+    >
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+        data-testid="convertToJsonFeed"
+        id="convertToJsonFeed"
+        tabindex="0"
+        type="button"
+      >
+        Convert to Json Listings Feed
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </span>
+  </div>
+</div>
+`;

@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for the Json Feed computePatches creates a patch for the first common attribute 1`] = `
+{
+  "op": "replace",
+  "path": "/attributes/item_name",
+  "value": [
+    {
+      "value": "Title",
+    },
+  ],
+}
+`;
+
+exports[`Test for the Json Feed verify the converted feed content for CreateListing use case  1`] = `
+"{
+    "header": {
+        "sellerId": "ATVPDKIKX0DER",
+        "version": "2.0",
+        "issueLocale": "en_US"
+    },
+    "messages": [
+        {
+            "messageId": 1,
+            "sku": "SKU",
+            "operationType": "UPDATE",
+            "productType": "SHIRT",
+            "requirements": "LISTING",
+            "attributes": {
+                "item_name": [
+                    {
+                        "value": "Title",
+                        "marketplace_id": "ATVPDKIKX0DER"
+                    }
+                ]
+            }
+        }
+    ]
+}"
+`;
+
+exports[`Test for the Json Feed verify the converted feed content for CreateOffer use case 1`] = `
+"{
+    "header": {
+        "sellerId": "ATVPDKIKX0DER",
+        "version": "2.0",
+        "issueLocale": "en_US"
+    },
+    "messages": [
+        {
+            "messageId": 1,
+            "sku": "SKU",
+            "operationType": "UPDATE",
+            "productType": "SHIRT",
+            "requirements": "LISTING_OFFER_ONLY",
+            "attributes": {
+                "item_name": [
+                    {
+                        "value": "Title",
+                        "marketplace_id": "ATVPDKIKX0DER"
+                    }
+                ]
+            }
+        }
+    ]
+}"
+`;
+
+exports[`Test for the Json Feed verify the converted feed content for UpdateListing use case  1`] = `
+"{
+    "header": {
+        "sellerId": "ATVPDKIKX0DER",
+        "version": "2.0",
+        "issueLocale": "en_US"
+    },
+    "messages": [
+        {
+            "messageId": 1,
+            "sku": "SKU",
+            "operationType": "PATCH",
+            "productType": "SHIRT",
+            "patches": [
+                {
+                    "op": "add",
+                    "path": "/attributes/keyAdded",
+                    "value": [
+                        {
+                            "value": "keyAdded"
+                        }
+                    ]
+                },
+                {
+                    "op": "delete",
+                    "path": "/attributes/keyRemoved",
+                    "value": [
+                        {
+                            "value": "keyRemoved"
+                        }
+                    ]
+                },
+                {
+                    "op": "replace",
+                    "path": "/attributes/keyChanged",
+                    "value": [
+                        {
+                            "value": "keyUnChanged"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}"
+`;

@@ -1,0 +1,359 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for the Home page Snapshot Test for the Home component 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiContainer-root MuiContainer-maxWidthLg css-1oqqzyl-MuiContainer-root"
+  >
+    <div
+      class="MuiBox-root css-0"
+      id="intro"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-13mqtjd-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <h4
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            Intro
+          </h4>
+        </div>
+      </div>
+      <p
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom MuiTypography-paragraph css-z2eky3-MuiTypography-root"
+      >
+        Welcome to the SellingPartnerAPIListingSampleApplication. This app demonstrates how to use some of the APIs listed in 
+        <a
+          href="https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide"
+        >
+          Building Listings Management Workflows Guide
+        </a>
+         to construct some common listing management workflows using a simple UI. The Selling Partner API (SP-API) is a REST-based API that helps Amazon selling partners programmatically access their data on listings, orders, shipments, payments, and much more.  The Listings APIs are a subset of the SP-API which allows the users to build best-in-class listings creation and management workflows. This app shows how to develop a selling partner app for 6 common listing use cases.
+      </p>
+    </div>
+    <div
+      class="MuiBox-root css-0"
+      id="navigate"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-13mqtjd-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <h4
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            How to Navigate
+          </h4>
+        </div>
+      </div>
+      <p
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom MuiTypography-paragraph css-z2eky3-MuiTypography-root"
+      >
+        Use the bar at top of the app to navigate across different listing workflows of the app. Use the Home icon at left of the bar to go to the home page and read this instructions or use the info icon on top right of each workflow to navigate to specific section of these instructions. Use the 6 different buttons to the right of the Home Icon to navigate to the listing workflows. Use the settings gear icon at top right corner of the screen (below the navigation bar) to configure the settings for the app. The listing workflows doesn't work if you do not configure the settings.
+      </p>
+    </div>
+    <div
+      class="MuiBox-root css-0"
+      id="settings"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-13mqtjd-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <h4
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            How to configure settings
+          </h4>
+        </div>
+      </div>
+      <p
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom MuiTypography-paragraph css-z2eky3-MuiTypography-root"
+      >
+        Use the settings gear icon to access the settings page. The settings page displays a form to configure the settings. The form is empty if settings are not configured before. If the settings are configured before, then the form displays those settings. Please read the ReadMe file of the app to understand the prerequisites and detailed instructions on how to configure the settings. Once the form is filled with settings, click the save button at the bottom of the page to persist the settings.
+      </p>
+    </div>
+    <div
+      class="MuiBox-root css-0"
+      id="debug-console"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-13mqtjd-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <h4
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            How to use Debug Console
+          </h4>
+        </div>
+      </div>
+      <p
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom MuiTypography-paragraph css-z2eky3-MuiTypography-root"
+      >
+        Every workflow has a debug console button at the bottom of the page.  Click the debug console button to open a full screen window which contains the details of all Selling Partner API calls invoked so far for that workflow. Use the clear button on the right side of the full screen window to clear the debug content if there is too much content. To minimise the full screen window, click the close icon on the left of the window. To make the app more responsive, the debug content is erased up on navigation to a different page.
+      </p>
+    </div>
+    <div
+      class="MuiBox-root css-0"
+      id="bulk-listing"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-13mqtjd-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <h4
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            Bulk Listing
+          </h4>
+        </div>
+      </div>
+      <p
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom MuiTypography-paragraph css-z2eky3-MuiTypography-root"
+      >
+        The Bulk Listing page can be used to build and submit JSON Feeds and also view past submitted feeds. Navigate to Bulk Listing page via the navigation tab. Currently only JSON_LISTINGS_FEED is supported in the app. Select a JSON feed file by clicking the Choose File button. Submit the selected file for processing by clicking the Submit button. You can view the past feeds by clicking on View Feeds or Refresh Feeds Button on the right section of the page. Refer the 
+        <a
+          href="https://developer-docs.amazon.com/sp-api/docs/feeds-api-v2021-06-30-use-case-guide"
+        >
+          Feeds API Use Case Guide
+        </a>
+         for more information on Bulk Listing. You can view the SP-API calls made during the operation in the 
+        <a
+          href="#debug-console"
+        >
+          Debug Console
+        </a>
+        .
+      </p>
+    </div>
+    <div
+      class="MuiBox-root css-0"
+      id="create-listing"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-13mqtjd-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <h4
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            Create Listing
+          </h4>
+        </div>
+      </div>
+      <p
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom MuiTypography-paragraph css-z2eky3-MuiTypography-root"
+      >
+        The Create Listing page can be used to create a new Listing in Amazon. Navigate to Create Listing page via the navigation tab. Search for product type under which you want your listing to be categorized. Choose the appropriate Product Type from the search result. After entering the SKU 
+        <a
+          href="#attributes-editor"
+        >
+          attributes editor form
+        </a>
+         will be displayed where you can submit your listing. Refer the 
+        <a
+          href="https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#list-an-item-that-does-not-already-exist-in-the-amazon-catalog"
+        >
+          Listings Management Workflows Guide
+        </a>
+         for more information on Create Listing. You can view the SP-API calls made during the operation in the 
+        <a
+          href="#debug-console"
+        >
+          Debug Console
+        </a>
+        .
+      </p>
+    </div>
+    <div
+      class="MuiBox-root css-0"
+      id="create-offer"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-13mqtjd-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <h4
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            Create Offer
+          </h4>
+        </div>
+      </div>
+      <p
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom MuiTypography-paragraph css-z2eky3-MuiTypography-root"
+      >
+        The Create Offer page can be used to create a new offer on an existing listing in Amazon. Navigate to Create Offer page via the navigation tab. You can search for existing products in Amazon by entering the appropriate identifiers and selecting the identifier type from the dropdown or using keywords. You can only search either identifier or keyword, not both. Click on Search Products button to retrieve a limited set of existing products matching the query. Click on View Conditions dropdown to view the condition types under  which you are allowed to list the product. If there are any valid condition types then List This Product button will be enabled. Click the button to enter SKU for your listing. Upon entering the SKU 
+        <a
+          href="#attributes-editor"
+        >
+          attributes editor form
+        </a>
+         will be displayed where you can submit your listing. Refer the 
+        <a
+          href="https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#list-an-offer-for-an-item-that-already-exists-in-the-amazon-catalog"
+        >
+          Listings Management Workflows Guide
+        </a>
+         for more information on Create Offer. You can view the SP-API calls made during the operation in the 
+        <a
+          href="#debug-console"
+        >
+          Debug Console
+        </a>
+        .
+      </p>
+    </div>
+    <div
+      class="MuiBox-root css-0"
+      id="delete-listing"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-13mqtjd-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <h4
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            Delete Listing
+          </h4>
+        </div>
+      </div>
+      <p
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom MuiTypography-paragraph css-z2eky3-MuiTypography-root"
+      >
+        The Delete Listing page can be used to delete a Listing from Amazon. Navigate to Delete Listing page via the navigation tab. Enter the SKU which you wish to delete and click on Delete This Listing button to delete the listing. Refer the 
+        <a
+          href="https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#deleting-a-listings-item"
+        >
+          Listings Management Workflows Guide
+        </a>
+         for more information on Delete Listing. You can view the SP-API calls made during the operation in the 
+        <a
+          href="#debug-console"
+        >
+          Debug Console
+        </a>
+        .
+      </p>
+    </div>
+    <div
+      class="MuiBox-root css-0"
+      id="notifications"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-13mqtjd-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <h4
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            Notifications
+          </h4>
+        </div>
+      </div>
+      <p
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom MuiTypography-paragraph css-z2eky3-MuiTypography-root"
+      >
+        The Notifications page can be used to subscribe to various Event Bridge based notifications. Navigate to Notifications page via the navigation tab. To subscribe to a notification type select the desired notification type from the drop down which displays the eligible notification type for either Seller or Vendor. Click on Create Subscription button to create the subscription. Upon successful creation a pop up will be displayed which contains the information of the subscription such as Subscription Id and Destination Id. To view the existing subscriptions click on View Subscriptions or Refresh Subscriptions button on the right side of the page. The page will display a list of current subscription and its metadata such as Event Bus, filter rule for this notification and SQS queue. All the resources will be created inside the AWS Account configured in the Settings page. Refer the 
+        <a
+          href="https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-use-case-guide#tutorial-set-up-notifications-span-classnotranslateamazon-eventbridgespan-workflow"
+        >
+          Amazon EventBridge Workflow guide
+        </a>
+         for more information on Notifications. You can view the SP-API calls made during the operation in the 
+        <a
+          href="#debug-console"
+        >
+          Debug Console
+        </a>
+        .
+      </p>
+    </div>
+    <div
+      class="MuiBox-root css-0"
+      id="update-listing"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-13mqtjd-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <h4
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            Update Listing
+          </h4>
+        </div>
+      </div>
+      <p
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom MuiTypography-paragraph css-z2eky3-MuiTypography-root"
+      >
+        The Update Listing page can be used to update an existing listing in your catalog. Navigate to Update Listing page via the navigation tab. Enter the SKU you wish to update and click on Retrieve SKU button. If there are any issues associated with the SKU then View Issues button will be displayed. Click on this Button to understand the issues on the SKU. The 
+        <a
+          href="#attributes-editor"
+        >
+          attributes editor form
+        </a>
+         will also be displayed along with a drop down for the submission mode for updating your listing. Refer the 
+        <a
+          href="https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#updating-a-listings-item"
+        >
+          Listings Management Workflows Guide
+        </a>
+         for more information on Update Listing. You can view the SP-API calls made during the operation in the 
+        <a
+          href="#debug-console"
+        >
+          Debug Console
+        </a>
+        .
+      </p>
+    </div>
+    <div
+      class="MuiBox-root css-0"
+      id="attributes-editor"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3 css-13mqtjd-MuiGrid-root"
+      >
+        <div
+          class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+        >
+          <h4
+            class="MuiTypography-root MuiTypography-h4 css-5lbw0b-MuiTypography-root"
+          >
+            Listing Attributes Editor
+          </h4>
+        </div>
+      </div>
+      <p
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom MuiTypography-paragraph css-z2eky3-MuiTypography-root"
+      >
+        The attributes editor form renders the applicable attributes of the product depending on the Product Type. Once the form has been filled  click on Run Schema Validations button to validate the entered values against the product type definitions schema. If there are any errors a Schema Validation Errors dialog will be displayed which explains the errors. Once the content has been validated you can either submit the listing to Amazon by clicking the Submit button. Upon successful acceptance of your contribution a popup will be displayed which will contain your submission id. Or you can convert the listing to a JSON feed by clicking Convert to JSON Listings Feed button. 
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;

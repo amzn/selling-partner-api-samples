@@ -1,0 +1,196 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for the subscription Test for the create Subscription snapshot test for 200 response from CreateSubscription API 1`] = `
+[
+  {
+    "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-reference#createsubscription",
+    "apiName": "CreateSubscription",
+    "request": {
+      "body": CreateSubscriptionRequest {
+        "destinationId": "0c43f1df-6dab-4ac1-a887-87db417972d3",
+        "payloadVersion": "1.0",
+      },
+      "notificationType": "ITEM_PRODUCT_TYPE_CHANGE",
+    },
+    "response": {},
+  },
+]
+`;
+
+exports[`Test for the subscription Test for the create Subscription snapshot test for 409 Conflict response from CreateSubscription API 1`] = `
+[
+  {
+    "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-reference#createsubscription",
+    "apiName": "CreateSubscription",
+    "request": {
+      "body": CreateSubscriptionRequest {
+        "destinationId": "0c43f1df-6dab-4ac1-a887-87db417972d3",
+        "payloadVersion": "1.0",
+      },
+      "notificationType": "ITEM_PRODUCT_TYPE_CHANGE",
+    },
+    "response": {
+      "status": 409,
+    },
+  },
+]
+`;
+
+exports[`Test for the subscription Test for the deleteSubscription snapshot test for 200 response from DeleteSubscriptionById API 1`] = `
+[
+  {
+    "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-reference#deletesubscriptionbyid",
+    "apiName": "DeleteSubscriptionById",
+    "request": {
+      "notificationType": "ITEM_PRODUCT_TYPE_CHANGE",
+      "subscriptionId": "0c49f1df-6dab-4ac1-a887-87db417952d3",
+    },
+    "response": {},
+  },
+]
+`;
+
+exports[`Test for the subscription Test for the deleteSubscription snapshot test for 404 response from DeleteSubscriptionById API 1`] = `
+[
+  {
+    "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-reference#deletesubscriptionbyid",
+    "apiName": "DeleteSubscriptionById",
+    "request": {
+      "notificationType": "ITEM_PRODUCT_TYPE_CHANGE",
+      "subscriptionId": "0c49f1df-6dab-4ac1-a887-87db417952d3",
+    },
+    "response": {
+      "status": 404,
+    },
+  },
+]
+`;
+
+exports[`Test for the subscription Test for the deleteSubscription snapshot test for 500 response from DeleteSubscriptionById API 1`] = `
+[
+  {
+    "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-reference#deletesubscriptionbyid",
+    "apiName": "DeleteSubscriptionById",
+    "request": {
+      "notificationType": "ITEM_PRODUCT_TYPE_CHANGE",
+      "subscriptionId": "0c49f1df-6dab-4ac1-a887-87db417952d3",
+    },
+    "response": {
+      "status": 500,
+    },
+  },
+]
+`;
+
+exports[`Test for the subscription Test for the getAllListingRawSubscriptions snapshot test for 200 and 404 responses from GetSubscription API 1`] = `
+[
+  {
+    "notificationType": "LISTINGS_ITEM_ISSUES_CHANGE",
+    "subscription": Subscription {
+      "destinationId": "f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454",
+      "payloadVersion": "1.0",
+      "subscriptionId": "f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454",
+    },
+  },
+]
+`;
+
+exports[`Test for the subscription Test for the getAllListingRawSubscriptions snapshot test for 200 and 404 responses from GetSubscription API 2`] = `
+[
+  {
+    "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-reference#getsubscription",
+    "apiName": "GetSubscription",
+    "request": {
+      "notificationType": "LISTINGS_ITEM_ISSUES_CHANGE",
+    },
+    "response": GetSubscriptionResponse {
+      "payload": Subscription {
+        "destinationId": "f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454",
+        "payloadVersion": "1.0",
+        "subscriptionId": "f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454",
+      },
+    },
+  },
+  {
+    "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-reference#getsubscription",
+    "apiName": "GetSubscription",
+    "request": {
+      "notificationType": "PRODUCT_TYPE_DEFINITIONS_CHANGE",
+    },
+    "response": {
+      "status": 404,
+    },
+  },
+]
+`;
+
+exports[`Test for the subscription Test for the getAllListingRawSubscriptions snapshot test for the 500 response from GetSubscription API 1`] = `
+[
+  {
+    "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-reference#getsubscription",
+    "apiName": "GetSubscription",
+    "request": {
+      "notificationType": "LISTINGS_ITEM_ISSUES_CHANGE",
+    },
+    "response": {
+      "status": 500,
+    },
+  },
+]
+`;
+
+exports[`Test for the subscription Test for the getDisplayableListingSubscriptions snapshot test for no destinations 1`] = `
+[
+  {
+    "notificationType": "BRANDED_ITEM_CONTENT_CHANGE",
+    "subscriptionId": "99821be8-8dfe-4c1c-a1f7-895ab790cb4f",
+  },
+  {
+    "notificationType": "ITEM_PRODUCT_TYPE_CHANGE",
+    "subscriptionId": "5f21f928-ca44-414c-a5c6-6a3729cb6b5c",
+  },
+  {
+    "notificationType": "LISTINGS_ITEM_STATUS_CHANGE",
+    "subscriptionId": "83d66cc2-9063-43f7-b1a1-391a7aa0bba8",
+  },
+  {
+    "notificationType": "LISTINGS_ITEM_ISSUES_CHANGE",
+    "subscriptionId": "04fb6be6-c49a-4016-be54-2da408b91175",
+  },
+  {
+    "notificationType": "LISTINGS_ITEM_MFN_QUANTITY_CHANGE",
+    "subscriptionId": "b541bb7f-4581-43d0-ab6b-c2ad63cd3bfe",
+  },
+]
+`;
+
+exports[`Test for the subscription Test for the getDisplayableListingSubscriptions snapshot test which covers all the major edge cases 1`] = `
+[
+  {
+    "eventBusName": "sellingpartnerapi.amazon.com/amzn1.sellerapps.app.15a75829-cd4a-4efc-b947-0cc39d874577",
+    "notificationType": "ITEM_PRODUCT_TYPE_CHANGE",
+    "subscriptionId": "5f21f928-ca44-414c-a5c6-6a3729cb6b5c",
+  },
+  {
+    "eventBusName": "sellingpartnerapi.amazon.com/amzn1.sellerapps.app.15a75829-cd4a-4efc-b947-0cc39d874577",
+    "notificationType": "LISTINGS_ITEM_STATUS_CHANGE",
+    "subscriptionId": "83d66cc2-9063-43f7-b1a1-391a7aa0bba8",
+  },
+  {
+    "eventBusFilterRule": "ListingsItemIssuesChangeRule",
+    "eventBusName": "sellingpartnerapi.amazon.com/amzn1.sellerapps.app.15a75829-cd4a-4efc-b947-0cc39d874577",
+    "notificationType": "LISTINGS_ITEM_ISSUES_CHANGE",
+    "sqsQueueName": "ListingsItemIssuesChangeQueue",
+    "sqsTargetId": "ListingsItemIssuesChangeTarget",
+    "subscriptionId": "04fb6be6-c49a-4016-be54-2da408b91175",
+  },
+  {
+    "notificationType": "BRANDED_ITEM_CONTENT_CHANGE",
+    "subscriptionId": "99821be8-8dfe-4c1c-a1f7-895ab790cb4f",
+  },
+  {
+    "notificationType": "LISTINGS_ITEM_MFN_QUANTITY_CHANGE",
+    "subscriptionId": "b541bb7f-4581-43d0-ab6b-c2ad63cd3bfe",
+  },
+]
+`;
