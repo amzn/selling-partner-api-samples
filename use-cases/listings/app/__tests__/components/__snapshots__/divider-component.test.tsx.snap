@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Component renders 1`] = `
+<DocumentFragment>
+  <hr
+    class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+    style="margin: 1rem 0px; border-bottom-width: 3px; border-color: #333;"
+  />
+</DocumentFragment>
+`;

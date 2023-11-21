@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for the subscriptions API Test for the GET subscriptions API returns 200 on successful case 1`] = `
+{
+  "data": [
+    {
+      "eventBusFilterRule": "SellingPartnerNotificationsAPIRule",
+      "eventBusName": "TestEventBus",
+      "notificationType": "BRANDED_ITEM_CONTENT_CHANGE",
+      "sqsQueueName": "BrandedItemContentChange",
+      "subscriptionId": "f8c3de3d-1fea-4d7c-a8b0-29f63c4c3454",
+    },
+    {
+      "eventBusFilterRule": "SellingPartnerNotificationsAPIRule",
+      "eventBusName": "TestEventBus1",
+      "notificationType": "PRODUCT_TYPE_DEFINITIONS_CHANGE",
+      "sqsQueueName": "ProductTypeDefinitionsChange",
+      "subscriptionId": "510f082f-a853-4847-acf2-475641cb7b06",
+    },
+  ],
+  "debugContext": [],
+}
+`;
+
+exports[`Test for the subscriptions API Test for the GET subscriptions API returns 409 on runtime error 1`] = `
+{
+  "debugContext": [],
+}
+`;
+
+exports[`Test for the subscriptions API Test for the POST subscriptions API returns 200 for 409 response from CreateSubscription API 1`] = `
+{
+  "data": {},
+  "debugContext": [],
+}
+`;
+
+exports[`Test for the subscriptions API Test for the POST subscriptions API returns 200 on successful case from create new destination 1`] = `
+{
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-reference#createsubscription",
+      "apiName": "CreateSubscription",
+      "request": {
+        "body": {
+          "destinationId": "testDestinationId",
+          "payloadVersion": "1",
+        },
+        "notificationType": "LISTINGS_ITEM_STATUS_CHANGE",
+      },
+      "response": {
+        "destinationId": "testDestinationId",
+        "payloadVersion": "1.0",
+        "subscriptionId": "510f082f-a853-4847-acf2-475641cb7b06",
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test for the subscriptions API Test for the POST subscriptions API returns 200 on successful case from existing destination 1`] = `
+{
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-reference#createsubscription",
+      "apiName": "CreateSubscription",
+      "request": {
+        "body": {
+          "destinationId": "testDestinationId",
+          "payloadVersion": "1",
+        },
+        "notificationType": "LISTINGS_ITEM_STATUS_CHANGE",
+      },
+      "response": {
+        "destinationId": "testDestinationId",
+        "payloadVersion": "1.0",
+        "subscriptionId": "510f082f-a853-4847-acf2-475641cb7b06",
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test for the subscriptions API Test for the POST subscriptions API returns 400 on 400 from GetEventBridge Destination call when invoking the CreateSubscription call 1`] = `
+{
+  "debugContext": [],
+}
+`;
+
+exports[`Test for the subscriptions API Test for the POST subscriptions API returns 400 on 400 from invoking CreateSubscription API 1`] = `
+{
+  "debugContext": [],
+}
+`;
