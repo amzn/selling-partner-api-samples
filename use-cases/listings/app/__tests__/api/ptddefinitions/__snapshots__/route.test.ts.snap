@@ -1,0 +1,131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test GET ptddefinitions API returns 200 on successful retrieval of schema 1`] = `
+{
+  "data": {
+    "id": "schema",
+  },
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/product-type-definitions-api-v2020-09-01-reference#getdefinitionsproducttype",
+      "apiName": "GetDefinitionsProductType",
+      "request": {
+        "locale": "en_US",
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+        "productType": "LUGGAGE",
+        "productTypeVersion": "LATEST",
+        "requirements": "LISTING_OFFER_ONLY",
+        "requirementsEnforced": "ENFORCED",
+        "sellerId": "ABCD878787R",
+      },
+      "response": {
+        "propertyGroups": [],
+        "requirements": "LISTING",
+        "schema": {
+          "checksum": "",
+          "link": {
+            "resource": "https://schemalink.com",
+            "verb": "GET",
+          },
+        },
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test GET ptddefinitions API returns 200 on successful retrieval of schema with default locale 1`] = `
+{
+  "data": {
+    "id": "schema",
+  },
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/product-type-definitions-api-v2020-09-01-reference#getdefinitionsproducttype",
+      "apiName": "GetDefinitionsProductType",
+      "request": {
+        "locale": null,
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+        "productType": "LUGGAGE",
+        "productTypeVersion": "LATEST",
+        "requirements": "LISTING_OFFER_ONLY",
+        "requirementsEnforced": "ENFORCED",
+        "sellerId": "ABCD878787R",
+      },
+      "response": {
+        "propertyGroups": [],
+        "requirements": "LISTING",
+        "schema": {
+          "checksum": "",
+          "link": {
+            "resource": "https://schemalink.com",
+            "verb": "GET",
+          },
+        },
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test GET ptddefinitions API returns 404 on failure making call to the GetDefinitionsProductType API 1`] = `
+{
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/product-type-definitions-api-v2020-09-01-reference#getdefinitionsproducttype",
+      "apiName": "GetDefinitionsProductType",
+      "request": {
+        "locale": "en_US",
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+        "productType": "LUGGAGE",
+        "productTypeVersion": "LATEST",
+        "requirements": "LISTING_OFFER_ONLY",
+        "requirementsEnforced": "ENFORCED",
+        "sellerId": "ABCD878787R",
+      },
+      "response": {
+        "status": 404,
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test GET ptddefinitions API returns 500 on failure to download the schema from schema link 1`] = `
+{
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/product-type-definitions-api-v2020-09-01-reference#getdefinitionsproducttype",
+      "apiName": "GetDefinitionsProductType",
+      "request": {
+        "locale": "en_US",
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+        "productType": "LUGGAGE",
+        "productTypeVersion": "LATEST",
+        "requirements": "LISTING_OFFER_ONLY",
+        "requirementsEnforced": "ENFORCED",
+        "sellerId": "ABCD878787R",
+      },
+      "response": {
+        "propertyGroups": [],
+        "requirements": "LISTING",
+        "schema": {
+          "checksum": "",
+          "link": {
+            "resource": "https://schemalink.com",
+            "verb": "GET",
+          },
+        },
+      },
+    },
+  ],
+}
+`;

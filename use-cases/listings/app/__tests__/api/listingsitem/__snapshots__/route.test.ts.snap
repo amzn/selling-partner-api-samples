@@ -1,0 +1,302 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test DELETE ListingsItem API returns 200 on successful call to DELETE Listings Item API 1`] = `
+{
+  "data": {
+    "sku": "My SKU",
+    "status": "ACCEPTED",
+    "submissionId": "Some UUID",
+  },
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/listings-items-api-v2021-08-01-reference#delete-listings2021-08-01itemsselleridsku",
+      "apiName": "DeleteListingsItem",
+      "request": {
+        "issueLocale": "en_US",
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+        "sellerId": "ABCD878787R",
+        "sku": "sku",
+      },
+      "response": {
+        "sku": "My SKU",
+        "status": "ACCEPTED",
+        "submissionId": "Some UUID",
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test DELETE ListingsItem API returns 500 exception from invoking Delete Listings Item API 1`] = `
+{
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/listings-items-api-v2021-08-01-reference#delete-listings2021-08-01itemsselleridsku",
+      "apiName": "DeleteListingsItem",
+      "request": {
+        "issueLocale": "en_US",
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+        "sellerId": "ABCD878787R",
+        "sku": "sku",
+      },
+      "response": {
+        "status": 500,
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test GET ListingsItem SP-API returns 200 on 404 response from Get Listings Item API 1`] = `
+{
+  "data": {},
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/listings-items-api-v2021-08-01-reference#get-listings2021-08-01itemsselleridsku",
+      "apiName": "GetListingsItem",
+      "request": {
+        "includedData": [
+          "attributes",
+          "summaries",
+          "issues",
+        ],
+        "issueLocale": "en_US",
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+        "sellerId": "ABCD878787R",
+        "sku": "sku",
+      },
+      "response": {
+        "status": 404,
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test GET ListingsItem SP-API returns 200 on successful call to Get Listings Item API 1`] = `
+{
+  "data": {
+    "attributes": {
+      "color": [
+        {
+          "language_tag": "en_US",
+          "marketplace_id": "ATVPDKIKX0DER",
+          "value": "Two-Tone",
+        },
+      ],
+    },
+    "productType": "SUNGLASSES",
+  },
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/listings-items-api-v2021-08-01-reference#get-listings2021-08-01itemsselleridsku",
+      "apiName": "GetListingsItem",
+      "request": {
+        "includedData": [
+          "attributes",
+          "summaries",
+          "issues",
+        ],
+        "issueLocale": "en_US",
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+        "sellerId": "ABCD878787R",
+        "sku": "sku",
+      },
+      "response": {
+        "attributes": {
+          "color": [
+            {
+              "language_tag": "en_US",
+              "marketplace_id": "ATVPDKIKX0DER",
+              "value": "Two-Tone",
+            },
+          ],
+        },
+        "sku": "S014-A03",
+        "summaries": [
+          {
+            "asin": "B003VDOHBG",
+            "conditionType": "new_new",
+            "createdDate": "2023-02-10T01:29:04.021Z",
+            "itemName": "SKAGEN DENMARK Unisex Sunglasses Steel Aviator Frame #S014-A03",
+            "lastUpdatedDate": "2023-02-10T01:29:09.595Z",
+            "mainImage": {
+              "height": 392,
+              "link": "https://m.media-amazon.com/images/I/41cVJ8Gz6TL.jpg",
+              "width": 444,
+            },
+            "marketplaceId": "ATVPDKIKX0DER",
+            "productType": "SUNGLASSES",
+            "status": [],
+          },
+        ],
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test GET ListingsItem SP-API returns 200 on successful call to Get Listings Item API with no summary data 1`] = `
+{
+  "data": {
+    "attributes": {},
+  },
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/listings-items-api-v2021-08-01-reference#get-listings2021-08-01itemsselleridsku",
+      "apiName": "GetListingsItem",
+      "request": {
+        "includedData": [
+          "attributes",
+          "summaries",
+          "issues",
+        ],
+        "issueLocale": "en_US",
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+        "sellerId": "ABCD878787R",
+        "sku": "sku",
+      },
+      "response": {
+        "attributes": {},
+        "sku": "S014-A03",
+        "summaries": [],
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test PATCH ListingsItem API returns 200 on successful call to Patch Listings Item API 1`] = `
+{
+  "data": {
+    "sku": "My SKU",
+    "status": "ACCEPTED",
+    "submissionId": "Some UUID",
+  },
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/listings-items-api-v2021-08-01-reference#patch-listings2021-08-01itemsselleridsku",
+      "apiName": "PatchListingsItem",
+      "request": {
+        "body": {
+          "patches": [
+            {
+              "op": "replace",
+              "path": "/attributes/externally_assigned_product_identifier",
+              "value": [
+                {
+                  "marketplace_id": "ATVPDKIKX0DER",
+                  "type": "upc",
+                  "value": "650450120250",
+                },
+              ],
+            },
+          ],
+          "productType": "productType",
+        },
+        "issueLocale": "en_US",
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+        "sellerId": "ABCD878787R",
+        "sku": "sku",
+      },
+      "response": {
+        "sku": "My SKU",
+        "status": "ACCEPTED",
+        "submissionId": "Some UUID",
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test PATCH ListingsItem API returns 500 exception from invoking Patch Listings Item API 1`] = `
+{
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/listings-items-api-v2021-08-01-reference#patch-listings2021-08-01itemsselleridsku",
+      "apiName": "PatchListingsItem",
+      "request": {
+        "body": {
+          "patches": [
+            {
+              "op": "replace",
+              "path": "/attributes/externally_assigned_product_identifier",
+              "value": [
+                {
+                  "marketplace_id": "ATVPDKIKX0DER",
+                  "type": "upc",
+                  "value": "650450120250",
+                },
+              ],
+            },
+          ],
+          "productType": "productType",
+        },
+        "issueLocale": "en_US",
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+        "sellerId": "ABCD878787R",
+        "sku": "sku",
+      },
+      "response": {
+        "status": 500,
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test PUT ListingsItem SP-API returns 200 on successful call to Put Listings Item API 1`] = `
+{
+  "data": {
+    "sku": "My SKU",
+    "status": "ACCEPTED",
+    "submissionId": "Some UUID",
+  },
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/listings-items-api-v2021-08-01-reference#put-listings2021-08-01itemsselleridsku",
+      "apiName": "PutListingsItem",
+      "request": {
+        "body": {
+          "attributes": {
+            "externally_assigned_product_identifier": [
+              {
+                "marketplace_id": "ATVPDKIKX0DER",
+                "type": "upc",
+                "value": "650450120250",
+              },
+            ],
+          },
+          "productType": "productType",
+          "requirements": "LISTING_OFFER_ONLY",
+        },
+        "issueLocale": "en_US",
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+        "sellerId": "ABCD878787R",
+        "sku": "sku",
+      },
+      "response": {
+        "sku": "My SKU",
+        "status": "ACCEPTED",
+        "submissionId": "Some UUID",
+      },
+    },
+  ],
+}
+`;

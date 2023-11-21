@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for the eventbridge Test for the getRuleTargetsForEventBus snapshot test for the 200 responses from AWS API 1`] = `
+[
+  {
+    "rule": {
+      "EventBusName": "sellingpartnerapi.amazon.com/amzn1.sellerapps.app.15a75829-cd4a-4efc-b947-0cc39d874577",
+      "Name": "BrandedItemContentChangeRule",
+    },
+    "target": {
+      "Arn": "arn:aws:sqs:us-east-1:444455556666:BrandedItemContentChangeQueue",
+      "Id": "BrandedItemContentChangeTarget",
+    },
+  },
+  {
+    "rule": {
+      "EventBusName": "sellingpartnerapi.amazon.com/amzn1.sellerapps.app.15a75829-cd4a-4efc-b947-0cc39d874577",
+      "Name": "ItemProductTypeChangeRule",
+    },
+    "target": {
+      "Arn": "arn:aws:sqs:us-east-1:444455556666:ItemProductTypeChangeQueue",
+      "Id": "ItemProductTypeChangeTarget",
+    },
+  },
+]
+`;

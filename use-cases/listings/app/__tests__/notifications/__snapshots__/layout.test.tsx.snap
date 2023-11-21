@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for the Notifications Layout Snapshot Test 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 css-a5rdam-MuiGrid-root"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1ledu2q-MuiGrid-root"
+    >
+      This is the create subscription page
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1ptjx7a-MuiGrid-root"
+    >
+      This is the view subscriptions page
+    </div>
+  </div>
+</DocumentFragment>
+`;

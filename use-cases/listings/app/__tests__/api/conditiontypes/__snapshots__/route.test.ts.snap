@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test GET conditiontypes API Returns 200 on successful retrieval of allowed Condition Types 1`] = `
+{
+  "data": [
+    "collectible_good",
+    "collectible_acceptable",
+    "club_club",
+  ],
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/listings-restrictions-api-v2021-08-01-reference#getlistingsrestrictions",
+      "apiName": "GetListingRestrictions",
+      "request": {
+        "asin": "B09TT8GZK9",
+        "conditionType": null,
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+        "reasonLocale": "en_US",
+        "sellerId": "ABCD878787R",
+      },
+      "response": {
+        "restrictions": [
+          {
+            "conditionType": "new_new",
+            "marketplaceId": "ATVPDKIKX0DER",
+            "reasons": [],
+          },
+          {
+            "conditionType": "new_open_box",
+            "marketplaceId": "ATVPDKIKX0DER",
+            "reasons": [],
+          },
+          {
+            "conditionType": "new_oem",
+            "marketplaceId": "ATVPDKIKX0DER",
+            "reasons": [],
+          },
+          {
+            "conditionType": "refurbished_refurbished",
+            "marketplaceId": "ATVPDKIKX0DER",
+            "reasons": [],
+          },
+          {
+            "conditionType": "used_like_new",
+            "marketplaceId": "ATVPDKIKX0DER",
+            "reasons": [],
+          },
+          {
+            "conditionType": "used_very_good",
+            "marketplaceId": "ATVPDKIKX0DER",
+            "reasons": [],
+          },
+          {
+            "conditionType": "used_good",
+            "marketplaceId": "ATVPDKIKX0DER",
+            "reasons": [],
+          },
+          {
+            "conditionType": "used_acceptable",
+            "marketplaceId": "ATVPDKIKX0DER",
+            "reasons": [],
+          },
+          {
+            "conditionType": "collectible_like_new",
+            "marketplaceId": "ATVPDKIKX0DER",
+            "reasons": [],
+          },
+          {
+            "conditionType": "collectible_very_good",
+            "marketplaceId": "ATVPDKIKX0DER",
+            "reasons": [],
+          },
+        ],
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test GET conditiontypes API returns 404 on failure making call to the GetRestrictions API 1`] = `
+{
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/listings-restrictions-api-v2021-08-01-reference#getlistingsrestrictions",
+      "apiName": "GetListingRestrictions",
+      "request": {
+        "asin": "B09TT8GZK9",
+        "conditionType": null,
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+        "reasonLocale": "en_US",
+        "sellerId": "ABCD878787R",
+      },
+      "response": {
+        "status": 404,
+      },
+    },
+  ],
+}
+`;

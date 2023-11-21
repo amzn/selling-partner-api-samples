@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Search Definitions Product Types API Returns 200 on successful search Product Types 1`] = `
+{
+  "data": [
+    {
+      "marketplaceIds": [
+        "ATVPDKIKX0DER",
+      ],
+      "name": "3D_PRINTER",
+    },
+    {
+      "marketplaceIds": [
+        "ATVPDKIKX0DER",
+      ],
+      "name": "INKJET_PRINTER_INK",
+    },
+    {
+      "marketplaceIds": [
+        "ATVPDKIKX0DER",
+      ],
+      "name": "LASER_PRINTER_TONER",
+    },
+    {
+      "marketplaceIds": [
+        "ATVPDKIKX0DER",
+      ],
+      "name": "PRINTER",
+    },
+  ],
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/product-type-definitions-api-v2020-09-01-reference#searchdefinitionsproducttypes",
+      "apiName": "SearchDefinitionsProductType",
+      "request": {
+        "keywords": [
+          "PRINTER",
+        ],
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+      },
+      "response": {
+        "productTypeVersion": "UAAAAAAAAAAAAAAAAlYD0upa77EPI-kJKcBPTGLHMFGXMhvA=",
+        "productTypes": [
+          {
+            "displayName": "3D  Printer",
+            "marketplaceIds": [
+              "ATVPDKIKX0DER",
+            ],
+            "name": "3D_PRINTER",
+          },
+          {
+            "displayName": "Inkjet Printer Ink",
+            "marketplaceIds": [
+              "ATVPDKIKX0DER",
+            ],
+            "name": "INKJET_PRINTER_INK",
+          },
+          {
+            "displayName": "Laser Printer Toner",
+            "marketplaceIds": [
+              "ATVPDKIKX0DER",
+            ],
+            "name": "LASER_PRINTER_TONER",
+          },
+          {
+            "displayName": "Printer",
+            "marketplaceIds": [
+              "ATVPDKIKX0DER",
+            ],
+            "name": "PRINTER",
+          },
+        ],
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test Search Definitions Product Types API returns 404 on failure making call to the Search Product Types API 1`] = `
+{
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/product-type-definitions-api-v2020-09-01-reference#searchdefinitionsproducttypes",
+      "apiName": "SearchDefinitionsProductType",
+      "request": {
+        "keywords": [
+          "PRINTER",
+        ],
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+      },
+      "response": {
+        "status": 404,
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test Search Definitions Product Types API returns 500 on failure making call to the Search Product Types API 1`] = `
+{
+  "debugContext": [
+    {
+      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/product-type-definitions-api-v2020-09-01-reference#searchdefinitionsproducttypes",
+      "apiName": "SearchDefinitionsProductType",
+      "request": {
+        "keywords": [
+          "PRINTER",
+        ],
+        "marketplaceIds": [
+          "ATVPDKIKX0DER",
+        ],
+      },
+      "response": {
+        "status": 500,
+      },
+    },
+  ],
+}
+`;
