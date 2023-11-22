@@ -127,7 +127,7 @@ Follow the steps below to create a new access key pair. Skip this section if you
 8. Click **Create access key**.
 9. Click "Download .csv file" button to download the access keys as a csv file.
 10. Click **Done**.
-11. Run the command `aws configure import --csv file://{REPLACE_THIS_WITH_CREDENTIALS_CSV_FILE_PATH}` to [configure the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-authentication-user.html#cli-authentication-user-configure-csv) to use the access keys from the CSV file. 
+11. Run the command `aws configure` to [configure the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-authentication-user.html#cli-authentication-user-configure-wizard) to use the access keys from the CSV file. 
 12. Delete the csv file which contains the access keys.
 
 ## Configure Settings inside the app
