@@ -207,7 +207,7 @@ async function createSubscriptionHandler(settings: Settings) {
       "OK",
       serializeToJsonString({
         data: createSubscriptionResponse.payload,
-        debugContext: [createSubscriptionSPAPIResponse],
+        debugContext: reqResponses,
       }),
     );
   } catch (error) {

@@ -37,47 +37,13 @@ exports[`Test for the subscriptions API Test for the POST subscriptions API retu
 
 exports[`Test for the subscriptions API Test for the POST subscriptions API returns 200 on successful case from create new destination 1`] = `
 {
-  "debugContext": [
-    {
-      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-reference#createsubscription",
-      "apiName": "CreateSubscription",
-      "request": {
-        "body": {
-          "destinationId": "testDestinationId",
-          "payloadVersion": "1",
-        },
-        "notificationType": "LISTINGS_ITEM_STATUS_CHANGE",
-      },
-      "response": {
-        "destinationId": "testDestinationId",
-        "payloadVersion": "1.0",
-        "subscriptionId": "510f082f-a853-4847-acf2-475641cb7b06",
-      },
-    },
-  ],
+  "debugContext": [],
 }
 `;
 
 exports[`Test for the subscriptions API Test for the POST subscriptions API returns 200 on successful case from existing destination 1`] = `
 {
-  "debugContext": [
-    {
-      "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-reference#createsubscription",
-      "apiName": "CreateSubscription",
-      "request": {
-        "body": {
-          "destinationId": "testDestinationId",
-          "payloadVersion": "1",
-        },
-        "notificationType": "LISTINGS_ITEM_STATUS_CHANGE",
-      },
-      "response": {
-        "destinationId": "testDestinationId",
-        "payloadVersion": "1.0",
-        "subscriptionId": "510f082f-a853-4847-acf2-475641cb7b06",
-      },
-    },
-  ],
+  "debugContext": [],
 }
 `;
 
