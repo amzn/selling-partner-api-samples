@@ -21,8 +21,9 @@ This is considered an intermediate learning resource, and should typically be re
 ## Use Cases <a name="use-cases"></a>
 | Use Case                                               | Supported Languages     |
 |--------------------------------------------------------|-------------------------|
-| [Merchant Fulfillment](use-cases/merchant-fulfillment) | Java                    |
+| [Fulfillment Outbound](use-cases/fulfillment-outbound) | Java                    |
 | [Listings](use-cases/listings)                         | TypeScript / JavaScript |
+| [Merchant Fulfillment](use-cases/merchant-fulfillment) | Java                    |
 
 ## Learning Resources <a name="learning"></a>
 * [SP-API Website](https://developer.amazonservices.com)

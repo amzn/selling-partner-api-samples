@@ -1,0 +1,109 @@
+{
+  "Comment": "SP-API state machine",
+  "StartAt": "Preview Order",
+  "States": {
+    "Preview Order": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${PreviewOrderLambdaFunctionArn}",
+        "Payload": {
+          "regionCode.$": "$.regionCode",
+          "refreshToken.$": "$.refreshToken",
+          "createFulfillmentOrderNotification.$": "$.createFulfillmentOrderNotification"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "ResultPath": null,
+      "Next": "Create Order" 
+    },
+    "Create Order": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${CreateOrderLambdaFunctionArn}",
+        "Payload": {
+          "regionCode.$": "$.regionCode",
+          "refreshToken.$": "$.refreshToken",
+          "createFulfillmentOrderNotification.$": "$.createFulfillmentOrderNotification"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "ResultPath": null,
+      "Next": "Get Order" 
+    },
+    "Get Order": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${GetOrderLambdaFunctionArn}",
+        "Payload": {
+          "regionCode.$": "$.regionCode",
+          "refreshToken.$": "$.refreshToken",
+          "createFulfillmentOrderNotification.$": "$.createFulfillmentOrderNotification"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "ResultPath": null,
+      "Next": "Update Order" 
+    },
+    "Update Order": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${UpdateOrderLambdaFunctionArn}",
+        "Payload": {
+          "regionCode.$": "$.regionCode",
+          "refreshToken.$": "$.refreshToken",
+          "createFulfillmentOrderNotification.$": "$.createFulfillmentOrderNotification"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "End": true
+    }
+  }
+}
