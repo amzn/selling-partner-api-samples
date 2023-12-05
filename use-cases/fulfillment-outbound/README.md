@@ -15,7 +15,7 @@ This Sample Solution consists of the following components:
 * [Lambda](https://aws.amazon.com/lambda/) functions that support each of the steps of the state machines
 * [SQS](https://aws.amazon.com/sqs/) queues to receive notifications to trigger the Step Functions workflow
 * An [S3](https://aws.amazon.com/s3/) bucket to store generated code
-* [Secrets Manager](https://aws.amazon.com/secrets-manager/) secrets to securely store SP-API app and user credentials
+* A [Secrets Manager](https://aws.amazon.com/secrets-manager/) secret to securely store SP-API app credentials
 
 ## Pre-requisites
 The pre-requisites for deploying the Sample Solution App to the AWS cloud are:
@@ -34,7 +34,7 @@ To allow the Sample Solution App to connect to SP-API, the config file has to be
 1. Open [app.config](app/app.config) file and replace all occurrences of `<dev_value>` following the instructions below:
 2. Update `ClientId` and `ClientSecret` attribute values with [Client Id and Client Secret of the SP-API application](https://developer-docs.amazon.com/sp-api/docs/viewing-your-application-information-and-credentials) respectively
 3. Update `RefreshToken` attribute value with the refresh token of the selling partner you will be using for testing
-4. Update `RegionCode` attribute value with the region of the selling partner you will be using for testing
+4. Update `RegionCode` attribute value with the region of the selling partner you will be using for testing. Valid values are `NA`, `EU`, and `FE`
 
 >Note: While updating the config file, don't leave blank spaces before and after `=`, and don't use quotation marks
 
@@ -127,11 +127,11 @@ We assume your account has valid inventory associated with it. To test it, follo
 2. Navigate to [SQS console](https://console.aws.amazon.com/sqs/v2/home)
 3. Select the SQS queue created by the deployment script, named **sp-api-notifications-queue-*random_suffix***
 4. Select **Send and receive messages**
-5. Under **Message body**, insert the following simplified notification body where `createFulfillmentOrderNotification`'s object is replaced by a valid [CreateFulfillmentOrderRequest](https://developer-docs.amazon.com/sp-api/docs/fulfillment-outbound-api-v2020-07-01-reference#createfulfillmentorderrequest) object. For example, the object below with all values within `<>` replaced with appropraite values would constute a valid notification body.
+5. Under **Message body**, insert the following simplified notification body where `createFulfillmentOrderNotification`'s object is replaced by a valid [CreateFulfillmentOrderRequest](https://developer-docs.amazon.com/sp-api/docs/fulfillment-outbound-api-v2020-07-01-reference#createfulfillmentorderrequest) object. For example, the object below with all values within `<>` replaced with appropraite values would constitute a valid notification body.
 
 Notes: 
 Do not include `<>` characters when creating the paylad. 
-In order for the UpdateOrder function to succeed `flfillmentAction` must have a value of "Hold".
+In order for the UpdateOrder function to succeed `fulfillmentAction` must have a value of "Hold".
 
 
     ```
@@ -174,7 +174,7 @@ In order for the UpdateOrder function to succeed `flfillmentAction` must have a 
 11. To check the workflow status and navigate into the individual steps, select the workflow and use the **Graph view** and **Step Detail** panels 
 
 #### II. Cancel Order Workflow
-Note: only orders in the  'Received' or 'Planning' status can be canceled
+Note: only orders in the  "Received" or "Planning" status can be canceled
 1. Open the [AWS console](https://console.aws.amazon.com/)
 2. Navigate to [SQS console](https://console.aws.amazon.com/sqs/v2/home)
 3. Select the SQS queue created by the deployment script, named **sp-api-cancel-notifications-queue-*random_suffix***
