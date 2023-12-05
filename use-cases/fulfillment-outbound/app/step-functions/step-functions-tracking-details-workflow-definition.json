@@ -1,0 +1,63 @@
+{
+  "Comment": "SP-API state machine",
+  "StartAt": "Get Order",
+  "States": {
+    "Get Order": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${GetOrderTrackingDetailsLambdaFunctionArn}",
+        "Payload": {
+          "regionCode.$": "$.regionCode",
+          "refreshToken.$": "$.refreshToken",
+          "sellerFulfillmentOrderId.$": "$.sellerFulfillmentOrderId"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "ResultSelector": {
+        "regionCode.$": "$.Payload.regionCode",
+        "refreshToken.$": "$.Payload.refreshToken",
+        "sellerFulfillmentOrderId.$": "$.Payload.sellerFulfillmentOrderId",
+        "packageNumbers.$": "$.Payload.packageNumbers"
+      },
+      "Next": "Tracking Details" 
+    },
+    "Tracking Details": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${GetPackageTrackingDetailsLambdaFunctionArn}",
+        "Payload": {
+          "regionCode.$": "$.regionCode",
+          "refreshToken.$": "$.refreshToken",
+          "sellerFulfillmentOrderId.$": "$.sellerFulfillmentOrderId",
+          "packageNumbers.$": "$.packageNumbers"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "End": true
+    }
+  }
+}
