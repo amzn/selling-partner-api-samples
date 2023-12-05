@@ -22,7 +22,7 @@ This Sample Solution consists of the following components:
 * [DynamoDB](https://aws.amazon.com/dynamodb/) tables to store SKU and shipment information
 * An [S3](https://aws.amazon.com/s3/) bucket to store generated shipping labels
 * An [SNS](https://aws.amazon.com/sns/) topic to send email notifications when new shipping labels are generated
-* [Secrets Manager](https://aws.amazon.com/secrets-manager/) secrets to securely store SP-API app and user credentials
+* A [Secrets Manager](https://aws.amazon.com/secrets-manager/) secret to securely store SP-API app credentials
 
 ## Pre-requisites
 The pre-requisites for deploying the Sample Solution App to the AWS cloud are:
@@ -41,7 +41,7 @@ To allow the Sample Solution App to connect to SP-API, the config file has to be
 1. Open [app.config](app/app.config) file and replace all occurrences of `<dev_value>` following the instructions below:
 2. Update `ClientId` and `ClientSecret` attribute values with [Client Id and Client Secret of the SP-API application](https://developer-docs.amazon.com/sp-api/docs/viewing-your-application-information-and-credentials) respectively
 3. Update `RefreshToken` attribute value with the refresh token of the selling partner you will be using for testing
-4. Update `RegionCode` attribute value with the region of the selling partner you will be using for testing
+4. Update `RegionCode` attribute value with the region of the selling partner you will be using for testing. Valid values are `NA`, `EU`, and `FE`
 5. Update `Email` attribute value with the email address where you want to receive shipping labels generated during testing
 
 >Note: While updating the config file, don't leave blank spaces before and after `=`, and don't use quotation marks
