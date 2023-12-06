@@ -474,6 +474,14 @@ Resources:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
               SSEAlgorithm: AES256
+  SPAPINotificationsDeadLetterQueue:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      QueueName: !Join
+        - '-'
+        - - sp-api-notifications-dead-letter-queue
+          - !Ref RandomSuffix
+      VisibilityTimeout: 60
   SPAPINotificationsQueue:
     Type: 'AWS::SQS::Queue'
     Properties:
@@ -481,7 +489,12 @@ Resources:
         - '-'
         - - sp-api-notifications-queue
           - !Ref RandomSuffix
-      VisibilityTimeout: 300
+      VisibilityTimeout: 60
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt
+          - SPAPINotificationsDeadLetterQueue
+          - Arn
+        maxReceiveCount: 5
   SPAPINotificationsEventSourceMapping:
     Type: 'AWS::Lambda::EventSourceMapping'
     Properties:
