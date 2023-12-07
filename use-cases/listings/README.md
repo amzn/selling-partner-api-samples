@@ -4,6 +4,10 @@
 
 This app demonstrates how to use the APIs listed in [Building Listings Management Workflows Guide](https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide) to construct common listing management workflows using a simple UI. The Selling Partner API (SP-API) is a REST-based API that helps Amazon selling partners programmatically access their data on listings, orders, shipments, payments, etc. The Listings APIs are a subset of the SP-API which allows the users to build listings creation and management workflows.
 
+## Sample Video Tutorial
+
+[![ Listings Sample Solution: Setup & Installation ](https://img.youtube.com/vi/dGmlveknTks/sddefault.jpg)](https://www.youtube.com/watch?v=dGmlveknTks)
+
 ## Getting Started
 
 ### Prerequisites
