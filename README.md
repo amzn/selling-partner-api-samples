@@ -24,6 +24,7 @@ This is considered an intermediate learning resource, and should typically be re
 | [Fulfillment Outbound](use-cases/fulfillment-outbound) | Java                    |
 | [Listings](use-cases/listings)                         | TypeScript / JavaScript |
 | [Merchant Fulfillment](use-cases/merchant-fulfillment) | Java                    |
+| [Pricing](use-cases/pricing)                           | Java / Python           |
 
 ## Learning Resources <a name="learning"></a>
 * [SP-API Website](https://developer.amazonservices.com)
