@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <AWSProjectType>Lambda</AWSProjectType>
+    <!-- This property makes the build directory similar to a publish directory and helps the AWS .NET Lambda Mock Test Tool find project dependencies. -->
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <!-- Generate ready to run images during publishing to improve cold start time. -->
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <OutputType>WinExe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.Core" Version="2.1.0" />
+    <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.3.1" />
+     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="JsonSubTypes" Version="2.0.1" />
+        <PackageReference Include="RateLimiter" Version="2.2.0" />
+        <PackageReference Include="RestSharp" Version="106.12.0" />
+        <PackageReference Include="AWSSDK.SecretsManager" Version="3.7.200.2" />
+        <PackageReference Include="AWSSDK.EventBridge" Version="3.7.301.7" />
+        <PackageReference Include="AWSSDK.Scheduler" Version="3.7.201.60" />
+        <PackageReference Include="AWSSDK.SQS" Version="3.7.300.1" />
+  </ItemGroup>
+   <ItemGroup>      
+      <Reference Include="Amazon.SellingPartnerAPIAA">
+        <HintPath>..\..\dependencies\Amazon.SellingPartnerAPIAA.dll</HintPath>
+      </Reference>
+    </ItemGroup>     
+</Project>

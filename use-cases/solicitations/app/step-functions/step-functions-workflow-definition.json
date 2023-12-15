@@ -1,0 +1,82 @@
+{
+  "Comment": "SP-API state machine",
+  "StartAt": "Get Solicitation Actions",
+  "States": {
+    "Get Solicitation Actions": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${GetSolicitationActionsLambdaFunctionArn}",
+        "Payload.$": "$"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "ResultPath": "$.GetSolicitationActions",
+      "ResultSelector": {
+        "Action.$": "$.Payload"
+      },
+      "Next": "Verify Solicitation Actions Available"
+    },
+    "Verify Solicitation Actions Available": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.GetSolicitationActions.Action.ActionName",
+          "IsPresent": true,
+          "Next": "Submit Solicitation"
+        },
+        {
+          "Variable": "$.LatestSolicitationRequestDate",
+          "TimestampLessThanPath": "$$.State.EnteredTime",
+          "Next": "Finish Without Solicitation"
+        }
+      ],
+      "Default": "Wait 1 Day"
+    },
+    "Wait 1 Day": {
+      "Type": "Wait",
+      "Next": "Get Solicitation Actions",
+      "Seconds": 86400
+    },
+    "Submit Solicitation": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${SubmitSolicitationLambdaFunctionArn}",
+        "Payload.$": "$"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "End": true,
+      "ResultSelector": {
+        "Result.$": "$.Payload"
+      },
+      "ResultPath": "$.SubmitSolicitation"
+    },
+    "Finish Without Solicitation": {
+      "Type": "Pass",
+      "End": true
+    }
+  }
+}
