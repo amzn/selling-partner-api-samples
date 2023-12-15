@@ -1,0 +1,194 @@
+{
+  "Comment": "SP-API state machine",
+  "StartAt": "Check Sku",
+  "States": {
+    "Check Sku": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${CheckSkuLambdaFunctionHandlerArn}",
+        "Payload": {
+          "credentials.$": "$.credentials",
+          "asin.$": "$.asin",
+          "buyBox.$": "$.buyBox",
+          "seller.$": "$.seller"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "ResultPath": "$.seller",
+      "ResultSelector": {
+        "offers.$": "$.Payload.offers"
+      },
+      "Next": "Sku Processing"
+    },
+    "Sku Processing": {
+      "Type": "Map",
+      "ItemProcessor": {
+        "ProcessorConfig": {
+          "Mode": "INLINE"
+        },
+        "StartAt": "Check Notification Offer",
+        "States": {
+          "Check Notification Offer": {
+            "Type": "Choice",
+            "Choices": [
+              {
+                "Or": [
+                  {
+                    "Not": {
+                      "Variable": "$.sellerOffer",
+                      "IsPresent": true
+                    }
+                  },
+                  {
+                    "Variable": "$.sellerOffer",
+                    "IsNull": true
+                  }
+                ],
+                "Next": "Fetch Price Data"
+              }
+            ],
+            "Default": "Calculate New Price"
+          },
+          "Fetch Price Data": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "Parameters": {
+              "FunctionName": "${FetchPriceLambdaFunctionHandlerArn}",
+              "Payload": {
+                "credentials": {
+                  "refreshToken.$": "$.credentials.refreshToken",
+                  "regionCode.$": "$.credentials.regionCode",
+                  "marketplaceId.$": "$.credentials.marketplaceId"
+                },
+                "sellerId.$": "$.sellerId",
+                "itemSku.$": "$.itemSku"
+              }
+            },
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                  "Lambda.TooManyRequestsException"
+                ],
+                "IntervalSeconds": 1,
+                "MaxAttempts": 3,
+                "BackoffRate": 2
+              }
+            ],
+            "Next": "Check Fetch Price Results",
+            "ResultPath": "$.sellerOffer",
+            "ResultSelector": {
+              "listingPrice.$": "$.Payload.listingPrice",
+              "shippingPrice.$": "$.Payload.shippingPrice"
+            }
+          },
+          "Check Fetch Price Results": {
+            "Type": "Choice",
+            "Choices": [
+              {
+                "Variable": "$.sellerOffer.listingPrice.amount",
+                "NumericLessThan": 0,
+                "Next": "End State"
+              }
+            ],
+            "Default": "Calculate New Price"
+          },
+          "Calculate New Price": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "Parameters": {
+              "FunctionName": "${CalculateNewPriceLambdaFunctionHandlerArn}",
+              "Payload": {
+                "buyBox.$": "$.buyBox",
+                "sellerOffer.$": "$.sellerOffer",
+                "minThreshold.$": "$.minThreshold",
+                "priceChangeRule.$": "$.priceChangeRule"
+              }
+            },
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                  "Lambda.TooManyRequestsException"
+                ],
+                "IntervalSeconds": 1,
+                "MaxAttempts": 3,
+                "BackoffRate": 2
+              }
+            ],
+            "Next": "Check New Price Rules",
+            "ResultPath": "$.calculateNewPriceResult",
+            "ResultSelector": {
+              "newListingPrice.$": "$.Payload.newListingPrice"
+            }
+          },
+          "Check New Price Rules": {
+            "Type": "Choice",
+            "Choices": [
+              {
+                "Variable": "$.calculateNewPriceResult.newListingPrice.amount",
+                "NumericLessThan": 0,
+                "Next": "End State"
+              }
+            ],
+            "Default": "Submit Price Update"
+          },
+          "Submit Price Update": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "OutputPath": "$.Payload",
+            "Parameters": {
+              "FunctionName": "${SubmitPriceLambdaFunctionHandlerArn}",
+              "Payload": {
+                "sellerId.$": "$.sellerId",
+                "newListingPrice.$": "$.calculateNewPriceResult.newListingPrice",
+                "itemSku.$": "$.itemSku",
+                "credentials": {
+                  "refreshToken.$": "$.credentials.refreshToken",
+                  "regionCode.$": "$.credentials.regionCode",
+                  "marketplaceId.$": "$.credentials.marketplaceId"
+                }
+              }
+            },
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                  "Lambda.TooManyRequestsException"
+                ],
+                "IntervalSeconds": 1,
+                "MaxAttempts": 3,
+                "BackoffRate": 2
+              }
+            ],
+            "Next": "End State"
+          },
+          "End State": {
+            "Type": "Pass",
+            "End": true
+          }
+        }
+      },
+      "End": true,
+      "ItemsPath": "$.seller.offers"
+    }
+  }
+}
