@@ -1,4 +1,4 @@
-## Automating pricing decisions to become eligible to the Featured Offer (FO) using SP-API 
+# Automating pricing decisions to become eligible to the Featured Offer (FO) using SP-API 
 
 This blog presents best practices and a well architected workflow on how developers can automate pricing decisions adjusting prices quickly and automatically against the competition. With it you may increase seller`s chance of becoming the Featured Offer (aka Amazon Buy Box) and accelerating its sales. 
 
@@ -131,7 +131,7 @@ BuyBoxPrices" : [ {
 
 `Offers.IsFulfilledByAmazon.Shipping` =  Informs seller Shipping price.
 
-### The Product Pricing API
+## The Product Pricing API
 
 By using the [`GetPricing`](https://developer-docs.amazon.com/sp-api/docs/product-pricing-api-v0-use-case-guide#step-1-call-getpricing) operation, you can retrieve price details of SKUs and ASINs. This endpoint returns the same information than the AOC notification. We only use this API if the seller's offer is not being returned in the notification into the `Offers` node.
  
