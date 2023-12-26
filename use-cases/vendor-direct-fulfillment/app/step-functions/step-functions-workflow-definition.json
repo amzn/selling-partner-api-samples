@@ -1,0 +1,172 @@
+{
+  "Comment": "A description of my state machine",
+  "StartAt": "Get DF Orders",
+  "States": {
+    "Get DF Orders": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${GetDfOrdersLambdaFunctionArn}",
+        "Payload": {
+          "regionCode.$": "$.regionCode",
+          "limit.$": "$.limit"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "Map",
+      "ResultSelector": {
+        "dfOrdersList.$": "$.Payload.dfOrdersList"
+      },
+      "ResultPath": "$.getDFOrdersResult"
+    },
+    "Map": {
+      "Type": "Map",
+      "ItemProcessor": {
+        "ProcessorConfig": {
+          "Mode": "INLINE"
+        },
+        "StartAt": "Acknowledge DF Order",
+        "States": {
+          "Acknowledge DF Order": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "Parameters": {
+              "FunctionName": "${AcknowledgeDFOrderLambdaFunctionArn}",
+              "Payload.$": "$"
+            },
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                  "Lambda.TooManyRequestsException"
+                ],
+                "IntervalSeconds": 1,
+                "MaxAttempts": 3,
+                "BackoffRate": 2
+              }
+            ],
+            "ResultSelector": {
+              "transactionId.$": "$.Payload"
+            },
+            "ResultPath": "$.dfOrder.ackTransactionStatus",
+            "Next": "Wait ACK"
+          },
+          "Wait ACK": {
+            "Type": "Wait",
+            "Seconds": 15,
+            "Next": "Check Transaction Status"
+          },
+          "Check Transaction Status": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "Parameters": {
+              "Payload.$": "$",
+              "FunctionName": "${CheckTransactionStatusLambdaFunctionArn}"
+            },
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                  "Lambda.TooManyRequestsException"
+                ],
+                "IntervalSeconds": 1,
+                "MaxAttempts": 3,
+                "BackoffRate": 2
+              }
+            ],
+            "Next": "Choice ACK Check",
+            "ResultSelector": {
+              "transactionStatus.$": "$.Payload"
+            },
+            "ResultPath": "$.acknowledgementStatus"
+          },
+          "Choice ACK Check": {
+            "Type": "Choice",
+            "Choices": [
+              {
+                "Variable": "$.acknowledgementStatus.transactionStatus",
+                "StringEquals": "Success",
+                "Next": "Get Shipping Label"
+              },
+              {
+                "Variable": "$.acknowledgementStatus.transactionStatus",
+                "StringEquals": "Processing",
+                "Next": "Wait for ACK"
+              },
+              {
+                "Variable": "$.acknowledgementStatus.transactionStatus",
+                "StringEquals": "Failure",
+                "Next": "SNS Publish ACK Failure"
+              }
+            ],
+            "Default": "SNS Publish ACK Failure"
+          },
+          "Wait for ACK": {
+            "Type": "Wait",
+            "Seconds": 5,
+            "Next": "Check Transaction Status"
+          },
+          "Get Shipping Label": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "Parameters": {
+              "Payload.$": "$",
+              "FunctionName": "${GetShippingLabelDFOrderLambdaFunctionArn}"
+            },
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                  "Lambda.TooManyRequestsException"
+                ],
+                "IntervalSeconds": 1,
+                "MaxAttempts": 3,
+                "BackoffRate": 2
+              }
+            ],
+            "ResultSelector": {
+              "presignedUrl.$": "$.Payload"
+            },
+            "ResultPath": "$.shippingLabel",
+            "End": true
+          },
+          "SNS Publish ACK Failure": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::sns:publish",
+            "Parameters": {
+              "TopicArn": "${NotificationTopicArn}",
+              "Message": {
+                "message": "Order Acknowledgement Status is Failure"
+              }
+            },
+            "End": true
+          }
+        }
+      },
+      "ItemsPath": "$.getDFOrdersResult.dfOrdersList",
+      "End": true,
+      "ItemSelector": {
+        "regionCode.$": "$$.Execution.Input.regionCode",
+        "dfOrder.$": "$$.Map.Item.Value"
+      }
+    }
+  }
+}
