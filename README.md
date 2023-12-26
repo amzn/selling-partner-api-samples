@@ -19,13 +19,14 @@ We welcome contributions to this repo in the form of fixes or improvements to ex
 This is considered an intermediate learning resource, and should typically be referenced after reading the [SP-API Documentation](https://developer-docs.amazon.com/sp-api). Please see [Learning Resources](#learning) for additional resources.
 
 ## Use Cases <a name="use-cases"></a>
-| Use Case                                               | Supported Languages     |
-|--------------------------------------------------------|-------------------------|
-| [Fulfillment Outbound](use-cases/fulfillment-outbound) | Java                    |
-| [Listings](use-cases/listings)                         | TypeScript / JavaScript |
-| [Merchant Fulfillment](use-cases/merchant-fulfillment) | Java                    |
-| [Pricing](use-cases/pricing)                           | Java / Python           |
-| [Solicitations](use-cases/solicitations)               | C# / Python             |
+| Use Case                                                         | Supported Languages |
+|------------------------------------------------------------------|--------------|
+| [Fulfillment Outbound](use-cases/fulfillment-outbound)           | Java         |
+| [Listings](use-cases/listings)                                   | TypeScript / JavaScript |
+| [Merchant Fulfillment](use-cases/merchant-fulfillment)           | Java         |
+| [Pricing](use-cases/pricing)                                     | Java / Python |
+| [Solicitations](use-cases/solicitations)                         | C# / Python  |
+| [Vendor Direct Fulfillment](use-cases/vendor-direct-fulfillment) | C#           |
 
 ## Learning Resources <a name="learning"></a>
 * [SP-API Website](https://developer.amazonservices.com)

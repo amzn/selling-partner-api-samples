@@ -1,0 +1,448 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: This template creates the resources of an SP-API application
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: SP-API Default Configuration
+        Parameters:
+          - ClientId
+          - ClientSecret
+          - RefreshToken
+      - Label:
+          default: Sample Solution Configuration
+        Parameters:
+          - ProgrammingLanguage
+          - RandomSuffix
+          - ArtifactsS3BucketName
+          - LambdaFunctionsCodeS3Key
+          - GetDFOrdersLambdaFunctionHandler
+          - AcknowledgeDfOrderLambdaFunctionHandler
+          - CheckTransactionStatusLambdaFunctionHandler
+          - GetShippingLabelDfOrderLambdaFunctionHandler
+          - StepFunctionsStateMachineDefinitionS3Key
+          - NotificationEmail
+    ParameterLabels:
+      ClientId:
+        default: Client Id
+      ClientSecret:
+        default: Client Secret
+      RefreshToken:
+        default: Refresh Token
+      ProgrammingLanguage:
+        default: Programming Language
+      RandomSuffix:
+        default: Random suffix
+      ArtifactsS3BucketName:
+        default: Artifacts S3 Bucket Name
+      LambdaFunctionsCodeS3Key:
+        default: Lambda Functions Code S3 Key
+      GetDFOrdersLambdaFunctionHandler:
+        default: Handler of Get DF Orders Lambda Function
+      AcknowledgeDfOrderLambdaFunctionHandler:
+        default: Handler of Acknowledge DF Order Lambda Function
+      CheckTransactionStatusLambdaFunctionHandler:
+        default: Handler to Check Transaction Status Lambda Function
+      GetShippingLabelDfOrderLambdaFunctionHandler:
+        default: Handler of Get Shipping Label DF Order Lambda Function
+      StepFunctionsStateMachineDefinitionS3Key:
+        default: Step Functions State Machine Definition S3 Key
+      NotificationEmail:
+        default: Email for Orders Fulfillment Notifications
+Parameters:
+  ClientId:
+    Type: String
+    MinLength: 1
+    Description: Client Id of the SP-API app
+    NoEcho: true
+  ClientSecret:
+    Type: String
+    MinLength: 1
+    Description: Client Secret of the SP-API app
+    NoEcho: true
+  RefreshToken:
+    Type: String
+    MinLength: 1
+    Description: Refresh Token of the SP-API app
+    NoEcho: true
+  ProgrammingLanguage:
+    Type: String
+    MinLength: 1
+    Description: Programming language of the Lambda functions
+    AllowedValues:
+      - java11
+      - nodejs18.x
+      - python3.8
+      - dotnet6
+  RandomSuffix:
+    Type: String
+    MinLength: 6
+    MaxLength: 12
+    Description: Random suffix to append to generated resources
+  ArtifactsS3BucketName:
+    Type: String
+    MinLength: 1
+    Description: Name of the S3 bucket containing the application's artifacts
+  LambdaFunctionsCodeS3Key:
+    Type: String
+    MinLength: 1
+    Description: Key of the S3 file containing the Lambda functions code
+  GetDFOrdersLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Get DF Orders Lambda Function
+  AcknowledgeDfOrderLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Acknowledge DF Order Lambda Function
+  CheckTransactionStatusLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Check Transaction Status Lambda Function
+  GetShippingLabelDfOrderLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Get Shipping Label DF Order Lambda Function
+  NotificationEmail:
+    Type: String
+    MinLength: 1
+    Description: Email for Order Fulfillment Notifications
+  StepFunctionsStateMachineDefinitionS3Key:
+    Type: String
+    MinLength: 1
+    Description: Key of the S3 file containing the Step Functions state machine definition
+Resources:
+  SPAPIAppCredentials:
+    Type: 'AWS::SecretsManager::Secret'
+    Properties:
+      Name: !Join
+        - '-'
+        - - SPAPIAppCredentials
+          - !Ref RandomSuffix
+      Description: Secret containing SP-API app credentials
+      SecretString: !Sub
+        - >-
+          {"AppClientId": "${AppClientIdValue}", "AppClientSecret":
+          "${AppClientSecretValue}","AppRefreshToken":"${AppRefreshTokenValue}"}
+        - AppClientIdValue: !Ref ClientId
+          AppClientSecretValue: !Ref ClientSecret
+          AppRefreshTokenValue: !Ref RefreshToken
+  GetDfOrdersLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPIGetDFOrdersLambdaFunction
+          - !Ref RandomSuffix
+      Description: Get DF Orders Lambda function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref GetDFOrdersLambdaFunctionHandler
+      Role: !GetAtt
+        - DfApiLambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+          ORDERS_TABLE_NAME: !Ref DFOrdersTable
+          ORDER_ITEMS_TABLE_NAME: !Ref DFOrderItemsTable
+          NOTIFICATION_SNS_TOPIC_ARN: !Ref DFAPINotificationSNSTopic
+  AcknowledgeDfOrderLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPIAcknowledgeDFOrderLambdaFunction
+          - !Ref RandomSuffix
+      Description: Acknowledge DF Order Lambda function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref AcknowledgeDfOrderLambdaFunctionHandler
+      Role: !GetAtt
+        - DfApiLambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+  CheckTransactionStatusLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPICheckTransactionStatusLambdaFunction
+          - !Ref RandomSuffix
+      Description: Check Transaction Status Lambda function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref CheckTransactionStatusLambdaFunctionHandler
+      Role: !GetAtt
+        - DfApiLambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+  GetShippingLabelDfOrderLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPIGetShippingLabelDFOrderLambdaFunction
+          - !Ref RandomSuffix
+      Description: Get Shipping Label for DF Order Lambda function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref GetShippingLabelDfOrderLambdaFunctionHandler
+      Role: !GetAtt
+        - DfApiLambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+          ORDERS_TABLE_NAME: !Ref DFOrdersTable
+          LABELS_S3_BUCKET_NAME: !Ref DFAPILabelsS3Bucket
+          NOTIFICATION_SNS_TOPIC_ARN: !Ref DFAPINotificationSNSTopic
+  DfApiLambdaExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Join
+        - '-'
+        - - DfApiLambdaExecutionRole
+          - !Ref RandomSuffix
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: SecretsReaderPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 'secretsmanager:GetSecretValue'
+                Resource:
+                  - !Ref SPAPIAppCredentials
+        - PolicyName: DynamoDBReaderPolicy
+          PolicyDocument:
+              Version: 2012-10-17
+              Statement:
+                - Effect: Allow
+                  Action: 'dynamodb:GetItem'
+                  Resource:
+                    - !GetAtt
+                      - DFOrdersTable
+                      - Arn
+                    - !GetAtt
+                      - DFOrderItemsTable
+                      - Arn
+        - PolicyName: DynamoDBWriterPolicy
+          PolicyDocument:
+                  Version: 2012-10-17
+                  Statement:
+                    - Effect: Allow
+                      Action: 'dynamodb:PutItem'
+                      Resource:
+                        - !GetAtt
+                          - DFOrdersTable
+                          - Arn
+                        - !GetAtt
+                          - DFOrderItemsTable
+                          - Arn
+        - PolicyName: DynamoDBUpdatePolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 'dynamodb:UpdateItem'
+                Resource:
+                  - !GetAtt
+                    - DFOrdersTable
+                    - Arn
+                  - !GetAtt
+                    - DFOrderItemsTable
+                    - Arn
+        - PolicyName: DynamoDBQueryPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 'dynamodb:Query'
+                Resource:
+                  - !GetAtt
+                    - DFOrdersTable
+                    - Arn
+                  - !GetAtt
+                    - DFOrderItemsTable
+                    - Arn
+        - PolicyName: S3Policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:GetObject'
+                  - 's3:PutObject'
+                Resource: !Sub
+                  - '${BucketArn}/*'
+                  - BucketArn: !GetAtt
+                    - DFAPILabelsS3Bucket
+                    - Arn
+        - PolicyName: SNSPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'sns:Publish'
+                Resource: !Ref DFAPINotificationSNSTopic
+  SPAPIStateMachine:
+    Type: 'AWS::StepFunctions::StateMachine'
+    Properties:
+      StateMachineName: !Join
+        - '-'
+        - - SPAPIDFStateMachine
+          - !Ref RandomSuffix
+      StateMachineType: STANDARD
+      DefinitionS3Location:
+        Bucket: !Ref ArtifactsS3BucketName
+        Key: !Ref StepFunctionsStateMachineDefinitionS3Key
+      DefinitionSubstitutions:
+        GetDfOrdersLambdaFunctionArn: !GetAtt
+          - GetDfOrdersLambdaFunction
+          - Arn
+        AcknowledgeDFOrderLambdaFunctionArn: !GetAtt
+          - AcknowledgeDfOrderLambdaFunction
+          - Arn
+        GetShippingLabelDFOrderLambdaFunctionArn: !GetAtt
+          - GetShippingLabelDfOrderLambdaFunction
+          - Arn
+        CheckTransactionStatusLambdaFunctionArn: !GetAtt
+          - CheckTransactionStatusLambdaFunction
+          - Arn
+        NotificationTopicArn: !Ref DFAPINotificationSNSTopic
+      RoleArn: !GetAtt
+        - SPAPIStateMachineExecutionRole
+        - Arn
+  SPAPIStateMachineExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: states.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: LambdaInvokePolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'lambda:InvokeFunction'
+                Resource:
+                  - !GetAtt
+                    - GetDfOrdersLambdaFunction
+                    - Arn
+                  - !GetAtt
+                    - AcknowledgeDfOrderLambdaFunction
+                    - Arn
+                  - !GetAtt
+                    - GetShippingLabelDfOrderLambdaFunction
+                    - Arn
+                  - !GetAtt
+                    - CheckTransactionStatusLambdaFunction
+                    - Arn
+        - PolicyName: SnsPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 'sns:Publish'
+                Resource: !Ref DFAPINotificationSNSTopic
+  DFOrdersTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: !Join
+        - '-'
+        - - DFOrders
+          - !Ref RandomSuffix
+      AttributeDefinitions:
+        - AttributeName: orderNumber
+          AttributeType: S
+      KeySchema:
+        - AttributeName: orderNumber
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+  DFOrderItemsTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        TableName: !Join
+          - '-'
+          - - DFOrderItems
+            - !Ref RandomSuffix
+        AttributeDefinitions:
+          - AttributeName: itemASIN
+            AttributeType: S
+          - AttributeName: orderNumber
+            AttributeType: S
+        KeySchema:
+          - AttributeName: itemASIN
+            KeyType: HASH
+          - AttributeName: orderNumber
+            KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: orderNumber-index
+            KeySchema:
+              - AttributeName: orderNumber
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+        BillingMode: PAY_PER_REQUEST
+  DFAPINotificationSNSTopic:
+    Type: 'AWS::SNS::Topic'
+    Properties:
+      TopicName: !Join
+        - '-'
+        - - DFAPINotificationSNSTopic
+          - !Ref RandomSuffix
+  DFAPINotificationSubscription:
+    Type: 'AWS::SNS::Subscription'
+    Properties:
+      TopicArn: !Ref DFAPINotificationSNSTopic
+      Protocol: email
+      Endpoint: !Ref NotificationEmail
+  DFAPILabelsS3Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Join
+        - '-'
+        - - sp-api-labels-s3-bucket
+          - !Ref RandomSuffix
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
