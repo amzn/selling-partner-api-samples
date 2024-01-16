@@ -23,7 +23,7 @@ This is considered an intermediate learning resource, and should typically be re
 |------------------------------------------------------------------|--------------|
 | [Fulfillment Outbound](use-cases/fulfillment-outbound)           | Java         |
 | [Listings](use-cases/listings)                                   | TypeScript / JavaScript |
-| [Merchant Fulfillment](use-cases/merchant-fulfillment)           | Java         |
+| [Merchant Fulfillment](use-cases/merchant-fulfillment)           | Java / Python |
 | [Pricing](use-cases/pricing)                                     | Java / Python |
 | [Solicitations](use-cases/solicitations)                         | C# / Python  |
 | [Vendor Direct Fulfillment](use-cases/vendor-direct-fulfillment) | C#           |
