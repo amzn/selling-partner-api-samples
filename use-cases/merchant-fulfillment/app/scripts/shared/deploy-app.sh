@@ -12,6 +12,7 @@ done
 runtime=""
 case "${language}" in
   java) runtime="java11";;
+  python) runtime="python3.8";;
   *) echo "Undefined language"; exit;;
 esac
 
@@ -101,6 +102,33 @@ if [ "$language" == "java" ]; then
   mvn package -f "${java_code_folder}pom.xml"
   AWS_ACCESS_KEY_ID=${access_key} AWS_SECRET_ACCESS_KEY=${secret_key} \
     aws s3 cp "${java_code_folder}${java_code_jar}" "s3://${bucket_name}/${code_s3_key}"
+
+
+# If it's a Python app, package the code and upload it to S3
+elif [ "$language" == "python" ]; then
+	echo "Packaging and uploading Python code"
+	python_code_folder="../../../code/python/"
+	if [ -d "${python_code_folder}target" ]; then
+	    rm -r "${python_code_folder}target"
+	fi
+	mkdir "${python_code_folder}target"
+	python_code_zip="target/sp-api-python-app-1.0-upload.zip"
+	code_s3_key="src/sp-api-python-app.zip"
+	retrieve_order_handler="src/retrieve_order_handler.lambda_handler"
+  inventory_check_handler="src/inventory_check_handler.lambda_handler"
+  eligible_shipment_handler="src/eligible_shipment_handler.lambda_handler"
+  select_shipment_handler="src/select_shipment_handler.lambda_handler"
+  create_shipment_handler="src/create_shipment_handler.lambda_handler"
+  presign_s3_label_handler="src/presign_s3_label_handler.lambda_handler"
+  process_notification_handler="src/process_notification_handler.lambda_handler"
+  subscribe_notifications_handler="src/subscribe_notifications_handler.lambda_handler"
+
+	(
+	  cd "${python_code_folder}" || exit
+	  zip -rq "${python_code_zip}" . -x "target/"
+	)
+	AWS_ACCESS_KEY_ID=${access_key} AWS_SECRET_ACCESS_KEY=${secret_key} \
+	  aws s3 cp "${python_code_folder}${python_code_zip}" "s3://${bucket_name}/${code_s3_key}"
 fi
 
 # Upload the StepFunctions state machine definition to S3

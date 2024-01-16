@@ -91,6 +91,7 @@ Parameters:
     Description: Programming language of the Lambda functions
     AllowedValues:
       - java11
+      - python3.8
       - nodejs18.x
   RandomSuffix:
     Type: String

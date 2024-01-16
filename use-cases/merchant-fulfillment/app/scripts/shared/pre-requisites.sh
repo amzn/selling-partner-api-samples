@@ -29,7 +29,7 @@ install_maven () {
         [yY][eE][sS]|[yY])
           echo "Installing Maven ..."
           # Confirm that Homebrew is installed. Install it otherwise
-          brew --version >/dev/null 2> /dev/null || xcode-select --install; /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          brew --version >/dev/null 2> /dev/null || /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
           brew install maven
           break;;
         [nN][oO]|[nN])
@@ -86,4 +86,22 @@ done
 if [ "$language" == "java" ]; then
   echo "Maven is required to deploy a Java Sample Solution App. Checking if it is installed in the system ..."
   mvn --version > /dev/null 2> /dev/null || install_maven
+fi
+
+# If it's a Python app, confirm that necessary Python packages are installed
+if [ "$language" == "python" ]; then
+	echo "Certain Python packages are required to deploy a Python Sample Solution App. Checking if they are installed ..."
+	python3 -c "
+import pkg_resources
+import os
+REQUIRED_PACKAGES = ['boto3', 'requests', 'setuptools', 'stringcase']
+for package in REQUIRED_PACKAGES:
+	try:
+	  dist = pkg_resources.get_distribution(package)
+	  print('{} ({}) is installed'.format(dist.key, dist.version))
+	except pkg_resources.DistributionNotFound:
+	  print('{} is NOT installed'.format(package))
+	  print('Installing {} ...'.format(package))
+	  os.system('python3 -m pip install {}'.format(package))
+	"
 fi
