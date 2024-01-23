@@ -33,8 +33,7 @@ public class GetOrderTrackingDetailsHandler implements RequestHandler<MCFTrackin
         List<Integer> packageNumbers = new ArrayList();
         List<FulfillmentShipment> fulfillmentShipments = getFulfillmentOrderResponse.getPayload().getFulfillmentShipments();
 
-        // if there are shipements, extract the package number from each shipment
-        // for use by the package tracking api
+        //If the order contains shipments, extract and store the package number from each of them
         if (fulfillmentShipments != null) {
             for (FulfillmentShipment fulfillmentShipment: fulfillmentShipments) {
                 for (FulfillmentShipmentItem fulfillmentShipmentItem: fulfillmentShipment.getFulfillmentShipmentItem()) {

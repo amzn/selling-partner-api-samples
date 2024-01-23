@@ -41,9 +41,9 @@ public class PreviewOrderHandler implements RequestHandler<MCFCreateOrderLambdaI
         return input;
     }
 
-    // extract input from create fulfillment order notification to create a fulfillment prevew request
-    // note that under many use cases a preview request is built first, seprate from a desired create order request
-    // i.e. a preview request is made first in order to identify what options and costs are available for a valid create order request
+    //Extract input from the create fulfillment order notification to create a fulfillment preview request
+    //Note that under many use cases a preview request is built first, seprate from a desired create order request
+    //i.e. a preview request is made first in order to identify what options and costs are available for a valid create order request
     private GetFulfillmentPreviewRequest buildGetFulfillmentPreviewRequest(CreateFulfillmentOrderNotification createFulfillmentOrderNotification) {
 
         Boolean includeCOD = false;
