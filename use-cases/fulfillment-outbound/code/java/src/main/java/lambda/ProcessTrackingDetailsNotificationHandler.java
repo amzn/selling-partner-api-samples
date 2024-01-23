@@ -33,7 +33,7 @@ public class ProcessTrackingDetailsNotificationHandler implements RequestHandler
         logger.log("ProcessNotification Lambda started");
 
         //Iterate over SQS messages
-        //Start a Step Functions workflow execution for unprocessed MCF orders
+        //Start a Step Functions workflow execution for each unprocessed message
         for (SQSEvent.SQSMessage message : event.getRecords()) {
             logger.log(String.format("Received new notification: %s", message.getBody()));
 
@@ -42,8 +42,7 @@ public class ProcessTrackingDetailsNotificationHandler implements RequestHandler
 
                 FulfillmentOrderStatusNotification fulfillmentOrderStatusNotification = notification.getPayload().getFulfillmentOrderStatusNotification();
 
-                // If this is a notification that contains shipment information about an order, then start a stepfunction on that order
-                // Else ignore
+                // If this is a notification that contains shipment information about an order, start a Step Functions state machine on that order
                 if(isTargetNotification(fulfillmentOrderStatusNotification.getEventType(), fulfillmentOrderStatusNotification.getFulfillmentOrderStatus())) {
 
                     logger.log("Starting state machine execution");
@@ -71,8 +70,7 @@ public class ProcessTrackingDetailsNotificationHandler implements RequestHandler
         return notification;
     }
 
-    // If the event is about a shipment, or about a complete order, we know the order has associated package information
-    // https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-use-case-guide#fulfillmentorderstatusnotification
+    // If the event is about a shipment or about a complete order, we know the order has associated package information
     private boolean isTargetNotification(String eventType, String fulfillmentOrderStatus) {
         return NOTIFICATION_FULFILLMENT_ORDER_STATUS_EVENT_TYPE_SHIPMENT.equals(eventType) || 
             (NOTIFICATION_FULFILLMENT_ORDER_STATUS_EVENT_TYPE_ORDER.equals(eventType)

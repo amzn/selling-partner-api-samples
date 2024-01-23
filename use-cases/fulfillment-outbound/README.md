@@ -10,12 +10,28 @@ If you haven't already, we recommend you to navigate the following resources:
 * [Fulfillment Outbound API v2020-07-01 reference](https://developer-docs.amazon.com/sp-api/docs/fulfillment-outbound-api-v2020-07-01-reference)
 
 ## Solution
-This Sample Solution consists of the following components:
+This Sample Solution implements three fulfillment outbound workflows that cover the create order, cancel order, and get package tracking details use cases.
+
+The solution consists of the following components:
 * Three [Step Functions](https://aws.amazon.com/step-functions/) state machines with fully functional Fulfillment Outbound workflows
 * [Lambda](https://aws.amazon.com/lambda/) functions that support each of the steps of the state machines
 * [SQS](https://aws.amazon.com/sqs/) queues to receive notifications to trigger the Step Functions workflow
 * An [S3](https://aws.amazon.com/s3/) bucket to store generated code
 * A [Secrets Manager](https://aws.amazon.com/secrets-manager/) secret to securely store SP-API app credentials
+
+### Workflow
+This sample solution consists of 3 sub-workflows:
+* Create order
+* Get package tracking details
+* Cancel order
+
+The [create order workflow](https://developer-docs.amazon.com/sp-api/docs/fulfillment-outbound-api-v2020-07-01-use-case-guide#tutorial-create-an-order-in-hold-status-and-then-move-it-to-shipped) reacts to user-generated notifications placed in an SQS queue. These events are processed by the **SPAPIProcessNotificationLambdaFunction**,  which starts a Step Functions state machine execution with the order creation logic.  
+The state machine retrieves the fulfillment order preview details by invoking the **SPAPIPreviewOrderLambdaFunction**, where the preview output is placed in the logs. In a production environment, this output could be used to identify available shipping speeds, costs associated with a given feature set, etc., to make a decision about what create order options are available and desired. Next, the **SPAPICreateOrderLambdaFunction** creates an order in the `HOLD` state. The **SPAPIGetOrderLambdaFunction** uses the seller fulfillment order Id to retrieve the order and confirm it was created correctly. Finally, the order status is updated to `SHIP` by the **SPAPIUpdateOrderLambdaFunction** to continue its fulfillment path.
+
+The [get package tracking details workflow](https://developer-docs.amazon.com/sp-api/docs/fulfillment-outbound-api-v2020-07-01-use-case-guide#step-7-get-the-package-number) reacts to incoming [FULFILLMENT_ORDER_STATUS](https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-use-case-guide#fulfillment_order_status) notifications that inform about shipping detail updates. These events, delivered to an SQS queue, are processed and transformed in the **SPAPIProcessTrackingDetailsNotificationLambdaFunction**, which subsequently starts a Step Functions state machine execution.  
+The state machine uses the seller fulfillment order Id from the notification as input to the **SPAPIGetOrderTrackingDetailsLambdaFunction**, which gets the order information and processes the related shipments to get their package numbers. Next, the **SPAPIGetPackageTrackingDetailsLambdaFunction** iterates through the package numbers and retrieves the tracking information for each of them.
+
+The [cancel order workflow](https://developer-docs.amazon.com/sp-api/docs/fulfillment-outbound-api-v2020-07-01-use-case-guide#tutorial-cancel-a-fulfillment-order) reacts to user-generated notifications placed in an SQS queue, and subsequently starts a Step Functions state machine that performs the single step of canceling an order.
 
 ## Pre-requisites
 The pre-requisites for deploying the Sample Solution App to the AWS cloud are:

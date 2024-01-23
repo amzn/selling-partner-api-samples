@@ -34,9 +34,10 @@ public class CreateOrderHandler implements RequestHandler<MCFCreateOrderLambdaIn
 
         try {
             FbaOutboundApi fbaoApi = getFbaOutboundApi(input.getRegionCode(), input.getRefreshToken(), context);
+
+            //Transform user input into a CreateFulfillmentOrderRequest
             CreateFulfillmentOrderRequest createFulfillmentOrderRequest = buildCreateFulfillmentOrderRequest(input.getCreateFulfillmentOrderNotification(), logger);
             logger.log("CreateFulfillmentOrderRequest value: " + createFulfillmentOrderRequest);
-
 
             CreateFulfillmentOrderResponse createFulfillmentOrderResponse = fbaoApi.createFulfillmentOrder(createFulfillmentOrderRequest);
             logger.log("CreateFulfillmentOrder call output: " + createFulfillmentOrderResponse);
@@ -47,7 +48,6 @@ public class CreateOrderHandler implements RequestHandler<MCFCreateOrderLambdaIn
         return input;
     }
 
-    // transform customer input into a CreateFulfillmentOrderRequest
     private CreateFulfillmentOrderRequest buildCreateFulfillmentOrderRequest(CreateFulfillmentOrderNotification createFulfillmentOrderNotification, LambdaLogger logger) {
         return new CreateFulfillmentOrderRequest()
             .marketplaceId(createFulfillmentOrderNotification.getMarketplaceId())
@@ -77,7 +77,6 @@ public class CreateOrderHandler implements RequestHandler<MCFCreateOrderLambdaIn
         } else {
             return null;
         }
-
     }
 
     private Address buildRequestAddress(DestinationAddress destinationAddress){

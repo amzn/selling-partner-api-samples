@@ -30,7 +30,7 @@ public class ProcessCancelNotificationHandler implements RequestHandler<SQSEvent
         logger.log("ProcessNotification Lambda started");
 
         //Iterate over SQS messages
-        //Start a Step Functions workflow execution for unprocessed MCF orders
+        //Start a Step Functions workflow execution for each unprocessed message
         for (SQSEvent.SQSMessage message : event.getRecords()) {
             logger.log(String.format("Received new notification: %s", message.getBody()));
 

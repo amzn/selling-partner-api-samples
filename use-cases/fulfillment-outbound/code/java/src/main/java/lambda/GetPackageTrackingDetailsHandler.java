@@ -19,7 +19,7 @@ public class GetPackageTrackingDetailsHandler implements RequestHandler<MCFTrack
         try {
             FbaOutboundApi fbaoApi = getFbaOutboundApi(input.getRegionCode(), input.getRefreshToken(), context);
             
-            // for each package number retrive the package details
+            //For each package number, retrive the package details
             for (Integer packageNumber : input.getPackageNumbers()) {
                 GetPackageTrackingDetailsResponse getPackageTrackingDetailsResponse = fbaoApi.getPackageTrackingDetails(packageNumber);
 
