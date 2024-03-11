@@ -9,6 +9,10 @@ If you haven't already, we recommend you to navigate the following resources:
 * [Fulfillment Outbound API Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/fulfillment-outbound-api-v2020-07-01-use-case-guide)
 * [Fulfillment Outbound API v2020-07-01 reference](https://developer-docs.amazon.com/sp-api/docs/fulfillment-outbound-api-v2020-07-01-reference)
 
+## Sample Video Tutorial
+
+[![Fulfillment Outbound Solution: Setup and Installation Tutorial](https://img.youtube.com/vi/ZUw5Ubb8Rj0/sddefault.jpg)](https://www.youtube.com/watch?v=ZUw5Ubb8Rj0)
+
 ## Solution
 This Sample Solution implements three fulfillment outbound workflows that cover the create order, cancel order, and get package tracking details use cases.
 
