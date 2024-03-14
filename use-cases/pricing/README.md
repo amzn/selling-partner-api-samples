@@ -107,7 +107,7 @@ To test the sample solution, follow the steps below.
 6. Navigate to [SQS console](https://console.aws.amazon.com/sqs/v2/home)
 7. Select the SQS queue created by the deployment script, named **sp-api-notifications-queue-*random_suffix***
 8. Select **Send and receive messages**
-9. Under **Message body**, insert the following simplified notification body. Replace all attributes with the correct values of the ASIN and SKU that you will use for testing
+9. Under **Message body**, insert the following simplified notification body. Replace all attributes with the correct values of the SellerId, ASIN and CurrencyCode that you will use for testing
     ```
     {
         "NotificationType": "ANY_OFFER_CHANGED",
