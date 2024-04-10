@@ -86,7 +86,7 @@ sleep 30
 
 
 # If it's a Python app, package the code and upload it to S3
-elif [ "$language" == "python" ]; then
+if [ "$language" == "python" ]; then
 	echo "Packaging and uploading Python code"
 	python_code_folder="../../../code/python/"
 	if [ -d "${python_code_folder}target" ]; then
