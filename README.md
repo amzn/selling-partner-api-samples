@@ -27,6 +27,7 @@ This is considered an intermediate learning resource, and should typically be re
 | [Shipping](use-cases/shipping-v2)                                | Python                   | -                                                                                                                         |
 | [Pricing](use-cases/pricing)                                     | Java / Python            | [Product Pricing Samples](https://developer-docs.amazon.com/sp-api/docs/code-samples#product-pricing-api-v0)              |
 | [Solicitations](use-cases/solicitations)                         | C# / Python              | -                                                                                                                         |
+| [Data Kiosk](use-cases/data-kiosk)                               | Java / Python            | -                                                                                                                         |
 | [Vendor Direct Fulfillment](use-cases/vendor-direct-fulfillment) | C#                       | [Vendor Direct Fulfillment Samples](https://developer-docs.amazon.com/sp-api/docs/code-samples#vendor-direct-fulfillment) |
 
 ## Learning Resources <a name="learning"></a>
