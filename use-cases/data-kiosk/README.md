@@ -9,7 +9,7 @@ If you haven't already, we recommend you to navigate the following resources:
 * [Data Kiosk API v2023-11-15 reference](https://developer-docs.amazon.com/sp-api/v0/docs/data-kiosk-api-v2023-11-15-reference)
 * [Data Kiosk Use Case Guide](https://developer-docs.amazon.com/sp-api/v0/docs/data-kiosk-api-v2023-11-15-use-case-guide)
 
-# Solution
+## Solution
 
 This Sample Solution offers a streamlined Data Kiosk experience. Simply create your query and the solution automatically processes incoming [DATA_KIOSK_QUERY_PROCESSING_FINISHED](https://developer-docs.amazon.com/sp-api/v0/docs/data-kiosk-notification) notifications, downloads and securely stores the processed data in an S3 bucket to be later fetched and shared with the end user.
 
@@ -22,7 +22,7 @@ The solution consists of the following components:
 * A [DynamoDB](https://aws.amazon.com/dynamodb/) table to store fetched documents for the selling partner's queried data.
 * A [Secrets Manager](https://aws.amazon.com/secrets-manager/) secret to securely store SP-API app credentials.
 
-### Workflow
+## Workflow
 
 To kickstart the solution, begin by executing the SPAPISubscribeNotificationsLambdaFunction, providing the lambda with the necessary input containing the notificationType - [DATA_KIOSK_QUERY_PROCESSING_FINISHED](https://developer-docs.amazon.com/sp-api/v0/docs/data-kiosk-notification) - thereby subscribing the SQS queue to the Data Kiosk Notification and obtaining the subscription_id and destination_id. 
 For each query, utilize the Schema Explorer to generate a GraphQL query and paste it into the SPAPICreateQueryLambdaFunction along. Make sure to handle any quotation mark inconsistencies for query validity.
