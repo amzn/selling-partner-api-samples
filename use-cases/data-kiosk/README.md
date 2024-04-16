@@ -58,6 +58,7 @@ To allow the Sample Solution App to connect to SP-API, the config file has to be
 ClientId=amzn1.application-oa2-client.abc123def456xyz789
 ClientSecret=amzn1.oa2-cs.v1.abc123def456xyz789
 RefreshToken=Atzr|Abc123def456xyz789
+RegionCode=NA
 ```
 
 ### 2. Configure Sample Solution App's IAM user
