@@ -49,8 +49,8 @@ The pre-requisites for deploying the Sample Solution App to the AWS cloud are:
 To allow the Sample Solution App to connect to SP-API, the config file has to be updated to match the set-up of your SP-API application.
 1. Open [app.config](app/app.config) file and replace all occurrences of `<dev_value>` following the instructions below.
 2. Update `ClientId` and `ClientSecret` attribute values with [Client Id and Client Secret of the SP-API application](https://developer-docs.amazon.com/sp-api/docs/viewing-your-application-information-and-credentials) respectively.
-3. Update `RegionConfig` attribute value with the region you will be using for testing. Valid values are `NA`, `EU`, and `FE`. 
-4. Update `RefreshToken` attribute value with the refresh token of the selling partner you will be using for testing.
+3. Update `RefreshToken` attribute value with the refresh token of the selling partner you will be using for testing. 
+4. Update `RegionConfig` attribute value with the region you will be using for testing. Valid values are `NA`, `EU`, and `FE`.
 
 >Note: While updating the config file, don't leave blank spaces before and after `=`, and don't use quotation marks
 
