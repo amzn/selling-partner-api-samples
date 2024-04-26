@@ -1,5 +1,5 @@
 ## Overview
-The Sample Solution App provides all required resources to deploy a fully functional SP-API application to the AWS cloud.
+The Sample Solution App provides all required resources to deploy to the AWS cloud a fully functional SP-API application that implements the [Data Kiosk use case](https://developer-docs.amazon.com/sp-api/v0/docs/data-kiosk-api-v2023-11-15-use-case-guide) end-to-end.
 Use this application to test the proposed solution, do changes and/or integrate it to your own product.
 
 ## Data Kiosk API
@@ -27,8 +27,8 @@ The solution consists of the following components:
 To kickstart the solution, begin by executing the SPAPISubscribeNotificationsLambdaFunction, providing the lambda with the necessary input containing the notificationType - [DATA_KIOSK_QUERY_PROCESSING_FINISHED](https://developer-docs.amazon.com/sp-api/v0/docs/data-kiosk-notification) - thereby subscribing the SQS queue to the Data Kiosk Notification and obtaining the subscription_id and destination_id. 
 For each query, utilize the Schema Explorer to generate a GraphQL query and paste it into the SPAPICreateQueryLambdaFunction along. Make sure to handle any quotation mark inconsistencies for query validity.
 After submission, the automated workflow will begin. Waiting for the [DATA_KIOSK_QUERY_PROCESSING_FINISHED](https://developer-docs.amazon.com/sp-api/v0/docs/data-kiosk-notification) notification message to be received, this will trigger the SPAPIProcessNotificationLambdaFunction and parse the message. If no documentId is returned, the flow will return a no data message; otherwise, it will parse the relative documentId and trigger the state machine's execution. 
-In the background, the SPAPIGetDocumentLambdaFunction fetches the documentId and documentUrl, passing them to the SPAPIStoreDocumentLambdaFunction) for storage and processing. 
-Continuing the flow, the SPAPIStoreDocumentLambdaFunction retrieves the JSONL file from the documentUrl, creates an S3 bucket for storage, generates an item in DynamoDB with relevant data and S3 URI, concluding the execution. 
+In the background, the SPAPIGetDocumentLambdaFunction fetches the documentId and documentUrl, passing them to the SPAPIStoreDocumentLambdaFunction for storage and processing. 
+Continuing the flow, the SPAPIStoreDocumentLambdaFunction retrieves the JSONL file from the documentUrl, stores it in an S3 bucket, generates an item in DynamoDB with relevant data and S3 URI, concluding the execution. 
 
 Post-execution, all data document ids and S3 links are stored in DynamoDB, and developers can access this content from S3 as needed, ensuring an efficient and structured workflow.
 
@@ -49,7 +49,8 @@ The pre-requisites for deploying the Sample Solution App to the AWS cloud are:
 To allow the Sample Solution App to connect to SP-API, the config file has to be updated to match the set-up of your SP-API application.
 1. Open [app.config](app/app.config) file and replace all occurrences of `<dev_value>` following the instructions below.
 2. Update `ClientId` and `ClientSecret` attribute values with [Client Id and Client Secret of the SP-API application](https://developer-docs.amazon.com/sp-api/docs/viewing-your-application-information-and-credentials) respectively.
-3. Update `RefreshToken` attribute value with the refresh token of the selling partner you will be using for testing.
+3. Update `RegionConfig` attribute value with the region you will be using for testing. Valid values are `NA`, `EU`, and `FE`. 
+4. Update `RefreshToken` attribute value with the refresh token of the selling partner you will be using for testing.
 
 >Note: While updating the config file, don't leave blank spaces before and after `=`, and don't use quotation marks
 
@@ -132,7 +133,7 @@ To execute the deployment script, follow the steps below.
     1. For example, to execute the Python deployment script in a Unix-based system, run `bash python-app.sh`.
 3. Wait for the CloudFormation stack creation to finish.
     1. Navigate to [CloudFormation console](https://console.aws.amazon.com/cloudformation/home).
-    2. Wait for the stack named **sp-api-app-\<language\>-*random_suffix*** to show status `CREATE_COMPLETE`.
+    2. Wait for the stack named **sp-api-app-*random_suffix*** to show status `CREATE_COMPLETE`.
 
 ### 4. Test the sample solution
 The deployment script creates a Sample Solution App in the AWS cloud. The solution consists of a [Step Functions](https://aws.amazon.com/step-functions/) state machine with a fully functional workflow.

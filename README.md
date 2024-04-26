@@ -21,13 +21,13 @@ This is considered an intermediate learning resource, and should typically be re
 ## Use Cases <a name="use-cases"></a>
 | Use Case                                                         | Supported Languages      | Documented Code Samples                                                                                                   |
 |------------------------------------------------------------------|--------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| [Data Kiosk](use-cases/data-kiosk)                               | Java / Python            | -                                                                                                                         |
 | [Fulfillment Outbound](use-cases/fulfillment-outbound)           | Java                     | [Fulfillment Outbound Samples](https://developer-docs.amazon.com/sp-api/docs/code-samples#fulfillment-outbound)           |
 | [Listings](use-cases/listings)                                   | TypeScript / JavaScript  | -                                                                                                                         |
 | [Merchant Fulfillment](use-cases/merchant-fulfillment)           | Java / Python            | [Merchant Fulfillment Samples](https://developer-docs.amazon.com/sp-api/docs/code-samples#merchant-fulfillment-network)   |
-| [Shipping](use-cases/shipping-v2)                                | Python                   | -                                                                                                                         |
 | [Pricing](use-cases/pricing)                                     | Java / Python            | [Product Pricing Samples](https://developer-docs.amazon.com/sp-api/docs/code-samples#product-pricing-api-v0)              |
+| [Shipping](use-cases/shipping-v2)                                | Python                   | -                                                                                                                         |
 | [Solicitations](use-cases/solicitations)                         | C# / Python              | -                                                                                                                         |
-| [Data Kiosk](use-cases/data-kiosk)                               | Java / Python            | -                                                                                                                         |
 | [Vendor Direct Fulfillment](use-cases/vendor-direct-fulfillment) | C#                       | [Vendor Direct Fulfillment Samples](https://developer-docs.amazon.com/sp-api/docs/code-samples#vendor-direct-fulfillment) |
 
 ## Learning Resources <a name="learning"></a>
