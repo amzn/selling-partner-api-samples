@@ -62,7 +62,7 @@ To create a new IAM policy with the required permissions, follow the steps below
 1. Open the [AWS console](https://console.aws.amazon.com/)
 2. Navigate to [IAM Policies console](https://us-east-1.console.aws.amazon.com/iamv2/home#/policies)
 3. Click **Create policy**
-4. Next to **Policy editor**, select **JSON** and replace the default policy with the JSON below. Make sure to replace `<aws account id number>`  your AWS account id number
+4. Next to **Policy editor**, select **JSON** and replace the default policy with the JSON below. Make sure to replace `<aws_account_id_number>` your AWS account id number
 ```
 {
  	"Version": "2012-10-17",
@@ -81,8 +81,8 @@ To create a new IAM policy with the required permissions, follow the steps below
  				"iam:DeleteAccessKey"
  			],
  			"Resource": [
- 				"arn:aws:iam::<aws account id number>:user/*",
- 				"arn:aws:iam::<aws account id number>:policy/*"
+ 				"arn:aws:iam::<aws_account_id_number>:user/*",
+ 				"arn:aws:iam::<aws_account_id_number>:policy/*"
  			]
  		}
  	]
@@ -107,7 +107,7 @@ Security credentials for the IAM user will be requested during the deployment sc
 To create a new access key pair, follow the steps below. If you already have valid access key and secret access key, you can skip this section.
 1. Open the [AWS console](https://console.aws.amazon.com/)
 2. Navigate to [IAM Users console](https://us-east-1.console.aws.amazon.com/iamv2/home#/users)
-3. Select your IAM user created in  **II. Create IAM user**
+3. Select the IAM user created in **II. Create IAM user**
 4. Go to **Security credentials** tab
 5. Under **Access keys**, click **Create access key**
 6. In **Access key best practices & alternatives** page, select **Command Line Interface (CLI)**
@@ -115,7 +115,6 @@ To create a new access key pair, follow the steps below. If you already have val
 8. Click **Create access key**
 9. Copy `Access key` and `Secret access key`. This is the only time that these keys can be viewed or downloaded, and you will need them while executing the deployment script
 10. Click **Done**
-
 
 ### 3. Execute the deployment script
 The deployment script will create a Sample Solution App in the AWS cloud.

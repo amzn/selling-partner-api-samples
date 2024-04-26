@@ -51,23 +51,59 @@ RefreshToken=Atzr|Abc123def456xyz789
 ```
 
 ### 2. Configure Sample Solution App's IAM user
-#### I. Create IAM user
-In order to execute the deployment script, an IAM user with `IAMFullAccess` permissions is needed.
-To create a new IAM user with required permissions, follow the steps below. If you already have a user with `IAMFullAccess` policy, you can skip to **Configure IAM user credentials** section
+#### I. Create IAM policy
+In order to execute the deployment script, an IAM user with the appropriate permissions is needed.
+To create a new IAM policy with the required permissions, follow the steps below.
+
+1. Open the [AWS console](https://console.aws.amazon.com/)
+2. Navigate to [IAM Policies console](https://us-east-1.console.aws.amazon.com/iamv2/home#/policies)
+3. Click **Create policy**
+4. Next to **Policy editor**, select **JSON** and replace the default policy with the JSON below. Make sure to replace `<aws_account_id_number>` your AWS account id number
+```
+{
+ 	"Version": "2012-10-17",
+ 	"Statement": [
+ 		{
+ 			"Sid": "SPAPIAppIAMPolicy",
+ 			"Effect": "Allow",
+ 			"Action": [
+ 				"iam:CreateUser",
+ 				"iam:DeleteUser",
+ 				"iam:CreatePolicy",
+ 				"iam:DeletePolicy",
+ 				"iam:AttachUserPolicy",
+ 				"iam:DetachUserPolicy",
+ 				"iam:CreateAccessKey",
+ 				"iam:DeleteAccessKey"
+ 			],
+ 			"Resource": [
+ 				"arn:aws:iam::<aws_account_id_number>:user/*",
+ 				"arn:aws:iam::<aws_account_id_number>:policy/*"
+ 			]
+ 		}
+ 	]
+ }
+```
+5. Click **Next**
+6. Select a name for your policy. Take note of this value as you will need it in the next section.
+7. Review the changes and click **Create policy**
+
+#### II. Create IAM user
+To create a new IAM user with the required permissions, follow the steps below.
 1. Open the [AWS console](https://console.aws.amazon.com/)
 2. Navigate to [IAM Users console](https://us-east-1.console.aws.amazon.com/iamv2/home#/users)
-3. Click **Add users**
+3. Click **Create user**
 4. Select a name for your user
 5. In the **Set permissions** page, select **Attach policies directly**
-6. In the **Permissions policies**, search for `IAMFullAccess`. Check the policy, and click **Next**
+6. In the **Permissions policies**, search for the policy created in **I. Create IAM policy** section. Select the policy, and click **Next**
 7. Review the changes and click **Create user**
 
-#### II. Retrieve IAM user credentials
+#### III. Retrieve IAM user credentials
 Security credentials for the IAM user will be requested during the deployment script execution.
 To create a new access key pair, follow the steps below. If you already have valid access key and secret access key, you can skip this section.
 1. Open the [AWS console](https://console.aws.amazon.com/)
 2. Navigate to [IAM Users console](https://us-east-1.console.aws.amazon.com/iamv2/home#/users)
-3. Select your IAM user, which has `IAMFullAccess` permissions
+3. Select the IAM user created in **II. Create IAM user**
 4. Go to **Security credentials** tab
 5. Under **Access keys**, click **Create access key**
 6. In **Access key best practices & alternatives** page, select **Command Line Interface (CLI)**

@@ -63,7 +63,7 @@ To create a new IAM policy with the required permissions, follow the steps below
 1. Open the [AWS console](https://console.aws.amazon.com/)
 2. Navigate to [IAM Policies console](https://us-east-1.console.aws.amazon.com/iamv2/home#/policies)
 3. Click **Create policy**
-4. Next to **Policy editor**, select **JSON** and replace the default policy with the JSON below
+4. Next to **Policy editor**, select **JSON** and replace the default policy with the JSON below. Make sure to replace `<aws_account_id_number>` your AWS account id number
 ```
 {
  	"Version": "2012-10-17",
@@ -82,8 +82,8 @@ To create a new IAM policy with the required permissions, follow the steps below
  				"iam:DeleteAccessKey"
  			],
  			"Resource": [
- 				"arn:aws:iam::610134619817:user/*",
- 				"arn:aws:iam::610134619817:policy/*"
+ 				"arn:aws:iam::<aws_account_id_number>:user/*",
+ 				"arn:aws:iam::<aws_account_id_number>:policy/*"
  			]
  		}
  	]
@@ -108,7 +108,7 @@ Security credentials for the IAM user will be requested during the deployment sc
 To create a new access key pair, follow the steps below. If you already have valid access key and secret access key, you can skip this section.
 1. Open the [AWS console](https://console.aws.amazon.com/)
 2. Navigate to [IAM Users console](https://us-east-1.console.aws.amazon.com/iamv2/home#/users)
-3. Select your IAM user, which has `IAMFullAccess` permissions
+3. Select the IAM user created in **II. Create IAM user**
 4. Go to **Security credentials** tab
 5. Under **Access keys**, click **Create access key**
 6. In **Access key best practices & alternatives** page, select **Command Line Interface (CLI)**
