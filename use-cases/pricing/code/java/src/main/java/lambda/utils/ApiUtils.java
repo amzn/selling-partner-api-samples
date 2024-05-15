@@ -53,11 +53,15 @@ public class ApiUtils {
         LWAAuthorizationCredentials lwaAuthorizationCredentials = getLWAAuthorizationCredentials(appCredentials, refreshToken);
 
         String spApiEndpoint = getSpApiEndpoint(regionCode);
+        
+        ListingsApi listingsApi = new ListingsApi.Builder()
+        .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
+        .endpoint(spApiEndpoint)
+        .build();
+        listingsApi.getApiClient().setUserAgent("Pricing Sample App/1.0/Java");
 
-        return new ListingsApi.Builder()
-                .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
-                .endpoint(spApiEndpoint)
-                .build();
+        return listingsApi;
+
     }
 
     //Generate Notifications API client
