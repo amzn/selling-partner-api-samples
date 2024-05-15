@@ -76,7 +76,7 @@ class ApiUtils:
         # Create an instance of the standard ApiClient
         api_client.default_headers['x-amz-access-token'] = lwa_access_token
         api_client.default_headers['Content-Type'] = 'application/json'
-        api_client.default_headers['User-Agent'] = 'My Python App/1.0'
+        api_client.default_headers['User-Agent'] = 'Solicitations Sample App/1.0/Python'
 
         return api_client
 
