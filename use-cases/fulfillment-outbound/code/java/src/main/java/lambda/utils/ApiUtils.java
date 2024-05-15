@@ -32,10 +32,14 @@ public class ApiUtils {
         AppCredentials appCredentials = mapper.readValue(appCredentialsSecret, AppCredentials.class);
         LWAAuthorizationCredentials lwaAuthorizationCredentials = getLWAAuthorizationCredentials(appCredentials, refreshToken);
 
-        return new FbaOutboundApi.Builder()
-                .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
-                .endpoint(regionConfig.getSpApiEndpoint())
-                .build();
+        FbaOutboundApi fbaOutboundApi = new FbaOutboundApi.Builder()
+        .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
+        .endpoint(regionConfig.getSpApiEndpoint())
+        .build();
+                
+        fbaOutboundApi.getApiClient().setUserAgent("Fulfillment Outbound Sample App/1.0/Java");
+
+        return fbaOutboundApi;
     }
 
     //Generate Notifications API client
