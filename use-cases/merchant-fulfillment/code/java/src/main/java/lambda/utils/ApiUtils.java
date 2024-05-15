@@ -31,11 +31,15 @@ public class ApiUtils {
         LWAAuthorizationCredentials lwaAuthorizationCredentials = getLWAAuthorizationCredentials(appCredentials, refreshToken);
 
         String spApiEndpoint = getSpApiEndpoint(regionCode);
-
-        return new MerchantFulfillmentApi.Builder()
+        
+        MerchantFulfillmentApi merchantFulfillmentApi = new MerchantFulfillmentApi.Builder()
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
                 .endpoint(spApiEndpoint)
                 .build();
+        
+        merchantFulfillmentApi.getApiClient().setUserAgent("Merchant Fulfillment Sample App/1.0/Java");
+
+        return merchantFulfillmentApi;
     }
 
     //Generate Orders API client
