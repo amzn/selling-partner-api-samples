@@ -55,13 +55,12 @@ public class ApiUtils {
         String spApiEndpoint = getSpApiEndpoint(regionCode);
         
         ListingsApi listingsApi = new ListingsApi.Builder()
-        .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
-        .endpoint(spApiEndpoint)
-        .build();
+            .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
+            .endpoint(spApiEndpoint)
+            .build();
         listingsApi.getApiClient().setUserAgent("Pricing Sample App/1.0/Java");
 
         return listingsApi;
-
     }
 
     //Generate Notifications API client
