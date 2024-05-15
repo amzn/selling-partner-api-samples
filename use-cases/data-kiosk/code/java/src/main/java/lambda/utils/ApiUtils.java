@@ -38,9 +38,7 @@ public class ApiUtils {
         queriesApi.getApiClient().setUserAgent("Data Kiosk Sample App/1.0/Java");
 
         return queriesApi;
-
-
-                
+        
     }
 
     //Generate Notifications API client
