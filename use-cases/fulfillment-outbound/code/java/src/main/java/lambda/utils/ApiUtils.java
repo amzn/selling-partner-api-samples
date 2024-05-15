@@ -33,9 +33,9 @@ public class ApiUtils {
         LWAAuthorizationCredentials lwaAuthorizationCredentials = getLWAAuthorizationCredentials(appCredentials, refreshToken);
 
         FbaOutboundApi fbaOutboundApi = new FbaOutboundApi.Builder()
-        .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
-        .endpoint(regionConfig.getSpApiEndpoint())
-        .build();
+            .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
+            .endpoint(regionConfig.getSpApiEndpoint())
+            .build();
                 
         fbaOutboundApi.getApiClient().setUserAgent("Fulfillment Outbound Sample App/1.0/Java");
 
