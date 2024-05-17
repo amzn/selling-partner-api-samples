@@ -22,6 +22,7 @@ namespace SpApiCsharpApp
             SolicitationsApi api = new SolicitationsApi.Builder()
                    .SetLWAAuthorizationCredentials(lwaAuthorizationCredentials)
                    .Build();
+            api.Configuration.UserAgent = "Solicitations Sample App/1.0/C#";
             api.Configuration.BasePath = GetRegionConfig(regionCode);
             return api;
         }
@@ -36,6 +37,7 @@ namespace SpApiCsharpApp
             NotificationsApi api = new NotificationsApi.Builder()
                    .SetLWAAuthorizationCredentials(lwaAuthorizationCredentials)
                    .Build();
+            api.Configuration.UserAgent = "Solicitations Sample App/1.0/C#";
             api.Configuration.BasePath = GetRegionConfig(regionCode);
             return api;
         }
