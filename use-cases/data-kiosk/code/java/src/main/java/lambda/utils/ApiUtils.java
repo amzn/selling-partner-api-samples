@@ -57,12 +57,16 @@ public class ApiUtils {
 
         String spApiEndpoint = getSpApiEndpoint(regionCode);
 
-        return new NotificationsApi.Builder()
+        NotificationsApi notificationsApi = new NotificationsApi.Builder()
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
                 .endpoint(spApiEndpoint)
                 .build();
+                
+        notificationsApi.getApiClient().setUserAgent("Data Kiosk Sample App/1.0/Java");
+
+        return notificationsApi;        
     }
-    
+
 
     private static LWAAuthorizationCredentials getLWAAuthorizationCredentials(AppCredentials appCredentials, String refreshToken) {
         return LWAAuthorizationCredentials.builder()

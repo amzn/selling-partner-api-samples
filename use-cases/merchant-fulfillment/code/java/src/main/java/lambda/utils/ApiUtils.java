@@ -53,10 +53,14 @@ public class ApiUtils {
 
         String spApiEndpoint = getSpApiEndpoint(regionCode);
 
-        return new OrdersV0Api.Builder()
+        OrdersV0Api ordersV0Api = new OrdersV0Api.Builder()
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
                 .endpoint(spApiEndpoint)
                 .build();
+
+        ordersV0Api.getApiClient().setUserAgent("Merchant Fulfillment Sample App/1.0/Java");
+
+        return ordersV0Api;
     }
 
     //Generate Notifications API client
@@ -76,10 +80,14 @@ public class ApiUtils {
 
         String spApiEndpoint = getSpApiEndpoint(regionCode);
 
-        return new NotificationsApi.Builder()
+        NotificationsApi notificationsApi = new NotificationsApi.Builder()
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
                 .endpoint(spApiEndpoint)
                 .build();
+
+        notificationsApi.getApiClient().setUserAgent("Merchant Fulfillment Sample App/1.0/Java");
+
+        return notificationsApi;
     }
 
     private static LWAAuthorizationCredentials getLWAAuthorizationCredentials (AppCredentials appCredentials, String refreshToken) {
