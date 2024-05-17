@@ -37,10 +37,13 @@ public class ApiUtils {
 
         String spApiEndpoint = getSpApiEndpoint(regionCode);
 
-        return new ProductPricingApi.Builder()
+        ProductPricingApi productPricingApi = new ProductPricingApi.Builder()
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
                 .endpoint(spApiEndpoint)
                 .build();
+        productPricingApi.getApiClient().setUserAgent("Pricing Sample App/1.0/Java");
+
+        return productPricingApi;
     }
 
     //Generate Listings Items API client
@@ -80,10 +83,14 @@ public class ApiUtils {
 
         String spApiEndpoint = getSpApiEndpoint(regionCode);
 
-        return new NotificationsApi.Builder()
+        NotificationsApi notificationsApi = new NotificationsApi.Builder()
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
                 .endpoint(spApiEndpoint)
                 .build();
+
+        notificationsApi.getApiClient().setUserAgent("Pricing Sample App/1.0/Java");
+
+        return notificationsApi;
     }
 
     private static LWAAuthorizationCredentials getLWAAuthorizationCredentials(AppCredentials appCredentials, String refreshToken) {

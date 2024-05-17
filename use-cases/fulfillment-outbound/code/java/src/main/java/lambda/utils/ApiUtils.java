@@ -59,10 +59,14 @@ public class ApiUtils {
             lwaAuthorizationCredentials = getLWAAuthorizationCredentials(appCredentials, refreshToken);
         }
 
-        return new NotificationsApi.Builder()
+        NotificationsApi notificationsApi = new NotificationsApi.Builder()
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
-                .endpoint(regionConfig.getSpApiEndpoint())
+                .endpoint(spApiEndpoint)
                 .build();
+
+        notificationsApi.getApiClient().setUserAgent("Fulfillment Outbound Sample App/1.0/Java");
+
+        return notificationsApi;
     }
 
     private static LWAAuthorizationCredentials getLWAAuthorizationCredentials (AppCredentials appCredentials, String refreshToken) {
