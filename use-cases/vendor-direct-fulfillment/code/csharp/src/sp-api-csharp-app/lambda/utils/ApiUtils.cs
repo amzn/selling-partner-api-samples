@@ -104,6 +104,7 @@ namespace spApiCsharpApp
 
             VendorOrdersApi api = new VendorOrdersApi.Builder().SetLWAAuthorizationCredentials(lwaAuthorizationCredentials).Build();            
             api.Configuration.BasePath = GetRegionConfig(regionCode);
+            api.Configuration.UserAgent = "Vendor Direct Fulfillment Sample App/1.0/C#";
 
             return api;
         }
@@ -117,6 +118,7 @@ namespace spApiCsharpApp
 
             VendorShippingLabelsApi api = new VendorShippingLabelsApi.Builder().SetLWAAuthorizationCredentials(lwaAuthorizationCredentials).Build();
             api.Configuration.BasePath = GetRegionConfig(regionCode);
+            api.Configuration.UserAgent = "Vendor Direct Fulfillment Sample App/1.0/C#";
 
             return api;
         }
@@ -130,6 +132,7 @@ namespace spApiCsharpApp
 
             VendorShippingApi api = new VendorShippingApi.Builder().SetLWAAuthorizationCredentials(lwaAuthorizationCredentials).Build();
             api.Configuration.BasePath = GetRegionConfig(regionCode);
+            api.Configuration.UserAgent = "Vendor Direct Fulfillment Sample App/1.0/C#";
 
             return api;
         }
@@ -143,6 +146,7 @@ namespace spApiCsharpApp
 
             VendorTransactionApi api = new VendorTransactionApi.Builder().SetLWAAuthorizationCredentials(lwaAuthorizationCredentials).Build();
             api.Configuration.BasePath = GetRegionConfig(regionCode);
+            api.Configuration.UserAgent = "Vendor Direct Fulfillment Sample App/1.0/C#";
 
             return api;
         }
@@ -156,6 +160,7 @@ namespace spApiCsharpApp
 
             UpdateInventoryApi api = new UpdateInventoryApi.Builder().SetLWAAuthorizationCredentials(lwaAuthorizationCredentials).Build();
             api.Configuration.BasePath = GetRegionConfig(regionCode);
+            api.Configuration.UserAgent = "Vendor Direct Fulfillment Sample App/1.0/C#";
             return api;
         }
 
