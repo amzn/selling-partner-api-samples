@@ -22,6 +22,7 @@ from src.api_models.notifications_api.swagger_client import configuration as not
 
 secret_manager = boto3.client(constants.SECRETS_MANAGER_CLIENT_NAME)
 SP_API_APP_CREDENTIALS_ARN = os.environ.get(constants.SP_API_APP_CREDENTIALS_SECRET_ARN_ENV_VARIABLE)
+OPT_OUT = False
 
 
 class ApiUtils:
@@ -40,6 +41,11 @@ class ApiUtils:
             raise e
         else:
             return s_dict
+   
+    def _set_useragent(self, client):
+        print('Setting user agent')
+        if not OPT_OUT:
+            client.default_headers['User-Agent'] = 'Pricing Sample App/1.0/Python'
 
     def _get_lwa_access_token(self, grantless_scope):
         url = constants.LWA_ENDPOINT
@@ -86,7 +92,7 @@ class ApiUtils:
 
         api_client.default_headers['x-amz-access-token'] = lwa_access_token
         api_client.default_headers['Content-Type'] = 'application/json'
-        api_client.default_headers['User-Agent'] = 'Pricing Sample App/1.0/Python'
+        self._set_useragent(api_client)
 
         return api_client
 
