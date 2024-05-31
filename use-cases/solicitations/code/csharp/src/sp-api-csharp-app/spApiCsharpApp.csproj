@@ -9,11 +9,11 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <!-- Generate ready to run images during publishing to improve cold start time. -->
     <PublishReadyToRun>true</PublishReadyToRun>
-    <OutputType>WinExe</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.Core" Version="2.1.0" />
     <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.3.1" />
+    <PackageReference Include="Amazon.Lambda.SQSEvents" Version="2.2.0" />
      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="JsonSubTypes" Version="2.0.1" />
         <PackageReference Include="RateLimiter" Version="2.2.0" />
