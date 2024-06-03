@@ -17,6 +17,9 @@ import boto3
 secret_manager = boto3.client('secretsmanager')
 sp_api_app_credentials_arn = os.environ[Constants.SP_API_APP_CREDENTIALS_SECRET_ARN_ENV_VARIABLE]
 
+# Set OPT_OUT = True to disable User-Agent tracking
+OPT_OUT = False
+
 class ApiUtils:
 
     def __init__(self, refresh_token, region_code, api_type, grantless_scope=None):
@@ -33,6 +36,11 @@ class ApiUtils:
             print(str(e))
         else:
             return s_dict
+        
+    def _set_useragent(self, client):
+        if not OPT_OUT:
+            print('Setting user agent')
+            client.default_headers['User-Agent'] = 'Solicitations Sample App/1.0/Python'
 
     def _get_lwa_access_token(self, grantless_scope):
         url = Constants.LWA_ENDPOINT
@@ -76,7 +84,7 @@ class ApiUtils:
         # Create an instance of the standard ApiClient
         api_client.default_headers['x-amz-access-token'] = lwa_access_token
         api_client.default_headers['Content-Type'] = 'application/json'
-        api_client.default_headers['User-Agent'] = 'Solicitations Sample App/1.0/Python'
+        self._set_useragent(api_client)
 
         return api_client
 
