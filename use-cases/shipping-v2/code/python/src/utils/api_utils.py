@@ -19,11 +19,11 @@ from src.api_models.notifications_api.swagger_client import configuration as not
 from src.api_models.orders_api.swagger_client import api_client as orders_client
 from src.api_models.orders_api.swagger_client import configuration as orders_configuration
 
-
 secret_manager = boto3.client(constants.SECRETS_MANAGER_KEY_NAME)
 SP_API_APP_CREDENTIALS_ARN = os.environ.get(constants.SP_API_APP_CREDENTIALS_SECRET_ARN_ENV_VARIABLE)
-OPT_OUT = False
 
+# Set OPT_OUT = True to disable User-Agent tracking
+OPT_OUT = False
 
 class ApiUtils:
 
@@ -44,8 +44,8 @@ class ApiUtils:
             return s_dict
 
     def _set_useragent(self, client):
-        print('Setting user agent')
         if not OPT_OUT:
+            print('Setting user agent')
             client.default_headers['User-Agent'] = 'Shipping Sample App/1.0/Python'
 
     def _get_lwa_access_token(self, grantless_scope):
