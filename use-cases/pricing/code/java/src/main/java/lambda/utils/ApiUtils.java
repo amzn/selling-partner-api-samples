@@ -1,14 +1,9 @@
-/*
- * Util class with generic Authorization and Authentication logic
- * Includes Catalog Items API client creation. Ref.: `getCatalogItemsApi(String regionCode, String refreshToken)`
- * Extend this class to generate API clients for other API sections as needed
- */
-
 package lambda.utils;
 
 import com.amazon.SellingPartnerAPIAA.LWAAuthorizationCredentials;
 import com.amazon.SellingPartnerAPIAA.LWAClientScopes;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.client.ApiClient;
 import io.swagger.client.api.ListingsApi;
 import io.swagger.client.api.NotificationsApi;
 import io.swagger.client.api.ProductPricingApi;
@@ -25,6 +20,8 @@ import static lambda.utils.Constants.SP_API_APP_CREDENTIALS_SECRET_ARN_ENV_VARIA
 import static lambda.utils.Constants.VALID_SP_API_REGION_CONFIG;
 
 public class ApiUtils {
+    // Set OPT_OUT = true to disable User-Agent tracking
+    public static final boolean OPT_OUT = false;
 
     //Generate Product Pricing API client
     public static ProductPricingApi getProductPricingApi(String regionCode, String refreshToken)
@@ -41,7 +38,7 @@ public class ApiUtils {
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
                 .endpoint(spApiEndpoint)
                 .build();
-        productPricingApi.getApiClient().setUserAgent("Pricing Sample App/1.0/Java");
+        setUserAgent(productPricingApi.getApiClient());
 
         return productPricingApi;
     }
@@ -61,7 +58,7 @@ public class ApiUtils {
             .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
             .endpoint(spApiEndpoint)
             .build();
-        listingsApi.getApiClient().setUserAgent("Pricing Sample App/1.0/Java");
+        setUserAgent(listingsApi.getApiClient());
 
         return listingsApi;
     }
@@ -87,8 +84,7 @@ public class ApiUtils {
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
                 .endpoint(spApiEndpoint)
                 .build();
-
-        notificationsApi.getApiClient().setUserAgent("Pricing Sample App/1.0/Java");
+        setUserAgent(notificationsApi.getApiClient());
 
         return notificationsApi;
     }
@@ -138,4 +134,12 @@ public class ApiUtils {
         GetSecretValueResponse response = client.getSecretValue(request);
         return response.secretString();
     }
+     //Set user agent
+     private static void setUserAgent(ApiClient api) {
+        if (!OPT_OUT) {
+            System.out.println("Setting User-Agent");
+            api.setUserAgent("Pricing Sample App/1.0/Java");
+        }
+    }
 }
+

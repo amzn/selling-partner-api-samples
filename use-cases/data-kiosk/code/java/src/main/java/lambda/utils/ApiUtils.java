@@ -3,6 +3,7 @@ package lambda.utils;
 import com.amazon.SellingPartnerAPIAA.LWAAuthorizationCredentials;
 import com.amazon.SellingPartnerAPIAA.LWAClientScopes;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.client.ApiClient;
 import io.swagger.client.api.NotificationsApi;
 import io.swagger.client.api.QueriesApi;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
@@ -18,6 +19,8 @@ import static lambda.utils.Constants.SP_API_APP_CREDENTIALS_SECRET_ARN_ENV_VARIA
 import static lambda.utils.Constants.VALID_SP_API_REGION_CONFIG;
 
 public class ApiUtils {
+    // Set OPT_OUT = true to disable User-Agent tracking
+    public static final boolean OPT_OUT = false;
 
     //Generate Data Kiosk API client
     public static QueriesApi getDataKioskApi(String regionCode, String refreshToken)
@@ -34,9 +37,8 @@ public class ApiUtils {
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
                 .endpoint(spApiEndpoint)
                 .build();
-                
-        queriesApi.getApiClient().setUserAgent("Data Kiosk Sample App/1.0/Java");
-
+        setUserAgent(queriesApi.getApiClient());
+    
         return queriesApi;
     }
 
@@ -60,9 +62,8 @@ public class ApiUtils {
         NotificationsApi notificationsApi = new NotificationsApi.Builder()
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
                 .endpoint(spApiEndpoint)
-                .build();
-                
-        notificationsApi.getApiClient().setUserAgent("Data Kiosk Sample App/1.0/Java");
+                .build();         
+        setUserAgent(notificationsApi.getApiClient());
 
         return notificationsApi;        
     }
@@ -112,5 +113,12 @@ public class ApiUtils {
 
         GetSecretValueResponse response = client.getSecretValue(request);
         return response.secretString();
+    }
+    //Set user agent
+    private static void setUserAgent(ApiClient api) {
+        if (!OPT_OUT) {
+            System.out.println("Setting User-Agent");
+            api.setUserAgent("Data Kiosk Sample App/1.0/Java");
+        }
     }
 }
