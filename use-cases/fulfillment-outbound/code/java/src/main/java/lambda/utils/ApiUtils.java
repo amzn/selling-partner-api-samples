@@ -5,6 +5,7 @@ import com.amazon.SellingPartnerAPIAA.LWAClientScopes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.client.api.FbaOutboundApi;
 import io.swagger.client.api.NotificationsApi;
+import io.swagger.client.ApiClient;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
 import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueRequest;
 import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueResponse;
@@ -20,6 +21,8 @@ import java.util.Set;
 import java.util.HashSet;
 
 public class ApiUtils {
+    // Set OPT_OUT = true to disable User-Agent tracking
+    public static final boolean OPT_OUT = false;
 
     //Generate FBA Outbound API client
     public static FbaOutboundApi getFbaOutboundApi (String regionCode, String refreshToken, Context context)
@@ -36,8 +39,7 @@ public class ApiUtils {
             .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
             .endpoint(regionConfig.getSpApiEndpoint())
             .build();
-                
-        fbaOutboundApi.getApiClient().setUserAgent("Fulfillment Outbound Sample App/1.0/Java");
+        setUserAgent(fbaOutboundApi.getApiClient());
 
         return fbaOutboundApi;
     }
@@ -63,8 +65,7 @@ public class ApiUtils {
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
                 .endpoint(spApiEndpoint)
                 .build();
-
-        notificationsApi.getApiClient().setUserAgent("Fulfillment Outbound Sample App/1.0/Java");
+        setUserAgent(notificationsApi.getApiClient());
 
         return notificationsApi;
     }
@@ -114,5 +115,12 @@ public class ApiUtils {
 
         GetSecretValueResponse response = client.getSecretValue(request);
         return response.secretString();
+    }
+    //Set user agent
+    private static void setUserAgent(ApiClient api) {
+        if (!OPT_OUT) {
+            System.out.println("Setting User-Agent");
+            api.setUserAgent("Fulfillment Outbound Sample App/1.0/Java");
+        }
     }
 }
