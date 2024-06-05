@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.client.api.MerchantFulfillmentApi;
 import io.swagger.client.api.NotificationsApi;
 import io.swagger.client.api.OrdersV0Api;
+import io.swagger.client.ApiClient;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
 import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueRequest;
 import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueResponse;
@@ -19,6 +20,8 @@ import static lambda.utils.Constants.SP_API_APP_CREDENTIALS_SECRET_ARN_ENV_VARIA
 import static lambda.utils.Constants.VALID_SP_API_REGION_CONFIG;
 
 public class ApiUtils {
+    // Set OPT_OUT = true to disable User-Agent tracking
+    public static final boolean OPT_OUT = false;
 
     //Generate MFN API client
     public static MerchantFulfillmentApi getMFNApi (String regionCode, String refreshToken)
@@ -37,7 +40,7 @@ public class ApiUtils {
                 .endpoint(spApiEndpoint)
                 .build();
         
-        merchantFulfillmentApi.getApiClient().setUserAgent("Merchant Fulfillment Sample App/1.0/Java");
+        setUserAgent(merchantFulfillmentApi.getApiClient());
 
         return merchantFulfillmentApi;
     }
@@ -58,7 +61,7 @@ public class ApiUtils {
                 .endpoint(spApiEndpoint)
                 .build();
 
-        ordersV0Api.getApiClient().setUserAgent("Merchant Fulfillment Sample App/1.0/Java");
+        setUserAgent(ordersV0Api.getApiClient());
 
         return ordersV0Api;
     }
@@ -84,8 +87,7 @@ public class ApiUtils {
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
                 .endpoint(spApiEndpoint)
                 .build();
-
-        notificationsApi.getApiClient().setUserAgent("Merchant Fulfillment Sample App/1.0/Java");
+        setUserAgent(notificationsApi.getApiClient());
 
         return notificationsApi;
     }
@@ -134,5 +136,12 @@ public class ApiUtils {
 
         GetSecretValueResponse response = client.getSecretValue(request);
         return response.secretString();
+    }
+    //Set user agent
+    private static void setUserAgent(ApiClient api) {
+        if (!OPT_OUT) {
+            System.out.println("Setting User-Agent");
+            api.setUserAgent("Merchant Fulfillment Sample App/1.0/Java");
+        }
     }
 }
