@@ -47,3 +47,8 @@ See [CONTRIBUTING](CONTRIBUTING.md) for more information.
 
 This library is licensed under the MIT-0 License. See the [LICENSE](LICENSE) file.
 
+## Anonymous Metrics <a name="anonymous-metrics"></a>
+
+This solution collects anonymous operational metrics to help Amazon Selling Partner API team improve the quality of features of the solution. For more information, including how to disable
+this capability, please see the [implementation guide](OPT_OUT_IMPLEMENTATION_GUIDE).
+
