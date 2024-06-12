@@ -9,6 +9,7 @@ This repository contains sample code in various programming languages for use ca
 4. [Additional Examples](#additional-examples)
 5. [Security](#security)
 6. [License](#license)
+7. [Anonymous Metrics](#anonymous-metrics)
 
 ## About this Repo <a name="about"></a>
 This repo is the official list of SP-API sample code. It is subdivided into sections for each use case (see ["Use Cases"](#use-cases)), which in turn include the proposed solution in different programming languages.
@@ -49,6 +50,5 @@ This library is licensed under the MIT-0 License. See the [LICENSE](LICENSE) fil
 
 ## Anonymous Metrics <a name="anonymous-metrics"></a>
 
-This solution collects anonymous operational metrics to help Amazon Selling Partner API team improve the quality of features of the solution. For more information, including how to disable
-this capability, please see the [implementation guide](OPT_OUT_IMPLEMENTATION_GUIDE).
+This solution collects anonymous operational metrics to help Amazon Selling Partner API team improve the quality of features of the solution. For more information, including how to disable this capability, please see the [implementation guide](METRICS_GUIDE.md).
 
