@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test for the ListingUpdateComponent doesn't render the issues button with patch listings item submission mode 1`] = `
+exports[`Test for the ListingUpdateComponent doesn't render the issues button with patch listings item write operation 1`] = `
 <DocumentFragment>
   <div
     class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
@@ -28,9 +28,9 @@ exports[`Test for the ListingUpdateComponent doesn't render the issues button wi
               aria-label="Please see https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#updating-a-listings-item to understand the difference between both the APIs."
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
               data-mui-internal-clone-element="true"
-              for="submissionMode"
+              for="writeOperation"
             >
-              Choose Submission Mode
+              Choose Write Operation
             </label>
           </div>
           <div
@@ -40,14 +40,14 @@ exports[`Test for the ListingUpdateComponent doesn't render the issues button wi
               aria-label="Please see https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#updating-a-listings-item to understand the difference between both the APIs."
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-sizeSmall  css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
               data-mui-internal-clone-element="true"
-              data-testid="submissionMode"
+              data-testid="writeOperation"
             >
               <div
                 aria-expanded="false"
                 aria-haspopup="listbox"
-                aria-labelledby="submissionMode"
+                aria-labelledby="writeOperation"
                 class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
-                id="submissionMode"
+                id="writeOperation"
                 role="button"
                 tabindex="0"
               >
@@ -129,7 +129,7 @@ exports[`Test for the ListingUpdateComponent renders alert with no SKU info 1`] 
 </DocumentFragment>
 `;
 
-exports[`Test for the ListingUpdateComponent renders the issues button with put listings item submission mode 1`] = `
+exports[`Test for the ListingUpdateComponent renders the issues button with put listings item write operation 1`] = `
 <DocumentFragment>
   <div
     class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
@@ -161,9 +161,9 @@ exports[`Test for the ListingUpdateComponent renders the issues button with put 
               aria-label="Please see https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#updating-a-listings-item to understand the difference between both the APIs."
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-animated css-9npbnl-MuiFormLabel-root-MuiInputLabel-root"
               data-mui-internal-clone-element="true"
-              for="submissionMode"
+              for="writeOperation"
             >
-              Choose Submission Mode
+              Choose Write Operation
             </label>
           </div>
           <div
@@ -173,14 +173,14 @@ exports[`Test for the ListingUpdateComponent renders the issues button with put 
               aria-label="Please see https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#updating-a-listings-item to understand the difference between both the APIs."
               class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-sizeSmall  css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
               data-mui-internal-clone-element="true"
-              data-testid="submissionMode"
+              data-testid="writeOperation"
             >
               <div
                 aria-expanded="false"
                 aria-haspopup="listbox"
-                aria-labelledby="submissionMode"
+                aria-labelledby="writeOperation"
                 class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputSizeSmall css-jedpe8-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
-                id="submissionMode"
+                id="writeOperation"
                 role="button"
                 tabindex="0"
               >

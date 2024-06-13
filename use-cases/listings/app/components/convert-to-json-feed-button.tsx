@@ -23,7 +23,7 @@ const SAVE_FILE_NAME = "JsonFeed.json";
  * @param listing the listing data entered by the user.
  * @param useCase the type of the update for the listing.
  * @param initialListing the listing data before user edits.
- * @param submissionMode the submission mode to be used when the use case is update listing.
+ * @param writeOperation the write operation to be used when the use case is update listing.
  * @constructor
  */
 export default function ConvertToJsonFeed({
@@ -32,14 +32,14 @@ export default function ConvertToJsonFeed({
   listing,
   useCase,
   initialListing,
-  submissionMode,
+  writeOperation,
 }: {
   sku: string;
   productType: string;
   listing: object;
   useCase: string;
   initialListing: object;
-  submissionMode?: string;
+  writeOperation?: string;
 }) {
   const [alertDialogState, setAlertDialogState] = useState<AlertDialogState>({
     showAlert: false,
@@ -59,7 +59,7 @@ export default function ConvertToJsonFeed({
       initialListing,
       settingsContext.settingsState.settings.sellingPartnerId,
       convertLocaleToSPAPIFormat(locale),
-      submissionMode,
+      writeOperation,
     );
     if (!feed) {
       setAlertDialogState({

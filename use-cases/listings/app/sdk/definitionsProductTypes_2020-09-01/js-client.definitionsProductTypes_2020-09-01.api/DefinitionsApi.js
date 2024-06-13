@@ -127,7 +127,10 @@ export class DefinitionsApi {
    * Search for and return a list of Amazon product types that have definitions available.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 5 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
    * @param {Array.<String>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
    * @param {Object} opts Optional parameters
-   * @param {Array.<String>} opts.keywords A comma-delimited list of keywords to search product types by.
+   * @param {Array.<String>} opts.keywords A comma-delimited list of keywords to search product types by. **Note:** Cannot be used with `itemName`.
+   * @param {String} opts.itemName The title of the ASIN to get the product type recommendation. **Note:** Cannot be used with `keywords`.
+   * @param {String} opts.locale The locale for the display names in the response. Defaults to the primary locale of the marketplace.
+   * @param {String} opts.searchLocale The locale used for the `keywords` and `itemName` parameters. Defaults to the primary locale of the marketplace.
    * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:definitionsProductTypes_2020-09-01/js-client.definitionsProductTypes_2020-09-01.model/ProductTypeList} and HTTP response
    */
   searchDefinitionsProductTypesWithHttpInfo(marketplaceIds, opts) {
@@ -148,6 +151,9 @@ export class DefinitionsApi {
         marketplaceIds,
         "csv",
       ),
+      itemName: opts["itemName"],
+      locale: opts["locale"],
+      searchLocale: opts["searchLocale"],
     };
     let headerParams = HEADER_DATA;
     let formParams = {};
@@ -174,7 +180,10 @@ export class DefinitionsApi {
    * Search for and return a list of Amazon product types that have definitions available.  **Usage Plans:**  | Plan type | Rate (requests per second) | Burst | | ---- | ---- | ---- | |Default| 5 | 10 | |Selling partner specific| Variable | Variable |  The x-amzn-RateLimit-Limit response header returns the usage plan rate limits that were applied to the requested operation. Rate limits for some selling partners will vary from the default rate and burst shown in the table above. For more information, see [Usage Plans and Rate Limits in the Selling Partner API](doc:usage-plans-and-rate-limits-in-the-sp-api).
    * @param {Array.<String>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
    * @param {Object} opts Optional parameters
-   * @param {Array.<String>} opts.keywords A comma-delimited list of keywords to search product types by.
+   * @param {Array.<String>} opts.keywords A comma-delimited list of keywords to search product types. **Note:** Cannot be used with `itemName`.
+   * @param {String} opts.itemName The title of the ASIN to get the product type recommendation. **Note:** Cannot be used with `keywords`.
+   * @param {String} opts.locale The locale for the display names in the response. Defaults to the primary locale of the marketplace.
+   * @param {String} opts.searchLocale The locale used for the `keywords` and `itemName` parameters. Defaults to the primary locale of the marketplace.
    * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:definitionsProductTypes_2020-09-01/js-client.definitionsProductTypes_2020-09-01.model/ProductTypeList}
    */
   searchDefinitionsProductTypes(marketplaceIds, opts) {

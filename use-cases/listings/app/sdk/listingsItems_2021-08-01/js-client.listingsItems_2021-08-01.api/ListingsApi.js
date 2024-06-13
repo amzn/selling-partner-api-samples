@@ -223,6 +223,7 @@ export class ListingsApi {
    * @param {Array.<String>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
    * @param {module:listingsItems_2021-08-01/js-client.listingsItems_2021-08-01.model/ListingsItemPatchRequest} body The request body schema for the patchListingsItem operation.
    * @param {Object} opts Optional parameters
+   * @param {module:listingsItems_2021-08-01/js-client.listingsItems_2021-08-01.model/String} opts.mode The mode of operation for the request.
    * @param {String} opts.issueLocale A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \"en_US\", \"fr_CA\", \"fr_FR\". Localized messages default to \"en_US\" when a localization is not available in the specified locale.
    * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:listingsItems_2021-08-01/js-client.listingsItems_2021-08-01.model/ListingsItemSubmissionResponse} and HTTP response
    */
@@ -267,6 +268,7 @@ export class ListingsApi {
         marketplaceIds,
         "csv",
       ),
+      mode: opts["mode"],
       issueLocale: opts["issueLocale"],
     };
     let headerParams = HEADER_DATA;
@@ -297,6 +299,7 @@ export class ListingsApi {
    * @param {Array.<String>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
    * @param {module:listingsItems_2021-08-01/js-client.listingsItems_2021-08-01.model/ListingsItemPatchRequest} body The request body schema for the patchListingsItem operation.
    * @param {Object} opts Optional parameters
+   * @param {module:listingsItems_2021-08-01/js-client.listingsItems_2021-08-01.model/String} opts.mode The mode of operation for the request.
    * @param {String} opts.issueLocale A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \"en_US\", \"fr_CA\", \"fr_FR\". Localized messages default to \"en_US\" when a localization is not available in the specified locale.
    * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:listingsItems_2021-08-01/js-client.listingsItems_2021-08-01.model/ListingsItemSubmissionResponse}
    */
@@ -319,6 +322,7 @@ export class ListingsApi {
    * @param {Array.<String>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
    * @param {module:listingsItems_2021-08-01/js-client.listingsItems_2021-08-01.model/ListingsItemPutRequest} body The request body schema for the putListingsItem operation.
    * @param {Object} opts Optional parameters
+   * @param {module:listingsItems_2021-08-01/js-client.listingsItems_2021-08-01.model/String} opts.mode The mode of operation for the request.
    * @param {String} opts.issueLocale A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \"en_US\", \"fr_CA\", \"fr_FR\". Localized messages default to \"en_US\" when a localization is not available in the specified locale.
    * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:listingsItems_2021-08-01/js-client.listingsItems_2021-08-01.model/ListingsItemSubmissionResponse} and HTTP response
    */
@@ -363,6 +367,7 @@ export class ListingsApi {
         marketplaceIds,
         "csv",
       ),
+      mode: opts["mode"],
       issueLocale: opts["issueLocale"],
     };
     let headerParams = HEADER_DATA;
@@ -393,6 +398,7 @@ export class ListingsApi {
    * @param {Array.<String>} marketplaceIds A comma-delimited list of Amazon marketplace identifiers for the request.
    * @param {module:listingsItems_2021-08-01/js-client.listingsItems_2021-08-01.model/ListingsItemPutRequest} body The request body schema for the putListingsItem operation.
    * @param {Object} opts Optional parameters
+   * @param {module:listingsItems_2021-08-01/js-client.listingsItems_2021-08-01.model/String} opts.mode The mode of operation for the request.
    * @param {String} opts.issueLocale A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \"en_US\", \"fr_CA\", \"fr_FR\". Localized messages default to \"en_US\" when a localization is not available in the specified locale.
    * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:listingsItems_2021-08-01/js-client.listingsItems_2021-08-01.model/ListingsItemSubmissionResponse}
    */
