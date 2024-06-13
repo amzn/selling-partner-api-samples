@@ -10,6 +10,7 @@ import React from "react";
 import DebugComponent from "@/app/[locale]/debug-component";
 import DebuggingContextProvider from "@/app/context/debug-context-provider";
 import { US_EAST_1 } from "@/app/constants/global";
+import AlertProvider from "@/app/context/alert-context-provider";
 
 /**
  * This is the global app level lay out which is applied to all the pages of
@@ -60,10 +61,12 @@ export default async function RootLayout({
               initialSettingsExist={settingsExist}
               initialSettings={settings}
             >
-              <NavigationComponent />
-              <QuickLinksComponent />
-              {children}
-              <DebugComponent />
+              <AlertProvider>
+                <NavigationComponent />
+                <QuickLinksComponent />
+                {children}
+                <DebugComponent />
+              </AlertProvider>
             </SettingsProvider>
           </DebuggingContextProvider>
         </NextIntlClientProvider>

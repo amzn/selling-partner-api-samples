@@ -1,5 +1,9 @@
 import useSWR from "swr";
-import { PTD_DEFINITIONS_API_PATH } from "@/app/constants/global";
+import {
+  PTD_DEFINITIONS_API_PATH,
+  VALIDATION_PREVIEW_MODE,
+  VARIATION_JSON_PROPERTY,
+} from "@/app/constants/global";
 import BackdropCircularSpinnerComponent from "@/app/components/backdrop-circular-spinner-component";
 import AlertDialog from "@/app/components/alert-dialog";
 import { useTranslations } from "use-intl";
@@ -21,6 +25,9 @@ import { v4 as uuid } from "uuid";
 import ListingSubmitButton from "@/app/components/listing-submit-button";
 import ConvertToJsonFeed from "@/app/components/convert-to-json-feed-button";
 import { useCustomFetcher } from "@/app/hooks/useCustomFetcher";
+import SubmissionAccordionComponent from "./submission-accordion";
+import SideDrawerWithButtonComponent from "./side-drawer-with-button";
+import ProductVariationAccordionComponent from "./listing/accordion-product-variation";
 
 /**
  * A component which retrieves the schema for the given product type and
@@ -29,7 +36,7 @@ import { useCustomFetcher } from "@/app/hooks/useCustomFetcher";
  * @param productType the product type.
  * @param useCase the user case where this component is used in the app.
  * @param initialListing the initial listing loaded into the editor.
- * @param submissionMode the submission mode to be used when the use case is update listing.
+ * @param writeOperation the write operation to be used when the use case is update listing.
  * @constructor
  */
 export default function ListingAttributesEditorComponent({
@@ -37,13 +44,13 @@ export default function ListingAttributesEditorComponent({
   productType,
   useCase,
   initialListing,
-  submissionMode,
+  writeOperation,
 }: {
   sku: string;
   productType: string;
   useCase: string;
   initialListing: object;
-  submissionMode?: string;
+  writeOperation?: string;
 }) {
   const [listing, setListing] = useState(initialListing);
   const translations = useTranslations("ListingAttributesEditor");
@@ -101,6 +108,17 @@ export default function ListingAttributesEditorComponent({
     const uiSchema = generateUISchema(originalSchema);
     return (
       <Grid data-testid="listingAttributesEditor">
+        {originalSchema.properties?.[VARIATION_JSON_PROPERTY] && (
+          <SideDrawerWithButtonComponent
+            drawerId="OptionalInformationPanel"
+            child={
+              <ProductVariationAccordionComponent
+                listing={listing}
+                setListing={setListing}
+              />
+            }
+          />
+        )}
         <JsonForms
           ajv={schemaValidator}
           schema={originalSchema}
@@ -114,6 +132,13 @@ export default function ListingAttributesEditorComponent({
         />
 
         <Grid container justifyContent={"right"} sx={{ margin: "1rem 0" }}>
+          <SideDrawerWithButtonComponent
+            drawerId="ListingAttributesSubmissionSideDrawer"
+            child={<SubmissionAccordionComponent />}
+          />
+        </Grid>
+
+        <Grid container justifyContent={"right"} sx={{ margin: "1rem 0" }}>
           <SchemaValidatorButton
             data={listing}
             schema={originalSchema}
@@ -123,12 +148,26 @@ export default function ListingAttributesEditorComponent({
 
         <Grid container justifyContent={"right"} sx={{ margin: "1rem 0" }}>
           <ListingSubmitButton
+            buttonId="ListingSubmitPreviewButton"
             sku={sku}
             productType={productType}
             useCase={useCase}
             currentListing={listing}
             initialListing={initialListing}
-            submissionMode={submissionMode}
+            writeOperation={writeOperation}
+            mode={VALIDATION_PREVIEW_MODE}
+          />
+        </Grid>
+
+        <Grid container justifyContent={"right"} sx={{ margin: "1rem 0" }}>
+          <ListingSubmitButton
+            buttonId="ListingSubmitButton"
+            sku={sku}
+            productType={productType}
+            useCase={useCase}
+            currentListing={listing}
+            initialListing={initialListing}
+            writeOperation={writeOperation}
           />
         </Grid>
 
@@ -139,7 +178,7 @@ export default function ListingAttributesEditorComponent({
             initialListing={initialListing}
             useCase={useCase}
             productType={productType}
-            submissionMode={submissionMode}
+            writeOperation={writeOperation}
           />
         </Grid>
       </Grid>

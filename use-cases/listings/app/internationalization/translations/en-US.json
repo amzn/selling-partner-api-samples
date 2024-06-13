@@ -57,7 +57,7 @@
     "UpdateListing": {
       "title": "Update Listing",
       "content": "The Update Listing page can be used to update an existing listing in your catalog. Navigate to Update Listing page via the navigation tab. Enter the SKU you wish to update and click on Retrieve SKU button. If there are any issues associated with the SKU then View Issues button will be displayed. Click on this Button to understand the issues on the SKU. The ",
-      "content2": " will also be displayed along with a drop down for the submission mode for updating your listing. Refer the ",
+      "content2": " will also be displayed along with a drop down for the write operation for updating your listing. Refer the ",
       "workflowGuideURL": "https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#updating-a-listings-item"
     },
     "AttributesEditor": {
@@ -94,13 +94,16 @@
     }
   },
   "CreateListing": {
-    "pageTitle": "Search For Product Types at Amazon",
+    "pageTitle": "Search For Product Types at Amazon based on Keywords or ItemName",
     "keywordsLabelHelpText": "Comma-delimited list of words or product identifiers to search the Amazon catalog for.",
+    "itemNameLabelHelpText": "Title of the ASIN to get the product type recommendation.",
+    "itemName": "ItemName",
     "keywords": "Keywords",
     "submit": "Search Product Types",
     "submitHelpText": "Search existing product types based on provided keywords from the Amazon Catalog.",
     "failureAlertTitle": "Error",
     "failureAlertContent": "There was unexpected error happened while obtaining product Types. Please try again.",
+    "productTypeSearchInvalidInput": "Error: Please provide either keywords or itemName but not both.",
     "ProductTypeChooser": {
       "productTypeId": "ProductTypeChooser",
       "defaultLabel": "Choose a Product Type",
@@ -176,9 +179,27 @@
     "failureAlertTitle": "Error",
     "failureAlertContent": "There was unexpected error happened while loading the schema. Please try again."
   },
+  "OptionalInformationPanel": {
+    "buttonName": "Check Advanced Use Cases (Optional)",
+    "buttonHelpText": "Click the button to expand the side panel with more information on advanced Use Cases"
+  },
+  "ListingAttributesSubmissionSideDrawer": {
+    "buttonName": "Get more information on product validation and submission",
+    "buttonHelpText": "Click the button to expand the side panel with more information on listings validation and submission."
+  },
   "AsyncFormDropDown": {
     "error": "Error",
     "loadingErrorMessage": "Error while loading options"
+  },
+  "SubmissionAccordion": {
+    "accordionOneTitle": "Run Schema Validations",
+    "accordionOneDescription": "Validate the entered data with the product type definition schema using a JSON schema library.",
+    "accordionTwoTitle": "Submit with Validation Preview",
+    "accordionTwoDescription": "Submit the entered data to Listings API using Validation Preview mode. Validation Preview mode indicates the submitted data should be validated using the values provided in the payload and validation errors the selling partner account may face. This will synchronously perform the same checks that are preformed on submissions after being accepted for processing, but without persisting to the selling partner's catalog.",
+    "accordionThreeTitle": "Submit",
+    "accordionThreeDescription": "Submit the entered data to Amazon.",
+    "accordionFourTitle": "Convert to JSON Listings Feed",
+    "accordionFourDescription": "Export the entered listing content into Json Listings Feed."
   },
   "SchemaValidatorButton": {
     "schemaValidationsButtonName": "Run Schema Validations",
@@ -190,10 +211,22 @@
     "failureAlertTitle": "Error",
     "failureAlertContent": "There was unexpected error happened while listing submission. Please try again."
   },
-  "ListingSubmissionResultDialog": {
+  "ListingSubmitPreviewButton": {
+    "buttonName": "Submit with Validation Preview",
+    "buttonHelpText": "Click the button to submit the listing content using Validation Preview. This will synchronously perform the same checks that are preformed on submissions after being accepted for processing, but without persisting to the selling partner's catalog.",
+    "failureAlertTitle": "Error",
+    "failureAlertContent": "There was unexpected error happened while submitting listing with validation preview. Please try again."
+  },
+  "ListingSubmitButtonSubmissionResultDialog": {
     "successStatus": "Success",
     "successMessage": "Submitted the listing with no issues to Amazon. The submission id is : {submissionId} and the status of the submission is {status}",
     "successMessageWithIssues": "Submitted the listing to Amazon. The submission id is : {submissionId} and the status of the submission is {status}",
+    "closeButtonHelpText": "Click to close the window"
+  },
+  "ListingSubmitPreviewButtonSubmissionResultDialog": {
+    "successStatus": "Success",
+    "successMessage": "Validated product payload with Validation Preview. The submission id is : {submissionId} and the status of the submission is {status}. Please proceed to product submission.",
+    "successMessageWithIssues": "Submitted listing with Validation Preview. The status of the submission is {status}",
     "closeButtonHelpText": "Click to close the window"
   },
   "IssueContainer": {
@@ -351,13 +384,25 @@
     "retrieveSKUButtonHelpText": "Retrieve SKU from Amazon",
     "retrieveSKUFailureAlertTitle": "Error",
     "retrieveSKUFailureAlertContent": "Error while retrieving the SKU. Try again later.",
-    "submissionModeLabel": "Choose Submission Mode",
-    "submissionModeHelpText": "Please see https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#updating-a-listings-item to understand the difference between both the APIs.",
+    "writeOperationLabel": "Choose Write Operation",
+    "writeOperationHelpText": "Please see https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#updating-a-listings-item to understand the difference between both the APIs.",
     "noSummaryWarning": "No product summary found. Product summary doesn't exist if the previous listing submission failed or is in progress.",
     "noSkuFoundMessage": "No listing found matching provided SKU."
   },
   "QuickLinks": {
     "infoToolTip": "Click to see more info about this page.",
     "settingsToolTip": "Navigate to Settings page."
+  },
+  "ProductVariationAccordion": {
+    "accordionTitle": "Create product with variation (Optional)",
+    "accordionDescription": "A variation family represents a collection of items for one product that is sold in multiple varieties. Follow these steps to configure a variation family for supported product types:",
+    "stepOneButtonText": "Click to set this product as a parent product",
+    "stepOneButtonHelpText": "Prepare the form for submitting a parent product.",
+    "stepOneButtonAlert": "Parentage Level is successfully set as parent. Scroll down to check the property and set value for corresponding required properties.",
+    "stepTwoButtonText": "Click to set this product as a child product",
+    "stepTwoButtonHelpText": "Prepare the form for submitting a child product.",
+    "stepOneDescription": "1. Follow the List an item that does not already exist in the Amazon catalog steps to create the parent listings item with the parentage_level value set to parent and child_relationship_type in child_parent_sku_relationship set to variation. Leave parent_sku empty for parent, it is only required for child sku.",
+    "stepTwoDescription": "2. For each unique combination of variation family attributes, follow the List an item that does not already exist in the Amazon catalog steps to create the child listings items with the parentage_level value set to child and referencing the SKU identifier of the parent listings item by setting parent_sku and child_relationship_type to variation. Also, select the variation_theme from a pre-populated list of supported variations for the child sku.",
+    "stepTwoButtonAlert": "Parentage Level is successfully set as child. Scroll down to check the property and set value for corresponding required properties."
   }
 }

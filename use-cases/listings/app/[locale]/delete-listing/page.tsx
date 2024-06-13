@@ -38,6 +38,7 @@ export default function Page() {
       key={uuid()}
       result={data}
       onClose={onClose}
+      dialogID="ListingSubmitButtonSubmissionResultDialog"
     />
   );
 

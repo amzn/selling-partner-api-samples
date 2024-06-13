@@ -99,11 +99,11 @@ function AttributesEditorWithIssues({
   currentIssues?: Issue[];
 }) {
   const translations = useTranslations(translationNamespace);
-  const [submissionMode, handleSubmissionModeChange] = useStateForDropDown(
+  const [writeOperation, handleWriteOperationChange] = useStateForDropDown(
     PUT_LISTINGS_ITEM_API_NAME,
   );
 
-  const validSubmissionModes = [
+  const validWriteOperations = [
     {
       key: PUT_LISTINGS_ITEM_API_NAME,
       label: PUT_LISTINGS_ITEM_API_NAME,
@@ -123,12 +123,12 @@ function AttributesEditorWithIssues({
       </Grid>
       <Grid item sx={{ margin: "1rem 0" }}>
         <FormDropDownComponent
-          id={"submissionMode"}
-          label={translations("submissionModeLabel")}
-          helpText={translations("submissionModeHelpText")}
-          onChange={handleSubmissionModeChange}
-          selectedKey={submissionMode}
-          options={validSubmissionModes}
+          id={"writeOperation"}
+          label={translations("writeOperationLabel")}
+          helpText={translations("writeOperationHelpText")}
+          onChange={handleWriteOperationChange}
+          selectedKey={writeOperation}
+          options={validWriteOperations}
         />
       </Grid>
       <Grid item>
@@ -137,7 +137,7 @@ function AttributesEditorWithIssues({
           productType={productType}
           useCase={UPDATE_LISTING_USE_CASE}
           initialListing={currentListing}
-          submissionMode={submissionMode}
+          writeOperation={writeOperation}
         />
       </Grid>
     </Grid>

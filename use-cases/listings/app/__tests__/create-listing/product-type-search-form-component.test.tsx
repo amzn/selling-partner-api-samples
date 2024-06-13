@@ -15,6 +15,7 @@ import userEvent from "@testing-library/user-event";
 import { mockResolveFetchResponse } from "@/app/test-utils/mock-fetch";
 import translations from "@/app/internationalization/translations/en-US.json";
 import { MOCK_SEARCH_PTD_RESULT } from "@/app/test-utils/mock-search-ptd-result";
+import { MOCK_SEARCH_SINGLE_PTD_RESULT } from "@/app/test-utils/mock-search-ptd-result";
 import { US_LOCALE } from "@/app/constants/global";
 
 beforeEach(() => {
@@ -91,5 +92,92 @@ describe("Test for the ProductTypeSearchFormComponent", () => {
     });
 
     expect(asFragment()).toMatchSnapshot();
+  });
+
+  test("Snapshot Test for product type search form with itemName input valid page", async () => {
+    // Define a mock handleSearchRequestSubmit function
+    const handleSearchRequestSubmit = jest.fn();
+    const routeContext = new Map<string, SPAPIRequestResponse[]>();
+
+    mockResolveFetchResponse(200, {
+      data: MOCK_SEARCH_SINGLE_PTD_RESULT,
+      debugContext: [MOCK_SP_API_RESPONSE],
+    });
+
+    const { asFragment, getByLabelText } = renderProductTypeSearchFormComponent(
+      handleSearchRequestSubmit,
+      {
+        routeContext: routeContext,
+      },
+    );
+
+    // Modify the input fields
+    const itemNameInput = getByLabelText("ItemName");
+    await userEvent.type(itemNameInput, "itemName_testtest");
+
+    expect(routeContext.size).toStrictEqual(0);
+    await act(async () => {
+      await userEvent.click(screen.getByTestId("submitButton"));
+    });
+
+    expect(routeContext.size).toStrictEqual(1);
+
+    await waitFor(() => {
+      expect(
+        screen
+          .queryByTestId("submitButton")
+          ?.querySelector(".MuiTouchRipple-ripple"),
+      ).toBeNull();
+    });
+
+    expect(asFragment()).toMatchSnapshot();
+  });
+
+  test("Snapshot Test for product type search form with both keywords and itemName input combinations", async () => {
+    // Define a mock handleSearchRequestSubmit function
+    const handleSearchRequestSubmit = jest.fn();
+    const routeContext = new Map<string, SPAPIRequestResponse[]>();
+
+    mockResolveFetchResponse(200, {
+      data: MOCK_SEARCH_SINGLE_PTD_RESULT,
+      debugContext: [MOCK_SP_API_RESPONSE],
+    });
+
+    const { asFragment, getByLabelText } = renderProductTypeSearchFormComponent(
+      handleSearchRequestSubmit,
+      {
+        routeContext: routeContext,
+      },
+    );
+
+    // Modify the input fields
+    const itemNameInput = getByLabelText("ItemName");
+    await userEvent.type(itemNameInput, "itemName_testtest");
+    await userEvent.clear(itemNameInput);
+
+    const keywordsInput = getByLabelText("Keywords");
+    await userEvent.type(keywordsInput, "keywords_testtest");
+    await userEvent.clear(keywordsInput);
+
+    await userEvent.type(keywordsInput, "keywords_testtest");
+    await userEvent.type(itemNameInput, "UPC_testtest");
+
+    // Assert the submit button is disabled
+    const submitButton = screen.getByTestId("submitButton");
+    expect(submitButton).toBeDisabled();
+
+    expect(asFragment()).toMatchSnapshot();
+
+    await userEvent.clear(keywordsInput);
+
+    // Assert the submit button is enabled
+    expect(submitButton).toBeEnabled();
+
+    expect(asFragment()).toMatchSnapshot();
+
+    await act(async () => {
+      await userEvent.click(submitButton);
+    });
+    expect(routeContext.size).toStrictEqual(1);
   });
 });

@@ -213,6 +213,29 @@ exports[`Test for the ListingAttributesEditorComponent renders the UI based on t
     class="MuiGrid-root MuiGrid-container css-tzmz8p-MuiGrid-root"
   >
     <span
+      aria-label="Click the button to expand the side panel with more information on listings validation and submission."
+      class=""
+      data-mui-internal-clone-element="true"
+      data-testid="toolTipListingAttributesSubmissionSideDrawer"
+    >
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+        data-testid="buttonListingAttributesSubmissionSideDrawer"
+        id="buttonListingAttributesSubmissionSideDrawer"
+        tabindex="0"
+        type="button"
+      >
+        Get more information on product validation and submission
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </span>
+  </div>
+  <div
+    class="MuiGrid-root MuiGrid-container css-tzmz8p-MuiGrid-root"
+  >
+    <span
       aria-label="Click the button to validate the entered data with the product type definition schema."
       class=""
       data-mui-internal-clone-element="true"
@@ -234,14 +257,36 @@ exports[`Test for the ListingAttributesEditorComponent renders the UI based on t
     class="MuiGrid-root MuiGrid-container css-tzmz8p-MuiGrid-root"
   >
     <span
+      aria-label="Click the button to submit the listing content using Validation Preview. This will synchronously perform the same checks that are preformed on submissions after being accepted for processing, but without persisting to the selling partner's catalog."
+      class=""
+      data-mui-internal-clone-element="true"
+    >
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
+        data-testid="ListingSubmitPreviewButton"
+        id="ListingSubmitPreviewButton"
+        tabindex="0"
+        type="button"
+      >
+        Submit with Validation Preview
+        <span
+          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+        />
+      </button>
+    </span>
+  </div>
+  <div
+    class="MuiGrid-root MuiGrid-container css-tzmz8p-MuiGrid-root"
+  >
+    <span
       aria-label="Click the button to submit the listing content to Amazon."
       class=""
       data-mui-internal-clone-element="true"
     >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium css-sghohy-MuiButtonBase-root-MuiButton-root"
-        data-testid="listingSubmitButton"
-        id="listingSubmitButton"
+        data-testid="ListingSubmitButton"
+        id="ListingSubmitButton"
         tabindex="0"
         type="button"
       >

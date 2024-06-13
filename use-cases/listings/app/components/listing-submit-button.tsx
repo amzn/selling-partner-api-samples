@@ -16,25 +16,30 @@ import { useCustomFetcher } from "@/app/hooks/useCustomFetcher";
  * @param productType the product type.
  * @param useCase the user case where this component is used in the app.
  * @param listing the listing data which is submitted to Amazon.
- * @param submissionMode the submission mode to be used when the use case is update listing.
+ * @param writeOperation the write operation to be used when the use case is update listing.
+ * @param mode the mode to add to the API. e.g. validation preview
  * @constructor
  */
 export default function ListingSubmitButton({
+  buttonId,
   sku,
   productType,
   useCase,
   currentListing,
   initialListing,
-  submissionMode,
+  writeOperation,
+  mode,
 }: {
+  buttonId: string;
   sku: string;
   productType: string;
   useCase: string;
   currentListing: any;
   initialListing: any;
-  submissionMode?: string;
+  writeOperation?: string;
+  mode?: string;
 }) {
-  const translations = useTranslations("ListingSubmitButton");
+  const translations = useTranslations(buttonId);
   const locale = useLocale();
   const putListingsItemFetcher = useCustomFetcher((fetcherKeys: string[]) => {
     const [
@@ -43,19 +48,27 @@ export default function ListingSubmitButton({
       locale,
       productType,
       useCase,
-      submissionMode,
+      writeOperation,
       currentListing,
       initialListing,
+      mode,
     ] = fetcherKeys;
+    let headers: any = {
+      sku: sku,
+      locale: locale,
+      productType: productType,
+      useCase: useCase,
+      writeOperation: writeOperation,
+    };
+    if (mode) {
+      headers = {
+        ...headers,
+        mode: mode,
+      };
+    }
     return {
       method: "POST",
-      headers: {
-        sku: sku,
-        locale: locale,
-        productType: productType,
-        useCase: useCase,
-        submissionMode: submissionMode,
-      },
+      headers: headers,
       body: serializeToJsonString({
         currentListing: currentListing,
         initialListing: initialListing,
@@ -69,6 +82,7 @@ export default function ListingSubmitButton({
         key={uuid()}
         result={data}
         onClose={onClose}
+        dialogID={buttonId + "SubmissionResultDialog"}
       />
     );
   };
@@ -77,7 +91,7 @@ export default function ListingSubmitButton({
     <SaveActionButton
       buttonName={translations("buttonName")}
       buttonHelpText={translations("buttonHelpText")}
-      buttonId="listingSubmitButton"
+      buttonId={buttonId}
       isButtonDisabled={false}
       fetchKeys={[
         LISTINGS_ITEM_API_PATH,
@@ -85,9 +99,10 @@ export default function ListingSubmitButton({
         convertLocaleToSPAPIFormat(locale),
         productType,
         useCase,
-        submissionMode,
+        writeOperation,
         cloneAndCleanupListing(currentListing),
         initialListing,
+        mode,
       ]}
       fetcher={putListingsItemFetcher}
       failureAlertTitle={translations("failureAlertTitle")}
