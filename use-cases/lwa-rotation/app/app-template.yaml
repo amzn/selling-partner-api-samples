@@ -1,0 +1,358 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: This template creates the resources of an SP-API application
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: SP-API Default Configuration
+        Parameters:
+          - ClientId
+          - ClientSecret
+          - RegionCode
+      - Label:
+          default: Sample Solution Configuration
+        Parameters:
+          - ProgrammingLanguage
+          - RandomSuffix
+          - ArtifactsS3BucketName
+          - LambdaFunctionsCodeS3Key
+          - LWARotateClientSecretRequestLambdaFunctionHandler
+          - LWAUpdateNewClientSecretLambdaFunctionHandler
+    ParameterLabels:
+      ClientId:
+        default: Client Id
+      ClientSecret:
+        default: Client Secret
+      RegionCode:
+        default: Region Code
+      ProgrammingLanguage:
+        default: Programming Language
+      RandomSuffix:
+        default: Random suffix
+      ArtifactsS3BucketName:
+        default: Artifacts S3 Bucket Name
+      LambdaFunctionsCodeS3Key:
+        default: Lambda Functions Code S3 Key
+      LWARotateClientSecretRequestLambdaFunctionHandler:
+        default: Handler of LWA Rotate Client Secret Lambda Function
+      LWAUpdateNewClientSecretLambdaFunctionHandler:
+        default: Handler of LWA Update New Client Secrets Lambda Function
+Parameters:
+  ClientId:
+    Type: String
+    MinLength: 1
+    Description: Client Id of the SP-API app
+    NoEcho: true
+  ClientSecret:
+    Type: String
+    MinLength: 1
+    Description: Client Secret of the SP-API app
+    NoEcho: true
+  RegionCode:
+    Type: String
+    MinLength: 1
+    Description: Region Code used for testing the SP-API app
+    NoEcho: true
+  ProgrammingLanguage:
+    Type: String
+    MinLength: 1
+    Description: Programming language of the Lambda functions
+    AllowedValues:
+      - java11
+      - python3.8
+  RandomSuffix:
+    Type: String
+    MinLength: 6
+    MaxLength: 12
+    Description: Random suffix to append to generated resources
+  ArtifactsS3BucketName:
+    Type: String
+    MinLength: 1
+    Description: Name of the S3 bucket containing the application's artifacts
+  LambdaFunctionsCodeS3Key:
+    Type: String
+    MinLength: 1
+    Description: Key of the S3 file containing the Lambda functions code
+  LWARotateClientSecretRequestLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of LWA Rotate Client Secret Request Lambda Function
+  LWAUpdateNewClientSecretLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of LWA Update New Client Secrets Lambda Function
+Resources:
+  KMSKey:
+    Type: 'AWS::KMS::Key'
+    Properties:
+      Description: "KMS Key for LWA SQS Queue Encryption"
+      EnableKeyRotation: true
+      KeyPolicy:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: Allow administration of the key
+            Effect: Allow
+            Principal:
+              AWS: !Sub "arn:${AWS::Partition}:iam::${AWS::AccountId}:root"
+            Action: 'kms:*'
+            Resource: '*'
+  SPAPIAppCredentials:
+    Type: 'AWS::SecretsManager::Secret'
+    Properties:
+      Name: !Join
+        - '-'
+        - - SPAPIAppCredentials
+          - !Ref RandomSuffix
+      Description: Secret containing SP-API app credentials
+      SecretString: !Sub
+        - >-
+          {"AppClientId": "${AppClientIdValue}", "AppClientSecret":
+          "${AppClientSecretValue}"}
+        - AppClientIdValue: !Ref ClientId
+          AppClientSecretValue: !Ref ClientSecret
+  LWASecretExpiryQueue:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      QueueName: !Join
+        - '-'
+        - - lwa-secret-expiry-queue
+          - !Ref RandomSuffix
+      VisibilityTimeout: 60
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt
+          - LWANewSecretDeadLetterQueue
+          - Arn
+        maxReceiveCount: 3
+      KmsMasterKeyId: !Ref KMSKey
+  LWASecretExpiryQueuePolicy:
+    Type: 'AWS::SQS::QueuePolicy'
+    Properties:
+      Queues:
+        - !Ref LWASecretExpiryQueue
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'sqs:SendMessage'
+              - 'sqs:GetQueueAttributes'
+              - 'sqs:ReceiveMessage'
+            Resource: !GetAtt
+              - LWASecretExpiryQueue
+              - Arn
+            Principal:
+              AWS:
+                - '437568002678'
+  LWASecretExpiryDeadLetterQueue:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      QueueName: !Join
+        - '-'
+        - - lwa-secret-expiry-dead-letter-queue
+          - !Ref RandomSuffix
+      VisibilityTimeout: 60
+  LWANewSecretDeadLetterQueue:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      QueueName: !Join
+        - '-'
+        - - lwa-new-secret-dead-letter-queue
+          - !Ref RandomSuffix
+      VisibilityTimeout: 60
+  LWANewSecretQueue:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      QueueName: !Join
+        - '-'
+        - - lwa-new-secret-queue
+          - !Ref RandomSuffix
+      VisibilityTimeout: 60
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt
+          - LWANewSecretDeadLetterQueue
+          - Arn
+        maxReceiveCount: 3
+  LWANewSecretQueuePolicy:
+    Type: 'AWS::SQS::QueuePolicy'
+    Properties:
+      Queues:
+        - !Ref LWANewSecretQueue
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'SQS:SendMessage'
+              - 'SQS:GetQueueAttributes'
+              - 'SQS:ReceiveMessage'
+            Resource: !GetAtt
+              - LWANewSecretQueue
+              - Arn
+            Principal:
+              AWS:
+                - '437568002678'
+  LWARotateClientSecretRequestLambdaExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Join
+        - '-'
+        - - LWARotateClientSecretRequestLambdaExecutionRole
+          - !Ref RandomSuffix
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: SecretsReaderPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'secretsmanager:GetSecretValue'
+                Resource:
+                  - !Ref SPAPIAppCredentials
+        - PolicyName: SQSReaderPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'SQS:DeleteMessage'
+                  - 'SQS:GetQueueAttributes'
+                  - 'SQS:ReceiveMessage'
+                Resource: !GetAtt
+                  - LWASecretExpiryQueue
+                  - Arn
+        - PolicyName: KMSDecryptPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'kms:Decrypt'
+                Resource: !GetAtt
+                  - KMSKey
+                  - Arn
+  LWAUpdateNewClientSecretLambdaExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Join
+        - '-'
+        - - LWAUpdateNewClientSecretLambdaExecutionRole
+          - !Ref RandomSuffix
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: SecretsReaderPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'secretsmanager:GetSecretValue'
+                  - 'secretsmanager:PutSecretValue'
+                Resource:
+                  - !Ref SPAPIAppCredentials
+        - PolicyName: SQSReceiveMessagePolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'SQS:ReceiveMessage'
+                  - 'SQS:DeleteMessage'
+                  - 'SQS:GetQueueAttributes'
+                Resource: !GetAtt
+                  - LWANewSecretQueue
+                  - Arn
+        - PolicyName: KMSDecryptPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'kms:Decrypt'
+                Resource: !GetAtt
+                  - KMSKey
+                  - Arn
+  LWARotateClientSecretRequestLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - LWARotateClientSecretRequestLambdaFunction
+          - !Ref RandomSuffix
+      Description: Lambda function to rotate LWA client secret requests
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref LWARotateClientSecretRequestLambdaFunctionHandler
+      Role: !GetAtt
+        - LWARotateClientSecretRequestLambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+          REGION_CODE: !Ref RegionCode
+  LWAUpdateNewClientSecretLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - LWAUpdateNewClientSecretLambdaFunction
+          - !Ref RandomSuffix
+      Description: Lambda function to update new client secrets
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref LWAUpdateNewClientSecretLambdaFunctionHandler
+      Role: !GetAtt
+        - LWAUpdateNewClientSecretLambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+          REGION_CODE: !Ref RegionCode
+  LWARotateClientSecretRequestLambdaEventSourceMapping:
+    Type: 'AWS::Lambda::EventSourceMapping'
+    Properties:
+      BatchSize: 1
+      Enabled: true
+      EventSourceArn: !GetAtt
+        - LWASecretExpiryQueue
+        - Arn
+      FunctionName: !GetAtt
+        - LWARotateClientSecretRequestLambdaFunction
+        - Arn
+  LWAUpdateNewClientSecretLambdaEventSourceMapping:
+    Type: 'AWS::Lambda::EventSourceMapping'
+    Properties:
+      BatchSize: 1
+      Enabled: true
+      EventSourceArn: !GetAtt
+        - LWANewSecretQueue
+        - Arn
+      FunctionName: !GetAtt
+        - LWAUpdateNewClientSecretLambdaFunction
+        - Arn
