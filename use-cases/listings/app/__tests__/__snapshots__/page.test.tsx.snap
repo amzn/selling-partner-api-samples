@@ -316,7 +316,7 @@ exports[`Test for the Home page Snapshot Test for the Home component 1`] = `
         >
           attributes editor form
         </a>
-         will also be displayed along with a drop down for the submission mode for updating your listing. Refer the 
+         will also be displayed along with a drop down for the write operation for updating your listing. Refer the 
         <a
           href="https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#updating-a-listings-item"
         >

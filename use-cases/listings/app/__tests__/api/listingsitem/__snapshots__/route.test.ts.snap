@@ -208,6 +208,7 @@ exports[`Test PATCH ListingsItem API returns 200 on successful call to Patch Lis
         "marketplaceIds": [
           "ATVPDKIKX0DER",
         ],
+        "mode": null,
         "sellerId": "ABCD878787R",
         "sku": "sku",
       },
@@ -248,6 +249,7 @@ exports[`Test PATCH ListingsItem API returns 500 exception from invoking Patch L
         "marketplaceIds": [
           "ATVPDKIKX0DER",
         ],
+        "mode": null,
         "sellerId": "ABCD878787R",
         "sku": "sku",
       },
@@ -288,6 +290,7 @@ exports[`Test PUT ListingsItem SP-API returns 200 on successful call to Put List
         "marketplaceIds": [
           "ATVPDKIKX0DER",
         ],
+        "mode": null,
         "sellerId": "ABCD878787R",
         "sku": "sku",
       },

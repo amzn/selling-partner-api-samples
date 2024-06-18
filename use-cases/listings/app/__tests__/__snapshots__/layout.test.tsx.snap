@@ -5,6 +5,9 @@ exports[`Test for the global app level layout Snapshot Test for the global app l
   <div
     class="MuiContainer-root MuiContainer-maxWidthMd css-xdmu94-MuiContainer-root"
   />
+  <div
+    class="MuiContainer-root MuiContainer-maxWidthMd css-xdmu94-MuiContainer-root"
+  />
   <div>
      Mocked Navigation Component 
   </div>
@@ -86,6 +89,9 @@ exports[`Test for the global app level layout test the 404 response code scenari
       </div>
     </div>
   </div>
+  <div
+    class="MuiContainer-root MuiContainer-maxWidthMd css-xdmu94-MuiContainer-root"
+  />
   <div>
      Mocked Navigation Component 
   </div>

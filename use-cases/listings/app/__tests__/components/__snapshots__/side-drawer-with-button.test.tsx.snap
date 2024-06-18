@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for the Side Drawer renders the drawer after clicking the button. 1`] = `
+<div
+  class="MuiDrawer-root MuiDrawer-modal MuiModal-root css-1u2w381-MuiModal-root-MuiDrawer-root"
+  data-testid="drawerListingAttributesSubmissionSideDrawer"
+  id="drawerListingAttributesSubmissionSideDrawer"
+  role="presentation"
+>
+  <div
+    aria-hidden="true"
+    class="MuiBackdrop-root MuiModal-backdrop css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop"
+    style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+  />
+  <div
+    data-testid="sentinelStart"
+    tabindex="0"
+  />
+  <div
+    class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation16 MuiDrawer-paper MuiDrawer-paperAnchorRight css-1160xiw-MuiPaper-root-MuiDrawer-paper"
+    style="webkit-transform: none; transform: none; webkit-transition: -webkit-transform 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms; transition: transform 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;"
+    tabindex="-1"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-container css-1a566p8-MuiGrid-root"
+    >
+      <p>
+        test
+      </p>
+    </div>
+  </div>
+  <div
+    data-testid="sentinelEnd"
+    tabindex="0"
+  />
+</div>
+`;
