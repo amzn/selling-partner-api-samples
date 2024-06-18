@@ -33,12 +33,15 @@ exports[`Test Search Definitions Product Types API Returns 200 on successful sea
       "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/product-type-definitions-api-v2020-09-01-reference#searchdefinitionsproducttypes",
       "apiName": "SearchDefinitionsProductType",
       "request": {
+        "itemName": "",
         "keywords": [
           "PRINTER",
         ],
+        "locale": "",
         "marketplaceIds": [
           "ATVPDKIKX0DER",
         ],
+        "searchLocale": "",
       },
       "response": {
         "productTypeVersion": "UAAAAAAAAAAAAAAAAlYD0upa77EPI-kJKcBPTGLHMFGXMhvA=",
@@ -85,12 +88,15 @@ exports[`Test Search Definitions Product Types API returns 404 on failure making
       "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/product-type-definitions-api-v2020-09-01-reference#searchdefinitionsproducttypes",
       "apiName": "SearchDefinitionsProductType",
       "request": {
+        "itemName": "",
         "keywords": [
           "PRINTER",
         ],
+        "locale": "",
         "marketplaceIds": [
           "ATVPDKIKX0DER",
         ],
+        "searchLocale": "",
       },
       "response": {
         "status": 404,
@@ -107,12 +113,15 @@ exports[`Test Search Definitions Product Types API returns 500 on failure making
       "apiDocumentationLink": "https://developer-docs.amazon.com/sp-api/docs/product-type-definitions-api-v2020-09-01-reference#searchdefinitionsproducttypes",
       "apiName": "SearchDefinitionsProductType",
       "request": {
+        "itemName": "",
         "keywords": [
           "PRINTER",
         ],
+        "locale": "",
         "marketplaceIds": [
           "ATVPDKIKX0DER",
         ],
+        "searchLocale": "",
       },
       "response": {
         "status": 500,

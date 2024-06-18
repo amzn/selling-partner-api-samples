@@ -42,7 +42,7 @@ function renderListingUpdateComponent(listing: any) {
 }
 
 describe("Test for the ListingUpdateComponent", () => {
-  test("renders the issues button with put listings item submission mode", () => {
+  test("renders the issues button with put listings item write operation", () => {
     const { asFragment } = renderListingUpdateComponent({
       issues: [MOCK_ISSUE],
       attributes: {},
@@ -51,7 +51,7 @@ describe("Test for the ListingUpdateComponent", () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
-  test("doesn't render the issues button with patch listings item submission mode", async () => {
+  test("doesn't render the issues button with patch listings item write operation", async () => {
     const { asFragment, getByRole, getAllByRole } =
       renderListingUpdateComponent({
         issues: [],

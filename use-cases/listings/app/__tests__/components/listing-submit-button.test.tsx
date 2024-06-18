@@ -25,6 +25,7 @@ import { CREATE_OFFER_USE_CASE, US_LOCALE } from "@/app/constants/global";
 const SKU = "TestSKU";
 const PRODUCT_TYPE = "ProductType";
 const USE_CASE = CREATE_OFFER_USE_CASE;
+const BUTTON_ID = "ListingSubmitButton";
 
 function renderListingSubmitButton(debugState?: DebugState) {
   return render(
@@ -32,6 +33,7 @@ function renderListingSubmitButton(debugState?: DebugState) {
       <DebuggingContextProvider initialDebugState={debugState}>
         <NextIntlClientProvider locale={US_LOCALE} messages={translations}>
           <ListingSubmitButton
+            buttonId={BUTTON_ID}
             sku={SKU}
             productType={PRODUCT_TYPE}
             useCase={USE_CASE}
@@ -64,7 +66,7 @@ describe("Test for the ListingSubmitButton", () => {
   test("renders the spinner component while loading.", async () => {
     mockDelayedResolveFetchResponse(200, {}, 60000);
     renderListingSubmitButton();
-    await userEvent.click(screen.getByTestId("listingSubmitButton"));
+    await userEvent.click(screen.getByTestId("ListingSubmitButton"));
 
     expect(screen.queryByTestId("backDropCircularSpinner")).toBeVisible();
     expect(screen.queryByTestId("alertDialog")).toBeNull();
@@ -74,7 +76,7 @@ describe("Test for the ListingSubmitButton", () => {
   test("renders the alert dialog on fetch failure.", async () => {
     mockRejectFetchResponse(400);
     renderListingSubmitButton();
-    await userEvent.click(screen.getByTestId("listingSubmitButton"));
+    await userEvent.click(screen.getByTestId("ListingSubmitButton"));
 
     await waitFor(() =>
       expect(screen.queryByTestId("backDropCircularSpinner")).toBeNull(),
@@ -97,7 +99,7 @@ describe("Test for the ListingSubmitButton", () => {
       debugContext: [MOCK_SP_API_RESPONSE],
     });
     renderListingSubmitButton();
-    await userEvent.click(screen.getByTestId("listingSubmitButton"));
+    await userEvent.click(screen.getByTestId("ListingSubmitButton"));
 
     await waitFor(() =>
       expect(screen.queryByTestId("backDropCircularSpinner")).toBeNull(),
@@ -122,7 +124,7 @@ describe("Test for the ListingSubmitButton", () => {
       debugContext: [MOCK_SP_API_RESPONSE],
     });
     renderListingSubmitButton();
-    await userEvent.click(screen.getByTestId("listingSubmitButton"));
+    await userEvent.click(screen.getByTestId("ListingSubmitButton"));
 
     await waitFor(() =>
       expect(screen.queryByTestId("backDropCircularSpinner")).toBeNull(),

@@ -9,18 +9,21 @@ import IssuesDialog from "@/app/components/issues-dialog";
  * If the response has no issues, then it shows a successful alert to the user.
  * If the response has issues, then it shows the issues in a full screen dialog
  * to the user.
+ * @param dialogID Identifier of the dialog.
  * @param result the listing submission response.
  * @param onClose function which is called when the dialog is closed.
  * @constructor
  */
 export default function ListingSubmissionResultDialog({
+  dialogID,
   result,
   onClose,
 }: {
+  dialogID: string;
   result: ListingSubmissionResult;
   onClose: () => void;
 }) {
-  const translations = useTranslations("ListingSubmissionResultDialog");
+  const translations = useTranslations(dialogID);
 
   if (!result.issues?.length) {
     return (

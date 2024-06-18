@@ -14,7 +14,7 @@ exports[`Test for the Create Listing Page Snapshot Test for Search by Product Ty
         <h6
           class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
         >
-          Search For Product Types at Amazon
+          Search For Product Types at Amazon based on Keywords or ItemName
         </h6>
       </div>
     </div>
@@ -61,7 +61,7 @@ exports[`Test for the Create Listing Page Snapshot Test for create Listing home 
         <h6
           class="MuiTypography-root MuiTypography-h6 css-2ulfj5-MuiTypography-root"
         >
-          Search For Product Types at Amazon
+          Search For Product Types at Amazon based on Keywords or ItemName
         </h6>
       </div>
     </div>

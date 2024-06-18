@@ -15,7 +15,7 @@ import { isFullUpdate } from "@/app/utils/listings-item";
  * @param initialListing the initial listing before the user edits.
  * @param sellerId the seller identifier.
  * @param issueLocale the locale used for issue localization.
- * @param submissionMode the submission mode to be used when the use case is update listing.
+ * @param writeOperation the write operation to be used when the use case is update listing.
  */
 export function convertListingToJsonFeed(
   sku: string,
@@ -25,7 +25,7 @@ export function convertListingToJsonFeed(
   initialListing: object,
   sellerId: string,
   issueLocale: string,
-  submissionMode?: string,
+  writeOperation?: string,
 ) {
   const feedHeader = {
     sellerId: sellerId,
@@ -33,7 +33,7 @@ export function convertListingToJsonFeed(
     issueLocale: issueLocale,
   };
   let feed: object | undefined = undefined;
-  if (isFullUpdate(useCase, submissionMode) && Object.keys(listing).length) {
+  if (isFullUpdate(useCase, writeOperation) && Object.keys(listing).length) {
     feed = {
       header: feedHeader,
       messages: [
@@ -49,7 +49,7 @@ export function convertListingToJsonFeed(
     };
   }
 
-  if (PATCH_LISTINGS_ITEM_API_NAME === submissionMode) {
+  if (PATCH_LISTINGS_ITEM_API_NAME === writeOperation) {
     const patches = computePatches(listing, initialListing);
     if (!patches.length) {
       return feed;

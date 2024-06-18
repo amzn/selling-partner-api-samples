@@ -9,6 +9,7 @@ import {
   GET_LISTINGS_ITEM_API_NAME,
   INITIAL_LISTING_BODY,
   LOCALE_HEADER,
+  MODE,
   PATCH_LISTINGS_ITEM_API_DOC_LINK,
   PATCH_LISTINGS_ITEM_API_NAME,
   PRODUCT_TYPE_HEADER,
@@ -16,7 +17,7 @@ import {
   PUT_LISTINGS_ITEM_API_NAME,
   SKU_HEADER,
   STATUS,
-  SUBMISSION_MODE_HEADER,
+  WRITE_OPERATION_HEADER,
   USE_CASE_HEADER,
   USE_CASE_TO_REQUIREMENTS,
 } from "@/app/constants/global";
@@ -114,14 +115,15 @@ async function submitListingsItemHandler(
     productType,
     locale,
     useCase,
-    submissionMode,
+    writeOperation,
+    mode,
   } = requiredParametersResponse;
 
   let nextResponseOrSPAPIRequestResponse;
 
   // We want to invoke PutListingsItem for All Create-Offer, Create-Listing use cases as well as
-  // PutListingsItem submission mode.
-  if (isFullUpdate(useCase, submissionMode ?? undefined)) {
+  // PutListingsItem write operation.
+  if (isFullUpdate(useCase, writeOperation ?? undefined)) {
     nextResponseOrSPAPIRequestResponse = await invokePutListingsItem(
       productType,
       useCase,
@@ -129,6 +131,7 @@ async function submitListingsItemHandler(
       settings,
       sku,
       locale,
+      mode,
     );
   } else {
     nextResponseOrSPAPIRequestResponse = await invokePatchListingsItem(
@@ -138,6 +141,7 @@ async function submitListingsItemHandler(
       settings,
       sku,
       locale,
+      mode,
     );
   }
 
@@ -162,6 +166,7 @@ async function invokePutListingsItem(
   settings: Settings,
   sku: string,
   locale: string,
+  mode: string | null,
 ) {
   const listingsItemPutRequest = constructListingsItemPutRequest(
     productType,
@@ -175,6 +180,7 @@ async function invokePutListingsItem(
     sku,
     listingsItemPutRequest,
     locale,
+    mode,
   );
 }
 
@@ -185,6 +191,7 @@ async function invokePatchListingsItem(
   settings: Settings,
   sku: string,
   locale: string,
+  mode: string | null,
 ) {
   const listingsItemPatchRequest = constructListingsItemPatchRequest(
     productType,
@@ -197,6 +204,7 @@ async function invokePatchListingsItem(
     sku,
     listingsItemPatchRequest,
     locale,
+    mode,
   );
 }
 
@@ -222,7 +230,7 @@ async function validateAndRetrieveRequiredParametersForPostRequests(
     return validateHeadersResponse;
   }
 
-  const { sku, productType, locale, useCase, submissionMode } =
+  const { sku, productType, locale, useCase, writeOperation, mode } =
     validateHeadersResponse;
 
   return {
@@ -232,7 +240,8 @@ async function validateAndRetrieveRequiredParametersForPostRequests(
     productType,
     locale,
     useCase,
-    submissionMode,
+    writeOperation,
+    mode,
   };
 }
 
@@ -340,7 +349,8 @@ function validateAndRetrieveRequestParamsFromHeaderForPostRequest() {
   const locale = requestHeaders.get(LOCALE_HEADER);
   const productType = requestHeaders.get(PRODUCT_TYPE_HEADER);
   const useCase = requestHeaders.get(USE_CASE_HEADER);
-  const submissionMode = requestHeaders.get(SUBMISSION_MODE_HEADER);
+  const writeOperation = requestHeaders.get(WRITE_OPERATION_HEADER);
+  const mode = requestHeaders.get(MODE);
 
   if (!sku) {
     const errorMessage = "The request is missing the sku in the headers";
@@ -367,7 +377,7 @@ function validateAndRetrieveRequestParamsFromHeaderForPostRequest() {
     return nextResponse(400, errorMessage);
   }
 
-  return { sku, productType, locale, useCase, submissionMode };
+  return { sku, productType, locale, useCase, writeOperation, mode };
 }
 
 function validateAndRetrieveRequestParamsFromHeaderForDeleteRequest() {
@@ -500,6 +510,7 @@ async function fetchPutListingsItem(
   sku: string,
   body: ListingsItemPutRequest,
   locale: string,
+  mode: string | null,
 ) {
   const listingsItemApi = await buildListingsItemsAPIClient(
     getSPAPIEndpoint(settings.region),
@@ -514,6 +525,7 @@ async function fetchPutListingsItem(
       marketplaceIds: [settings.marketplaceId],
       issueLocale: locale,
       body: body,
+      mode: mode,
     },
     response: {},
   };
@@ -526,6 +538,7 @@ async function fetchPutListingsItem(
       reqResponse.request.body,
       {
         issueLocale: reqResponse.request.issueLocale,
+        mode: reqResponse.request.mode,
       },
     );
 
@@ -540,6 +553,7 @@ async function fetchPatchListingsItem(
   sku: string,
   body: ListingsItemPatchRequest,
   locale: string,
+  mode: string | null,
 ) {
   const listingsItemApi = await buildListingsItemsAPIClient(
     getSPAPIEndpoint(settings.region),
@@ -554,6 +568,7 @@ async function fetchPatchListingsItem(
       marketplaceIds: [settings.marketplaceId],
       issueLocale: locale,
       body: body,
+      mode: mode,
     },
     response: {},
   };
@@ -566,6 +581,7 @@ async function fetchPatchListingsItem(
       reqResponse.request.body,
       {
         issueLocale: reqResponse.request.issueLocale,
+        mode: reqResponse.request.mode,
       },
     );
 

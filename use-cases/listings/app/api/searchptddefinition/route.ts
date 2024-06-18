@@ -12,6 +12,8 @@ import {
   SEARCH_DEFINITIONS_PRODUCT_TYPE_API_DOC_LINK,
   SEARCH_DEFINITIONS_PRODUCT_TYPE_API_NAME,
   KEYWORDS_HEADER,
+  ITEMNAME_HEADER,
+  LOCALE_HEADER,
 } from "@/app/constants/global";
 import nextResponse from "@/app/utils/next-response-factory";
 import { serializeToJsonString } from "@/app/utils/serialization";
@@ -26,7 +28,7 @@ import {
 export const dynamic = "force-dynamic";
 
 /**
- * Search product types based on keywords. If keywords is empty, it will return all available product types.
+ * Search product types based on keywords or itemname. If both are empty, it will return all available product types.
  * @constructor
  */
 export async function GET() {
@@ -34,11 +36,16 @@ export async function GET() {
 }
 
 async function searchPTDDefinitionHandler(settings: Settings) {
-  const keywords = getKeyWordsFromHeader();
+  const { keywords, itemName, locale } = retrieveRequestParamsFromHeader();
 
-  // Retrieve Search Product Types by Keywords from the SP API.
+  // Retrieve Search Product Types by Keywords or ItemName from the SP API.
   const nextResponseOrSPAPIRequestResponse =
-    await fetchSearchDefinitionsProductTypes(settings, keywords);
+    await fetchSearchDefinitionsProductTypes(
+      settings,
+      keywords,
+      itemName,
+      locale,
+    );
 
   if (nextResponseOrSPAPIRequestResponse instanceof NextResponse) {
     return nextResponseOrSPAPIRequestResponse;
@@ -61,24 +68,30 @@ async function searchPTDDefinitionHandler(settings: Settings) {
   );
 }
 
-function getKeyWordsFromHeader() {
+function retrieveRequestParamsFromHeader() {
   const requestHeaders = headers();
-  const keywords = requestHeaders.get(KEYWORDS_HEADER);
-  if (keywords) {
-    return keywords.split(",");
-  } else {
-    return [];
-  }
+  const keywordsData = requestHeaders.get(KEYWORDS_HEADER);
+  const keywords = keywordsData ? keywordsData.split(",") : [];
+  const itemNameData = requestHeaders.get(ITEMNAME_HEADER);
+  const itemName = itemNameData ? itemNameData : "";
+  const localeData = requestHeaders.get(LOCALE_HEADER);
+  const locale = localeData ? localeData : "";
+
+  return { keywords, itemName, locale };
 }
 
 /**
  * fetches the result of search product types from the SP API.
  * @param settings user entered settings
  * @param keywords search keywords
+ * @param itemName search itemName
+ * @param locale user preferred locale
  */
 async function fetchSearchDefinitionsProductTypes(
   settings: Settings,
   keywords: string[],
+  itemName: string,
+  locale: string,
 ) {
   const definitionsApi = await buildDefinitionsAPIClient(
     getSPAPIEndpoint(settings.region),
@@ -89,7 +102,10 @@ async function fetchSearchDefinitionsProductTypes(
     apiDocumentationLink: SEARCH_DEFINITIONS_PRODUCT_TYPE_API_DOC_LINK,
     request: {
       keywords: keywords,
+      itemName: itemName,
       marketplaceIds: [settings.marketplaceId],
+      locale: locale,
+      searchLocale: locale,
     },
     response: {},
   };
@@ -99,6 +115,9 @@ async function fetchSearchDefinitionsProductTypes(
       reqResponse.request.marketplaceIds,
       {
         keywords: keywords,
+        itemName: itemName,
+        locale: locale,
+        searchLocale: locale,
       },
     );
 

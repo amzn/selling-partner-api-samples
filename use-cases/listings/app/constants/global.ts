@@ -149,9 +149,13 @@ export const NOTIFICATION_TYPE_HEADER = "notificationType";
  */
 export const USE_CASE_HEADER = "useCase";
 /**
- * The API accepts the submission mode using this header.
+ * The API accepts the write operation using this header.
  */
-export const SUBMISSION_MODE_HEADER = "submissionMode";
+export const WRITE_OPERATION_HEADER = "writeOperation";
+/**
+ * The API accepts mode for SP API PUT/PATCH submission using this header.
+ */
+export const MODE = "mode";
 /**
  * The content type response header.
  */
@@ -181,6 +185,10 @@ export const IDENTIFIERS_HEADER = "identifiers";
  * API accepts the Keywords data using this header.
  */
 export const KEYWORDS_HEADER = "keywords";
+/**
+ * API accepts the ItemName data using this header.
+ */
+export const ITEMNAME_HEADER = "itemname";
 /**
  * API accepts the SKU data using this header.
  */
@@ -528,3 +536,23 @@ export const SETTINGS_API_PATH: string = `${LOCALHOST}${API_PATH}${SETTINGS_PAGE
  * Name of the AWS Secret which contains the settings data.
  */
 export const SETTINGS_KEY: string = "settings";
+/**
+ * Validation preview mode name
+ */
+export const VALIDATION_PREVIEW_MODE: string = "VALIDATION_PREVIEW";
+/**
+ * Parentage level property name.
+ */
+export const VARIATION_JSON_PROPERTY = "parentage_level";
+/**
+ * Parent product JSON payload (parentage level).
+ */
+export const PARENT_JSON_PROPERTY_VALUE = {
+  value: "parent",
+};
+/**
+ * Child product JSON payload (parentage level).
+ */
+export const CHILD_JSON_PROPERTY_VALUE = {
+  value: "child",
+};
