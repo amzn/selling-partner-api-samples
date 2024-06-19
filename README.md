@@ -30,7 +30,7 @@ This is considered an intermediate learning resource, and should typically be re
 | [Shipping](use-cases/shipping-v2)                                | Python                   | -                                                                                                                         |
 | [Solicitations](use-cases/solicitations)                         | C# / Python              | -                                                                                                                         |
 | [Vendor Direct Fulfillment](use-cases/vendor-direct-fulfillment) | C#                       | [Vendor Direct Fulfillment Samples](https://developer-docs.amazon.com/sp-api/docs/code-samples#vendor-direct-fulfillment) |
-| [LWA Rotation](use-case/lwa-rotation)                            | Java                     | -                                                                                                                         |
+| [LWA Rotation](use-cases/lwa-rotation)                           | Java                     | -                                                                                                                         |
 
 ## Learning Resources <a name="learning"></a>
 * [SP-API Website](https://developer.amazonservices.com)
