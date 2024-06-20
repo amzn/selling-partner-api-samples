@@ -31,6 +31,7 @@ This is considered an intermediate learning resource, and should typically be re
 | [Solicitations](use-cases/solicitations)                         | C# / Python              | -                                                                                                                         |
 | [Vendor Direct Fulfillment](use-cases/vendor-direct-fulfillment) | C#                       | [Vendor Direct Fulfillment Samples](https://developer-docs.amazon.com/sp-api/docs/code-samples#vendor-direct-fulfillment) |
 | [LWA Rotation](use-cases/lwa-rotation)                           | Java                     | -                                                                                                                         |
+| [B2B Pricing](use-cases/pricing-b2b)                             | Java                     | -                                                                                                                         |
 
 ## Learning Resources <a name="learning"></a>
 * [SP-API Website](https://developer.amazonservices.com)
