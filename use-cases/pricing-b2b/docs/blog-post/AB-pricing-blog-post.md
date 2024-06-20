@@ -31,7 +31,7 @@ When multiple sellers sell the same product, Amazon automatically consolidates t
 ### How does the FO look like and where I can check out the other B2B Offers?
 
 
-![Alt text](<businessprice.png>)
+![Alt text](<businesspriceFO.png>)
 
 
 ### How an offer become eligible for the FO?
