@@ -22,16 +22,16 @@ This is considered an intermediate learning resource, and should typically be re
 ## Use Cases <a name="use-cases"></a>
 | Use Case                                                         | Supported Languages      | Documented Code Samples                                                                                                   |
 |------------------------------------------------------------------|--------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| [B2B Pricing](use-cases/pricing-b2b)                             | Java                     | -                                                                                                                         |
 | [Data Kiosk](use-cases/data-kiosk)                               | Java / Python            | -                                                                                                                         |
 | [Fulfillment Outbound](use-cases/fulfillment-outbound)           | Java                     | [Fulfillment Outbound Samples](https://developer-docs.amazon.com/sp-api/docs/code-samples#fulfillment-outbound)           |
 | [Listings](use-cases/listings)                                   | TypeScript / JavaScript  | -                                                                                                                         |
+| [LWA Rotation](use-cases/lwa-rotation)                           | Java                     | -                                                                                                                         |
 | [Merchant Fulfillment](use-cases/merchant-fulfillment)           | Java / Python            | [Merchant Fulfillment Samples](https://developer-docs.amazon.com/sp-api/docs/code-samples#merchant-fulfillment-network)   |
 | [Pricing](use-cases/pricing)                                     | Java / Python            | [Product Pricing Samples](https://developer-docs.amazon.com/sp-api/docs/code-samples#product-pricing-api-v0)              |
 | [Shipping](use-cases/shipping-v2)                                | Python                   | -                                                                                                                         |
 | [Solicitations](use-cases/solicitations)                         | C# / Python              | -                                                                                                                         |
 | [Vendor Direct Fulfillment](use-cases/vendor-direct-fulfillment) | C#                       | [Vendor Direct Fulfillment Samples](https://developer-docs.amazon.com/sp-api/docs/code-samples#vendor-direct-fulfillment) |
-| [LWA Rotation](use-cases/lwa-rotation)                           | Java                     | -                                                                                                                         |
-| [B2B Pricing](use-cases/pricing-b2b)                             | Java                     | -                                                                                                                         |
 
 ## Learning Resources <a name="learning"></a>
 * [SP-API Website](https://developer.amazonservices.com)
