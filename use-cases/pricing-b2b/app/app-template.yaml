@@ -1,0 +1,621 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: This template creates the resources of an SP-API application
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: SP-API Default Configuration
+        Parameters:
+          - ClientId
+          - ClientSecret
+          - RefreshToken
+      - Label:
+          default: Sample Solution Configuration
+        Parameters:
+          - ProgrammingLanguage
+          - RandomSuffix
+          - ArtifactsS3BucketName
+          - LambdaFunctionsCodeS3Key
+          - SPAPIProcessNotificationLambdaFunctionHandler
+          - SPAPISubscribeNotificationsLambdaFunctionHandler
+          - SPAPICheckSkuLambdaFunctionHandler
+          - SPAPIFetchPriceLambdaFunctionHandler
+          - SPAPICalculateNewPriceLambdaFunctionHandler
+          - SPAPISubmitPriceLambdaFunctionHandler
+          - SPAPICreateFeedDocumentLambdaFunctionHandler
+          - SPAPIUploadFeedDataLambdaFunctionHandler
+          - SPAPICreateFeedLambdaFunctionHandler
+          - SPAPIConfirmFeedProcessingLambdaFunctionHandler
+          - StepFunctionsStateMachineDefinitionS3Key
+    ParameterLabels:
+      ClientId:
+        default: Client Id
+      ClientSecret:
+        default: Client Secret
+      RefreshToken:
+        default: Refresh Token
+      ProgrammingLanguage:
+        default: Programming Language
+      RandomSuffix:
+        default: Random suffix
+      ArtifactsS3BucketName:
+        default: Artifacts S3 Bucket Name
+      LambdaFunctionsCodeS3Key:
+        default: Lambda Functions Code S3 Key
+      StepFunctionsStateMachineDefinitionS3Key:
+        default: Step Functions State Machine Definition S3 Key
+      SPAPIProcessNotificationLambdaFunctionHandler:
+        default: Handler of Process Notification Lambda Function
+      SPAPISubscribeNotificationsLambdaFunctionHandler:
+        default: Handler of Subscribe Notifications Lambda Function
+      SPAPICheckSkuLambdaFunctionHandler:
+        default: Handler of Checking SKU from DB Lambda Function
+      SPAPIFetchPriceLambdaFunctionHandler:
+        default: Handler of Fetching Price information Lambda Function
+      SPAPICalculateNewPriceLambdaFunctionHandler:
+        default: Handler of Updating Price information Lambda Function
+      SPAPISubmitPriceLambdaFunctionHandler:
+        default: Handler of Submitting Price information Lambda Function
+      SPAPICreateFeedDocumentLambdaFunctionHandler:
+        default: Handler of Creating Feed Document information Lambda Function
+      SPAPIUploadFeedDDataLambdaFunctionHandler:
+        default: Handler of uploading feed data information(xml/flatfile/json Lambda Function
+      SPAPICreateFeedLambdaFunctionHandler:
+        default: Handler of Creating Feed Lambda Function
+      SPAPIConfirmFeedProcessingLambdaFunctionHandler:
+        default: Handler of Confirming feed processing information Lambda Function
+Parameters:
+  ClientId:
+    Type: String
+    MinLength: 1
+    Description: Client Id of the SP-API app
+    NoEcho: true
+  ClientSecret:
+    Type: String
+    MinLength: 1
+    Description: Client Secret of the SP-API app
+    NoEcho: true
+  RefreshToken:
+    Type: String
+    MinLength: 1
+    Description: Refresh Token used for testing the SP-API app
+    NoEcho: true
+  ProgrammingLanguage:
+    Type: String
+    MinLength: 1
+    Description: Programming language of the Lambda functions
+    AllowedValues:
+      - java11
+      - nodejs18.x
+      - python3.8
+      - dotnet6
+  RandomSuffix:
+    Type: String
+    MinLength: 6
+    MaxLength: 12
+    Description: Random suffix to append to generated resources
+  ArtifactsS3BucketName:
+    Type: String
+    MinLength: 1
+    Description: Name of the S3 bucket containing the application's artifacts
+  LambdaFunctionsCodeS3Key:
+    Type: String
+    MinLength: 1
+    Description: Key of the S3 file containing the Lambda functions code
+  SPAPICheckSkuLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Checking SKU from DB Lambda Function
+  SPAPIProcessNotificationLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Process Notification Lambda Function
+  SPAPISubscribeNotificationsLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Subscribe Notifications Lambda Function
+  SPAPIFetchPriceLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Fetching Price information Lambda Function
+  SPAPICalculateNewPriceLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Updating Price information Lambda Function
+  SPAPISubmitPriceLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Submitting Price information Lambda Function
+  SPAPICreateFeedDocumentLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Creating Feed Document information Lambda Function
+  SPAPIUploadFeedDataLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of uploading feed data information(xml/flatfile/json Lambda Function
+  SPAPICreateFeedLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Creating Feed Lambda Function
+  SPAPIConfirmFeedProcessingLambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Confirming feed processing information Lambda Function
+  StepFunctionsStateMachineDefinitionS3Key:
+    Type: String
+    MinLength: 1
+    Description: Key of the S3 file containing the Step Functions state machine definition
+Resources:
+  SPAPIAppCredentials:
+    Type: 'AWS::SecretsManager::Secret'
+    Properties:
+      Name: !Join
+        - '-'
+        - - SPAPIAppCredentials
+          - !Ref RandomSuffix
+      Description: Secret containing SP-API app credentials
+      SecretString: !Sub
+        - >-
+          {"AppClientId": "${AppClientIdValue}", "AppClientSecret":
+          "${AppClientSecretValue}"}
+        - AppClientIdValue: !Ref ClientId
+          AppClientSecretValue: !Ref ClientSecret
+  SPAPICheckSkuLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPICheckSkuLambdaFunction
+          - !Ref RandomSuffix
+      Description: Check SKU from DB Lambda Function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref SPAPICheckSkuLambdaFunctionHandler
+      Role: !GetAtt
+        - SPAPICheckSkuLambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+          SELLER_ITEMS_TABLE_NAME: !Ref SPAPISellerItemsTable
+  SPAPIProcessNotificationLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPIProcessNotificationLambdaFunction
+          - !Ref RandomSuffix
+      Description: Process Notifications Lambda function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref SPAPIProcessNotificationLambdaFunctionHandler
+      Role: !GetAtt
+        - SPAPINotificationsLambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          STATE_MACHINE_ARN: !Ref SPAPIStateMachine
+          REFRESH_TOKEN: !Ref RefreshToken
+  SPAPISubscribeNotificationsLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPISubscribeNotificationsLambdaFunction
+          - !Ref RandomSuffix
+      Description: Subscribe Notifications Lambda function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref SPAPISubscribeNotificationsLambdaFunctionHandler
+      Role: !GetAtt
+        - SPAPILambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+          SQS_QUEUE_ARN: !GetAtt
+            - SPAPINotificationsQueue
+            - Arn
+  SPAPIFetchPriceLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPIFetchPriceLambdaFunction
+          - !Ref RandomSuffix
+      Description: Fetch Price information Lambda Function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref SPAPIFetchPriceLambdaFunctionHandler
+      Role: !GetAtt
+        - SPAPILambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+  SPAPICalculateNewPriceLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPICalculateNewPriceLambdaFunction
+          - !Ref RandomSuffix
+      Description: CalculateNew Price information Lambda Function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref SPAPICalculateNewPriceLambdaFunctionHandler
+      Role: !GetAtt
+        - SPAPILambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+  SPAPISubmitPriceLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPISubmitPriceLambdaFunction
+          - !Ref RandomSuffix
+      Description: Submit Price information Lambda Function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref SPAPISubmitPriceLambdaFunctionHandler
+      Role: !GetAtt
+        - SPAPILambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+  SPAPICreateFeedDocumentLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPICreateFeedDocumentLambdaFunction
+          - !Ref RandomSuffix
+      Description: Create Feed Document information Lambda Function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref SPAPICreateFeedDocumentLambdaFunctionHandler
+      Role: !GetAtt
+        - SPAPILambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+  SPAPIUploadFeedDataLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPIUploadFeedDataLambdaFunction
+          - !Ref RandomSuffix
+      Description: Upload Feed Data information Lambda Function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref SPAPIUploadFeedDataLambdaFunctionHandler
+      Role: !GetAtt
+        - SPAPILambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+  SPAPICreateFeedLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPICreateFeedLambdaFunction
+          - !Ref RandomSuffix
+      Description: Create Feed information Lambda Function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref SPAPICreateFeedLambdaFunctionHandler
+      Role: !GetAtt
+        - SPAPILambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+  SPAPIConfirmFeedProcessingLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - SPAPIConfirmFeedProcessingLambdaFunction
+          - !Ref RandomSuffix
+      Description: Confirm Feed Processing information Lambda Function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref SPAPIConfirmFeedProcessingLambdaFunctionHandler
+      Role: !GetAtt
+        - SPAPILambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+  SPAPILambdaExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Join
+        - '-'
+        - - SPAPILambdaExecutionRole
+          - !Ref RandomSuffix
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: SecretsReaderPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 'secretsmanager:GetSecretValue'
+                Resource:
+                  - !Ref SPAPIAppCredentials
+  SPAPICheckSkuLambdaExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Join
+        - '-'
+        - - SPAPICheckSkuLambdaExecutionRole
+          - !Ref RandomSuffix
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: DynamoDBReaderPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 'dynamodb:Query'
+                Resource: !GetAtt
+                  - SPAPISellerItemsTable
+                  - Arn
+  SPAPINotificationsLambdaExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Join
+        - '-'
+        - - SPAPINotificationsLambdaExecutionRole
+          - !Ref RandomSuffix
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: SQSReaderPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'SQS:DeleteMessage'
+                  - 'SQS:GetQueueAttributes'
+                  - 'SQS:ReceiveMessage'
+                Resource: !GetAtt
+                  - SPAPINotificationsQueue
+                  - Arn
+        - PolicyName: StepFunctionsPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'states:StartExecution'
+                Resource: !Ref SPAPIStateMachine
+  SPAPINotificationsDeadLetterQueue:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      QueueName: !Join
+        - '-'
+        - - sp-api-notifications-dead-letter-queue
+          - !Ref RandomSuffix
+      VisibilityTimeout: 60
+  SPAPINotificationsQueue:
+    Type: 'AWS::SQS::Queue'
+    Properties:
+      QueueName: !Join
+        - '-'
+        - - sp-api-notifications-queue
+          - !Ref RandomSuffix
+      VisibilityTimeout: 60
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt
+          - SPAPINotificationsDeadLetterQueue
+          - Arn
+        maxReceiveCount: 3
+  SPAPINotificationsEventSourceMapping:
+    Type: 'AWS::Lambda::EventSourceMapping'
+    Properties:
+      BatchSize: 1
+      Enabled: true
+      EventSourceArn: !GetAtt
+        - SPAPINotificationsQueue
+        - Arn
+      FunctionName: !GetAtt
+        - SPAPIProcessNotificationLambdaFunction
+        - Arn
+  SPAPINotificationsQueuePolicy:
+    Type: 'AWS::SQS::QueuePolicy'
+    Properties:
+      Queues:
+        - !Ref SPAPINotificationsQueue
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'SQS:SendMessage'
+              - 'SQS:GetQueueAttributes'
+            Resource: !GetAtt
+              - SPAPINotificationsQueue
+              - Arn
+            Principal:
+              AWS:
+                - '437568002678'
+  SPAPISellerItemsTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: !Join
+        - '-'
+        - - SPAPISellerItemsTable
+          - !Ref RandomSuffix
+      AttributeDefinitions:
+        - AttributeName: ASIN
+          AttributeType: S
+        - AttributeName: SKU
+          AttributeType: S
+      KeySchema:
+        - AttributeName: ASIN
+          KeyType: HASH
+        - AttributeName: SKU
+          KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST
+  SPAPIStateMachine:
+    Type: 'AWS::StepFunctions::StateMachine'
+    Properties:
+      StateMachineName: !Join
+        - '-'
+        - - SPAPIStateMachine
+          - !Ref RandomSuffix
+      StateMachineType: STANDARD
+      DefinitionS3Location:
+        Bucket: !Ref ArtifactsS3BucketName
+        Key: !Ref StepFunctionsStateMachineDefinitionS3Key
+      DefinitionSubstitutions:
+        CheckSkuLambdaFunctionHandlerArn: !GetAtt
+          - SPAPICheckSkuLambdaFunction
+          - Arn
+        FetchPriceLambdaFunctionHandlerArn: !GetAtt
+          - SPAPIFetchPriceLambdaFunction
+          - Arn
+        CalculateNewPriceLambdaFunctionHandlerArn: !GetAtt
+          - SPAPICalculateNewPriceLambdaFunction
+          - Arn
+        SubmitPriceLambdaFunctionHandlerArn: !GetAtt
+          - SPAPISubmitPriceLambdaFunction
+          - Arn
+        CreateFeedDocumentLambdaFunctionHandlerArn: !GetAtt
+          - SPAPICreateFeedDocumentLambdaFunction
+          - Arn
+        UploadFeedDataLambdaFunctionHandlerArn: !GetAtt
+          - SPAPIUploadFeedDataLambdaFunction
+          - Arn
+        CreateFeedLambdaFunctionHandlerArn: !GetAtt
+          - SPAPICreateFeedLambdaFunction
+          - Arn
+        ConfirmFeedProcessingLambdaFunctionHandlerArn: !GetAtt
+          - SPAPIConfirmFeedProcessingLambdaFunction
+          - Arn
+      RoleArn: !GetAtt
+        - SPAPIStateMachineExecutionRole
+        - Arn
+  SPAPIStateMachineExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: states.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: LambdaInvokePolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'lambda:InvokeFunction'
+                Resource:
+                  - !GetAtt
+                    - SPAPICheckSkuLambdaFunction
+                    - Arn
+                  - !GetAtt
+                    - SPAPIFetchPriceLambdaFunction
+                    - Arn
+                  - !GetAtt
+                    - SPAPICalculateNewPriceLambdaFunction
+                    - Arn
+                  - !GetAtt
+                    - SPAPISubmitPriceLambdaFunction
+                    - Arn
+                  - !GetAtt
+                    - SPAPICreateFeedDocumentLambdaFunction
+                    - Arn
+                  - !GetAtt
+                    - SPAPIUploadFeedDataLambdaFunction
+                    - Arn
+                  - !GetAtt
+                    - SPAPICreateFeedLambdaFunction
+                    - Arn
+                  - !GetAtt
+                    - SPAPIConfirmFeedProcessingLambdaFunction
+                    - Arn

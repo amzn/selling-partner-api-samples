@@ -22,7 +22,8 @@ This is considered an intermediate learning resource, and should typically be re
 ## Use Cases <a name="use-cases"></a>
 | Use Case                                                         | Supported Languages      | Documented Code Samples                                                                                                   |
 |------------------------------------------------------------------|--------------------------|---------------------------------------------------------------------------------------------------------------------------|
-| [Data Kiosk](use-cases/data-kiosk)                               | Java / Python            | [Data Kiosk Samples](https://developer-docs.amazon.com/sp-api/docs/code-samples#data-kiosk)                                                                                                    |
+| [B2B Pricing](use-cases/pricing-b2b)                             | Java                     | -                                                                                                                         |
+| [Data Kiosk](use-cases/data-kiosk)                               | Java / Python            | -                                                                                                                         |
 | [Fulfillment Outbound](use-cases/fulfillment-outbound)           | Java                     | [Fulfillment Outbound Samples](https://developer-docs.amazon.com/sp-api/docs/code-samples#fulfillment-outbound)           |
 | [Listings](use-cases/listings)                                   | TypeScript / JavaScript  | -                                                                                                                         |
 | [LWA Rotation](use-cases/lwa-rotation)                           | Java                     | -                                                                                                                         |

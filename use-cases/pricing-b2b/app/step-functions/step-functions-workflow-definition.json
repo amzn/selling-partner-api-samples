@@ -1,0 +1,261 @@
+{
+  "Comment": "SP-API state machine",
+  "StartAt": "Check Sku",
+  "States": {
+    "Check Sku": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${CheckSkuLambdaFunctionHandlerArn}",
+        "Payload": {
+          "credentials.$": "$.credentials",
+          "asin.$": "$.asin",
+          "buyBox.$": "$.buyBox",
+          "seller.$": "$.seller"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "ResultPath": "$.seller",
+      "ResultSelector": {
+        "offers.$": "$.Payload.offers"
+      },
+      "Next": "Sku Processing"
+    },
+    "Sku Processing": {
+      "Type": "Map",
+      "ItemProcessor": {
+        "ProcessorConfig": {
+          "Mode": "INLINE"
+        },
+        "StartAt": "Check Notification Offer",
+        "States": {
+          "Check Notification Offer": {
+            "Type": "Choice",
+            "Choices": [
+              {
+                "Or": [
+                  {
+                    "Not": {
+                      "Variable": "$.sellerOffer",
+                      "IsPresent": true
+                    }
+                  },
+                  {
+                    "Variable": "$.sellerOffer",
+                    "IsNull": true
+                  }
+                ],
+                "Next": "Fetch Price Data"
+              }
+            ],
+            "Default": "Calculate New Price"
+          },
+          "Fetch Price Data": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "Parameters": {
+              "FunctionName": "${FetchPriceLambdaFunctionHandlerArn}",
+              "Payload": {
+                "credentials": {
+                  "refreshToken.$": "$.credentials.refreshToken",
+                  "regionCode.$": "$.credentials.regionCode",
+                  "marketplaceId.$": "$.credentials.marketplaceId"
+                },
+                "sellerId.$": "$.sellerId",
+                "itemSku.$": "$.itemSku"
+              }
+            },
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                  "Lambda.TooManyRequestsException"
+                ],
+                "IntervalSeconds": 1,
+                "MaxAttempts": 3,
+                "BackoffRate": 2
+              }
+            ],
+            "Next": "Check Fetch Price Results",
+            "ResultPath": "$.sellerOffer",
+            "ResultSelector": {
+              "listingPrice.$": "$.Payload.listingPrice",
+              "shippingPrice.$": "$.Payload.shippingPrice"
+            }
+          },
+          "Check Fetch Price Results": {
+            "Type": "Choice",
+            "Choices": [
+              {
+                "Variable": "$.sellerOffer.listingPrice.amount",
+                "NumericLessThan": 0,
+                "Next": "End State"
+              }
+            ],
+            "Default": "Calculate New Price"
+          },
+          "Calculate New Price": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "Parameters": {
+              "FunctionName": "${CalculateNewPriceLambdaFunctionHandlerArn}",
+              "Payload": {
+                "buyBox.$": "$.buyBox",
+                "sellerOffer.$": "$.sellerOffer",
+                "pricingRules.$": "$.pricingRules"
+              }
+            },
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                  "Lambda.TooManyRequestsException"
+                ],
+                "IntervalSeconds": 1,
+                "MaxAttempts": 3,
+                "BackoffRate": 2
+              }
+            ],
+            "Next": "Check New Price Rules",
+            "ResultPath": "$.calculateNewPriceResult",
+            "ResultSelector": {
+              "newListingPrice.$": "$.Payload.newListingPrice",
+              "pricingRules.$" : "$.Payload.pricingRules"
+            }
+          },
+          "Check New Price Rules": {
+            "Type": "Choice",
+            "Choices": [
+              {
+                "Variable": "$.calculateNewPriceResult.newListingPrice.amount",
+                "NumericLessThan": 0,
+                "Next": "End State"
+              }
+            ],
+            "Default": "Create Feed Document"
+          },
+          "Create Feed Document": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "Parameters": {
+              "FunctionName": "${CreateFeedDocumentLambdaFunctionHandlerArn}",
+              "Payload": {
+                "credentials": {
+                  "refreshToken.$": "$.credentials.refreshToken",
+                  "regionCode.$": "$.credentials.regionCode",
+                  "marketplaceId.$": "$.credentials.marketplaceId"
+                }
+              }
+            },
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                  "Lambda.TooManyRequestsException"
+                ],
+                "IntervalSeconds": 1,
+                "MaxAttempts": 3,
+                "BackoffRate": 2
+              }
+            ],
+            "Next": "Upload Feed Data",
+            "ResultPath": "$.uploadfeed",
+            "ResultSelector": {
+              "feedDetails.$": "$.Payload.feedDetails"
+            }
+          },
+          "Upload Feed Data": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "Parameters": {
+              "FunctionName": "${UploadFeedDataLambdaFunctionHandlerArn}",
+              "Payload": {
+                "credentials": {
+                  "refreshToken.$": "$.credentials.refreshToken",
+                  "regionCode.$": "$.credentials.regionCode",
+                  "marketplaceId.$": "$.credentials.marketplaceId"
+                },
+                "sellerId.$": "$.sellerId",
+                "newListingPrice.$": "$.calculateNewPriceResult.newListingPrice",
+                "itemSku.$": "$.itemSku",
+                "feedDetails.$": "$.uploadfeed.feedDetails",
+                "pricingRules.$": "$.calculateNewPriceResult.pricingRules"
+              }
+            },
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                  "Lambda.TooManyRequestsException"
+                ],
+                "IntervalSeconds": 1,
+                "MaxAttempts": 3,
+                "BackoffRate": 2
+              }
+            ],
+            "Next": "Create Feed",
+            "ResultPath": "$.createfeed",
+            "ResultSelector": {
+              "feedDetails.$": "$.Payload.feedDetails"
+            }
+          },
+          "Create Feed": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::lambda:invoke",
+            "OutputPath": "$.Payload",
+            "Parameters": {
+              "FunctionName": "${CreateFeedLambdaFunctionHandlerArn}",
+              "Payload": {
+                "credentials": {
+                  "refreshToken.$": "$.credentials.refreshToken",
+                  "regionCode.$": "$.credentials.regionCode",
+                  "marketplaceId.$": "$.credentials.marketplaceId"
+                },
+                "feedDetails.$": "$.createfeed.feedDetails"
+              }
+            },
+            "Retry": [
+              {
+                "ErrorEquals": [
+                  "Lambda.ServiceException",
+                  "Lambda.AWSLambdaException",
+                  "Lambda.SdkClientException",
+                  "Lambda.TooManyRequestsException"
+                ],
+                "IntervalSeconds": 1,
+                "MaxAttempts": 3,
+                "BackoffRate": 2
+              }
+            ],
+            "Next": "End State"
+          },
+          "End State": {
+            "Type": "Pass",
+            "End": true
+          }
+        }
+      },
+      "End": true,
+      "ItemsPath": "$.seller.offers"
+    }
+  }
+}
