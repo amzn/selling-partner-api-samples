@@ -116,7 +116,8 @@
                 "buyBox.$": "$.buyBox",
                 "sellerOffer.$": "$.sellerOffer",
                 "minThreshold.$": "$.minThreshold",
-                "priceChangeRule.$": "$.priceChangeRule"
+                "priceChangeRule.$": "$.priceChangeRule",
+                "useCompetitivePrice.$": "$.useCompetitivePrice"
               }
             },
             "Retry": [

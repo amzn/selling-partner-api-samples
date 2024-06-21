@@ -57,6 +57,8 @@ public class CheckSkuHandler implements RequestHandler<StateMachineInput, Pricin
                                 .value(Float.valueOf(sku.get(SELLER_ITEMS_TABLE_PRICE_CHANGE_RULE_AMOUNT_KEY_NAME).n()))
                                 .rule(sku.get(SELLER_ITEMS_TABLE_PRICE_CHANGE_RULE_KEY_NAME).s())
                                 .build())
+
+                        .useCompetitivePrice(Boolean.valueOf(true))
                         .buyBox(input.getBuyBox())
                         .sellerId(input.getSeller().getSellerId())
                         .asin(input.getAsin())
