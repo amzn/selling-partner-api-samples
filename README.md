@@ -24,6 +24,7 @@ This is considered an intermediate learning resource, and should typically be re
 |------------------------------------------------------------------|--------------------------|---------------------------------------------------------------------------------------------------------------------------|
 | [B2B Pricing](use-cases/pricing-b2b)                             | Java                     | -                                                                                                                         |
 | [Data Kiosk](use-cases/data-kiosk)                               | Java / Python            | -                                                                                                                         |
+| [Error Monitoring](use-cases/error-monitoring)                   | Java                     | -      
 | [Fulfillment Outbound](use-cases/fulfillment-outbound)           | Java                     | [Fulfillment Outbound Samples](https://developer-docs.amazon.com/sp-api/docs/code-samples#fulfillment-outbound)           |
 | [Listings](use-cases/listings)                                   | TypeScript / JavaScript  | -                                                                                                                         |
 | [LWA Rotation](use-cases/lwa-rotation)                           | Java                     | -                                                                                                                         |
