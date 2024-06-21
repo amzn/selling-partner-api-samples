@@ -53,7 +53,7 @@ public class ApiUtils {
         LWAAuthorizationCredentials lwaAuthorizationCredentials = getLWAAuthorizationCredentials(appCredentials, refreshToken);
 
         String spApiEndpoint = getSpApiEndpoint(regionCode);
-        
+
         ListingsApi listingsApi = new ListingsApi.Builder()
             .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
             .endpoint(spApiEndpoint)
@@ -142,4 +142,3 @@ public class ApiUtils {
         }
     }
 }
-

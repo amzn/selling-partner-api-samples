@@ -46,28 +46,9 @@ public class Constants {
 
     public static final String getMartketplaceIdToRegionCodeMapping(String marketplaceId) {
         Map<String, String> martketplaceIdToRegionCodeMap = new HashMap<>();
-        martketplaceIdToRegionCodeMap.put("A2EUQ1WTGCTBG2", NA_REGION_CODE); //CA
-        martketplaceIdToRegionCodeMap.put("ATVPDKIKX0DER", NA_REGION_CODE); //US
-        martketplaceIdToRegionCodeMap.put("A1AM78C64UM0Y8", NA_REGION_CODE); //MX
-        martketplaceIdToRegionCodeMap.put("A2Q3Y263D00KWC", NA_REGION_CODE); //BR
-        martketplaceIdToRegionCodeMap.put("A1RKKUPIHCS9HS", EU_REGION_CODE); //ES
-        martketplaceIdToRegionCodeMap.put("A1F83G8C2ARO7P", EU_REGION_CODE); //UK
-        martketplaceIdToRegionCodeMap.put("A13V1IB3VIYZZH", EU_REGION_CODE); //FR
-        martketplaceIdToRegionCodeMap.put("AMEN7PMS3EDWL", EU_REGION_CODE); //BE
-        martketplaceIdToRegionCodeMap.put("A1805IZSGTT6HS", EU_REGION_CODE); //NL
-        martketplaceIdToRegionCodeMap.put("A1PA6795UKMFR9", EU_REGION_CODE); //DE
-        martketplaceIdToRegionCodeMap.put("APJ6JRA9NG5V4", EU_REGION_CODE); //IT
-        martketplaceIdToRegionCodeMap.put("A2NODRKZP88ZB9", EU_REGION_CODE); //SE
-        martketplaceIdToRegionCodeMap.put("AE08WJ6YKNBMC", EU_REGION_CODE); //ZA
-        martketplaceIdToRegionCodeMap.put("A1C3SOZRARQ6R3", EU_REGION_CODE); //PL
-        martketplaceIdToRegionCodeMap.put("ARBP9OOSHTCHU", EU_REGION_CODE); //EG
-        martketplaceIdToRegionCodeMap.put("A33AVAJ2PDY3EV", EU_REGION_CODE); //TR
-        martketplaceIdToRegionCodeMap.put("A17E79C6D8DWNP", EU_REGION_CODE); //SA
-        martketplaceIdToRegionCodeMap.put("A2VIGQ35RCS4UG", EU_REGION_CODE); //AE
-        martketplaceIdToRegionCodeMap.put("A21TJRUUN4KGV", EU_REGION_CODE); //IN
-        martketplaceIdToRegionCodeMap.put("A19VAU5U5O7RUS", FE_REGION_CODE); //SG
-        martketplaceIdToRegionCodeMap.put("A39IBJ37TRP1C6", FE_REGION_CODE); //AU
-        martketplaceIdToRegionCodeMap.put("A1VC38T7YXB528", FE_REGION_CODE); //JP
+        martketplaceIdToRegionCodeMap.put("ABCD123", NA_REGION_CODE);
+        martketplaceIdToRegionCodeMap.put("EFGH456", EU_REGION_CODE);
+        martketplaceIdToRegionCodeMap.put("IJKL789", FE_REGION_CODE);
 
         return martketplaceIdToRegionCodeMap.get(marketplaceId);
     }

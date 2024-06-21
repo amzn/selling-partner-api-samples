@@ -19,7 +19,6 @@ from src.api_models.listings_api.swagger_client import configuration as listings
 from src.api_models.notifications_api.swagger_client import api_client as notifications_client
 from src.api_models.notifications_api.swagger_client import configuration as notifications_configuration
 
-
 secret_manager = boto3.client(constants.SECRETS_MANAGER_CLIENT_NAME)
 SP_API_APP_CREDENTIALS_ARN = os.environ.get(constants.SP_API_APP_CREDENTIALS_SECRET_ARN_ENV_VARIABLE)
 
@@ -30,6 +29,7 @@ class ApiUtils:
 
     def __init__(self, refresh_token, region_code, api_type, grantless_scope=None):
         self.refresh_token = refresh_token
+        self.region_code = region_code
         self.endpoint_url = constants.VALID_SP_API_REGION_CONFIG[region_code]
         self.api_client = self._create_api_client(api_type=api_type, grantless_scope=grantless_scope)
 
@@ -42,7 +42,7 @@ class ApiUtils:
             raise e
         else:
             return s_dict
-   
+
     def _set_useragent(self, client):
         if not OPT_OUT:
             print('Setting user agent')
