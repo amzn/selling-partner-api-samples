@@ -1,0 +1,365 @@
+Description: CloudFormation Template for Lambda Function with Lambda Layer
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: SP-API Default Configuration
+        Parameters:
+          - ClientId
+          - ClientSecret
+          - RefreshToken
+          - EmailId
+      - Label:
+          default: Sample Solution Configuration
+        Parameters:
+          - Schedule
+          - ProgrammingLanguage
+          - RandomSuffix
+          - ArtifactsS3BucketName
+          - LambdaFunctionsCodeS3Key
+          - LambdaFunctionHandler
+    ParameterLabels:
+      ClientId:
+        default: Client Id
+      ClientSecret:
+        default: Client Secret
+      RefreshToken:
+        default: Refresh Token
+      EmailId:
+        default: Email Address
+      Schedule:
+        default: Event Bridge Schedule
+      ProgrammingLanguage:
+        default: Programming Language
+      RandomSuffix:
+        default: Random suffix
+      ArtifactsS3BucketName:
+        default: Artifacts S3 Bucket Name
+      LambdaFunctionsCodeS3Key:
+        default: Lambda Functions Code S3 Key
+      LambdaFunctionHandler:
+        default: Handler of Lambda Function
+
+Parameters:
+  ClientId:
+    Type: String
+    MinLength: 1
+    Description: Client Id of the SP-API app
+    NoEcho: true
+  ClientSecret:
+    Type: String
+    MinLength: 1
+    Description: Client Secret of the SP-API app
+    NoEcho: true
+  RefreshToken:
+    Type: String
+    MinLength: 1
+    Description: Refresh Token used for testing the SP-API app
+    NoEcho: true
+  EmailId:
+    Type: String
+    MinLength: 1
+    Description: Email id to receive email notifications
+    NoEcho: true
+  Schedule:
+    Type: String
+    MinLength: 1
+    Description: Event Bridge Schedule
+    NoEcho: true
+  ProgrammingLanguage:
+    Type: String
+    MinLength: 1
+    Description: Programming language of the Lambda functions
+    AllowedValues:
+      - java11
+      - nodejs18.x
+      - python3.8
+      - dotnet6
+  RandomSuffix:
+    Type: String
+    MinLength: 6
+    MaxLength: 12
+    Description: Random suffix to append to generated resources
+  ArtifactsS3BucketName:
+    Type: String
+    MinLength: 1
+    Description: Name of the S3 bucket containing the application's artifacts
+  LambdaFunctionsCodeS3Key:
+    Type: String
+    MinLength: 1
+    Description: Key of the S3 file containing the Lambda functions code
+  LambdaFunctionHandler:
+    Type: String
+    MinLength: 1
+    Description: Handler of Lambda Function
+
+Resources:
+  SPAPIAppCredentials:
+    Type: 'AWS::SecretsManager::Secret'
+    Properties:
+      Name: !Join
+        - '-'
+        - - SPAPIAppCredentials
+          - !Ref RandomSuffix
+      Description: Secret containing SP-API app credentials
+      SecretString: !Sub
+        - >-
+          {"AppClientId": "${AppClientIdValue}", "AppClientSecret":
+          "${AppClientSecretValue}"}
+        - AppClientIdValue: !Ref ClientId
+          AppClientSecretValue: !Ref ClientSecret
+
+  4xxSNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: 4xx Error SNS Topic
+      TopicName: !Join
+        - '-'
+        - - 4xxErrorSNSTopic
+          - !Ref RandomSuffix
+
+  ErrorMonitoringSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Protocol: email
+      TopicArn: !Ref 4xxSNSTopic
+      Endpoint: !Ref EmailId
+
+
+  ErrorMonitoringLambdaFunction:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      FunctionName: !Join
+        - '-'
+        - - ErrorMonitoringLambdaFunction
+          - !Ref RandomSuffix
+      Description: Error Monitoring Lambda function
+      Code:
+        S3Bucket: !Ref ArtifactsS3BucketName
+        S3Key: !Ref LambdaFunctionsCodeS3Key
+      Handler: !Ref LambdaFunctionHandler
+      Role: !GetAtt
+        - ErrorMonitoringLambdaExecutionRole
+        - Arn
+      Runtime: !Ref ProgrammingLanguage
+      MemorySize: 512
+      Timeout: 60
+      Environment:
+        Variables:
+          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+          REFRESH_TOKEN: !Ref RefreshToken
+  ErrorMonitoringLambdaExecutionRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Join
+        - '-'
+        - - ErrorMonitoringLambdaExecutionRole
+          - !Ref RandomSuffix
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+      Policies:
+        - PolicyName: SecretsReaderPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 'secretsmanager:GetSecretValue'
+                Resource:
+                  - !Ref SPAPIAppCredentials
+
+  LambdaLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub '/aws/lambda/${ErrorMonitoringLambdaFunction}'
+
+  400MetricFilter:
+    Type: AWS::Logs::MetricFilter
+    DependsOn: LambdaLogGroup
+    Properties:
+      FilterName: !Join
+        - '-'
+        - - 400 Error
+          - !Ref RandomSuffix
+      FilterPattern: "400"
+      LogGroupName: !Sub '/aws/lambda/${ErrorMonitoringLambdaFunction}'
+      MetricTransformations:
+        - MetricValue: '1'
+          MetricNamespace: 'SP-API/4xxErrors'
+          MetricName: !Join
+            - '-'
+            - - 400 Error
+              - !Ref RandomSuffix
+
+  403MetricFilter:
+    Type: AWS::Logs::MetricFilter
+    DependsOn: LambdaLogGroup
+    Properties:
+      FilterName: !Join
+        - '-'
+        - - 403 Error
+          - !Ref RandomSuffix
+      FilterPattern: "403"
+      LogGroupName: !Sub '/aws/lambda/${ErrorMonitoringLambdaFunction}'
+      MetricTransformations:
+        - MetricValue: '1'
+          MetricNamespace: 'SP-API/4xxErrors'
+          MetricName: !Join
+            - '-'
+            - - 403 Error
+              - !Ref RandomSuffix
+
+  404MetricFilter:
+    Type: AWS::Logs::MetricFilter
+    DependsOn: LambdaLogGroup
+    Properties:
+      FilterName: !Join
+        - '-'
+        - - 404 Error
+          - !Ref RandomSuffix
+      FilterPattern: "404"
+      LogGroupName: !Sub '/aws/lambda/${ErrorMonitoringLambdaFunction}'
+      MetricTransformations:
+        - MetricValue: '1'
+          MetricNamespace: 'SP-API/4xxErrors'
+          MetricName: !Join
+            - '-'
+            - - 404 Error
+              - !Ref RandomSuffix
+
+  429MetricFilter:
+    Type: AWS::Logs::MetricFilter
+    DependsOn: LambdaLogGroup
+    Properties:
+      FilterName: !Join
+        - '-'
+        - - 429 Error
+          - !Ref RandomSuffix
+      FilterPattern: "429"
+      LogGroupName: !Sub '/aws/lambda/${ErrorMonitoringLambdaFunction}'
+      MetricTransformations:
+        - MetricValue: '1'
+          MetricNamespace: 'SP-API/4xxErrors'
+          MetricName: !Join
+            - '-'
+            - - 429 Error
+              - !Ref RandomSuffix
+
+  400Alarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: 400 Error alarm
+      AlarmActions:
+        - !Ref 4xxSNSTopic
+      MetricName: !Join
+        - '-'
+        - - 400 Error
+          - !Ref RandomSuffix
+      Namespace: 'SP-API/4xxErrors'
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 5
+      ComparisonOperator: GreaterThanThreshold
+
+  403Alarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: 403 Error alarm
+      AlarmActions:
+        - !Ref 4xxSNSTopic
+      MetricName: !Join
+        - '-'
+        - - 403 Error
+          - !Ref RandomSuffix
+      Namespace: 'SP-API/4xxErrors'
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 5
+      ComparisonOperator: GreaterThanThreshold
+
+  404Alarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: 404 Error alarm
+      AlarmActions:
+        - !Ref 4xxSNSTopic
+      MetricName: !Join
+        - '-'
+        - - 404 Error
+          - !Ref RandomSuffix
+      Namespace: 'SP-API/4xxErrors'
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 5
+      ComparisonOperator: GreaterThanThreshold
+
+  429Alarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: 429 Error alarm
+      AlarmActions:
+        - !Ref 4xxSNSTopic
+      MetricName: !Join
+        - '-'
+        - - 429 Error
+          - !Ref RandomSuffix
+      Namespace: 'SP-API/4xxErrors'
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 5
+      ComparisonOperator: GreaterThanThreshold
+
+  ErrorMonitoringSchedule:
+    Type: AWS::Scheduler::Schedule
+    Properties:
+      Name: !Join
+        - '-'
+        - - ErrorMonitoringSchedule
+          - !Ref RandomSuffix
+      ScheduleExpression: !Ref Schedule
+      FlexibleTimeWindow:
+        Mode: 'OFF'
+      Target:
+        Arn: !GetAtt ErrorMonitoringLambdaFunction.Arn
+        RoleArn: !GetAtt ErrorMonitoringScheduleRole.Arn
+
+  ErrorMonitoringScheduleRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - scheduler.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: ErrorMonitoringScheduleRolePolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - lambda:InvokeFunction
+                Resource:
+                  - !GetAtt ErrorMonitoringLambdaFunction.Arn
+
+
+
+
+
+
