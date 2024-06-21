@@ -1,4 +1,5 @@
 import logging
+import os
 
 from src.utils import constants
 from src.utils.api_utils import ApiUtils
@@ -13,13 +14,15 @@ def lambda_handler(event, context):
     # Log the input event for the Lambda
     logger.info(f"FetchPrice Lambda input: {event}")
 
+    region_code = os.environ.get(constants.REGION_CODE_ARN_ENV_VARIABLE)
+
     try:
         # Instantiate PricingOfferLambdaInput object from the input event
         pricing_offer_input = PricingOfferLambdaInput(**event)
 
         # Create an instance of the ApiUtils class for calling the Pricing API
         api_utils = ApiUtils(pricing_offer_input.credentials.refreshToken,
-                             pricing_offer_input.credentials.regionCode,
+                             region_code,
                              constants.PRICING_API_TYPE)
 
         # Prepare request content - a list of SKUs

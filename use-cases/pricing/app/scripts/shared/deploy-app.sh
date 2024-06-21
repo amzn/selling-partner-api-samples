@@ -141,6 +141,7 @@ config_file="../../app.config"
 sp_api_client_id="$(grep "^ClientId=" "${config_file}" | cut -d"=" -f2)"
 sp_api_client_secret="$(grep "^ClientSecret=" "${config_file}" | cut -d"=" -f2)"
 sp_api_refresh_token="$(grep "^RefreshToken=" "${config_file}" | cut -d"=" -f2)"
+sp_api_region_code="$(grep "^RegionCode=" "${config_file}" | cut -d"=" -f2)"
 
 # Create the CloudFormation stack
 echo "Creating CloudFormation stack"
@@ -154,6 +155,7 @@ AWS_ACCESS_KEY_ID=${access_key} AWS_SECRET_ACCESS_KEY=${secret_key} \
       ParameterKey="ClientId",ParameterValue="${sp_api_client_id}" \
       ParameterKey="ClientSecret",ParameterValue="${sp_api_client_secret}" \
       ParameterKey="RefreshToken",ParameterValue="${sp_api_refresh_token}" \
+      ParameterKey="RegionCode",ParameterValue="${sp_api_region_code}" \
       ParameterKey="ProgrammingLanguage",ParameterValue="${runtime}" \
       ParameterKey="RandomSuffix",ParameterValue="${random_string}" \
       ParameterKey="ArtifactsS3BucketName",ParameterValue="${bucket_name}" \

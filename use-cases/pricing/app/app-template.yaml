@@ -9,6 +9,7 @@ Metadata:
           - ClientId
           - ClientSecret
           - RefreshToken
+          - RegionCode
       - Label:
           default: Sample Solution Configuration
         Parameters:
@@ -30,6 +31,8 @@ Metadata:
         default: Client Secret
       RefreshToken:
         default: Refresh Token
+      RegionCode:
+        default: Region Code
       ProgrammingLanguage:
         default: Programming Language
       RandomSuffix:
@@ -67,6 +70,11 @@ Parameters:
     Type: String
     MinLength: 1
     Description: Refresh Token used for testing the SP-API app
+    NoEcho: true
+  RegionCode:
+    Type: String
+    MinLength: 1
+    Description: Region Code used for testing the SP-API app [NA/EU/FE]
     NoEcho: true
   ProgrammingLanguage:
     Type: String
@@ -177,6 +185,7 @@ Resources:
         Variables:
           STATE_MACHINE_ARN: !Ref SPAPIStateMachine
           REFRESH_TOKEN: !Ref RefreshToken
+          REGION_CODE: !Ref RegionCode
   SPAPISubscribeNotificationsLambdaFunction:
     Type: 'AWS::Lambda::Function'
     Properties:
@@ -222,6 +231,7 @@ Resources:
       Environment:
         Variables:
           SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+          REGION_CODE: !Ref RegionCode
   SPAPICalculateNewPriceLambdaFunction:
     Type: 'AWS::Lambda::Function'
     Properties:
@@ -264,6 +274,7 @@ Resources:
       Environment:
         Variables:
           SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
+          REGION_CODE: !Ref RegionCode
   SPAPILambdaExecutionRole:
     Type: 'AWS::IAM::Role'
     Properties:
