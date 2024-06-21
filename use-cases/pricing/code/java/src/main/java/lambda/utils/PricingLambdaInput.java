@@ -60,4 +60,7 @@ public class PricingLambdaInput {
 
     @JsonProperty("issues")
     public String issues;
+
+    @JsonProperty("useCompetitivePrice")
+    public boolean useCompetitivePrice;
 }

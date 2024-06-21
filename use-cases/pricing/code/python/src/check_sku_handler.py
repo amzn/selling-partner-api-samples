@@ -25,7 +25,7 @@ def lambda_handler(event, context):
 
     # Fetch SKUs from query result
     database_sku_offers = fetch_sku_list_from_db(lambda_input.asin,
-                                                 lambda_input.buyBox.condition,
+                                                 lambda_input.buyBox.condition.lower(),
                                                  lambda_input.seller.sellerId,
                                                  lambda_input.credentials.marketplaceId)
 
@@ -37,6 +37,7 @@ def lambda_handler(event, context):
         pricing_offer.isFulfilledByAmazon = database_offer[constants.SELLER_TABLE_IS_FULFILLED_BY_AMAZON_KEY_NAME]
         pricing_offer.itemSku = database_offer[constants.SELLER_TABLE_HASH_KEY_NAME]
         pricing_offer.minThreshold = database_offer[constants.SELLER_TABLE_THRESHOLD_KEY_NAME]
+        pricing_offer.useCompetitivePrice = database_offer[constants.SELLER_TABLE_USE_COMPETITIVE_PRICE]
         pricing_offer.priceChangeRule = PriceChangeRule(
             value=database_offer[constants.SELLER_TABLE_PRICE_CHANGE_AMOUNT_KEY_NAME],
             rule=database_offer[constants.SELLER_TABLE_PRICE_CHANGE_RULE_KEY_NAME])
