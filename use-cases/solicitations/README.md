@@ -129,7 +129,7 @@ To test the sample solution, follow the steps below.
 2. Navigate to [SQS console](https://console.aws.amazon.com/sqs/v2/home)
 3. Select the SQS queue created by the deployment script, named **sp-api-notifications-queue-*random_suffix***. Make sure not to confuse the queue with the dead-letter queue named **sp-api-notifications-dead-letter-queue-*random_suffix***
 4. Select **Send and receive messages**
-5. Under **Message body**, insert the following simplified notification body to execute a workflow in sandbox mode. If you want to test a real order, set `Sandbox` to `No` and replace `SellerId`, `AmazonOrderId`, and all parameters under `Summary` with the correct values of the order that you will use for testing.  The solution creates a schedule set to the order's `EarliestDeliveryDate` + 5 days.
+5. Under **Message body**, insert the following simplified notification body to execute a workflow in sandbox mode. If you want to test a real order, set `Sandbox` to `No` and replace `SellerId`, `AmazonOrderId`, and all parameters under `Summary` with the correct values of the order that you will use for testing.
     ```
     {
         "NotificationType": "ORDER_CHANGE",
@@ -149,10 +149,11 @@ To test the sample solution, follow the steps below.
     }
     ```
 6. Click **Send message**
-7. After the EventBridge schedule's execution date, navigate to [Step Functions console](https://console.aws.amazon.com/states/home)
-8. Select the state machine created by the deployment script, named **SPAPIStateMachine-*random_suffix***
-9. Under **Executions**, you will see a workflow for the order submitted through SQS
-10. To check the workflow status and navigate into the individual steps, select the workflow and use the **Graph view** and **Step Detail** panels 
+7. The solution will create a schedule set to the order's `EarliestDeliveryDate` + 5 days. If the date is in the past (like in the sample notification above), the schedule will be executed immediately. 
+8. After the EventBridge schedule's execution date, navigate to [Step Functions console](https://console.aws.amazon.com/states/home)
+9. Select the state machine created by the deployment script, named **SPAPIStateMachine-*random_suffix***
+10. Under **Executions**, you will see a workflow for the order submitted through SQS 
+11. To check the workflow status and navigate into the individual steps, select the workflow and use the **Graph view** and **Step Detail** panels 
 
 ### 5. Extra
 The deployment script also creates a Lambda function that subscribes selling partners to notifications. You can integrate this function to your product to easily onboard to the notifications feature.
