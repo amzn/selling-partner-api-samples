@@ -22,11 +22,10 @@ OPT_OUT = False
 
 class ApiUtils:
 
-    def __init__(self, refresh_token, region_code, api_type, grantless_scope=None):
+    def __init__(self, refresh_token, region_code, api_type, sandbox, grantless_scope=None):
         self.refresh_token = refresh_token
-        self.region_code = region_code
-        self.endpoint_url, self.aws_region = Constants.REGION_ENDPOINT_MAPPING.get(region_code)
-        self.api_client = self._create_api_client(api_type=api_type, grantless_scope=grantless_scope)
+        self.endpoint_url, self.sandbox_endpoint_url = Constants.REGION_ENDPOINT_MAPPING.get(region_code)
+        self.api_client = self._create_api_client(api_type=api_type, grantless_scope=grantless_scope, sandbox=sandbox)
 
     def _get_app_credentials(self):
         try:
@@ -59,26 +58,27 @@ class ApiUtils:
 
         try:
             response = http.request('POST', url, headers=headers, body=data)
-            print("Status code:", response.status)
+            print('Status code:', response.status)
             json_response = json.loads(response.data)
         except Exception as e:
             print(str(e))
         else:
             return json_response.get('access_token')
 
-    def _create_api_client(self, api_type, grantless_scope):
+    def _create_api_client(self, api_type, grantless_scope, sandbox):
         lwa_access_token = self._get_lwa_access_token(grantless_scope=grantless_scope)
+        endpoint = self.sandbox_endpoint_url if (sandbox == 'Yes') else self.endpoint_url
 
-        if api_type == "solicitations":
+        if api_type == 'solicitations':
             config = solicitations_configuration.Configuration()
-            config.host = self.endpoint_url
+            config.host = endpoint
             api_client = solicitations_client.ApiClient(configuration=config)
-        elif api_type == "notifications":
+        elif api_type == 'notifications':
             config = notifications_configuration.Configuration()
-            config.host = self.endpoint_url
+            config.host = endpoint
             api_client = notifications_client.ApiClient(configuration=config)
         else:
-            print(f"API Type {api_type} not supported. Please rely on mfn, orders, or notifications types.")
+            print(f'API Type {api_type} not supported. Please rely on mfn, orders, or notifications types.')
             return
 
         # Create an instance of the standard ApiClient
