@@ -46,8 +46,6 @@ namespace SpApiCsharpApp
                     }
                 }
             ]
-            "OrderId": "123-1234567-1234567",
-            "MarketplaceId": "ATVPDKIKX0DER"
         }
         */
         public async Task<object> FunctionHandlerAsync(SQSEvent input, ILambdaContext context)

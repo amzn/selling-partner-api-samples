@@ -23,29 +23,29 @@ from api_models.notifications_api.swagger_client.models.create_subscription_requ
 def lambda_handler(event, context):
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
-    logger.info("Subscribe Notifications handler started")
+    logger.info('Subscribe Notifications handler started')
     logger.info(event)
 
     # Retrieve request details from the input payload
-    notification_type = event.get("NotificationType")
-    region_code = event.get("RegionCode")
-    refresh_token = event.get("RefreshToken")
+    notification_type = event.get('NotificationType')
+    region_code = event.get('RegionCode')
+    refresh_token = event.get('RefreshToken')
 
     # Create destination if it doesn't exist
     try:
         destination_id = create_destination(region_code, refresh_token)
-        logger.info(f"Destination created - Destination Id: {destination_id}")
+        logger.info(f'Destination created - Destination Id: {destination_id}')
     except Exception as e:
-        raise Exception("Create destination failed", e)
+        raise Exception('Create destination failed', e)
 
     # Create subscription
     try:
         subscription_id = create_subscription(region_code, refresh_token, notification_type, destination_id)
-        logger.info(f"Subscription created - Subscription Id: {subscription_id}")
+        logger.info(f'Subscription created - Subscription Id: {subscription_id}')
 
-        return f"Destination Id: {destination_id} - Subscription Id: {subscription_id}"
+        return f'Destination Id: {destination_id} - Subscription Id: {subscription_id}'
     except Exception as e:
-        raise Exception("Create subscription failed", e)
+        raise Exception('Create subscription failed', e)
 
 def create_destination(region_code, refresh_token):
     # Get the SQS arn from the Lambda function's environment variables
@@ -56,9 +56,9 @@ def create_destination(region_code, refresh_token):
     request = CreateDestinationRequest(name=str(uuid.uuid4()), resource_specification=resource_spec)
 
     # Invoke the Notifications API using a grantless notifications scope
-    api_utils = ApiUtils(refresh_token, region_code, "notifications", Constants.LWA_NOTIFICATIONS_SCOPE)
+    api_utils = ApiUtils(refresh_token, region_code, 'notifications', 'No', Constants.LWA_NOTIFICATIONS_SCOPE)
 
-    destination_id = ""
+    destination_id = ''
     try:
         create_destination_response = api_utils.call_notifications_api(
             method='create_destination',
@@ -82,13 +82,13 @@ def create_destination(region_code, refresh_token):
 
 
 def create_subscription(region_code, refresh_token, notification_type, destination_id):
-    request = CreateSubscriptionRequest(payload_version="1.0", destination_id=destination_id)
+    request = CreateSubscriptionRequest(payload_version='1.0', destination_id=destination_id)
 
-    api_utils = ApiUtils(refresh_token, region_code, "notifications")
+    api_utils = ApiUtils(refresh_token, region_code, 'notifications')
 
     try:
         response = api_utils.call_notifications_api(
-            method="create_subscription",
+            method='create_subscription',
             body=request,
             notification_type=notification_type)
         subscription_id = response.payload.subscription_id

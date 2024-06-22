@@ -127,9 +127,9 @@ The deployment script creates a Sample Solution App in the AWS cloud. The soluti
 To test the sample solution, follow the steps below.
 1. Open the [AWS console](https://console.aws.amazon.com/)
 2. Navigate to [SQS console](https://console.aws.amazon.com/sqs/v2/home)
-3. Select the SQS queue created by the deployment script, named **sp-api-notifications-queue-*random_suffix***
+3. Select the SQS queue created by the deployment script, named **sp-api-notifications-queue-*random_suffix***. Make sure not to confuse the queue with the dead-letter queue named **sp-api-notifications-dead-letter-queue-*random_suffix***
 4. Select **Send and receive messages**
-5. Under **Message body**, insert the following simplified notification body. Replace `SellerId`, `AmazonOrderId`, and all parameters under `Summary` with the correct values of the order that you will use for testing. The solution creates a schedule set to the order's `EarliestDeliveryDate` + 5 days.
+5. Under **Message body**, insert the following simplified notification body to execute a workflow in sandbox mode. If you want to test a real order, set `Sandbox` to `No` and replace `SellerId`, `AmazonOrderId`, and all parameters under `Summary` with the correct values of the order that you will use for testing.  The solution creates a schedule set to the order's `EarliestDeliveryDate` + 5 days.
     ```
     {
         "NotificationType": "ORDER_CHANGE",
@@ -140,11 +140,12 @@ To test the sample solution, follow the steps below.
                 "Summary": {
                     "MarketplaceId": "ATVPDKIKX0DER",
                     "OrderStatus": "Shipped",
-                    "EarliestDeliveryDate": "2023-10-10T13:30:00.000Z",
-                    "LatestDeliveryDate": "2023-10-20T13:30:00.000Z"
+                    "EarliestDeliveryDate": "2024-01-01T13:30:00.000Z",
+                    "LatestDeliveryDate": "2024-12-31T13:30:00.000Z"
                 }
             }
-        }
+        },
+        "Sandbox": "Yes"
     }
     ```
 6. Click **Send message**
