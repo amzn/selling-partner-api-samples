@@ -2,16 +2,33 @@
 This Sample Solution provides all required resources to deploy to the AWS cloud a fully functional SP-API application that implements the SP-API Error Monitoring use case end-to-end.
 Use this application to test the proposed solution, do changes and/or integrate it to your own product.
 
+## Solution
+This sample solution implements an error monitoring and alerting workflow. API error response codes are captured from the logs and
+alert is sent when the volume of errors hits a specific threshold.
+
+This solution consists of the following components,
+1. A [Lambda](https://aws.amazon.com/lambda/) function which includes code to execute SP-API calls that return 4xx errors.
+2. [EventBridge](https://aws.amazon.com/eventbridge/) Scheduler to trigger the Lambda function based on the defined schedule in app config to generate logs that will have 4xx errors.
+3. [CloudWatch](https://aws.amazon.com/cloudwatch/) Metric Filters to identify the 4xx errors from the CloudWatch logs of Lambda execution.
+4. [CloudWatch](https://aws.amazon.com/cloudwatch/) Metrics to monitor the sum of occurrences of 4xx errors.
+5. [CloudWatch](https://aws.amazon.com/cloudwatch/) Alarm to send notification to the email id mentioned in the config file when the errors cross the threshold.
+6. [Simple notification service](https://aws.amazon.com/sns/) to send email alerts to users
+
+## Workflow
+Lambda function includes sample code to execute SP-API calls that return 4xx errors and the event scheduler triggers the lambda
+function every few minutes as defined in the config. Cloudwatch metric filters created will filter the errors from the logs and trigger alerts
+when the volume of errors exceeds a defined threshold.
+
 ## Pre-requisites
 The pre-requisites for deploying the Sample Solution App to the AWS cloud are:
 * [Registering as a developer for SP-API](https://developer-docs.amazon.com/sp-api/docs/registering-as-a-developer), and [registering an SP-API application](https://developer-docs.amazon.com/sp-api/docs/registering-your-application)
 * An [IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) with permissions to create a new user, a policy, and attach it to the user
-  * If you don't have one, you can create it following the steps  under **Usage - 2. Configure Sample Solution App's IAM user** 
+    * If you don't have one, you can create it following the steps  under **Usage - 2. Configure Sample Solution App's IAM user**
 * The [AWS CLI](https://aws.amazon.com/cli/)
-  * If not present, it will be installed as part of the deployment script
+    * If not present, it will be installed as part of the deployment script
 * [Maven](https://maven.apache.org/)
-  * Just for deploying a Java-based application
-  * If not present, it will be installed as part of the deployment script
+    * Just for deploying a Java-based application
+    * If not present, it will be installed as part of the deployment script
 
 ## Usage
 ### 1. Update config file
@@ -98,23 +115,14 @@ To create a new access key pair, follow the steps below. If you already have val
 The deployment script will create a Sample Solution App in the AWS cloud.
 To execute the deployment script, follow the steps below.
 1. Identify the deployment script for the programming language you want for your Sample Solution App.
-   1. For example, for the Java application the file is [app/scripts/java/java-app.sh](app/scripts/java/java-app.sh)
+    1. For example, for the Java application the file is [app/scripts/java/java-app.sh](app/scripts/java/java-app.sh)
 2. Execute the script from your terminal
-   1. For example, to execute the Java deployment script in a Unix-based system, run `bash java-app.sh`
+    1. For example, to execute the Java deployment script in a Unix-based system, run `bash java-app.sh`
 3. Wait for the CloudFormation stack creation to finish
     1. Navigate to [CloudFormation console](https://console.aws.amazon.com/cloudformation/home)
     2. Wait for the stack named **sp-api-app-\<language\>-*random_suffix*** to show status `CREATE_COMPLETE`
 
-### 4. Deployed Solution
-The CloudFormation template will create the following resources:
-1. A Lambda function which includes code to execute SP-API calls that return 4xx errors. 
-2. EventBridge Scheduler to trigger the Lambda function based on the defined schedule in app config to generate logs that will have 4xx errors. 
-3. CloudWatch Metric Filters to identify the 4xx errors from the CloudWatch logs of Lambda execution. 
-4. CloudWatch Metrics to monitor the sum of occurrences of 4xx errors. 
-5. CloudWatch Alarm to send notification to the email id mentioned in the config file when the errors cross the threshold.
-
-
-### 5. Test the sample solution
+### 4. Test the sample solution
 The deployment script creates a Sample Solution App in the AWS cloud.
 To test the sample solution, follow the steps below.
 1. Open the [AWS console](https://console.aws.amazon.com/)
@@ -148,7 +156,7 @@ EvaluationPeriods: 1
 Threshold: 5
 ```
 
-### 6. Clean-up
+### 5. Clean-up
 The deployment script creates a number of resources in the AWS cloud which you might want to delete after testing the solution.
 To clean up these resources, follow the steps below.
 1. Identify the clean-up script for the programming language of the Sample Solution App deployed to the AWS cloud.
@@ -156,7 +164,7 @@ To clean up these resources, follow the steps below.
 2. Execute the script from your terminal
     1. For example, to execute the Java clean-up script in a Unix-based system, run `bash java-app-clean.sh`
 
-### 7. Troubleshooting
+### 6. Troubleshooting
 If you do not receive email notifications, follow the steps below to identify the root-cause and retry the workflow
 1. Open the [AWS console](https://console.aws.amazon.com/)
 2. Navigate to [Lambda console](https://console.aws.amazon.com/lambda/home)
