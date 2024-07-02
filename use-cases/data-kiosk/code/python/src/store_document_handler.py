@@ -73,8 +73,6 @@ def get_json_from_url(url):
         if response.info().get('Content-Encoding') == 'gzip':
             data = gzip.decompress(data)
 
-        # Decode the content as UTF-8
-        decoded_data = data.decode('utf-8')
         return data
 
 
