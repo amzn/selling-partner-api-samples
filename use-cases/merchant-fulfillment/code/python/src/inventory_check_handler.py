@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def lambda_handler(event: MfnOrder, context):
+def lambda_handler(event, context):
     logger.info(f"InventoryCheck Lambda input: {event}")
 
     package_weight_value = 0
