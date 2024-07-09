@@ -19,7 +19,7 @@ case "${language}" in
 esac
 
 # Verify pre-requisites
-bash ../shared/pre-requisites.sh "$@"
+source ../shared/pre-requisites.sh $language
 if [ $? -ne 0 ]
 then
   echo "Verifying pre-requisites failed"
@@ -109,8 +109,11 @@ elif [ "$language" == "javascript" ]; then
   lambda_func_handler="index.handler"
   (
     cd "${js_code_folder}src" || exit
-    npm install
-    zip -rq "${js_code_folder}${js_code_zip}" .
+    if command -v zip >/dev/null 2>&1; then
+      zip -rq "${js_code_folder}${js_code_zip}" .
+    elif [[ "$OSTYPE" == "msys"* ]]; then
+      powershell -Command "Compress-Archive -Path '.' -DestinationPath '${js_code_folder}${js_code_zip}'"
+    fi
   )
   AWS_ACCESS_KEY_ID=${access_key} AWS_SECRET_ACCESS_KEY=${secret_key} \
     aws s3 cp "${js_code_folder}${js_code_zip}" "s3://${bucket_name}/${code_s3_key}"
@@ -126,7 +129,11 @@ elif [ "$language" == "python" ]; then
   lambda_func_handler="DummyLambdaHandler.lambda_handler"
   (
     cd "${python_code_folder}src" || exit
-    zip -rq "${python_code_folder}${python_code_zip}" .
+    if command -v zip >/dev/null 2>&1; then
+      zip -rq "${python_code_folder}${python_code_zip}" .
+    elif [[ "$OSTYPE" == "msys"* ]]; then
+      powershell -Command "Compress-Archive -Path '.' -DestinationPath '${python_code_folder}${python_code_zip}'"
+    fi
   )
   AWS_ACCESS_KEY_ID=${access_key} AWS_SECRET_ACCESS_KEY=${secret_key} \
     aws s3 cp "${python_code_folder}${python_code_zip}" "s3://${bucket_name}/${code_s3_key}"
