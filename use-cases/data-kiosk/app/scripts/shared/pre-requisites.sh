@@ -1,25 +1,75 @@
 #!/bin/bash
 
-# This functions installs the AWS CLI
-install_aws_cli () {
+# Function to check if AWS CLI is installed
+check_aws_cli() {
+    if command -v aws >/dev/null 2>&1; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+# Function to install AWS CLI on macOS
+install_aws_cli_mac() {
   while true; do
-    read -p "The AWS CLI is not installed in the system. Do you wish to install it now? [y/n] " response
-    case "${response}" in
-      [yY][eE][sS]|[yY])
-        echo "Installing the AWS CLI ..."
-        echo "Downloading installation package from https://awscli.amazonaws.com/AWSCLIV2.pkg."
-        curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
-        echo "Executing 'sudo installer -pkg AWSCLIV2.pkg -target'."
-        echo "You might be requested to enter your password in the next step."
-        sudo installer -pkg AWSCLIV2.pkg -target /
-        break;;
-      [nN][oO]|[nN])
-        echo "The deployment script can't be executed if the AWS CLI is not installed."
-        exit -1;;
-      *) echo "Please answer 'yes' or 'no'";;
-    esac
+      read -p "The AWS CLI is not installed in the system. Do you wish to install it now? [y/n] " response
+      case "${response}" in
+        [yY][eE][sS]|[yY])
+          echo "Installing the AWS CLI on macOS..."
+          echo "Downloading installation package from https://awscli.amazonaws.com/AWSCLIV2.pkg."
+          curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+          echo "Executing 'sudo installer -pkg AWSCLIV2.pkg -target'."
+          echo "You might be requested to enter your password in the next step."
+          sudo installer -pkg AWSCLIV2.pkg -target /
+          echo "The AWS CLI was successfully installed on macOS."
+          break;;
+        [nN][oO]|[nN])
+          echo "The deployment script can't be executed if the AWS CLI is not installed."
+          exit -1;;
+        *) echo "Please answer 'yes' or 'no'";;
+      esac
   done
-  echo "The AWS CLI was successfully installed"
+}
+
+# Function to install AWS CLI on Windows
+install_aws_cli_windows() {
+  while true; do
+        read -p "The AWS CLI is not installed in the system. Do you wish to install it now? [y/n] " response
+        case "${response}" in
+          [yY][eE][sS]|[yY])
+            echo "Installing the AWS CLI on Windows..."
+            echo "Downloading installation package from https://awscli.amazonaws.com/AWSCLIV2.msi."
+            curl "https://awscli.amazonaws.com/AWSCLIV2.msi" -o "AWSCLIV2.msi"
+
+            echo "Executing 'msiexec'. Installation started..."
+            echo "Please wait..."
+            msiexec //i AWSCLIV2.msi //quiet
+
+            # get path to aws cli and add it to current PATH
+            awsDirectory=$(powershell -C "(Get-ChildItem -Path 'C:\Program Files' -Recurse -Include aws.exe -ErrorAction SilentlyContinue | Select-Object -ExpandProperty DirectoryName -First 1)")
+            awsPosixDirectory=$(echo "/$awsDirectory" | sed 's/\\/\//g' | sed 's/://')
+            export PATH="$PATH:${awsPosixDirectory}"
+
+            echo "The AWS CLI was successfully installed on Windows."
+            echo "Removing the installer..."
+            rm -f AWSCLIV2.msi
+            break;;
+          [nN][oO]|[nN])
+            echo "The deployment script can't be executed if the AWS CLI is not installed."
+            exit -1;;
+          *) echo "Please answer 'yes' or 'no'";;
+        esac
+    done
+}
+
+# Function to check if Maven is installed
+check_maven() {
+    if command -v mvn >/dev/null 2>&1; then
+        return 0
+    else
+        echo "Maven is not installed."
+        return 1
+    fi
 }
 
 add_homebrew_to_shell() {
@@ -27,32 +77,49 @@ add_homebrew_to_shell() {
   eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 }
 
-install_maven () {
-  while true; do
-      read -p "Maven is not installed in the system. Do you wish to install it now? [y/n] " response
-      case "${response}" in
-        [yY][eE][sS]|[yY])
-          echo "Installing Maven ..."
-          # Confirm that Homebrew is installed. Install it otherwise
-          brew --version >/dev/null 2> /dev/null || xcode-select --install; /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          if [ -n "$BASH_VERSION" ]; then
-            add_homebrew_to_shell "$HOME/.bashrc"
-            add_homebrew_to_shell "$HOME/.bash_profile"
-          elif [ -n "$ZSH_VERSION" ]; then
-            add_homebrew_to_shell "$HOME/.zshrc"
-            add_homebrew_to_shell "$HOME/.zprofile"
-          else
-            echo "Warning: Unsupported shell. Please add Homebrew configuration manually."
-          fi
-          brew install maven
-          break;;
-        [nN][oO]|[nN])
-          echo "The deployment script can't be executed if Maven is not installed."
-          exit -1;;
-        *) echo "Please answer 'yes' or 'no'";;
-      esac
-    done
-    echo "Maven was successfully installed"
+# Function to install Maven on macOS
+install_maven_mac() {
+    echo "Installing Maven on macOS..."
+    # Confirm that Homebrew is installed. Install it otherwise
+    brew --version >/dev/null 2>/dev/null || xcode-select --install; /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    if [ -n "$BASH_VERSION" ]; then
+        add_homebrew_to_shell "$HOME/.bashrc"
+        add_homebrew_to_shell "$HOME/.bash_profile"
+    elif [ -n "$ZSH_VERSION" ]; then
+        add_homebrew_to_shell "$HOME/.zshrc"
+        add_homebrew_to_shell "$HOME/.zprofile"
+    else
+        echo "Warning: Unsupported shell. Please add Homebrew configuration manually."
+    fi
+    brew install maven
+    echo "Maven was successfully installed on macOS."
+}
+
+# Function to install Maven on Windows
+install_maven_windows() {
+    echo "Installing Maven on Windows..."
+    MAVEN_FOLDER="apache-maven-3.9.8"
+    MAVEN_FILE_NAME="$MAVEN_FOLDER-bin.zip"
+    MAVEN_VERSION="3.9.8"
+
+    DEFAULT_DRIVE=$(powershell.exe -C "(Get-WmiObject -Class Win32_OperatingSystem).SystemDrive")
+
+    curl "https://dlcdn.apache.org/maven/maven-3/$MAVEN_VERSION/binaries/$MAVEN_FILE_NAME" -o "$MAVEN_FILE_NAME"
+    mv "$MAVEN_FILE_NAME" "$DEFAULT_DRIVE\\$MAVEN_FILE_NAME"
+    echo "Extracting the downloaded package..."
+
+    unzip -qq "$DEFAULT_DRIVE/$MAVEN_FILE_NAME" -d "$DEFAULT_DRIVE/"
+    rm -f "$DEFAULT_DRIVE/$MAVEN_FILE_NAME"
+
+    # Append mvn path to System Path
+    appendMavenToPathCommand="\$oldPath = [System.Environment]::GetEnvironmentVariable('Path', 'Machine'); [System.Environment]::SetEnvironmentVariable('Path', \$oldPath + ';$DEFAULT_DRIVE/$MAVEN_FOLDER/bin', 'Machine')"
+    powershell.exe -Command "${appendMavenToPathCommand}"
+
+    # refresh current PATH to run mvn
+    export PATH="$PATH:$DEFAULT_DRIVE/$MAVEN_FOLDER/bin"
+
+    mvn --version
+    echo "Maven was successfully installed on Windows."
 }
 
 # Confirm that the user has updated the config file. Stop the execution otherwise
@@ -72,7 +139,20 @@ echo
 
 # Confirm that the AWS CLI is installed. Ask the user for confirmation and install it otherwise
 echo "The AWS CLI is required to deploy the Sample Solution App. Checking if it is installed in the system ..."
-aws --version > /dev/null 2> /dev/null || install_aws_cli
+# Check if AWS CLI is installed
+if check_aws_cli; then
+    echo "AWS CLI is already installed. No action required."
+else
+    # Check the operating system and call the appropriate installation function
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        install_aws_cli_mac
+    elif [[ "$OSTYPE" == "msys" ]]; then
+        install_aws_cli_windows
+    else
+        echo "Unsupported operating system. The script supports macOS and Windows only."
+        exit 1
+    fi
+fi
 
 echo
 
@@ -89,35 +169,62 @@ echo
 # Language-specific pre-requisites
 
 # Get the programming language from the input arguments
-language=""
-while getopts 'l:' flag; do
-  case "${flag}" in
-    l) language="${OPTARG}";;
-  esac
-done
+language=$1
+
+if [ -z "${language}" ]; then
+  echo "A programming language is not selected. Aborting..."
+  exit 1
+fi
 
 # If it's a Java app, confirm that Maven is installed
 if [ "$language" == "java" ]; then
-  echo "Maven is required to deploy a Java Sample Solution App. Checking if it is installed in the system ..."
-  mvn --version > /dev/null 2> /dev/null || install_maven
+  echo "Maven is required to deploy a Java Sample Solution App. Checking if it is installed in the system..."
+
+  if check_maven; then
+      echo "Maven is already installed. No action required."
+  else
+      # Check the operating system and call the appropriate installation function
+      if [[ "$OSTYPE" == "darwin"* ]]; then
+          install_maven_mac
+      elif [[ "$OSTYPE" == "msys" ]]; then
+          install_maven_windows
+      else
+          echo "Unsupported operating system. The script supports macOS and Windows only."
+          exit 1
+      fi
+  fi
 fi
 
 # If it's a Python app, confirm that necessary Python packages are installed
 if [ "$language" == "python" ]; then
   echo "Certain Python packages are required to deploy a Python Sample Solution App. Checking if they are installed ..."
-  python3 -c "
-import pkg_resources
-import os
+  pythonCommand="import sys
+import subprocess
+from importlib.metadata import Distribution
 REQUIRED_PACKAGES = ['boto3', 'requests', 'setuptools']
+def install_package(package):
+    try:
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', package])
+        print(f'{package} has been installed successfully.')
+    except subprocess.CalledProcessError as e:
+        print(f'Error installing {package}.')
+
 for package in REQUIRED_PACKAGES:
   try:
-    dist = pkg_resources.get_distribution(package)
-    print('{} ({}) is installed'.format(dist.key, dist.version))
-  except pkg_resources.DistributionNotFound:
-    print('{} is NOT installed'.format(package))
-    print('Installing {} ...'.format(package))
-    os.system('python3 -m pip install {}'.format(package))
-  "
+        dist = Distribution.from_name(package)
+        print(f'{dist.metadata['Name']} ({dist.metadata['Version']}) is installed')
+  except ImportError:
+        print(f'{package} is NOT installed')
+        install_package(package)"
+
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    python3 -c "$pythonCommand"
+  elif [[ "$OSTYPE" == "msys" ]]; then
+    py -c "$pythonCommand"
+  else
+    echo "Unsupported operating system. The script supports macOS and Windows only."
+    exit 1
+  fi
 fi
 
 # If it's a CSharp app, install Amazon lambda tools or update if already installed

@@ -37,6 +37,8 @@ The pre-requisites for deploying the Sample Solution App to the AWS cloud are:
 * The [AWS CLI](https://aws.amazon.com/cli/)
     * If not present, it will be installed as part of the deployment script
 * The Python app requires the following packages: `boto3`, `requests`, and `setuptools`. If not present, they will be installed as part of the deployment script
+* [GitBash](https://git-scm.com/download/win)
+   * in case you use Windows in order to run the deployment script.
 
 ## Usage
 ### 1. Update config file
@@ -88,8 +90,8 @@ The deployment script will create a Sample Solution App in the AWS cloud.
 To execute the deployment script, follow the steps below.
 1. Identify the deployment script for the programming language you want for your Sample Solution App.
     1. For example, for the Python application the file is [app/scripts/python/python-app.sh](app/scripts/python/python-app.sh)
-2. Execute the script from your terminal
-    1. For example, to execute the Python deployment script in a Unix-based system, run `bash python-app.sh`
+2. Execute the script from your terminal or Git Bash
+    1. For example, to execute the Python deployment script in a Unix-based system or using Git Bash, run `bash python-app.sh`
 3. Wait for the CloudFormation stack creation to finish
     1. Navigate to [CloudFormation console](https://console.aws.amazon.com/cloudformation/home)
     2. Wait for the stack named **sp-api-app-\<language\>-*random_suffix*** to show status `CREATE_COMPLETE`
@@ -329,8 +331,8 @@ The deployment script creates a number of resources in the AWS cloud which you m
 To clean up these resources, follow the steps below.
 1. Identify the clean-up script for the programming language of the Sample Solution App deployed to the AWS cloud.
     1. For example, for the Python application the file is [app/scripts/python/python-app-clean.sh](app/scripts/python/python-app-clean.sh)
-2. Execute the script from your terminal
-    1. For example, to execute the Python clean-up script in a Unix-based system, run `bash python-app-clean.sh`
+2. Execute the script from your terminal or Git Bash
+    1. For example, to execute the Python clean-up script in a Unix-based system or using Git Bash, run `bash python-app-clean.sh`
 
 ### 7. Troubleshooting
 If the state machine execution fails, follow the steps below to identify the root-cause and retry the workflow

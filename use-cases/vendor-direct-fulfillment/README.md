@@ -36,6 +36,8 @@ The pre-requisites for deploying the Sample Solution App to the AWS cloud are:
     * If not present, it will be installed as part of the deployment script
 * The CSharp app requires Amazon Lambda tools .net package
     * If not present, it will be installed as part of the deployment script
+* [GitBash](https://git-scm.com/download/win)
+    * in case you use Windows in order to run the deployment script.
 
 ## Usage
 ### 1. Update config file
@@ -121,8 +123,8 @@ The deployment script will create a Sample Solution App in the AWS cloud.
 To execute the deployment script, follow the steps below.
 1. Identify the deployment script for the programming language you want for your Sample Solution App.
     1. For example, for the Csharp application the file is `app/scripts/csharp/csharp-app.sh`
-2. Execute the script from your terminal
-    1. For example, to execute the Csharp deployment script in a Unix-based system, run `bash csharp-app.sh`
+2. Execute the script from your terminal or Git Bash
+    1. For example, to execute the Csharp deployment script in a Unix-based system or using Git Bash, run `bash csharp-app.sh`
 3. Wait for the AWS CloudFormation stack creation to finish
     1. Navigate to [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/home)
     2. Wait for the stack named sp-api-app-random_suffix to show status `CREATE_COMPLETE`
@@ -150,8 +152,8 @@ The deployment script creates a number of resources in the AWS cloud which you m
 To clean-up these resources, follow the steps below.
 1. Identify the clean-up script for the programming language of the Sample Solution App deployed to the AWS cloud.
     1. For example, for the Csharp application the file is `app/scripts/csharp/csharp-app-clean.sh`
-2. Execute the script from your terminal
-    1. For example, to execute the Csharp clean-up script in a Unix-based system, run `bash csharp-app-clean.sh`
+2. Execute the script from your terminal or Git Bash
+    1. For example, to execute the Csharp clean-up script in a Unix-based system or using Git Bash, run `bash csharp-app-clean.sh`
 
 ### 6. Troubleshooting
 If the state machine execution fails, follow the steps below to identify the root-cause and retry the workflow
