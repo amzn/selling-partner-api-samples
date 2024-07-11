@@ -16,7 +16,7 @@ case "${language}" in
 esac
 
 # Verify pre-requisites
-bash ../shared/pre-requisites.sh "$@"
+source ../shared/pre-requisites.sh $language
 if [ $? -ne 0 ]
 then
   echo "Verifying pre-requisites failed"
