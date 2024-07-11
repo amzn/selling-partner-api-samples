@@ -63,7 +63,7 @@ public class ApiUtils {
 
         NotificationsApi notificationsApi = new NotificationsApi.Builder()
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
-                .endpoint(spApiEndpoint)
+                .endpoint(regionConfig.getSpApiEndpoint())
                 .build();
         setUserAgent(notificationsApi.getApiClient());
 
