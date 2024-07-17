@@ -2,7 +2,7 @@ import CreateSubscription from "@/app/[locale]/notifications/@createSubscription
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import "@testing-library/react";
-import { NextIntlProvider } from "next-intl";
+import { IntlProvider } from "next-intl";
 import translations from "@/app/internationalization/translations/en-US.json";
 import {
   mockRejectFetchResponse,
@@ -16,9 +16,9 @@ import { US_LOCALE } from "@/app/constants/global";
 
 function renderPage() {
   const { asFragment, queryByText, getByText } = render(
-    <NextIntlProvider locale={US_LOCALE} messages={translations}>
+    <IntlProvider locale={US_LOCALE} messages={translations}>
       <CreateSubscription />
-    </NextIntlProvider>,
+    </IntlProvider>,
   );
 
   return { asFragment, queryByText, getByText };

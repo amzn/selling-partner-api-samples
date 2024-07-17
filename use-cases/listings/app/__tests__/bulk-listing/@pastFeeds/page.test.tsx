@@ -3,7 +3,7 @@ import { act, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import { SWRConfig } from "swr";
 import DebuggingContextProvider from "@/app/context/debug-context-provider";
-import { NextIntlProvider } from "next-intl";
+import { IntlProvider } from "next-intl";
 import PastFeeds from "@/app/[locale]/bulk-listing/@pastFeeds/page";
 import translations from "@/app/internationalization/translations/en-US.json";
 import fetch from "jest-fetch-mock";
@@ -17,9 +17,9 @@ function renderPastFeeds() {
   return render(
     <SWRConfig value={{ provider: () => new Map() }}>
       <DebuggingContextProvider>
-        <NextIntlProvider locale={US_LOCALE} messages={translations}>
+        <IntlProvider locale={US_LOCALE} messages={translations}>
           <PastFeeds />
-        </NextIntlProvider>
+        </IntlProvider>
       </DebuggingContextProvider>
     </SWRConfig>,
   );

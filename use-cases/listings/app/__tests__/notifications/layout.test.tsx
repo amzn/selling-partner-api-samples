@@ -1,6 +1,6 @@
 import Layout from "@/app/[locale]/notifications/layout";
 import { render } from "@testing-library/react";
-import { NextIntlProvider } from "next-intl";
+import { IntlProvider } from "next-intl";
 import translations from "@/app/internationalization/translations/en-US.json";
 import React from "react";
 import { US_LOCALE } from "@/app/constants/global";
@@ -13,12 +13,12 @@ const viewSubscriptionsNode = <>{viewSubscriptionsText}</>;
 
 function renderNotificationsLayout() {
   const { asFragment, queryByText, getByText, queryByTestId } = render(
-    <NextIntlProvider locale={US_LOCALE} messages={translations}>
+    <IntlProvider locale={US_LOCALE} messages={translations}>
       <Layout
         createSubscription={createSubscriptionNode}
         viewSubscriptions={viewSubscriptionsNode}
       />
-    </NextIntlProvider>,
+    </IntlProvider>,
   );
 
   return { asFragment, queryByText, getByText };
