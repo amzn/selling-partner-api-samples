@@ -6,7 +6,7 @@ import { createJsonFile } from "@/app/test-utils/mock-file";
 import DebuggingContextProvider from "@/app/context/debug-context-provider";
 import translations from "@/app/internationalization/translations/en-US.json";
 import { SWRConfig } from "swr";
-import { NextIntlProvider } from "next-intl";
+import { IntlProvider } from "next-intl";
 import UploadFeeds from "@/app/[locale]/bulk-listing/@uploadFeeds/page";
 import fetch from "jest-fetch-mock";
 import { mockResolveFetchResponse } from "@/app/test-utils/mock-fetch";
@@ -17,9 +17,9 @@ function renderUploadFeeds() {
   return render(
     <SWRConfig value={{ provider: () => new Map() }}>
       <DebuggingContextProvider>
-        <NextIntlProvider locale={US_LOCALE} messages={translations}>
+        <IntlProvider locale={US_LOCALE} messages={translations}>
           <UploadFeeds />
-        </NextIntlProvider>
+        </IntlProvider>
       </DebuggingContextProvider>
     </SWRConfig>,
   );

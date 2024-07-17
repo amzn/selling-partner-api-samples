@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import { NextIntlProvider } from "next-intl";
+import { IntlProvider } from "next-intl";
 import translations from "@/app/internationalization/translations/en-US.json";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 import NavigationComponent from "@/app/[locale]/navigation-component";
@@ -78,13 +78,13 @@ function renderNavigationComponent(
   debugState?: DebugState,
 ) {
   return render(
-    <NextIntlProvider locale={US_LOCALE} messages={translations}>
+    <IntlProvider locale={US_LOCALE} messages={translations}>
       <DebuggingContextProvider initialDebugState={debugState}>
         <SettingsContext.Provider value={settingsState}>
           <NavigationComponent />
         </SettingsContext.Provider>
       </DebuggingContextProvider>
-    </NextIntlProvider>,
+    </IntlProvider>,
   );
 }
 

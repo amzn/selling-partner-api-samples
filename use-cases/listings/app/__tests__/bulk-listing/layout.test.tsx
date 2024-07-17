@@ -1,6 +1,6 @@
 import Layout from "@/app/[locale]/bulk-listing/layout";
 import { render } from "@testing-library/react";
-import { NextIntlProvider } from "next-intl";
+import { IntlProvider } from "next-intl";
 import translations from "@/app/internationalization/translations/en-US.json";
 import React from "react";
 import { US_LOCALE } from "@/app/constants/global";
@@ -13,9 +13,9 @@ const simplePastFeeds = <>{pastFeedsText}</>;
 
 function renderBulkListingLayout() {
   const { asFragment, queryByText, getByText, queryByTestId } = render(
-    <NextIntlProvider locale={US_LOCALE} messages={translations}>
+    <IntlProvider locale={US_LOCALE} messages={translations}>
       <Layout uploadFeeds={simpleUploadFeeds} pastFeeds={simplePastFeeds} />
-    </NextIntlProvider>,
+    </IntlProvider>,
   );
 
   return { asFragment, queryByText, getByText };

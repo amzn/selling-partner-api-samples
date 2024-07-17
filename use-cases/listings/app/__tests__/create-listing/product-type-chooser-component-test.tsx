@@ -5,7 +5,7 @@ import { SWRConfig } from "swr";
 import DebuggingContextProvider, {
   DebugState,
 } from "@/app/context/debug-context-provider";
-import { NextIntlProvider } from "next-intl";
+import { IntlProvider } from "next-intl";
 import translations from "@/app/internationalization/translations/en-US.json";
 import React from "react";
 import ProductTypeChooserComponent from "@/app/[locale]/create-listing/product-type-chooser-component";
@@ -35,12 +35,12 @@ function renderProductTypeChooserComponent(
   return render(
     <SWRConfig value={{ provider: () => new Map() }}>
       <DebuggingContextProvider initialDebugState={debugState}>
-        <NextIntlProvider locale={US_LOCALE} messages={translations}>
+        <IntlProvider locale={US_LOCALE} messages={translations}>
           <ProductTypeChooserComponent
             productTypeResults={productTypes}
             handleChosenProductType={handleChosenProductType}
           />
-        </NextIntlProvider>
+        </IntlProvider>
       </DebuggingContextProvider>
     </SWRConfig>,
   );

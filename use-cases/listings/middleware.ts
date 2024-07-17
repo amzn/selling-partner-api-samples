@@ -7,9 +7,9 @@ import { US_LOCALE } from "@/app/constants/global";
 export default createMiddleware({
   // A list of all locales that are supported
   locales: [US_LOCALE],
-
   // If none of locales match, then this locale is used.
   defaultLocale: US_LOCALE,
+  localePrefix: "as-needed",
 });
 
 /**
