@@ -1,7 +1,7 @@
 import React from "react";
 import translations from "@/app/internationalization/translations/en-US.json";
 import fetch from "jest-fetch-mock";
-import { NextIntlProvider } from "next-intl";
+import { IntlProvider } from "next-intl";
 import ProductSearchResultComponent from "@/app/[locale]/create-offer/product-search-result-component";
 import { act, screen, render } from "@testing-library/react";
 import {
@@ -29,12 +29,12 @@ function renderComponent(debugState?: DebugState) {
   const { asFragment } = render(
     <SWRConfig value={{ provider: () => new Map(), dedupingInterval: 0 }}>
       <DebuggingContextProvider initialDebugState={debugState}>
-        <NextIntlProvider locale={US_LOCALE} messages={translations}>
+        <IntlProvider locale={US_LOCALE} messages={translations}>
           <ProductSearchResultComponent
             result={result}
             listProduct={handleChosenClick}
           />
-        </NextIntlProvider>
+        </IntlProvider>
       </DebuggingContextProvider>
     </SWRConfig>,
   );

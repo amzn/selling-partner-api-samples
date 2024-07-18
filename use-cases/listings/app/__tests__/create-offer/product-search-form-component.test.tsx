@@ -7,7 +7,7 @@ import {
   cleanup,
 } from "@testing-library/react";
 import React from "react";
-import { NextIntlProvider } from "next-intl";
+import { IntlProvider } from "next-intl";
 import ProductSearchFormComponent from "@/app/[locale]/create-offer/product-search-form-component";
 import { afterEach } from "@jest/globals";
 import { SWRConfig } from "swr";
@@ -40,11 +40,11 @@ function renderProductSearchFormComponent(
   return render(
     <SWRConfig value={{ provider: () => new Map() }}>
       <DebuggingContextProvider initialDebugState={debugState}>
-        <NextIntlProvider locale={US_LOCALE} messages={translations}>
+        <IntlProvider locale={US_LOCALE} messages={translations}>
           <ProductSearchFormComponent
             handleSearchRequest={handleSearchRequestSubmit}
           />
-        </NextIntlProvider>
+        </IntlProvider>
       </DebuggingContextProvider>
     </SWRConfig>,
   );

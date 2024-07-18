@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import QuickLinksComponent from "@/app/components/quick-links";
 import translations from "@/app/internationalization/translations/en-US.json";
-import { NextIntlProvider } from "next-intl";
+import { IntlProvider } from "next-intl";
 import { US_LOCALE } from "@/app/constants/global";
 
 const mockUsePathname = jest.fn();
@@ -15,9 +15,9 @@ describe("Quick link component", () => {
   test("renders settings", () => {
     mockUsePathname.mockImplementation(() => "/");
     const { asFragment } = render(
-      <NextIntlProvider locale={US_LOCALE} messages={translations}>
+      <IntlProvider locale={US_LOCALE} messages={translations}>
         <QuickLinksComponent />
-      </NextIntlProvider>,
+      </IntlProvider>,
     );
     expect(asFragment()).toMatchSnapshot();
   });
@@ -25,9 +25,9 @@ describe("Quick link component", () => {
   test("settings link is hidden in settings page", () => {
     mockUsePathname.mockImplementation(() => "/settings");
     const { asFragment } = render(
-      <NextIntlProvider locale={US_LOCALE} messages={translations}>
+      <IntlProvider locale={US_LOCALE} messages={translations}>
         <QuickLinksComponent />
-      </NextIntlProvider>,
+      </IntlProvider>,
     );
     expect(asFragment()).toMatchSnapshot();
   });
@@ -35,9 +35,9 @@ describe("Quick link component", () => {
   test("settings and info are rendered in other page", () => {
     mockUsePathname.mockImplementation(() => "/create-listing");
     const { asFragment } = render(
-      <NextIntlProvider locale={US_LOCALE} messages={translations}>
+      <IntlProvider locale={US_LOCALE} messages={translations}>
         <QuickLinksComponent />
-      </NextIntlProvider>,
+      </IntlProvider>,
     );
     expect(asFragment()).toMatchSnapshot();
   });

@@ -1,6 +1,6 @@
 import { render, act, cleanup } from "@testing-library/react";
 import CreateOffer from "@/app/[locale]/create-offer/page";
-import { NextIntlProvider } from "next-intl";
+import { IntlProvider } from "next-intl";
 import React from "react";
 import { afterEach } from "@jest/globals";
 import { ProductSearchResult } from "@/app/[locale]/create-offer/product-result-type";
@@ -95,9 +95,9 @@ afterEach(() => {
 
 test("Snapshot Test for the create offer home page", () => {
   const { asFragment, queryByText } = render(
-    <NextIntlProvider locale={US_LOCALE} messages={translations}>
+    <IntlProvider locale={US_LOCALE} messages={translations}>
       <CreateOffer />
-    </NextIntlProvider>,
+    </IntlProvider>,
   );
   const productSearchFormComponent = queryByText("ProductSearchFormComponent");
   expect(productSearchFormComponent).toBeTruthy();
@@ -117,9 +117,9 @@ test("Snapshot Test for the create offer home page", () => {
 
 test("Snapshot Test for the create offer home page with search result", () => {
   const { asFragment, queryByText, getByText } = render(
-    <NextIntlProvider locale={US_LOCALE} messages={translations}>
+    <IntlProvider locale={US_LOCALE} messages={translations}>
       <CreateOffer />
-    </NextIntlProvider>,
+    </IntlProvider>,
   );
 
   // Use the act function to set the state
@@ -146,9 +146,9 @@ test("Snapshot Test for the create offer home page with search result", () => {
 
 test("Snapshot Test for the create offer home page with search result, choose result, and show listing offer only container", () => {
   const { asFragment, queryByText, getByText } = render(
-    <NextIntlProvider locale={US_LOCALE} messages={translations}>
+    <IntlProvider locale={US_LOCALE} messages={translations}>
       <CreateOffer />
-    </NextIntlProvider>,
+    </IntlProvider>,
   );
 
   // Use the act function to set the state

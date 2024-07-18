@@ -2,7 +2,7 @@ import Settings from "@/app/[locale]/settings/page";
 import { act, screen, render, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
-import { NextIntlProvider } from "next-intl";
+import { IntlProvider } from "next-intl";
 import React from "react";
 import fetch from "jest-fetch-mock";
 import { MOCK_SETTINGS } from "@/app/test-utils/mock-settings";
@@ -14,14 +14,14 @@ import userEvent from "@testing-library/user-event";
 
 function renderSettings() {
   return render(
-    <NextIntlProvider locale={US_LOCALE} messages={translations}>
+    <IntlProvider locale={US_LOCALE} messages={translations}>
       <SettingsProvider
         initialSettingsExist={false}
         initialSettings={MOCK_SETTINGS}
       >
         <Settings />
       </SettingsProvider>
-    </NextIntlProvider>,
+    </IntlProvider>,
   );
 }
 
