@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import { SWRConfig } from "swr";
 import DebuggingContextProvider from "@/app/context/debug-context-provider";
-import { NextIntlProvider } from "next-intl";
+import { IntlProvider } from "next-intl";
 import translations from "@/app/internationalization/translations/en-US.json";
 import React from "react";
 import userEvent from "@testing-library/user-event";
@@ -17,9 +17,9 @@ function renderComponent(subscriptions: Subscription[]) {
   return render(
     <SWRConfig value={{ provider: () => new Map() }}>
       <DebuggingContextProvider>
-        <NextIntlProvider locale={US_LOCALE} messages={translations}>
+        <IntlProvider locale={US_LOCALE} messages={translations}>
           <SubscriptionsRenderer subscriptions={subscriptions} />
-        </NextIntlProvider>
+        </IntlProvider>
       </DebuggingContextProvider>
     </SWRConfig>,
   );

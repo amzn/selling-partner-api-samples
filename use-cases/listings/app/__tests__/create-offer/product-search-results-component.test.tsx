@@ -1,7 +1,7 @@
 import ProductSearchResultsComponent from "@/app/[locale]/create-offer/product-search-results-component";
 import React from "react";
 import translations from "@/app/internationalization/translations/en-US.json";
-import { NextIntlProvider } from "next-intl";
+import { IntlProvider } from "next-intl";
 import { render } from "@testing-library/react";
 import { US_LOCALE } from "@/app/constants/global";
 
@@ -15,13 +15,13 @@ test("Snapshot Test for product search results component", () => {
   const handleChosenClick = jest.fn();
 
   const { asFragment } = render(
-    <NextIntlProvider locale={US_LOCALE} messages={translations}>
+    <IntlProvider locale={US_LOCALE} messages={translations}>
       <ProductSearchResultsComponent
         productSearchResults={results}
         handleChosenClick={handleChosenClick}
       />
       ,
-    </NextIntlProvider>,
+    </IntlProvider>,
   );
   expect(asFragment()).toMatchSnapshot();
 });
@@ -31,13 +31,13 @@ test("Snapshot Test for product search results component with empty results", ()
   const handleChosenClick = jest.fn();
 
   const { asFragment } = render(
-    <NextIntlProvider locale={US_LOCALE} messages={translations}>
+    <IntlProvider locale={US_LOCALE} messages={translations}>
       <ProductSearchResultsComponent
         productSearchResults={[]}
         handleChosenClick={handleChosenClick}
       />
       ,
-    </NextIntlProvider>,
+    </IntlProvider>,
   );
   expect(asFragment()).toMatchSnapshot();
 });

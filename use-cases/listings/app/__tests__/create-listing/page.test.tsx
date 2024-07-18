@@ -1,6 +1,6 @@
 import { afterEach } from "@jest/globals";
 import { cleanup, render } from "@testing-library/react";
-import { NextIntlProvider } from "next-intl";
+import { IntlProvider } from "next-intl";
 import React from "react";
 import translations from "@/app/internationalization/translations/en-US.json";
 import CreateListing from "@/app/[locale]/create-listing/page";
@@ -79,9 +79,9 @@ jest.mock(
 
 function renderCreateListingPage() {
   const { asFragment, queryByText, getByText } = render(
-    <NextIntlProvider locale={US_LOCALE} messages={translations}>
+    <IntlProvider locale={US_LOCALE} messages={translations}>
       <CreateListing />
-    </NextIntlProvider>,
+    </IntlProvider>,
   );
 
   return { asFragment, queryByText, getByText };

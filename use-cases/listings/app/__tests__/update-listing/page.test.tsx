@@ -1,5 +1,5 @@
 import { act, cleanup, render, screen } from "@testing-library/react";
-import { NextIntlProvider } from "next-intl";
+import { IntlProvider } from "next-intl";
 import translations from "@/app/internationalization/translations/en-US.json";
 import UpdateListing from "@/app/[locale]/update-listing/page";
 import fetch from "jest-fetch-mock";
@@ -24,9 +24,9 @@ jest.mock(
 
 function renderPage() {
   const { asFragment } = render(
-    <NextIntlProvider locale={US_LOCALE} messages={translations}>
+    <IntlProvider locale={US_LOCALE} messages={translations}>
       <UpdateListing />
-    </NextIntlProvider>,
+    </IntlProvider>,
   );
 
   return { asFragment };

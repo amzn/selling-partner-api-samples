@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import { SWRConfig } from "swr";
 import DebuggingContextProvider from "@/app/context/debug-context-provider";
-import { NextIntlProvider } from "next-intl";
+import { IntlProvider } from "next-intl";
 import translations from "@/app/internationalization/translations/en-US.json";
 import React from "react";
 import FeedsRenderer from "@/app/[locale]/bulk-listing/@pastFeeds/feeds-renderer";
@@ -21,9 +21,9 @@ function renderComponent(feeds: Feed[]) {
   return render(
     <SWRConfig value={{ provider: () => new Map() }}>
       <DebuggingContextProvider>
-        <NextIntlProvider locale={US_LOCALE} messages={translations}>
+        <IntlProvider locale={US_LOCALE} messages={translations}>
           <FeedsRenderer feeds={feeds} />
-        </NextIntlProvider>
+        </IntlProvider>
       </DebuggingContextProvider>
     </SWRConfig>,
   );
