@@ -149,7 +149,7 @@ else
     elif [[ "$OSTYPE" == "msys" ]]; then
         install_aws_cli_windows
     else
-        echo "Unsupported operating system. The script supports macOS and Windows only."
+        echo "Unsupported operating system. The script supports macOS and Windows only. Install AWS CLI manually before restarting."
         exit 1
     fi
 fi
@@ -189,7 +189,7 @@ if [ "$language" == "java" ]; then
       elif [[ "$OSTYPE" == "msys" ]]; then
           install_maven_windows
       else
-          echo "Unsupported operating system. The script supports macOS and Windows only."
+          echo "Unsupported operating system. The script supports macOS and Windows only. Install Maven manually before restarting."
           exit 1
       fi
   fi
