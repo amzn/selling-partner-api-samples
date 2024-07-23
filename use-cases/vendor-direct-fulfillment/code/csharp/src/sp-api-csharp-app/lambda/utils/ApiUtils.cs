@@ -5,13 +5,15 @@ using Amazon.SellingPartnerAPIAA;
 using Newtonsoft.Json;
 using RestSharp;
 using spApiCsharpApp.swaggerClient.Api;
+using spApiCsharpApp.swaggerClient.Client;
 using spApiCsharpApp.swaggerClient.Model.Tokens;
 
 namespace spApiCsharpApp
 {
     public class ApiUtils
     {
-        
+        public static bool OPT_OUT = false;
+
         private static LWAAuthorizationCredentials getLWAAuthorizationCredentials(AppCredentials appCredentials)
         {
 
@@ -104,7 +106,7 @@ namespace spApiCsharpApp
 
             VendorOrdersApi api = new VendorOrdersApi.Builder().SetLWAAuthorizationCredentials(lwaAuthorizationCredentials).Build();            
             api.Configuration.BasePath = GetRegionConfig(regionCode);
-            api.Configuration.UserAgent = "Vendor Direct Fulfillment Sample App/1.0/C#";
+            api = (VendorOrdersApi)setUserAgent(api);         
 
             return api;
         }
@@ -118,7 +120,7 @@ namespace spApiCsharpApp
 
             VendorShippingLabelsApi api = new VendorShippingLabelsApi.Builder().SetLWAAuthorizationCredentials(lwaAuthorizationCredentials).Build();
             api.Configuration.BasePath = GetRegionConfig(regionCode);
-            api.Configuration.UserAgent = "Vendor Direct Fulfillment Sample App/1.0/C#";
+            api = (VendorShippingLabelsApi)setUserAgent(api);         
 
             return api;
         }
@@ -132,7 +134,7 @@ namespace spApiCsharpApp
 
             VendorShippingApi api = new VendorShippingApi.Builder().SetLWAAuthorizationCredentials(lwaAuthorizationCredentials).Build();
             api.Configuration.BasePath = GetRegionConfig(regionCode);
-            api.Configuration.UserAgent = "Vendor Direct Fulfillment Sample App/1.0/C#";
+            api = (VendorShippingApi)setUserAgent(api);         
 
             return api;
         }
@@ -146,7 +148,7 @@ namespace spApiCsharpApp
 
             VendorTransactionApi api = new VendorTransactionApi.Builder().SetLWAAuthorizationCredentials(lwaAuthorizationCredentials).Build();
             api.Configuration.BasePath = GetRegionConfig(regionCode);
-            api.Configuration.UserAgent = "Vendor Direct Fulfillment Sample App/1.0/C#";
+            api = (VendorTransactionApi)setUserAgent(api);         
 
             return api;
         }
@@ -160,7 +162,7 @@ namespace spApiCsharpApp
 
             UpdateInventoryApi api = new UpdateInventoryApi.Builder().SetLWAAuthorizationCredentials(lwaAuthorizationCredentials).Build();
             api.Configuration.BasePath = GetRegionConfig(regionCode);
-            api.Configuration.UserAgent = "Vendor Direct Fulfillment Sample App/1.0/C#";
+            api = (UpdateInventoryApi)setUserAgent(api);         
             return api;
         }
 
@@ -174,6 +176,16 @@ namespace spApiCsharpApp
             TokensApi api = new TokensApi.Builder().SetLWAAuthorizationCredentials(lwaAuthorizationCredentials).Build();
             api.Configuration.BasePath = GetRegionConfig(regionCode);
             return api;
+        }
+
+          //Set user agent
+        private static IApiAccessor setUserAgent(IApiAccessor api) 
+        {
+            if (!OPT_OUT) 
+            {
+                api.Configuration.UserAgent = "Vendor Direct Fulfillment Sample App/1.0/C#";
+            }
+            return api;        
         }
         
     }

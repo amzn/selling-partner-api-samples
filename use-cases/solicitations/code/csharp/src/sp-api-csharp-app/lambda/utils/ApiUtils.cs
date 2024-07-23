@@ -12,6 +12,9 @@ namespace SpApiCsharpApp
 {
     public class ApiUtils
     {       
+        // Set OPT_OUT = true to disable User-Agent tracking
+        public static bool OPT_OUT = false;
+
         public static SolicitationsApi GetSolicitationsApi (String regionCode, String refreshToken)
         {
             // Set client access credentials from secrets manager and get LWAAuthorization Credentials
@@ -22,7 +25,8 @@ namespace SpApiCsharpApp
             SolicitationsApi api = new SolicitationsApi.Builder()
                    .SetLWAAuthorizationCredentials(lwaAuthorizationCredentials)
                    .Build();
-            api.Configuration.UserAgent = "Solicitations Sample App/1.0/C#";
+            api = (SolicitationsApi)setUserAgent(api);
+
             api.Configuration.BasePath = GetRegionConfig(regionCode);
             return api;
         }
@@ -37,7 +41,7 @@ namespace SpApiCsharpApp
             NotificationsApi api = new NotificationsApi.Builder()
                    .SetLWAAuthorizationCredentials(lwaAuthorizationCredentials)
                    .Build();
-            api.Configuration.UserAgent = "Solicitations Sample App/1.0/C#";
+            api = (NotificationsApi)setUserAgent(api);
             api.Configuration.BasePath = GetRegionConfig(regionCode);
             return api;
         }
@@ -88,6 +92,16 @@ namespace SpApiCsharpApp
 
             return response.SecretString;
         }
+
+          //Set user agent
+        private static IApiAccessor setUserAgent(IApiAccessor api) 
+        {
+            if (!OPT_OUT) 
+            {
+                api.Configuration.UserAgent = "Solicitations Sample App/1.0/C#";
+            }
+            return api;        
+    }
     }
 }
 
