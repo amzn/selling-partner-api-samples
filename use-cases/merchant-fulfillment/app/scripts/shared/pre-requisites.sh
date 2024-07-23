@@ -149,7 +149,7 @@ else
     elif [[ "$OSTYPE" == "msys" ]]; then
         install_aws_cli_windows
     else
-        echo "Unsupported operating system. The script supports macOS and Windows only."
+        echo "Unsupported operating system. The script supports macOS and Windows only. Install AWS CLI manually before restarting."
         exit 1
     fi
 fi
@@ -189,7 +189,7 @@ if [ "$language" == "java" ]; then
       elif [[ "$OSTYPE" == "msys" ]]; then
           install_maven_windows
       else
-          echo "Unsupported operating system. The script supports macOS and Windows only."
+          echo "Unsupported operating system. The script supports macOS and Windows only. Install Maven manually before restarting."
           exit 1
       fi
   fi
@@ -212,17 +212,19 @@ def install_package(package):
 for package in REQUIRED_PACKAGES:
   try:
       dist = Distribution.from_name(package)
-      print(f'{dist.metadata['Name']} ({dist.metadata['Version']}) is installed')
+      dist_name = dist.metadata['Name']
+      dist_version = dist.metadata['Version']
+      print(f'{dist_name} ({dist_version}) is installed')
   except ImportError:
       print(f'{package} is NOT installed')
       install_package(package)"
 
-  if [[ "$OSTYPE" == "darwin"* ]]; then
+  if [[ "$OSTYPE" == "darwin"* ]] || [[ "$OSTYPE" == "linux-gnu"* ]]; then
     python3 -c "$pythonCommand"
   elif [[ "$OSTYPE" == "msys" ]]; then
     py -c "$pythonCommand"
   else
-    echo "Unsupported operating system. The script supports macOS and Windows only."
+    echo "Unsupported operating system."
     exit 1
   fi
 fi
