@@ -77,10 +77,8 @@ add_homebrew_to_shell() {
   eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 }
 
-# Function to install Maven on macOS
-install_maven_mac() {
-    echo "Installing Maven on macOS..."
-    # Confirm that Homebrew is installed. Install it otherwise
+check_or_install_brew() {
+	  # Confirm that Homebrew is installed. Install it otherwise
     brew --version >/dev/null 2>/dev/null || xcode-select --install; /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     if [ -n "$BASH_VERSION" ]; then
         add_homebrew_to_shell "$HOME/.bashrc"
@@ -91,6 +89,12 @@ install_maven_mac() {
     else
         echo "Warning: Unsupported shell. Please add Homebrew configuration manually."
     fi
+}
+
+# Function to install Maven on macOS
+  		 install_maven_mac() {
+  		     echo "Installing Maven on macOS..."
+  		     check_or_install_brew
     brew install maven
     echo "Maven was successfully installed on macOS."
 }
@@ -120,6 +124,52 @@ install_maven_windows() {
 
     mvn --version
     echo "Maven was successfully installed on Windows."
+}
+
+# Function to check if NodeJS is installed
+check_nodejs() {
+    if command -v node >/dev/null 2>&1; then
+        return 0
+    else
+        return 1
+   fi
+}
+
+# Function to install NodeJS on macOS
+install_nodejs_mac() {
+    check_or_install_brew
+    echo "Installing NodeJS on macOS..."
+    brew install node@20
+    echo "NodeJS was successfully installed on macOS."
+}
+
+# Function to install NodeJS on macOS
+install_nodejs_windows() {
+    echo
+    echo "Downloading installation package from https://nodejs.org/dist/v20.15.1/node-v20.15.1-x64.msi."
+    curl "https://nodejs.org/dist/v20.15.1/node-v20.15.1-x64.msi" -o "node-v20.15.1-x64.msi"
+
+    echo "Executing 'msiexec'. Installation started..."
+    echo "Please wait..."
+    msiexec //i node-v20.15.1-x64.msi //quiet
+
+     # get path to node and npm and add it to current PATH
+     nodeDirectory=$(powershell -C "(Get-ChildItem -Path 'C:\Program Files' -Recurse -Include node.exe -ErrorAction SilentlyContinue | Select-Object -ExpandProperty DirectoryName -First 1)")
+     nodePosixDirectory=$(echo "/$nodeDirectory" | sed 's/\\/\//g' | sed 's/://')
+     export PATH="$PATH:${nodePosixDirectory}"
+
+     echo "NodeJS and NPM were successfully installed on Windows."
+     echo "Removing the installer..."
+     rm -f node-v20.15.1-x64.msi
+}
+
+# Function to check if AWS CDK is installed
+check_aws_cdk_and_typescript() {
+    if command -v cdk >/dev/null 2>&1 || command -v tsc >/dev/null 2>&1; then
+        return 0
+    else
+        return 1
+    fi
 }
 
 # Confirm that the user has updated the config file. Stop the execution otherwise
