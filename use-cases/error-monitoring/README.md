@@ -56,7 +56,12 @@ EmailId=user@domain.com
 Schedule=rate(1 minute)
 ```
 
-### 2. Configure Sample Solution App's IAM user
+### 2. Set region code and marketplace id
+You have to set region code and marketplace id that matches your account in the code. By default it is set to US.
+If you want to change the values go to [ErrorMonitoringHandler.java](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/error-monitoring/code/java/src/main/java/lambda/ErrorMonitoringHandler.java#L28-L31) and enter the proper data.
+Available values can be found in [Constants.java](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/error-monitoring/code/java/src/main/java/lambda/utils/Constants.java#L17-L33).
+
+### 3. Configure Sample Solution App's IAM user
 #### I. Create IAM policy
 In order to execute the deployment script, an IAM user with the appropriate permissions is needed.
 To create a new IAM policy with the required permissions, follow the steps below.
@@ -153,7 +158,7 @@ To create a new access key pair, follow the steps below. If you already have val
 9. Copy `Access key` and `Secret access key`. This is the only time that these keys can be viewed or downloaded, and you will need them while executing the deployment script
 10. Click **Done**
 
-### 3. Execute the deployment script
+### 4. Execute the deployment script
 The deployment script will create a Sample Solution App in the AWS cloud.
 To execute the deployment script, follow the steps below.
 1. Identify the deployment script for the programming language you want for your Sample Solution App.
@@ -164,7 +169,7 @@ To execute the deployment script, follow the steps below.
     1. Navigate to [CloudFormation console](https://console.aws.amazon.com/cloudformation/home)
     2. Wait for the stack named **sp-api-app-\<language\>-*random_suffix*** to show status `CREATE_COMPLETE`
 
-### 4. Test the sample solution
+### 5. Test the sample solution
 The deployment script creates a Sample Solution App in the AWS cloud.
 To test the sample solution, follow the steps below.
 1. Open the [AWS console](https://console.aws.amazon.com/)
@@ -198,7 +203,7 @@ EvaluationPeriods: 1
 Threshold: 5
 ```
 
-### 5. Clean-up
+### 6. Clean-up
 The deployment script creates a number of resources in the AWS cloud which you might want to delete after testing the solution.
 To clean up these resources, follow the steps below.
 1. Identify the clean-up script for the programming language of the Sample Solution App deployed to the AWS cloud.
@@ -206,7 +211,7 @@ To clean up these resources, follow the steps below.
 2. Execute the script from your terminal or Git Bash
     1. For example, to execute the Java clean-up script in a Unix-based system or using Git Bash, run `bash java-app-clean.sh`
 
-### 6. Troubleshooting
+### 7. Troubleshooting
 If you do not receive email notifications, follow the steps below to identify the root-cause and retry the workflow
 1. Open the [AWS console](https://console.aws.amazon.com/)
 2. Navigate to [Lambda console](https://console.aws.amazon.com/lambda/home)
