@@ -26,6 +26,9 @@ The pre-requisites for deploying the Sample Solution App to the AWS cloud are:
     * If you don't have one, you can create it following the steps  under **Usage - 2. Configure Sample Solution App's IAM user**
 * The [AWS CLI](https://aws.amazon.com/cli/)
     * If not present, it will be installed as part of the deployment script
+* [NodeJS 14.15.0 or later](https://nodejs.org/en/download/package-manager)
+    * Required by AWS CDK stack for the sample solution deployment.
+    * If not present, it will be installed as part of the deployment script.
 * [Maven](https://maven.apache.org/)
     * Just for deploying a Java-based application
     * If not present, it will be installed as part of the deployment script
@@ -61,12 +64,13 @@ To create a new IAM policy with the required permissions, follow the steps below
 2. Navigate to [IAM Policies console](https://us-east-1.console.aws.amazon.com/iamv2/home#/policies)
 3. Click **Create policy**
 4. Next to **Policy editor**, select **JSON** and replace the default policy with the JSON below
+5. Replace all usages of account id with your individual account id.
 ```
 {
 	"Version": "2012-10-17",
 	"Statement": [
 		{
-			"Sid": "SPAPIAppIAMPolicy",
+			"Sid": "SPAPISampleAppIAMPolicy",
 			"Effect": "Allow",
 			"Action": [
 				"iam:CreateUser",
@@ -76,13 +80,49 @@ To create a new IAM policy with the required permissions, follow the steps below
 				"iam:AttachUserPolicy",
 				"iam:DetachUserPolicy",
 				"iam:CreateAccessKey",
-				"iam:DeleteAccessKey"
+				"iam:DeleteAccessKey",
+                "iam:GetRole",
+                "iam:CreateRole",
+                "iam:TagRole",
+                "iam:AttachRolePolicy",
+                "iam:PutRolePolicy",
+                "iam:DeleteRole",
+                "iam:DeleteRolePolicy",
+                "iam:DetachRolePolicy",
+                "iam:PassRole"
 			],
 			"Resource": [
-				"arn:aws:iam::610134619817:user/*",
-				"arn:aws:iam::610134619817:policy/*"
+			    "arn:aws:iam::851725361926:user/*",
+                "arn:aws:iam::851725361926:policy/*",
+                "arn:aws:iam::851725361926:role/*"
 			]
-		}
+		},
+		{
+            "Sid": "SPAPISampleAppCloudFormationPolicy",
+            "Effect": "Allow",
+            "Action": [
+                "cloudformation:*",
+                "ecr:*",
+                "ssm:*"
+            ],
+            "Resource": [
+                "arn:aws:cloudformation:us-east-1:851725361926:stack/CDKToolkit/*",
+                "arn:aws:ecr:us-east-1:851725361926:repository/cdk*",
+                "arn:aws:ssm:us-east-1:851725361926:parameter/cdk-bootstrap/*",
+                "arn:aws:cloudformation:us-east-1:851725361926:stack/sp-api-app*"
+            ]
+        },
+        {
+            "Sid": "SPAPISampleAppCloudFormationS3Policy",
+            "Effect": "Allow",
+            "Action": [
+                "s3:*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::cdk*",
+                "arn:aws:s3:::sp-api-app-bucket*"
+            ]
+        }
 	]
 }
 ```
@@ -120,7 +160,7 @@ To execute the deployment script, follow the steps below.
     1. For example, for the Java application the file is [app/scripts/java/java-app.sh](app/scripts/java/java-app.sh)
 2. Execute the script from your terminal or Git Bash
     1. For example, to execute the Java deployment script in a Unix-based system or using Git Bash, run `bash java-app.sh`
-3. Wait for the CloudFormation stack creation to finish
+3. Wait for the CDK stack creation to finish
     1. Navigate to [CloudFormation console](https://console.aws.amazon.com/cloudformation/home)
     2. Wait for the stack named **sp-api-app-\<language\>-*random_suffix*** to show status `CREATE_COMPLETE`
 
