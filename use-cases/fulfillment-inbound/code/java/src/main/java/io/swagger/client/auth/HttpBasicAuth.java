@@ -1,6 +1,6 @@
 /*
- * Selling Partner API for Catalog Items
- * The Selling Partner API for Catalog Items provides programmatic access to information about items in the Amazon catalog.  For more information, refer to the [Catalog Items API Use Case Guide](doc:catalog-items-api-v2022-04-01-use-case-guide).
+ * Selling Partner API for Fulfillment By Amazon (FBA) Inbound v2024.
+ * The Selling Partner API for FBA Inbound API enables building inbound workflows to create, manage, and send shipments into Amazon's fulfillment network.
  *
  * OpenAPI spec version: 2022-04-01
  * 
