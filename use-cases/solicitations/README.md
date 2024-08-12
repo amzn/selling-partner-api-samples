@@ -159,7 +159,7 @@ To execute the deployment script, follow the steps below.
    1. For example, for the Python application the file is [app/scripts/python/python-app.sh](app/scripts/python/python-app.sh)
 2. Execute the script from your terminal or Git Bash
    1. For example, to execute the Python deployment script in a Unix-based system or using Git Bash, run `bash python-app.sh`
-3. Wait for the CloudFormation stack creation to finish
+3. Wait for the CDK stack creation to finish
     1. Navigate to [CloudFormation console](https://console.aws.amazon.com/cloudformation/home)
     2. Wait for the stack named **sp-api-app-\<language\>-*random_suffix*** to show status `CREATE_COMPLETE`
 

@@ -1,6 +1,6 @@
 # Welcome to your CDK TypeScript project
 
-This is a blank project for CDK development with TypeScript.
+This is a CDK development project for the Solicitations API sample solution
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
