@@ -31,6 +31,9 @@ The pre-requisites for deploying the Sample Solution App to the AWS cloud are:
     * If you don't have one, you can create it following the steps  under **Usage - 2. Configure Sample Solution App's IAM user**
 * The [AWS CLI](https://aws.amazon.com/cli/)
     * If not present, it will be installed as part of the deployment script
+* [NodeJS 14.15.0 or later](https://nodejs.org/en/download/package-manager)
+    * Required by AWS CDK stack for the sample solution deployment.
+    * If not present, it will be installed as part of the deployment script.
 * The Python app requires the following packages: `boto3`, `requests`, and `setuptools`. If not present, they will be installed as part of the deployment script
 * [GitBash](https://git-scm.com/download/win)
     * in case you use Windows in order to run the deployment script.
@@ -65,7 +68,7 @@ To create a new IAM policy with the required permissions, follow the steps below
  	"Version": "2012-10-17",
  	"Statement": [
  		{
- 			"Sid": "SPAPIAppIAMPolicy",
+ 			"Sid": "SPAPISampleAppIAMPolicy",
  			"Effect": "Allow",
  			"Action": [
  				"iam:CreateUser",
@@ -75,13 +78,49 @@ To create a new IAM policy with the required permissions, follow the steps below
  				"iam:AttachUserPolicy",
  				"iam:DetachUserPolicy",
  				"iam:CreateAccessKey",
- 				"iam:DeleteAccessKey"
+ 				"iam:DeleteAccessKey",
+				"iam:GetRole",
+				"iam:CreateRole",
+				"iam:TagRole",
+				"iam:AttachRolePolicy",
+				"iam:PutRolePolicy",
+				"iam:DeleteRole",
+				"iam:DeleteRolePolicy",
+				"iam:DetachRolePolicy",
+				"iam:PassRole"
  			],
  			"Resource": [
  				"arn:aws:iam::<aws_account_id_number>:user/*",
- 				"arn:aws:iam::<aws_account_id_number>:policy/*"
+				"arn:aws:iam::<aws_account_id_number>:policy/*",
+				"arn:aws:iam::<aws_account_id_number>:role/*"
  			]
- 		}
+ 		},
+ 		{
+			"Sid": "SPAPISampleAppCloudFormationPolicy",
+			"Effect": "Allow",
+			"Action": [
+				"cloudformation:*",
+				"ecr:*",
+				"ssm:*"
+			],
+			"Resource": [
+				"arn:aws:cloudformation:us-east-1:<aws_account_id_number>:stack/CDKToolkit/*",
+				"arn:aws:ecr:us-east-1:<aws_account_id_number>:repository/cdk*",
+				"arn:aws:ssm:us-east-1:<aws_account_id_number>:parameter/cdk-bootstrap/*",
+				"arn:aws:cloudformation:us-east-1:<aws_account_id_number>:stack/sp-api-app*"
+			]
+		},
+		{
+			"Sid": "SPAPISampleAppCloudFormationS3Policy",
+			"Effect": "Allow",
+			"Action": [
+				"s3:*"
+			],
+			"Resource": [
+				"arn:aws:s3:::cdk*",
+				"arn:aws:s3:::sp-api-app-bucket*"
+			]
+		}
  	]
  }
 ```
@@ -120,7 +159,7 @@ To execute the deployment script, follow the steps below.
    1. For example, for the Python application the file is [app/scripts/python/python-app.sh](app/scripts/python/python-app.sh)
 2. Execute the script from your terminal or Git Bash
    1. For example, to execute the Python deployment script in a Unix-based system or using Git Bash, run `bash python-app.sh`
-3. Wait for the CloudFormation stack creation to finish
+3. Wait for the CDK stack creation to finish
     1. Navigate to [CloudFormation console](https://console.aws.amazon.com/cloudformation/home)
     2. Wait for the stack named **sp-api-app-\<language\>-*random_suffix*** to show status `CREATE_COMPLETE`
 
