@@ -16,7 +16,7 @@ A well-architected Data Kiosk workflow includes subscribing to the `DATA_KIOSK_Q
 The query submission workflow starts by constructing a GraphQL query using the [Data Kiosk Schema Explorer](https://sellercentral.amazon.com/datakiosk-schema-explorer?schema=analytics_salesAndTraffic_2023_11_15) and sending it to the Selling Partner API via the `createQuery` operation.  
 After a notification is received, the result status is verified to confirm a successful or failed processing. The `getDocument` operation is invoked to retrieve the query result document url, which is then used to obtain the query document.
 
-![Data Kiosk Workflow](docs/data-kiosk-workflow.png)
+![Data Kiosk Workflow](docs/images/data-kiosk-workflow.png)
 
 ## Sample Code
 Below you can find sample code for the most relevant Data Kiosk operations:
