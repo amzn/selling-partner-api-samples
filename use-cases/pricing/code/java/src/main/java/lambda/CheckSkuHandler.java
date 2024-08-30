@@ -20,7 +20,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static lambda.utils.Constants.*;
+import static lambda.utils.Constants.SELLER_ITEMS_TABLE_CONDITION_KEY_NAME;
+import static lambda.utils.Constants.SELLER_ITEMS_TABLE_HASH_KEY_NAME;
+import static lambda.utils.Constants.SELLER_ITEMS_TABLE_IS_FULFILLED_BY_AMAZON_KEY_NAME;
+import static lambda.utils.Constants.SELLER_ITEMS_TABLE_MARKETPLACE_ID_KEY_NAME;
+import static lambda.utils.Constants.SELLER_ITEMS_TABLE_MIN_THRESHOLD_KEY_NAME;
+import static lambda.utils.Constants.SELLER_ITEMS_TABLE_NAME_ENV_VARIABLE;
+import static lambda.utils.Constants.SELLER_ITEMS_TABLE_PRICE_CHANGE_RULE_AMOUNT_KEY_NAME;
+import static lambda.utils.Constants.SELLER_ITEMS_TABLE_PRICE_CHANGE_RULE_KEY_NAME;
+import static lambda.utils.Constants.SELLER_ITEMS_TABLE_SELLER_ID_KEY_NAME;
+import static lambda.utils.Constants.SELLER_ITEMS_TABLE_SKU_KEY_NAME;
+import static lambda.utils.Constants.SELLER_ITEMS_TABLE_USE_COMPETITIVE_PRICE;
 
 public class CheckSkuHandler implements RequestHandler<StateMachineInput, PricingOffers> {
 

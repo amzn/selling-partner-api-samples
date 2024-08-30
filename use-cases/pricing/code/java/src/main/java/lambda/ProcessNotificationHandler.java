@@ -21,7 +21,10 @@ import software.amazon.awssdk.services.sfn.model.StartExecutionResponse;
 import java.io.IOException;
 import java.util.UUID;
 
-import static lambda.utils.Constants.*;
+import static lambda.utils.Constants.NOTIFICATION_TYPE_ANY_OFFER_CHANGED;
+import static lambda.utils.Constants.NOTIFICATION_TYPE_PRICING_HEALTH;
+import static lambda.utils.Constants.PRICE_CHANGE_OFFER_CHANGE_TYPES;
+import static lambda.utils.Constants.STATE_MACHINE_ARN_ENV_VARIABLE;
 
 public class ProcessNotificationHandler implements RequestHandler<SQSEvent, String> {
 
