@@ -2,6 +2,7 @@ package lambda.utils;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lambda.utils.PricingHealth.ReferencePrice;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,9 +17,6 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Offer {
 
-    @JsonProperty("SellerId")
-    public String sellerId;
-
     @JsonProperty("listingPrice")
     public Amount listingPrice;
 
@@ -30,4 +28,7 @@ public class Offer {
 
     @JsonProperty("isFulfilledByAmazon")
     public boolean isFulfilledByAmazon;
+
+    @JsonProperty("referencePrice")
+    public ReferencePrice referencePrice;
 }

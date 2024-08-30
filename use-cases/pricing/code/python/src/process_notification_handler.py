@@ -128,7 +128,6 @@ def start_step_functions_execution(notification, offer_trigger, notification_typ
         constants.STATE_MACHINE_KEY_ASIN: asin,
         constants.STATE_MACHINE_KEY_CREDENTIALS: {
             constants.STATE_MACHINE_KEY_REFRESH_TOKEN: os.environ.get(constants.REFRESH_TOKEN_ARN_ENV_VARIABLE),
-            constants.STATE_MACHINE_KEY_REGION_CODE: os.environ.get(constants.REGION_CODE_ARN_ENV_VARIABLE),
             constants.STATE_MACHINE_KEY_MARKETPLACE_ID: marketplace_id
         },
         constants.STATE_MACHINE_KEY_SELLER_ID: seller_id,

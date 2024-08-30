@@ -1,4 +1,4 @@
-package lambda.utils;
+package lambda.utils.AnyOfferChanged;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SPAPINotification {
+public class AnyOfferChangedNotification {
 
     @JsonProperty("NotificationType")
     public String notificationType;

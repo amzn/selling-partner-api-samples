@@ -29,6 +29,12 @@ public class CalculateNewPriceHandler implements RequestHandler<PricingLambdaInp
 
             //Check conditions to determine whether to skip new price calculation
 
+            //Pricing Health Workflow - Check whether competitivePriceThreshold is present
+            if (sellerOffer.referencePrice != null && input.useCompetitivePrice) {
+                float newItemPrice = sellerOffer.referencePrice.getCompetitivePriceThreshold().getAmount().floatValue();
+                return createNewPrice(newItemPrice, input.getMinThreshold(), buyBoxPrice, sellerOffer.referencePrice.getCompetitivePriceThreshold().getCurrencyCode(), logger);
+            }
+
             //Check if buy box price is less than the minimum threshold
             if (buyBoxPrice < input.getMinThreshold()) {
                 //Log and return indicating skipping new price calculation
@@ -60,50 +66,55 @@ public class CalculateNewPriceHandler implements RequestHandler<PricingLambdaInp
 
             //Calculate the new item price based on different price change rules (percentage or fixed)
             PriceChangeRule priceChangeRule = input.getPriceChangeRule();
-            float newItemPrice = -1;
+            float newItemPrice;
+            float buyBoxPriceExcludingShipping = buyBoxPrice - sellerOffer.getShippingPrice().getAmount();
             if (PRICE_CHANGE_RULE_PERCENTAGE.equals(priceChangeRule.getRule())) {
-                newItemPrice = subtractPercentage(buyBoxPrice, priceChangeRule.getValue());
+                newItemPrice = subtractPercentage(buyBoxPriceExcludingShipping, priceChangeRule.getValue());
             } else if (PRICE_CHANGE_RULE_FIXED.equals(priceChangeRule.getRule())) {
-                newItemPrice = subtractFixed(buyBoxPrice, priceChangeRule.getValue());
+                newItemPrice = subtractFixed(buyBoxPriceExcludingShipping, priceChangeRule.getValue());
             } else {
+                newItemPrice = -1;
                 logger.log(String.format("Price Change Rule: %s is Invalid. Skipping new price calculation." +
                                 "Please change rule to match one of [PERCENTAGE, FIXED]",
                         priceChangeRule.getRule()));
 
                 return PricingLambdaInput.builder()
                         .newListingPrice(Amount.builder()
-                                .amount(-1)
+                                .amount(newItemPrice)
                                 .build())
                         .issues(String.format("Price Change Rule: %s is Invalid.", priceChangeRule.getRule()))
                         .build();
             }
 
             //Calculate the new listing price by subtracting shipping price from the new item price
-            float newListingPrice = newItemPrice - sellerOffer.getShippingPrice().getAmount();
-
-            //Check if the new listing price is less than the minimum threshold
-            if (newListingPrice < input.getMinThreshold()) {
-                logger.log(String.format("New Listings Price: %f is less than threshold: %f. Skipping new price calculation.",
-                        newListingPrice,
-                        input.getMinThreshold()));
-
-                return PricingLambdaInput.builder()
-                        .newListingPrice(Amount.builder()
-                                .amount(-1)
-                                .build())
-                        .issues(String.format("Buy Box Price: %f is less than threshold", buyBoxPrice))
-                        .build();
-            }
-
-            return PricingLambdaInput.builder()
-                    .newListingPrice(Amount.builder()
-                            .currencyCode(sellerOffer.getListingPrice().getCurrencyCode())
-                            .amount(newListingPrice)
-                            .build())
-                    .build();
+            float newListingPrice = newItemPrice;
+            return createNewPrice(newListingPrice, input.getMinThreshold(), buyBoxPrice, input.sellerOffer.getListingPrice().currencyCode, logger);
         } catch (Exception e) {
             throw new InternalError("CalculateNewPrice Lambda failed", e);
         }
+    }
+
+    private PricingLambdaInput createNewPrice(float newListingPrice, float minThreshold, float buyBoxPrice, String offerCurrency, LambdaLogger logger) {
+        //Check if the new listing price is less than the minimum threshold
+        PricingLambdaInput.PricingLambdaInputBuilder pricingLambdaBuilder = PricingLambdaInput.builder();
+        if (newListingPrice < minThreshold) {
+            logger.log(String.format("New Listings Price: %f is less than threshold: %f. Skipping new price calculation.",
+                    newListingPrice,
+                    minThreshold));
+
+            pricingLambdaBuilder
+                    .newListingPrice(Amount.builder()
+                            .amount(-1)
+                            .build())
+                    .issues(String.format("Buy Box Price: %f is less than threshold", buyBoxPrice));
+        } else {
+            pricingLambdaBuilder.newListingPrice(Amount.builder()
+                            .currencyCode(offerCurrency)
+                            .amount(newListingPrice)
+                            .build())
+                    .build();
+        }
+        return pricingLambdaBuilder.build();
     }
 
     private float subtractPercentage(float n1, float percentage) {
