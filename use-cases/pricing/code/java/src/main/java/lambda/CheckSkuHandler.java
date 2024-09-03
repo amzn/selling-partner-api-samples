@@ -103,7 +103,7 @@ public class CheckSkuHandler implements RequestHandler<StateMachineInput, Pricin
                 .expressionAttributeValues(ImmutableMap.of(
                         ":asin", AttributeValue.fromS(asin),
                         ":sid", AttributeValue.fromS(sellerId),
-                        ":cond", AttributeValue.fromS(condition),
+                        ":cond", AttributeValue.fromS(condition.toLowerCase()),
                         ":mid", AttributeValue.fromS(marketplaceId)
                 ))
                 .build();

@@ -11,7 +11,6 @@ import com.google.gson.Gson;
 import lambda.utils.AnyOfferChanged.AnyOfferChangedNotification;
 import lambda.utils.AnyOfferChanged.AnyOfferChangedNotificationPayload;
 import lambda.utils.PricingHealth.PricingHealthNotification;
-import lambda.utils.PricingHealth.PricingHealthNotificationPayload;
 import lambda.utils.PricingNotification;
 import lambda.utils.SPAPINotification;
 import software.amazon.awssdk.services.sfn.SfnClient;
@@ -43,11 +42,11 @@ public class ProcessNotificationHandler implements RequestHandler<SQSEvent, Stri
                 switch (notification.getNotificationType()) {
                     case NOTIFICATION_TYPE_ANY_OFFER_CHANGED:
                         AnyOfferChangedNotification anyOfferChangedNotification = parseAnyOfferChangedNotification(message.getBody());
-                        processAnyOfferChangeNotification(anyOfferChangedNotification.getPayload().getAnyOfferChangedNotificationPayload(), logger);
+                        processNotification(anyOfferChangedNotification.getPayload().getAnyOfferChangedNotificationPayload(), logger);
                         break;
                     case NOTIFICATION_TYPE_PRICING_HEALTH:
                         PricingHealthNotification pricingHealthNotification = parsePricingHealthNotification(message.getBody());
-                        processPricingHealthNotification(pricingHealthNotification.getPricingHealthNotificationPayload(), logger);
+                        processNotification(pricingHealthNotification.getPricingHealthNotificationPayload(), logger);
                         break;
                     default:
                         logger.log(String.format("Notification type %s skipped", notification.getNotificationType()));
@@ -61,29 +60,25 @@ public class ProcessNotificationHandler implements RequestHandler<SQSEvent, Stri
         return "Finished processing incoming notifications";
     }
 
-    private void processPricingHealthNotification(PricingHealthNotificationPayload notificationPayload, LambdaLogger logger) throws JsonProcessingException {
-        logger.log("Starting state machine execution");
-        String executionArn = startStepFunctionsExecution(notificationPayload);
-
-        logger.log(String.format("State machine successfully started. Execution arn: %s", executionArn));
-    }
-
-    private void processAnyOfferChangeNotification(AnyOfferChangedNotificationPayload anyOfferChangedNotificationPayload, LambdaLogger logger) throws JsonProcessingException {
-        // Only process the AOC notification if it is of type 'Internal' or 'FeaturedOffer'
-        if (!PRICE_CHANGE_OFFER_CHANGE_TYPES.contains(anyOfferChangedNotificationPayload.getOfferChangeTrigger().getOfferChangeType())) {
-            logger.log(String.format("Offer change type %s skipped", anyOfferChangedNotificationPayload.getOfferChangeTrigger().getOfferChangeType()));
-            return;
+    private void processNotification(PricingNotification pricingNotification, LambdaLogger logger) throws JsonProcessingException {
+        if (pricingNotification instanceof AnyOfferChangedNotificationPayload) {
+            AnyOfferChangedNotificationPayload payload = (AnyOfferChangedNotificationPayload) pricingNotification;
+            // Only process the AOC notification if it is of type 'Internal' or 'FeaturedOffer'
+            if (!PRICE_CHANGE_OFFER_CHANGE_TYPES.contains(payload.getOfferChangeTrigger().getOfferChangeType())) {
+                logger.log(String.format("Offer change type %s skipped", payload.getOfferChangeTrigger().getOfferChangeType()));
+                return;
+            }
         }
 
         logger.log("Starting state machine execution");
-        String executionArn = startStepFunctionsExecution(anyOfferChangedNotificationPayload);
+        String executionArn = startStepFunctionsExecution(pricingNotification);
 
         logger.log(String.format("State machine successfully started. Execution arn: %s", executionArn));
     }
 
     private SPAPINotification mapNotification(String notificationBody) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        //schema differ from one notification to another. E.g NotificationType in AnyOfferChange vs notificationType in PricingHealth.
+        //schemas differ from one notification to another. E.g NotificationType in AnyOfferChange vs notificationType in PricingHealth.
         //we accept case-insensitive properties to identify the notification type.
         mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
 

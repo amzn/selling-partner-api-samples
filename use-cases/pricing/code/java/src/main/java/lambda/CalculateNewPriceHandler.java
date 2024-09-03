@@ -30,9 +30,9 @@ public class CalculateNewPriceHandler implements RequestHandler<PricingLambdaInp
             //Check conditions to determine whether to skip new price calculation
 
             //Pricing Health Workflow - Check whether competitivePriceThreshold is present
-            if (sellerOffer.referencePrice != null && input.useCompetitivePrice) {
-                float newItemPrice = sellerOffer.referencePrice.getCompetitivePriceThreshold().getAmount().floatValue();
-                return createNewPrice(newItemPrice, input.getMinThreshold(), buyBoxPrice, sellerOffer.referencePrice.getCompetitivePriceThreshold().getCurrencyCode(), logger);
+            if (sellerOffer.getReferencePrice() != null && input.isUseCompetitivePrice()) {
+                float newItemPrice = sellerOffer.getReferencePrice().getCompetitivePriceThreshold().getAmount().floatValue();
+                return createNewPrice(newItemPrice, input.getMinThreshold(), buyBoxPrice, sellerOffer.getReferencePrice().getCompetitivePriceThreshold().getCurrencyCode(), logger);
             }
 
             //Check if buy box price is less than the minimum threshold
@@ -88,7 +88,7 @@ public class CalculateNewPriceHandler implements RequestHandler<PricingLambdaInp
 
             //Calculate the new listing price by subtracting shipping price from the new item price
             float newListingPrice = newItemPrice;
-            return createNewPrice(newListingPrice, input.getMinThreshold(), buyBoxPrice, input.sellerOffer.getListingPrice().currencyCode, logger);
+            return createNewPrice(newListingPrice, input.getMinThreshold(), buyBoxPrice, input.getSellerOffer().getListingPrice().getCurrencyCode(), logger);
         } catch (Exception e) {
             throw new InternalError("CalculateNewPrice Lambda failed", e);
         }
@@ -120,7 +120,7 @@ public class CalculateNewPriceHandler implements RequestHandler<PricingLambdaInp
     private float subtractPercentage(float n1, float percentage) {
         return BigDecimal.valueOf(n1)
                 .subtract(BigDecimal.valueOf(n1)
-                        .multiply(BigDecimal.valueOf(percentage)))
+                        .multiply(BigDecimal.valueOf(percentage / 100)))
                 .floatValue();
     }
 
