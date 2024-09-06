@@ -11,7 +11,10 @@ If you haven't already, we recommend you to navigate the following resources:
 * [Product Pricing API and Notifications Frequently Asked Questions](https://developer-docs.amazon.com/sp-api/docs/pricing-faqs)
 * [Product Pricing API v2022-05-01 reference](https://developer-docs.amazon.com/sp-api/docs/product-pricing-api-v2022-05-01-reference)
 * [Product Pricing API Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/product-pricing-api-v2022-05-01-use-case-guide)
-* [Notifications API v1 Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-use-case-guide) 
+* [Notifications API v1 Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-use-case-guide)
+
+## Sample Video Tutorial
+[![Automated Pricing: Amazon Selling Partner API Pricing Sample Solution](https://img.youtube.com/vi/9GjgVYNkLuE/sddefault.jpg)](https://www.youtube.com/watch?v=9GjgVYNkLuE)
 
 ## Solution
 This Sample Solution implements a re-pricing workflow that reacts to incoming [ANY_OFFER_CHANGED](https://developer-docs.amazon.com/sp-api/docs/notification-type-values#any_offer_changed) and [PRICING_HEALTH](https://developer-docs.amazon.com/sp-api/docs/notification-type-values#pricing_health) notifications calculating a new competitive price for the related selling partner's SKUs in order to achieve featured offer eligibility. If the new calculated price is above the minimum threshold defined by the selling partner, the solution executes a price change.
