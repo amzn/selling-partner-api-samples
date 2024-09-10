@@ -9,13 +9,11 @@ import io.swagger.client.ApiClient;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
 import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueRequest;
 import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueResponse;
-import com.amazonaws.services.lambda.runtime.LambdaLogger;
 
 import static lambda.utils.Constants.LWA_ENDPOINT;
 import static lambda.utils.Constants.LWA_NOTIFICATIONS_SCOPE;
 import static lambda.utils.Constants.SP_API_APP_CREDENTIALS_SECRET_ARN_ENV_VARIABLE;
 import static lambda.utils.Constants.VALID_SP_API_REGION_CONFIG;
-import com.amazonaws.services.lambda.runtime.Context;
 
 import java.util.Set;
 import java.util.HashSet;
@@ -25,7 +23,7 @@ public class ApiUtils {
     public static final boolean OPT_OUT = false;
 
     //Generate FBA Outbound API client
-    public static FbaOutboundApi getFbaOutboundApi (String regionCode, String refreshToken, Context context)
+    public static FbaOutboundApi getFbaOutboundApi (String regionCode, String refreshToken)
             throws Exception{
 
         RegionConfig regionConfig = getRegionConfig(regionCode);

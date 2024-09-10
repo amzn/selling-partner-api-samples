@@ -33,10 +33,10 @@ public class CreateOrderHandler implements RequestHandler<MCFCreateOrderLambdaIn
         logger.log("CreateOrder input: " + input.getCreateFulfillmentOrderNotification());
 
         try {
-            FbaOutboundApi fbaoApi = getFbaOutboundApi(input.getRegionCode(), input.getRefreshToken(), context);
+            FbaOutboundApi fbaoApi = getFbaOutboundApi(input.getRegionCode(), input.getRefreshToken());
 
             //Transform user input into a CreateFulfillmentOrderRequest
-            CreateFulfillmentOrderRequest createFulfillmentOrderRequest = buildCreateFulfillmentOrderRequest(input.getCreateFulfillmentOrderNotification(), logger);
+            CreateFulfillmentOrderRequest createFulfillmentOrderRequest = buildCreateFulfillmentOrderRequest(input.getCreateFulfillmentOrderNotification());
             logger.log("CreateFulfillmentOrderRequest value: " + createFulfillmentOrderRequest);
 
             CreateFulfillmentOrderResponse createFulfillmentOrderResponse = fbaoApi.createFulfillmentOrder(createFulfillmentOrderRequest);
@@ -48,7 +48,7 @@ public class CreateOrderHandler implements RequestHandler<MCFCreateOrderLambdaIn
         return input;
     }
 
-    private CreateFulfillmentOrderRequest buildCreateFulfillmentOrderRequest(CreateFulfillmentOrderNotification createFulfillmentOrderNotification, LambdaLogger logger) {
+    private CreateFulfillmentOrderRequest buildCreateFulfillmentOrderRequest(CreateFulfillmentOrderNotification createFulfillmentOrderNotification) {
         return new CreateFulfillmentOrderRequest()
             .marketplaceId(createFulfillmentOrderNotification.getMarketplaceId())
             .sellerFulfillmentOrderId(createFulfillmentOrderNotification.getSellerFulfillmentOrderId())
@@ -70,9 +70,7 @@ public class CreateOrderHandler implements RequestHandler<MCFCreateOrderLambdaIn
     private NotificationEmailList buildNotificationEmails(List<String> notificationEmailList) {
         if (notificationEmailList != null) {
             NotificationEmailList notificationEmailListRequest = new NotificationEmailList();
-            for (String email: notificationEmailList) {
-                notificationEmailListRequest.add(email);
-            }
+            notificationEmailListRequest.addAll(notificationEmailList);
             return notificationEmailListRequest;
         } else {
             return null;

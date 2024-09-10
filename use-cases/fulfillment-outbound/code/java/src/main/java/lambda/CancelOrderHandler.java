@@ -16,7 +16,7 @@ public class CancelOrderHandler implements RequestHandler<MCFCancelOrderLambdaIn
         logger.log("CancelOrder input: " + input.getCancelFulfillmentOrderNotification());
 
         try {
-            FbaOutboundApi fbaoApi = getFbaOutboundApi(input.getRegionCode(), input.getRefreshToken(), context);
+            FbaOutboundApi fbaoApi = getFbaOutboundApi(input.getRegionCode(), input.getRefreshToken());
 
             CancelFulfillmentOrderResponse cancelFulfillmentOrderResponse = fbaoApi.cancelFulfillmentOrder(input.getCancelFulfillmentOrderNotification().getSellerFulfillmentOrderId());
             logger.log("CancelFulfillmentOrder call output: " + cancelFulfillmentOrderResponse);
