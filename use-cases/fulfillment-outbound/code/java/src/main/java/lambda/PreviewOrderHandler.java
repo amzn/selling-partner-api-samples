@@ -29,7 +29,7 @@ public class PreviewOrderHandler implements RequestHandler<MCFCreateOrderLambdaI
         logger.log("PreviewOrder input: " + input.getCreateFulfillmentOrderNotification());
     
         try {
-            FbaOutboundApi fbaoApi = getFbaOutboundApi(input.getRegionCode(), input.getRefreshToken(), context);
+            FbaOutboundApi fbaoApi = getFbaOutboundApi(input.getRegionCode(), input.getRefreshToken());
             GetFulfillmentPreviewRequest getFulfillmentPreviewRequest = buildGetFulfillmentPreviewRequest(input.getCreateFulfillmentOrderNotification());
             
             GetFulfillmentPreviewResponse getFulfillmentPreviewResponse = fbaoApi.getFulfillmentPreview(getFulfillmentPreviewRequest);
@@ -45,26 +45,16 @@ public class PreviewOrderHandler implements RequestHandler<MCFCreateOrderLambdaI
     //Note that under many use cases a preview request is built first, seprate from a desired create order request
     //i.e. a preview request is made first in order to identify what options and costs are available for a valid create order request
     private GetFulfillmentPreviewRequest buildGetFulfillmentPreviewRequest(CreateFulfillmentOrderNotification createFulfillmentOrderNotification) {
+        Boolean includeCOD = createFulfillmentOrderNotification.getCodSettings() != null;
+        Boolean includeDeliveryWindows = createFulfillmentOrderNotification.getDeliveryWindow() != null;
 
-        Boolean includeCOD = false;
-        if (createFulfillmentOrderNotification.getCodSettings() != null) {
-            includeCOD = true;
-        }
-
-        Boolean includeDeliveryWindows = false;
-        if (createFulfillmentOrderNotification.getDeliveryWindow() != null) {
-            includeDeliveryWindows = true;
-        }
-
-        GetFulfillmentPreviewRequest getFulfillmentPreviewRequest = new GetFulfillmentPreviewRequest()
+        return new GetFulfillmentPreviewRequest()
             .marketplaceId(createFulfillmentOrderNotification.getMarketplaceId())
             .address(buildRequestAddress(createFulfillmentOrderNotification.getDestinationAddress()))
             .items(buildPreviewItems(createFulfillmentOrderNotification.getItems()))
             .includeCODFulfillmentPreview(includeCOD)
             .includeDeliveryWindows(includeDeliveryWindows)
             .featureConstraints(buildFeatureConstraints(createFulfillmentOrderNotification.getFeatureConstraints()));
-
-        return getFulfillmentPreviewRequest;
     }
     
     private Address buildRequestAddress(DestinationAddress destinationAddress){
@@ -102,7 +92,7 @@ public class PreviewOrderHandler implements RequestHandler<MCFCreateOrderLambdaI
             for (lambda.utils.FeatureSettings featureSetting: featureConstraints) {
                 FeatureSettings featureSettingRequest = new FeatureSettings();
                 if (featureSetting.getFeatureFulfillmentPolicy() != null) {
-                    if (featureSetting.getFeatureFulfillmentPolicy() == "Required") {
+                    if (featureSetting.getFeatureFulfillmentPolicy().equals("Required")) {
                         featureSettingRequest.featureFulfillmentPolicy(FeatureSettings.FeatureFulfillmentPolicyEnum.REQUIRED);
                     } else {
                         featureSettingRequest.featureFulfillmentPolicy(FeatureSettings.FeatureFulfillmentPolicyEnum.NOTREQUIRED);
