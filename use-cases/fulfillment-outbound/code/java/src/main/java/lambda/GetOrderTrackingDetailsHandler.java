@@ -22,7 +22,7 @@ public class GetOrderTrackingDetailsHandler implements RequestHandler<MCFTrackin
 
         GetFulfillmentOrderResponse getFulfillmentOrderResponse;
         try {
-            FbaOutboundApi fbaoApi = getFbaOutboundApi(input.getRegionCode(), input.getRefreshToken(), context);
+            FbaOutboundApi fbaoApi = getFbaOutboundApi(input.getRegionCode(), input.getRefreshToken());
             
             getFulfillmentOrderResponse = fbaoApi.getFulfillmentOrder(input.getSellerFulfillmentOrderId());
             logger.log("getFulfillmentOrder call output: " + getFulfillmentOrderResponse);
@@ -30,7 +30,7 @@ public class GetOrderTrackingDetailsHandler implements RequestHandler<MCFTrackin
             throw new InternalError("Calling FBAOutbound GetOrder failed", e);
         }
 
-        List<Integer> packageNumbers = new ArrayList();
+        List<Integer> packageNumbers = new ArrayList<>();
         List<FulfillmentShipment> fulfillmentShipments = getFulfillmentOrderResponse.getPayload().getFulfillmentShipments();
 
         //If the order contains shipments, extract and store the package number from each of them

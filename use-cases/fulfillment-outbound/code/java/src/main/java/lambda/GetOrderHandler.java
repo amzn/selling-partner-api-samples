@@ -16,7 +16,7 @@ public class GetOrderHandler implements RequestHandler<MCFCreateOrderLambdaInput
         logger.log("GetOrder input: " + input.getCreateFulfillmentOrderNotification());
     
         try {
-            FbaOutboundApi fbaoApi = getFbaOutboundApi(input.getRegionCode(), input.getRefreshToken(), context);
+            FbaOutboundApi fbaoApi = getFbaOutboundApi(input.getRegionCode(), input.getRefreshToken());
             
             GetFulfillmentOrderResponse getFulfillmentOrderResponse = fbaoApi.getFulfillmentOrder(input.getCreateFulfillmentOrderNotification().getSellerFulfillmentOrderId());
             logger.log("GetFulfillmentOrder call output: " + getFulfillmentOrderResponse);
