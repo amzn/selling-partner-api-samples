@@ -3,7 +3,6 @@ package lambda;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lambda.utils.MCFTrackingDetailsLambdaInput;
 import io.swagger.client.api.FbaOutboundApi;
 import io.swagger.client.model.fbao.GetPackageTrackingDetailsResponse;
@@ -17,7 +16,7 @@ public class GetPackageTrackingDetailsHandler implements RequestHandler<MCFTrack
         logger.log("PackageTracking input: " + input.getPackageNumbers());
 
         try {
-            FbaOutboundApi fbaoApi = getFbaOutboundApi(input.getRegionCode(), input.getRefreshToken(), context);
+            FbaOutboundApi fbaoApi = getFbaOutboundApi(input.getRegionCode(), input.getRefreshToken());
             
             //For each package number, retrive the package details
             for (Integer packageNumber : input.getPackageNumbers()) {

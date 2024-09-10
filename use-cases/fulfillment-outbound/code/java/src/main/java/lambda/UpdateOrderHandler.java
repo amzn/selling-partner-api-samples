@@ -7,7 +7,6 @@ import io.swagger.client.api.FbaOutboundApi;
 import io.swagger.client.model.fbao.FulfillmentAction;
 import io.swagger.client.model.fbao.UpdateFulfillmentOrderRequest;
 import io.swagger.client.model.fbao.UpdateFulfillmentOrderResponse;
-import lambda.utils.CreateFulfillmentOrderNotification;
 import lambda.utils.MCFCreateOrderLambdaInput;
 
 import static lambda.utils.ApiUtils.getFbaOutboundApi;
@@ -19,8 +18,8 @@ public class UpdateOrderHandler implements RequestHandler<MCFCreateOrderLambdaIn
         logger.log("UpdateOrder input: " + input.getCreateFulfillmentOrderNotification());
     
         try {
-            FbaOutboundApi fbaoApi = getFbaOutboundApi(input.getRegionCode(), input.getRefreshToken(), context);
-            UpdateFulfillmentOrderRequest updateFulfillmentOrderRequest = buildUpdateFulfillmentOrderRequest(input.getCreateFulfillmentOrderNotification());
+            FbaOutboundApi fbaoApi = getFbaOutboundApi(input.getRegionCode(), input.getRefreshToken());
+            UpdateFulfillmentOrderRequest updateFulfillmentOrderRequest = buildUpdateFulfillmentOrderRequest();
 
             UpdateFulfillmentOrderResponse updateFulfillmentOrderResponse = fbaoApi.updateFulfillmentOrder(updateFulfillmentOrderRequest, input.getCreateFulfillmentOrderNotification().getSellerFulfillmentOrderId());
             logger.log("UpdateFulfillmentOrder call output: " + updateFulfillmentOrderResponse);
@@ -31,7 +30,7 @@ public class UpdateOrderHandler implements RequestHandler<MCFCreateOrderLambdaIn
         return input;
     }
 
-    UpdateFulfillmentOrderRequest buildUpdateFulfillmentOrderRequest(CreateFulfillmentOrderNotification createFulfillmentOrderNotification) {
+    UpdateFulfillmentOrderRequest buildUpdateFulfillmentOrderRequest() {
         return new UpdateFulfillmentOrderRequest()
         .fulfillmentAction(FulfillmentAction.SHIP);
     }
