@@ -18,13 +18,17 @@ import lambda.utils.PricingLambdaInput;
 import java.util.List;
 
 import static lambda.utils.ApiUtils.getListingsApi;
+import static lambda.utils.Constants.REGION_CODE_ENV_VARIABLE;
 
 public class SubmitPriceHandler implements RequestHandler<PricingLambdaInput, String> {
+
+    private static final String SANDBOX_SUFFIX = "_SANDBOX";
 
     public String handleRequest(PricingLambdaInput input, Context context) {
         LambdaLogger logger = context.getLogger();
         logger.log("SubmitPrice Lambda input: " + new Gson().toJson(input));
 
+        String regionCode = System.getenv(REGION_CODE_ENV_VARIABLE);
         try {
             String sellerId = input.getSellerId();
             String itemSku = input.getItemSku();
@@ -32,9 +36,14 @@ public class SubmitPriceHandler implements RequestHandler<PricingLambdaInput, St
             String issueLocale = "en_US";
             List<String> includedData = Lists.newArrayList("attributes");
 
-            ListingsApi listingsApi = getListingsApi(input.getCredentials().getRegionCode(), input.getCredentials().getRefreshToken());
+            ListingsApi listingsApi = getListingsApi(regionCode, input.getCredentials().getRefreshToken());
 
             Item listingsItem = listingsApi.getListingsItem(sellerId, itemSku, marketplaceIds, issueLocale, includedData);
+
+            //Mocking a purchasable offer attribute in the sandbox response
+            if (regionCode.contains(SANDBOX_SUFFIX)) {
+                listingsItem.setAttributes(getListingsMockedAttributesForSandbox());
+            }
 
             ListingsItemPatchRequest patchRequestBody = getPatchListingsRequestBody(input.getNewListingPrice(), listingsItem);
             ListingsItemSubmissionResponse response = listingsApi.patchListingsItem(sellerId, itemSku, marketplaceIds, patchRequestBody, issueLocale);
@@ -67,5 +76,21 @@ public class SubmitPriceHandler implements RequestHandler<PricingLambdaInput, St
         return new ListingsItemPatchRequest()
                 .productType("PRODUCT")
                 .patches(Lists.newArrayList(patchOperation));
+    }
+
+    private JsonObject getListingsMockedAttributesForSandbox() {
+        return new Gson().fromJson("{\"purchasable_offer\": [\n" +
+                "                {\n" +
+                "                    \"our_price\": [\n" +
+                "                        {\n" +
+                "                            \"schedule\": [\n" +
+                "                                {\n" +
+                "                                    \"value_with_tax\": 10\n" +
+                "                                }\n" +
+                "                            ]\n" +
+                "                        }\n" +
+                "                    ]\n" +
+                "                }\n" +
+                "            ]}", JsonObject.class);
     }
 }

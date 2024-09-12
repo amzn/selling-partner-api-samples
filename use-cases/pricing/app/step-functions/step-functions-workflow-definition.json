@@ -162,7 +162,6 @@
                 "itemSku.$": "$.itemSku",
                 "credentials": {
                   "refreshToken.$": "$.credentials.refreshToken",
-                  "regionCode.$": "$.credentials.regionCode",
                   "marketplaceId.$": "$.credentials.marketplaceId"
                 }
               }
