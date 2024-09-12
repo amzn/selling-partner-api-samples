@@ -27,6 +27,12 @@ Below you can find sample code for the most relevant Data Kiosk operations:
 ### Create Data Kiosk query
 How to create queries that were formed in the [Data Kiosk Schema Explorer](https://sellercentral.amazon.com/datakiosk-schema-explorer?schema=analytics_salesAndTraffic_2023_11_15)
 
+#### Step-by-step:
+1. **Set up the API client:** Initialize the Data Kiosk API client by providing the refresh token and region code.
+2. **Build the createQuery body:** Build the `createQuery` request payload using the query string code extracted from the input payload.
+3. **Call the createQuery operation:** Call the `createQuery` operation passing the query string code in the request.
+4. **Inspect the response:** Inspect the response returned by the `createQuery` operation. The response should include a query ID.
+
 #### Python:
 *Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/data-kiosk/code/python/src/create_query_handler.py)*
 ```python
@@ -53,14 +59,14 @@ CreateQueryResponse response = dataKioskApi.createQuery(request);
 logger.log(String.format("CreateQuery API response: %s", new Gson().toJson(response)));
 ```
 
-#### Step-by-step:
-1. **Set up the API client:** Initialize the Data Kiosk API client by providing the refresh token and region code.
-2. **Build the createQuery body:** Build the `createQuery` request payload using the query string code extracted from the input payload.
-3. **Call the createQuery operation:** Call the `createQuery` operation passing the query string code in the request.
-4. **Inspect the response:** Inspect the response returned by the `createQuery` operation. The response should include a query ID.
-
 ### Retrieve document details
 How to retrieve processes document details that include the document URL and the document ID
+
+#### Step-by-step:
+1. **Set up the API client:** Initialize the Data Kiosk API client by providing the refresh token and region code.
+2. **Call the getDocument operation:** Call the `getDocument` operation, passing the document ID in the request.
+3. **Inspect the response:** Inspect the response returned by `getDocument`. The response should include a document ID and document URL.
+4. **Address empty documents:** Log a message for when no document data is returned by `getDocument`. In this case, it means that no data is available for the specified range.
 
 #### Python:
 *Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/data-kiosk/code/python/src/get_document_handler.py)*
@@ -96,14 +102,12 @@ if (response  != null) {
 }
 ```
 
-#### Step-by-step:
-1. **Set up the API client:** Initialize the Data Kiosk API client by providing the refresh token and region code.
-2. **Call the getDocument operation:** Call the `getDocument` operation, passing the document ID in the request.
-3. **Inspect the response:** Inspect the response returned by `getDocument`. The response should include a document ID and document URL.
-4. **Address empty documents:** Log a message for when no document data is returned by `getDocument`. In this case, it means that no data is available for the specified range.
-
 ### Cancel active query
 How to cancel queries that are in processing status
+
+#### Step-by-step:
+1. **Set up the API client:** Initialize the Data Kiosk API client by providing the refresh token and region code.
+2. **Call the cancelQuery operation:** Call the `cancelQuery` operation using the query ID extracted from the input payload.
 
 #### Python:
 *Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/data-kiosk/code/python/src/cancel_query_handler.py)*
@@ -120,7 +124,3 @@ QueriesApi dataKioskApi = ApiUtils.getDataKioskApi(regionCode, refreshToken);
 
 dataKioskApi.cancelQuery(queryId);
 ```
-
-#### Step-by-step:
-1. **Set up the API client:** Initialize the Data Kiosk API client by providing the refresh token and region code.
-2. **Call the cancelQuery operation:** Call the `cancelQuery` operation using the query ID extracted from the input payload.
