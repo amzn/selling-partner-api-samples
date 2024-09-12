@@ -5,6 +5,7 @@ With this API you can build applications that can preview shipping service offer
 If you haven't already, we recommend you to navigate the following resources:
 * [Merchant Fulfillment API Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/merchant-fulfillment-api-v0-use-case-guide)
 * [Merchant Fulfillment API v0 reference](https://developer-docs.amazon.com/sp-api/docs/merchant-fulfillment-api-v0-reference)
+* [Merchant Fulfillment Solution: Setup and Installation Tutorial](https://www.youtube.com/watch?v=lUSKvRhK3AQ)
 
 ## Sample Solution
 This Sample Solution provides all the required resources to deploy a fully functional SP-API application on AWS that implements the [Merchant Fulfillment use case](https://developer-docs.amazon.com/sp-api/docs/merchant-fulfillment-api-v0-use-case-guide) end-to-end.
@@ -26,6 +27,12 @@ The process for the steps belows should start by monitoring [ORDER_CHANGE](https
 ### 1 - Retrieve an order
 
 Upon an ORDER_CHANGE notification for unshipped MFN orders, the Orders API is used to retrieve the order details.
+
+#### Step-by-step:
+1. **Initialize API Client:** The API client of OrdersAPI is initialized with the Refresh Token and the Region.
+2. **Get Order:** The Orders API getOrder operation is called using the orderId from the ORDER_CHANGE notification.
+3. **Create the order processing class:** The MfnOrder class is instantiated with the order items from getOrder and the shipping address.
+4. **Return MfnOrder object** The MfnOrder object created is returned for further processing of the Merchant Fulfillment Workflow.
 
 **Java**
 
@@ -68,15 +75,16 @@ mfn_ship_from_address = map_address(order_response.payload.default_ship_from_loc
 mfn_order = MfnOrder(order_items=mfn_order_items, ship_from_address=mfn_ship_from_address)
 ```
 
-#### Step-by-step:
-1. **Initialize API Client:** The API client of OrdersAPI is initialized with the Refresh Token and the Region.
-2. **Get Order:** The Orders API getOrder operation is called using the orderId from the ORDER_CHANGE notification.
-3. **Create the order processing class:** The MfnOrder class is instantiated with the order items from getOrder and the shipping address.
-4. **Return MfnOrder object** The MfnOrder object created is returned for further processing of the Merchant Fulfillment Workflow.
-
 ### 2 - Check Inventory
 
 After the order details are retrieved, the inventory is checked and order is validated.
+
+#### Step-by-step:
+1. **Process the order items:** A loop over all order items is created to execute inventory checks.
+2. **Prepare the request:** Get the orderItem SKU and prepare the database (DynamoDB) request.
+3. **Retrieve the Item from Inventory:** Using the database client, the item is retrieved from inventory table.
+4. **Check stock:** The item stock quantity is checked. The order is aborted if quantity is insufficient.
+5. **Calculate Order Weight and Dimensions:** The total order weight and dimensions are calculated and returned as part of the MFN order.
 
 Find the full code here
 
@@ -211,16 +219,15 @@ mfn_order.packageDimensions = PackageDimensions(
 return mfn_order.to_json()
 ```
 
-#### Step-by-step:
-1. **Process the order items:** A loop over all order items is created to execute inventory checks.
-2. **Prepare the request:** Get the orderItem SKU and prepare the database (DynamoDB) request.
-3. **Retrieve the Item from Inventory:** Using the database client, the item is retrieved from inventory table.
-4. **Check stock:** The item stock quantity is checked. The order is aborted if quantity is insufficient.
-5. **Calculate Order Weight and Dimensions:** The total order weight and dimensions are calculated and returned as part of the MFN order.
-
 ### 3 - Get Shipping Service Offers
 
 Once the inventory is checked and the order is validated for shipping, we use the [GetEligibleShipmentServices](https://developer-docs.amazon.com/sp-api/docs/merchant-fulfillment-api-v0-reference#geteligibleshipmentservices) operation to check for available shipping service offers.
+
+#### Step-by-step:
+1. **Initialize API Client:** The API client for MFN is initialized using the Refresh Token and the Region.
+2. **Prepare the request:** The request for the getEligibleShipmentServices operation is prepared.
+3. **Call the API:** The MFN Api getEligibleShipmentServices is called using the prepared request.
+4. **Set the shipment service list:** Set the fetched eligible shipment services as part of the order and return it.
 
 **Java**
 
@@ -264,17 +271,15 @@ mfn_order.shippingServiceList = [item for item in eligible_shipment_response.pay
 return mfn_order.to_json()
 ```
 
-#### Step-by-step:
-1. **Initialize API Client:** The API client for MFN is initialized using the Refresh Token and the Region.
-2. **Prepare the request:** The request for the getEligibleShipmentServices operation is prepared.
-3. **Call the API:** The MFN Api getEligibleShipmentServices is called using the prepared request.
-4. **Set the shipment service list:** Set the fetched eligible shipment services as part of the order and return it.
-
 ### 4 - Select the preferred shipment
 
 After getting the eligible shipping services, the offers are filtered for the seller preferred one.
 For instance, filtering criteria can be Price or Speed.
 
+#### Step-by-step:
+1. **Retrieve Shipment Settings:** The preferred shipment settings are retrieved from an environment variable.
+2. **Filter shipment services:** The setting is used as criteria to filter the shipment offers collection.
+3. **Return preferred shipment:** The shipment service remaining is returned.
 
 **Java**
 
@@ -320,14 +325,16 @@ def speed_comparator(ship_service1, ship_service2):
     return datetime.strptime(ship_service1[date_key], date_format) - datetime.strptime(ship_service2[date_key], date_format)
 ```
 
-#### Step-by-step:
-1. **Retrieve Shipment Settings:** The preferred shipment settings are retrieved from an environment variable.
-2. **Filter shipment services:** The setting is used as criteria to filter the shipment offers collection.
-3. **Return preferred shipment:** The shipment service remaining is returned.
-
 ### 5 - Create a shipment
 
 After deciding on the preferred shipping service, it is now possible to create the order shipment and store the shipment id for the order in the database.
+
+#### Step-by-step:
+1. **Prepare the Create Shipment Request:** The CreateShipment request is created.
+2. **Initialize API Client:** The MFN API is initialized using the Refresh Token and the Region.
+3. **Call the CreateShipment operation** The createShipment operation is called using the request prepared.
+4. **Store to Shipment ID:** The shipmentId part of the response payload is stored along the order handled.
+5. **Return the label:** The label part of the response payload is returned.
 
 **Java**
 
@@ -392,13 +399,6 @@ result = {
 return result
 ```
 
-#### Step-by-step:
-1. **Prepare the Create Shipment Request:** The CreateShipment request is created.
-2. **Initialize API Client:** The MFN API is initialized using the Refresh Token and the Region.
-3. **Call the CreateShipment operation** The createShipment operation is called using the request prepared.
-4. **Store to Shipment ID:** The shipmentId part of the response payload is stored along the order handled.
-5. **Return the label:** The label part of the response payload is returned.
-
 ```python
 def get_create_shipment_request_body(payload, order_id):
     order_item_list = json.loads(mfn_utils.transform_keys_to_uppercase_first_letter(json.dumps([item for item in payload["orderItems"]])))
@@ -443,6 +443,13 @@ def store_shipment_information(order_id, shipment_id):
 ### 6 - Presign and Print the shipment label
 
 After the label extraction is done, the shipping label is decompressed and decoded for printing.
+
+#### Step-by-step:
+1. **S3 client and object are set up:** Prepare the S3 bucket details and the S3 client.
+2. **Get the label content:** Get the label content returned from the previous step.
+3. **Decode the label content** The label content returned by the api is decoded.
+4. **Store to S3:** The decoded label is stored to S3.
+5. **Pre-sign:** A pre-signed URL is generated on the label object on S3.
 
 **Java**
 
@@ -521,13 +528,6 @@ logger.info("Presigned URL successfully generated")
 
 return presigned_url
 ```
-
-#### Step-by-step:
-1. **S3 client and object are set up:** Prepare the S3 bucket details and the S3 client.
-2. **Get the label content:** Get the label content returned from the previous step.
-3. **Decode the label content** The label content returned by the api is decoded.
-4. **Store to S3:** The decoded label is stored to S3.
-5. **Pre-sign:** A pre-signed URL is generated on the label object on S3.
 
 The pre-signed URL is finally passed to next steps such as printing.
 In this sample solution, the step functions last step provides the pre-signed URl to an SNS topic which triggers then sends it by Email.  
