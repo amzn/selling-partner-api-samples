@@ -22,6 +22,13 @@ Below you can find sample code for the most relevant LWA Rotation operations:
 ### Rotate secret
 How to handle secret expiry notification and secret rotation
 
+#### Step-by-step:
+1. **Iterate through messages:** Iterate through all received messages and filter for client secret expiry notification type.
+2. **Validate client id:** Make sure that the client id specified in the notification equals your client id.
+3. **Check expiry time:** Make sure that the client secret is expiring within the threshold.
+4. **Set up the API client:** Initialize the Applications API client by providing the region code and set boolean to true for grantless operation.
+5. **Call the rotateApplicationClientSecretCall operation:** Call the [rotateApplicationClientSecret](https://developer-docs.amazon.com/sp-api/docs/application-management-api-v2023-11-30-reference#rotateapplicationclientsecret) operation and set both progress listeners to null.
+
 #### Java
 *Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/lwa-rotation/code/java/src/main/java/lambda/RotateSecretsHandler.java)*
 ```java
@@ -57,15 +64,13 @@ public String handleRequest(SQSEvent event, Context context) {
 }
 ```
 
-#### Step-by-step:
-1. **Iterate through messages:** Iterate through all received messages and filter for client secret expiry notification type.
-2. **Validate client id:** Make sure that the client id specified in the notification equals your client id.
-3. **Check expiry time:** Make sure that the client secret is expiring within the threshold.
-4. **Set up the API client:** Initialize the Applications API client by providing the region code and set boolean to true for grantless operation.
-5. **Call the rotateApplicationClientSecretCall operation:** Call the [rotateApplicationClientSecret](https://developer-docs.amazon.com/sp-api/docs/application-management-api-v2023-11-30-reference#rotateapplicationclientsecret) operation and set both progress listeners to null.
-
 ### Get new secret
 How to handle new client secret notification and secret update
+
+#### Step-by-step:
+1. **Iterate through messages:** Iterate through all received messages and filter for new client secret notification type.
+2. **Validate client id:** Make sure that the client id specified in the notification equals your client id.
+3. **Update the LWA client secret in the AWS Secrets Manager:** Retrieve the new client secret from the notification payload and update the corresponding secret in your secret storage service.
 
 #### Java
 *Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/lwa-rotation/code/java/src/main/java/lambda/UpdateSecretsHandler.java)*
@@ -99,8 +104,3 @@ public String handleRequest(SQSEvent event, Context context) {
     }
 }
 ```
-
-#### Step-by-step:
-1. **Iterate through messages:** Iterate through all received messages and filter for new client secret notification type.
-2. **Validate client id:** Make sure that the client id specified in the notification equals your client id.
-3. **Update the LWA client secret in the AWS Secrets Manager:** Retrieve the new client secret from the notification payload and update the corresponding secret in your secret storage service.

@@ -24,6 +24,11 @@ In order to create a fulfillment order, you have to setup the API client accordi
 ### Sample Code
 Below you can find sample code for the create fulfillment order operation.
 
+#### Step-by-step:
+1. **Set up the API client:** Initialize the FBA Outbound API client by providing refresh token and region code.
+2. **Build the request body:** Build the `CreateFulfillmentOrderRequest` object and set all required data.
+3. **Execute the call:** Create a new order by calling `createFulfillmentOrder` operation.
+
 #### Java
 *Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/fulfillment-outbound/code/java/src/main/java/lambda/CreateOrderHandler.java)*
 ```java
@@ -61,16 +66,15 @@ private CreateFulfillmentOrderRequest buildCreateFulfillmentOrderRequest(CreateF
 }
 ```
 
-#### Step-by-step:
-1. **Set up the API client:** Initialize the FBA Outbound API client by providing refresh token and region code.
-2. **Build the request body:** Build the `CreateFulfillmentOrderRequest` object and set all required data.
-3. **Execute the call:** Create a new order by calling `createFulfillmentOrder` operation.
-
 ## Get fulfillment order
 In order to get a fulfillment order, you have to setup the API client accordingly and execute the get fulfillment order operation.
 
 ### Sample Code
 Below you can find sample code for the get fulfillment order operation.
+
+#### Step-by-step:
+1. **Set up the API client:** Initialize the FBA Outbound API client by providing refresh token and region code.
+2. **Execute the call:** Call `getFulfillmentOrder` operation to get a specific fulfillment order with given `sellerFulfillmentOrderId`.
 
 #### Java
 *Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/fulfillment-outbound/code/java/src/main/java/lambda/GetOrderHandler.java)*
@@ -89,15 +93,16 @@ public MCFCreateOrderLambdaInput handleRequest(MCFCreateOrderLambdaInput input, 
 }
 ```
 
-#### Step-by-step:
-1. **Set up the API client:** Initialize the FBA Outbound API client by providing refresh token and region code.
-2. **Execute the call:** Call `getFulfillmentOrder` operation to get a specific fulfillment order with given `sellerFulfillmentOrderId`.
-
 ## Update fulfillment order
 In order to update a fulfillment order, you have to setup the API client accordingly, build the request body and finally update the fulfillment order.
 
 ### Sample Code
 Below you can find sample code for the update fulfillment order operation.
+
+#### Step-by-step:
+1. **Set up the API client:** Initialize the FBA Outbound API client by providing refresh token and region code.
+2. **Build the request body:** Build the `UpdateFulfillmentOrderRequest` object and set all required data.
+3. **Execute the call:** Update a fulfillment order by calling `updateFulfillmentOrder` operation.
 
 #### Java
 *Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/fulfillment-outbound/code/java/src/main/java/lambda/UpdateOrderHandler.java)*
@@ -119,16 +124,15 @@ public MCFCreateOrderLambdaInput handleRequest(MCFCreateOrderLambdaInput input, 
 }
 ```
 
-#### Step-by-step:
-1. **Set up the API client:** Initialize the FBA Outbound API client by providing refresh token and region code.
-2. **Build the request body:** Build the `UpdateFulfillmentOrderRequest` object and set all required data.
-3. **Execute the call:** Update a fulfillment order by calling `updateFulfillmentOrder` operation.
-
 ## Cancel fulfillment order
 In order to cancel a fulfillment order, you have to setup the API client accordingly and execute the cancel fulfillment order operation.
 
 ### Sample Code
 Below you can find sample code for the cancel fulfillment order operation.
+
+#### Step-by-step:
+1. **Set up the API client:** Initialize the FBA Outbound API client by providing refresh token and region code.
+2. **Execute the call:** Call `cancelFulfillmentOrder` operation to cancel a specific fulfillment order with given `sellerFulfillmentOrderId`.
 
 #### Java
 *Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/fulfillment-outbound/code/java/src/main/java/lambda/CancelOrderHandler.java)*
@@ -147,15 +151,15 @@ public MCFCancelOrderLambdaInput handleRequest(MCFCancelOrderLambdaInput input, 
 }
 ```
 
-#### Step-by-step:
-1. **Set up the API client:** Initialize the FBA Outbound API client by providing refresh token and region code.
-2. **Execute the call:** Call `cancelFulfillmentOrder` operation to cancel a specific fulfillment order with given `sellerFulfillmentOrderId`.
-
 ## Get package tracking details
 In order to get package tracking details, you have to setup the API client accordingly and retrieve tracking details for each package number individually.
 
 ### Sample Code
 Below you can find sample code for the get package tracking details operation.
+
+#### Step-by-step:
+1. **Set up the API client:** Initialize the FBA Outbound API client by providing refresh token and region code.
+2. **Iterate through package numbers to retrieve tracking details:** For each package number call  `getPackageTrackingDetails` operation.
 
 #### Java
 *Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/fulfillment-outbound/code/java/src/main/java/lambda/GetPackageTrackingDetailsHandler.java)*
@@ -180,15 +184,16 @@ public MCFTrackingDetailsLambdaInput handleRequest(MCFTrackingDetailsLambdaInput
 }
 ```
 
-#### Step-by-step:
-1. **Set up the API client:** Initialize the FBA Outbound API client by providing refresh token and region code.
-2. **Iterate through package numbers to retrieve tracking details:** For each package number call  `getPackageTrackingDetails` operation.
-
 ## Get fulfillment preview
 In order to get a fulfillment preview, you have to setup the API client accordingly, build the request body and finally get the fulfillment preview.
 
 ### Sample Code
 Below you can find sample code for the get fulfillment preview operation.
+
+#### Step-by-step:
+1. **Set up the API client:** Initialize the FBA Outbound API client by providing refresh token and region code.
+2. **Build the request body:** Build the `GetFulfillmentPreviewRequest` object and set all required data.
+3. **Execute the call:** Get fulfillment preview by calling `getFulfillmentPreview` operation.
 
 #### Java
 *Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/fulfillment-outbound/code/java/src/main/java/lambda/PreviewOrderHandler.java)*
@@ -221,8 +226,3 @@ private GetFulfillmentPreviewRequest buildGetFulfillmentPreviewRequest(CreateFul
             .featureConstraints(buildFeatureConstraints(createFulfillmentOrderNotification.getFeatureConstraints()));
 }
 ```
-
-#### Step-by-step:
-1. **Set up the API client:** Initialize the FBA Outbound API client by providing refresh token and region code.
-2. **Build the request body:** Build the `GetFulfillmentPreviewRequest` object and set all required data.
-3. **Execute the call:** Get fulfillment preview by calling `getFulfillmentPreview` operation.

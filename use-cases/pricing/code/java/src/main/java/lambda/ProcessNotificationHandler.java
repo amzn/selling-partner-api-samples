@@ -82,9 +82,7 @@ public class ProcessNotificationHandler implements RequestHandler<SQSEvent, Stri
         //we accept case-insensitive properties to identify the notification type.
         mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
 
-        SPAPINotification notification = mapper.readValue(notificationBody, SPAPINotification.class);
-
-        return notification;
+        return mapper.readValue(notificationBody, SPAPINotification.class);
     }
 
     private AnyOfferChangedNotification parseAnyOfferChangedNotification(String notificationBody) throws IOException {
