@@ -21,15 +21,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static lambda.utils.Constants.SELLER_ITEMS_TABLE_CONDITION_KEY_NAME;
+import static lambda.utils.Constants.SELLER_ITEMS_TABLE_HASH_KEY_NAME;
 import static lambda.utils.Constants.SELLER_ITEMS_TABLE_IS_FULFILLED_BY_AMAZON_KEY_NAME;
 import static lambda.utils.Constants.SELLER_ITEMS_TABLE_MARKETPLACE_ID_KEY_NAME;
 import static lambda.utils.Constants.SELLER_ITEMS_TABLE_MIN_THRESHOLD_KEY_NAME;
 import static lambda.utils.Constants.SELLER_ITEMS_TABLE_NAME_ENV_VARIABLE;
-import static lambda.utils.Constants.SELLER_ITEMS_TABLE_HASH_KEY_NAME;
 import static lambda.utils.Constants.SELLER_ITEMS_TABLE_PRICE_CHANGE_RULE_AMOUNT_KEY_NAME;
 import static lambda.utils.Constants.SELLER_ITEMS_TABLE_PRICE_CHANGE_RULE_KEY_NAME;
 import static lambda.utils.Constants.SELLER_ITEMS_TABLE_SELLER_ID_KEY_NAME;
 import static lambda.utils.Constants.SELLER_ITEMS_TABLE_SKU_KEY_NAME;
+import static lambda.utils.Constants.SELLER_ITEMS_TABLE_USE_COMPETITIVE_PRICE;
 
 public class CheckSkuHandler implements RequestHandler<StateMachineInput, PricingOffers> {
 
@@ -52,13 +53,13 @@ public class CheckSkuHandler implements RequestHandler<StateMachineInput, Pricin
                 PricingLambdaInput pricingOffer = PricingLambdaInput.builder()
                         .isFulfilledByAmazon(sku.get(SELLER_ITEMS_TABLE_IS_FULFILLED_BY_AMAZON_KEY_NAME).bool())
                         .itemSku(sku.get(SELLER_ITEMS_TABLE_SKU_KEY_NAME).s())
-                        .minThreshold(Float.valueOf(sku.get(SELLER_ITEMS_TABLE_MIN_THRESHOLD_KEY_NAME).n()))
+                        .minThreshold(Float.parseFloat(sku.get(SELLER_ITEMS_TABLE_MIN_THRESHOLD_KEY_NAME).n()))
                         .priceChangeRule(PriceChangeRule.builder()
-                                .value(Float.valueOf(sku.get(SELLER_ITEMS_TABLE_PRICE_CHANGE_RULE_AMOUNT_KEY_NAME).n()))
+                                .value(Float.parseFloat(sku.get(SELLER_ITEMS_TABLE_PRICE_CHANGE_RULE_AMOUNT_KEY_NAME).n()))
                                 .rule(sku.get(SELLER_ITEMS_TABLE_PRICE_CHANGE_RULE_KEY_NAME).s())
                                 .build())
 
-                        .useCompetitivePrice(Boolean.valueOf(true))
+                        .useCompetitivePrice(sku.get(SELLER_ITEMS_TABLE_USE_COMPETITIVE_PRICE).bool())
                         .buyBox(input.getBuyBox())
                         .sellerId(input.getSeller().getSellerId())
                         .asin(input.getAsin())
@@ -102,7 +103,7 @@ public class CheckSkuHandler implements RequestHandler<StateMachineInput, Pricin
                 .expressionAttributeValues(ImmutableMap.of(
                         ":asin", AttributeValue.fromS(asin),
                         ":sid", AttributeValue.fromS(sellerId),
-                        ":cond", AttributeValue.fromS(condition),
+                        ":cond", AttributeValue.fromS(condition.toLowerCase()),
                         ":mid", AttributeValue.fromS(marketplaceId)
                 ))
                 .build();

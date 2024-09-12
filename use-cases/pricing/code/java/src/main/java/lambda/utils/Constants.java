@@ -3,7 +3,6 @@ package lambda.utils;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,17 +15,28 @@ public class Constants {
     public static final String SP_API_EU_ENDPOINT = "https://sellingpartnerapi-eu.amazon.com";
     public static final String FE_REGION_CODE = "FE";
     public static final String SP_API_FE_ENDPOINT = "https://sellingpartnerapi-fe.amazon.com";
+    public static final String NA_SANDBOX_REGION_CODE = "NA_SANDBOX";
+    public static final String SP_API_NA_SANDBOX_ENDPOINT = "https://sandbox.sellingpartnerapi-na.amazon.com";
+    public static final String EU_SANDBOX_REGION_CODE = "EU_SANDBOX";
+    public static final String SP_API_EU_SANDBOX_ENDPOINT = "https://sandbox.sellingpartnerapi-eu.amazon.com";
+    public static final String FE_SANDBOX_REGION_CODE = "FE_SANDBOX";
+    public static final String SP_API_FE_SANDBOX_ENDPOINT = "https://sandbox.sellingpartnerapi-fe.amazon.com";
 
-    public static final Map<String, String> VALID_SP_API_REGION_CONFIG = ImmutableMap.of(
-            NA_REGION_CODE, SP_API_NA_ENDPOINT,
-            EU_REGION_CODE, SP_API_EU_ENDPOINT,
-            FE_REGION_CODE, SP_API_FE_ENDPOINT);
+    public static final Map<String, String> VALID_SP_API_REGION_CONFIG = ImmutableMap.<String, String>builder()
+            .put(NA_REGION_CODE, SP_API_NA_ENDPOINT)
+            .put(EU_REGION_CODE, SP_API_EU_ENDPOINT)
+            .put(FE_REGION_CODE, SP_API_FE_ENDPOINT)
+            .put(NA_SANDBOX_REGION_CODE, SP_API_NA_SANDBOX_ENDPOINT)
+            .put(EU_SANDBOX_REGION_CODE, SP_API_EU_SANDBOX_ENDPOINT)
+            .put(FE_SANDBOX_REGION_CODE, SP_API_FE_SANDBOX_ENDPOINT)
+            .build();
 
     //Login With Amazon Configuration
     public static final String LWA_ENDPOINT = "https://api.amazon.com/auth/o2/token";
 
     //Notifications Configuration
     public static final String NOTIFICATION_TYPE_ANY_OFFER_CHANGED = "ANY_OFFER_CHANGED";
+    public static final String NOTIFICATION_TYPE_PRICING_HEALTH = "PRICING_HEALTH";
 
     public static final String OFFER_CHANGE_TYPE_INTERNAL = "Internal";
     public static final String OFFER_CHANGE_TYPE_FEATURED_OFFER = "FeaturedOffer";
@@ -39,19 +49,11 @@ public class Constants {
     public static final String SQS_QUEUE_ARN_ENV_VARIABLE = "SQS_QUEUE_ARN";
     public static final String REFRESH_TOKEN_ARN_ENV_VARIABLE = "REFRESH_TOKEN";
     public static final String STATE_MACHINE_ARN_ENV_VARIABLE = "STATE_MACHINE_ARN";
+    public static final String REGION_CODE_ENV_VARIABLE = "REGION_CODE";
     public static final String SELLER_ITEMS_TABLE_NAME_ENV_VARIABLE = "SELLER_ITEMS_TABLE_NAME";
 
     //Lambda Utils
     public static final String LWA_NOTIFICATIONS_SCOPE = "sellingpartnerapi::notifications";
-
-    public static final String getMartketplaceIdToRegionCodeMapping(String marketplaceId) {
-        Map<String, String> martketplaceIdToRegionCodeMap = new HashMap<>();
-        martketplaceIdToRegionCodeMap.put("ABCD123", NA_REGION_CODE);
-        martketplaceIdToRegionCodeMap.put("EFGH456", EU_REGION_CODE);
-        martketplaceIdToRegionCodeMap.put("IJKL789", FE_REGION_CODE);
-
-        return martketplaceIdToRegionCodeMap.get(marketplaceId);
-    }
 
     public static final String PRICE_CHANGE_RULE_PERCENTAGE = "PERCENTAGE";
     public static final String PRICE_CHANGE_RULE_FIXED = "FIXED";
@@ -71,4 +73,5 @@ public class Constants {
     public static final String SELLER_ITEMS_TABLE_PRICE_CHANGE_RULE_KEY_NAME = "PriceChangeRule";
     public static final String SELLER_ITEMS_TABLE_PRICE_CHANGE_RULE_AMOUNT_KEY_NAME = "PriceChangeRuleAmount";
     public static final String SELLER_ITEMS_TABLE_MIN_THRESHOLD_KEY_NAME = "MinThreshold";
+    public static final String SELLER_ITEMS_TABLE_USE_COMPETITIVE_PRICE = "UseCompetitivePrice";
 }

@@ -17,9 +17,6 @@ public class ApiCredentials {
     @JsonProperty("refreshToken")
     public String refreshToken;
 
-    @JsonProperty("regionCode")
-    public String regionCode;
-
     @JsonProperty("marketplaceId")
     public String marketplaceId;
 }

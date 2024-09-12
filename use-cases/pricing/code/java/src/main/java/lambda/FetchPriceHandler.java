@@ -14,6 +14,7 @@ import lambda.utils.PricingLambdaInput;
 import java.util.List;
 
 import static lambda.utils.ApiUtils.getProductPricingApi;
+import static lambda.utils.Constants.REGION_CODE_ENV_VARIABLE;
 
 public class FetchPriceHandler implements RequestHandler<PricingLambdaInput, PricingLambdaInput> {
 
@@ -21,10 +22,11 @@ public class FetchPriceHandler implements RequestHandler<PricingLambdaInput, Pri
         LambdaLogger logger = context.getLogger();
         logger.log("FetchPrice Lambda input: " + new Gson().toJson(input));
 
+        String regionCode = System.getenv(REGION_CODE_ENV_VARIABLE);
         List<String> skus = Lists.newArrayList(input.getItemSku());
 
         try {
-            ProductPricingApi pricingApi = getProductPricingApi(input.getCredentials().getRegionCode(), input.getCredentials().getRefreshToken());
+            ProductPricingApi pricingApi = getProductPricingApi(regionCode, input.getCredentials().getRefreshToken());
             GetPricingResponse getPricingResponse = pricingApi.getPricing(
                     input.getCredentials().getMarketplaceId(),
                     "Sku",
