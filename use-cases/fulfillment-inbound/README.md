@@ -19,7 +19,7 @@ implements the new **Fulfillment By Amazon (FBA) Inbound API v2024-03-20**. It d
 of two business use-cases:
 
 - [Small Parcel Delivery (SPD) with Amazon Partnered Carrier (PCP)](https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/fulfillment-inbound/Small_Parcel_Delivery_with_Amazon_Partnered_Carrier)
-- Small Parcel Delivery (SPD) with Non-Partnered Carrier (nPCP)
+- [Small Parcel Delivery (SPD) with Non-Partnered Carrier (nPCP)](https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/fulfillment-inbound/Small_Parcel_Delivery_with_Non_Partnered_Carrier)
 
 ## Workflow
 
@@ -62,4 +62,4 @@ To effectively implement the Fulfillment Inbound v2024 API and leverage the samp
    Based on your chosen workflow, navigate to the respective folders within the sample solution repository to access detailed code setup instructions and deployment guidelines.
 
     - [Small_Parcel_Delivery_with_Amazon_Partnered_Carrier](https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/fulfillment-inbound/Small_Parcel_Delivery_with_Amazon_Partnered_Carrier)
-    - Small_Parcel_Delivery_with_Non_Partnered_Carrier
+    - [Small_Parcel_Delivery_with_Non_Partnered_Carrier](https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/fulfillment-inbound/Small_Parcel_Delivery_with_Non_Partnered_Carrier)
