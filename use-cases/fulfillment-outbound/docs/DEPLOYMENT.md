@@ -37,6 +37,9 @@ The pre-requisites for deploying the Sample Solution App to the AWS cloud are:
     * If you don't have one, you can create it following the steps  under **Usage - 2. Configure Sample Solution App's IAM user**
 * The [AWS CLI](https://aws.amazon.com/cli/)
     * If not present, it will be installed as part of the deployment script
+* [NodeJS 14.15.0 or later](https://nodejs.org/en/download/package-manager)
+    * Required by AWS CDK stack for the sample solution deployment.
+    * If not present, it will be installed as part of the deployment script.
 * [Maven](https://maven.apache.org/)
     * Just for deploying a Java-based application
     * If not present, it will be installed as part of the deployment script
@@ -70,12 +73,13 @@ To create a new IAM policy with the required permissions, follow the steps below
 2. Navigate to [IAM Policies console](https://us-east-1.console.aws.amazon.com/iamv2/home#/policies)
 3. Click **Create policy**
 4. Next to **Policy editor**, select **JSON** and replace the default policy with the JSON below. Make sure to replace `<aws_account_id_number>` your AWS account id number
+5. Replace with your account id wherever needed.
 ```
 {
  	"Version": "2012-10-17",
  	"Statement": [
  		{
- 			"Sid": "SPAPIAppIAMPolicy",
+ 			"Sid": "SPAPISampleAppIAMPolicy",
  			"Effect": "Allow",
  			"Action": [
  				"iam:CreateUser",
@@ -85,15 +89,51 @@ To create a new IAM policy with the required permissions, follow the steps below
  				"iam:AttachUserPolicy",
  				"iam:DetachUserPolicy",
  				"iam:CreateAccessKey",
- 				"iam:DeleteAccessKey"
+ 				"iam:DeleteAccessKey",
+                "iam:GetRole",
+                "iam:CreateRole",
+                "iam:TagRole",
+                "iam:AttachRolePolicy",
+                "iam:PutRolePolicy",
+                "iam:DeleteRole",
+                "iam:DeleteRolePolicy",
+                "iam:DetachRolePolicy",
+                "iam:PassRole"
  			],
  			"Resource": [
- 				"arn:aws:iam::<aws_account_id_number>:user/*",
- 				"arn:aws:iam::<aws_account_id_number>:policy/*"
+ 				"arn:aws:iam::851725361926:user/*",
+	 			"arn:aws:iam::851725361926:policy/*",
+  		 		"arn:aws:iam::851725361926:role/*"
  			]
- 		}
+ 		},
+ 		{
+            "Sid": "SPAPISampleAppCloudFormationPolicy",
+            "Effect": "Allow",
+            "Action": [
+                "cloudformation:*",
+                "ecr:*",
+                "ssm:*"
+            ],
+            "Resource": [
+                "arn:aws:cloudformation:us-east-1:851725361926:stack/CDKToolkit/*",
+                "arn:aws:ecr:us-east-1:851725361926:repository/cdk*",
+                "arn:aws:ssm:us-east-1:851725361926:parameter/cdk-bootstrap/*",
+                "arn:aws:cloudformation:us-east-1:851725361926:stack/sp-api-app*"
+            ]
+        },
+        {
+            "Sid": "SPAPISampleAppCloudFormationS3Policy",
+            "Effect": "Allow",
+            "Action": [
+                "s3:*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::cdk*",
+                "arn:aws:s3:::sp-api*"
+            ]
+        }
  	]
- }
+}
 ```
 5. Click **Next**
 6. Select a name for your policy. Take note of this value as you will need it in the next section.
@@ -130,7 +170,7 @@ To execute the deployment script, follow the steps below.
     1. For example, for the Java application the file is [app/scripts/java/java-app.sh](app/scripts/java/java-app.sh)
 2. Execute the script from your terminal or Git Bash
     1. For example, to execute the Java deployment script in a Unix-based system or using Git Bash, run `bash java-app.sh`
-3. Wait for the CloudFormation stack creation to finish
+3. Wait for the CDK stack creation to finish
     1. Navigate to [CloudFormation console](https://console.aws.amazon.com/cloudformation/home)
     2. Wait for the stack named **sp-api-app-\<language\>-*random_suffix*** to show status `CREATE_COMPLETE`
 
@@ -142,10 +182,10 @@ We assume your account has valid inventory associated with it. To test it, follo
 2. Navigate to [SQS console](https://console.aws.amazon.com/sqs/v2/home)
 3. Select the SQS queue created by the deployment script, named **sp-api-notifications-queue-*random_suffix***
 4. Select **Send and receive messages**
-5. Under **Message body**, insert the following simplified notification body where `createFulfillmentOrderNotification`'s object is replaced by a valid [CreateFulfillmentOrderRequest](https://developer-docs.amazon.com/sp-api/docs/fulfillment-outbound-api-v2020-07-01-reference#createfulfillmentorderrequest) object. For example, the object below with all values within `<>` replaced with appropraite values would constitute a valid notification body.
+5. Under **Message body**, insert the following simplified notification body where `createFulfillmentOrderNotification`'s object is replaced by a valid [CreateFulfillmentOrderRequest](https://developer-docs.amazon.com/sp-api/docs/fulfillment-outbound-api-v2020-07-01-reference#createfulfillmentorderrequest) object. For example, the object below with all values within `<>` replaced with appropriate values would constitute a valid notification body.
 
 Notes:
-Do not include `<>` characters when creating the paylad.
+Do not include `<>` characters when creating the payload.
 In order for the UpdateOrder function to succeed `fulfillmentAction` must have a value of "Hold".
 
 
