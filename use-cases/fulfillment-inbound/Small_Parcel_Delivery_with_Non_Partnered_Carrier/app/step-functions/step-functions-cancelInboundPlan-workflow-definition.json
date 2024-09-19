@@ -1,0 +1,95 @@
+{
+  "Comment": "Cancel Inbound Plan state machine",
+  "StartAt": "cancelInboundPlan",
+  "States": {
+    "cancelInboundPlan": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${CancelInboundPlanLambdaFunctionArn}",
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "inboundPlanId.$": "$.inboundPlanId"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "cancelInboundOperationStatus",
+      "ResultPath": "$.cancelInboundPlanResult",
+      "ResultSelector": {
+        "operationId.$": "$.Payload.operationId"
+      }
+    },
+    "cancelInboundOperationStatus": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${OperationStatusLambdaFunctionArn}",
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "operationId.$": "$.cancelInboundPlanResult.operationId"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "ResultPath": "$.cancelInboundPlanOperationStatus",
+      "ResultSelector": {
+        "operationStatus.$": "$.Payload.operationStatus",
+        "operationProblems.$": "$.Payload.operationProblems"
+      },
+      "Next": "cancelInboundOperationStatusCheck"
+    },
+    "cancelInboundOperationStatusCheck": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.cancelInboundPlanOperationStatus.operationStatus",
+          "StringEquals": "FAILED",
+          "Next": "cancelInboundOperationFailed"
+        },
+        {
+          "Variable": "$.cancelInboundPlanOperationStatus.operationStatus",
+          "StringEquals": "IN_PROGRESS",
+          "Next": "cancelInboundOperationInProgress"
+        }
+      ],
+      "Default": "cancelInboundPlanOperationSuccess"
+    },
+    "cancelInboundOperationInProgress": {
+      "Type": "Wait",
+      "Seconds": 30,
+      "Next": "cancelInboundOperationStatus"
+    },
+    "cancelInboundOperationFailed": {
+      "Type": "Fail",
+      "ErrorPath": "$.cancelInboundPlanOperationStatus.operationStatus",
+      "CausePath": "$.cancelInboundPlanOperationStatus.operationProblems"
+    },
+    "cancelInboundPlanOperationSuccess": {
+      "Type": "Succeed",
+      "Comment": "Sucessfully Cancelled the Inbound Plan"
+    }
+  }
+}

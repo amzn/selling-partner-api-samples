@@ -1,0 +1,1132 @@
+{
+  "Comment": "Fulfillment Inbound v2024 SPD nPCP End to End shipment creation state machine",
+  "StartAt": "createInboundPlan",
+  "States": {
+    "createInboundPlan": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${CreateInboundPlanLambdaFunctionArn}",
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "destinationMarketplace.$": "$.createInboundPlanRequest.destinationMarketplace",
+          "msku.$": "$.createInboundPlanRequest.msku",
+          "prepOwner.$": "$.createInboundPlanRequest.prepOwner",
+          "labelOwner.$": "$.createInboundPlanRequest.labelOwner",
+          "sourceAddress.$": "$.createInboundPlanRequest.sourceAddress",
+          "inboundPlanName.$": "$.createInboundPlanRequest.inboundPlanName"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "ResultPath": "$.createInboundPlanResult",
+      "ResultSelector": {
+        "inboundPlanId.$": "$.Payload.inboundPlanId",
+        "operationId.$": "$.Payload.operationId"
+      },
+      "Next": "getInboundOperationStatus"
+    },
+    "getInboundOperationStatus": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${OperationStatusLambdaFunctionArn}",
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "operationId.$": "$.createInboundPlanResult.operationId"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "createInboundOperationStatus",
+      "ResultPath": "$.getInboundPlanOperationStatus",
+      "ResultSelector": {
+        "operationStatus.$": "$.Payload.operationStatus"
+      }
+    },
+    "createInboundOperationStatus": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.getInboundPlanOperationStatus.operationStatus",
+          "StringEquals": "IN_PROGRESS",
+          "Next": "createInboundOperationInProgress"
+        },
+        {
+          "Variable": "$.getInboundPlanOperationStatus.operationStatus",
+          "StringEquals": "FAILED",
+          "Next": "createInboundOperationFailed"
+        }
+      ],
+      "Default": "generatePackingOptions"
+    },
+    "createInboundOperationInProgress": {
+      "Type": "Wait",
+      "Seconds": 30,
+      "Next": "getInboundOperationStatus"
+    },
+    "generatePackingOptions": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${GeneratePackingOptionsLambdaFunctionArn}",
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "inboundPlanId.$": "$.createInboundPlanResult.inboundPlanId"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "generatePackingOperationStatus",
+      "ResultPath": "$.generatePackingOptionsResult",
+      "ResultSelector": {
+        "operationId.$": "$.Payload.operationId"
+      }
+    },
+    "generatePackingOperationStatus": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "operationId.$": "$.generatePackingOptionsResult.operationId"
+        },
+        "FunctionName": "${OperationStatusLambdaFunctionArn}"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "generatePackingOperationStatusCheck",
+      "ResultSelector": {
+        "operationStatus.$": "$.Payload.operationStatus"
+      },
+      "ResultPath": "$.generatePackingOperationStatus"
+    },
+    "generatePackingOperationStatusCheck": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.generatePackingOperationStatus.operationStatus",
+          "StringEquals": "IN_PROGRESS",
+          "Next": "generatePackingOperationInProgress"
+        },
+        {
+          "Variable": "$.generatePackingOperationStatus.operationStatus",
+          "StringEquals": "FAILED",
+          "Next": "generatePackingOperationFailed"
+        }
+      ],
+      "Default": "listPackingOptions"
+    },
+    "generatePackingOperationInProgress": {
+      "Type": "Wait",
+      "Seconds": 30,
+      "Next": "generatePackingOperationStatus"
+    },
+    "listPackingOptions": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${ListPackingOptionsLambdaFunctionArn}",
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "inboundPlanId.$": "$.createInboundPlanResult.inboundPlanId"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "confirmPackingOption",
+      "ResultSelector": {
+        "packingOptionId.$": "$.Payload.packingOptionId",
+        "packingGroupId.$": "$.Payload.packingGroupId"
+      },
+      "ResultPath": "$.listPackingOptionsResult"
+    },
+    "confirmPackingOption": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${ConfirmPackingOptionLambdaFunctionArn}",
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "inboundPlanId.$": "$.createInboundPlanResult.inboundPlanId",
+          "packingOptionId.$": "$.listPackingOptionsResult.packingOptionId"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "confirmPackingOperationStatus",
+      "ResultSelector": {
+        "operationId.$": "$.Payload.operationId"
+      },
+      "ResultPath": "$.confirmPackingOptionResult"
+    },
+    "confirmPackingOperationStatus": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${OperationStatusLambdaFunctionArn}",
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "operationId.$": "$.confirmPackingOptionResult.operationId"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "confirmPackingOperationStatusCheck",
+      "ResultSelector": {
+        "operationStatus.$": "$.Payload.operationStatus"
+      },
+      "ResultPath": "$.confirmPackingOperationStatus"
+    },
+    "confirmPackingOperationStatusCheck": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.confirmPackingOperationStatus.operationStatus",
+          "StringEquals": "IN_PROGRESS",
+          "Next": "confirmPackingOperationInProgress"
+        },
+        {
+          "Variable": "$.confirmPackingOperationStatus.operationStatus",
+          "StringEquals": "FAILED",
+          "Next": "confirmPackingOperationFailed"
+        }
+      ],
+      "Default": "setPackingInformation"
+    },
+    "confirmPackingOperationInProgress": {
+      "Type": "Wait",
+      "Seconds": 30,
+      "Next": "confirmPackingOperationStatus"
+    },
+    "setPackingInformation": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "inboundPlanId.$": "$.createInboundPlanResult.inboundPlanId",
+          "packingGroupId.$": "$.listPackingOptionsResult.packingGroupId",
+          "msku.$": "$.createInboundPlanRequest.msku",
+          "prepOwner.$": "$.createInboundPlanRequest.prepOwner",
+          "labelOwner.$": "$.createInboundPlanRequest.labelOwner",
+          "weight.$": "$.setPackingInformationRequest.weight",
+          "dimensions.$": "$.setPackingInformationRequest.dimensions",
+          "templateName.$": "$.setPackingInformationRequest.templateName"
+        },
+        "FunctionName": "${SetPackingInformationLambdaFunctionArn}"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "setPackingOperationStatus",
+      "ResultSelector": {
+        "operationId.$": "$.Payload.operationId"
+      },
+      "ResultPath": "$.setPackingInformationResult"
+    },
+    "setPackingOperationStatus": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "operationId.$": "$.setPackingInformationResult.operationId"
+        },
+        "FunctionName": "${OperationStatusLambdaFunctionArn}"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "setPackingOperationStatusCheck",
+      "ResultSelector": {
+        "operationStatus.$": "$.Payload.operationStatus"
+      },
+      "ResultPath": "$.setPackingOperationStatus"
+    },
+    "setPackingOperationStatusCheck": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.setPackingOperationStatus.operationStatus",
+          "StringEquals": "IN_PROGRESS",
+          "Next": "setPackingOperationInProgress"
+        },
+        {
+          "Variable": "$.setPackingOperationStatus.operationStatus",
+          "StringEquals": "FAILED",
+          "Next": "setPackingOperationFailed"
+        }
+      ],
+      "Default": "generatePlacementOptions"
+    },
+    "setPackingOperationInProgress": {
+      "Type": "Wait",
+      "Seconds": 30,
+      "Next": "setPackingOperationStatus"
+    },
+    "generatePlacementOptions": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${GeneratePlacementOptionsLambdaFunctionArn}",
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "inboundPlanId.$": "$.createInboundPlanResult.inboundPlanId"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "generatePlacementOperationStatus",
+      "ResultSelector": {
+        "operationId.$": "$.Payload.operationId"
+      },
+      "ResultPath": "$.generatePlacementOptionsResult"
+    },
+    "generatePlacementOperationStatus": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${OperationStatusLambdaFunctionArn}",
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "operationId.$": "$.generatePlacementOptionsResult.operationId"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "generatePlacementOperationStatusCheck",
+      "ResultSelector": {
+        "operationStatus.$": "$.Payload.operationStatus"
+      },
+      "ResultPath": "$.generatePlacementOperationStatus"
+    },
+    "generatePlacementOperationStatusCheck": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.generatePlacementOperationStatus.operationStatus",
+          "StringEquals": "IN_PROGRESS",
+          "Next": "generatePlacementOperationInProgress"
+        },
+        {
+          "Variable": "$.generatePlacementOperationStatus.operationStatus",
+          "StringEquals": "FAILED",
+          "Next": "generatePlacementOperationFailed"
+        }
+      ],
+      "Default": "listPlacementOptions"
+    },
+    "generatePlacementOperationInProgress": {
+      "Type": "Wait",
+      "Seconds": 30,
+      "Next": "generatePlacementOperationStatus"
+    },
+    "listPlacementOptions": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "inboundPlanId.$": "$.createInboundPlanResult.inboundPlanId"
+        },
+        "FunctionName": "${ListPlacementOptionsLambdaFunctionArn}"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "generateTransportationOptions",
+      "ResultSelector": {
+        "shipmentId.$": "$.Payload.shipmentId",
+        "placementOptionId.$": "$.Payload.placementOptionId"
+      },
+      "ResultPath": "$.listPlacementOptionsResult"
+    },
+    "generateTransportationOptions": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "inboundPlanId.$": "$.createInboundPlanResult.inboundPlanId",
+          "placementOptionId.$": "$.listPlacementOptionsResult.placementOptionId",
+          "shipmentId.$": "$.listPlacementOptionsResult.shipmentId",
+          "readyToShipWindow.$": "$.generateTransportationOptionsRequest.readyToShipWindow"
+        },
+        "FunctionName": "${GenerateTransportationOptionsLambdaFunctionArn}"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "generateTransportationOperationStatus",
+      "ResultSelector": {
+        "operationId.$": "$.Payload.operationId"
+      },
+      "ResultPath": "$.generateTransportationOptionsResult"
+    },
+    "generateTransportationOperationStatus": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${OperationStatusLambdaFunctionArn}",
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "operationId.$": "$.generateTransportationOptionsResult.operationId"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "generateTransportationOperationStatusCheck",
+      "ResultSelector": {
+        "operationStatus.$": "$.Payload.operationStatus"
+      },
+      "ResultPath": "$.generateTransportationOperationStatus"
+    },
+    "generateTransportationOperationStatusCheck": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.generateTransportationOperationStatus.operationStatus",
+          "StringEquals": "FAILED",
+          "Next": "generateTransportationOperationFailed"
+        },
+        {
+          "Variable": "$.generateTransportationOperationStatus.operationStatus",
+          "StringEquals": "IN_PROGRESS",
+          "Next": "generateTransportationOperationInProgress"
+        }
+      ],
+      "Default": "generateDeliveryWindowOptions"
+    },
+    "generateTransportationOperationFailed": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "TopicArn": "${ShipmentCreationFailedSNSTopicArn}",
+        "Message": {
+          "operationStatus.$": "$.generateTransportationOperationStatus.operationStatus",
+          "source": "Generate Transportation Operation"
+        }
+      },
+      "End": true
+    },
+    "generateDeliveryWindowOptions": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${GenerateDeliveryWindowOptionsLambdaFunctionArn}",
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "inboundPlanId.$": "$.createInboundPlanResult.inboundPlanId",
+          "shipmentId.$": "$.listPlacementOptionsResult.shipmentId"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "generateDeliveryWindowOperationStatus",
+      "ResultSelector": {
+        "operationId.$": "$.Payload.operationId"
+      },
+      "ResultPath": "$.generateDeliveryWindowOptionsResult"
+    },
+    "generateDeliveryWindowOperationStatus": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${OperationStatusLambdaFunctionArn}",
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "operationId.$": "$.generateTransportationOptionsResult.operationId"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "generateDeliveryWindowOperationStatusCheck",
+      "ResultSelector": {
+        "operationStatus.$": "$.Payload.operationStatus"
+      },
+      "ResultPath": "$.generateDeliveryWindowOperationStatus"
+    },
+    "generateDeliveryWindowOperationStatusCheck": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.generateDeliveryWindowOperationStatus.operationStatus",
+          "StringEquals": "FAILED",
+          "Next": "generateDeliveryWindowOperationFailed"
+        },
+        {
+          "Variable": "$.generateDeliveryWindowOperationStatus.operationStatus",
+          "StringEquals": "IN_PROGRESS",
+          "Next": "generateDeliveryWindowOperationInProgress"
+        }
+      ],
+      "Default": "listTransportationOptions"
+    },
+    "generateDeliveryWindowOperationFailed": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "Message": {
+          "operationStatus.$": "$.generateDeliveryWindowOperationStatus.operationStatus",
+          "source": "Generate Delivery Window Operation"
+        },
+        "TopicArn": "${ShipmentCreationFailedSNSTopicArn}"
+      },
+      "End": true
+    },
+    "listTransportationOptions": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "inboundPlanId.$": "$.createInboundPlanResult.inboundPlanId",
+          "placementOptionId.$": "$.listPlacementOptionsResult.placementOptionId"
+        },
+        "FunctionName": "${ListTransportationOptionsLambdaFunctionArn}"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "listDeliveryWindowOptions",
+      "ResultSelector": {
+        "transportationOptionId.$": "$.Payload.transportationOptionId"
+      },
+      "ResultPath": "$.listTransportationOptionsResult"
+    },
+    "listDeliveryWindowOptions": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${ListDeliveryWindowOptionsLambdaFunctionArn}",
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "inboundPlanId.$": "$.createInboundPlanResult.inboundPlanId",
+          "shipmentId.$": "$.listPlacementOptionsResult.shipmentId"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "confirmPlacementOption",
+      "ResultSelector": {
+        "deliveryWindowOptionId.$": "$.Payload.deliveryWindowOptionId"
+      },
+      "ResultPath": "$.listDeliveryWindowOptionsResult"
+    },
+    "confirmPlacementOption": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "inboundPlanId.$": "$.createInboundPlanResult.inboundPlanId",
+          "placementOptionId.$": "$.listPlacementOptionsResult.placementOptionId"
+        },
+        "FunctionName": "${ConfirmPlacementOptionLambdaFunctionArn}"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "confirmPlacementOperationStatus",
+      "ResultSelector": {
+        "operationId.$": "$.Payload.operationId"
+      },
+      "ResultPath": "$.confirmPlacementOptionResult"
+    },
+    "confirmPlacementOperationStatus": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${OperationStatusLambdaFunctionArn}",
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "operationId.$": "$.confirmPlacementOptionResult.operationId"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "confirmPlacementOperationStatusCheck",
+      "ResultSelector": {
+        "operationStatus.$": "$.Payload.operationStatus"
+      },
+      "ResultPath": "$.confirmPlacementOperationStatus"
+    },
+    "confirmPlacementOperationStatusCheck": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.confirmPlacementOperationStatus.operationStatus",
+          "StringEquals": "FAILED",
+          "Next": "confirmPlacementOperationFailed"
+        },
+        {
+          "Variable": "$.confirmPlacementOperationStatus.operationStatus",
+          "StringEquals": "IN_PROGRESS",
+          "Next": "confirmPlacementOperationInProgress"
+        }
+      ],
+      "Default": "confirmDeliveryWindowOptions"
+    },
+    "confirmDeliveryWindowOptions": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${ConfirmDeliveryWindowOptionsLambdaFunctionArn}",
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "inboundPlanId.$": "$.createInboundPlanResult.inboundPlanId",
+          "shipmentId.$": "$.listPlacementOptionsResult.shipmentId",
+          "deliveryWindowOptionId.$": "$.listDeliveryWindowOptionsResult.deliveryWindowOptionId"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "confirmDeliveryWindowOperationStatus",
+      "ResultSelector": {
+        "operationId.$": "$.Payload.operationId"
+      },
+      "ResultPath": "$.confirmDeliveryWindowOptionsResult"
+    },
+    "confirmDeliveryWindowOperationStatus": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "operationId.$": "$.confirmDeliveryWindowOptionsResult.operationId"
+        },
+        "FunctionName": "${OperationStatusLambdaFunctionArn}"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "confirmDeliveryWindowOperationStatusCheck",
+      "ResultSelector": {
+        "operationStatus.$": "$.Payload.operationStatus"
+      },
+      "ResultPath": "$.confirmDeliveryWindowOperationStatus"
+    },
+    "confirmDeliveryWindowOperationStatusCheck": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.confirmDeliveryWindowOperationStatus.operationStatus",
+          "StringEquals": "FAILED",
+          "Next": "confirmDeliveryWindowOperationFailed"
+        },
+        {
+          "Variable": "$.confirmDeliveryWindowOperationStatus.operationStatus",
+          "StringEquals": "IN_PROGRESS",
+          "Next": "confirmDeliveryWindowOperationInProgress"
+        }
+      ],
+      "Default": "confirmTransportationOptions"
+    },
+    "confirmDeliveryWindowOperationFailed": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "Message": {
+          "operationStatus.$": "$.confirmDeliveryWindowOperationStatus.operationStatus",
+          "source": "Confirm Delivery Window Operation"
+        },
+        "TopicArn": "${ShipmentCreationFailedSNSTopicArn}"
+      },
+      "End": true
+    },
+    "confirmPlacementOperationFailed": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "TopicArn": "${ShipmentCreationFailedSNSTopicArn}",
+        "Message": {
+          "operationStatus.$": "$.confirmPlacementOperationStatus.operationStatus",
+          "source": "Confirm Placement Operation"
+        }
+      },
+      "End": true
+    },
+    "confirmTransportationOptions": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "inboundPlanId.$": "$.createInboundPlanResult.inboundPlanId",
+          "transportationOptionId.$": "$.listTransportationOptionsResult.transportationOptionId",
+          "shipmentId.$": "$.listPlacementOptionsResult.shipmentId"
+        },
+        "FunctionName": "${ConfirmTransportationOptionsLambdaFunctionArn}"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "confirmTransportationOperationStatus",
+      "ResultSelector": {
+        "operationId.$": "$.Payload.operationId"
+      },
+      "ResultPath": "$.confirmTransportationOptions"
+    },
+    "confirmTransportationOperationStatus": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${OperationStatusLambdaFunctionArn}",
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "operationId.$": "$.confirmTransportationOptions.operationId"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "confirmTransportationOperationStatusCheck",
+      "ResultSelector": {
+        "operationStatus.$": "$.Payload.operationStatus"
+      },
+      "ResultPath": "$.confirmTransportationOperationStatus"
+    },
+    "confirmTransportationOperationStatusCheck": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.confirmTransportationOperationStatus.operationStatus",
+          "StringEquals": "FAILED",
+          "Next": "confirmTransportationOperationFailed"
+        },
+        {
+          "Variable": "$.confirmTransportationOperationStatus.operationStatus",
+          "StringEquals": "IN_PROGRESS",
+          "Next": "confirmTransportationOperationInProgress"
+        }
+      ],
+      "Default": "getShipment"
+    },
+    "confirmTransportationOperationFailed": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "Message": {
+          "operationStatus.$": "$.confirmTransportationOperationStatus.operationStatus",
+          "source": "Confirm Transportation"
+        },
+        "TopicArn": "${ShipmentCreationFailedSNSTopicArn}"
+      },
+      "End": true
+    },
+    "getShipment": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "inboundPlanId.$": "$.createInboundPlanResult.inboundPlanId",
+          "shipmentId.$": "$.listPlacementOptionsResult.shipmentId"
+        },
+        "FunctionName": "${GetShipmentLambdaFunctionArn}"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "ResultSelector": {
+        "shipmentConfirmationId.$": "$.Payload.shipmentConfirmationId"
+      },
+      "ResultPath": "$.getShipmentResult",
+      "Next": "getLabels"
+    },
+    "getLabels": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "shipmentConfirmationId.$": "$.getShipmentResult.shipmentConfirmationId",
+          "PageType.$": "$.getLabelsRequest.PageType",
+          "PageSize.$": "$.getLabelsRequest.PageSize",
+          "LabelType.$": "$.getLabelsRequest.LabelType"
+        },
+        "FunctionName": "${GetLabelsLambdaFunctionArn}"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "ResultSelector": {
+        "labelUrl.$": "$.Payload"
+      },
+      "ResultPath": "$.getLabelsResult",
+      "Next": "Notify Label Generation"
+    },
+    "Notify Label Generation": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "Message": {
+          "labelURL.$": "$.getLabelsResult.labelUrl"
+        },
+        "TopicArn": "${LabelGeneratedSNSTopicArn}"
+      },
+      "ResultPath": "$.LabelGenerationResult",
+      "End": true
+    },
+    "createInboundOperationFailed": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "Message": {
+          "operationStatus.$": "$.getInboundPlanOperationStatus.operationStatus",
+          "source": "createInboundPlan"
+        },
+        "TopicArn": "${ShipmentCreationFailedSNSTopicArn}"
+      },
+      "End": true
+    },
+    "generatePackingOperationFailed": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "Message": {
+          "operationStatus.$": "$.generatePackingOperationStatus.operationStatus",
+          "source": "Generate Packing Operation"
+        },
+        "TopicArn": "${ShipmentCreationFailedSNSTopicArn}"
+      },
+      "End": true
+    },
+    "confirmPackingOperationFailed": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "Message": {
+          "operationStatus.$": "$.confirmPackingOperationStatus.operationStatus",
+          "source": "Confirm Packing Operation"
+        },
+        "TopicArn": "${ShipmentCreationFailedSNSTopicArn}"
+      },
+      "End": true
+    },
+    "setPackingOperationFailed": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "TopicArn": "${ShipmentCreationFailedSNSTopicArn}",
+        "Message": {
+          "operationStatus.$": "$.setPackingOperationStatus.operationStatus",
+          "source": "Set Packing Operation"
+        }
+      },
+      "End": true
+    },
+    "generatePlacementOperationFailed": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "TopicArn": "${ShipmentCreationFailedSNSTopicArn}",
+        "Message": {
+          "operationStatus.$": "$.generatePlacementOperationStatus.operationStatus",
+          "source": "Generate Placement Operation"
+        }
+      },
+      "End": true
+    },
+    "generateTransportationOperationInProgress": {
+      "Type": "Wait",
+      "Seconds": 30,
+      "Next": "generateTransportationOperationStatus"
+    },
+    "confirmPlacementOperationInProgress": {
+      "Type": "Wait",
+      "Seconds": 30,
+      "Next": "confirmPlacementOperationStatus"
+    },
+    "confirmTransportationOperationInProgress": {
+      "Type": "Wait",
+      "Seconds": 30,
+      "Next": "confirmTransportationOperationStatus"
+    },
+    "generateDeliveryWindowOperationInProgress": {
+      "Type": "Wait",
+      "Seconds": 30,
+      "Next": "generateDeliveryWindowOperationStatus"
+    },
+    "confirmDeliveryWindowOperationInProgress": {
+      "Type": "Wait",
+      "Seconds": 30,
+      "Next": "confirmDeliveryWindowOperationStatus"
+    }
+  }
+}
