@@ -287,8 +287,7 @@
           "prepOwner.$": "$.createInboundPlanRequest.prepOwner",
           "labelOwner.$": "$.createInboundPlanRequest.labelOwner",
           "weight.$": "$.setPackingInformationRequest.weight",
-          "dimensions.$": "$.setPackingInformationRequest.dimensions",
-          "templateName.$": "$.setPackingInformationRequest.templateName"
+          "dimensions.$": "$.setPackingInformationRequest.dimensions"
         },
         "FunctionName": "${SetPackingInformationLambdaFunctionArn}"
       },
