@@ -63,3 +63,16 @@ To effectively implement the Fulfillment Inbound v2024 API and leverage the samp
 
     - [Small_Parcel_Delivery_with_Amazon_Partnered_Carrier](https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/fulfillment-inbound/Small_Parcel_Delivery_with_Amazon_Partnered_Carrier)
     - [Small_Parcel_Delivery_with_Non_Partnered_Carrier](https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/fulfillment-inbound/Small_Parcel_Delivery_with_Non_Partnered_Carrier)
+
+## Postman Collections
+
+In this [postman workspace](https://www.postman.com/galactic-rocket-691225/selling-partner-api-for-fulfillment-inbound-fba-v2024/overview), you see 6 postman collections covering end-to-end workflows for below use-cases:
+
+1. Small Parcel Delivery (SPD) with Amazon-Partnered Carrier (PCP)
+2. Small Parcel Delivery (SPD) with Non-Partnered Carrier (nPCP)
+3. Pallets (LTL/FTL) with Amazon Partnered Carrier (PCP)
+4. Pallets (LTL/FTL) with Non-Partnered Carriers (nPCP)
+5. No Carton Information Upfront - Pallets (Non-Partnered Carrier)
+6. Fetch Inbound Plan Details - GET Operations
+
+
