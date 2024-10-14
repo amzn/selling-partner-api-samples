@@ -66,7 +66,6 @@ def create_destination(region_code, refresh_token):
     # Invoke the Notifications API using a grantless notifications scope
     api_utils = ApiUtils(refresh_token, region_code, "notifications", constants.LWA_NOTIFICATIONS_SCOPE)
 
-    destination_id = ""
     try:
         # Create destination
         create_destination_response = api_utils.call_notifications_api(
