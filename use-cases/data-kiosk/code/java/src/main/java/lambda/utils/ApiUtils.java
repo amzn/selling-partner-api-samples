@@ -3,7 +3,6 @@ package lambda.utils;
 import com.amazon.SellingPartnerAPIAA.LWAAuthorizationCredentials;
 import com.amazon.SellingPartnerAPIAA.LWAClientScopes;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.client.ApiClient;
 import io.swagger.client.api.NotificationsApi;
 import io.swagger.client.api.QueriesApi;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
@@ -19,8 +18,6 @@ import static lambda.utils.Constants.SP_API_APP_CREDENTIALS_SECRET_ARN_ENV_VARIA
 import static lambda.utils.Constants.VALID_SP_API_REGION_CONFIG;
 
 public class ApiUtils {
-    // Set OPT_OUT = true to disable User-Agent tracking
-    public static final boolean OPT_OUT = false;
 
     //Generate Data Kiosk API client
     public static QueriesApi getDataKioskApi(String regionCode, String refreshToken)
@@ -33,13 +30,10 @@ public class ApiUtils {
 
         String spApiEndpoint = getSpApiEndpoint(regionCode);
 
-        QueriesApi queriesApi = new QueriesApi.Builder()
+        return new QueriesApi.Builder()
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
                 .endpoint(spApiEndpoint)
                 .build();
-        setUserAgent(queriesApi.getApiClient());
-    
-        return queriesApi;
     }
 
     //Generate Notifications API client
@@ -59,15 +53,11 @@ public class ApiUtils {
 
         String spApiEndpoint = getSpApiEndpoint(regionCode);
 
-        NotificationsApi notificationsApi = new NotificationsApi.Builder()
+        return new NotificationsApi.Builder()
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
                 .endpoint(spApiEndpoint)
-                .build();         
-        setUserAgent(notificationsApi.getApiClient());
-
-        return notificationsApi;        
+                .build();
     }
-
 
     private static LWAAuthorizationCredentials getLWAAuthorizationCredentials(AppCredentials appCredentials, String refreshToken) {
         return LWAAuthorizationCredentials.builder()
@@ -113,12 +103,5 @@ public class ApiUtils {
 
         GetSecretValueResponse response = client.getSecretValue(request);
         return response.secretString();
-    }
-    //Set user agent
-    private static void setUserAgent(ApiClient api) {
-        if (!OPT_OUT) {
-            System.out.println("Setting User-Agent");
-            api.setUserAgent("Data Kiosk Sample App/1.0/Java");
-        }
     }
 }
