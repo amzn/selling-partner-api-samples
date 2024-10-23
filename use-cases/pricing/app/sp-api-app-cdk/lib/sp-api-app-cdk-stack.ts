@@ -12,8 +12,7 @@ export interface SpApiAppCdkStackProps extends cdk.StackProps {
   readonly spApiCdkQualifier: string;
 }
 
-export interface SpApiAppCdkStackProps extends cdk.StackProps {
-}
+
 
 /**
  * This template creates the resources of an SP-API application
@@ -528,4 +527,3 @@ export class SpApiAppCdkStack extends cdk.Stack {
         });
       }
     }
-    
