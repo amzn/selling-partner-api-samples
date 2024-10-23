@@ -290,7 +290,7 @@ if [ "$language" == "python" ]; then
   pythonCommand="import sys
 import subprocess
 from importlib.metadata import Distribution
-REQUIRED_PACKAGES = ['boto3', 'requests', 'setuptools']
+REQUIRED_PACKAGES = ['boto3', 'requests', 'setuptools', 'graphql-core']
 def install_package(package):
     try:
         subprocess.check_call([sys.executable, '-m', 'pip', 'install', package])

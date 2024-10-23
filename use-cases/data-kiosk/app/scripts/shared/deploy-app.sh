@@ -74,10 +74,13 @@ sleep 15
 if [ "$language" == "python" ]; then
   echo "Packaging and uploading Python code"
   python_code_folder="../../../code/python/"
+
+  # Ensure the target directory is clean
   if [ -d "${python_code_folder}target" ]; then
       rm -r "${python_code_folder}target"
   fi
   mkdir "${python_code_folder}target"
+
   python_code_zip="target/sp-api-python-app-1.0-upload.zip"
   code_s3_key="src/sp-api-python-app.zip"
   process_notification_handler="process_notification_handler.lambda_handler"
@@ -89,15 +92,57 @@ if [ "$language" == "python" ]; then
   cancel_query_handler="cancel_query_handler.lambda_handler"
   get_document_handler="get_document_handler.lambda_handler"
   store_document_handler="store_document_handler.lambda_handler"
+
+  # Function to find the correct pip command
+  find_pip() {
+    if command -v pip >/dev/null 2>&1; then
+      echo "pip"
+    elif command -v pip3 >/dev/null 2>&1; then
+      echo "pip3"
+    else
+      echo "No pip found"
+      exit 1
+    fi
+  }
+
+  pip_cmd=$(find_pip)
+  echo "Using $pip_cmd for installation"
+
   (
-    cd "${python_code_folder}src" || exit
+    # Change to the source directory
+    cd "${python_code_folder}src" || { echo "Failed to change directory"; exit 1; }
+    echo "Changed directory to $(pwd)"
+
+    # Create package directory
+    mkdir -p package
+    echo "Created package directory"
+
+    # Install dependencies
+    echo "Installing dependencies"
+    $pip_cmd install --target ./package graphql-core
+    if [ $? -ne 0 ]; then
+      echo "$pip_cmd install failed"
+      exit 1
+    fi
+
+    # Zip the installed dependencies and the function code
     if command -v zip >/dev/null 2>&1; then
+      echo "Zipping files with zip"
       zip -rq "${python_code_folder}${python_code_zip}" .
     elif [[ "$OSTYPE" == "msys"* ]]; then
+      echo "Zipping files with powershell"
       powershell -Command "Compress-Archive -Path '.' -DestinationPath '${python_code_folder}${python_code_zip}'"
     fi
   )
+
+  # Upload to S3
+  echo "Uploading zip to S3"
   aws s3 cp "${python_code_folder}${python_code_zip}" "s3://${bucket_name}/${code_s3_key}"
+  if [ $? -ne 0 ]; then
+    echo "S3 upload failed"
+    exit 1
+  fi
+  echo "Upload successful"
 
 elif [ "$language" == "java" ]; then
   echo "Packaging and uploading Java code"
