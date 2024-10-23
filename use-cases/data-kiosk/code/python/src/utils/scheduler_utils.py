@@ -3,7 +3,7 @@ import re
 import json
 import os
 from datetime import datetime
-from dependencies.graphql import parse, print_ast
+from package.graphql import parse, print_ast
 
 from dataclasses import dataclass
 from typing import Optional, List

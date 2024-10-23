@@ -86,7 +86,7 @@ export class SpApiAppCdkStack extends cdk.Stack {
 		const spapiDeleteScheduleLambdaFunctionHandler = new cdk.CfnParameter(this, 'spapiDeleteScheduleLambdaFunctionHandler', {
 		  type: 'String',
           noEcho: true,
-		  description: "andler of Deleting the Scheduled Query Lambda Function"
+		  description: "Handler of Deleting the Scheduled Query Lambda Function"
 		});
 
 		const spapiFormatScheduleLambdaFunctionHandler = new cdk.CfnParameter(this, 'spapiFormatScheduleLambdaFunctionHandler', {
