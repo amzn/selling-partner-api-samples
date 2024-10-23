@@ -28,6 +28,9 @@ The pre-requisites for deploying the Sample Solution App to the AWS cloud are:
     * If you don't have one, you can create it following the steps  under **Usage - 2. Configure Sample Solution App's IAM user**
 * The [AWS CLI](https://aws.amazon.com/cli/)
     * If not present, it will be installed as part of the deployment script
+* [NodeJS 14.15.0 or later](https://nodejs.org/en/download/package-manager)
+  * Required by AWS CDK stack for the sample solution deployment.
+  * If not present, it will be installed as part of the deployment script.
 * The Python app requires the following packages: `boto3`, `requests`, and `setuptools`. If not present, they will be installed as part of the deployment script
 * [GitBash](https://git-scm.com/download/win)
     * in case you use Windows in order to run the deployment script.
@@ -51,15 +54,87 @@ RegionCode=NA_SANDBOX
 ```
 
 ### 2. Configure Sample Solution App's IAM user
-#### I. Create IAM user
-In order to execute the deployment script, an IAM user with `IAMFullAccess` permissions is needed.
-To create a new IAM user with required permissions, follow the steps below. If you already have a user with `IAMFullAccess` policy, you can skip to **Configure IAM user credentials** section
+#### I. Create IAM policy
+In order to execute the deployment script, an IAM user with the appropriate permissions is needed.
+To create a new IAM policy with the required permissions, follow the steps below.
+1. Open the [AWS console](https://console.aws.amazon.com/)
+2. Navigate to [IAM Policies console](https://us-east-1.console.aws.amazon.com/iamv2/home#/policies)
+3. Click **Create policy**
+4. Next to **Policy editor**, select **JSON** and replace the default policy with the JSON below
+5. replace with your account id as needed.
+```
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "SPAPISampleAppIAMPolicy",
+			"Effect": "Allow",
+			"Action": [
+				"iam:CreateUser",
+				"iam:DeleteUser",
+				"iam:CreatePolicy",
+				"iam:DeletePolicy",
+				"iam:AttachUserPolicy",
+				"iam:DetachUserPolicy",
+				"iam:CreateAccessKey",
+				"iam:DeleteAccessKey",
+				"iam:GetRole",
+				"iam:CreateRole",
+				"iam:TagRole",
+				"iam:AttachRolePolicy",
+				"iam:PutRolePolicy",
+				"iam:DeleteRole",
+				"iam:DeleteRolePolicy",
+				"iam:DetachRolePolicy",
+				"iam:PassRole"
+			],
+			"Resource": [
+				"arn:aws:iam::851725361926:user/*",
+				"arn:aws:iam::851725361926:policy/*",
+				"arn:aws:iam::851725361926:role/*"
+			]
+		},
+		{
+			"Sid": "SPAPISampleAppCloudFormationPolicy",
+			"Effect": "Allow",
+			"Action": [
+				"cloudformation:*",
+				"ecr:*",
+				"ssm:*"
+			],
+			"Resource": [
+				"arn:aws:cloudformation:us-east-1:851725361926:stack/CDKToolkit/*",
+				"arn:aws:ecr:us-east-1:851725361926:repository/cdk*",
+				"arn:aws:ssm:us-east-1:851725361926:parameter/cdk-bootstrap/*",
+				"arn:aws:cloudformation:us-east-1:851725361926:stack/sp-api-app*"
+			]
+		},
+		{
+			"Sid": "SPAPISampleAppCloudFormationS3Policy",
+			"Effect": "Allow",
+			"Action": [
+				"s3:*"
+			],
+			"Resource": [
+				"arn:aws:s3:::cdk*",
+				"arn:aws:s3:::sp-api-app-bucket*"
+			]
+		}
+	]
+}
+```
+6. Click **Next**
+7. Select a name for your policy. Take note of this value as you will need it in the next section.
+8. Review the changes and click **Create policy**
+
+#### II. Create IAM user
+To create a new IAM user with the required permissions, follow the steps below.
 1. Open the [AWS console](https://console.aws.amazon.com/)
 2. Navigate to [IAM Users console](https://us-east-1.console.aws.amazon.com/iamv2/home#/users)
-3. Click **Add users**
+3. Click **Create user**
 4. Select a name for your user
 5. In the **Set permissions** page, select **Attach policies directly**
-6. In the **Permissions policies**, search for `IAMFullAccess`. Check the policy, and click **Next**
+6. In the **Permissions policies**, search for the policy created in **I. Create IAM policy** section. Select the policy, and click **Next**
 7. Review the changes and click **Create user**
 
 #### II. Retrieve IAM user credentials
