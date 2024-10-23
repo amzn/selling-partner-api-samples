@@ -187,7 +187,7 @@ To test in sandbox environment, add the following item into DynamoDB:
 In the **Create Item** page select **JSON view** on the right side, copy and paste the item below and click in create item.
 
 ```
-{"ASIN":{"S":"B00V5DG6IQ"},"SKU":{"S":"NABetaASINB00V5DG6IQ"},"Condition":{"S":"new"},"IsFulfilledByAmazon":{"BOOL":false},"MarketplaceId":{"S":"ATVPDKIKX0DER"},"MinThreshold":{"N":"5"},"PriceChangeRule":{"S":"FIXED"},"PriceChangeRuleAmount":{"N":"1"},"SellerId":{"S":"AXXXXXXX"},"UseCompetitivePrice":{"BOOL":true}}
+{"ASIN":{"S":"B00V5DG6IQ"},"SKU":{"S":"NABetaASINB00V5DG6IQ"},"Condition":{"S":"new"},"IsFulfilledByAmazon":{"BOOL":false},"MarketplaceId":{"S":"ATVPDKIKX0DER"},"MinThreshold":{"N":"5"},"PriceChangeRule":{"S":"FIXED"},"PriceChangeRuleAmount":{"N":"1"},"SellerId":{"S":"AMY6FKRUBY7XV"},"UseCompetitivePrice":{"BOOL":true}}
 
 ```
 
