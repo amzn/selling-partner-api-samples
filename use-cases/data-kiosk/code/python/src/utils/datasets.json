@@ -1,0 +1,41 @@
+{
+  "analytics_salesAndTraffic_2023_11_15" : {
+    "StartDate": "startDate",
+    "EndDate": "endDate",
+    "DataReloadPeriod": "3000",
+    "DateFormat": "%m-%d-%Y",
+    "FieldNames": [
+      "salesAndTrafficByAsin",
+      "salesAndTrafficByDate"
+    ]
+  },
+  "analytics_salesAndTraffic_2024_04_24" : {
+    "StartDate": "startDate",
+    "EndDate": "endDate",
+    "DataReloadPeriod": "3000",
+    "DateFormat": "%m-%d-%Y",
+    "FieldNames": [
+      "salesAndTrafficByAsin",
+      "salesAndTrafficByDate"
+    ]
+  },
+  "analytics_vendorAnalytics_2024_09_30" : {
+    "StartDate": "startDate",
+    "EndDate": "endDate",
+    "DataReloadPeriod": "2200",
+    "DateFormat": "%m-%d-%Y",
+    "FieldNames": [
+      "manufacturingView",
+      "sourcingView"
+    ]
+  },
+  "analytics_economics_2024_03_15" : {
+    "StartDate": "startDate",
+    "EndDate": "endDate",
+    "DataReloadPeriod": "2440",
+    "DateFormat": "%m-%d-%Y",
+    "FieldNames": [
+      "economics"
+    ]
+  }
+}

@@ -6,8 +6,8 @@ import gzip
 import urllib.request, urllib.error
 from dataclasses import asdict
 
-from src.utils import constants
-from src.utils.query_utils import DataKioskLambdaInput
+from utils import constants
+from utils.query_utils import DataKioskLambdaInput
 
 # Set up logging
 logger = logging.getLogger()

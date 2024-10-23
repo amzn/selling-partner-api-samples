@@ -1,9 +1,9 @@
 import logging
 import os
 
-from src.utils import constants
-from src.utils.api_utils import ApiUtils
-from src.utils.query_utils import DataKioskLambdaInput
+from utils import constants
+from utils.api_utils import ApiUtils
+from utils.query_utils import DataKioskLambdaInput
 
 # Set up logging
 logger = logging.getLogger()

@@ -14,13 +14,13 @@
 from __future__ import absolute_import
 
 # import models into model package
-from src.api_models.datakiosk_api.swagger_client.models.create_query_response import CreateQueryResponse
-from src.api_models.datakiosk_api.swagger_client.models.create_query_specification import CreateQuerySpecification
-from src.api_models.datakiosk_api.swagger_client.models.error import Error
-from src.api_models.datakiosk_api.swagger_client.models.error_list import ErrorList
-from src.api_models.datakiosk_api.swagger_client.models.get_document_response import GetDocumentResponse
-from src.api_models.datakiosk_api.swagger_client.models.get_queries_response import GetQueriesResponse
-from src.api_models.datakiosk_api.swagger_client.models.get_queries_response_pagination import GetQueriesResponsePagination
-from src.api_models.datakiosk_api.swagger_client.models.query import Query
-from src.api_models.datakiosk_api.swagger_client.models.query_list import QueryList
-from src.api_models.datakiosk_api.swagger_client.models.query_pagination import QueryPagination
+from api_models.datakiosk_api.swagger_client.models.create_query_response import CreateQueryResponse
+from api_models.datakiosk_api.swagger_client.models.create_query_specification import CreateQuerySpecification
+from api_models.datakiosk_api.swagger_client.models.error import Error
+from api_models.datakiosk_api.swagger_client.models.error_list import ErrorList
+from api_models.datakiosk_api.swagger_client.models.get_document_response import GetDocumentResponse
+from api_models.datakiosk_api.swagger_client.models.get_queries_response import GetQueriesResponse
+from api_models.datakiosk_api.swagger_client.models.get_queries_response_pagination import GetQueriesResponsePagination
+from api_models.datakiosk_api.swagger_client.models.query import Query
+from api_models.datakiosk_api.swagger_client.models.query_list import QueryList
+from api_models.datakiosk_api.swagger_client.models.query_pagination import QueryPagination

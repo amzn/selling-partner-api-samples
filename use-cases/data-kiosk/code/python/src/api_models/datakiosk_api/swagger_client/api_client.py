@@ -22,9 +22,9 @@ import tempfile
 import six
 from six.moves.urllib.parse import quote
 
-from src.api_models.datakiosk_api.swagger_client.configuration import Configuration
-import src.api_models.datakiosk_api.swagger_client.models as models
-from src.api_models.datakiosk_api.swagger_client import rest
+from api_models.datakiosk_api.swagger_client.configuration import Configuration
+import api_models.datakiosk_api.swagger_client.models as models
+from api_models.datakiosk_api.swagger_client import rest
 
 
 class ApiClient(object):

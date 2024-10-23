@@ -4,7 +4,7 @@ import json
 import boto3
 import logging
 
-from src.utils import constants
+from utils import constants
 
 # Set up logging
 logger = logging.getLogger()

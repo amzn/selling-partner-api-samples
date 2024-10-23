@@ -2,15 +2,15 @@ import os
 import uuid
 import logging
 
-from src.utils.api_utils import ApiUtils
-from src.utils import constants
+from utils.api_utils import ApiUtils
+from utils import constants
 
-from src.api_models.notification_api.swagger_client.rest import ApiException
-from src.api_models.notification_api.swagger_client.models.create_destination_request import CreateDestinationRequest
-from src.api_models.notification_api.swagger_client.models.destination_resource_specification import \
+from api_models.notification_api.swagger_client.rest import ApiException
+from api_models.notification_api.swagger_client.models.create_destination_request import CreateDestinationRequest
+from api_models.notification_api.swagger_client.models.destination_resource_specification import \
     DestinationResourceSpecification
-from src.api_models.notification_api.swagger_client.models.sqs_resource import SqsResource
-from src.api_models.notification_api.swagger_client.models.create_subscription_request import CreateSubscriptionRequest
+from api_models.notification_api.swagger_client.models.sqs_resource import SqsResource
+from api_models.notification_api.swagger_client.models.create_subscription_request import CreateSubscriptionRequest
 
 
 '''

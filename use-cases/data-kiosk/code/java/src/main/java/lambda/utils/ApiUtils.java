@@ -38,7 +38,7 @@ public class ApiUtils {
                 .endpoint(spApiEndpoint)
                 .build();
         setUserAgent(queriesApi.getApiClient());
-    
+
         return queriesApi;
     }
 
@@ -62,10 +62,10 @@ public class ApiUtils {
         NotificationsApi notificationsApi = new NotificationsApi.Builder()
                 .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
                 .endpoint(spApiEndpoint)
-                .build();         
+                .build();
         setUserAgent(notificationsApi.getApiClient());
 
-        return notificationsApi;        
+        return notificationsApi;
     }
 
 
