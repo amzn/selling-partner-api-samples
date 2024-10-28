@@ -1,8 +1,8 @@
 import logging
 import os
 
-from src.utils.api_utils import ApiUtils
-from src.utils import constants
+from utils.api_utils import ApiUtils
+from utils import constants
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
