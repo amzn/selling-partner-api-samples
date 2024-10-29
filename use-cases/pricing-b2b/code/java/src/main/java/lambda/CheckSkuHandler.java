@@ -3,26 +3,37 @@ package lambda;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
-import lambda.utils.B2B.*;
-import lambda.utils.B2B.AOCN.B2BOffer;
+import lambda.utils.B2B.PricingLambdaInputB2B;
+import lambda.utils.B2B.PricingOffersB2B;
+import lambda.utils.B2B.PricingRuleB2B;
+import lambda.utils.B2B.StateMachineInputB2B;
 import lambda.utils.B2C.Offer;
-import lambda.utils.B2C.PriceChangeRule;
-import lambda.utils.common.Seller;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryResponse;
-import software.amazon.awssdk.services.dynamodb.streams.DynamoDbStreamsClient;
 
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import static lambda.utils.common.Constants.*;
+import static lambda.utils.common.Constants.SELLER_ITEMS_TABLE_CONDITION_KEY_NAME;
+import static lambda.utils.common.Constants.SELLER_ITEMS_TABLE_HASH_KEY_NAME;
+import static lambda.utils.common.Constants.SELLER_ITEMS_TABLE_IS_FULFILLED_BY_AMAZON_KEY_NAME;
+import static lambda.utils.common.Constants.SELLER_ITEMS_TABLE_MARKETPLACE_ID_KEY_NAME;
+import static lambda.utils.common.Constants.SELLER_ITEMS_TABLE_MIN_THRESHOLD_KEY_NAME;
+import static lambda.utils.common.Constants.SELLER_ITEMS_TABLE_NAME_ENV_VARIABLE;
+import static lambda.utils.common.Constants.SELLER_ITEMS_TABLE_OFFER_TYPE_KEY_NAME;
+import static lambda.utils.common.Constants.SELLER_ITEMS_TABLE_PRICE_CHANGE_RULE_AMOUNT_KEY_NAME;
+import static lambda.utils.common.Constants.SELLER_ITEMS_TABLE_PRICE_CHANGE_RULE_KEY_NAME;
+import static lambda.utils.common.Constants.SELLER_ITEMS_TABLE_PRICE_RULE_KEY_NAME;
+import static lambda.utils.common.Constants.SELLER_ITEMS_TABLE_QUANTITY_TIER_KEY_NAME;
+import static lambda.utils.common.Constants.SELLER_ITEMS_TABLE_SELLER_ID_KEY_NAME;
+import static lambda.utils.common.Constants.SELLER_ITEMS_TABLE_SKU_KEY_NAME;
 
 public class CheckSkuHandler implements RequestHandler<StateMachineInputB2B, PricingOffersB2B> {
 
@@ -52,11 +63,11 @@ public class CheckSkuHandler implements RequestHandler<StateMachineInputB2B, Pri
 
                 List<PricingRuleB2B> priceRuleList = new ArrayList<>();
                 List<AttributeValue> priceRulesList = sku.get(SELLER_ITEMS_TABLE_PRICE_RULE_KEY_NAME).l();
-                for (AttributeValue priceRules : priceRulesList){
+                for (AttributeValue priceRules : priceRulesList) {
                     PricingRuleB2B priceRule = new PricingRuleB2B();
                     Map<String, AttributeValue> priceRuleMap = priceRules.m();
                     priceRule.setOfferType(priceRuleMap.get(SELLER_ITEMS_TABLE_OFFER_TYPE_KEY_NAME).s());
-                    priceRule.setQuantityTier(Float.parseFloat(priceRuleMap.get(SELLER_ITEMS_TABLE_QUANTITY_TIER_KEY_NAME).n()));
+                    priceRule.setQuantityTier(Integer.parseInt(priceRuleMap.get(SELLER_ITEMS_TABLE_QUANTITY_TIER_KEY_NAME).n()));
                     priceRule.setMinThreshold(Float.parseFloat(priceRuleMap.get(SELLER_ITEMS_TABLE_MIN_THRESHOLD_KEY_NAME).n()));
                     priceRule.setPriceChangeRule(priceRuleMap.get(SELLER_ITEMS_TABLE_PRICE_CHANGE_RULE_KEY_NAME).s());
                     priceRule.setPriceChangeRuleAmount(Float.parseFloat(priceRuleMap.get(SELLER_ITEMS_TABLE_PRICE_CHANGE_RULE_AMOUNT_KEY_NAME).n()));
@@ -76,8 +87,8 @@ public class CheckSkuHandler implements RequestHandler<StateMachineInputB2B, Pri
                             notificationOffers.size(),
                             sku.get(SELLER_ITEMS_TABLE_SKU_KEY_NAME).s()));
                 }
-               // adding the SKUs that are only matching the fulfillment Channel
-                if(input.getSeller().getOffers().get(0).isFulfilledByAmazon()==pricingOffer.isFulfilledByAmazon()){
+                // adding the SKUs that are only matching the fulfillment Channel
+                if (input.getSeller().getOffers().get(0).isFulfilledByAmazon() == pricingOffer.isFulfilledByAmazon()) {
                     sellerOffers.add(pricingOffer);
                 }
             } catch (Exception e) {

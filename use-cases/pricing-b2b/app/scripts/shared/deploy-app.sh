@@ -95,10 +95,6 @@ if [ "$language" == "java" ]; then
   check_sku_handler="lambda.CheckSkuHandler"
   fetch_price_handler="lambda.FetchPriceHandler"
   submit_price_handler="lambda.SubmitPriceHandler"
-  create_feed_doc_handler="lambda.CreateFeedDocumentHandler"
-  upload_feed_data_handler="lambda.UploadFeedDataHandler"
-  create_feed_handler="lambda.CreateFeedHandler"
-  confirm_feed_handler="lambda.ConfirmFeedProcessingHandler"
   calculate_new_price_handler="lambda.CalculateNewPriceHandlerB2B"
   mvn validate -f "${java_code_folder}pom.xml"
   mvn package -f "${java_code_folder}pom.xml"
@@ -149,6 +145,7 @@ config_file="../../app.config"
 sp_api_client_id="$(grep "^ClientId=" "${config_file}" | cut -d"=" -f2)"
 sp_api_client_secret="$(grep "^ClientSecret=" "${config_file}" | cut -d"=" -f2)"
 sp_api_refresh_token="$(grep "^RefreshToken=" "${config_file}" | cut -d"=" -f2)"
+sp_api_region_code="$(grep "^RegionCode=" "${config_file}" | cut -d"=" -f2)"
 
 # Create the CloudFormation stack
 echo "Creating CloudFormation stack"
@@ -162,6 +159,7 @@ AWS_ACCESS_KEY_ID=${access_key} AWS_SECRET_ACCESS_KEY=${secret_key} \
       ParameterKey="ClientId",ParameterValue="${sp_api_client_id}" \
       ParameterKey="ClientSecret",ParameterValue="${sp_api_client_secret}" \
       ParameterKey="RefreshToken",ParameterValue="${sp_api_refresh_token}" \
+      ParameterKey="RegionCode",ParameterValue="${sp_api_region_code}" \
       ParameterKey="ProgrammingLanguage",ParameterValue="${runtime}" \
       ParameterKey="RandomSuffix",ParameterValue="${random_string}" \
       ParameterKey="ArtifactsS3BucketName",ParameterValue="${bucket_name}" \
@@ -172,10 +170,6 @@ AWS_ACCESS_KEY_ID=${access_key} AWS_SECRET_ACCESS_KEY=${secret_key} \
       ParameterKey="SPAPICalculateNewPriceLambdaFunctionHandler",ParameterValue="${calculate_new_price_handler}" \
       ParameterKey="SPAPIFetchPriceLambdaFunctionHandler",ParameterValue="${fetch_price_handler}" \
       ParameterKey="SPAPISubmitPriceLambdaFunctionHandler",ParameterValue="${submit_price_handler}" \
-      ParameterKey="SPAPICreateFeedDocumentLambdaFunctionHandler",ParameterValue="${create_feed_doc_handler}" \
-      ParameterKey="SPAPIUploadFeedDataLambdaFunctionHandler",ParameterValue="${upload_feed_data_handler}" \
-      ParameterKey="SPAPICreateFeedLambdaFunctionHandler",ParameterValue="${create_feed_handler}" \
-      ParameterKey="SPAPIConfirmFeedProcessingLambdaFunctionHandler",ParameterValue="${confirm_feed_handler}" \
       ParameterKey="StepFunctionsStateMachineDefinitionS3Key",ParameterValue="${state_machine_s3_key}"
 if [ $? -ne 0 ]
 then

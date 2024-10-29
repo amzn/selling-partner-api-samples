@@ -9,6 +9,7 @@ Metadata:
           - ClientId
           - ClientSecret
           - RefreshToken
+          - RegionCode
       - Label:
           default: Sample Solution Configuration
         Parameters:
@@ -22,10 +23,6 @@ Metadata:
           - SPAPIFetchPriceLambdaFunctionHandler
           - SPAPICalculateNewPriceLambdaFunctionHandler
           - SPAPISubmitPriceLambdaFunctionHandler
-          - SPAPICreateFeedDocumentLambdaFunctionHandler
-          - SPAPIUploadFeedDataLambdaFunctionHandler
-          - SPAPICreateFeedLambdaFunctionHandler
-          - SPAPIConfirmFeedProcessingLambdaFunctionHandler
           - StepFunctionsStateMachineDefinitionS3Key
     ParameterLabels:
       ClientId:
@@ -34,6 +31,8 @@ Metadata:
         default: Client Secret
       RefreshToken:
         default: Refresh Token
+      RegionCode:
+        default: Region Code
       ProgrammingLanguage:
         default: Programming Language
       RandomSuffix:
@@ -56,14 +55,6 @@ Metadata:
         default: Handler of Updating Price information Lambda Function
       SPAPISubmitPriceLambdaFunctionHandler:
         default: Handler of Submitting Price information Lambda Function
-      SPAPICreateFeedDocumentLambdaFunctionHandler:
-        default: Handler of Creating Feed Document information Lambda Function
-      SPAPIUploadFeedDDataLambdaFunctionHandler:
-        default: Handler of uploading feed data information(xml/flatfile/json Lambda Function
-      SPAPICreateFeedLambdaFunctionHandler:
-        default: Handler of Creating Feed Lambda Function
-      SPAPIConfirmFeedProcessingLambdaFunctionHandler:
-        default: Handler of Confirming feed processing information Lambda Function
 Parameters:
   ClientId:
     Type: String
@@ -80,6 +71,10 @@ Parameters:
     MinLength: 1
     Description: Refresh Token used for testing the SP-API app
     NoEcho: true
+  RegionCode:
+    Type: String
+    MinLength: 1
+    Description: RegionCode for testing the SP-API app
   ProgrammingLanguage:
     Type: String
     MinLength: 1
@@ -126,22 +121,6 @@ Parameters:
     Type: String
     MinLength: 1
     Description: Handler of Submitting Price information Lambda Function
-  SPAPICreateFeedDocumentLambdaFunctionHandler:
-    Type: String
-    MinLength: 1
-    Description: Handler of Creating Feed Document information Lambda Function
-  SPAPIUploadFeedDataLambdaFunctionHandler:
-    Type: String
-    MinLength: 1
-    Description: Handler of uploading feed data information(xml/flatfile/json Lambda Function
-  SPAPICreateFeedLambdaFunctionHandler:
-    Type: String
-    MinLength: 1
-    Description: Handler of Creating Feed Lambda Function
-  SPAPIConfirmFeedProcessingLambdaFunctionHandler:
-    Type: String
-    MinLength: 1
-    Description: Handler of Confirming feed processing information Lambda Function
   StepFunctionsStateMachineDefinitionS3Key:
     Type: String
     MinLength: 1
@@ -205,6 +184,7 @@ Resources:
         Variables:
           STATE_MACHINE_ARN: !Ref SPAPIStateMachine
           REFRESH_TOKEN: !Ref RefreshToken
+          REGION_CODE: !Ref RegionCode
   SPAPISubscribeNotificationsLambdaFunction:
     Type: 'AWS::Lambda::Function'
     Properties:
@@ -283,90 +263,6 @@ Resources:
         S3Bucket: !Ref ArtifactsS3BucketName
         S3Key: !Ref LambdaFunctionsCodeS3Key
       Handler: !Ref SPAPISubmitPriceLambdaFunctionHandler
-      Role: !GetAtt
-        - SPAPILambdaExecutionRole
-        - Arn
-      Runtime: !Ref ProgrammingLanguage
-      MemorySize: 512
-      Timeout: 60
-      Environment:
-        Variables:
-          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
-  SPAPICreateFeedDocumentLambdaFunction:
-    Type: 'AWS::Lambda::Function'
-    Properties:
-      FunctionName: !Join
-        - '-'
-        - - SPAPICreateFeedDocumentLambdaFunction
-          - !Ref RandomSuffix
-      Description: Create Feed Document information Lambda Function
-      Code:
-        S3Bucket: !Ref ArtifactsS3BucketName
-        S3Key: !Ref LambdaFunctionsCodeS3Key
-      Handler: !Ref SPAPICreateFeedDocumentLambdaFunctionHandler
-      Role: !GetAtt
-        - SPAPILambdaExecutionRole
-        - Arn
-      Runtime: !Ref ProgrammingLanguage
-      MemorySize: 512
-      Timeout: 60
-      Environment:
-        Variables:
-          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
-  SPAPIUploadFeedDataLambdaFunction:
-    Type: 'AWS::Lambda::Function'
-    Properties:
-      FunctionName: !Join
-        - '-'
-        - - SPAPIUploadFeedDataLambdaFunction
-          - !Ref RandomSuffix
-      Description: Upload Feed Data information Lambda Function
-      Code:
-        S3Bucket: !Ref ArtifactsS3BucketName
-        S3Key: !Ref LambdaFunctionsCodeS3Key
-      Handler: !Ref SPAPIUploadFeedDataLambdaFunctionHandler
-      Role: !GetAtt
-        - SPAPILambdaExecutionRole
-        - Arn
-      Runtime: !Ref ProgrammingLanguage
-      MemorySize: 512
-      Timeout: 60
-      Environment:
-        Variables:
-          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
-  SPAPICreateFeedLambdaFunction:
-    Type: 'AWS::Lambda::Function'
-    Properties:
-      FunctionName: !Join
-        - '-'
-        - - SPAPICreateFeedLambdaFunction
-          - !Ref RandomSuffix
-      Description: Create Feed information Lambda Function
-      Code:
-        S3Bucket: !Ref ArtifactsS3BucketName
-        S3Key: !Ref LambdaFunctionsCodeS3Key
-      Handler: !Ref SPAPICreateFeedLambdaFunctionHandler
-      Role: !GetAtt
-        - SPAPILambdaExecutionRole
-        - Arn
-      Runtime: !Ref ProgrammingLanguage
-      MemorySize: 512
-      Timeout: 60
-      Environment:
-        Variables:
-          SP_API_APP_CREDENTIALS_SECRET_ARN: !Ref SPAPIAppCredentials
-  SPAPIConfirmFeedProcessingLambdaFunction:
-    Type: 'AWS::Lambda::Function'
-    Properties:
-      FunctionName: !Join
-        - '-'
-        - - SPAPIConfirmFeedProcessingLambdaFunction
-          - !Ref RandomSuffix
-      Description: Confirm Feed Processing information Lambda Function
-      Code:
-        S3Bucket: !Ref ArtifactsS3BucketName
-        S3Key: !Ref LambdaFunctionsCodeS3Key
-      Handler: !Ref SPAPIConfirmFeedProcessingLambdaFunctionHandler
       Role: !GetAtt
         - SPAPILambdaExecutionRole
         - Arn
@@ -561,18 +457,6 @@ Resources:
         SubmitPriceLambdaFunctionHandlerArn: !GetAtt
           - SPAPISubmitPriceLambdaFunction
           - Arn
-        CreateFeedDocumentLambdaFunctionHandlerArn: !GetAtt
-          - SPAPICreateFeedDocumentLambdaFunction
-          - Arn
-        UploadFeedDataLambdaFunctionHandlerArn: !GetAtt
-          - SPAPIUploadFeedDataLambdaFunction
-          - Arn
-        CreateFeedLambdaFunctionHandlerArn: !GetAtt
-          - SPAPICreateFeedLambdaFunction
-          - Arn
-        ConfirmFeedProcessingLambdaFunctionHandlerArn: !GetAtt
-          - SPAPIConfirmFeedProcessingLambdaFunction
-          - Arn
       RoleArn: !GetAtt
         - SPAPIStateMachineExecutionRole
         - Arn
@@ -606,16 +490,4 @@ Resources:
                     - Arn
                   - !GetAtt
                     - SPAPISubmitPriceLambdaFunction
-                    - Arn
-                  - !GetAtt
-                    - SPAPICreateFeedDocumentLambdaFunction
-                    - Arn
-                  - !GetAtt
-                    - SPAPIUploadFeedDataLambdaFunction
-                    - Arn
-                  - !GetAtt
-                    - SPAPICreateFeedLambdaFunction
-                    - Arn
-                  - !GetAtt
-                    - SPAPIConfirmFeedProcessingLambdaFunction
                     - Arn
