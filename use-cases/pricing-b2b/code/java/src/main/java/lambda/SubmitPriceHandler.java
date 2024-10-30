@@ -40,11 +40,8 @@ public class SubmitPriceHandler implements RequestHandler<PricingLambdaInputB2B,
             String itemSku = input.getItemSku();
             List<String> marketplaceIds = Lists.newArrayList(input.getCredentials().getMarketplaceId());
             String issueLocale = "en_US";
-            List<String> includedData = Lists.newArrayList("attributes");
 
             ListingsApi listingsApi = getListingsApi(input.getCredentials().getRegionCode(), input.getCredentials().getRefreshToken());
-
-//            Item listingsItem = listingsApi.getListingsItem(sellerId, itemSku, marketplaceIds, issueLocale, includedData);
 
             PurchasableOfferElement purchasableOfferElement = calculateB2BPurchasableOffer(input.getPricingRules(), input.getNewListingPrice(), input.getCredentials().getMarketplaceId());
 
@@ -53,14 +50,11 @@ public class SubmitPriceHandler implements RequestHandler<PricingLambdaInputB2B,
 
             logger.log("Patch Listings Item response: " + new Gson().toJson(response));
         } catch (Exception e) {
-            logger.log(e.toString());
             if (e instanceof ApiException) {
                 ApiException apiException = (ApiException) e;
                 logger.log(apiException.getResponseBody());
                 logger.log(apiException.getMessage());
-                logger.log(apiException.getCause().getMessage());
                 logger.log(String.valueOf(apiException.getCode()));
-                logger.log(apiException.getResponseHeaders().toString());
             }
             throw new InternalError("SubmitPrice Lambda failed", e);
         }
