@@ -147,45 +147,13 @@
                 "Next": "End State"
               }
             ],
-            "Default": "Create Feed Document"
+            "Default": "Submit Price Handler"
           },
-          "Create Feed Document": {
+          "Submit Price Handler": {
             "Type": "Task",
             "Resource": "arn:aws:states:::lambda:invoke",
             "Parameters": {
-              "FunctionName": "${CreateFeedDocumentLambdaFunctionHandlerArn}",
-              "Payload": {
-                "credentials": {
-                  "refreshToken.$": "$.credentials.refreshToken",
-                  "regionCode.$": "$.credentials.regionCode",
-                  "marketplaceId.$": "$.credentials.marketplaceId"
-                }
-              }
-            },
-            "Retry": [
-              {
-                "ErrorEquals": [
-                  "Lambda.ServiceException",
-                  "Lambda.AWSLambdaException",
-                  "Lambda.SdkClientException",
-                  "Lambda.TooManyRequestsException"
-                ],
-                "IntervalSeconds": 1,
-                "MaxAttempts": 3,
-                "BackoffRate": 2
-              }
-            ],
-            "Next": "Upload Feed Data",
-            "ResultPath": "$.uploadfeed",
-            "ResultSelector": {
-              "feedDetails.$": "$.Payload.feedDetails"
-            }
-          },
-          "Upload Feed Data": {
-            "Type": "Task",
-            "Resource": "arn:aws:states:::lambda:invoke",
-            "Parameters": {
-              "FunctionName": "${UploadFeedDataLambdaFunctionHandlerArn}",
+              "FunctionName": "${SubmitPriceLambdaFunctionHandlerArn}",
               "Payload": {
                 "credentials": {
                   "refreshToken.$": "$.credentials.refreshToken",
@@ -195,42 +163,7 @@
                 "sellerId.$": "$.sellerId",
                 "newListingPrice.$": "$.calculateNewPriceResult.newListingPrice",
                 "itemSku.$": "$.itemSku",
-                "feedDetails.$": "$.uploadfeed.feedDetails",
                 "pricingRules.$": "$.calculateNewPriceResult.pricingRules"
-              }
-            },
-            "Retry": [
-              {
-                "ErrorEquals": [
-                  "Lambda.ServiceException",
-                  "Lambda.AWSLambdaException",
-                  "Lambda.SdkClientException",
-                  "Lambda.TooManyRequestsException"
-                ],
-                "IntervalSeconds": 1,
-                "MaxAttempts": 3,
-                "BackoffRate": 2
-              }
-            ],
-            "Next": "Create Feed",
-            "ResultPath": "$.createfeed",
-            "ResultSelector": {
-              "feedDetails.$": "$.Payload.feedDetails"
-            }
-          },
-          "Create Feed": {
-            "Type": "Task",
-            "Resource": "arn:aws:states:::lambda:invoke",
-            "OutputPath": "$.Payload",
-            "Parameters": {
-              "FunctionName": "${CreateFeedLambdaFunctionHandlerArn}",
-              "Payload": {
-                "credentials": {
-                  "refreshToken.$": "$.credentials.refreshToken",
-                  "regionCode.$": "$.credentials.regionCode",
-                  "marketplaceId.$": "$.credentials.marketplaceId"
-                },
-                "feedDetails.$": "$.createfeed.feedDetails"
               }
             },
             "Retry": [

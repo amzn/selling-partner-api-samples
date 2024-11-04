@@ -8,6 +8,9 @@ The Selling Partner API for Pricing helps you programmatically retrieve product 
 If you haven't already, we recommend you to navigate the following resources:
 * [Product Pricing API v2022-05-01 reference](https://developer-docs.amazon.com/sp-api/docs/product-pricing-api-v2022-05-01-reference)
 * [Product Pricing API Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/product-pricing-api-v2022-05-01-use-case-guide)
+* [Listings Items API v2021-08-01 Reference](https://developer-docs.amazon.com/sp-api/docs/listings-items-api-v2021-08-01-reference)
+* [Listings API Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/listings-items-api-v2021-08-01-use-case-guide)
+* [Listings API - Manage Advanced Multiple-Offer and Multiple-Fulfillment Use Cases](https://developer-docs.amazon.com/sp-api/docs/manage-advanced-multiple-offer-multiple-fulfillment-use-cases)
 
 ## Solution
 This Sample Solution implements a re-pricing workflow that reacts to incoming [B2B_ANY_OFFER_CHANGED](https://developer-docs.amazon.com/sp-api/docs/notification-type-values#b2b_any_offer_changed) notifications and calculates a new competitive price for the related selling partner's SKUs in order to achieve B2B featured offer eligibility. If the new calculated price is above the minimum threshold defined by the selling partner, the solution executes a price change using the Feeds API workflow.

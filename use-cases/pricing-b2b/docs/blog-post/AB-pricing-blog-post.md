@@ -42,7 +42,7 @@ Finally, it’s also worth mentioning that competitive pricing is really importa
 
 ## The recommended flow to achieve the FO with the tools and API 
 
-As we know, competitive price is an important factor in achieving FO. With this in mind, the flow presented here uses SP-API tools as part of the process. It starts by reading the B2B AOC notification and calling the Product Pricing APIs to gather additional information if needed; it then executes logic to find the competitive prices for the product, and finally uses the Listings Feeds API to update the price.
+As we know, competitive price is an important factor in achieving FO. With this in mind, the flow presented here uses SP-API tools as part of the process. It starts by reading the B2B AOC notification and calling the Product Pricing APIs to gather additional information if needed; it then executes logic to find the competitive prices for the product, and finally uses the Listings API to update the price.
 Please note that FO is not guaranteed as competing Offers may change and other Offers may be highlighted due to other factors previously mentioned. However, maintaining competitive prices is one strategy to achieve this goal.
 
 ### The B2B AOC notification
@@ -182,46 +182,55 @@ BuyBoxPrices" : [  {
 By using the [`GetPricing`](https://developer-docs.amazon.com/sp-api/docs/product-pricing-api-v0-use-case-guide#step-1-call-getpricing) operation, you can retrieve price details of SKUs and ASINs. This endpoint returns the same information than the B2B AOC notification. We only use this API if the seller's offer is not being returned in the notification into the `Offers` node.
  
 
-## The Listing Feeds API 
+## The Listing API 
 
-By using the [`POST_PRODUCT_PRICING_DATA`](https://developer-docs.amazon.com/sp-api/docs/feed-type-values#listings-feeds) Listings feed, you can update product prices after your analysis using the B2B AOC notification and GetPricing endpoint (when needed).
+By using the [`Listings API`](https://developer-docs.amazon.com/sp-api/docs/listings-items-api-v2021-08-01-reference#patchlistingsitem) `patchListingsItem`, you can update product prices after your analysis using the B2B AOC notification and GetPricing endpoint (when needed).
 
 
-#### The XML feed components
+#### The patchListingsItem operation payload 
 
 ```
-<AmazonEnvelope
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <Header>
-        <DocumentVersion>1.01</DocumentVersion>
-        <MerchantIdentifier>A3DUGAUYYGAN56</MerchantIdentifier>
-    </Header>
-    <MessageType>Price</MessageType>
-    <Message>
-        <MessageID>1</MessageID>
-        <Price>
-            <SKU>abcd</SKU>
-            <BusinessPrice>25.49</BusinessPrice>
-            <QuantityPriceType>fixed</QuantityPriceType>
-            <QuantityPrice>
-                <QuantityPrice1>25.36</QuantityPrice1>
-                <QuantityLowerBound1>5</QuantityLowerBound1>
-                <QuantityPrice2>25.24</QuantityPrice2>
-                <QuantityLowerBound2>10</QuantityLowerBound2>
-                <QuantityPrice3>24.85</QuantityPrice3>
-                <QuantityLowerBound3>25</QuantityLowerBound3>
-                <QuantityPrice4>24.73</QuantityPrice4>
-                <QuantityLowerBound4>50</QuantityLowerBound4>
-                <QuantityPrice5>24.22</QuantityPrice5>
-                <QuantityLowerBound5>100</QuantityLowerBound5>
-            </QuantityPrice>
-        </Price>
-    </Message>
-</AmazonEnvelope>
+{
+  "productType": "PRODUCT",
+  "patches": [
+    {
+      "op": "REPLACE",
+      "path": "/attributes/purchasable_offer",
+      "value": [
+        {
+          "audience": "B2B",
+          "currency": "USD",
+          "marketplace_id": "XXXXXXXXXXXX",
+          "our_price": [
+            {
+              "schedule": [
+                {
+                  "value_with_tax": 40
+                }
+              ]
+            }
+          ],
+          "quantity_discount_plan": [
+            {
+              "schedule": [
+                {
+                  "discount_type": "fixed",
+                  "levels": [
+                    {
+                      "lower_bound": 2,
+                      "value": 20
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
 ```
-
-`BusinessPrice` = The new business discount price that you are updating your offer.
-`QuantityPrice` = The new quantity discount tiers that you are updating your offer.
 
 ## The flow used in this Sample Solution
 
