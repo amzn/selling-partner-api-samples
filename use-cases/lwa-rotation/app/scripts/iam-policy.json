@@ -96,6 +96,14 @@
         "kms:CancelKeyDeletion"
       ],
       "Resource": "*"
+    },
+    {
+      "Sid": "SSMPermissions",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:GetParameters"
+      ],
+      "Resource": "*"
     }
   ]
 }
