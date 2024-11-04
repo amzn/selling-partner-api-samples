@@ -10,7 +10,6 @@ import com.amazon.SellingPartnerAPIAA.LWAAuthorizationCredentials;
 import com.amazon.SellingPartnerAPIAA.LWAClientScopes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.client.ApiClient;
-import io.swagger.client.api.FeedsApi;
 import io.swagger.client.api.ListingsApi;
 import io.swagger.client.api.NotificationsApi;
 import io.swagger.client.api.ProductPricingApi;
@@ -32,7 +31,7 @@ public class ApiUtils {
 
     //Generate Product Pricing API client
     public static ProductPricingApi getProductPricingApi(String regionCode, String refreshToken)
-            throws Exception{
+            throws Exception {
         ObjectMapper mapper = new ObjectMapper();
 
         String appCredentialsSecret = getSecretString(System.getenv(SP_API_APP_CREDENTIALS_SECRET_ARN_ENV_VARIABLE));
@@ -41,16 +40,16 @@ public class ApiUtils {
 
         String spApiEndpoint = getSpApiEndpoint(regionCode);
         ProductPricingApi ppa = new ProductPricingApi.Builder()
-                                    .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
-                                    .endpoint(spApiEndpoint)
-                                    .build();
+                .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
+                .endpoint(spApiEndpoint)
+                .build();
         setUserAgent(ppa.getApiClient());
         return ppa;
     }
 
     //Generate Listings Items API client
     public static ListingsApi getListingsApi(String regionCode, String refreshToken)
-            throws Exception{
+            throws Exception {
         ObjectMapper mapper = new ObjectMapper();
 
         String appCredentialsSecret = getSecretString(System.getenv(SP_API_APP_CREDENTIALS_SECRET_ARN_ENV_VARIABLE));
@@ -66,26 +65,9 @@ public class ApiUtils {
         return listApi;
     }
 
-
-    public static FeedsApi getFeedsApi(String regionCode, String refreshToken)
-            throws Exception{
-        ObjectMapper mapper = new ObjectMapper();
-
-        String appCredentialsSecret = getSecretString(System.getenv(SP_API_APP_CREDENTIALS_SECRET_ARN_ENV_VARIABLE));
-        AppCredentials appCredentials = mapper.readValue(appCredentialsSecret, AppCredentials.class);
-        LWAAuthorizationCredentials lwaAuthorizationCredentials = getLWAAuthorizationCredentials(appCredentials, refreshToken);
-
-        String spApiEndpoint = getSpApiEndpoint(regionCode);
-        FeedsApi feedApi = new FeedsApi.Builder()
-                            .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
-                            .endpoint(spApiEndpoint)
-                            .build();
-        setUserAgent(feedApi.getApiClient());
-        return feedApi;
-    }
     //Generate Notifications API client
     public static NotificationsApi getNotificationsApi(String regionCode, String refreshToken, boolean isGrantlessOperation)
-            throws Exception{
+            throws Exception {
         ObjectMapper mapper = new ObjectMapper();
 
         String appCredentialsSecret = getSecretString(System.getenv(SP_API_APP_CREDENTIALS_SECRET_ARN_ENV_VARIABLE));
@@ -100,9 +82,9 @@ public class ApiUtils {
 
         String spApiEndpoint = getSpApiEndpoint(regionCode);
         NotificationsApi notificationApi = new NotificationsApi.Builder()
-                                            .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
-                                            .endpoint(spApiEndpoint)
-                                            .build();
+                .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
+                .endpoint(spApiEndpoint)
+                .build();
         setUserAgent(notificationApi.getApiClient());
         return notificationApi;
     }

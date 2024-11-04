@@ -16,7 +16,7 @@ public class PricingRuleB2B {
     @JsonProperty("offerType")
     public String offerType;
     @JsonProperty("quantityTier")
-    public float quantityTier;
+    public int quantityTier;
     @JsonProperty("priceChangeRule")
     public String priceChangeRule;
     @JsonProperty("priceChangeRuleAmount")

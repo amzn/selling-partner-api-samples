@@ -2,14 +2,16 @@ package lambda.utils.B2B;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lambda.utils.B2B.AOCN.B2BOffer;
 import lambda.utils.B2B.AOCN.BuyBoxB2B;
 import lambda.utils.B2C.Amount;
 import lambda.utils.B2C.Offer;
-import lambda.utils.B2C.PriceChangeRule;
 import lambda.utils.common.ApiCredentials;
 import lambda.utils.common.Seller;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -49,8 +51,5 @@ public class PricingLambdaInputB2B {
     public String issues;
     @JsonProperty("newListingPrice")
     public Amount newListingPrice;
-
-    @JsonProperty("feedDetails")
-    public FeedDetails feedDetails;
 
 }
