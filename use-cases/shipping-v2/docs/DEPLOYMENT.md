@@ -79,28 +79,64 @@ To create a new IAM policy with the required permissions, follow the steps below
 4. Next to **Policy editor**, select **JSON** and replace the default policy with the JSON below. Make sure to replace `<aws_account_id_number>` your AWS account id number
 ```
 {
- 	"Version": "2012-10-17",
- 	"Statement": [
- 		{
- 			"Sid": "SPAPIAppIAMPolicy",
- 			"Effect": "Allow",
- 			"Action": [
- 				"iam:CreateUser",
- 				"iam:DeleteUser",
- 				"iam:CreatePolicy",
- 				"iam:DeletePolicy",
- 				"iam:AttachUserPolicy",
- 				"iam:DetachUserPolicy",
- 				"iam:CreateAccessKey",
- 				"iam:DeleteAccessKey"
- 			],
- 			"Resource": [
- 				"arn:aws:iam::<aws_account_id_number>:user/*",
- 				"arn:aws:iam::<aws_account_id_number>:policy/*"
- 			]
- 		}
- 	]
- }
+ "Version": "2012-10-17",
+ "Statement": [
+     {
+         "Sid": "SPAPISampleAppIAMPolicy",
+         "Effect": "Allow",
+         "Action": [
+             "iam:CreateUser",
+             "iam:DeleteUser",
+             "iam:CreatePolicy",
+             "iam:DeletePolicy",
+             "iam:AttachUserPolicy",
+             "iam:DetachUserPolicy",
+             "iam:CreateAccessKey",
+             "iam:DeleteAccessKey",
+             "iam:GetRole",
+             "iam:CreateRole",
+             "iam:TagRole",
+             "iam:AttachRolePolicy",
+             "iam:PutRolePolicy",
+             "iam:DeleteRole",
+             "iam:DeleteRolePolicy",
+             "iam:DetachRolePolicy",
+             "iam:PassRole"
+         ],
+         "Resource": [
+             "arn:aws:iam::<aws_account_id_number>:user/*",
+             "arn:aws:iam::<aws_account_id_number>:policy/*",
+             "arn:aws:iam::<aws_account_id_number>:role/*"
+         ]
+     },
+     {
+         "Sid": "SPAPISampleAppCloudFormationPolicy",
+         "Effect": "Allow",
+         "Action": [
+             "cloudformation:*",
+             "ecr:*",
+             "ssm:*"
+         ],
+         "Resource": [
+             "arn:aws:cloudformation:us-east-1:<aws_account_id_number>:stack/CDKToolkit/*",
+             "arn:aws:ecr:us-east-1:<aws_account_id_number>:repository/cdk*",
+             "arn:aws:ssm:us-east-1:<aws_account_id_number>:parameter/cdk-bootstrap/*",
+             "arn:aws:cloudformation:us-east-1:<aws_account_id_number>:stack/sp-api-app*"
+         ]
+     },
+     {
+         "Sid": "SPAPISampleAppCloudFormationS3Policy",
+         "Effect": "Allow",
+         "Action": [
+             "s3:*"
+         ],
+         "Resource": [
+             "arn:aws:s3:::cdk*",
+             "arn:aws:s3:::sp-api-app-bucket*"
+         ]
+     }
+ ]
+}
 ```
 5. Click **Next**
 6. Select a name for your policy. Take note of this value as you will need it in the next section.
