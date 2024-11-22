@@ -134,12 +134,7 @@ Resources:
         - - SPAPIAppCredentials
           - !Ref RandomSuffix
       Description: Secret containing SP-API app credentials
-      SecretString: !Sub
-        - >-
-          {"AppClientId": "${AppClientIdValue}", "AppClientSecret":
-          "${AppClientSecretValue}"}
-        - AppClientIdValue: !Ref ClientId
-          AppClientSecretValue: !Ref ClientSecret
+      SecretString: !Sub '{"AppClientId": "${ClientId}", "AppClientSecret": "${ClientSecret}"}'
   SPAPICheckSkuLambdaFunction:
     Type: 'AWS::Lambda::Function'
     Properties:
