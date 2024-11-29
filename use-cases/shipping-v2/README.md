@@ -1,7 +1,3 @@
-## Overview
-The Sample Solution App provides all required resources to deploy a fully functional SP-API application to the AWS cloud.
-Use this application to test the proposed solution, do changes and/or integrate it to your own product.
-
 ## Shipping API
 The Amazon Shipping API is designed to support outbound shipping use cases both for orders originating on Amazon-owned marketplaces as well external channels/marketplaces. With these APIs, you can request shipping rates, purchase shipments, fetch shipment labels, cancel shipments, and track shipments.
 
@@ -10,291 +6,499 @@ If you haven't already, we recommend you to navigate the following resources:
 * [Workflow for creating a shipment](https://developer-docs.amazon.com/amazon-shipping/docs/workflow-for-creating-a-shipment)
 * [SmartPurchase workflow](https://developer-docs.amazon.com/amazon-shipping/docs/tutorial-purchase-a-shipment-directly)
 
-## Solution
-This Sample Solution offers a streamlined Buy Shipping from Amazon workflow based on the  [ORDER_CHANGE](https://developer-docs.amazon.com/sp-api/docs/notification-type-values#order_change) notification from the Selling Partner API. The key components include:
-
-The solution consists of the following components:
-* A [Step Functions](https://aws.amazon.com/step-functions/) state machine with a fully functional document retrieval workflow.
-* [Lambda](https://aws.amazon.com/lambda/) functions that support each of the steps of the state machine.
-* An [SQS](https://aws.amazon.com/sqs/) queue to receive ORDER_CHANGE notification.
-* An [SNS](https://aws.amazon.com/sns/) to notify and share the label generation via email.
-* A [DynamoDB](https://aws.amazon.com/dynamodb/) table stores item attributes and records of purchased shipping labels.
-* A [Secrets Manager](https://aws.amazon.com/secrets-manager/) secret to securely store SP-API app credentials.
+## Sample Solution
+This Sample Solution provides all the required resources to deploy a fully functional SP-API application on AWS that implements the [Shipping v2  use case](https://developer-docs.amazon.com/amazon-shipping/docs/workflow-for-creating-a-shipment) end-to-end. Use this application to test the proposed solution, do changes and/or integrate it to your own product.
 
 ### Workflow
 
-To kickstart the solution, begin by executing the `SPAPISubscribeNotificationsLambdaFunction`, providing the lambda with the necessary input containing the notificationType - [ORDER_CHANGE](https://developer-docs.amazon.com/sp-api/docs/notification-type-values#order_change) - thereby subscribing the SQS queue to the Order Change Notification and obtaining the `subscription_id` and `destination_id`.
-After submission, the automated workflow will begin. Waiting for the [ORDER_CHANGE](https://developer-docs.amazon.com/sp-api/docs/notification-type-values#order_change) notification message to be received, this will trigger the `SPAPIProcessNotificationLambdaFunction` and parse the message. After processing the notification, the `SPAPIRetrieveOrderLambdaFunction` retrieves the order information needed.
-Then, we will check the item inventory availability using the `SPAPIInventoryCheckLambdaFunction`. If you have "Ship with Amazon" enabled and have OneClickShipment configured, the flow would execute the `SPAPIOneClickShipmentLambdaFunction` to kick off the OneClickShipment Purchase workflow. 
-Otherwise, it will request Rates per the item dimensions and get the eligible rates for shipments with the `SPAPIGetRatesLambdaFunction`. Upon receiving the eligible rates, the solution will execute the `SPAPISelectShipmentLambdaFunction` to select the preferred shipment based on input preferences (CHEAPEST or FASTEST). It will then proceed to purchase the shipping label with the `SPAPIPurchaseShipmentLambdaFunction`.
-Continuing the flow, the `SPAPIPresignS3LabelLambdaFunction` will pre-sign the S3 label and then share the label generated via email.
+A well-architected Shipping v2 workflow includes subscribing to the ORDER_CHANGE notification for automatic reception of new MFN orders. Alternatively, new orders can be identified from incoming order reports.
 
-Post-execution, all Shipment information, including shipment ID, carrier ID, and tracking ID, are stored in DynamoDB. Developers can access this content from DynamoDB as needed, ensuring an efficient and structured workflow.
+![Shippingv2 Workflow](docs/images/Shippingv2-Workflow.png)
 
-## Pre-requisites
-The pre-requisites for deploying the Sample Solution App to the AWS cloud are:
-* [Registering as a developer for SP-API](https://developer-docs.amazon.com/sp-api/docs/registering-as-a-developer), and [registering an SP-API application](https://developer-docs.amazon.com/sp-api/docs/registering-your-application).
-* An [IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) with permissions to create a new user, a policy, and attach it to the user
-  * If you don't have one, you can create it following the steps  under **Usage - 2. Configure Sample Solution App's IAM user**.
-* The [AWS CLI](https://aws.amazon.com/cli/)
-  * If not present, it will be installed as part of the deployment script.
-* [Maven](https://maven.apache.org/)
-  * Just for deploying a Java-based application.
-  * If not present, it will be installed as part of the deployment script.
-* [GitBash](https://git-scm.com/download/win)
-    * in case you use Windows in order to run the deployment script.
+## Sample Code
 
-## Usage
-### 1. Update config file
-To allow the Sample Solution App to connect to SP-API, the config file has to be updated to match the set-up of your SP-API application.
+Below are the code steps for the Shipping V2  workflow.
 
-Open **app.config** file and replace all occurrences of `<dev_value>` following the instructions below:
-   1. Update `ClientId` and `ClientSecret` attribute values with [Client Id and Client Secret of the SP-API application](https://developer-docs.amazon.com/sp-api/docs/viewing-your-application-information-and-credentials) respectively. 
-   2. Update `RefreshToken` attribute value with the refresh token of the selling partner you will be using for testing. 
-   3. Update `RegionCode` attribute value with the region of the selling partner you will be using for testing. 
-   4. Update `Email` attribute value with the email address where you want to receive shipping labels generated during testing. 
-   5. Update `OneClickShipment` attribute value to `y` if you have ShipWithAmazon enabled.
+The process for the steps belows should start by monitoring [ORDER_CHANGE](https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-use-case-guide#order_change) notifications. To subscribe to Order Change Notifications, refer to [Tutorial 5: Subscribe to ORDER_CHANGE Notifications](https://developer-docs.amazon.com/sp-api/docs/merchant-fulfillment-api-v0-use-case-guide#tutorial-5-subscribe-to-mfn-notifications) of the use case guide.
 
->Note: While updating the config file, don't leave blank spaces before and after `=`, and don't use quotation marks
+### 1 - Retrieve an order
 
-#### Sample config file:
-```
-ClientId=amzn1.application-oa2-client.abc123def456xyz789
-ClientSecret=amzn1.oa2-cs.v1.abc123def456xyz789
-RefreshToken=Atzr|Abc123def456xyz789
-RegionCode=NA
-Email=login@mydomain.com
-%% Add OneclickShipment input param (choose between y or n)
-OneClickShipment=n
-```
+Upon an ORDER_CHANGE notification for unshipped MFN orders, the Orders API is used to retrieve the order details.
 
-### 2. Configure Sample Solution App's IAM user
-#### I. Create IAM policy
-In order to execute the deployment script, an IAM user with the appropriate permissions is needed.
-To create a new IAM policy with the required permissions, follow the steps below.
+#### Step-by-step:
+1. **Initialize API Client:** The API client of OrdersAPI is initialized with the Refresh Token and the Region.
+2. **Get Order:** The Orders API getOrder operation is called using the orderId from the ORDER_CHANGE notification.
+3. **Create the order processing class:** The MfnOrder class is instantiated with the order items from getOrder and the shipping address.
+4. **Return MfnOrder object** The MfnOrder object created is returned for further processing of the Shipping Workflow.
 
-1. Open the [AWS console](https://console.aws.amazon.com/)
-2. Navigate to [IAM Policies console](https://us-east-1.console.aws.amazon.com/iamv2/home#/policies)
-3. Click **Create policy**
-4. Next to **Policy editor**, select **JSON** and replace the default policy with the JSON below. Make sure to replace `<aws_account_id_number>` your AWS account id number
-```
-{
- 	"Version": "2012-10-17",
- 	"Statement": [
- 		{
- 			"Sid": "SPAPIAppIAMPolicy",
- 			"Effect": "Allow",
- 			"Action": [
- 				"iam:CreateUser",
- 				"iam:DeleteUser",
- 				"iam:CreatePolicy",
- 				"iam:DeletePolicy",
- 				"iam:AttachUserPolicy",
- 				"iam:DetachUserPolicy",
- 				"iam:CreateAccessKey",
- 				"iam:DeleteAccessKey"
- 			],
- 			"Resource": [
- 				"arn:aws:iam::<aws_account_id_number>:user/*",
- 				"arn:aws:iam::<aws_account_id_number>:policy/*"
- 			]
- 		}
- 	]
- }
-```
-5. Click **Next**
-6. Select a name for your policy. Take note of this value as you will need it in the next section.
-7. Review the changes and click **Create policy**
+**Python**
 
-#### II. Create IAM user
-To create a new IAM user with the required permissions, follow the steps below.
-1. Open the [AWS console](https://console.aws.amazon.com/)
-2. Navigate to [IAM Users console](https://us-east-1.console.aws.amazon.com/iamv2/home#/users)
-3. Click **Create user**
-4. Select a name for your user
-5. In the **Set permissions** page, select **Attach policies directly**
-6. In the **Permissions policies**, search for the policy created in **I. Create IAM policy** section. Select the policy, and click **Next**
-7. Review the changes and click **Create user**
+*Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/shipping-v2/code/python/src/retrieve_order_handler.py)*
 
-#### III. Retrieve IAM user credentials
-Security credentials for the IAM user will be requested during the deployment script execution.
-To create a new access key pair, follow the steps below. If you already have valid access key and secret access key, you can skip this section.
-1. Open the [AWS console](https://console.aws.amazon.com/)
-2. Navigate to [IAM Users console](https://us-east-1.console.aws.amazon.com/iamv2/home#/users)
-3. Select the IAM user created in **II. Create IAM user**
-4. Go to **Security credentials** tab
-5. Under **Access keys**, click **Create access key**
-6. In **Access key best practices & alternatives** page, select **Command Line Interface (CLI)**
-7. Acknowledge the recommendations, and click **Next**
-8. Click **Create access key**
-9. Copy `Access key` and `Secret access key`. This is the only time that these keys can be viewed or downloaded, and you will need them while executing the deployment script
-10. Click **Done**
+```python
+        # Create an instance of the ApiUtils class
+        api_utils = ApiUtils(region_code,
+                             refresh_token,
+                             constants.ORDERS_API_TYPE)
 
-### 3. Execute the deployment script
-The deployment script will create a Sample Solution App in the AWS cloud.
-To execute the deployment script, follow the steps below.
-1. Identify the deployment script for the programming language you want for your Sample Solution App.
-   1. For example, for the Python application the file is `app/scripts/python/python-app.sh`.
-2. Execute the script from your terminal or Git Bash.
-   1. For example, to execute the Python deployment script in a Unix-based system or using Git Bash, run `bash python-app.sh`.
-3. Wait for the CloudFormation stack creation to finish.
-   1. Navigate to [CloudFormation console](https://console.aws.amazon.com/cloudformation/home).
-   2. Wait for the stack named **sp-api-app-\<language\>-*random_suffix*** to show status `CREATE_COMPLETE`.
-4. Confirm the subscription to Amazon SNS that you received via email. This subscription will notify you about new shipping labels generated during testing.
+        # Retrieve email address for the label sending
+        ship_from_email = os.environ.get(constants.SHIP_FROM_EMAIL_ENV_VARIABLE)
 
-### 4. Test the sample solution
+        # API calls to retrieve order and order items
+        order_response = api_utils.call_orders_api(method='get_order',
+                                                   order_id=get_order_lambda_input.credentials.orderId)
+        order_items_response = api_utils.call_orders_api(method='get_order_items',
+                                                         order_id=get_order_lambda_input.credentials.orderId)
 
-### A. Normal Flow
-The deployment script creates a Sample Solution App in the AWS cloud. The solution consists of a [Step Functions](https://aws.amazon.com/step-functions/) state machine with a fully functional workflow.
-To test the sample solution, follow the steps below.
-1. Open the [AWS console](https://console.aws.amazon.com/).
-2. Navigate to [DynamoDB console](https://console.aws.amazon.com/dynamodbv2/home).
-3. Under **Tables**, click on **Explore items**.
-4. Select the table created by the deployment script, named **SPAPIInventory-*random_suffix***.
-5. Select **Create new item** and add the following attributes with the corresponding value:
-      1. **SKU** (Type `String`): The SKU that you will use for testing.
-      2. **Height** (Type `Number`): The height of the item that you will use for testing.
-      3. **Length** (Type `Number`): The length of the item that you will use for testing.
-      4. **Width** (Type `Number`): The width of the item that you will use for testing.
-      5. **SizeUnit** (Type `String`): The size unit. Must be `CENTIMETERS` or `INCHES`.
-      6. **WeightValue** (Type `Number`): The weight of the item that you will use for testing.
-      7. **WeightUnit** (Type `String`): The weight unit. Must be `GRAM`, `KILOGRAM`, `OUNCE`, `POUND`.
-      8. **Stock** (Type `Number`): The available stock of the item that you will use for testing. Must be greater than zero.
-                     ```
-                     {
-                       "SKU": {
-                         "S": "updateWithTestSku"
-                       },
-                       "Height": {
-                         "N": "10"
-                       },
-                       "Length": {
-                         "N": "10"
-                       },
-                       "SizeUnit": {
-                         "S": "INCH"
-                       },
-                       "Stock": {
-                         "N": "10"
-                       },
-                       "WeightUnit": {
-                         "S": "GRAM"
-                       },
-                       "WeightValue": {
-                         "N": "10"
-                       },
-                       "Width": {
-                         "N": "10"
-                       }
-                     }
-                     ```
+        order_address_response = api_utils.call_orders_api(method='get_order_address',
+                                                           order_id=get_order_lambda_input.credentials.orderId)
 
-**Alternatively you can run the AWS CLI command below and create the item in DynamoDB. To do that, include in your IAM User the permission `AmazonDynamoDBFullAccess` to perform this action. Also, change the `updateRandomSuffix` string for the value of your SPAPIInventory table. You can get this information in your CloudFormation stack**.
+        # Check if the response has a payload attribute and use it directly
+        if hasattr(order_address_response, 'payload'):
+            ship_to_address = map_address(order_address_response.payload.shipping_address)
+            ship_from_address = map_address(order_response.payload.default_ship_from_location_address, ship_from_email)
 
-**In the JSON document below, update SKU and other attributes with the correct values of the item that you will use for testing.
+        # Return the ShippingOrder object in JSON format
+        get_order_lambda_input.mfnOrder = MfnOrder()
+        get_order_lambda_input.mfnOrder.orderItems = map_order_items(order_items_response.payload.order_items)
+        get_order_lambda_input.mfnOrder.shipFromAddress = ship_from_address
+        get_order_lambda_input.mfnOrder.shipToAddress = ship_to_address
 
-```
-aws dynamodb put-item --table-name SPAPIInventory-updateRandomSuffix --item '{"SKU":{"S":"updateWithTestSku"},"Height":{"N":"10"},"Length":{"N":"10"},"SizeUnit":{"S":"INCH"},"Stock":{"N":"10"},"WeightUnit":{"S":"GRAM"},"WeightValue":{"N":"10"},"Width":{"N":"10"}}'
+        result = asdict(get_order_lambda_input)
+        return result
 
-```
-
-6. Navigate to [SQS console](https://console.aws.amazon.com/sqs/v2/home).
-7. Select the SQS queue created by the deployment script, named **sp-api-notifications-queue-*random_suffix***.
-8. Select **Send and receive messages**.
-   9. Under **Message body**, insert the following simplified notification body. Replace `AmazonOrderId` with the Id of the order that you will use for testing.
-       ```
-       {
-           "NotificationType": "ORDER_CHANGE",
-           "EventTime": "2023-07-01T15:30:00.000Z",
-           "Payload": {
-               "OrderChangeNotification": {
-                   "NotificationLevel": "OrderLevel",
-                   "AmazonOrderId": "123-4566876-1233504309",
-                   "Summary": {
-                       "MarketplaceId": "ATVPDKIKX0DER",
-                       "OrderStatus": "Unshipped",
-                       "FulfillmentType": "MFN"
-                   }
-               }
-           }
-       }
-       ```
-7. Click **Send message**.
-8. Navigate to [Step Functions console](https://console.aws.amazon.com/states/home).
-9. Select the state machine created by the deployment script, named **SPAPIStateMachine-*random_suffix***.
-10. Under **Executions**, you will see a workflow for the order submitted through SQS.
-11. To check the workflow status and navigate into the individual steps, select the workflow and use the **Graph view** and **Step Detail** panels.
-12. After the order is processed and a shipping label is generated, you will receive an email with a presigned url. Open the link in your browser to view the label.
-
-### B. Cancel Shipment Flow
-The deployment script also creates a Lambda function that cancels previously purchased shipments. You can integrate this function to your product to easily enable the cancel shipment feature.
-To test the function, follow the steps below.
-1. Open the [AWS console](https://console.aws.amazon.com/).
-2. Navigate to [Lambda console](https://console.aws.amazon.com/lambda/home).
-3. Select the cancel shipment function, named **SPAPICancelShipmentLambdaFunction-*random_suffix***.
-4. Select **Test** tab.
-5. Under **Event JSON**, insert the following payload. Replace the `ShipmentId` with the shipment identifier you want to cancel.
-    ```
-    {
-        "ShipmentId": "1232ndaodn9314etc.."
+def map_address(order_address, ship_from_email=None):
+    # Initialize OrdersApiAddress object with available attributes
+    address_mapping = {
+        'name': order_address.name,
+        'addressLine1': order_address.address_line1,
+        'addressLine2': order_address.address_line2,
+        'addressLine3': order_address.address_line3,
+        'city': order_address.city,
+        'countryCode': order_address.country_code,
+        'postalCode': order_address.postal_code,
+        'stateOrRegion': order_address.state_or_region,
+        'phoneNumber': re.sub(r'[^0-9]', '', order_address.phone or ''),
+        'email': ship_from_email
     }
-    ```
-6. Click **Test**.
-7. The function will return that the Cancel Shipment function was successfully executed.
 
-### C. Track Shipment Flow
-The deployment script also creates a Lambda function that helps you track purchased shipments. You can integrate this function to your product to easily include shipment tracking information.
-To test the function, follow the steps below.
-1. Open the [AWS console](https://console.aws.amazon.com/).
-2. Navigate to [Lambda console](https://console.aws.amazon.com/lambda/home).
-3. Select the get tracking function, named **SPAPIGetTrackingLambdaFunction-*random_suffix***.
-4. Select **Test** tab.
-5. Under **Event JSON**, insert the following payload. Replace the `TrackingId` and `CarrierId` the with the identifiers of both the carrier and the tracking. They should be returned in the Purchase Shipment step.
-    ```
-   {
-       "TrackingId": "1Z---",
-       "CarrierId": "UPS"
-   }
-    ```
-6. Click **Test**.
-7. The function will return tracking information as a response.
+    return Address(**address_mapping)
+
+def map_order_items(order_items_list):
+    order_items = []
+    for item_dict in order_items_list:
+        item_price_dict = item_dict.get("ItemPrice", {})
+        currency_code = item_price_dict.get("CurrencyCode", "USD")  # Default to USD if not specified
+        amount_str = item_price_dict.get("Amount")
+        if amount_str is None:
+            logging.error(f"Amount not found for OrderItemId: {item_dict.get('OrderItemId')}")
+            continue
+        try:
+            amount = float(amount_str)
+        except ValueError:
+            logging.error(f"Invalid amount value '{amount_str}' for OrderItemId: {item_dict.get('OrderItemId')}")
+            continue
+
+        value = Currency(value=amount, unit=currency_code)
+        order_item = OrderItem(
+            orderItemId=item_dict.get("OrderItemId"),
+            sku=item_dict.get("SellerSKU"),
+            quantity=int(item_dict.get("QuantityOrdered", 0)),  # Default to 0 if not specified
+            value=value
+        )
+        order_items.append(order_item)
+    return order_items
+```
 
 
-### D. Subscribe to Notification Flow
-The deployment script also creates a Lambda function that subscribes selling partners to notifications. You can integrate this function to your product to easily onboard to the notifications feature.
-To test the function, follow the steps below.
-1. Open the [AWS console](https://console.aws.amazon.com/).
-2. Navigate to [Lambda console](https://console.aws.amazon.com/lambda/home).
-3. Select the notification subscriber function, named **SPAPISubscribeNotificationsLambdaFunction-*random_suffix***.
-4. Select **Test** tab.
-5. Under **Event JSON**, insert the following payload. Replace the `NotificationType` with the notification type you want to subscribe to.
-    ```
-    {
-        "NotificationType": "ORDER_CHANGE"
+### 2 - Check Inventory
+
+After the order details are retrieved, the inventory is checked and order is validated.
+
+#### Step-by-step:
+1. **Process the order items:** A loop over all order items is created to execute inventory checks.
+2. **Prepare the request:** Get the orderItem SKU and prepare the database (DynamoDB) request.
+3. **Retrieve the Item from Inventory:** Using the database client, the item is retrieved from inventory table.
+4. **Check stock:** The item stock quantity is checked. The order is aborted if quantity is insufficient.
+5. **Calculate Order Weight and Dimensions:** The total order weight and dimensions are calculated and returned as part of the MFN order.
+
+**Python**
+
+*Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/shipping-v2/code/python/src/inventory_check_handler.py)*
+
+```python
+    # Initialize package weight and dimensions
+    package_weight_value = 0
+    package_weight_unit = "LB"
+
+    package_length = 0
+    package_width = 0
+    package_height = 0
+    package_size_unit = "GM"
+
+    get_order_lambda_input = ShippingLambdaInput(**event)
+
+    # Check if mfnOrder is not None
+    if get_order_lambda_input.mfnOrder:
+        # Check if orderItems is not None
+        if get_order_lambda_input.mfnOrder.orderItems:
+            # Iterate over all order items and retrieve stock, size, and weight from the database
+            for order_item in get_order_lambda_input.mfnOrder.orderItems:
+                # Retrieve the item from DynamoDB by SKU
+                # Update this section to match your product's logic
+                key = {constants.INVENTORY_TABLE_HASH_KEY_NAME: {"S": order_item.sku}}
+
+                dynamodb = boto3.client(constants.AWS_DYNAMO_DB_CLIENT_KEY_NAME)
+                get_item_result = dynamodb.get_item(TableName=os.environ.get(constants.INVENTORY_TABLE_NAME_ENV_VARIABLE),
+                                                    Key=key)
+                item = get_item_result.get("Item", {})
+
+                stock = int(item.get(constants.INVENTORY_TABLE_STOCK_ATTRIBUTE_NAME, {"N": "0"})["N"])
+                if stock < order_item.quantity:
+                    raise Exception(f"Stock level for SKU {order_item.sku} "
+                                    f"is not enough to fulfill the requested quantity")
+
+                item_weight_value = int(item.get(constants.INVENTORY_TABLE_WEIGHT_VALUE_ATTRIBUTE_NAME, {"N": "0"})["N"])
+
+                # Valid values for the database records are uppercase: [OZ, G]
+                item_weight_unit = item.get(constants.INVENTORY_TABLE_WEIGHT_UNIT_ATTRIBUTE_NAME, {"S": ""})["S"]
+
+                item_length = int(item.get(constants.INVENTORY_TABLE_LENGTH_ATTRIBUTE_NAME, {"N": "0"})["N"])
+                item_width = int(item.get(constants.INVENTORY_TABLE_WIDTH_ATTRIBUTE_NAME, {"N": "0"})["N"])
+                item_height = int(item.get(constants.INVENTORY_TABLE_HEIGHT_ATTRIBUTE_NAME, {"N": "0"})["N"])
+
+                # Valid values for the database records are uppercase: [INCHES, CENTIMETERS]
+                item_size_unit = item.get(constants.INVENTORY_TABLE_SIZE_UNIT_ATTRIBUTE_NAME, {"S": ""})["S"]
+
+                # Create a Dimensions object for the item weight
+                item_dimensions = Dimensions(unit=item_size_unit, length=item_length, width=item_width,
+                                             height=item_height)
+
+                # Create a Weight object for the item weight
+                item_weight = Weight(unit=item_weight_unit, value=float(str(item_weight_value)))
+
+                # Update the order item with the retrieved weight
+                order_item.itemWeight = item_weight
+                order_item.dimensions = item_dimensions
+
+                # Package weight is calculated by adding the individual weights
+                # Update this section to match your selling partners' logic
+                package_weight_value += item_weight_value
+                package_weight_unit = item_weight_unit
+
+                # Package size is calculated by adding the individual sizes
+                # Update this section to match your selling partners' logic
+                package_length += item_length
+                package_width += item_width
+                package_height += item_height
+                package_size_unit = item_size_unit
+
+            get_order_lambda_input.mfnOrder.weight = Weight(unit=package_weight_unit,
+                                                            value=float(str(package_weight_value)))
+
+            get_order_lambda_input.mfnOrder.dimensions = Dimensions(length=package_length, width=package_width,
+                                                                    height=package_height, unit=package_size_unit)
+            
+    return asdict(get_order_lambda_input)
+```
+
+### 3 - Get Rates
+
+Once the inventory is checked and the order is validated for shipping, we use the [GetRates](https://developer-docs.amazon.com/amazon-shipping/docs/shipping-api-v2-reference#post-shippingv2shipmentsrates) operation to check for available shipping service offers.
+
+#### Step-by-step:
+1. **Initialize API Client:** The API client for Shippingv2 is initialized using the Refresh Token and the Region.
+2. **Prepare the request:** The request for the GetRatesRequest operation is prepared.
+3. **Call the API:** The Shipping Api getRates is called using the prepared request.
+4. **Process the shipment services:** Parse and extract the list of shipping services and store them in a dedicated class. Finally return the fetched results.
+
+**Python**
+
+*Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/shipping-v2/code/python/src/get_rates_handler.py)*
+
+```python
+        # Create an instance of the ApiUtils class
+        api_utils = ApiUtils(region_code=region_code,
+                             refresh_token=refresh_token,
+                             api_type=constants.SHIPPING_API_TYPE)
+
+        # Get eligible shipment services for the order
+        get_rates_request = get_rates_request_body(mfn_order=get_rates_lambda_input.mfnOrder,
+                                                   order_id=get_rates_lambda_input.credentials.orderId)
+
+        get_rates_response = api_utils.call_shipping_api('get_rates', body=json.dumps(get_rates_request))
+
+        if get_rates_response and hasattr(get_rates_response, 'payload') and get_rates_response.payload:
+            get_rates_lambda_input.rates = Rates()
+            get_rates_lambda_input.rates.requestToken = get_rates_response.payload.request_token
+            get_rates_lambda_input.rates = get_rates_response.payload.rates
+        else:
+            error_msg = "No rates found in the response"
+            raise Exception(error_msg)
+
+        return get_rates_response.payload.to_dict()
+
+    except Exception as e:
+        raise Exception("Calling Shipping API failed") from e
+
+
+def get_rates_request_body(mfn_order, order_id):
+    # Prepare items list
+    items_list = [{
+        "itemValue": asdict(item.value),
+        "description": shipping_preferences.ITEM_DESCRIPTION,
+        "itemIdentifier": item.orderItemId,
+        "quantity": item.quantity,
+        "weight": asdict(item.itemWeight)
+    } for item in mfn_order.orderItems]
+
+    # Define requested document specification
+    requested_document_specification = {
+        "format": shipping_preferences.LABEL_FORMAT_PDF,
+        "size": shipping_preferences.LABEL_SIZE,
+        "printOptions": shipping_preferences.PRINT_OPTIONS
     }
-    ```
-6. Click **Test**.
-7. The function will return `destination Id` and `subscription Id`.
 
-### 5. Clean-up
-The deployment script creates a number of resources in the AWS cloud which you might want to delete after testing the solution.
-To clean up these resources, follow the steps below.
-1. Clean up the S3 bucket with the shipping labels created during testing.
-   1. Navigate to [S3 console](https://console.aws.amazon.com/s3/home).
-   2. Select the shipping labels bucket, named **sp-api-labels-s3-bucket-*random_suffix***.
-   3. Select all objects, and click **Delete**.
-   4. Confirm the objects deletion.
-2. Identify the clean-up script for the programming language of the Sample Solution App deployed to the AWS cloud.
-   1. For example, for the Python application the file is `app/scripts/python/python-app-clean.sh`.
-3. Execute the script from your terminal or Git Bash.
-   1. For example, to execute the Python clean-up script in a Unix-based system or using Git Bash, run `bash python-app-clean.sh`.
-   2. Wait for the script to finish.
+    # Prepare packages
+    package_data = {
+        "dimensions": asdict(mfn_order.dimensions),
+        "weight": asdict(mfn_order.weight),
+        "items": items_list,
+        "insuredValue": shipping_preferences.PACKAGES_INSURED_VALUE,
+        "packageClientReferenceId": f"Order_{order_id}_Package_1"
+    }
 
-### 6. Troubleshooting
-If the state machine execution fails, follow the steps below to identify the root-cause and retry the workflow.
-1. Navigate to [Step Functions console](https://console.aws.amazon.com/states/home).
-2. Select the state machine created by the deployment script, named **SPAPIStateMachine-*random_suffix***.
-3. Under **Executions**, you can use the **Status** column to identify failed executions.
-4. To troubleshoot errors, select the corresponding workflow execution and use the **Graph view** and **Step Detail** panels.
-5. After fixing the issues that caused the error, retry the workflow by clicking on **New execution**. The original input parameters will be automatically populated.
-6. Click **Start execution**, and validate the results.
+    # Prepare request body
+    request_body = {
+        "shipFrom": asdict(mfn_order.shipFromAddress),
+        "shipTo": asdict(mfn_order.shipToAddress),
+        "returnTo": mfn_order.returnToAddress if getattr(mfn_order, 'returnToAddress', None) else None,
+        "packages": [package_data],
+        "channelDetails": {
+            "channelType": shipping_preferences.CHANNEL_TYPE,
+            "amazonOrderDetails": {"orderId": order_id}
+        },
+        "labelSpecifications": requested_document_specification,
+        "shipmentType": shipping_preferences.SHIPMENT_TYPE,
+        "serviceSelection": shipping_preferences.SERVICE_SELECTION
+    }
+
+    return request_body
+```
+
+### 4 - Select the preferred shipment
+
+After getting the available shipping services, the offers are filtered for the seller preferred one.
+For instance, filtering criteria can be Price or Speed.
+
+#### Step-by-step:
+1. **Retrieve Shipment Settings:** The preferred shipment settings are retrieved from an environment variable.
+2. **Filter shipment services:** The setting is used as criteria to filter the shipment offers collection.
+3. **Return preferred shipment:** The shipment service remaining is returned.
+
+**Python**
+
+*Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/shipping-v2/code/python/src/select_shipment_handler.py)*
+
+```python
+        shipping_service_list = shipping_lambda_input.rates.rates
+
+        if len(shipping_service_list) == 0:
+            raise Exception("There are no shipping services to fulfill the order")
+
+        # Select the shipping service based on the preference (cheapest/fastest)
+        shipping_lambda_input.rates.preferredRate = get_preferred_shipment(shipping_service_list)
+
+        return asdict(shipping_lambda_input)
+
+def get_preferred_shipment(shipping_services):
+    # Get the shipping preference from the Lambda function's environment variable
+    # Update this section to match your product's logic
+    shipment_filter_type = os.environ.get(constants.SHIPMENT_FILTER_TYPE_ENV_VARIABLE)
+
+    if shipment_filter_type == constants.SHIPMENT_FILTER_TYPE_CHEAPEST:
+        shipping_services.sort(key=cmp_to_key(price_comparator))
+    elif shipment_filter_type == constants.SHIPMENT_FILTER_TYPE_FASTEST:
+        shipping_services.sort(key=cmp_to_key(speed_comparator))
+
+    return shipping_services[0]
+
+def price_comparator(ship_service1, ship_service2):
+    return ship_service1.totalCharge.value - ship_service2.totalCharge.value
+
+def speed_comparator(ship_service1, ship_service2):
+    promise_date1 = datetime.strptime(ship_service1.promise.deliveryWindow.start, '%Y-%m-%dT%H:%M:%SZ')
+    promise_date2 = datetime.strptime(ship_service2.promise.deliveryWindow.start, '%Y-%m-%dT%H:%M:%SZ')
+
+    return -1 if promise_date1 < promise_date2 else 1 if promise_date1 > promise_date2 else 0
+```
+
+### 5 - Purchase shipment
+
+After deciding on the preferred shipping service, it is now possible to create the order shipment and store the shipment id for the order in the database.
+
+#### Step-by-step:
+1. **Initialize API Client:** The Shippingv2 API is initialized using the Refresh Token and the Region.
+2. **Call the CreateShipment operation** The purchaseShipment operation is called using the request prepared.
+3. **Store Shipment ID:** The shipmentId part of the response payload is stored along the order handled.
+4. **Return the label:** The label part of the response payload is returned.
+
+**Python**
+
+*Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/shipping-v2/code/python/src/purchase_shipment_handler.py)*
+
+```Python
+        api_utils = ApiUtils(region_code=region_code,
+                             refresh_token=refresh_token,
+                             api_type=constants.SHIPPING_API_TYPE)
+
+        # Create shipment for the selected shipping service
+        purchase_shipment_request = get_purchase_shipment_request_body(payload=purchase_shipment_lambda_input)
+
+        logger.info(f"Shipping API - PurchaseShipment request: {purchase_shipment_request}")
+
+        purchase_shipment_result = api_utils.call_shipping_api('purchase_shipment', body=purchase_shipment_request)
+
+        logger.info(f"Shipping API - PurchaseShipment response: {purchase_shipment_result}")
+
+        # Store ShipmentId in DynamoDB
+        # Update this section to match your product's logic
+        shipment_id = purchase_shipment_result.payload.shipment_id
+        tracking_id = purchase_shipment_result.payload.package_document_details[0]["trackingId"]
+        carrier_id = purchase_shipment_lambda_input.rates.preferredRate.carrierId
+        store_shipment_information(purchase_shipment_lambda_input.credentials.orderId,
+                                   shipment_id, tracking_id, carrier_id)
+
+        # Generating Label format
+        label = purchase_shipment_result.payload.package_document_details[0]["packageDocuments"][0]
+        result = {
+            constants.LABEL_FORMAT_KEY_NAME: label["format"],
+            constants.LABEL_DIMENSIONS_KEY_NAME: label["type"],
+            constants.LABEL_FILE_CONTENTS_KEY_NAME: label["contents"]
+        }
+        return result
+
+    except Exception as e:
+        raise Exception("Calling Shipping API failed", e)
+
+
+def store_shipment_information(order_id, shipment_id, tracking_id, carrier_id):
+    item = {
+        constants.SHIPMENTS_TABLE_HASH_KEY_NAME: {'S': order_id},
+        constants.SHIPMENTS_TABLE_SHIPMENT_ID_ATTRIBUTE_NAME: {'S': shipment_id},
+        constants.SHIPMENTS_TABLE_TRACKING_ID_ATTRIBUTE_NAME: {'S': tracking_id},
+        constants.SHIPMENTS_TABLE_CARRIER_ID_ATTRIBUTE_NAME: {'S': carrier_id},
+    }
+
+    put_item_request = {
+        'TableName': os.environ.get(constants.SHIPMENTS_TABLE_NAME_ENV_VARIABLE),
+        'Item': item
+    }
+
+    dynamodb = boto3.client(constants.AWS_DYNAMO_DB_CLIENT_KEY_NAME)
+    dynamodb.put_item(**put_item_request)
+
+
+def get_purchase_shipment_request_body(payload):
+    supported_specs = payload.rates.preferredRate.supportedDocumentSpecifications[0]
+    print_options = supported_specs.printOptions[0]
+    page_layout = print_options["supportedPageLayouts"][0]
+    document_types = [type_detail["name"] for type_detail in print_options["supportedDocumentDetails"] if
+                      type_detail["isMandatory"]]
+    needs_file_joining = bool(print_options['supportedFileJoiningOptions'][0])
+    additionalInput = payload.rates.preferredRate.additionalInput
+
+    requested_document_specification = {
+        "format": supported_specs.format,
+        "size": supported_specs.size,
+        "needFileJoining": needs_file_joining,
+        "pageLayout": page_layout,
+        "requestedDocumentTypes": document_types
+    }
+
+    request = {
+        "requestToken": payload.rates.requestToken,
+        "rateId": payload.rates.preferredRate.rateId,
+        "requestedDocumentSpecification": requested_document_specification,
+        "additionalInputs": additionalInput,
+        "requestedValueAddedServices": [{
+                "id": shipping_preferences.VALUE_ADDED_SERVICE
+        }]
+    }
+
+    return json.dumps(request)
+```
+
+### 6 - Presign and Print the shipment label
+
+After the label extraction is done, the shipping label is decompressed and decoded for printing.
+
+#### Step-by-step:
+1. **S3 client and object are set up:** Prepare the S3 bucket details and the S3 client.
+2. **Get the label content:** Get the label content returned from the previous step.
+3. **Decode the label content** The label content returned by the api is decoded.
+4. **Store to S3:** The decoded label is stored to S3.
+5. **Pre-sign:** A pre-signed URL is generated on the label object on S3.
+
+**Python**
+
+*Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/shipping-v2/code/python/src/presign_s3_label_handler.py)*
+
+```python
+        # Create S3 Bucket Name
+        s3_bucket_name = os.environ.get(constants.LABELS_S3_BUCKET_NAME_ENV_VARIABLE)
+
+        # Extract order ID from event
+        order_id = presign_label_lambda_input.credentials.orderId
+
+        object_key = f"{order_id}/{uuid.uuid4()}"
+
+        label = presign_label_lambda_input.label.fileContents
+        label_format = presign_label_lambda_input.label.labelFormat
+
+        # Store the label in S3
+        store_label(s3_bucket_name, object_key, label, label_format)
+
+        # Generate a presigned URL to browse the label
+        presigned_url = generate_presigned_url(s3_bucket_name, object_key)
+
+        return presigned_url
+
+def generate_presigned_url(s3_bucket_name, object_key):
+    s3 = boto3.client('s3', config=Config(signature_version=constants.AWS_SIGNATURE_VERSION))
+    presigned_url = s3.generate_presigned_url(
+        'get_object',
+        Params={'Bucket': s3_bucket_name, 'Key': object_key},
+        ExpiresIn=3600  # 1 hour in seconds
+    )
+    return presigned_url        
+```
+
+```python
+def store_label(s3_bucket_name, object_key, label_content, label_format):
+    label_content_bytes = decode_label_content(label_content)
+    input_stream = io.BytesIO(label_content_bytes)
+
+    content_type = 'application/octet-stream'  # Default content type
+
+    if label_format == 'PDF':
+        content_type = 'application/pdf'
+    elif label_format == 'PNG':
+        content_type = 'image/png'
+    elif label_format == 'ZPL':
+        content_type = 'application/x-zpl'
+
+    metadata = {
+        'ContentType': content_type
+    }
+
+    s3 = boto3.client('s3', config=Config(signature_version=constants.AWS_SIGNATURE_VERSION))
+    s3.upload_fileobj(input_stream, s3_bucket_name, object_key, ExtraArgs=metadata)
+
+
+def decode_label_content(label_content):
+    label_content_decoded = base64.b64decode(label_content)
+    return label_content_decoded
+```
+
+

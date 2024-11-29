@@ -84,9 +84,9 @@ To create a new IAM policy with the required permissions, follow the steps below
 				"sts:AssumeRole"
 			],
 			"Resource": [
-				"arn:aws:iam::851725361926:user/*",
-				"arn:aws:iam::851725361926:policy/*",
-			    "arn:aws:iam::851725361926:role/*"
+				"arn:aws:iam::<aws_account_id_number>:user/*",
+				"arn:aws:iam::<aws_account_id_number>:policy/*",
+			    "arn:aws:iam::<aws_account_id_number>:role/*"
 			]
 		},
 		{
@@ -98,10 +98,10 @@ To create a new IAM policy with the required permissions, follow the steps below
 				"ssm:*"
 			],
 			"Resource": [
-				"arn:aws:cloudformation:*:851725361926:stack/CDKToolkit/*",
-				"arn:aws:ecr:*:851725361926:repository/cdk*",
-				"arn:aws:ssm:*:851725361926:parameter/cdk-bootstrap/*",
-				"arn:aws:cloudformation:*:851725361926:stack/sp-api-app*"
+				"arn:aws:cloudformation:*:<aws_account_id_number>:stack/CDKToolkit/*",
+				"arn:aws:ecr:*:<aws_account_id_number>:repository/cdk*",
+				"arn:aws:ssm:*:<aws_account_id_number>:parameter/cdk-bootstrap/*",
+				"arn:aws:cloudformation:*:<aws_account_id_number>:stack/sp-api-app*"
 			]
 		},
 		{
