@@ -1,0 +1,258 @@
+{
+  "Comment": "SP API Easy Ship State Machine for Easy ship entire flow",
+  "StartAt": "Retrieve Order",
+  "States": {
+    "Retrieve Order": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${RetrieveOrderLambdaFunctionArn}",
+        "Payload.$": "$"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "Inventory Check",
+      "ResultPath": "$",
+      "ResultSelector": {
+        "apiCredentials.$": "$.Payload.apiCredentials",
+        "amazonOrderId.$": "$.Payload.amazonOrderId",
+        "marketplaceId.$": "$.Payload.marketplaceId",
+        "easyShipOrder.$": "$.Payload.easyShipOrder"
+      }
+    },
+    "Inventory Check": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${InventoryCheckLambdaFunctionArn}",
+        "Payload.$": "$"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "Get List Handover Slots",
+      "ResultPath": "$",
+      "ResultSelector": {
+        "apiCredentials.$": "$.Payload.apiCredentials",
+        "amazonOrderId.$": "$.Payload.amazonOrderId",
+        "marketplaceId.$": "$.Payload.marketplaceId",
+        "easyShipOrder.$": "$.Payload.easyShipOrder"
+      }
+    },
+    "Get List Handover Slots": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${ListHandoverSlotsLambdaFunctionArn}",
+        "Payload.$": "$"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "Create Scheduled Package",
+      "ResultPath": "$",
+      "ResultSelector": {
+        "apiCredentials.$": "$.Payload.apiCredentials",
+        "amazonOrderId.$": "$.Payload.amazonOrderId",
+        "marketplaceId.$": "$.Payload.marketplaceId",
+        "easyShipOrder.$": "$.Payload.easyShipOrder",
+        "timeSlots.$": "$.Payload.timeSlots"
+      }
+    },
+    "Create Scheduled Package": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${CreateScheduledPackageLambdaFunctionArn}",
+        "Payload.$": "$"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "Get Scheduled Package",
+      "ResultPath": "$",
+      "ResultSelector": {
+        "apiCredentials.$": "$.Payload.apiCredentials",
+        "amazonOrderId.$": "$.Payload.amazonOrderId",
+        "marketplaceId.$": "$.Payload.marketplaceId",
+        "easyShipOrder.$": "$.Payload.easyShipOrder",
+        "timeSlots.$": "$.Payload.timeSlots",
+        "scheduledPackageId.$": "$.Payload.scheduledPackageId"
+      }
+    },
+    "Get Scheduled Package": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${GetScheduledPackageLambdaFunctionArn}",
+        "Payload.$": "$"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "Submit Feed Request",
+      "ResultPath": "$",
+      "ResultSelector": {
+        "apiCredentials.$": "$.Payload.apiCredentials",
+        "amazonOrderId.$": "$.Payload.amazonOrderId",
+        "marketplaceId.$": "$.Payload.marketplaceId",
+        "easyShipOrder.$": "$.Payload.easyShipOrder",
+        "timeSlots.$": "$.Payload.timeSlots",
+        "scheduledPackageId.$": "$.Payload.scheduledPackageId"
+      }
+    },
+    "Submit Feed Request": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${SubmitFeedRequestLambdaFunctionArn}",
+        "Payload.$": "$"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "Get Feed Document",
+      "ResultPath": "$",
+      "ResultSelector": {
+        "apiCredentials.$": "$.Payload.apiCredentials",
+        "amazonOrderId.$": "$.Payload.amazonOrderId",
+        "marketplaceId.$": "$.Payload.marketplaceId",
+        "easyShipOrder.$": "$.Payload.easyShipOrder",
+        "timeSlots.$": "$.Payload.timeSlots",
+        "scheduledPackageId.$": "$.Payload.scheduledPackageId",
+        "feedId.$": "$.Payload.feedId"
+      }
+    },
+    "Get Feed Document": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${GetFeedDocumentLambdaFunctionArn}",
+        "Payload.$": "$"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "Get Report Document",
+      "ResultPath": "$",
+      "ResultSelector": {
+        "apiCredentials.$": "$.Payload.apiCredentials",
+        "amazonOrderId.$": "$.Payload.amazonOrderId",
+        "marketplaceId.$": "$.Payload.marketplaceId",
+        "easyShipOrder.$": "$.Payload.easyShipOrder",
+        "timeSlots.$": "$.Payload.timeSlots",
+        "scheduledPackageId.$": "$.Payload.scheduledPackageId",
+        "feedId.$": "$.Payload.feedId",
+        "reportId.$": "$.Payload.reportId"
+      }
+    },
+    "Get Report Document": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${GetReportDocumentLambdaFunctionArn}",
+        "Payload.$": "$"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "ResultSelector": {
+        "presignedUrl.$": "$.Payload"
+      },
+      "ResultPath": "$.label.s3",
+      "Next": "Notify Label Generation"
+    },
+    "Notify Label Generation": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sns:publish",
+      "Parameters": {
+        "TopicArn": "${NotificationTopicArn}",
+        "Message": {
+          "LabelPresignedUrl.$": "$.label.s3.presignedUrl"
+        }
+      },
+      "End": true
+    }
+  }
+}
