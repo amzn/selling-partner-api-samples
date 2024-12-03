@@ -1,6 +1,6 @@
 # Automating pricing decisions and become eligible for the Featured Offer (FO) using SP-API
 
-by Katheleen G., Technical Projects Manager, Integration, Federico R., Sr. Solutions Architect, Selling Partner Developer Services, Leonardo N., Solutions Architect, Selling Partner Developer Services and Christopher K., Solutions Architect, Selling Partner Developer Services | December 10, 2023 - Updated June 21, 2024
+*by Katheleen G., Technical Projects Manager, Integration, Federico R., Sr. Solutions Architect, Selling Partner Developer Services, Leonardo N., Solutions Architect, Selling Partner Developer Services and Christopher K., Solutions Architect, Selling Partner Developer Services | December 10, 2023 - Updated June 21, 2024*
 
 Pricing is a key factor for Featured Offer (FO) eligibility on Amazon. Data has suggested that being selected as a FO can speed up sales by up to 50%. Automated pricing strategies ensure that sellers remain agile, allowing them to optimize sales and margins without constantly making manual price updates. This blog presents best practices and a well architected workflow on how developers can automate pricing decisions adjusting prices quickly and automatically against the competition.
 
@@ -11,6 +11,12 @@ When multiple sellers sell the same product, Amazon automatically consolidates t
 ### How does the FO look like and where I can check out the other offers?
 
 The FO is represented by the "Add to Cart" button. Other available offers are located below, allowing customers to select a different one if they consider it.
+
+### How an offer become eligible for the FO?
+
+There are a number of factors that affect FO eligibility. For example, seller should have a professional sales account with a good reputation and good customer service metrics.
+Products must be in stock and in new or like-new goods condition. Additionally, products with short delivery times are attractive to customers and a reason to qualify as FO.
+Finally, it’s also worth mentioning that competitive pricing is really important here: FO prices are typically lower than or equal to similar options, so sellers are more likely to update the price to a competitive price, in order to increase their chances of winning and have their offer as FO.
 
 ![Alt text](<featuredoffer.png>)
 
