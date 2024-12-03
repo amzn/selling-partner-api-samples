@@ -8,15 +8,15 @@ Pricing is a key factor for Featured Offer (FO) eligibility on Amazon. Data has 
 
 When multiple sellers sell the same product, Amazon automatically consolidates the best product data submitted from various sellers into one details page to ensure customers get the best experience avoiding different pages and information for the same product. On this single product detail page, Amazon attaches all sellers' offers, making it easier for customers to find, compare, and buy items. Additionally, Amazon selects what it considers is the best offer for the customer browsing the marketplace, based on factors like price, condition, and shipping speed. This offer, the FO, is highlighted above the "Buy Now" button in the product details page. Qualifying offers for FO can be a strategic way to increase awareness and sales potential because it will be associated with a sale button and requires fewer clicks to complete the purchase.
 
-### How does the FO look like and where I can check out the other offers?
-
-The FO is represented by the "Add to Cart" button. Other available offers are located below, allowing customers to select a different one if they consider it.
-
 ### How an offer become eligible for the FO?
 
 There are a number of factors that affect FO eligibility. For example, seller should have a professional sales account with a good reputation and good customer service metrics.
 Products must be in stock and in new or like-new goods condition. Additionally, products with short delivery times are attractive to customers and a reason to qualify as FO.
 Finally, it’s also worth mentioning that competitive pricing is really important here: FO prices are typically lower than or equal to similar options, so sellers are more likely to update the price to a competitive price, in order to increase their chances of winning and have their offer as FO.
+
+### How does the FO look like and where I can check out the other offers?
+
+The FO is represented by the "Add to Cart" button. Other available offers are located below, allowing customers to select a different one if they consider it.
 
 ![Alt text](<featuredoffer.png>)
 
