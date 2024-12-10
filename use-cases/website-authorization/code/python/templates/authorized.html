@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 30px;
+        }
+
+        p {
+            margin: 0.5rem 0;
+        }
+
+        .highlight {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4CAF50; /* Green color for emphasis */
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #f1f1f1;
+            margin: 0.5rem 0;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <p class="highlight">Thanks for authorizing the SP-API Sample App</p>
+        <p>Your marketplace participations are:</p>
+        <div class="response">
+            <ul>
+                {% for item in response.payload %}
+                <li>
+                    <strong>ID:</strong> {{ item.marketplace.id }}<br>
+                    <strong>Name:</strong> {{ item.marketplace.name }}<br>
+                    <strong>Country Code:</strong> {{ item.marketplace.countryCode }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
