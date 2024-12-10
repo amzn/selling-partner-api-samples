@@ -58,8 +58,10 @@ public class SubmitPriceHandler implements RequestHandler<PricingLambdaInputB2B,
             }
             throw new InternalError("SubmitPrice Lambda failed", e);
         }
-
-        return String.format("Finished submitting price update. New price is %f", input.getNewListingPrice().getAmount());
+        
+        //Removing the paramter as B2B have multiple prices; Business price and quantity discounts
+        //return String.format("Finished submitting price update. New price is %f", input.getNewListingPrice().getAmount());
+        return String.format("Finished submitting price update.");
     }
 
     private PurchasableOfferElement calculateB2BPurchasableOffer(List<PricingRuleB2B> pricingRules, Amount newListingPrice, String marketplaceId) {
