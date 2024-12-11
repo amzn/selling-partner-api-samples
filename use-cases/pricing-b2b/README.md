@@ -35,6 +35,9 @@ The pre-requisites for deploying the Sample Solution App to the AWS cloud are:
    * If you don't have one, you can create it following the steps  under **Usage - 2. Configure Sample Solution App's IAM user**
 * The [AWS CLI](https://aws.amazon.com/cli/)
    * If not present, it will be installed as part of the deployment script
+* [NodeJS 14.15.0 or later](https://nodejs.org/en/download/package-manager)
+  * Required by AWS CDK stack for the sample solution deployment.
+  * If not present, it will be installed as part of the deployment script.
 * [GitBash](https://git-scm.com/download/win)
    * in case you use Windows in order to run the deployment script.
 
@@ -44,6 +47,7 @@ To allow the Sample Solution App to connect to SP-API, the config file has to be
 1. Open [app.config](app/app.config) file and replace all occurrences of `<dev_value>` following the instructions below:
 2. Update `ClientId` and `ClientSecret` attribute values with [Client Id and Client Secret of the SP-API application](https://developer-docs.amazon.com/sp-api/docs/viewing-your-application-information-and-credentials) respectively
 3. Update `RefreshToken` attribute value with the refresh token of the selling partner you will be using for testing
+4. Update `RegionCode` attribute value with the region of the selling partner you will be using for testing. Valid values are `NA`, `EU`, `FE` for production usage or `NA_SANDBOX`, `EU_SANDBOX` and `FE_SANDBOX` for Sandbox testing.
 
 >Note: While updating the config file, don't leave blank spaces before and after `=`, and don't use quotation marks
 
@@ -52,21 +56,94 @@ To allow the Sample Solution App to connect to SP-API, the config file has to be
 ClientId=amzn1.application-oa2-client.abc123def456xyz789
 ClientSecret=amzn1.oa2-cs.v1.abc123def456xyz789
 RefreshToken=Atzr|Abc123def456xyz789
+RegionCode=NA_SANDBOX
 ```
 
 ### 2. Configure Sample Solution App's IAM user
-#### I. Create IAM user
-In order to execute the deployment script, an IAM user with `IAMFullAccess` permissions is needed.
-To create a new IAM user with required permissions, follow the steps below. If you already have a user with `IAMFullAccess` policy, you can skip to **Configure IAM user credentials** section
+#### I. Create IAM policy
+In order to execute the deployment script, an IAM user with the appropriate permissions is needed.
+To create a new IAM policy with the required permissions, follow the steps below.
+1. Open the [AWS console](https://console.aws.amazon.com/)
+2. Navigate to [IAM Policies console](https://us-east-1.console.aws.amazon.com/iamv2/home#/policies)
+3. Click **Create policy**
+4. Next to **Policy editor**, select **JSON** and replace the default policy with the JSON below
+5. replace with your account id as needed.
+```
+{
+ "Version": "2012-10-17",
+ "Statement": [
+     {
+         "Sid": "SPAPISampleAppIAMPolicy",
+         "Effect": "Allow",
+         "Action": [
+             "iam:CreateUser",
+             "iam:DeleteUser",
+             "iam:CreatePolicy",
+             "iam:DeletePolicy",
+             "iam:AttachUserPolicy",
+             "iam:DetachUserPolicy",
+             "iam:CreateAccessKey",
+             "iam:DeleteAccessKey",
+             "iam:GetRole",
+             "iam:CreateRole",
+             "iam:TagRole",
+             "iam:AttachRolePolicy",
+             "iam:PutRolePolicy",
+             "iam:DeleteRole",
+             "iam:DeleteRolePolicy",
+             "iam:DetachRolePolicy",
+             "iam:PassRole"
+         ],
+         "Resource": [
+             "arn:aws:iam::<aws_account_id_number>:user/*",
+             "arn:aws:iam::<aws_account_id_number>:policy/*",
+             "arn:aws:iam::<aws_account_id_number>:role/*"
+         ]
+     },
+     {
+         "Sid": "SPAPISampleAppCloudFormationPolicy",
+         "Effect": "Allow",
+         "Action": [
+             "cloudformation:*",
+             "ecr:*",
+             "ssm:*"
+         ],
+         "Resource": [
+             "arn:aws:cloudformation:us-east-1:<aws_account_id_number>:stack/CDKToolkit/*",
+             "arn:aws:ecr:us-east-1:<aws_account_id_number>:repository/cdk*",
+             "arn:aws:ssm:us-east-1:<aws_account_id_number>:parameter/cdk-bootstrap/*",
+             "arn:aws:cloudformation:us-east-1:<aws_account_id_number>:stack/sp-api-app*"
+         ]
+     },
+     {
+         "Sid": "SPAPISampleAppCloudFormationS3Policy",
+         "Effect": "Allow",
+         "Action": [
+             "s3:*"
+         ],
+         "Resource": [
+             "arn:aws:s3:::cdk*",
+             "arn:aws:s3:::sp-api-app-bucket*"
+         ]
+     }
+ ]
+}
+```
+6. Click **Next**
+7. Select a name for your policy. Take note of this value as you will need it in the next section.
+8. Review the changes and click **Create policy**
+
+#### II. Create IAM user
+To create a new IAM user with the required permissions, follow the steps below.
 1. Open the [AWS console](https://console.aws.amazon.com/)
 2. Navigate to [IAM Users console](https://us-east-1.console.aws.amazon.com/iamv2/home#/users)
-3. Click **Add users**
+3. Click **Create user**
 4. Select a name for your user
 5. In the **Set permissions** page, select **Attach policies directly**
-6. In the **Permissions policies**, search for `IAMFullAccess`. Check the policy, and click **Next**
+6. In the **Permissions policies**, search for the policy created in **I. Create IAM policy** section. Select the policy, and click **Next**
 7. Review the changes and click **Create user**
 
-#### II. Retrieve IAM user credentials
+#### III. Retrieve IAM user credentials
 Security credentials for the IAM user will be requested during the deployment script execution.
 To create a new access key pair, follow the steps below. If you already have valid access key and secret access key, you can skip this section.
 1. Open the [AWS console](https://console.aws.amazon.com/)
