@@ -1,6 +1,6 @@
 # Overview
 
-This sample solution is a web application, currently available in Python with Flask. 
+This sample solution is a web application, currently available in Python with Flask.
 In this guide, we demo how to deploy and host the solution on AWS Elastic Beanstalk platform. Alternatively, the application can be run locally and, steps and tips are provided at the end of this guide.
 
 # Solution
@@ -17,18 +17,18 @@ The pre-requisites for deploying the Sample Solution App to AWS are:
 * [Registering as a developer for SP-API](https://developer-docs.amazon.com/sp-api/docs/registering-as-a-developer), and [registering an SP-API application](https://developer-docs.amazon.com/sp-api/docs/registering-your-application).
 * An AWS account
 * An [IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) with a permissions policy to create, deploy and manage an Elastic Beanstalk deployment
-  * An example policy is provided below
+    * An example policy is provided below
 * The [AWS CLI](https://aws.amazon.com/cli/)
-  * If not present, it will be installed as part of the deployment script.
+    * If not present, it will be installed as part of the deployment script.
 * The [EB CLI](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3.html)
-  * If not present, it will be installed as part of the deployment script.
+    * If not present, it will be installed as part of the deployment script.
 * An https enabled URL to the deployed application configured as OAuth redirect URL in your application profile on Developer Portal
 * Python 3 installed
 
 # Usage
 ### 1. Update the application variables
-* In *code/python/utils/api_utils.py*, update the CLIENT_ID and CLIENT_SECRET with the values for your Developer Central application.
-* In *code/python/application.py*, update the APPLICATION_ID to the id of your application. Besides, update the SELLER_CENTRAL_URL for the marketplace you need or use a vendor central URL for vendor authorization. Check this seller [documentation](https://developer-docs.amazon.com/sp-api/docs/seller-central-urls) for a list of URLs per marketplace or the vendor central links [documentation](https://developer-docs.amazon.com/sp-api/docs/vendor-central-urls). 
+* In [constants.py](../code/python/utils/constants.py#L26), update the CLIENT_ID and CLIENT_SECRET with the values for your Developer Central application and update the APPLICATION_ID to the id of your application.
+* In [application.py](../code/python/application.py#L11), update the SELLER_VENDOR_CENTRAL_URL for the marketplace you need or use a vendor central URL for vendor authorization. Check this seller [documentation](https://developer-docs.amazon.com/sp-api/docs/seller-central-urls) for a list of URLs per marketplace or the vendor central links [documentation](https://developer-docs.amazon.com/sp-api/docs/vendor-central-urls).
 
 ### 2. Configure the IAM user
 #### I. Create IAM user
@@ -54,9 +54,9 @@ To create a new IAM user with required permissions, follow the steps below.
         "cloudwatch:*",
         "cloudformation:*",
         "s3:*",
-        "iam:PassRole",
         "logs:*",
         "cloudtrail:*",
+        "iam:*",
         "kms:Decrypt",
         "kms:Encrypt",
         "kms:GenerateDataKey",
@@ -94,14 +94,14 @@ To execute the deployment script, follow the steps below.
 3. Follow the prompts to initiate the Elastic Beanstalk environment
 
 ### 4. Configure the developer application redirect URL
-After the deployment is finished: 
+After the deployment is finished:
 1. Navigate to your Elastic Beanstalk applications view on AWS console and click on your application.
 2. Make sure the application Health status is `Ok`. If not, check Events and Logs to troubleshoot.
 3. Copy the url for the deployed web application from the Domain attribute.
 4. The URL is not HTTPS enabled and thus not suitable as an OAuth Redirect URL in the application Settings.
-   * For this reason, we can create a tiny URL for our redirect URL. The tiny URL will support https but need to be able to pass the query parameters added by Amazon. The following tiny url service can be used for free for this purpose: https://tinyurl.com/
-   The tiny url must be created for the authorization handler endpoint, i.e. Elastic Beanstalk Domain/`success`. `success` is the default redirect URL and can be changed in `application.py` as APPLICATION_REDIRECT_URI
-   * If you have a domain name registered or a certificate, you can follow this link to configure https termination: https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/configuring-https.html
+    * For this reason, we can create a tiny URL for our redirect URL. The tiny URL will support https but need to be able to pass the query parameters added by Amazon. The following tiny url service can be used for free for this purpose: https://tinyurl.com/
+      The tiny url must be created for the authorization handler endpoint, i.e. Elastic Beanstalk Domain/`success`. `success` is the default redirect URL and can be changed in [application.py](../code/python/application.py#L13) as APPLICATION_REDIRECT_URI
+    * If you have a domain name registered or a certificate, you can follow this link to configure https termination: https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/configuring-https.html
 5. Go to your application dashboard and click on `Edit App` ![image](AppEdit.png)
    Finally, scroll down to the OAuth section and add the tiny url created in step 4 ![image](OAuth-configure.png)
 6. Click on `Save and exit` to save the settings
@@ -112,7 +112,7 @@ Everything is now ready to test the authorization sample solution.
 2. If the application was deployed successfully, the landing page should be loaded and an `Authorize` button is visible
 3. Click on `Authorize`. This redirects you to Amazon's consent page (if not logged id, you need to log in to Seller Central first)
 4. Review the application and roles you are authorizing and click on `Authorize`.
-5. Amazon now redirects to the configured redirect URL (tinyURL) and the handler `success` will display the `authorized.html` page with the result from the seller marketplace participations.
+5. Amazon now redirects to the configured redirect URL (tinyURL) and the handler `success` will display the `authorized.html` page with the result from the seller marketplace participations if a seller was authorized (if a vendor is authorized, the page is displayed with an authorization message only).
 
 ## Alternative Local Deployment
 It is possible to use the sample solution without hosting it on AWS or other services. While it is not allowed to use localhost as an OAuth Redirect URL in you app configuration, a tunneling service can be used to share the app over https for testing purposes.

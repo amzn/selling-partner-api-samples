@@ -54,8 +54,10 @@
 <body>
     <div class="container">
         <p class="highlight">Thanks for authorizing the SP-API Sample App</p>
-        <p>Your marketplace participations are:</p>
+
+        {% if response.payload %}
         <div class="response">
+            <p>Your marketplace participations are:</p>
             <ul>
                 {% for item in response.payload %}
                 <li>
@@ -66,6 +68,7 @@
                 {% endfor %}
             </ul>
         </div>
+        {% endif %}
     </div>
 </body>
 
