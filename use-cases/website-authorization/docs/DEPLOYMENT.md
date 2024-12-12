@@ -91,7 +91,10 @@ To execute the deployment script, follow the steps below.
 1. Locate the deployment script for the.
     1. The file is [app/deploy.sh](../app/deploy.sh).
 2. Execute the script from your terminal. run `bash app/deploy.sh`.
-3. Follow the prompts to initiate the Elastic Beanstalk environment
+3. Follow the prompts to initiate the Elastic Beanstalk environment:
+   - You will be prompted to select the region, the application and the elastic beanstalk environment names
+   - You can type Enter through to use the default options
+   - When prompted for ssh keys, you might select N if you don't need to connect to the EC2 instances that will be created by Elastic Beanstalk
 
 ### 4. Configure the developer application redirect URL
 After the deployment is finished:
@@ -138,3 +141,8 @@ ngrok http 5000
 This provides a forwarding https link
 6. Set `https://ngrok_domain/success` from step 5 as OAuth Redirect URL in your app settings
 7. Visit the application domain and test it as previously explained
+
+### 6. Cleanup
+The application comes with a cleanup script file is [app/clean-up.sh](../app/clean-up.sh).
+
+Execute the script from your terminal by running `bash app/clean-up.sh`. 
