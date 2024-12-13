@@ -165,5 +165,3 @@ echo
 echo "In order to execute the deployment script, an IAM user with the IAM policy (see DEPLOYMENT.md) applied is needed."
 echo "Executing 'aws configure'"
 aws configure
-
-echo "Test";
