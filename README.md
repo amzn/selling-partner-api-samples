@@ -35,6 +35,7 @@ This is considered an intermediate learning resource, and should typically be re
 | [Shipping](use-cases/shipping-v2)                                | Python                   | -                                                                                                                               | Sellers                    |
 | [Solicitations](use-cases/solicitations)                         | C# / Python              | -                                                                                                                               | Sellers                    |
 | [Vendor Direct Fulfillment](use-cases/vendor-direct-fulfillment) | C#                       | [Vendor Direct Fulfillment Code Snippets](https://developer-docs.amazon.com/sp-api/docs/code-samples#vendor-direct-fulfillment) | Vendors                    |
+| [Website Authorization](use-cases/website-authorization)         | Python                       | -                                                                                                                               | Sellers and Vendors        |
 
 ## Learning Resources <a name="learning"></a>
 * [SP-API Website](https://developer.amazonservices.com)
