@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SP-API Website Authorization Sample Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 30px
+        }
+
+        button {
+            padding: 1rem 2rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .response {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        Welcome to SP-API Auth Sample Application
+        <p><a href="https://developer-docs.amazon.com/sp-api/docs/website-authorization-workflow">Read more on the website authorization workflow here</a></p>
+    </div>
+
+    <div class="container">
+        <h2>Click the Authorize button below to start the process</h1>
+        <a href="{{ url_for('redirect_oauth') }}">
+            <button>Authorize</button>
+        </a>
+    </div>
+</body>
+
+</html>
