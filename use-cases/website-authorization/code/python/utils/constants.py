@@ -1,4 +1,5 @@
 from typing import Dict
+import uuid
 
 class Constants:
     # Region configuration
@@ -25,3 +26,8 @@ class Constants:
     APPLICATION_ID = "your-app-id"
     CLIENT_ID = "your-app-client-id"
     CLIENT_SECRET = "your-app-client-secret"
+
+    # Seller/Vendor Central URL
+    SELLER_VENDOR_CENTRAL_URL = "https://sellercentral.amazon.com"
+    APP_AUTH_PATH = f"/apps/authorize/consent?application_id={APPLICATION_ID}&state={uuid.uuid4()}&version=beta"
+    APPLICATION_REDIRECT_URI = "/success"

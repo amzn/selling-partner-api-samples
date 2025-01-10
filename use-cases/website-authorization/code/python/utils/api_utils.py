@@ -45,8 +45,9 @@ class ApiUtils:
             print(str(e))
         else:
             return json_response.get('access_token')
-    
-    def _get_lwa_refresh_token(self, spapi_oauth_code):
+
+    @staticmethod
+    def get_lwa_refresh_token(spapi_oauth_code):
         code_exchange_grant_type = "authorization_code"
         url = Constants.LWA_ENDPOINT
         http = urllib3.PoolManager()

@@ -27,8 +27,7 @@ The pre-requisites for deploying the Sample Solution App to AWS are:
 
 # Usage
 ### 1. Update the application variables
-* In [constants.py](../code/python/utils/constants.py#L26), update the CLIENT_ID and CLIENT_SECRET with the values for your Developer Central application and update the APPLICATION_ID to the id of your application.
-* In [application.py](../code/python/application.py#L11), update the SELLER_VENDOR_CENTRAL_URL for the marketplace you need or use a vendor central URL for vendor authorization. Check this seller [documentation](https://developer-docs.amazon.com/sp-api/docs/seller-central-urls) for a list of URLs per marketplace or the vendor central links [documentation](https://developer-docs.amazon.com/sp-api/docs/vendor-central-urls).
+* In [utils/constants.py](../code/python/utils/constants.py#L26), update the CLIENT_ID and CLIENT_SECRET with the values for your Developer Central application and update the APPLICATION_ID to the id of your application. Also update the SELLER_VENDOR_CENTRAL_URL for the marketplace you need or use a vendor central URL for vendor authorization. Check this seller [documentation](https://developer-docs.amazon.com/sp-api/docs/seller-central-urls) for a list of URLs per marketplace or the vendor central links [documentation](https://developer-docs.amazon.com/sp-api/docs/vendor-central-urls).
 
 ### 2. Configure the IAM user
 #### I. Create IAM user
@@ -101,9 +100,9 @@ After the deployment is finished:
 1. Navigate to your Elastic Beanstalk applications view on AWS console and click on your application.
 2. Make sure the application Health status is `Ok`. If not, check Events and Logs to troubleshoot.
 3. Copy the url for the deployed web application from the Domain attribute.
-4. The URL is not HTTPS enabled and thus not suitable as an OAuth Redirect URL in the application Settings.
+4. The URL is not HTTPS enabled and thus not suitable as an OAuth Redirect URL in the application settings.
     * For this reason, we can create a tiny URL for our redirect URL. The tiny URL will support https but need to be able to pass the query parameters added by Amazon. The following tiny url service can be used for free for this purpose: https://tinyurl.com/
-      The tiny url must be created for the authorization handler endpoint, i.e. Elastic Beanstalk Domain/`success`. `success` is the default redirect URL and can be changed in [application.py](../code/python/application.py#L13) as APPLICATION_REDIRECT_URI
+    * The tiny url must be created for the authorization handler endpoint, i.e. Elastic Beanstalk Domain/`success`. `success` is the default redirect URL and can be changed in [utils/constants.py](../code/python/application.py#L13) as APPLICATION_REDIRECT_URI
     * If you have a domain name registered or a certificate, you can follow this link to configure https termination: https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/configuring-https.html
 5. Go to your application dashboard and click on `Edit App` ![image](AppEdit.png)
    Finally, scroll down to the OAuth section and add the tiny url created in step 4 ![image](OAuth-configure.png)
