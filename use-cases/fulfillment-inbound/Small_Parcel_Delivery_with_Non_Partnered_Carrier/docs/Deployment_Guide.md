@@ -8,7 +8,7 @@ solution that integrates with Amazon's Fulfillment Inbound API (v2024).
 The solution utilizes the following AWS Services:
 
 * [Step Functions](https://aws.amazon.com/step-functions/) state machine with a fully functional Fulfillment Inbound
-  v2024 SPS PCP Workflow.
+  v2024 SPD nPCP Workflow.
 * [Lambda Functions](https://aws.amazon.com/lambda/) that support each of the steps of the state machine. Each Lambda
   function represents an API Operation.
 * [Simple Notification Service (SNS)](https://aws.amazon.com/sns/) to notify below,
