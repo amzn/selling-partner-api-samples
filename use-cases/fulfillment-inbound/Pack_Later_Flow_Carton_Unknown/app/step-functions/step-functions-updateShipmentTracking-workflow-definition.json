@@ -1,0 +1,96 @@
+{
+  "Comment": "Update a shipment's tracking details state machine",
+  "StartAt": "updateShipmentTrackingDetails",
+  "States": {
+    "updateShipmentTrackingDetails": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${UpdateShipmentTrackingDetailsLambdaFunctionArn}",
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "inboundPlanId.$": "$.updateShipmentTrackingRequest.inboundPlanId",
+          "shipmentId.$": "$.updateShipmentTrackingRequest.shipmentId",
+          "freightBillNumber.$": "$.updateShipmentTrackingRequest.freightBillNumber"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "updateShipmentTrackingOperationStatus",
+      "ResultSelector": {
+        "operationId.$": "$.Payload.operationId"
+      },
+      "ResultPath": "$.updateShipmentTrackingResult"
+    },
+    "updateShipmentTrackingOperationStatus": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${OperationStatusLambdaFunctionArn}",
+        "Payload": {
+          "apiCredentials.$": "$.apiCredentials",
+          "operationId.$": "$.updateShipmentTrackingResult.operationId"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException",
+            "Lambda.TooManyRequestsException"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2
+        }
+      ],
+      "ResultSelector": {
+        "operationStatus.$": "$.Payload.operationStatus",
+        "operationProblems.$": "$.Payload.operationProblems"
+      },
+      "ResultPath": "$.updateShipmentTrackingOperationStatus",
+      "Next": "updateShipmentTrackingOperationStatusCheck"
+    },
+    "updateShipmentTrackingOperationStatusCheck": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.updateShipmentTrackingOperationStatus.operationStatus",
+          "StringEquals": "FAILED",
+          "Next": "updateShipmentTrackingOperationStatusFail"
+        },
+        {
+          "Variable": "$.updateShipmentTrackingOperationStatus.operationStatus",
+          "StringEquals": "IN_PROGRESS",
+          "Next": "updateShipmentTrackingOperationStatusInProgress"
+        }
+      ],
+      "Default": "updateShipmentTrackingOperationSuccess"
+    },
+    "updateShipmentTrackingOperationStatusFail": {
+      "Type": "Fail",
+      "ErrorPath": "$.updateShipmentTrackingOperationStatus.operationStatus",
+      "CausePath": "$.updateShipmentTrackingOperationStatus.operationProblems"
+    },
+    "updateShipmentTrackingOperationSuccess": {
+      "Type": "Succeed"
+    },
+    "updateShipmentTrackingOperationStatusInProgress": {
+      "Type": "Wait",
+      "Seconds": 30,
+      "Next": "updateShipmentTrackingOperationStatus"
+    }
+  }
+}
