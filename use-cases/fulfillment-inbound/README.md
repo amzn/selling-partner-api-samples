@@ -11,6 +11,8 @@ ensuring interoperability and ease of use.
   Detailed documentation on API endpoints, request/response structures, and error handling.
 - [Fulfillment Inbound API v2024-03-20 Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/fulfillment-inbound-api-v2024-03-20-use-case-guide):
   Practical examples and scenarios to help you implement the API effectively.
+- [Fulfillment Inbound API v2024-03-20 Code Samples](https://developer-docs.amazon.com/sp-api/docs/fulfillment-inbound-api-v2024-03-20-code-samples):
+  Postman Collections and Code samples to aid with integration to the Fulfillment Inbound API v 2024-03-20.
 
 ## Sample Solution
 
@@ -20,6 +22,7 @@ of two business use-cases:
 
 - [Small Parcel Delivery (SPD) with Amazon Partnered Carrier (PCP)](https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/fulfillment-inbound/Small_Parcel_Delivery_with_Amazon_Partnered_Carrier)
 - [Small Parcel Delivery (SPD) with Non-Partnered Carrier (nPCP)](https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/fulfillment-inbound/Small_Parcel_Delivery_with_Non_Partnered_Carrier)
+- [Pallet Delivery (LTL/FTL) with Pack Later Flow (Carton Unknown Upfront)](https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/fulfillment-inbound/Pack_Later_Flow_Carton_Unknown)
 
 ## Workflow
 
@@ -46,6 +49,19 @@ This workflow is suited for businesses that prefer using their own transportatio
 - **Delivery Window and Transportation Carrier Selection:** Choose a delivery window, then select a non-partnered
   carrier for small parcel delivery.
 - **Shipping Details and Labels:** Provide comprehensive shipping details and generate FBA box labels.
+- **Update Tracking:** Update Amazon with the tracking information provided by your carrier for seamless tracking and
+  management.
+
+### 3. Pallet Delivery (LTL/FTL) with Pack Later Flow (Carton Unknown Upfront):
+
+This workflow is suited for businesses that doesn't know their carton information upfront and want to ship pallets using their own transportation carriers. The workflow includes:
+
+- **Inbound Plan Creation:** Similar to the Small Parcel workflows, create inbound plans with defined SKU items.
+- **Placement Selection:** Generate, list and choose the cheapest placement option.
+- **Packing Selection:** Provide information related to what items will be packed into boxes per shipment.
+- **Delivery Window and Transportation Carrier Selection:** Choose a delivery window, then select a non-partnered
+  carrier for pallet (LTL/FTL) delivery.
+- **Shipping Details and Labels:** Provide comprehensive shipping details and generate FBA box/pallet labels.
 - **Update Tracking:** Update Amazon with the tracking information provided by your carrier for seamless tracking and
   management.
 
