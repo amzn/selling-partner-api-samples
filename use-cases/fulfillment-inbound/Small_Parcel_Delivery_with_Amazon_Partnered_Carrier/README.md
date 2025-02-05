@@ -8,6 +8,7 @@ If you haven't already, we recommend you to navigate the following resources:
 
 - [Fulfillment Inbound API v2024-03-20 Reference](https://developer-docs.amazon.com/sp-api/docs/fulfillment-inbound-api-v2024-03-20-reference)
 - [Fulfillment Inbound API v2024-03-20 Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/fulfillment-inbound-api-v2024-03-20-use-case-guide)
+- [Fulfillment Inbound API v2024-03-20 Code Samples](https://developer-docs.amazon.com/sp-api/docs/fulfillment-inbound-api-v2024-03-20-code-samples)
 
 ## Sample Solution
 
