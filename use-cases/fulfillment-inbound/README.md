@@ -79,16 +79,17 @@ To effectively implement the Fulfillment Inbound v2024 API and leverage the samp
 
     - [Small_Parcel_Delivery_with_Amazon_Partnered_Carrier](https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/fulfillment-inbound/Small_Parcel_Delivery_with_Amazon_Partnered_Carrier)
     - [Small_Parcel_Delivery_with_Non_Partnered_Carrier](https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/fulfillment-inbound/Small_Parcel_Delivery_with_Non_Partnered_Carrier)
+    - [Pallet Delivery (LTL/FTL) with Pack Later Flow (Carton Unknown Upfront)](https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/fulfillment-inbound/Pack_Later_Flow_Carton_Unknown)
 
 ## Postman Collections
 
-In this [postman workspace](https://www.postman.com/galactic-rocket-691225/selling-partner-api-for-fulfillment-inbound-fba-v2024/overview), you see 6 postman collections covering end-to-end workflows for below use-cases:
+To help test operations, you can use [Postman collections](https://documenter.getpostman.com/view/39510786/2sAYQWKDdW). These Postman collections include requests and responses that you can use to experiment with various endpoints and functionalities.
 
-1. Small Parcel Delivery (SPD) with Amazon-Partnered Carrier (PCP)
-2. Small Parcel Delivery (SPD) with Non-Partnered Carrier (nPCP)
-3. Pallets (LTL/FTL) with Amazon Partnered Carrier (PCP)
-4. Pallets (LTL/FTL) with Non-Partnered Carriers (nPCP)
-5. No Carton Information Upfront - Pallets (Non-Partnered Carrier)
-6. Fetch Inbound Plan Details - GET Operations
+[Small Parcel Delivery (SPD) with an Amazon-partnered carrier (PCP)](https://documenter.getpostman.com/view/39505772/2sAYQWKDdU)
+[Small Parcel Delivery (SPD) with a non-partnered carrier (nPCP)](https://documenter.getpostman.com/view/39505772/2sAYQWKDdV)
+[Pallets (LTL/FTL) with an Amazon-partnered carrier (PCP)](https://documenter.getpostman.com/view/39505772/2sAYQWKDdS)
+[Pallets (LTL/FTL) with non-partnered carriers (nPCP)](https://documenter.getpostman.com/view/39505772/2sAYQWKDdT)
+[Pallet deliveries with the Pack Later option](https://documenter.getpostman.com/view/39505772/2sAYQWKDdR)
+[Retrieve inbound plan details](https://documenter.getpostman.com/view/39505772/2sAYQWKDZ9)
 
 
