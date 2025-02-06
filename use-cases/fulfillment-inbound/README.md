@@ -85,11 +85,11 @@ To effectively implement the Fulfillment Inbound v2024 API and leverage the samp
 
 To help test operations, you can use [Postman collections](https://documenter.getpostman.com/view/39510786/2sAYQWKDdW). These Postman collections include requests and responses that you can use to experiment with various endpoints and functionalities.
 
-[Small Parcel Delivery (SPD) with an Amazon-partnered carrier (PCP)](https://documenter.getpostman.com/view/39505772/2sAYQWKDdU)
-[Small Parcel Delivery (SPD) with a non-partnered carrier (nPCP)](https://documenter.getpostman.com/view/39505772/2sAYQWKDdV)
-[Pallets (LTL/FTL) with an Amazon-partnered carrier (PCP)](https://documenter.getpostman.com/view/39505772/2sAYQWKDdS)
-[Pallets (LTL/FTL) with non-partnered carriers (nPCP)](https://documenter.getpostman.com/view/39505772/2sAYQWKDdT)
-[Pallet deliveries with the Pack Later option](https://documenter.getpostman.com/view/39505772/2sAYQWKDdR)
-[Retrieve inbound plan details](https://documenter.getpostman.com/view/39505772/2sAYQWKDZ9)
+- [Small Parcel Delivery (SPD) with an Amazon-partnered carrier (PCP)](https://documenter.getpostman.com/view/39505772/2sAYQWKDdU)
+- [Small Parcel Delivery (SPD) with a non-partnered carrier (nPCP)](https://documenter.getpostman.com/view/39505772/2sAYQWKDdV)
+- [Pallets (LTL/FTL) with an Amazon-partnered carrier (PCP)](https://documenter.getpostman.com/view/39505772/2sAYQWKDdS)
+- [Pallets (LTL/FTL) with non-partnered carriers (nPCP)](https://documenter.getpostman.com/view/39505772/2sAYQWKDdT)
+- [Pallet deliveries with the Pack Later option](https://documenter.getpostman.com/view/39505772/2sAYQWKDdR)
+- [Retrieve inbound plan details](https://documenter.getpostman.com/view/39505772/2sAYQWKDZ9)
 
 
