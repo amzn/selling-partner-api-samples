@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" fill="none">
+    <!-- Background -->
+    <rect width="800" height="600" fill="#f0f2f5"/>
+    
+    <!-- Card Container -->
+    <rect x="100" y="50" width="600" height="450" rx="10" fill="white" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.1))"/>
+    
+    <!-- Header Section -->
+    <rect x="100" y="50" width="600" height="60" rx="10" fill="#f8fafc"/>
+    <text x="130" y="90" font-family="Arial" font-size="20" font-weight="bold" fill="#1e293b">
+        Partner Details
+    </text>
+
+    <!-- Partner Information Grid -->
+    <g transform="translate(130, 140)">
+        <!-- Partner ID -->
+        <text font-family="Arial" font-size="14" fill="#64748b">Partner ID</text>
+        <rect x="0" y="20" width="250" height="35" rx="6" fill="#f1f5f9"/>
+        <text x="10" y="42" font-family="Arial" font-size="14" fill="#334155">
+            PRTNR-12345-ABC
+        </text>
+        
+        <!-- Status -->
+        <text x="280" y="0" font-family="Arial" font-size="14" fill="#64748b">Status</text>
+        <rect x="280" y="20" width="120" height="28" rx="14" fill="#dcfce7"/>
+        <text x="340" y="38" font-family="Arial" font-size="13" fill="#166534" text-anchor="middle">
+            AUTHORIZED
+        </text>
+
+        <!-- Type -->
+        <text x="0" y="80" font-family="Arial" font-size="14" fill="#64748b">Type</text>
+        <rect x="0" y="100" width="250" height="35" rx="6" fill="#f1f5f9"/>
+        <text x="10" y="122" font-family="Arial" font-size="14" fill="#334155">
+            Seller
+        </text>
+
+        <!-- Region -->
+        <text x="280" y="80" font-family="Arial" font-size="14" fill="#64748b">Region</text>
+        <rect x="280" y="100" width="250" height="35" rx="6" fill="#f1f5f9"/>
+        <text x="290" y="122" font-family="Arial" font-size="14" fill="#334155">
+            North America (NA)
+        </text>
+
+        <!-- Last Token Refresh -->
+        <text x="0" y="160" font-family="Arial" font-size="14" fill="#64748b">Last Token Refresh</text>
+        <rect x="0" y="180" width="250" height="35" rx="6" fill="#f1f5f9"/>
+        <text x="10" y="202" font-family="Arial" font-size="14" fill="#334155">
+            2024-03-20 14:30:00 UTC
+        </text>
+
+        <!-- Marketplace -->
+        <text x="280" y="160" font-family="Arial" font-size="14" fill="#64748b">Marketplace</text>
+        <rect x="280" y="180" width="250" height="35" rx="6" fill="#f1f5f9"/>
+        <text x="290" y="202" font-family="Arial" font-size="14" fill="#334155">
+            United States (US)
+        </text>
+    </g>
+
+    <!-- Action Buttons Section -->
+    <g transform="translate(130, 400)">
+        <!-- Reauthorize Button -->
+        <rect width="160" height="40" rx="20" fill="#0ea5e9" class="button-primary"/>
+        <text x="80" y="25" font-family="Arial" font-size="14" fill="white" text-anchor="middle">
+            Reauthorize
+        </text>
+        
+      
+    </g>
+
+   
+    <!-- Hover Effects (CSS would be better, but showing visual state) -->
+    <g opacity="0">
+        <!-- Hover state for Reauthorize button -->
+        <rect x="130" y="400" width="160" height="40" rx="20" fill="#0284c7"/>
+        <!-- Hover state for other buttons -->
+        <rect x="310" y="400" width="160" height="40" rx="20" fill="#e2e8f0"/>
+        <rect x="490" y="400" width="160" height="40" rx="20" fill="#e2e8f0"/>
+    </g>
+</svg>
