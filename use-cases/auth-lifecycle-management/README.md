@@ -45,6 +45,12 @@ The SP-API integration architecture manages two distinct but interconnected auth
 * Manages inactive authorizations with timely reminders
 * Processes authorization revocations efficiently
 
+```  
+Tenant: A seller or vendor who authorizes a public developer to access the Selling Partner API (SP-API) on their behalf.
+Each tenant represents an independent business entity that grants permission for the application to interact with their
+Amazon selling account data.
+```
+
 
 These two lifecycles operate in tandem to ensure security compliance while facilitating reliable API access for connected selling partners. Each API request combines the application's client credentials with tenant-specific tokens to authenticate properly with Amazon SP-API.
 
