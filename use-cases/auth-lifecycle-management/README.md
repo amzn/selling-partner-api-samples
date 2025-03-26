@@ -10,14 +10,12 @@ This comprehensive guide explores the various aspects of SP-API authorization li
 
 ## Key Topics Covered:
 
-
-
-* Authorization architectures and patterns
-* Multiple authorization flows (Self-Auth, Website, and App Store)
-* Credential management and rotation
-* Security best practices and compliance requirements
-* Serverless implementation approaches
-* Monitoring and maintenance strategies
+* **Authorization Architecture Components**: Understanding the dual lifecycle management of app client credentials and tenant-specific authorizations
+* **Authorization Flow Types**: Implementing self-authorization, OAuth website flow, and App Store integration patterns
+* **Grantless Operations**: Leveraging scope-based API access for infrastructure management without tenant authorization
+* **Credential Security**: Managing secure storage, rotation, and notification systems for client secrets and tokens
+* **Serverless Implementation**: Building resilient, scalable authorization systems using AWS services (Lambda, DynamoDB, API Gateway)
+* **Lifecycle Monitoring**: Tracking authorization status, managing revocations, and implementing inactivity reminders
 
 Throughout this article, we'll examine both theoretical concepts and practical implementations, providing you with actionable insights for building resilient SP-API integrations. We'll also explore real-world scenarios and common challenges, equipping you with the knowledge to handle various authorization scenarios effectively.
 
@@ -56,6 +54,28 @@ These two lifecycles operate in tandem to ensure security compliance while facil
 
 ![Auth Architecture](./frontend/img/sp-api-auth-workflow.svg)
 
+## Website and App Store Authorization Flows in SP-API Architecture
+
+SP-API supports two primary multi-tenant authorization methods to initiate Tenant Authorization:
+
+### Website Authorization Flow
+
+* Standard OAuth 2.0 redirect-based flow for web applications
+* Supports both seller and vendor account integrations
+* Process:
+  1. Application initiates OAuth flow initiated from developer's applications
+  2. Partner grants permission on Amazon's consent page
+  3. Application exchanges authorization code for refresh/access tokens
+
+### App Store Authorization Flow
+
+* Designed specifically for applications listed in the Amazon Marketplace Appstore
+* Streamlines seller onboarding through Amazon's ecosystem
+* Process:
+  1. Seller authorize your application from the Appstore
+  2. Amazon handles authorization consent during initialization
+  3. Your application receives and processes authorization details automatically
+
 
 ## Self-Authorization: A Special Case in SP-API Authorization
 
@@ -78,6 +98,16 @@ Self-authorization is a distinct approach to SP-API authorization where your app
 * Building custom internal tools for managing your own Amazon selling business
 * Development and testing environment before implementing full multi-tenant support
 * Single-account applications where accessing multiple seller accounts isn't required
+
+### Authorization Flow Comparison
+
+| Feature | Website Auth | App Store Auth | Self Auth |
+|---------|-------------|----------------|-----------|
+| Target | Direct integrations | Appstore applications | Your own account |
+| OAuth Flow | Complete redirect flow | Handled by Appstore | No OAuth needed |
+| Partner Type | Sellers and Vendors | Sellers only | Your seller/vendor account |
+| Setup Complexity | Medium | Low (after Appstore approval) | Lowest |
+| Discovery | Your own channels | Amazon Appstore | N/A |
 
 ### Implementation Considerations
 
