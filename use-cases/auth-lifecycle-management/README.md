@@ -104,7 +104,7 @@ Self-authorization is a distinct approach to SP-API authorization where your app
 | Feature | Website Auth | App Store Auth | Self Auth |
 |---------|-------------|----------------|-----------|
 | Target | All Public Applications | Appstore applications | Your own account |
-| OAuth Flow | Complete redirect flow | Handled by Appstore | No OAuth needed |
+| OAuth Flow | Initiated From Applications | Initiated From Appstore | No OAuth needed |
 | Partner Type | Sellers and Vendors | Sellers only | Your seller/vendor account |
 | Setup Complexity | Medium | Low (after Appstore approval) | Lowest |
 | Discovery | Your own channels | Amazon Appstore | N/A |
