@@ -53,6 +53,7 @@ A comprehensive sample application for managing Amazon Selling Partner API autho
   - Self Authorization
 - Client Secret rotation and management
 - Partner Authorization status tracking
+- Reauthorization to refresh permissions
 - Restricted Data Token (RDT) generation
 - Authorization Revocation
 
