@@ -212,15 +212,13 @@ The event-driven design enables the system to respond to both user actions and A
 By eliminating server management and leveraging managed AWS services, this solution provides a scalable, secure foundation for SP-API integration that can accommodate anywhere from a few partners to enterprise-scale deployments.
 
 
-After reviewing your project files and the blog post, I'll create a suitable ending that wraps up the key points while providing actionable next steps for readers interested in SP-API authorization lifecycle management.
-
 ## Conclusion: Building a Sustainable SP-API Integration Strategy
 
 Implementing robust authorization lifecycle management for SP-API is essential for any organization building Amazon SP-API integrations. Throughout this guide, we've explored the various authorization patterns, security considerations, and implementation approaches that form the foundation of a reliable SP-API integration.
 
 ### Key Takeaways
 
-1. **Separation of Concerns**: Understanding the distinction between app client lifecycle and tenant authorization lifecycle creates clearer architecture and more maintainable code.
+1. **Separation of Concerns**: Understanding the distinction between App Client lifecycle and tenant seller/vendor authorization lifecycle creates clearer architecture and more maintainable code.
 
 2. **Multiple Authorization Flows**: Supporting self-authorization, OAuth website flow, and App Store integration provides flexibility to meet diverse business requirements.
 
@@ -232,9 +230,9 @@ Implementing robust authorization lifecycle management for SP-API is essential f
 
 ### Getting Started
 
-The sample implementation provided in this repository offers a starting point for building your own SP-API authorization management system. By deploying the CDK stack, you'll have a functional foundation that handles:
+The [sample implementation](/QuickStart) provided in this repository offers a starting point for building your own SP-API authorization management system. By deploying the CDK stack, you'll have a functional foundation that handles:
 
-- Partner registration and management
+- Tenant Seller/Vendor registration and management
 - OAuth flow implementation for all authorization types
 - Secure storage of credentials and tokens
 - Client secret rotation via SQS notifications
@@ -242,6 +240,6 @@ The sample implementation provided in this repository offers a starting point fo
 - Status management with inactivity tracking and reminders
 
 
-By taking a comprehensive approach to SP-API authorization lifecycle management, you'll build more reliable, secure, and scalable SP-API integrations that can grow with your business needs. Whether you're supporting a handful of accounts or thousands of partners, the foundation principles and serverless architecture described in this guide provide a path to successful SP-API integration.
+By taking a comprehensive approach to SP-API authorization lifecycle management, you'll build more reliable, secure, and scalable SP-API integrations that can grow with your business needs. Whether you're supporting a handful of accounts or thousands of sellers/vendors, the foundation principles and serverless architecture described in this guide provide a path to successful SP-API integration.
 
 We hope this guide helps you navigate the complexities of SP-API authorization and build integration solutions that deliver long-term value for your organization and your customers.
