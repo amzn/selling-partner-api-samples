@@ -230,7 +230,7 @@ Implementing robust authorization lifecycle management for SP-API is essential f
 
 ### Getting Started
 
-The [sample implementation](/QuickStart) provided in this repository offers a starting point for building your own SP-API authorization management system. By deploying the CDK stack, you'll have a functional foundation that handles:
+The [sample implementation](QuickStart.md) provided in this repository offers a starting point for building your own SP-API authorization management system. By deploying the CDK stack, you'll have a functional foundation that handles:
 
 - Tenant Seller/Vendor registration and management
 - OAuth flow implementation for all authorization types
