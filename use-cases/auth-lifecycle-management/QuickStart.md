@@ -354,9 +354,8 @@ async function rotateSecret(partnerId) {
 The "Setup Notifications" button configures your SQS queue for credential-related notifications:
 
 ### Prerequisites
-1. Amazon SQS queue must be created
+1. Amazon SQS queue must be created. [Learn how to setup SQS for SP-API notification](https://developer-docs.amazon.com/sp-api/docs/notifications-api-v1-use-case-guide)
 2. Proper permissions granted to SP-API (Principal: 437568002678)
-3. Queue ARN registered in Developer Console
 
 **IMPORTANT:** Before initiating secret rotation, you must manually subscribe to notifications in the Developer Portal. There is no API available for subscription setup for rotating client secret.
 
