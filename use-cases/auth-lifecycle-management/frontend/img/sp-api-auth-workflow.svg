@@ -51,7 +51,7 @@
      font-weight="500"
      text-anchor="middle"
      fill="#4b5563"
-     id="text3">Client Credentials and Tenant Authorization</text>
+     id="text3">App Client Credentials and Tenant Seller/Vendor Authorization</text>
   <!-- Lifecycle Containers -->
   <g
      id="g89"
@@ -105,7 +105,7 @@
        font-weight="600"
        text-anchor="middle"
        fill="#1e40af"
-       id="text5">Tenant Authorization Lifecycle</text>
+       id="text5">Tenant Seller/Vendor Authorization Lifecycle</text>
     <line
        x1="540"
        y1="170"
@@ -1252,7 +1252,7 @@
      font-weight="600"
      text-anchor="middle"
      fill="#1e40af"
-     id="text89">Relationship Between Client and Tenant Authentication</text>
+     id="text89">Relationship Between App Client and Tenant Authorization</text>
   <!-- Single Client Credentials Box -->
   <rect
      x="205.5"
@@ -1358,7 +1358,7 @@
      text-anchor="middle"
      fill="#1e40af"
      id="text96">Tenant C Authorization</text>
-  <!-- Key Authentication Concepts Note -->
+  <!-- Key Authorization Concepts Note -->
   <rect
      x="30.53458"
      y="1319.3252"
@@ -1379,7 +1379,7 @@
      font-size="16px"
      font-weight="700"
      fill="#1e40af"
-     id="text97">Key Authentication Concepts</text>
+     id="text97">Key Authorization Concepts</text>
   <text
      x="50.500004"
      y="1367.3516"
