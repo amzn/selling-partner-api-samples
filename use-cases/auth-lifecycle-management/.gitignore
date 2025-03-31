@@ -1,0 +1,10 @@
+!jest.config.js
+*.d.ts
+node_modules
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+
+# ignore frontend index
+/frontend/index.html

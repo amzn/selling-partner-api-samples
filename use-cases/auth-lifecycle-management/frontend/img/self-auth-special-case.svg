@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="212.25156mm"
+   height="112.0012mm"
+   viewBox="0 0 212.25156 112.0012"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
+   sodipodi:docname="self-auth-special-case.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.87"
+     inkscape:cx="506.32184"
+     inkscape:cy="10.91954"
+     inkscape:window-width="1696"
+     inkscape:window-height="1022"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-0.1188787,-56.499155)">
+    <rect
+       x="0.1188787"
+       y="57.125942"
+       width="211.6248"
+       height="111.37441"
+       fill="#f0fdf4"
+       rx="1.3226551"
+       ry="1.8562402"
+       stroke="#22c55e"
+       stroke-width="1.25352"
+       stroke-opacity="1"
+       stroke-dasharray="0, 0, 300, 800"
+       id="rect100" />
+    <text
+       x="5.3896232"
+       y="63.290585"
+       font-family="Inter, sans-serif"
+       font-size="4.23333px"
+       font-weight="700"
+       fill="#15803d"
+       id="text101"
+       style="stroke-width:0.264583">Self-Authorization: Special Case</text>
+    <rect
+       x="5.3896232"
+       y="67.523903"
+       width="97.895836"
+       height="58.208332"
+       fill="#ffffff"
+       rx="2.1166666"
+       ry="2.1166666"
+       id="rect101"
+       style="stroke-width:0.264583" />
+    <text
+       x="54.33754"
+       y="72.815575"
+       font-family="Inter, sans-serif"
+       font-size="3.70417px"
+       font-weight="600"
+       text-anchor="middle"
+       fill="#166534"
+       id="text102"
+       style="stroke-width:0.264583">Standard Multi-Tenant Model</text>
+    <rect
+       x="108.57712"
+       y="67.523903"
+       width="97.895836"
+       height="58.208332"
+       fill="#ffffff"
+       rx="2.1166666"
+       ry="2.1166666"
+       id="rect102"
+       style="stroke-width:0.264583" />
+    <text
+       x="157.52504"
+       y="72.815575"
+       font-family="Inter, sans-serif"
+       font-size="3.70417px"
+       font-weight="600"
+       text-anchor="middle"
+       fill="#166534"
+       id="text103"
+       style="stroke-width:0.264583">Self-Authorization Model</text>
+    <rect
+       x="37.215759"
+       y="78.107246"
+       width="33.628933"
+       height="7.9375"
+       fill="#ede9fe"
+       rx="2.017736"
+       ry="1.5875"
+       id="rect103"
+       style="stroke-width:0.298289" />
+    <text
+       x="54.33754"
+       y="83.398903"
+       font-family="Inter, sans-serif"
+       font-size="3.175px"
+       font-weight="600"
+       text-anchor="middle"
+       fill="#5b21b6"
+       id="text104"
+       style="stroke-width:0.264583">Your App Client</text>
+    <rect
+       x="53.808372"
+       y="88.690575"
+       width="1.0583333"
+       height="7.9375"
+       fill="#7c3aed"
+       id="rect104"
+       style="stroke-width:0.264583" />
+    <rect
+       x="30.525042"
+       y="99.273903"
+       width="21.166666"
+       height="7.9375"
+       fill="#dbeafe"
+       rx="1.5875"
+       ry="1.5875"
+       id="rect105"
+       style="stroke-width:0.264583" />
+    <text
+       x="41.108368"
+       y="104.56557"
+       font-family="Inter, sans-serif"
+       font-size="3.175px"
+       font-weight="500"
+       text-anchor="middle"
+       fill="#1e40af"
+       id="text105"
+       style="stroke-width:0.264583">Tenant A</text>
+    <rect
+       x="56.983368"
+       y="99.273903"
+       width="21.166666"
+       height="7.9375"
+       fill="#dbeafe"
+       rx="1.5875"
+       ry="1.5875"
+       id="rect106"
+       style="stroke-width:0.264583" />
+    <text
+       x="67.566704"
+       y="104.56557"
+       font-family="Inter, sans-serif"
+       font-size="3.175px"
+       font-weight="500"
+       text-anchor="middle"
+       fill="#1e40af"
+       id="text106"
+       style="stroke-width:0.264583">Tenant B</text>
+    <text
+       x="54.33754"
+       y="112.50307"
+       font-family="Inter, sans-serif"
+       font-size="3.175px"
+       text-anchor="middle"
+       fill="#4b5563"
+       id="text107"
+       style="stroke-width:0.264583">Access multiple tenant resources</text>
+    <rect
+       x="140.813"
+       y="78.107246"
+       width="34.243553"
+       height="7.9375"
+       fill="#ede9fe"
+       rx="2.0546134"
+       ry="1.5875"
+       id="rect107"
+       style="stroke-width:0.301003" />
+    <text
+       x="158.0542"
+       y="83.398903"
+       font-family="Inter, sans-serif"
+       font-size="3.175px"
+       font-weight="600"
+       text-anchor="middle"
+       fill="#5b21b6"
+       id="text108"
+       style="stroke-width:0.264583">Your App Client</text>
+    <rect
+       x="156.99586"
+       y="88.690575"
+       width="1.0583333"
+       height="7.9375"
+       fill="#7c3aed"
+       id="rect108"
+       style="stroke-width:0.264583" />
+    <rect
+       x="144.29587"
+       y="99.273903"
+       width="26.458332"
+       height="7.9375"
+       fill="#dbeafe"
+       rx="1.5875"
+       ry="1.5875"
+       id="rect109"
+       style="stroke-width:0.264583" />
+    <text
+       x="157.52504"
+       y="104.56557"
+       font-family="Inter, sans-serif"
+       font-size="3.175px"
+       font-weight="500"
+       text-anchor="middle"
+       fill="#1e40af"
+       id="text109"
+       style="stroke-width:0.264583">Own Account</text>
+    <text
+       x="157.52504"
+       y="112.50307"
+       font-family="Inter, sans-serif"
+       font-size="3.175px"
+       text-anchor="middle"
+       fill="#4b5563"
+       id="text110"
+       style="stroke-width:0.264583">Access only your own account's resources</text>
+    <text
+       x="5.3896232"
+       y="131.02393"
+       font-family="Inter, sans-serif"
+       font-size="3.70417px"
+       font-weight="700"
+       fill="#166534"
+       id="text111"
+       style="stroke-width:0.264583">Self-authorization</text>
+    <text
+       x="44.018784"
+       y="131.02393"
+       font-family="Inter, sans-serif"
+       font-size="3.70417px"
+       fill="#4b5563"
+       id="text112"
+       style="stroke-width:0.264583">is when your application uses a refresh token associated with your own Seller/Vendor</text>
+    <text
+       x="5.3896232"
+       y="136.31558"
+       font-family="Inter, sans-serif"
+       font-size="3.70417px"
+       fill="#4b5563"
+       id="text113"
+       style="stroke-width:0.264583">account. In this case, your app can only access data from your own account, not from other tenant accounts.</text>
+    <circle
+       cx="8.0354548"
+       cy="147.42807"
+       r="0.79374999"
+       fill="#4b5563"
+       id="circle113"
+       style="stroke-width:0.264583" />
+    <text
+       x="10.681287"
+       y="148.75101"
+       font-family="Inter, sans-serif"
+       font-size="3.70417px"
+       fill="#4b5563"
+       id="text114"
+       style="stroke-width:0.264583">Custom internal tools for managing your own seller/vendor business</text>
+    <circle
+       cx="8.0354548"
+       cy="154.04266"
+       r="0.79374999"
+       fill="#4b5563"
+       id="circle114"
+       style="stroke-width:0.264583" />
+    <text
+       x="10.681287"
+       y="155.36557"
+       font-family="Inter, sans-serif"
+       font-size="3.70417px"
+       fill="#4b5563"
+       id="text115"
+       style="stroke-width:0.264583">Developers testing API integration before implementing multi-tenant support</text>
+    <circle
+       cx="8.0354548"
+       cy="160.65726"
+       r="0.79374999"
+       fill="#4b5563"
+       id="circle115"
+       style="stroke-width:0.264583" />
+    <text
+       x="10.681287"
+       y="161.98016"
+       font-family="Inter, sans-serif"
+       font-size="3.70417px"
+       fill="#4b5563"
+       id="text116"
+       style="stroke-width:0.264583">Single-account scenarios where your app doesn't need to access other seller/vendor accounts</text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.70417px;font-family:Inter, sans-serif;-inkscape-font-specification:'Inter, sans-serif';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#4b5563;fill-opacity:1;stroke-width:0.264583"
+       x="5.1902633"
+       y="142.15347"
+       id="text127"><tspan
+         sodipodi:role="line"
+         id="tspan127"
+         x="5.1902633"
+         y="142.15347"
+         style="stroke-width:0.264583">This approach is typically used for:</tspan></text>
+  </g>
+</svg>

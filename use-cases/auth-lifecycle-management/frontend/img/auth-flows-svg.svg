@@ -1,0 +1,843 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 900 1200"
+   width="900"
+   height="1200"
+   version="1.1"
+   id="svg68"
+   sodipodi:docname="auth-flows-svg.svg"
+   inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview68"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.4707369"
+     inkscape:cx="540.88531"
+     inkscape:cy="504.16903"
+     inkscape:window-width="2048"
+     inkscape:window-height="968"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg68" />
+  <!-- Background -->
+  <rect
+     width="900"
+     height="1223.1177"
+     fill="#ffffff"
+     id="rect1"
+     x="0"
+     y="0"
+     style="stroke-width:1.00959" />
+  <!-- Title -->
+  <text
+     x="450"
+     y="40"
+     font-family="Arial, sans-serif"
+     font-size="24px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#333333"
+     id="text1">SP-API Authorization Flows</text>
+  <!-- Headers -->
+  <rect
+     x="50"
+     y="60"
+     width="390"
+     height="70"
+     rx="5"
+     ry="5"
+     fill="#e6f0ff"
+     id="rect2" />
+  <text
+     x="245"
+     y="95"
+     font-family="Arial, sans-serif"
+     font-size="20px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#0052cc"
+     id="text2">Standard SP-API Authorization</text>
+  <text
+     x="245"
+     y="115"
+     font-family="Arial, sans-serif"
+     font-size="14"
+     text-anchor="middle"
+     fill="#444444"
+     id="text3">Requires tenant-specific authorization</text>
+  <rect
+     x="460"
+     y="60"
+     width="390"
+     height="70"
+     rx="5"
+     ry="5"
+     fill="#e6ffee"
+     id="rect3" />
+  <text
+     x="655"
+     y="95"
+     font-family="Arial, sans-serif"
+     font-size="20px"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#00802b"
+     id="text4">Grantless SP-API Authorization</text>
+  <text
+     x="655"
+     y="115"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     text-anchor="middle"
+     fill="#444444"
+     id="text5">Works with App Client credentials only</text>
+  <!-- Step 1 -->
+  <circle
+     cx="450"
+     cy="170"
+     r="22"
+     fill="#555555"
+     id="circle5" />
+  <text
+     x="450"
+     y="178"
+     font-family="Arial, sans-serif"
+     font-size="20"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text6">1</text>
+  <text
+     x="490"
+     y="178"
+     font-family="Arial, sans-serif"
+     font-size="18"
+     font-weight="bold"
+     fill="#333333"
+     id="text7">Start With</text>
+  <rect
+     x="50"
+     y="200"
+     width="390"
+     height="140"
+     rx="5"
+     ry="5"
+     fill="#e6f0ff"
+     stroke="#b3d1ff"
+     stroke-width="2"
+     id="rect7" />
+  <rect
+     x="70"
+     y="220"
+     width="350"
+     height="80"
+     rx="3"
+     ry="3"
+     fill="#ffffff"
+     id="rect8" />
+  <text
+     x="80"
+     y="240"
+     font-family="Courier, monospace"
+     font-size="14"
+     fill="#333333"
+     id="text8">Application Client ID</text>
+  <text
+     x="80"
+     y="260"
+     font-family="Courier, monospace"
+     font-size="14"
+     fill="#333333"
+     id="text9">Application Client Secret</text>
+  <text
+     x="80"
+     y="280"
+     font-family="Courier, monospace"
+     font-size="14"
+     font-weight="bold"
+     fill="#0066cc"
+     id="text10">+ Selling Partner Refresh Token</text>
+  <text
+     x="78"
+     y="316"
+     font-family="Arial, sans-serif"
+     font-size="12px"
+     font-style="italic"
+     fill="#555555"
+     id="text11">Requires prior authorization from the selling partner</text>
+  <rect
+     x="460"
+     y="200"
+     width="390"
+     height="140"
+     rx="5"
+     ry="5"
+     fill="#e6ffee"
+     stroke="#b3e6cc"
+     stroke-width="2"
+     id="rect11" />
+  <rect
+     x="480"
+     y="220"
+     width="350"
+     height="80"
+     rx="3"
+     ry="3"
+     fill="#ffffff"
+     id="rect12" />
+  <text
+     x="490"
+     y="240"
+     font-family="Courier, monospace"
+     font-size="14"
+     fill="#333333"
+     id="text12">Application Client ID</text>
+  <text
+     x="490"
+     y="260"
+     font-family="Courier, monospace"
+     font-size="14"
+     fill="#333333"
+     id="text13">Application Client Secret</text>
+  <text
+     x="490"
+     y="280"
+     font-family="Courier, monospace"
+     font-size="14"
+     font-weight="bold"
+     fill="#00802b"
+     id="text14">+ Scope Parameter</text>
+  <text
+     x="488"
+     y="312"
+     font-family="Courier, monospace"
+     font-size="12px"
+     font-style="italic"
+     fill="#555555"
+     id="text15">(e.g., sellingpartnerapi::notifications)</text>
+  <text
+     x="490"
+     y="330"
+     font-family="Arial, sans-serif"
+     font-size="12"
+     font-style="italic"
+     fill="#555555"
+     id="text16">No selling partner authorization needed</text>
+  <!-- Arrows -->
+  <path
+     d="M 245 360 L 245 400"
+     stroke="#0066cc"
+     stroke-width="3"
+     fill="none"
+     marker-end="url(#arrowBlue)"
+     id="path16" />
+  <path
+     d="M 655 360 L 655 400"
+     stroke="#00802b"
+     stroke-width="3"
+     fill="none"
+     marker-end="url(#arrowGreen)"
+     id="path17" />
+  <!-- Arrow markers -->
+  <defs
+     id="defs19">
+    <marker
+       id="arrowBlue"
+       markerWidth="10"
+       markerHeight="10"
+       refX="9"
+       refY="3"
+       orient="auto"
+       markerUnits="strokeWidth">
+      <path
+         d="M0,0 L0,6 L9,3 z"
+         fill="#0066cc"
+         id="path18" />
+    </marker>
+    <marker
+       id="arrowGreen"
+       markerWidth="10"
+       markerHeight="10"
+       refX="9"
+       refY="3"
+       orient="auto"
+       markerUnits="strokeWidth">
+      <path
+         d="M0,0 L0,6 L9,3 z"
+         fill="#00802b"
+         id="path19" />
+    </marker>
+  </defs>
+  <!-- Step 2 -->
+  <circle
+     cx="450"
+     cy="420"
+     r="22"
+     fill="#555555"
+     id="circle19" />
+  <text
+     x="450"
+     y="428"
+     font-family="Arial, sans-serif"
+     font-size="20"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text19">2</text>
+  <text
+     x="490"
+     y="428"
+     font-family="Arial, sans-serif"
+     font-size="18"
+     font-weight="bold"
+     fill="#333333"
+     id="text20">Token Exchange</text>
+  <rect
+     x="50.031357"
+     y="450.03137"
+     width="389.93729"
+     height="191.49611"
+     rx="4.9991961"
+     ry="5.3193364"
+     fill="#e6f0ff"
+     stroke="#b3d1ff"
+     stroke-width="2.06271"
+     id="rect20" />
+  <rect
+     x="70"
+     y="470"
+     width="350"
+     height="152.23877"
+     rx="3"
+     ry="3.2622592"
+     fill="#ffffff"
+     id="rect21"
+     style="stroke-width:1.04279" />
+  <text
+     x="80"
+     y="490"
+     font-family="Courier, monospace"
+     font-size="13"
+     fill="#333333"
+     id="text21">POST https://api.amazon.com/auth/o2/token</text>
+  <text
+     x="80"
+     y="515"
+     font-family="Courier, monospace"
+     font-size="13"
+     fill="#333333"
+     id="text22">Body: {</text>
+  <text
+     x="100"
+     y="535"
+     font-family="Courier, monospace"
+     font-size="13"
+     fill="#333333"
+     id="text23">&quot;grant_type&quot;: &quot;<tspan
+   font-weight="bold"
+   fill="#0066cc"
+   id="tspan22">refresh_token</tspan>&quot;,</text>
+  <text
+     x="100"
+     y="555"
+     font-family="Courier, monospace"
+     font-size="13"
+     fill="#333333"
+     id="text24">&quot;refresh_token&quot;: &quot;Atzr|Iw...&quot;,</text>
+  <text
+     x="100"
+     y="575"
+     font-family="Courier, monospace"
+     font-size="13px"
+     fill="#333333"
+     id="text25">&quot;client_id&quot;: &quot;amzn1.application-oa2...&quot;,</text>
+  <text
+     x="100"
+     y="595"
+     font-family="Courier, monospace"
+     font-size="13"
+     fill="#333333"
+     id="text26">&quot;client_secret&quot;: &quot;abcd1234...&quot;</text>
+  <text
+     x="80"
+     y="615"
+     font-family="Courier, monospace"
+     font-size="13"
+     fill="#333333"
+     id="text27">}</text>
+  <rect
+     x="460.13681"
+     y="450.03683"
+     width="392.77139"
+     height="192.20494"
+     rx="5.035531"
+     ry="5.3390255"
+     fill="#e6ffee"
+     stroke="#b3e6cc"
+     stroke-width="2.07406"
+     id="rect27" />
+  <rect
+     x="480"
+     y="470"
+     width="350"
+     height="152.23877"
+     rx="3"
+     ry="3.2622592"
+     fill="#ffffff"
+     id="rect28"
+     style="stroke-width:1.04279" />
+  <text
+     x="490"
+     y="490"
+     font-family="Courier, monospace"
+     font-size="13"
+     fill="#333333"
+     id="text28">POST https://api.amazon.com/auth/o2/token</text>
+  <text
+     x="490"
+     y="515"
+     font-family="Courier, monospace"
+     font-size="13"
+     fill="#333333"
+     id="text29">Body: {</text>
+  <text
+     x="490"
+     y="535"
+     font-family="Courier, monospace"
+     font-size="13px"
+     fill="#333333"
+     id="text30">&quot;grant_type&quot;: &quot;<tspan
+   font-weight="bold"
+   fill="#00802b"
+   id="tspan29">client_credentials</tspan>&quot;,</text>
+  <text
+     x="490"
+     y="555"
+     font-family="Courier, monospace"
+     font-size="13px"
+     fill="#333333"
+     id="text31">&quot;scope&quot;:&quot;sellingpartnerapi::notifications&quot;,</text>
+  <text
+     x="490"
+     y="575"
+     font-family="Courier, monospace"
+     font-size="13px"
+     fill="#333333"
+     id="text32">&quot;client_id&quot;: &quot;amzn1.application-oa2...&quot;,</text>
+  <text
+     x="490"
+     y="595"
+     font-family="Courier, monospace"
+     font-size="13px"
+     fill="#333333"
+     id="text33">&quot;client_secret&quot;: &quot;abcd1234...&quot;</text>
+  <text
+     x="490"
+     y="615"
+     font-family="Courier, monospace"
+     font-size="13"
+     fill="#333333"
+     id="text34">}</text>
+  <!-- Arrows -->
+  <path
+     d="m 245,668 v 40"
+     stroke="#0066cc"
+     stroke-width="3"
+     fill="none"
+     marker-end="url(#arrowBlue)"
+     id="path34" />
+  <path
+     d="m 655,668 v 40"
+     stroke="#00802b"
+     stroke-width="3"
+     fill="none"
+     marker-end="url(#arrowGreen)"
+     id="path35" />
+  <!-- Step 3 -->
+  <circle
+     cx="450"
+     cy="710"
+     r="22"
+     fill="#555555"
+     id="circle35" />
+  <text
+     x="450"
+     y="718"
+     font-family="Arial, sans-serif"
+     font-size="20"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text35">3</text>
+  <text
+     x="490"
+     y="718"
+     font-family="Arial, sans-serif"
+     font-size="18"
+     font-weight="bold"
+     fill="#333333"
+     id="text36">Received Token</text>
+  <rect
+     x="50.078671"
+     y="740.07867"
+     width="389.84265"
+     height="162.96031"
+     rx="4.997983"
+     ry="5.8200116"
+     fill="#e6f0ff"
+     stroke="#b3d1ff"
+     stroke-width="2.15734"
+     id="rect36" />
+  <rect
+     x="70"
+     y="760"
+     width="350"
+     height="109.23705"
+     rx="3"
+     ry="4.0963893"
+     fill="#ffffff"
+     id="rect37"
+     style="stroke-width:1.16853" />
+  <text
+     x="80"
+     y="780"
+     font-family="Courier, monospace"
+     font-size="14"
+     fill="#333333"
+     id="text37">{</text>
+  <text
+     x="100"
+     y="800"
+     font-family="Courier, monospace"
+     font-size="14"
+     fill="#333333"
+     id="text38">&quot;access_token&quot;: &quot;Atza|IwE...&quot;,</text>
+  <text
+     x="100"
+     y="820"
+     font-family="Courier, monospace"
+     font-size="14"
+     fill="#333333"
+     id="text39">&quot;token_type&quot;: &quot;bearer&quot;,</text>
+  <text
+     x="100"
+     y="840"
+     font-family="Courier, monospace"
+     font-size="14"
+     fill="#333333"
+     id="text40">&quot;expires_in&quot;: 3600</text>
+  <text
+     x="80"
+     y="860"
+     font-family="Courier, monospace"
+     font-size="14"
+     fill="#333333"
+     id="text41">}</text>
+  <text
+     x="80"
+     y="889.32007"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     font-weight="bold"
+     fill="#0066cc"
+     id="text42">Contains tenant context (selling partner identity)</text>
+  <rect
+     x="460.07867"
+     y="740.07867"
+     width="389.84265"
+     height="162.96031"
+     rx="4.997983"
+     ry="5.8200116"
+     fill="#e6ffee"
+     stroke="#b3e6cc"
+     stroke-width="2.15734"
+     id="rect42" />
+  <rect
+     x="480"
+     y="760"
+     width="350"
+     height="109.91698"
+     rx="3"
+     ry="4.1218867"
+     fill="#ffffff"
+     id="rect43"
+     style="stroke-width:1.17216" />
+  <text
+     x="490"
+     y="780"
+     font-family="Courier, monospace"
+     font-size="14"
+     fill="#333333"
+     id="text43">{</text>
+  <text
+     x="510"
+     y="800"
+     font-family="Courier, monospace"
+     font-size="14"
+     fill="#333333"
+     id="text44">&quot;access_token&quot;: &quot;Atza|IwE...&quot;,</text>
+  <text
+     x="510"
+     y="820"
+     font-family="Courier, monospace"
+     font-size="14"
+     fill="#333333"
+     id="text45">&quot;token_type&quot;: &quot;bearer&quot;,</text>
+  <text
+     x="510"
+     y="840"
+     font-family="Courier, monospace"
+     font-size="14"
+     fill="#333333"
+     id="text46">&quot;expires_in&quot;: 3600</text>
+  <text
+     x="490"
+     y="860"
+     font-family="Courier, monospace"
+     font-size="14"
+     fill="#333333"
+     id="text47">}</text>
+  <text
+     x="490"
+     y="888"
+     font-family="Arial, sans-serif"
+     font-size="14px"
+     font-weight="bold"
+     fill="#00802b"
+     id="text48">Contains application context only (no seller identity)</text>
+  <!-- Arrows -->
+  <path
+     d="m 244.32007,923.71801 v 40"
+     stroke="#0066cc"
+     stroke-width="3"
+     fill="none"
+     marker-end="url(#arrowBlue)"
+     id="path48" />
+  <path
+     d="m 655,922 v 40"
+     stroke="#00802b"
+     stroke-width="3"
+     fill="none"
+     marker-end="url(#arrowGreen)"
+     id="path49" />
+  <!-- Step 4 -->
+  <circle
+     cx="450"
+     cy="960"
+     r="22"
+     fill="#555555"
+     id="circle49" />
+  <text
+     x="450"
+     y="968"
+     font-family="Arial, sans-serif"
+     font-size="20"
+     font-weight="bold"
+     text-anchor="middle"
+     fill="#ffffff"
+     id="text49">4</text>
+  <text
+     x="490"
+     y="968"
+     font-family="Arial, sans-serif"
+     font-size="18"
+     font-weight="bold"
+     fill="#333333"
+     id="text50">API Call</text>
+  <rect
+     x="50.142532"
+     y="990.14252"
+     width="389.71494"
+     height="195.95026"
+     rx="4.9963455"
+     ry="6.5316753"
+     fill="#e6f0ff"
+     stroke="#b3d1ff"
+     stroke-width="2.28506"
+     id="rect50" />
+  <rect
+     x="70"
+     y="1010"
+     width="350"
+     height="100"
+     rx="3"
+     ry="3"
+     fill="#ffffff"
+     id="rect51" />
+  <text
+     x="80"
+     y="1030"
+     font-family="Courier, monospace"
+     font-size="12px"
+     fill="#333333"
+     id="text51">GET https://.../orders/v0/orders</text>
+  <text
+     x="80"
+     y="1055"
+     font-family="Courier, monospace"
+     font-size="12"
+     fill="#333333"
+     id="text52">Headers: {</text>
+  <text
+     x="100"
+     y="1075"
+     font-family="Courier, monospace"
+     font-size="12"
+     fill="#333333"
+     id="text53">&quot;x-amz-access-token&quot;: &quot;Atza|IwE...&quot;</text>
+  <text
+     x="80"
+     y="1095"
+     font-family="Courier, monospace"
+     font-size="12"
+     fill="#333333"
+     id="text54">}</text>
+  <rect
+     x="70"
+     y="1120"
+     width="350"
+     height="60"
+     rx="3"
+     ry="3"
+     fill="#e6f0ff"
+     id="rect54" />
+  <text
+     x="95"
+     y="1140"
+     font-family="Arial, sans-serif"
+     font-size="12"
+     font-weight="bold"
+     fill="#0066cc"
+     id="text55">Access to partner-specific data:</text>
+  <text
+     x="105"
+     y="1157"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#444444"
+     id="text56">• Orders API</text>
+  <text
+     x="195"
+     y="1157"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#444444"
+     id="text57">• Inventory API</text>
+  <text
+     x="105"
+     y="1172"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#444444"
+     id="text58">• Fulfillment API</text>
+  <text
+     x="195"
+     y="1172"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#444444"
+     id="text59">• Any seller-specific operations</text>
+  <rect
+     x="460.14255"
+     y="990.14252"
+     width="389.71494"
+     height="195.95026"
+     rx="4.9963455"
+     ry="6.5316753"
+     fill="#e6ffee"
+     stroke="#b3e6cc"
+     stroke-width="2.28506"
+     id="rect59" />
+  <rect
+     x="480"
+     y="1010"
+     width="350"
+     height="100"
+     rx="3"
+     ry="3"
+     fill="#ffffff"
+     id="rect60" />
+  <text
+     x="490"
+     y="1030"
+     font-family="Courier, monospace"
+     font-size="12px"
+     fill="#333333"
+     id="text60">POST https://.../notifications/v1/destinations</text>
+  <text
+     x="490"
+     y="1055"
+     font-family="Courier, monospace"
+     font-size="12"
+     fill="#333333"
+     id="text61">Headers: {</text>
+  <text
+     x="510"
+     y="1075"
+     font-family="Courier, monospace"
+     font-size="12"
+     fill="#333333"
+     id="text62">&quot;x-amz-access-token&quot;: &quot;Atza|IwE...&quot;</text>
+  <text
+     x="490"
+     y="1095"
+     font-family="Courier, monospace"
+     font-size="12"
+     fill="#333333"
+     id="text63">}</text>
+  <rect
+     x="480"
+     y="1120"
+     width="350"
+     height="60"
+     rx="3"
+     ry="3"
+     fill="#e6ffee"
+     id="rect63" />
+  <text
+     x="505"
+     y="1140"
+     font-family="Arial, sans-serif"
+     font-size="12"
+     font-weight="bold"
+     fill="#00802b"
+     id="text64">Access to app-level operations:</text>
+  <text
+     x="515"
+     y="1157"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#444444"
+     id="text65">• Notification management</text>
+  <text
+     x="515"
+     y="1172"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#444444"
+     id="text66">• Client secret rotation</text>
+  <text
+     x="705"
+     y="1157"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#444444"
+     id="text67">• Application-level config</text>
+  <text
+     x="705"
+     y="1172"
+     font-family="Arial, sans-serif"
+     font-size="11"
+     fill="#444444"
+     id="text68">• Infrastructure setup</text>
+</svg>

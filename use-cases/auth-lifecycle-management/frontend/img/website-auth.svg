@@ -1,0 +1,31 @@
+<!-- Website Auth View -->
+<svg width="600" height="460" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100%" height="100%" fill="#f3f4f6"/>
+    <!-- Form Container -->
+    <rect x="20" y="20" width="560" height="420" fill="white" rx="8"/>
+    <text x="40" y="50" font-family="Arial" font-size="20" font-weight="600">Create New Partner</text>
+    
+    <!-- Name Field -->
+    <text x="40" y="90" font-family="Arial" font-size="14">Name</text>
+    <rect x="40" y="100" width="520" height="36" fill="#fff" stroke="#e5e7eb" rx="4"/>
+    <text x="50" y="124" font-family="Arial" font-size="14" fill="#666">Enter partner name</text>
+    
+    <!-- Auth Method Field -->
+    <text x="40" y="160" font-family="Arial" font-size="14">Authorization Method</text>
+    <rect x="40" y="170" width="520" height="36" fill="#fff" stroke="#e5e7eb" rx="4"/>
+    <text x="50" y="194" font-family="Arial" font-size="14" fill="#000">Website Auth</text>
+    
+    <!-- Type Field -->
+    <text x="40" y="230" font-family="Arial" font-size="14">Type</text>
+    <rect x="40" y="240" width="520" height="36" fill="#fff" stroke="#e5e7eb" rx="4"/>
+    <text x="50" y="264" font-family="Arial" font-size="14" fill="#666">Select Type</text>
+    
+    <!-- Region Field -->
+    <text x="40" y="300" font-family="Arial" font-size="14">Region</text>
+    <rect x="40" y="310" width="520" height="36" fill="#fff" stroke="#e5e7eb" rx="4"/>
+    <text x="50" y="334" font-family="Arial" font-size="14" fill="#666">Select Region</text>
+
+    <!-- Create Button -->
+    <rect x="40" y="370" width="150" height="36" fill="#3b82f6" rx="4"/>
+    <text x="65" y="394" font-family="Arial" font-size="14" fill="white">Create Partner</text>
+</svg>

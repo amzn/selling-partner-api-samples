@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SP-API Partner Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-8">SP-API Partner Management</h1>
+       <!-- Root Credentials Management -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-semibold">Update Root Credentials</h2>
+                <button id="toggleCredentialsForm" class="text-blue-500 hover:text-blue-700">
+                    <span class="expand-icon">+</span>
+                    <span class="collapse-icon hidden">-</span>
+                </button>
+            </div>
+            <div id="credentialsFormContent" class="hidden mt-4">
+                <form id="updateCredentialsForm" class="space-y-4">
+                    <div>
+                        <label class="block mb-1">Application ID</label>
+                        <input type="text" name="applicationId" required class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Client ID</label>
+                        <input type="text" name="clientId" required class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Client Secret</label>
+                        <input type="password" name="clientSecret" required class="w-full p-2 border rounded">
+                    </div>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                        Update Credentials
+                    </button>
+                </form>
+                <div id="updateCredentialsResult" class="mt-4"></div>
+            </div>
+        </div>
+
+       <!-- Create Partner Form -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-xl font-semibold mb-4">Create New Partner</h2>
+            <form id="createPartnerForm" class="space-y-4">
+                <div>
+                    <label class="block mb-1">Name</label>
+                    <input type="text" name="name" required class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block mb-1">Authorization Method</label>
+                    <select name="authType" required class="w-full p-2 border rounded" id="authType">
+                        <option value="">Select Authorization Method</option>
+                        <option value="oauth">Website Auth</option>
+                        <option value="self">Self Auth</option>
+                        <option value="appstore">App Store Auth</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-1">Type</label>
+                    <select name="type" required class="w-full p-2 border rounded" id="partnerType">
+                        <option value="">Select Type</option>
+                        <option value="seller">Seller</option>
+                        <option value="vendor">Vendor</option>
+                    </select>
+                </div>
+
+                <!-- Dynamic fields for self-auth -->
+                <div id="selfAuthFields" class="space-y-4 hidden">
+                    <div>
+                        <label class="block mb-1">Refresh Token</label>
+                        <input type="text" name="refresh_token" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Client ID</label>
+                        <input type="text" name="client_id" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label class="block mb-1">Client Secret</label>
+                        <input type="password" name="client_secret" class="w-full p-2 border rounded">
+                    </div>
+                </div>
+
+                <div id="regionFields">
+                    <div>
+                        <label class="block mb-1">Region</label>
+                        <select name="region" required class="w-full p-2 border rounded" id="regionSelect">
+                            <option value="">Select Region</option>
+                        </select>
+                    </div>
+                    <div class="mt-4">
+                        <label class="block mb-1">Marketplace</label>
+                        <select name="marketplace" required class="w-full p-2 border rounded" id="marketplaceSelect">
+                            <option value="">Select Marketplace</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="appstoreModeToggle" class="mt-4 hidden">
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" id="betaMode" class="form-checkbox">
+                        <span>Beta Mode</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    Create Partner
+                </button>
+            </form>
+        </div>
+
+
+        <!-- Partners List with Empty State -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">Partners</h2>
+                <button onclick="fetchPartners()" class="text-blue-500 hover:text-blue-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                </button>
+            </div>
+            <div id="partnersList" class="space-y-4">
+                <!-- Partners will be inserted here -->
+            </div>
+            <!-- Empty state message -->
+            <div id="emptyState" class="hidden text-center py-8">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                <p class="mt-2 text-sm text-gray-500">No partners found</p>
+                <p class="text-sm text-gray-500">Create a new partner to get started</p>
+            </div>
+            <!-- Error state message -->
+            <div id="errorState" class="hidden">
+                <div class="bg-red-50 p-4 rounded-md">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-red-800">Unable to load partners</h3>
+                            <div class="mt-2 text-sm text-red-700">
+                                <p>Please try again later or contact support if the problem persists.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_ENDPOINT = '${API_ENDPOINT}'; // Replace with your API Gateway URL
+
+       // Remove the hardcoded REGIONS constant and add:
+        let REGIONS = {}; // Will be populated from backend
+
+          // Add these new functions before the fetchPartners function
+  // Check for existing credentials on page load
+        async function checkExistingCredentials() {
+            try {
+                const response = await fetch(`${API_ENDPOINT}config`);
+                const data = await response.json();
+                
+                if (data.applicationId) {
+                    // Hide form by default if credentials exist
+                    document.getElementById('credentialsFormContent').classList.add('hidden');
+                    document.querySelector('.expand-icon').classList.remove('hidden');
+                    document.querySelector('.collapse-icon').classList.add('hidden');
+                } else {
+                    // Show form if no credentials exist
+                    document.getElementById('credentialsFormContent').classList.remove('hidden');
+                    document.querySelector('.expand-icon').classList.add('hidden');
+                    document.querySelector('.collapse-icon').classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Error checking credentials:', error);
+            }
+        }
+
+        // Toggle credentials form visibility
+        document.getElementById('toggleCredentialsForm').addEventListener('click', () => {
+            const content = document.getElementById('credentialsFormContent');
+            const expandIcon = document.querySelector('.expand-icon');
+            const collapseIcon = document.querySelector('.collapse-icon');
+            
+            content.classList.toggle('hidden');
+            expandIcon.classList.toggle('hidden');
+            collapseIcon.classList.toggle('hidden');
+        });
+
+        async function setupNotifications(partnerId) {
+            const buttonElement = document.getElementById(`notification-button-${partnerId}`);
+            const resultElement = document.getElementById(`notification-result-${partnerId}`);
+            
+            try {
+                buttonElement.disabled = true;
+                buttonElement.innerHTML = 'Setting up...';
+                resultElement.innerHTML = '<p class="text-gray-500">Setting up notifications...</p>';
+                
+                const response = await fetch(`${API_ENDPOINT}partners/${partnerId}/notifications/setup`, {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultElement.innerHTML = `
+                        <div class="mt-2 p-2 bg-green-50 border border-green-200 rounded">
+                            <p class="text-green-700">Notifications configured successfully</p>
+                            <p class="text-sm text-green-600">Destination ID: ${data.destinationId}</p>
+                            <p class="text-xs text-gray-600 mt-1">${data.message}</p>
+                        </div>
+                    `;
+                } else {
+                    throw new Error(data.error || 'Failed to setup notifications');
+                }
+            } catch (error) {
+                resultElement.innerHTML = `
+                    <div class="mt-2 p-2 bg-red-50 border border-red-200 rounded">
+                        <p class="text-red-700">Error: ${error.message}</p>
+                    </div>
+                `;
+            } finally {
+                buttonElement.disabled = false;
+                buttonElement.innerHTML = 'Setup Notifications';
+            }
+        }
+
+        async function rotateSecret(partnerId) {
+            const buttonElement = document.getElementById(`rotate-secret-button-${partnerId}`);
+            const resultElement = document.getElementById(`rotate-secret-result-${partnerId}`);
+            
+            try {
+                buttonElement.disabled = true;
+                buttonElement.innerHTML = 'Rotating...';
+                resultElement.innerHTML = '<p class="text-gray-500">Initiating secret rotation...</p>';
+                
+                const response = await fetch(`${API_ENDPOINT}partners/${partnerId}/credentials/rotate`, {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    resultElement.innerHTML = `
+                        <div class="mt-2 p-2 bg-green-50 border border-green-200 rounded">
+                            <p class="text-green-700">Secret rotation initiated successfully</p>
+                            <p class="text-sm text-green-600">Please wait for the notification with new secret details</p>
+                        </div>
+                    `;
+                } else {
+                    const data = await response.json();
+                    throw new Error(data.error || 'Failed to rotate secret');
+                }
+            } catch (error) {
+                resultElement.innerHTML = `
+                    <div class="mt-2 p-2 bg-red-50 border border-red-200 rounded">
+                        <p class="text-red-700">Error: ${error.message}</p>
+                    </div>
+                `;
+            } finally {
+                buttonElement.disabled = false;
+                buttonElement.innerHTML = 'Rotate Secret';
+            }
+        }
+
+        function getSecretExpiryStatus(expiryTime) {
+            if (!expiryTime) return null;
+            
+            const now = new Date();
+            const expiry = new Date(expiryTime);
+            const daysUntilExpiry = Math.floor((expiry - now) / (1000 * 60 * 60 * 24));
+            
+            if (daysUntilExpiry <= 7) {
+                return {
+                    status: 'critical',
+                    message: `Expires in ${daysUntilExpiry} days!`,
+                    class: 'bg-red-100 text-red-800'
+                };
+            } else if (daysUntilExpiry <= 30) {
+                return {
+                    status: 'warning',
+                    message: `Expires in ${daysUntilExpiry} days`,
+                    class: 'bg-yellow-100 text-yellow-800'
+                };
+            }
+            return {
+                status: 'ok',
+                message: `Expires in ${daysUntilExpiry} days`,
+                class: 'bg-green-100 text-green-800'
+            };
+        }
+
+        // Update the partner element HTML generation in fetchPartners function
+        // Inside the fetchPartners function, update the partner card template to include new features
+        // Add this after the Status Information section and before the Test Results section:
+
+        
+        // Add function to fetch config on page load
+        async function initializeConfig() {
+            try {
+                const response = await fetch(`${API_ENDPOINT}config`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch configuration');
+                }
+                const config = await response.json();
+                
+                 // Debug log
+        console.log('Received config:', config);
+        console.log('Regions structure:', config.regions);
+
+                // Store the config globally
+                REGIONS = config.regions;
+                window.APPLICATION_ID = config.applicationId;
+                
+                // Initialize the form
+                populateRegions();
+            } catch (error) {
+                console.error('Error initializing config:', error);
+                alert('Failed to load configuration. Please refresh the page.');
+            }
+        }
+
+
+         // Form elements
+        const authTypeSelect = document.getElementById('authType');
+        const selfAuthFields = document.getElementById('selfAuthFields');
+        const regionFields = document.getElementById('regionFields');
+        const partnerTypeSelect = document.getElementById('partnerType');
+        const regionSelect = document.getElementById('regionSelect');
+        const marketplaceSelect = document.getElementById('marketplaceSelect');
+
+        // Handle auth type changes
+        authTypeSelect.addEventListener('change', function() {
+            const authType = this.value;
+            
+            // Toggle self auth fields visibility
+            selfAuthFields.classList.toggle('hidden', authType !== 'self');
+            
+            // Toggle beta mode selection visibility
+            document.getElementById('appstoreModeToggle').classList.toggle('hidden', authType !== 'appstore');
+            
+            // Update required attributes for self auth fields
+            const selfAuthInputs = selfAuthFields.querySelectorAll('input');
+            selfAuthInputs.forEach(input => {
+                input.required = (authType === 'self');
+            });
+        });
+
+        // Populate regions select
+        function populateRegions() {
+            regionSelect.innerHTML = '<option value="">Select Region</option>';
+            Object.entries(REGIONS).forEach(([code, region]) => {
+                const option = document.createElement('option');
+                option.value = code;
+                option.textContent = region.name;
+                regionSelect.appendChild(option);
+            });
+        }
+
+       // Updated updateMarketplaces function
+        function updateMarketplaces(regionCode) {
+            marketplaceSelect.innerHTML = '<option value="">Select Marketplace</option>';
+            
+            if (REGIONS[regionCode] && REGIONS[regionCode].marketplaces) {
+                Object.entries(REGIONS[regionCode].marketplaces).forEach(([code, marketplaceData]) => {
+                    const option = document.createElement('option');
+                    option.value = code;
+                    option.textContent = marketplaceData.name;
+                    marketplaceSelect.appendChild(option);
+                });
+            }
+        }
+
+        // Create new partner
+        async function createPartner(formData) {
+            try {
+                const authType = formData.get('authType');
+                let endpoint = `${API_ENDPOINT}partners`;
+                let body;
+                let headers = {};
+
+                if (authType === 'self') {
+                    // For self-auth, include both credentials and region/marketplace
+                    headers['Content-Type'] = 'application/json';
+                    body = JSON.stringify({
+                        name: formData.get('name'),
+                        type: formData.get('type'),
+                        authType: 'self',
+                        region: formData.get('region'),
+                        marketplace: formData.get('marketplace'),
+                        credentials: {
+                            refreshToken: formData.get('refresh_token'),
+                            clientId: formData.get('client_id'),
+                            clientSecret: formData.get('client_secret')
+                        }
+                    });
+                } else {
+                    // For OAuth and App Store, use JSON
+                    headers['Content-Type'] = 'application/json';
+                    body = JSON.stringify({
+                        name: formData.get('name'),
+                        type: formData.get('type'),
+                        authType: authType,
+                        region: formData.get('region'),
+                        marketplace: formData.get('marketplace')
+                    });
+                }
+
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: headers,
+                    body: body
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to create partner');
+                }
+                
+                const partner = await response.json();
+                alert('Partner created successfully!');
+                fetchPartners();
+                return partner;
+            } catch (error) {
+                console.error('Error creating partner:', error);
+                alert('Failed to create partner: ' + error.message);
+            }
+        }
+
+        // Initialize authorization flow
+        // Update the initializeAuth function
+       // Updated initializeAuth function
+async function initializeAuth(partnerId, authType) {
+    try {
+        console.log(`Initializing auth for partner: ${partnerId}, type: ${authType}`);
+        
+        const response = await fetch(`${API_ENDPOINT}partners/${partnerId}/oauth/init`, {
+            method: 'POST'
+        });
+        
+        // Log the HTTP status and headers
+        console.log('Status:', response.status);
+        console.log('Status Text:', response.statusText);
+        
+        // Clone the response before reading its body
+        const responseClone = response.clone();
+        
+        try {
+            // Try to parse as JSON
+            const data = await response.json();
+            console.log('Response data:', data);
+            
+            if (!response.ok) {
+                throw new Error(`Failed to initialize authorization: ${data.error || response.statusText}`);
+            }
+            
+            if (!data.authorizationUrl) {
+                throw new Error('Invalid authorization URL received');
+            }
+
+            console.log('Redirecting to:', data.authorizationUrl);
+            window.location.href = data.authorizationUrl;
+        } catch (jsonError) {
+            // If JSON parsing fails, try to get the text response
+            console.error('JSON parsing error:', jsonError);
+            const textResponse = await responseClone.text();
+            console.log('Raw response text:', textResponse);
+            throw new Error(`Failed to parse response: ${jsonError.message}`);
+        }
+    } catch (error) {
+        console.error('Error initializing authorization:', error);
+        alert(`Failed to initialize authorization: ${error.message}`);
+    }
+}
+
+
+        // Delete partner
+        async function deletePartner(partnerId) {
+            if (!confirm('Are you sure you want to delete this partner?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_ENDPOINT}partners/${partnerId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to delete partner');
+                }
+                
+                alert('Partner deleted successfully!');
+                fetchPartners();
+            } catch (error) {
+                console.error('Error deleting partner:', error);
+                alert('Failed to delete partner');
+            }
+        }
+
+         // New function to test connection
+        async function testConnection(partnerId, partnerType) {
+            const testEndpoint = `${API_ENDPOINT}partners/${partnerId}/test/${partnerType}`;
+            const resultElement = document.getElementById(`test-result-${partnerId}`);
+            const buttonElement = document.getElementById(`test-button-${partnerId}`);
+            
+            try {
+                buttonElement.disabled = true;
+                buttonElement.innerHTML = 'Testing...';
+                resultElement.innerHTML = '<p class="text-gray-500">Testing connection...</p>';
+                
+                const response = await fetch(testEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultElement.innerHTML = `
+                        <div class="mt-2 p-2 bg-green-50 border border-green-200 rounded">
+                            <p class="text-green-700">${data.message}</p>
+                            <p class="text-sm text-green-600">Status: ${data.statusCode}</p>
+                        </div>
+                    `;
+                } else {
+                    resultElement.innerHTML = `
+                        <div class="mt-2 p-2 bg-red-50 border border-red-200 rounded">
+                            <p class="text-red-700">Test failed: ${data.error}</p>
+                            <p class="text-sm text-red-600">${data.message || ''}</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultElement.innerHTML = `
+                    <div class="mt-2 p-2 bg-red-50 border border-red-200 rounded">
+                        <p class="text-red-700">Error: ${error.message}</p>
+                    </div>
+                `;
+            } finally {
+                buttonElement.disabled = false;
+                buttonElement.innerHTML = 'Test Connection';
+            }
+        }
+
+      async function fetchPartners() {
+            const partnersListElement = document.getElementById('partnersList');
+            const emptyState = document.getElementById('emptyState');
+            const errorState = document.getElementById('errorState');
+
+            try {
+                const response = await fetch(`${API_ENDPOINT}partners`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch partners');
+                }
+                
+                const data = await response.json();
+                partnersListElement.innerHTML = '';
+                
+                if (!data.partners || data.partners.length === 0) {
+                    partnersListElement.classList.add('hidden');
+                    errorState.classList.add('hidden');
+                    emptyState.classList.remove('hidden');
+                    return;
+                }
+
+                partnersListElement.classList.remove('hidden');
+                emptyState.classList.add('hidden');
+                errorState.classList.add('hidden');
+                
+                data.partners.forEach(partner => {
+                    const partnerElement = document.createElement('div');
+                    partnerElement.className = 'border p-4 rounded';
+                    
+                    let authMethodDisplay = '';
+                    switch(partner.authType) {
+                        case 'oauth': authMethodDisplay = 'OAuth Direct'; break;
+                        case 'self': authMethodDisplay = 'Self-Authorized'; break;
+                        case 'appstore': authMethodDisplay = 'App Store'; break;
+                    }
+
+                    // For self-auth partners, they are ALWAYS authorized regardless of status
+                    const isSelfAuth = partner.authType === 'self';
+                    const isAuthorized = isSelfAuth || partner.status === 'AUTHORIZED';
+
+                    // Status should show AUTHORIZED for self-auth partners
+                    const displayStatus = isSelfAuth ? 'AUTHORIZED' : partner.status;
+
+                    // Add authorization buttons based on status
+                    const authButtons = isAuthorized ? `
+                        <div class="mt-2 space-x-2">
+                            <button 
+                                id="test-button-${partner.partnerId}"
+                                onclick="testConnection('${partner.partnerId}', '${partner.type}')"
+                                class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 transition-colors">
+                                Test Connection
+                            </button>
+                            ${partner.authType !== 'self' ? `
+                                <button 
+                                    onclick="initializeAuth('${partner.partnerId}', '${partner.authType}')"
+                                    class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition-colors">
+                                    Reauthorize
+                                </button>
+                            ` : ''}
+                        </div>
+                    ` : !isSelfAuth ? `
+                        <div class="mt-2">
+                            <button 
+                                onclick="initializeAuth('${partner.partnerId}', '${partner.authType}')" 
+                                class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition-colors">
+                                Authorize
+                            </button>
+                        </div>
+                    ` : '';
+                    
+                    // Replace the existing partner element HTML generation with this cleaner version
+                   partnerElement.innerHTML = `
+        <div class="flex flex-col">
+            <!-- Header with name and actions -->
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h3 class="font-semibold text-lg">${partner.name}</h3>
+                    <p class="text-sm text-gray-600">Created: ${new Date(partner.createdAt).toLocaleString()}</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="deletePartner('${partner.partnerId}')" 
+                        class="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600 transition-colors">
+                        Delete
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main info grid -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+                <!-- Basic Information -->
+                <div class="space-y-2">
+                    <h4 class="font-medium text-gray-700">Basic Info</h4>
+                    <p class="text-sm">
+                        <span class="text-gray-600">Type:</span> 
+                        <span class="font-medium">${partner.type.charAt(0).toUpperCase() + partner.type.slice(1)}</span>
+                    </p>
+                    <p class="text-sm">
+                        <span class="text-gray-600">Auth Method:</span> 
+                        <span class="font-medium">${
+                            partner.authType === 'oauth' ? 'OAuth Direct' :
+                            partner.authType === 'self' ? 'Self-Authorized' :
+                            'App Store'
+                        }</span>
+                    </p>
+                    <p class="text-sm">
+                        <span class="text-gray-600">Partner ID:</span> 
+                        <span class="font-mono text-xs">${partner.partnerId}</span>
+                    </p>
+                </div>
+
+                <!-- Location Information -->
+                <div class="space-y-2">
+                    <h4 class="font-medium text-gray-700">Location</h4>
+                    <p class="text-sm">
+                        <span class="text-gray-600">Region:</span> 
+                        <span class="font-medium">${partner.region}</span>
+                    </p>
+                    <p class="text-sm">
+                        <span class="text-gray-600">Marketplace:</span> 
+                        <span class="font-medium">${partner.marketplaceName}</span>
+                    </p>
+                    <p class="text-sm">
+                        <span class="text-gray-600">API Endpoint:</span> 
+                        <span class="font-mono text-xs">${partner.apiEndpoint}</span>
+                    </p>
+                </div>
+
+                <!-- Status Information -->
+                <div class="space-y-2">
+                    <h4 class="font-medium text-gray-700">Status</h4>
+                    <p class="text-sm">
+                        <span class="text-gray-600">Status:</span> 
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium
+                            ${partner.status === 'AUTHORIZED' ? 'bg-green-100 text-green-800' : 
+                            'bg-yellow-100 text-yellow-800'}">
+                            ${partner.status}
+                        </span>
+                    </p>
+                    ${partner.amazonId ? `
+                        <p class="text-sm">
+                            <span class="text-gray-600">Amazon ID:</span> 
+                            <span class="font-mono text-xs">${partner.amazonId}</span>
+                        </p>
+                    ` : ''}
+                    ${partner.lastTokenRefresh ? `
+                        <p class="text-sm">
+                            <span class="text-gray-600">Last Token Refresh:</span><br>
+                            <span class="font-mono text-xs">${new Date(partner.lastTokenRefresh).toLocaleString()}</span>
+                        </p>
+                    ` : ''}
+                </div>
+            </div>
+
+            <!-- NEW SECTION: Secret Management (Only for self-auth partners) -->
+            ${partner.authType === 'self' ? `
+                <div class="mt-4 border-t pt-4">
+                    <h4 class="font-medium text-gray-700 mb-2">Secret Management</h4>
+                    ${partner.clientSecretExpiryTime ? `
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-sm text-gray-600">Secret Expiry:</span>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
+                                getSecretExpiryStatus(partner.clientSecretExpiryTime).class
+                            }">
+                                ${getSecretExpiryStatus(partner.clientSecretExpiryTime).message}
+                            </span>
+                        </div>
+                    ` : ''}
+                    <div class="flex gap-2">
+                        <button 
+                            id="notification-button-${partner.partnerId}"
+                            onclick="setupNotifications('${partner.partnerId}')"
+                            class="bg-purple-500 text-white px-3 py-1 rounded text-sm hover:bg-purple-600 transition-colors">
+                            Setup Notifications
+                        </button>
+                        <button 
+                            id="rotate-secret-button-${partner.partnerId}"
+                            onclick="rotateSecret('${partner.partnerId}')"
+                            class="bg-indigo-500 text-white px-3 py-1 rounded text-sm hover:bg-indigo-600 transition-colors">
+                            Rotate Secret
+                        </button>
+                    </div>
+                    <div id="notification-result-${partner.partnerId}" class="mt-2"></div>
+                    <div id="rotate-secret-result-${partner.partnerId}" class="mt-2"></div>
+                </div>
+            ` : ''}
+
+${partner.status === 'AUTHORIZED' ? `
+    <div class="mt-4 border-t pt-4">
+        <h4 class="font-medium text-gray-700 mb-2">Restricted Data Token</h4>
+        <div class="space-y-2">
+            <div class="flex flex-wrap gap-2">
+                <button 
+                    onclick="requestPiiToken('${partner.partnerId}', 'orders')"
+                    class="bg-purple-500 text-white px-3 py-1 rounded text-sm hover:bg-purple-600 transition-colors">
+                    Orders RDT
+                </button>
+            </div>
+            <div id="rdt-result-${partner.partnerId}" class="mt-2"></div>
+        </div>
+    </div>
+` : ''}
+
+
+
+
+            <!-- Test Results -->
+            <div id="test-result-${partner.partnerId}" class="mt-2"></div>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-2 mt-4">
+                ${partner.status === 'AUTHORIZED' || partner.authType === 'self' ? `
+                    <button 
+                        id="test-button-${partner.partnerId}"
+                        onclick="testConnection('${partner.partnerId}', '${partner.type}')"
+                        class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 transition-colors">
+                        Test Connection
+                    </button>
+                    
+                    ${partner.authType !== 'self' ? `
+                        <button 
+                            onclick="initializeAuth('${partner.partnerId}', '${partner.authType}')"
+                            class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition-colors">
+                            Reauthorize
+                        </button>
+                    ` : ''}
+    <!-- Add Mark Inactive button here - only for oauth and appstore partners -->
+                ${['oauth', 'appstore'].includes(partner.authType) ? `
+                    <button 
+                        onclick="markInactive('${partner.partnerId}')"
+                        class="bg-yellow-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600 transition-colors">
+                        Mark Inactive
+                    </button>
+                ` : ''}
+                    
+                ` : partner.authType !== 'self' ? `
+                    <button 
+                        onclick="initializeAuth('${partner.partnerId}', '${partner.authType}')" 
+                        class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition-colors">
+                        Authorize
+                    </button>
+                ` : ''}
+            </div>
+        </div>
+    `;
+
+                    partnersListElement.appendChild(partnerElement);
+                });
+            } catch (error) {
+                console.error('Error fetching partners:', error);
+                partnersListElement.classList.add('hidden');
+                emptyState.classList.add('hidden');
+                errorState.classList.remove('hidden');
+            }
+        }
+
+        // Keep the region change event listener
+        regionSelect.addEventListener('change', (e) => {
+            updateMarketplaces(e.target.value);
+        });
+
+
+       // Updated form submission handler
+       // Updated form submission handler
+        document.getElementById('createPartnerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const authType = formData.get('authType');
+            
+            if (authType === 'appstore') {
+                try {
+                    const type = formData.get('type');
+                    const region = formData.get('region');
+                    const marketplace = formData.get('marketplace');
+
+                    // Validate all required fields
+                    if (!type || !region || !marketplace) {
+                        const missing = [];
+                        if (!type) missing.push('Type');
+                        if (!region) missing.push('Region');
+                        if (!marketplace) missing.push('Marketplace');
+                        alert(`Please select: ${missing.join(', ')}`);
+                        return;
+                    }
+
+                    // Get marketplace-specific URL
+                    const marketplaceInfo = REGIONS[region].marketplaces[marketplace];
+                    if (!marketplaceInfo) {
+                        alert('Invalid marketplace selection');
+                        return;
+                    }
+
+                    // Get the correct base URL based on type
+                    const baseUrl = type === 'seller' ? 
+                        marketplaceInfo.sellerCentral : 
+                        marketplaceInfo.vendorCentral;
+
+                    const isBeta = document.getElementById('betaMode').checked;
+                    
+                    // Construct the authorization URL
+                    const authUrl = new URL('/apps/authorize/consent', baseUrl);
+                    
+                    // Validate applicationId exists
+                    if (!window.APPLICATION_ID) {
+                        throw new Error('Application ID not found. Please refresh the page.');
+                    }
+                    
+                    authUrl.searchParams.append('application_id', window.APPLICATION_ID);
+                    if (isBeta) {
+                        authUrl.searchParams.append('version', 'beta');
+                    }
+
+                    // Log the URL for debugging (remove in production)
+                    console.log('Redirecting to:', authUrl.toString());
+
+                    // Redirect to Amazon authorization page
+                    window.location.href = authUrl.toString();
+                } catch (error) {
+                    console.error('Error initiating appstore authorization:', error);
+                    alert('Failed to initiate authorization: ' + error.message);
+                }
+            } else {
+                // Handle other authorization types normally
+                await createPartner(formData);
+            }
+        });
+
+  // Update the requestCommonRdtToken function
+// Update the requestCommonRdtToken function
+async function requestCommonRdtToken(partnerId, type) {
+  // Basic resource mappings without PII data elements
+  const resourceMappings = {
+    orders: [{
+      method: 'GET',
+      path: '/orders/v0/orders'
+    }]
+  };
+
+  const resources = resourceMappings[type];
+  if (!resources) {
+    throw new Error('Invalid resource type');
+  }
+
+  try {
+    const result = await generateRdtToken(partnerId, resources);
+    return result;
+  } catch (error) {
+    if (error.response?.data?.errors) {
+      const apiError = error.response.data.errors[0];
+      throw new Error(`SP-API Error: ${apiError.message}`);
+    }
+    throw error;
+  }
+}
+
+
+// Update the generateRdtToken function
+async function generateRdtToken(partnerId, resources) {
+  try {
+    const response = await fetch(`${API_ENDPOINT}partners/${partnerId}/tokens/rdt`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        restrictedResources: resources  // Array of resources
+      })
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw error;
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error generating RDT token:', error);
+    throw error;
+  }
+}
+
+// Add these functions before the fetchPartners function
+
+async function requestPiiToken(partnerId, type) {
+    const resultElement = document.getElementById(`rdt-result-${partnerId}`);
+    
+    try {
+        resultElement.innerHTML = '<p class="text-gray-500">Generating RDT token...</p>';
+        
+        const response = await fetch(`${API_ENDPOINT}partners/${partnerId}/tokens/rdt`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                restrictedResources: [{
+                    method: 'GET',
+                    path: '/orders/v0/orders'
+                }]
+            })
+        });
+
+        const data = await response.json();
+        
+        if (response.ok) {
+            resultElement.innerHTML = `
+                <div class="mt-2 p-2 bg-green-50 border border-green-200 rounded">
+                    <p class="text-green-700">RDT Token generated successfully</p>
+                    <div class="mt-1">
+                        <p class="text-xs font-mono break-all bg-white p-2 rounded border border-green-100">
+                            ${data.restrictedDataToken}
+                        </p>
+                        <p class="text-xs text-green-600 mt-1">
+                            Expires in: ${data.expiresIn} seconds
+                        </p>
+                    </div>
+                </div>
+            `;
+        } else {
+            throw new Error(data.error || 'Failed to generate RDT token');
+        }
+    } catch (error) {
+        resultElement.innerHTML = `
+            <div class="mt-2 p-2 bg-red-50 border border-red-200 rounded">
+                <p class="text-red-700">Error: ${error.message}</p>
+            </div>
+        `;
+    }
+}
+
+// Handle form submission
+        document.getElementById('updateCredentialsForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const resultElement = document.getElementById('updateCredentialsResult');
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            
+            try {
+                submitButton.disabled = true;
+                submitButton.innerHTML = 'Updating...';
+                resultElement.innerHTML = '<p class="text-gray-500">Updating credentials...</p>';
+                
+                const formData = new FormData(e.target);
+                const response = await fetch(`${API_ENDPOINT}credentials/update`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        applicationId: formData.get('applicationId'),
+                        clientId: formData.get('clientId'),
+                        clientSecret: formData.get('clientSecret')
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultElement.innerHTML = `
+                        <div class="mt-2 p-2 bg-green-50 border border-green-200 rounded">
+                            <p class="text-green-700">${data.message}</p>
+                        </div>
+                    `;
+                    e.target.reset();
+                } else {
+                    throw new Error(data.error || 'Failed to update credentials');
+                }
+            } catch (error) {
+                resultElement.innerHTML = `
+                    <div class="mt-2 p-2 bg-red-50 border border-red-200 rounded">
+                        <p class="text-red-700">Error: ${error.message}</p>
+                    </div>
+                `;
+            } finally {
+                submitButton.disabled = false;
+                submitButton.innerHTML = 'Update Credentials';
+            }
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', checkExistingCredentials);
+
+// In frontend/index.html.template
+async function markInactive(partnerId) {
+  if (!confirm('Are you sure you want to mark this partner as inactive? A notification will be sent to the partner.')) {
+    return;
+  }
+
+  try {
+    const response = await fetch(`${API_ENDPOINT}partners/${partnerId}/status`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        status: 'inactive'
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Failed to mark partner as inactive');
+    }
+
+    // Show success message
+    alert('Partner marked as inactive and reminder notification sent');
+    
+    // Refresh the partner list
+    await fetchPartners();
+  } catch (error) {
+    console.error('Error marking partner inactive:', error);
+    alert('Failed to mark partner as inactive: ' + error.message);
+  }
+}
+
+
+        // Update initialization at the bottom of the file:
+        // Initialize
+        initializeConfig(); // This will populate REGIONS and then call populateRegions
+        fetchPartners();
+    </script>
+</body>
+</html>
