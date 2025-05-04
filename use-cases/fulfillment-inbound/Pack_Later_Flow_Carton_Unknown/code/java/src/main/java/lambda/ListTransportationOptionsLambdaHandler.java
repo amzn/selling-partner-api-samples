@@ -64,7 +64,7 @@ public class ListTransportationOptionsLambdaHandler implements RequestHandler<Li
                 }
             }
 
-            // Check if an Amazon Partnered Carrier transportation option is found
+            // Check if an Non-Partnered Carrier transportation option is found
             if (selectedOption != null) {
                 response.put(TransportationResponseKey.TRANSPORTATION_OPTION_ID.getKey(), selectedOption.getTransportationOptionId());
 
