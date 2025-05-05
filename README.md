@@ -43,10 +43,6 @@ This is considered an intermediate learning resource, and should typically be re
 * [SP-API Documentation](https://developer-docs.amazon.com/sp-api)
 * [SP-API Developer Support](https://developer.amazonservices.com/support)
 
-## Additional Examples <a name="additional-examples"></a>
-* [SP-API Quick Start](https://aws.amazon.com/solutions/implementations/selling-partner-api/)
-* [SP-API Reports Notification Quick Start](https://aws.amazon.com/quickstart/architecture/amazon-selling-partner-api-reports-notifications/)
-
 ## Security <a name="security"></a>
 
 See [CONTRIBUTING](CONTRIBUTING.md) for more information.
