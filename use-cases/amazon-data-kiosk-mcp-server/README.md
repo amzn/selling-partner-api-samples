@@ -89,7 +89,7 @@ Add the server to your Claude Desktop configuration file located at:
     "amazon-seller-analytics": {
       "command": "node",
       "args": [
-        "/absolute/path/to/amazon-data-kiosk-mcp/packages/seller-server/build/index.js"
+        "/absolute/path/to/amazon-data-kiosk-mcp-server/packages/seller-server/build/index.js"
       ],
       "env": {
         "DATA_KIOSK_CLIENT_ID": "your_client_id",
