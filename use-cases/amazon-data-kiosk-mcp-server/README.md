@@ -46,8 +46,8 @@ The project is structured as a monorepo with three packages:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/amazon-data-kiosk-mcp.git
-cd amazon-data-kiosk-mcp
+git clone https://github.com/amzn/selling-partner-api-samples.git
+cd use-cases/amazon-data-kiosk-mcp-server
 ```
 
 2. Install dependencies:
