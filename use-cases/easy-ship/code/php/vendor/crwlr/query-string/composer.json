@@ -1,0 +1,53 @@
+{
+    "name": "crwlr/query-string",
+    "description": "A library for convenient handling of query strings used in HTTP requests.",
+    "type": "library",
+    "keywords": [
+        "crwlr",
+        "query",
+        "string",
+        "query string",
+        "query-string",
+        "http",
+        "request"
+    ],
+    "homepage": "https://www.crwlr.software/packages/query-string",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Crwlr\\QueryString\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Christian Olear",
+            "homepage": "https://www.otsch.codes",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/crwlrsoft/query-string/issues",
+        "source": "https://github.com/crwlrsoft/query-string",
+        "docs": "https://www.crwlr.software/packages/query-string"
+    },
+    "require": {
+        "php" : "^8.0"
+    },
+    "require-dev": {
+        "pestphp/pest": "^1.21",
+        "friendsofphp/php-cs-fixer": "^3.8",
+        "phpstan/phpstan": "^1.7"
+    },
+    "scripts": {
+        "test": "@php vendor/bin/pest",
+        "stan": "@php vendor/bin/phpstan analyse -c phpstan.neon",
+        "cs": "@php vendor/bin/php-cs-fixer fix -v --dry-run",
+        "cs-fix": "@php vendor/bin/php-cs-fixer fix -v",
+        "add-git-hooks": "@php bin/add-git-hooks"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}

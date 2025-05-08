@@ -34,6 +34,7 @@ public class ProcessNotificationHandler implements RequestHandler<SQSEvent, Stri
 
             try {
                 SPAPINotification notification = mapNotification(message.getBody());
+                logger.log(String.format("Notification body: %s", notification.getPayload().getOrderChangeNotification().getSummary().toString()));
 
                 // Only process the notification if it is of type 'ORDER_CHANGE'
                 if (!NOTIFICATION_TYPE_ORDER_CHANGE.equals(notification.getNotificationType())) {
@@ -49,6 +50,12 @@ public class ProcessNotificationHandler implements RequestHandler<SQSEvent, Stri
                     continue;
                 }
 
+                // Skip if order status is 'Pending'
+                if (orderChangeNotification.getSummary().getOrderStatus().equals(NOTIFICATION_IGNORE_ORDER_STATUS)) {
+                    logger.log("This event is skipped due to Pending order status");
+                    continue;
+                }
+
                 // TODO: We might need to call orderAPI to confirm if the order is EasyShip or not
                 String executionArn = startStepFunctionsExecution(orderChangeNotification);
                 logger.log(String.format("State machine successfully started. Execution arn: %s", executionArn));
@@ -61,11 +68,9 @@ public class ProcessNotificationHandler implements RequestHandler<SQSEvent, Stri
         return "Finished processing incoming notifications";
     }
 
-    private SPAPINotification   mapNotification(String notificationBody) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        SPAPINotification notification = mapper.readValue(notificationBody, SPAPINotification.class);
-
-        return notification;
+    private SPAPINotification mapNotification(String notificationBody) throws IOException {
+        Gson gson = new Gson();
+        return gson.fromJson(notificationBody, SPAPINotification.class);
     }
 
     private String startStepFunctionsExecution(OrderChangeNotification orderChangeNotification) throws JsonProcessingException {

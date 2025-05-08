@@ -1,4 +1,4 @@
-# Overview
+gi# Overview
 This Sample Solution provides all required resources to deploy to the AWS cloud a fully functional SP-API application that implements the [Easy Ship API v2022-03-23 Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/easyship-api-v2022-03-23-use-case-guide) end-to-end.
 Use this application to test the proposed solution, do changes and/or integrate it to your own product.
 
@@ -170,9 +170,11 @@ To create a new access key pair, follow the steps below. If you already have val
 The deployment script will create a Sample Solution App in the AWS cloud.
 To execute the deployment script, follow the steps below.
 1. Identify the deployment script for the programming language you want for your Sample Solution App.
-   1. For example, for the Java application the file is [app/scripts/java/java-app.sh](app/scripts/java/java-app.sh)
+   1. For the Java application the file is [app/scripts/java/java-app.sh](app/scripts/java/java-app.sh)
+   2. For the PHP application the file is [app/scripts/php/php-app.sh](app/scripts/php/php-app.sh)
 2. Execute the script from your terminal or Git Bash
-   1. For example, to execute the Java deployment script in a Unix-based system or using Git Bash, run `bash java-app.sh`
+   1. To execute the Java deployment script in a Unix-based system or using Git Bash, run `bash java-app.sh` at `app/script/java`
+   2. To execute the PHP deployment script in a Unix-based system or using Git Bash, run `bash php-app.sh` at `app/script/php`
 3. Wait for the CloudFormation stack creation to finish
    1. Navigate to [CloudFormation console](https://console.aws.amazon.com/cloudformation/home)
    2. Wait for the stack named **sp-api-app-cdk-*random_suffix*** to show status `CREATE_COMPLETE`
@@ -229,7 +231,7 @@ To test it, follow the steps below.
       "N":"10"
    },
    "WeightUnit":{
-      "S":"GRAMS"
+      "S":"G"
    },
    "WeightValue":{
       "N":"100"
@@ -241,7 +243,7 @@ To test it, follow the steps below.
 ```
 Alternatively you can run the AWS CLI command below and create the item in DynamoDB. To do that, include in your IAM User the permission AmazonDynamoDBFullAccess to perform this action. Also, change the updateRandomSuffix string for the value of your SPAPIInventory table. You can get this information in your CloudFormation stack.
 ```
-aws dynamodb put-item --table-name SPAPIInventory-updateRandomSuffix --item '{"SKU":{"S":"TEST-SKU-001"},"Height":{"N":"12"},"Length":{"N":"10"},"SizeUnit":{"S":"INCH"},"Stock":{"N":"10"},"WeightUnit":{"S":"GRAMS"},"WeightValue":{"N":"100"},"Width":{"N":"20"}}'
+aws dynamodb put-item --table-name SPAPIInventory-updateRandomSuffix --item '{"SKU":{"S":"TEST-SKU-001"},"Height":{"N":"12"},"Length":{"N":"10"},"SizeUnit":{"S":"CM"},"Stock":{"N":"10"},"WeightUnit":{"S":"G"},"WeightValue":{"N":"100"},"Width":{"N":"20"}}'
 ```
 
 #### C. Send a message to SQS to initiate testing

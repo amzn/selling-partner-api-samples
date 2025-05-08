@@ -1,6 +1,5 @@
 package lambda;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.client.model.easyship.UnitOfLength;
 import io.swagger.client.model.easyship.UnitOfWeight;
 import io.swagger.client.model.easyship.Weight;

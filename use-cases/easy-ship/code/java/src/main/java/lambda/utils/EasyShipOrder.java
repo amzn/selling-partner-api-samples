@@ -1,6 +1,6 @@
 package lambda.utils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import io.swagger.client.model.easyship.Weight;
 import io.swagger.client.model.easyship.Dimensions;
 import lombok.Getter;
@@ -14,12 +14,12 @@ import java.util.List;
 @NoArgsConstructor
 public class EasyShipOrder {
 
-    @JsonProperty("orderItems")
+    @SerializedName("orderItems")
     public List<EasyShipOrderItem> orderItems;
 
-    @JsonProperty("packageDimensions")
+    @SerializedName("packageDimensions")
     public Dimensions packageDimensions;
 
-    @JsonProperty("weight")
+    @SerializedName("weight")
     public Weight packageWeight;
 }
