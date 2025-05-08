@@ -1,0 +1,59 @@
+service: bref-demo
+
+provider:
+    name: aws
+    region: us-east-2
+    logRetentionInDays: 7
+    versionFunctions: false
+    apiGateway:
+        binaryMediaTypes:
+            - '*/*'
+
+plugins:
+    - ./index.js
+
+package:
+    patterns:
+        - '!**'
+        - 'demo/**'
+        - 'src/**'
+        - 'vendor/**'
+        - '!vendor/squizlabs/**'
+        - '!vendor/slevomat/**'
+        - '!vendor/nikic/**'
+
+functions:
+    function:
+        handler: demo/function.php
+        runtime: php-83
+        description: 'Bref function demo'
+        environment:
+            BREF_LOOP_MAX: 100
+
+    http:
+        handler: demo/http.php
+        runtime: php-83-fpm
+        architecture: arm64
+        description: 'Bref HTTP demo'
+        timeout: 5 # in seconds (API Gateway has a timeout of 29 seconds)
+        events:
+            -   http: 'ANY /'
+            -   httpApi: '*'
+
+    psr7:
+        handler: demo/psr7.php
+        runtime: php-83
+        description: 'Bref HTTP demo with a PSR-7 handler'
+        timeout: 5 # in seconds (API Gateway has a timeout of 29 seconds)
+        url: true
+        events:
+            -   http: 'ANY /psr7'
+            -   httpApi: 'GET /psr7'
+        environment:
+            #BREF_LOOP_MAX: 100
+
+    console:
+        handler: demo/console.php
+        runtime: php-83-console
+        description: 'Bref console command demo'
+        timeout: 5

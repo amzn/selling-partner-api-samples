@@ -70,7 +70,10 @@
         "lambda:GetFunction",
         "lambda:CreateEventSourceMapping",
         "lambda:DeleteEventSourceMapping",
-        "lambda:GetEventSourceMapping"
+        "lambda:GetEventSourceMapping",
+        "lambda:GetLayerVersion",
+        "lambda:AddPermission",
+        "lambda:RemovePermission"
       ],
       "Resource": "*"
     },
@@ -115,6 +118,19 @@
       "Effect": "Allow",
       "Action": [
         "ssm:GetParameters"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "APIGatewayPermissions",
+      "Effect": "Allow",
+      "Action": [
+        "apigateway:POST",
+        "apigateway:GET",
+        "apigateway:PATCH",
+        "apigateway:DELETE",
+        "apigateway:PUT",
+        "apigateway:TagResource"
       ],
       "Resource": "*"
     }

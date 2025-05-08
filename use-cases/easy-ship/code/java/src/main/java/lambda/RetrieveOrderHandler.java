@@ -12,8 +12,6 @@ import io.swagger.client.model.orders.GetOrderResponse;
 import io.swagger.client.model.orders.OrderItem;
 import lambda.utils.*;
 
-import static lambda.utils.Constants.REFRESH_TOKEN_KEY_NAME;
-import static lambda.utils.Constants.REGION_CODE_KEY_NAME;
 import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 
 public class RetrieveOrderHandler implements RequestHandler<StateMachineInput, StateMachineInput> {

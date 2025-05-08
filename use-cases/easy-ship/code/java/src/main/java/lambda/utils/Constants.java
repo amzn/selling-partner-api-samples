@@ -28,6 +28,8 @@ public class Constants {
     public static final String SQS_QUEUE_ARN_ENV_VARIABLE = "SQS_QUEUE_ARN";
     public static final String EASYSHIP_LABEL_S3_BUCKET_NAME_ENV_VARIABLE = "EASYSHIP_LABEL_DOCUMENTS_S3_BUCKET_NAME";
     public static final String LWA_NOTIFICATIONS_SCOPE = "sellingpartnerapi::notifications";
+    public static final String URL_TABLE_NAME_ENV_VARIABLE = "URL_TABLE_NAME";
+    public static final String SHORTLINK_BASE_URL_ENV_VARIABLE = "SHORTLINK_BASE_URL";
 
     //Generic Lambda Input Parameters
     public static final String REGION_CODE_KEY_NAME = "REGION_CODE";
@@ -38,6 +40,7 @@ public class Constants {
     //Notifications Configuration
     public static final String NOTIFICATION_TYPE_ORDER_CHANGE = "ORDER_CHANGE";
     public static final String NOTIFICATION_LEVEL_ORDER_LEVEL = "OrderLevel";
+    public static final String NOTIFICATION_IGNORE_ORDER_STATUS= "Pending";
 
     // DynamoDB Attributes
     public static final String INVENTORY_TABLE_HASH_KEY_NAME = "SKU";
@@ -48,6 +51,7 @@ public class Constants {
     public static final String INVENTORY_TABLE_WIDTH_ATTRIBUTE_NAME = "Width";
     public static final String INVENTORY_TABLE_HEIGHT_ATTRIBUTE_NAME = "Height";
     public static final String INVENTORY_TABLE_SIZE_UNIT_ATTRIBUTE_NAME = "SizeUnit";
+    public static final String URL_TABLE_HASH_KEY_NAME = "AmazonOrderNumber";
 
     // Feeds attribute
     public static final String POST_EASYSHIP_DOCUMENTS = "POST_EASYSHIP_DOCUMENTS";
@@ -60,7 +64,6 @@ public class Constants {
     public static final int POLLING_INTERVAL_MS = 5000;
     public static final int PRESIGNED_URL_EXPIRATION_MINUTES = 60;
     public static final String PDF_CONTENT_TYPE = "application/pdf";
-    public static final String GZIP_ENCODING = "gzip";
     public static final int BUFFER_SIZE = 4096;
     public static final int MAX_RETRY_ATTEMPTS = 20;
 }
