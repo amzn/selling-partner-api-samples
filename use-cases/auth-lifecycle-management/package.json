@@ -19,7 +19,7 @@
     "typescript": "~5.3.3"
   },
   "dependencies": {
-    "aws-cdk-lib": "2.126.0",
+    "aws-cdk-lib": "2.189.0",
     "constructs": "^10.3.0",
     "fast-glob": "^3.3.2",
     "ignore": "^6.0.2"
