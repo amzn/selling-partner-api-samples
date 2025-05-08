@@ -1,6 +1,7 @@
 package lambda.utils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
+import com.google.gson.annotations.SerializedName;
 import lombok.*;
 
 @Builder
@@ -10,10 +11,10 @@ import lombok.*;
 @NoArgsConstructor
 public class ApiCredentials {
 
-    @JsonProperty("refreshToken")
+    @SerializedName("refreshToken")
     public String refreshToken;
 
-    @JsonProperty("regionCode")
+    @SerializedName("regionCode")
     public String regionCode;
 
 }

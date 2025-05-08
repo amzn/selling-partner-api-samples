@@ -7,17 +7,23 @@ import com.google.gson.Gson;
 import io.swagger.client.api.ReportsApi;
 import io.swagger.client.model.reports.Report;
 import io.swagger.client.model.reports.ReportDocument;
-import lambda.utils.ApiUtils;
-import lambda.utils.HttpFileTransferUtil;
-import lambda.utils.StateMachineInput;
+import lambda.utils.*;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
+import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import java.io.*;
 import java.time.Duration;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
@@ -28,10 +34,10 @@ import static io.swagger.client.model.reports.Report.ProcessingStatusEnum.DONE;
 import static io.swagger.client.model.reports.Report.ProcessingStatusEnum.FATAL;
 import static lambda.utils.Constants.*;
 
-public class GetReportDocumentHandler implements RequestHandler<StateMachineInput, String> {
+public class GetReportDocumentHandler implements RequestHandler<StateMachineInput, Map<String, String> > {
 
     @Override
-    public String handleRequest(StateMachineInput input, Context context) {
+    public Map<String, String> handleRequest(StateMachineInput input, Context context) {
         LambdaLogger logger = context.getLogger();
         logger.log("GetReportDocument Lambda input: " + new Gson().toJson(input));
 
@@ -53,14 +59,85 @@ public class GetReportDocumentHandler implements RequestHandler<StateMachineInpu
             String objectKey = generateObjectKey(input);
             logger.log("S3 Bucket Name: " + s3BucketName + " S3 Object Key: " + objectKey);
 
-            //Store into S3 bucket
+            // Store into S3 bucket
             storeDocumentInS3(s3BucketName, objectKey, documentStream);
 
-            //Generate a presigned url to browse the label
-            return generatePresignedUrl(s3BucketName, objectKey, logger);
+            // Generate a presigned url to browse the label
+            String url = generatePresignedUrl(s3BucketName, objectKey, logger);
+
+            // Store longURL to DynamoDB and generate short URL
+            String shortUrl = storeToDynamoDb(input.getAmazonOrderId(), url);
+
+            // Generate Message content
+            return generateMessageContents(shortUrl, input, logger);
         } catch (Exception e) {
             throw new InternalError("GetReportDocument Request failed", e);
         }
+    }
+
+    /**
+     * Generates the subject and body message content for a shipping label notification.
+     *
+     * @param shortUrl The short URL pointing to the presigned S3 label document.
+     * @param logger   Lambda logger for writing log messages.
+     * @return A map containing "subject" and "message" keys for the SNS notification.
+     */
+    public Map<String, String> generateMessageContents(String shortUrl, StateMachineInput input, LambdaLogger logger) {
+        String pickupTime = ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME) + " ~ " +
+                ZonedDateTime.now().plusHours(2).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+
+        // Join SKU code
+        EasyShipOrder easyShipOrder = input.getEasyShipOrder();
+        List<EasyShipOrderItem> orderItems = easyShipOrder.getOrderItems();
+        List<String> skus = orderItems.stream()
+                .map(EasyShipOrderItem::getSku)
+                .collect(Collectors.toList());
+
+        String skuJoined = String.join(", ", skus);
+
+        // Generate subject and message
+        String subject = "Label Ready - Order " + input.getAmazonOrderId();
+        String message = String.format(
+                "Your shipping label is ready.\nOrder Number: %s\nTime of Pickup: %s\nSku: %s\nDownload your label:\n%s",
+                input.getAmazonOrderId(),
+                pickupTime,
+                skuJoined,
+                shortUrl
+        );
+
+        logger.log("Generated message:\n" + message);
+
+        Map<String, String> result = new HashMap<>();
+        result.put("subject", subject);
+        result.put("message", message);
+        return result;
+    }
+
+    /**
+     * Stores a mapping of the order ID to its corresponding presigned URL in DynamoDB,
+     * and returns the shortened redirect URL.
+     *
+     * @param orderId      The Amazon order ID.
+     * @param presignedUrl The presigned S3 URL to the generated label PDF.
+     * @return The shortened redirect URL pointing to the stored item in DynamoDB.
+     */
+    private String storeToDynamoDb(String orderId, String presignedUrl) {
+        DynamoDbClient dynamoDB = DynamoDbClient.builder().build();
+        Map<String, AttributeValue> item = new HashMap<>();
+        item.put(URL_TABLE_HASH_KEY_NAME, AttributeValue.builder().s(orderId).build());
+        item.put("url", AttributeValue.builder().s(presignedUrl).build());
+        item.put("createdAt", AttributeValue.builder()
+                .s(ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME))
+                .build());
+
+        PutItemRequest request = PutItemRequest.builder()
+                .tableName(System.getenv(URL_TABLE_NAME_ENV_VARIABLE))
+                .item(item)
+                .build();
+
+        dynamoDB.putItem(request);
+
+        return System.getenv(SHORTLINK_BASE_URL_ENV_VARIABLE).replaceAll("/$", "") + "/" + orderId;
     }
 
     /**
@@ -141,7 +218,7 @@ public class GetReportDocumentHandler implements RequestHandler<StateMachineInpu
 
     /**
      * Compress the document using GZIP
-     * @param input
+     * @param gzipIn
      * @param output
      * @throws IOException
      */

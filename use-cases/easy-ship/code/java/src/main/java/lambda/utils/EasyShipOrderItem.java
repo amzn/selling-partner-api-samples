@@ -1,6 +1,6 @@
 package lambda.utils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,15 +12,15 @@ import java.util.List;
 @NoArgsConstructor
 public class EasyShipOrderItem {
 
-    @JsonProperty("orderItemId")
+    @SerializedName("orderItemId")
     public String orderItemId;
 
-    @JsonProperty("sku")
+    @SerializedName("sku")
     public String sku;
 
-    @JsonProperty("quantity")
+    @SerializedName("quantity")
     public Integer quantity;
 
-    @JsonProperty("orderItemSerialNumbers")
+    @SerializedName("orderItemSerialNumbers")
     public List<String> orderItemSerialNumbers;
 }

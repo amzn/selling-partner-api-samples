@@ -1,6 +1,6 @@
 package lambda.utils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import io.swagger.client.model.easyship.ScheduledPackageId;
 import io.swagger.client.model.easyship.TimeSlots;
 import lambda.utils.interfaces.ApiCredentialsProvider;
@@ -17,33 +17,33 @@ import lombok.Setter;
 @NoArgsConstructor
 public class StateMachineInput implements ApiCredentialsProvider {
 
-    @JsonProperty("apiCredentials")
+    @SerializedName("apiCredentials")
     public ApiCredentials apiCredentials;
 
-    @JsonProperty("amazonOrderId")
+    @SerializedName("amazonOrderId")
     public String amazonOrderId;
 
-    @JsonProperty("marketplaceId")
+    @SerializedName("marketplaceId")
     public String marketplaceId;
 
-    @JsonProperty("sellerId")
+    @SerializedName("sellerId")
     public String sellerId;
 
-    @JsonProperty("easyShipOrder")
+    @SerializedName("easyShipOrder")
     public EasyShipOrder easyShipOrder;
 
-    @JsonProperty("timeSlots")
+    @SerializedName("timeSlots")
     public TimeSlots timeSlots;
 
-    @JsonProperty("scheduledPackageId")
+    @SerializedName("scheduledPackageId")
     public ScheduledPackageId scheduledPackageId;
 
-    @JsonProperty("feedId")
+    @SerializedName("feedId")
     public String feedId;
 
-    @JsonProperty("reportId")
+    @SerializedName("reportId")
     public String reportId;
 
-    @JsonProperty("labelUri")
+    @SerializedName("labelUri")
     public String labelUri;
 }

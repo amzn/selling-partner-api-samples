@@ -5,3 +5,4 @@ tmp/
 *.DS_Store
 *.iml
 node_modules
+*php-lambda-function.zip

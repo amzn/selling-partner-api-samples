@@ -8,6 +8,7 @@ const app = new cdk.App();
 new SpApiAppCdkStack(app, 'sp-api-app-cdk',
     {
         randomSuffix: app.node.tryGetContext("RANDOM_SUFFIX"),
-        spApiCdkQualifier: app.node.tryGetContext("CDK_QUALIFIER")
+        spApiCdkQualifier: app.node.tryGetContext("CDK_QUALIFIER"),
+        language: app.node.tryGetContext("LANGUAGE")
     }
 );

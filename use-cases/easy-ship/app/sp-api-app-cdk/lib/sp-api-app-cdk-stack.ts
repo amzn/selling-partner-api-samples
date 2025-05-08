@@ -5,13 +5,17 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as sns from 'aws-cdk-lib/aws-sns';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
+import * as apigwv2 from 'aws-cdk-lib/aws-apigatewayv2';
+import * as integrations from 'aws-cdk-lib/aws-apigatewayv2-integrations';
 import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
 import * as stepfunctions from 'aws-cdk-lib/aws-stepfunctions';
 import {DefaultStackSynthesizer} from "aws-cdk-lib";
+import { Runtime, Code, Function as LambdaFunction } from 'aws-cdk-lib/aws-lambda';
 
 export interface SpApiAppCdkStackProps extends cdk.StackProps {
     readonly randomSuffix: string;
     readonly spApiCdkQualifier: string;
+    readonly language: string;
 }
 
 /**
@@ -25,6 +29,11 @@ export class SpApiAppCdkStack extends cdk.Stack {
             })
         });
 
+        // Layer definition for PHP
+        const phpLayerArn = `arn:aws:lambda:${cdk.Aws.REGION}:534081306603:layer:php-83:46`;
+        const propsLanguage = props.language;
+        const layersConfig = (propsLanguage === 'php') ? [phpLayerArn] : [];
+        const isPhp = propsLanguage === 'php';
         //Parameters
 
         const accessKey = new cdk.CfnParameter(this, 'accessKey', {
@@ -127,6 +136,11 @@ export class SpApiAppCdkStack extends cdk.Stack {
         const easyShipSubscribeNotificationsLambdaFunctionHandler = new cdk.CfnParameter(this, 'easyShipSubscribeNotificationsLambdaFunctionHandler', {
             type: 'String',
             description: "Handler for the Lambda function that subscribes to notifications for EasyShip."
+        });
+
+        const easyShipUrlRedirectLambdaFunctionHandler = new cdk.CfnParameter(this, 'easyShipUrlRedirectLambdaFunctionHandler', {
+            type: 'String',
+            description: "Handler for the Lambda function that redirect to long url from given Order No."
         });
 
         const lambdaFunctionsCodeS3Key = new cdk.CfnParameter(this, 'lambdaFunctionsCodeS3Key', {
@@ -256,6 +270,28 @@ export class SpApiAppCdkStack extends cdk.Stack {
             },
         });
 
+        const spapiQueryUrlsTable = new dynamodb.CfnTable(this, 'SPAPIQueryUrlsTable', {
+            tableName: [
+                'SPAPIQueryUrlsTable',
+                props.randomSuffix!,
+            ].join('-'),
+            attributeDefinitions: [
+                {
+                    attributeName: 'AmazonOrderNumber',
+                    attributeType: 'S',
+                },
+            ],
+            keySchema: [
+                {
+                    attributeName: 'AmazonOrderNumber',
+                    keyType: 'HASH',
+                },
+            ],
+            billingMode: 'PAY_PER_REQUEST',
+            pointInTimeRecoverySpecification: {
+                pointInTimeRecoveryEnabled: true,
+            },
+        });
 
         // Lambda role
 
@@ -343,6 +379,52 @@ export class SpApiAppCdkStack extends cdk.Stack {
             ],
         });
 
+        const spapiUrlDynamoDBCrudLambdaExecutionRole = new iam.CfnRole(this, 'SPAPIUrlDynamoDBCrudLambdaExecutionRole', {
+            roleName: [
+                'SPAPIUrlDynamoDBAdminLambdaExecutionRole',
+                props.randomSuffix!,
+            ].join('-'),
+            assumeRolePolicyDocument: {
+                Version: '2012-10-17',
+                Statement: [
+                    {
+                        Effect: 'Allow',
+                        Principal: {
+                            Service: [
+                                'lambda.amazonaws.com',
+                            ],
+                        },
+                        Action: [
+                            'sts:AssumeRole',
+                        ],
+                    },
+                ],
+            },
+            managedPolicyArns: [
+                `arn:${this.partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole`,
+            ],
+            policies: [
+                {
+                    policyName: 'UrlDynamoDBCrudPolicy',
+                    policyDocument: {
+                        Version: '2012-10-17',
+                        Statement: [
+                            {
+                                Effect: 'Allow',
+                                Action: [
+                                    'dynamodb:GetItem',
+                                    'dynamodb:PutItem',
+                                    'dynamodb:UpdateItem',
+                                    'dynamodb:DeleteItem',
+                                ],
+                                Resource: spapiQueryUrlsTable.attrArn,
+                            },
+                        ],
+                    },
+                },
+            ],
+        });
+
         const spapiStoreDocumentLambdaExecutionRole = new iam.CfnRole(this, 'SPAPIStoreDocumentLambdaExecutionRole', {
             roleName: [
                 'SPAPIStoreDocumentLambdaExecutionRole',
@@ -399,6 +481,24 @@ export class SpApiAppCdkStack extends cdk.Stack {
                         ],
                     },
                 },
+                {
+                    policyName: 'UrlDynamoDBCrudPolicy',
+                    policyDocument: {
+                        Version: '2012-10-17',
+                        Statement: [
+                            {
+                                Effect: 'Allow',
+                                Action: [
+                                    'dynamodb:GetItem',
+                                    'dynamodb:PutItem',
+                                    'dynamodb:UpdateItem',
+                                    'dynamodb:DeleteItem',
+                                ],
+                                Resource: spapiQueryUrlsTable.attrArn,
+                            },
+                        ],
+                    },
+                },
             ],
         });
 
@@ -414,7 +514,7 @@ export class SpApiAppCdkStack extends cdk.Stack {
                 s3Bucket: artifactsS3BucketName.valueAsString!,
                 s3Key: lambdaFunctionsCodeS3Key.valueAsString!,
             },
-            handler: easyshipCreateScheduledPackageLambdaFunctionHandler.valueAsString!,
+            handler: isPhp ? "lambda/index.php" : easyshipCreateScheduledPackageLambdaFunctionHandler.valueAsString!,
             role: spapiLambdaExecutionRole.attrArn,
             runtime: programmingLanguage.valueAsString!,
             memorySize: 512,
@@ -424,6 +524,7 @@ export class SpApiAppCdkStack extends cdk.Stack {
                     'SP_API_APP_CREDENTIALS_SECRET_ARN': spapiAppCredentials.ref,
                 },
             },
+            layers: isPhp ? layersConfig : undefined,
         });
 
         const easyShipGetFeedDocumentLambdaFunction = new lambda.CfnFunction(this, 'EASYSHIPGetFeedDocumentLambdaFunction', {
@@ -436,7 +537,7 @@ export class SpApiAppCdkStack extends cdk.Stack {
                 s3Bucket: artifactsS3BucketName.valueAsString!,
                 s3Key: lambdaFunctionsCodeS3Key.valueAsString!,
             },
-            handler: easyShipGetFeedDocumentLambdaFunctionHandler.valueAsString!,
+            handler: isPhp ? "lambda/index.php" : easyShipGetFeedDocumentLambdaFunctionHandler.valueAsString!,
             role: spapiLambdaExecutionRole.attrArn,
             runtime: programmingLanguage.valueAsString!,
             memorySize: 512,
@@ -446,6 +547,61 @@ export class SpApiAppCdkStack extends cdk.Stack {
                     'SP_API_APP_CREDENTIALS_SECRET_ARN': spapiAppCredentials.ref,
                 },
             },
+            layers: isPhp ? layersConfig : undefined,
+        });
+
+        const easyShipUrlRedirectLambdaFunction = new lambda.CfnFunction(this, 'EASYSHIPUrlRedirectLambdaFunction', {
+            functionName: [
+                'EASYSHIPUrlRedirectLambdaFunction',
+                props.randomSuffix!,
+            ].join('-'),
+            description: 'Redirect to long url from given order number',
+            code: {
+                s3Bucket: artifactsS3BucketName.valueAsString!,
+                s3Key: lambdaFunctionsCodeS3Key.valueAsString!,
+            },
+            handler: isPhp ? "lambda/index.php" : easyShipUrlRedirectLambdaFunctionHandler.valueAsString!,
+            role: spapiUrlDynamoDBCrudLambdaExecutionRole.attrArn,
+            runtime: programmingLanguage.valueAsString!,
+            memorySize: 512,
+            timeout: 60,
+            environment: {
+                variables: {
+                    'SP_API_APP_CREDENTIALS_SECRET_ARN': spapiAppCredentials.ref,
+                    'URL_TABLE_NAME': spapiQueryUrlsTable.ref,
+                },
+            },
+            layers: isPhp ? layersConfig : undefined,
+        });
+
+        // HTTP API definition
+        const httpApi = new apigwv2.HttpApi(this, 'ShortlinkHttpApi', {
+            apiName: 'shortlink-api',
+            description: 'Redirect short URLs to presigned S3 links',
+        });
+
+        // Convert CfnFunction to IFunction
+        const easyShipUrlRedirectLambdaIFunction = lambda.Function.fromFunctionAttributes(this, 'RedirectLambdaIFunction', {
+            functionArn: `arn:aws:lambda:${this.region}:${this.account}:function:${easyShipUrlRedirectLambdaFunction.ref}`,
+            sameEnvironment: true,
+        });
+
+        // Lambda integration
+        const lambdaIntegration = new integrations.HttpLambdaIntegration(
+            'RedirectLambdaIntegration',
+            easyShipUrlRedirectLambdaIFunction
+        );
+
+        // Route `/label/{orderId}`
+        httpApi.addRoutes({
+            path: '/label/{orderId}',
+            methods: [apigwv2.HttpMethod.GET],
+            integration: lambdaIntegration,
+        });
+
+        // Output
+        new cdk.CfnOutput(this, 'ShortlinkAPIEndpoint', {
+            value: httpApi.apiEndpoint + '/label/{orderId}',
         });
 
         const easyShipGetReportDocumentLambdaFunction = new lambda.CfnFunction(this, 'EASYSHIPGetReportDocumentLambdaFunction', {
@@ -458,7 +614,7 @@ export class SpApiAppCdkStack extends cdk.Stack {
                 s3Bucket: artifactsS3BucketName.valueAsString!,
                 s3Key: lambdaFunctionsCodeS3Key.valueAsString!,
             },
-            handler: easyShipGetReportDocumentLambdaFunctionHandler.valueAsString!,
+            handler: isPhp ? "lambda/index.php" : easyShipGetReportDocumentLambdaFunctionHandler.valueAsString!,
             role: spapiStoreDocumentLambdaExecutionRole.attrArn,
             runtime: programmingLanguage.valueAsString!,
             memorySize: 512,
@@ -467,8 +623,11 @@ export class SpApiAppCdkStack extends cdk.Stack {
                 variables: {
                     'EASYSHIP_LABEL_DOCUMENTS_S3_BUCKET_NAME': spapiEasyShipDocumentsS3Bucket.ref,
                     'SP_API_APP_CREDENTIALS_SECRET_ARN': spapiAppCredentials.ref,
+                    'URL_TABLE_NAME': spapiQueryUrlsTable.ref,
+                    'SHORTLINK_BASE_URL': `${httpApi.apiEndpoint}/label/`
                 },
             },
+            layers: isPhp ? layersConfig : undefined,
         });
 
         const easyShipGetScheduledPackageLambdaFunction = new lambda.CfnFunction(this, 'EASYSHIPGetScheduledPackageLambdaFunction', {
@@ -481,7 +640,7 @@ export class SpApiAppCdkStack extends cdk.Stack {
                 s3Bucket: artifactsS3BucketName.valueAsString!,
                 s3Key: lambdaFunctionsCodeS3Key.valueAsString!,
             },
-            handler: easyShipGetScheduledPackageLambdaFunctionHandler.valueAsString!,
+            handler: isPhp ? "lambda/index.php" : easyShipGetScheduledPackageLambdaFunctionHandler.valueAsString!,
             role: spapiLambdaExecutionRole.attrArn,
             runtime: programmingLanguage.valueAsString!,
             memorySize: 512,
@@ -491,6 +650,7 @@ export class SpApiAppCdkStack extends cdk.Stack {
                     'SP_API_APP_CREDENTIALS_SECRET_ARN': spapiAppCredentials.ref,
                 },
             },
+            layers: isPhp ? layersConfig : undefined,
         });
 
         const easyShipInventoryCheckLambdaFunction = new lambda.CfnFunction(this, 'EASYSHIPInventoryCheckLambdaFunction', {
@@ -503,7 +663,7 @@ export class SpApiAppCdkStack extends cdk.Stack {
                 s3Bucket: artifactsS3BucketName.valueAsString!,
                 s3Key: lambdaFunctionsCodeS3Key.valueAsString!,
             },
-            handler: easyShipInventoryCheckLambdaFunctionHandler.valueAsString!,
+            handler: isPhp ? "lambda/index.php" : easyShipInventoryCheckLambdaFunctionHandler.valueAsString!,
             role: spapiDynamoDBReaderLambdaExecutionRole.attrArn,
             runtime: programmingLanguage.valueAsString!,
             memorySize: 512,
@@ -514,6 +674,7 @@ export class SpApiAppCdkStack extends cdk.Stack {
                     'INVENTORY_TABLE_NAME': spapiQueryItemsTable.ref,
                 },
             },
+            layers: isPhp ? layersConfig : undefined,
         });
 
         const easyShipListHandoverSlotsLambdaFunction = new lambda.CfnFunction(this, 'EASYSHIPListHandoverSlotsLambdaFunction', {
@@ -526,7 +687,7 @@ export class SpApiAppCdkStack extends cdk.Stack {
                 s3Bucket: artifactsS3BucketName.valueAsString!,
                 s3Key: lambdaFunctionsCodeS3Key.valueAsString!,
             },
-            handler: easyShipListHandoverSlotsLambdaFunctionHandler.valueAsString!,
+            handler: isPhp ? "lambda/index.php" : easyShipListHandoverSlotsLambdaFunctionHandler.valueAsString!,
             role: spapiLambdaExecutionRole.attrArn,
             runtime: programmingLanguage.valueAsString!,
             memorySize: 512,
@@ -536,6 +697,7 @@ export class SpApiAppCdkStack extends cdk.Stack {
                     'SP_API_APP_CREDENTIALS_SECRET_ARN': spapiAppCredentials.ref,
                 },
             },
+            layers: isPhp ? layersConfig : undefined,
         });
 
         const easyShipRetrieveOrderLambdaFunction = new lambda.CfnFunction(this, 'EASYSHIPRetrieveOrderLambdaFunction', {
@@ -548,7 +710,7 @@ export class SpApiAppCdkStack extends cdk.Stack {
                 s3Bucket: artifactsS3BucketName.valueAsString!,
                 s3Key: lambdaFunctionsCodeS3Key.valueAsString!,
             },
-            handler: easyShipRetrieveOrderLambdaFunctionHandler.valueAsString!,
+            handler: isPhp ? "lambda/index.php" : easyShipRetrieveOrderLambdaFunctionHandler.valueAsString!,
             role: spapiLambdaExecutionRole.attrArn,
             runtime: programmingLanguage.valueAsString!,
             memorySize: 512,
@@ -558,6 +720,7 @@ export class SpApiAppCdkStack extends cdk.Stack {
                     'SP_API_APP_CREDENTIALS_SECRET_ARN': spapiAppCredentials.ref,
                 },
             },
+            layers: isPhp ? layersConfig : undefined,
         });
 
         const easyShipSubmitFeedRequestLambdaFunction = new lambda.CfnFunction(this, 'EASYSHIPSubmitFeedRequestLambdaFunction', {
@@ -570,7 +733,7 @@ export class SpApiAppCdkStack extends cdk.Stack {
                 s3Bucket: artifactsS3BucketName.valueAsString!,
                 s3Key: lambdaFunctionsCodeS3Key.valueAsString!,
             },
-            handler: easyShipSubmitFeedRequestLambdaFunctionHandler.valueAsString!,
+            handler: isPhp ? "lambda/index.php" : easyShipSubmitFeedRequestLambdaFunctionHandler.valueAsString!,
             role: spapiLambdaExecutionRole.attrArn,
             runtime: programmingLanguage.valueAsString!,
             memorySize: 512,
@@ -580,6 +743,7 @@ export class SpApiAppCdkStack extends cdk.Stack {
                     'SP_API_APP_CREDENTIALS_SECRET_ARN': spapiAppCredentials.ref,
                 },
             },
+            layers: isPhp ? layersConfig : undefined,
         });
 
         const easyShipSubscribeNotificationsLambdaFunction = new lambda.CfnFunction(this, 'EASYSHIPSubscribeNotificationsLambdaFunction', {
@@ -592,7 +756,7 @@ export class SpApiAppCdkStack extends cdk.Stack {
                 s3Bucket: artifactsS3BucketName.valueAsString!,
                 s3Key: lambdaFunctionsCodeS3Key.valueAsString!,
             },
-            handler: easyShipSubscribeNotificationsLambdaFunctionHandler.valueAsString!,
+            handler: isPhp ? "lambda/index.php" : easyShipSubscribeNotificationsLambdaFunctionHandler.valueAsString!,
             role: spapiLambdaExecutionRole.attrArn,
             runtime: programmingLanguage.valueAsString!,
             memorySize: 512,
@@ -606,6 +770,7 @@ export class SpApiAppCdkStack extends cdk.Stack {
                     'SHIP_FROM_EMAIL': notificationEmail.valueAsString!,
                 },
             },
+            layers: isPhp ? layersConfig : undefined,
         });
 
 
@@ -759,7 +924,7 @@ export class SpApiAppCdkStack extends cdk.Stack {
                 s3Bucket: artifactsS3BucketName.valueAsString!,
                 s3Key: lambdaFunctionsCodeS3Key.valueAsString!,
             },
-            handler: easyShipProcessNotificationLambdaFunctionHandler.valueAsString!,
+            handler: isPhp ? "lambda/index.php" : easyShipProcessNotificationLambdaFunctionHandler.valueAsString!,
             role: spapiNotificationsLambdaExecutionRole.attrArn,
             runtime: programmingLanguage.valueAsString!,
             memorySize: 512,
@@ -771,6 +936,7 @@ export class SpApiAppCdkStack extends cdk.Stack {
                     'REGION_CODE': regionCode.valueAsString!,
                 },
             },
+            layers: isPhp ? layersConfig : undefined,
         });
 
         const spapiNotificationsEventSourceMapping = new lambda.CfnEventSourceMapping(this, 'SPAPINotificationsEventSourceMapping', {

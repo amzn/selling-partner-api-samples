@@ -1,0 +1,36 @@
+{
+    "name": "hollodotme/fast-cgi-client",
+    "description": "A PHP fast CGI client to send requests (a)synchronously to PHP-FPM.",
+    "keywords": [
+        "fastcgi",
+        "php-fpm",
+        "socket",
+        "async"
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Holger Woltersdorf",
+            "email": "hw@hollo.me"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "hollodotme\\FastCGI\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "hollodotme\\FastCGI\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=7.1",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "ext-xdebug": ">=2.6.0"
+    }
+}

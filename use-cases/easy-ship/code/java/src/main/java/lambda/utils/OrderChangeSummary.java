@@ -1,7 +1,6 @@
 package lambda.utils;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import io.swagger.client.model.orders.OrderItem;
 import lombok.Data;
 
@@ -9,63 +8,62 @@ import java.util.List;
 
 
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderChangeSummary {
 
-    @JsonProperty("MarketplaceID")
+    @SerializedName("MarketplaceId")
     public String marketplaceID;
 
-    @JsonProperty("OrderStatus")
+    @SerializedName("OrderStatus")
     public String orderStatus;
 
-    @JsonProperty("PurchaseDate")
+    @SerializedName("PurchaseDate")
     public String purchaseDate;
 
-    @JsonProperty("DestinationPostalCode")
+    @SerializedName("DestinationPostalCode")
     public String destinationPostalCode;
 
-    @JsonProperty("FulfillmentType")
+    @SerializedName("FulfillmentType")
     public String fulfillmentType;
 
-    @JsonProperty("OrderType")
+    @SerializedName("OrderType")
     public String orderType;
 
-    @JsonProperty("NumberOfItemsShipped")
+    @SerializedName("NumberOfItemsShipped")
     public int numberOfItemsShipped;
 
-    @JsonProperty("NumberOfItemsUnshipped")
+    @SerializedName("NumberOfItemsUnshipped")
     public int numberOfItemsUnshipped;
 
-    @JsonProperty("EarliestDeliveryDate")
+    @SerializedName("EarliestDeliveryDate")
     public String earliestDeliveryDate;
 
-    @JsonProperty("LatestDeliveryDate")
+    @SerializedName("LatestDeliveryDate")
     public String latestDeliveryDate;
 
-    @JsonProperty("EarliestShipDate")
+    @SerializedName("EarliestShipDate")
     public String earliestShipDate;
 
-    @JsonProperty("LatestShipDate")
+    @SerializedName("LatestShipDate")
     public String latestShipDate;
 
-    @JsonProperty("CancelNotifyDate")
+    @SerializedName("CancelNotifyDate")
     public String cancelNotifyDate;
 
-    @JsonProperty("OrderPrograms")
+    @SerializedName("OrderPrograms")
     public List<String> orderPrograms;
 
-    @JsonProperty("ShippingPrograms")
+    @SerializedName("ShippingPrograms")
     public List<String> shippingPrograms;
 
-    @JsonProperty("EasyShipShipmentStatus")
+    @SerializedName("EasyShipShipmentStatus")
     public String easyShipShipmentStatus;
 
-    @JsonProperty("ElectronicInvoiceStatus")
+    @SerializedName("ElectronicInvoiceStatus")
     public String electronicInvoiceStatus;
 
-    @JsonProperty("OrderChangeTrigger")
+    @SerializedName("OrderChangeTrigger")
     public OrderChangeReason orderChangeTrigger;
 
-    @JsonProperty("OrderItems")
+    @SerializedName("OrderItems")
     public List<OrderItem> orderItems;
 }

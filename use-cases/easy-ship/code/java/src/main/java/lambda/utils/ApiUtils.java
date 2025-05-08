@@ -8,14 +8,13 @@ package lambda.utils;
 
 import com.amazon.SellingPartnerAPIAA.LWAAuthorizationCredentials;
 import com.amazon.SellingPartnerAPIAA.LWAClientScopes;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.client.api.*;
 import io.swagger.client.ApiClient;
 import lambda.utils.interfaces.ApiCredentialsProvider;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
 import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueRequest;
 import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueResponse;
-
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -87,12 +86,10 @@ public class ApiUtils {
         }
     }
 
-    private static LWAAuthorizationCredentials getLwaAuthorizationCredentials(String refreshToken) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
+    private static LWAAuthorizationCredentials getLwaAuthorizationCredentials(String refreshToken) throws IOException {    Gson gson = new Gson();
         String appCredentialsSecret = getSecretString(System.getenv(SP_API_APP_CREDENTIALS_SECRET_ARN_ENV_VARIABLE));
-        AppCredentials appCredentials = mapper.readValue(appCredentialsSecret, AppCredentials.class);
-        LWAAuthorizationCredentials lwaAuthorizationCredentials = getLWAAuthorizationCredentials(appCredentials, refreshToken);
-        return lwaAuthorizationCredentials;
+        AppCredentials appCredentials = gson.fromJson(appCredentialsSecret, AppCredentials.class);
+        return getLWAAuthorizationCredentials(appCredentials, refreshToken);
     }
 
     //Generate EasyShip API client
@@ -150,10 +147,11 @@ public class ApiUtils {
     //Generate Notifications API client
     public static NotificationsApi getNotificationsApi(String regionCode, String refreshToken, boolean isGrantlessOperation)
             throws Exception{
-        ObjectMapper mapper = new ObjectMapper();
 
         String appCredentialsSecret = getSecretString(System.getenv(SP_API_APP_CREDENTIALS_SECRET_ARN_ENV_VARIABLE));
-        AppCredentials appCredentials = mapper.readValue(appCredentialsSecret, AppCredentials.class);
+        Gson gson = new Gson();
+        AppCredentials appCredentials = gson.fromJson(appCredentialsSecret, AppCredentials.class);
+
 
         LWAAuthorizationCredentials lwaAuthorizationCredentials;
         if (isGrantlessOperation) {

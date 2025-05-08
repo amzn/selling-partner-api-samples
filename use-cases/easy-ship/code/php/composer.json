@@ -1,0 +1,56 @@
+{
+    "name": "spapi/auth-and-auth",
+    "description": "This library provides helper classes for use when signing HTTP requests for Amazon Selling Partner APIs.",
+    "type": "library",
+    "keywords": [
+        "sp-api",
+        "amazon",
+        "sdk",
+        "openapi-generator",
+        "php",
+        "rest"
+    ],
+    "homepage": "https://developer-docs.amazon.com/sp-api",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Amazon API Services",
+            "homepage": "https://developer-docs.amazon.com/sp-api"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7.3",
+        "guzzlehttp/psr7": "^2.0",
+        "aws/aws-sdk-php": "^3.342",
+        "symfony/http-kernel": "^7.2",
+        "symfony/rate-limiter": "^7.2",
+        "monolog/monolog": "^3.8",
+        "ext-zlib": "*",
+        "ext-dom": "*",
+        "amzn-spapi/sdk": "*",
+        "bref/bref": "^2.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.5",
+        "squizlabs/php_codesniffer": "^3.7"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Lambda\\": "lambda",
+            "Lambda\\Utils\\": "lambda/utils",
+            "Lambda\\Utils\\Model\\": "lambda/utils/model"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+        }
+    },
+    "scripts": {
+        "fix": "phpcs --standard=PSR12 sdk/src/authandauth sdk/src/tests/",
+        "test": "phpunit sdk/tests/authandauth"
+    }
+}

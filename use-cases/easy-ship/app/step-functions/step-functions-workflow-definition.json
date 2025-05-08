@@ -238,7 +238,8 @@
         }
       ],
       "ResultSelector": {
-        "presignedUrl.$": "$.Payload"
+        "subject.$": "$.Payload.subject",
+        "message.$": "$.Payload.message"
       },
       "ResultPath": "$.label.s3",
       "Next": "Notify Label Generation"
@@ -248,9 +249,8 @@
       "Resource": "arn:aws:states:::sns:publish",
       "Parameters": {
         "TopicArn": "${NotificationTopicArn}",
-        "Message": {
-          "LabelPresignedUrl.$": "$.label.s3.presignedUrl"
-        }
+        "Subject.$": "$.label.s3.subject",
+        "Message.$": "$.label.s3.message"
       },
       "End": true
     }
