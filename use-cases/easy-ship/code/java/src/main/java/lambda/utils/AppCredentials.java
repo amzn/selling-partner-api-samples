@@ -1,14 +1,14 @@
 package lambda.utils;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 @Data
 public class AppCredentials {
 
-    @JsonProperty("AppClientId")
+    @SerializedName("AppClientId")
     public String clientId;
 
-    @JsonProperty("AppClientSecret")
+    @SerializedName("AppClientSecret")
     public String clientSecret;
 }

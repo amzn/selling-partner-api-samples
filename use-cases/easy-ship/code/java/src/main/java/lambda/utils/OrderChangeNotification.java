@@ -1,26 +1,24 @@
 package lambda.utils;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderChangeNotification {
 
-    @JsonProperty("NotificationLevel")
+    @SerializedName("NotificationLevel")
     public String notificationLevel;
 
-    @JsonProperty("SellerId")
+    @SerializedName("SellerId")
     public String sellerId;
 
-    @JsonProperty("AmazonOrderId")
+    @SerializedName("AmazonOrderId")
     public String amazonOrderId;
 
-    @JsonProperty("OrderChangeTrigger")
+    @SerializedName("OrderChangeTrigger")
     public OrderChangeReason orderChangeTrigger;
 
-    @JsonProperty("Summary")
+    @SerializedName("Summary")
     public OrderChangeSummary summary;
 }

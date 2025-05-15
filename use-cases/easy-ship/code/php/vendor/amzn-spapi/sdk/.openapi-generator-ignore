@@ -1,0 +1,8 @@
+# Skip generation of unnecessary files
+
+.travis.yml
+git_push.sh
+README.md
+docs/
+phpunit.xml.dist
+.php-cs-fixer.dist.php

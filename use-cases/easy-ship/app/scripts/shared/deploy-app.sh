@@ -15,6 +15,7 @@ case "${language}" in
   javascript) runtime="nodejs18.x";;
   python) runtime="python3.8";;
   csharp) runtime="dotnet6";;
+  php) runtime="provided.al2";;
 *) echo "Undefined language"; exit;;
 esac
 
@@ -88,10 +89,61 @@ if [ "$language" == "java" ]; then
   retrieve_order_handler="lambda.RetrieveOrderHandler"
   submit_feed_request_handler="lambda.SubmitFeedRequestHandler"
   subscribe_notifications_handler="lambda.SubscribeNotificationsHandler"
+  redirect_handler="lambda.UrlRedirectHandler"
   mvn validate -f "${java_code_folder}pom.xml"
   mvn package -f "${java_code_folder}pom.xml"
   aws s3 cp "${java_code_folder}${java_code_jar}" "s3://${bucket_name}/${code_s3_key}"
 fi
+
+if [ "$language" == "php" ]; then
+  echo "Packaging and uploading PHP code"
+
+  php_code_folder="../../../code/php/"
+  php_lambda_folder="../../../code/php/lambda/"
+  php_code_zip="php-lambda-function.zip"
+  code_s3_key="src/php-lambda-function.zip"
+
+  # Map with PHP handler
+  create_scheduled_package_handler="lambda/CreateScheduledPackageHandler.php"
+  get_feed_document_handler="lambda/GetFeedDocumentHandler.php"
+  get_report_document_handler="lambda/GetReportDocumentHandler.php"
+  get_scheduled_package_handler="lambda/GetScheduledPackageHandler.php"
+  inventory_check_handler="lambda/InventoryCheckHandler.php"
+  list_handover_slots_handler="lambda/ListHandoverSlotsHandler.php"
+  process_notification_handler="lambda/ProcessNotificationHandler.php"
+  retrieve_order_handler="lambda/RetrieveOrderHandler.php"
+  submit_feed_request_handler="lambda/SubmitFeedRequestHandler.php"
+  subscribe_notifications_handler="lambda/SubscribeNotificationsHandler.php"
+  redirect_handler="lambda/UrlRedirectHandler.php"
+
+  # Ensure the directories exist
+  mkdir -p "${php_lambda_folder}"
+
+  # **Ensure index.php is executable**
+  if [ -f "${php_lambda_folder}/index.php" ]; then
+    chmod +x "${php_lambda_folder}/index.php"
+    echo "Set execute permission on index.php"
+  else
+    echo "Warning: index.php not found in ${php_lambda_folder}"
+  fi
+
+  # Package Lambda function
+  echo "Creating ZIP package..."
+  cd "${php_code_folder}"
+  zip -r "${php_code_zip}" index.php lambda/ vendor/ -x "bin/*"
+  cd -  # Return to the original directory
+
+  # **Upload to S3 before CDK deployment**
+  echo "Uploading PHP Lambda package to S3..."
+  aws s3 cp "${php_code_folder}${php_code_zip}" "s3://${bucket_name}/${code_s3_key}"
+  if [ $? -ne 0 ]; then
+    echo "Error: Uploading PHP Lambda package to S3 failed!" >&2
+    exit 1
+  fi
+
+  echo "Successfully uploaded PHP Lambda package to S3: s3://${bucket_name}/${code_s3_key}"
+fi
+
 
 # Upload the StepFunctions state machine definition to S3
 state_machine_s3_key="step-functions/state-machine-definition.json"
@@ -129,6 +181,7 @@ echo "Creating CDK stack..."
 cdk deploy "${stack_name}" --output "${cdk_deploy_output}" --app "${app_command}" --require-approval never \
   -c RANDOM_SUFFIX="${random_string}" \
   -c CDK_QUALIFIER="${cdk_namespace}" \
+  -c LANGUAGE="${language}" \
   --parameters accessKey="${sp_api_access_key}" \
   --parameters secretKey="${sp_api_secret_key}" \
   --parameters clientID="${sp_api_client_id}" \
@@ -148,10 +201,10 @@ cdk deploy "${stack_name}" --output "${cdk_deploy_output}" --app "${app_command}
   --parameters easyShipRetrieveOrderLambdaFunctionHandler="${retrieve_order_handler}" \
   --parameters easyShipSubmitFeedRequestLambdaFunctionHandler="${submit_feed_request_handler}" \
   --parameters easyShipSubscribeNotificationsLambdaFunctionHandler="${subscribe_notifications_handler}" \
+  --parameters easyShipUrlRedirectLambdaFunctionHandler="${redirect_handler}" \
   --parameters artifactsS3BucketName="${bucket_name}" \
   --parameters lambdaFunctionsCodeS3Key="${code_s3_key}" \
   --parameters stepFunctionStateMachineDefinitionS3Key="${state_machine_s3_key}"
-
 
 if [ $? -ne 0 ]
 then

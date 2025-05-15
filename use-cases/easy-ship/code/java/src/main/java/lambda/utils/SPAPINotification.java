@@ -1,21 +1,19 @@
 package lambda.utils;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class SPAPINotification {
 
-    @JsonProperty("NotificationType")
+    @SerializedName("NotificationType")
     public String notificationType;
 
-    @JsonProperty("EventTime")
+    @SerializedName("EventTime")
     public Date eventTime;
 
-    @JsonProperty("Payload")
+    @SerializedName("Payload")
     public NotificationPayload payload;
 }

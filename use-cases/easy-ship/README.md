@@ -77,6 +77,38 @@ input.setEasyShipOrder(easyShipOrder);
 
 return input;
 ```
+**PHP**
+
+*Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/easy-ship/code/php/lambda/RetrieveOrderHandler.php)*
+
+```PHP
+
+// Get Orders V0 API instance
+$ordersApi = ApiUtils::getOrdersApi($input);
+
+// API call to retrieve order
+$orderResponse = $ordersApi->getOrder($input->getAmazonOrderId());
+
+// API call to retrieve order items
+$orderItemsResponse = $ordersApi->getOrderItems($input->getAmazonOrderId(), null);
+
+// Validate EasyShip order
+if (
+    $orderResponse->getPayload()->getEasyShipShipmentStatus() !== EasyShipShipmentStatus::PENDING_SCHEDULE
+) {
+    throw new \InvalidArgumentException(sprintf(
+    'Amazon Order Id: %s is not an EasyShip order',
+    $input->getAmazonOrderId()
+    ));
+}
+
+// Process order items and set to EasyShipOrder
+$input->setEasyShipOrder(
+    new EasyShipOrder($this->getOrderItemList($orderItemsResponse)));
+
+return $input;
+
+```
 
 ### Check Inventory
 
@@ -158,6 +190,83 @@ Find the full code here
     return input;
 ```
 
+**PHP**
+
+*Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/easy-ship/code/php/lambda/InventoryCheckHandler.php)*
+
+```PHP
+foreach ($input->getEasyShipOrder()->getOrderItems() as $orderItem) {
+    // Retrieve the item from DynamoDB by SKU
+    $key = [
+        Constants::INVENTORY_TABLE_HASH_KEY_NAME => ['S' => $orderItem->getSku()]
+    ];
+
+    try {
+        $result = $dynamoDb->getItem([
+            'TableName' => getenv(Constants::INVENTORY_TABLE_NAME_ENV_VARIABLE),
+            'Key' => $key
+        ]);
+
+        $item = $result['Item'];
+
+        if ($item === null) {
+            $logger->error(sprintf("Item not found for SKU: %s", $orderItem->getSku()));
+            throw new \Exception(sprintf(
+                "Item not found for SKU {%s} in DynamoDB",
+                $orderItem->getSku()
+            ));
+        }
+
+        $stock = $item[Constants::INVENTORY_TABLE_STOCK_ATTRIBUTE_NAME]['N'];
+        if ((int)$stock < $orderItem->getQuantity()) {
+            throw new \Exception(sprintf(
+                "Stock level for SKU {%s} is not enough to fulfill the requested quantity",
+                $orderItem['sku']
+            ));
+        }
+
+        $itemWeightValue = (int)$item[Constants::INVENTORY_TABLE_WEIGHT_VALUE_ATTRIBUTE_NAME]['N'];
+        $itemWeightUnit = $item[Constants::INVENTORY_TABLE_WEIGHT_UNIT_ATTRIBUTE_NAME]['S'];
+
+        $itemLength = (int)$item[Constants::INVENTORY_TABLE_LENGTH_ATTRIBUTE_NAME]['N'];
+        $itemWidth = (int)$item[Constants::INVENTORY_TABLE_WIDTH_ATTRIBUTE_NAME]['N'];
+        $itemHeight = (int)$item[Constants::INVENTORY_TABLE_HEIGHT_ATTRIBUTE_NAME]['N'];
+        $itemSizeUnit = $item[Constants::INVENTORY_TABLE_SIZE_UNIT_ATTRIBUTE_NAME]['S'];
+
+        // Package weight is calculated by adding the individual weights
+        $packageWeightValue += $itemWeightValue;
+        $packageWeightUnit = $itemWeightUnit;
+
+        // Package size is calculated by adding the individual sizes
+        $packageLength += $itemLength;
+        $packageWidth += $itemWidth;
+        $packageHeight += $itemHeight;
+        $packageSizeUnit = $itemSizeUnit;
+    } catch (DynamoDbException $e) {
+        $logger->error("Unable to get item: " . $e->getMessage());
+        throw $e;
+    }
+}
+
+$packageWeight = new Weight([
+    'value' => $packageWeightValue,
+    'unit' => $packageWeightUnit
+]);
+
+$input->getEasyShipOrder()->setPackageWeight($packageWeight);
+
+$packageDimensions = new Dimensions([
+    'length' => $packageLength,
+    'width' => $packageWidth,
+    'height' => $packageHeight,
+    'unit' => $packageSizeUnit
+]);
+
+$input->getEasyShipOrder()->setPackageDimensions($packageDimensions);
+
+return $input;
+```
+
 ### Get Handover Slots list
 
 Once the inventory is checked and Weight and Dimensions are retrieved, we use the [listHandoverSlots](https://developer-docs.amazon.com/sp-api/docs/easy-ship-api-v2022-03-23-reference#post-easyship2022-03-23timeslot) operation to check for available handover slots list.
@@ -187,6 +296,29 @@ Once the inventory is checked and Weight and Dimensions are retrieved, we use th
 
     input.setTimeSlots((response.getTimeSlots()));
     return input;
+```
+**PHP**
+
+*Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/easy-ship/code/php/lambda/ListHandoverSlotsHandler.php)*
+
+```PHP
+// Prepare the request payload
+$request = (new ListHandoverSlotsRequest())
+->setAmazonOrderId($input->getAmazonOrderId())
+->setMarketplaceId($input->getMarketplaceId())
+->setPackageDimensions($input->getEasyShipOrder()->getPackageDimensions())
+->setPackageWeight($input->getEasyShipOrder()->getPackageWeight());
+
+// Initialize the EasyShip API client
+$easyShipApi = ApiUtils::getEasyShipApi($input);
+
+// Call the API to list handover slots
+$response = $easyShipApi->listHandoverSlots($request);
+
+// Set time slots in the input for further processing
+$input->setTimeSlots($response->getTimeSlots());
+
+return $input;
 ```
 
 ### Create Schedule package with the preferred shipment handover slots
@@ -221,6 +353,35 @@ After getting the eligible Handover slots, Call [createScheduledPackage](https:/
     return input;
 ```
 
+**PHP**
+
+*Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/easy-ship/code/php/lambda/CreateScheduledPackageHandler.php)*
+
+```PHP
+// Prepare the CreateScheduledPackageRequest payload
+$requestPayload = (new CreateScheduledPackageRequest())
+    ->setAmazonOrderId($input->getAmazonOrderId())
+    ->setMarketplaceId($input->getMarketplaceId())
+    ->setPackageDetails(
+        (new PackageDetails())
+->setPackageTimeSlot($input->getTimeSlots()[0])
+->setPackageItems($items)
+    );
+$logger->info('EasyShip API - CreateScheduledPackage request: ' . json_encode($requestPayload));
+
+// Create an API instance
+$easyShipApi = ApiUtils::getEasyShipApi($input);
+// Call the EasyShip API
+$response = $easyShipApi->createScheduledPackage($requestPayload);
+
+$logger->info('EasyShip API - CreateScheduledPackage response: ' . json_encode($response));
+
+// Store ScheduledPackageId to validate scheduled correctly using this information on the next step
+$input->setScheduledPackageId($response->getScheduledPackageId());
+
+return $input;
+```
+
 ### Confirm scheduled shipment by Scheduled Package Id
 
 After creating schedule package on EasyShip, confirm schedule was created as expected by calling [getScheduledPackage](https://developer-docs.amazon.com/sp-api/docs/easy-ship-api-v2022-03-23-reference#get-easyship2022-03-23package) operation.
@@ -244,6 +405,32 @@ Note that, this step was added for making sure, so it can be skipped if not need
         throw new IllegalArgumentException(
         String.format("Amazon Order Id : %s was not scheduled correctly", input.getAmazonOrderId()));
     }
+```
+
+**PHP**
+
+*Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/easy-ship/code/php/lambda/GetScheduledPackageHandler.php)*
+
+```PHP
+// Initialize EasyShip API client
+$easyShipApi = ApiUtils::getEasyShipApi($input);
+
+// Call the EasyShip API to get the scheduled package
+$response = $easyShipApi->getScheduledPackage(
+    $input->getAmazonOrderId(),
+    $input->getMarketplaceId()
+);
+$logger->info('EasyShip API - GetScheduledPackage response: ' . json_encode($response));
+// Validate if the scheduled package ID matches the expected ID
+if (trim($response->getScheduledPackageId()->getPackageId())
+    !== trim($input->getScheduledPackageId()->getPackageId())) {
+    throw new \InvalidArgumentException(sprintf(
+        'Amazon Order Id: %s was not scheduled correctly',
+        $input->getAmazonOrderId()
+    ));
+}
+
+return $input;
 ```
 
 ### Submit Feed Request for printing shipping label
@@ -293,6 +480,52 @@ Detailed instruction can be found [Tutorial: Get shipping labels, invoice, and w
     return input;
 ```
 
+**PHP**
+
+*Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/easy-ship/code/php/lambda/SubmitFeedRequestHandler.php)*
+
+```PHP
+// Initialize Feeds API client
+$feedsApi = ApiUtils::getFeedsApi($input);
+
+// Create Feed Document
+$contentType = 'text/xml; charset=UTF-8';
+$createFeedDocumentSpec = new CreateFeedDocumentSpecification(['content_type' => $contentType]);
+
+$createFeedDocumentResponse = $feedsApi->createFeedDocument($createFeedDocumentSpec);
+$logger->info('Feed API - Create Feeds document response: ' . json_encode($createFeedDocumentResponse));
+
+// Upload Feed Document
+$url = $createFeedDocumentResponse->getUrl();
+$content = XmlUtil::generateEasyShipAmazonEnvelope(
+    $input->getSellerId(),
+    $input->getAmazonOrderId(),
+    Constants::FEED_OPTIONS_DOCUMENT_TYPE_VALUE
+);
+
+HttpFileTransferUtil::upload($content, $url);
+
+// Create Feed
+$createFeedSpec = (new CreateFeedSpecification())
+    ->setFeedType(Constants::POST_EASYSHIP_DOCUMENTS)
+    ->setMarketplaceIds([$input->getMarketplaceId()])
+    ->setFeedOptions([
+        Constants::FEED_OPTIONS_KEY_AMAZON_ORDER_ID => $input->getAmazonOrderId(),
+        Constants::FEED_OPTIONS_KEY_DOCUMENT_TYPE => Constants::FEED_OPTIONS_DOCUMENT_TYPE_VALUE
+    ])
+    ->setInputFeedDocumentId($createFeedDocumentResponse->getFeedDocumentId());
+
+
+$logger->info('Feed API - Create Feeds request body: ' . json_encode($createFeedSpec));
+$createFeedResponse = $feedsApi->createFeed($createFeedSpec);
+$logger->info('Feed API - Create Feeds response: ' . json_encode($createFeedResponse));
+
+// Set Feed ID in input
+$input->setFeedId($createFeedResponse->getFeedId());
+
+return $input;
+```
+
 ### Get Feed Document to identify document Report Reference Id
 
 After creating the Feed request, wait until the Feed process is completed by confirming its status via the [getFeed](https://developer-docs.amazon.com/sp-api/docs/feeds-api-v2021-06-30-reference#get-feeds2021-06-30feedsfeedid) operation.
@@ -329,6 +562,31 @@ Then call [getFeedDocument](https://developer-docs.amazon.com/sp-api/docs/feeds-
     return input;
 ```
 
+**PHP**
+
+*Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/easy-ship/code/php/lambda/GetReportDocumentHandler.php)*
+
+```PHP
+ // Initialize API Client
+ $feedsApi = ApiUtils::getFeedsApi($input);
+
+ // Wait for Feed completion
+ $resultFeedDocumentId = $this->waitForFeedCompletion($feedsApi, $input->getFeedId(), $logger);
+
+ // Get Feed Document
+ $document = $this->getFeedDocument($feedsApi, $resultFeedDocumentId, $logger);
+
+ // Download Document
+ $documentStream = HttpFileTransferUtil::download($document->getUrl());
+
+ // Extract documentReportReferenceId from the document
+ $documentReportReferenceId =
+     XmlUtil::getXmlDocumentTag($documentStream, Constants::FEED_DOCUMENT_REPORT_REFERENCE_ID);
+ $input->setReportId($documentReportReferenceId);
+
+ return $input;
+```
+
 ### Download shipping label from Report API and Store it to S3 then generate pre-signed URL
 
 After identifying documentReportReferenceId by downloading Feeds Result Document, 
@@ -349,29 +607,85 @@ download the document, store it in S3 and generate pre-signed URL which will be 
 *Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/easy-ship/code/java/src/main/java/lambda/GetReportDocumentHandler.java)*
 
 ```java
-    //Initialize API Client
-    ReportsApi reportsApi = ApiUtils.getReportsApi(input);
-    
-    // Get reportDocumentId from ReportAPI
-    String reportDocumentId = waitForReportCompletion(reportsApi, input, logger);
-    
-    // Get Report Document
-    String documentUrl = getReportDocumentUrl(reportsApi, reportDocumentId, logger);
-    
-    // Download Report Document
-    InputStream documentStream = HttpFileTransferUtil.download(documentUrl, null);
-    // Get S3 bucket name from environment variables
-    String s3BucketName = System.getenv(EASYSHIP_LABEL_S3_BUCKET_NAME_ENV_VARIABLE);
-    // Generate S3 key for the document
-    String objectKey = generateObjectKey(input);
-    logger.log("S3 Bucket Name: " + s3BucketName + " S3 Object Key: " + objectKey);
+ //Initialize API Client
+ReportsApi reportsApi = ApiUtils.getReportsApi(input);
 
-    //Store into S3 bucket
-    storeDocumentInS3(s3BucketName, objectKey, documentStream);
-    
-    //Generate a presigned url to browse the label
-    return generatePresignedUrl(s3BucketName, objectKey, logger);
+// Get reportDocumentId from ReportAPI
+String reportDocumentId = waitForReportCompletion(reportsApi, input, logger);
+
+// Get Report Document
+String documentUrl = getReportDocumentUrl(reportsApi, reportDocumentId, logger);
+
+// Download Report Document
+InputStream documentStream = HttpFileTransferUtil.download(documentUrl, null);
+// Get S3 bucket name from environment variables
+String s3BucketName = System.getenv(EASYSHIP_LABEL_S3_BUCKET_NAME_ENV_VARIABLE);
+// Generate S3 key for the document
+String objectKey = generateObjectKey(input);
+ logger.log("S3 Bucket Name: " + s3BucketName + " S3 Object Key: " + objectKey);
+
+// Store into S3 bucket
+storeDocumentInS3(s3BucketName, objectKey, documentStream);
+
+// Generate a presigned url to browse the label
+String url = generatePresignedUrl(s3BucketName, objectKey, logger);
+
+// Store longURL to DynamoDB and generate short URL
+String shortUrl = storeToDynamoDb(input.getAmazonOrderId(), url);
+
+// Generate Message content
+return generateMessageContents(shortUrl, input, logger);
 ```
 
-The pre-signed URL is finally passed to next steps such as printing.
-In this sample solution, the step functions last step provides the pre-signed URl to an SNS topic which triggers then sends it by Email.  
+**PHP**
+
+*Find the full code [here](https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/easy-ship/code/php/lambda/GetReportDocumentHandler.php)*
+
+```PHP
+ // Initialize API Client
+ $reportsApi = ApiUtils::getReportsApi($input);
+
+ // Get reportDocumentId from ReportAPI
+ $reportDocumentId = $this->waitForReportCompletion($reportsApi, $input, $logger);
+
+ // Get Report Document
+ $documentUrl = $this->getReportDocumentUrl($reportsApi, $reportDocumentId, $logger);
+
+ // Download Report Document
+ $documentStream = HttpFileTransferUtil::download($documentUrl);
+
+ // Get S3 bucket name from environment variables
+ $s3BucketName = getenv(Constants::EASYSHIP_LABEL_S3_BUCKET_NAME_ENV_VARIABLE);
+ $objectKey = $this->generateObjectKey($input);
+
+ $logger->info('S3 Bucket Name: ' . $s3BucketName . ' S3 Object Key: ' . $objectKey);
+
+ // Store into S3 bucket
+ $this->storeDocumentInS3($s3BucketName, $objectKey, $documentStream);
+
+ // Generate a presigned URL
+ $presignedUrl = $this->generatePresignedUrl($s3BucketName, $objectKey, $logger);
+
+ // Generate shortlink and store to DynamoDB
+ $shortUrl = $this->convertToShortUrl($presignedUrl, $input, $logger);
+
+ // Generate Message content
+ return $this->generateMessageContents($shortUrl, $input, $logger);
+```
+
+The shortened pre-signed URL is finally passed to next steps for sending email.
+In this sample solution, the step functions last step provides the pre-signed URl to an SNS topic which triggers then sends it by Email such as below.  
+
+Title
+```
+Label Ready - Order 2XX-XXXXXXX-XXXXXXX
+```
+Contents
+```
+Your shipping label is ready.
+Order Number: 2XX-XXXXXXX-XXXXXXX
+Time of Pickup: 2025-03-28T10:00:00+00:00 ~ 2025-03-28T12:30:00+00:00
+Sku: MX-XXXX-XXXX
+Download your label:
+https://xxxxxxxx.execute-api.us-west-x.amazonaws.com/label/2XX-XXXXXXX-XXXXXXX
+```
