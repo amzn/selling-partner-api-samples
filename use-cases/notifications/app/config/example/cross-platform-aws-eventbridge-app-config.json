@@ -1,0 +1,26 @@
+{
+  "GrantlessOperationConfig": {
+    "ClientId": "amzn1.application-oa2-client.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "ClientSecret": "amzn1.oa2-cs.v1.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "RegionCode": "FE"
+  },
+  "SecretsFileName": "secret.csv",
+  "NotificationTypes": [
+    {
+      "NotificationType": "ORDER_CHANGE",
+      "CrossPlatform": {
+        "DestinationType": "AWS_EVENTBRIDGE",
+        "TargetEventBusArn": "arn:aws:events:us-west-2:570937621669:event-bus/cross-account-event-bus",
+        "Lambda": "lambda.process.crossplatform.SQSNotificationsOrderChangeHandler",
+        "DlqLambda": "lambda.process.crossplatform.SQSReprocessOrderChangeHandler"
+      }
+    },
+    {
+      "NotificationType": "LISTINGS_ITEM_MFN_QUANTITY_CHANGE",
+      "CrossPlatform": {
+        "DestinationType": "AWS_EVENTBRIDGE",
+        "TargetEventBusArn": "arn:aws:events:us-west-2:570937621669:event-bus/cross-account-event-bus"
+      }
+    }
+  ]
+}
