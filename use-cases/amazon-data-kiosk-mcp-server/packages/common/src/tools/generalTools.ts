@@ -1,7 +1,7 @@
 // src/tools/generalTools.ts
 import { z } from "zod";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { makeApiRequest, downloadDocument } from "../api/baseApi.js";
+import { makeApiRequest, downloadDocument, readFileContent } from "../api/baseApi.js";
 import { formatQueryStatus, formatDocumentContent, formatErrorMessage } from "../utils/formatters.js";
 import { API_VERSION } from "../utils/constants.js";
 
@@ -22,17 +22,17 @@ export function registerGeneralTools(server: McpServer): void {
     async ({ processingStatus, pageSize, createdSince }) => {
       try {
         let path = `/dataKiosk/${API_VERSION}/queries?pageSize=${pageSize}`;
-        
+
         if (processingStatus) {
           path += `&processingStatuses=${processingStatus}`;
         }
-        
+
         if (createdSince) {
           path += `&createdSince=${createdSince}`;
         }
-        
+
         const result = await makeApiRequest(path, "GET");
-        
+
         return {
           content: [
             {
@@ -65,7 +65,7 @@ export function registerGeneralTools(server: McpServer): void {
       try {
         const body = { query: graphqlQuery };
         const result = await makeApiRequest(`/dataKiosk/${API_VERSION}/queries`, "POST", body);
-        
+
         return {
           content: [
             {
@@ -98,7 +98,7 @@ export function registerGeneralTools(server: McpServer): void {
       try {
         const result = await makeApiRequest(`/dataKiosk/${API_VERSION}/queries/${queryId}`, "GET");
         const statusText = formatQueryStatus(result);
-        
+
         return {
           content: [
             {
@@ -110,7 +110,7 @@ export function registerGeneralTools(server: McpServer): void {
       } catch (error) {
         // Improve error handling with specific guidance based on error type
         let errorMessage = formatErrorMessage(error, `checking query status for ${queryId}`);
-        
+
         return {
           content: [
             {
@@ -133,7 +133,7 @@ export function registerGeneralTools(server: McpServer): void {
     async ({ queryId }) => {
       try {
         await makeApiRequest(`/dataKiosk/${API_VERSION}/queries/${queryId}`, "DELETE");
-        
+
         return {
           content: [
             {
@@ -165,7 +165,7 @@ export function registerGeneralTools(server: McpServer): void {
     async ({ documentId }) => {
       try {
         const result = await makeApiRequest(`/dataKiosk/${API_VERSION}/documents/${documentId}`, "GET");
-        
+
         return {
           content: [
             {
@@ -177,7 +177,7 @@ export function registerGeneralTools(server: McpServer): void {
       } catch (error) {
         // Improve error handling with specific error messages
         const errorMessage = formatErrorMessage(error, `retrieving document details for ${documentId}`);
-        
+
         return {
           content: [
             {
@@ -193,20 +193,29 @@ export function registerGeneralTools(server: McpServer): void {
   // Tool to download document content
   server.tool(
     "download-document",
-    "Download the content of a document using its URL",
+    "Download the content of a document using its URL and save it to the local filesystem",
     {
       url: z.string().url().describe("The URL of the document to download")
     },
     async ({ url }) => {
       try {
-        const content = await downloadDocument(url);
-        const formattedContent = formatDocumentContent(content);
-        
+        const result = await downloadDocument(url);
+
         return {
           content: [
             {
               type: "text",
-              text: `Document Content (first 5000 characters):\n\n${formattedContent}`
+              text: `Document successfully downloaded and saved!
+
+File Details:
+- Saved to: ${result.savedPath}
+- File size: ${(result.size / 1024).toFixed(2)} KB
+- Downloaded at: ${result.timestamp}
+
+Content Preview:
+${result.contentPreview}
+
+The complete document has been saved and can be accessed at the path shown above.`
             }
           ]
         };
@@ -215,7 +224,7 @@ export function registerGeneralTools(server: McpServer): void {
           content: [
             {
               type: "text",
-              text: formatErrorMessage(error, "downloading document")
+              text: formatErrorMessage(error, "downloading and saving document")
             }
           ]
         };
@@ -223,15 +232,16 @@ export function registerGeneralTools(server: McpServer): void {
     }
   );
 
+
   // Tool to get API overview and help
   server.tool(
     "get-api-help",
     "Get help information about the Amazon Data Kiosk API",
     {
       topic: z.enum([
-        "overview", 
-        "authentication", 
-        "queries", 
+        "overview",
+        "authentication",
+        "queries",
         "documents",
         "graphql",
         "troubleshooting"
@@ -239,7 +249,7 @@ export function registerGeneralTools(server: McpServer): void {
     },
     async ({ topic }) => {
       let helpText = "";
-      
+
       switch (topic) {
         case "overview":
           helpText = `
@@ -272,7 +282,7 @@ Amazon Data Kiosk is a secure, GraphQL-based dynamic reporting suite within the 
 - Appropriate role access is required for different data types
 - Data is returned in JSONL format for successful queries`;
           break;
-          
+
         case "authentication":
           helpText = `
 # Authentication for Amazon Data Kiosk API
@@ -303,7 +313,7 @@ The Amazon Data Kiosk API uses OAuth 2.0 for authentication.
 
 For more detailed authentication information, refer to the [Selling Partner API Authentication documentation](https://developer-docs.amazon.com/sp-api/docs/sp-api-authentication).`;
           break;
-          
+
         case "queries":
           helpText = `
 # Working with Queries in Amazon Data Kiosk API
@@ -341,7 +351,7 @@ Queries are the primary way to retrieve data from the Data Kiosk API.
 - Filter data where possible to reduce volume
 - Avoid overly complex nested queries`;
           break;
-          
+
         case "documents":
           helpText = `
 # Working with Documents in Amazon Data Kiosk API
@@ -376,7 +386,7 @@ Documents contain the results of successful queries.
 - Document retention period varies by data type
 - Some documents may be compressed`;
           break;
-          
+
         case "graphql":
           helpText = `
 # Using GraphQL with Amazon Data Kiosk API
@@ -430,7 +440,7 @@ query MyQuery {
 }
 \`\`\``;
           break;
-          
+
         case "troubleshooting":
           helpText = `
 # Troubleshooting Amazon Data Kiosk API Issues
@@ -469,7 +479,7 @@ Common issues and their solutions when working with the Data Kiosk API.
 If issues persist, check the [Amazon Selling Partner API documentation](https://developer-docs.amazon.com/sp-api/) or contact Amazon Seller Support.`;
           break;
       }
-      
+
       return {
         content: [
           {
@@ -480,4 +490,63 @@ If issues persist, check the [Amazon Selling Partner API documentation](https://
       };
     }
   );
+
+  // src/tools/generalTools.ts
+
+  // ... (previous imports and code)
+
+  server.tool(
+    "read-file",
+    "Read content from a file at the specified path",
+    {
+      filePath: z.string().describe("Path to the file to read"),
+      maxLines: z.number().min(1).optional()
+        .describe("Maximum number of lines to read (default: entire file)"),
+      startLine: z.number().min(1).default(1)
+        .describe("Line number to start reading from (default 1)")
+    },
+    async ({ filePath, maxLines, startLine }) => {
+      try {
+        const result = await readFileContent(filePath, maxLines, startLine);
+
+        let contentPreview = result.content;
+        let contentMessage = '';
+
+        // If the content is very large, truncate it and add a message
+        if (contentPreview.length > 10000) {
+          contentPreview = contentPreview.substring(0, 10000) + '...';
+          contentMessage = '\n\nNote: The content has been truncated due to its large size. Use maxLines parameter to limit the output or read the file directly.';
+        }
+
+        return {
+          content: [{
+            type: "text",
+            text: `File Information:
+- Path: ${result.fileInfo.path}
+- Size: ${result.fileInfo.size}
+- Created: ${result.fileInfo.created}
+- Last Modified: ${result.fileInfo.modified}
+- Total Lines: ${result.fileInfo.totalLines}
+
+Showing lines ${result.startLine} to ${result.endLine} ${result.hasMoreLines ? '(more lines available)' : ''}:
+
+${contentPreview}
+
+${contentMessage}
+
+${result.hasMoreLines ? `\nTo see more lines, adjust startLine and maxLines parameters. Current file has ${result.fileInfo.totalLines} total lines.` : ''}`
+          }]
+        };
+
+      } catch (error) {
+        return {
+          content: [{
+            type: "text",
+            text: formatErrorMessage(error, `reading file at ${filePath}`)
+          }]
+        };
+      }
+    }
+  );
+
 }
