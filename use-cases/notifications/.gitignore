@@ -1,0 +1,24 @@
+*.js
+!jest.config.js
+*.d.ts
+node_modules
+.DS_Store
+*.DS_Store
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+
+# IntelliJ IDEA project settings
+.idea/
+
+# Java build artifacts
+code/java/target/
+code/java/.idea/
+
+# Java script-specific cache files
+app/scripts/java/.last_s3_key
+app/scripts/java/tmp/
+
+# Node.js dependencies
+node_modules/

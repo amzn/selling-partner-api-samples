@@ -1,0 +1,32 @@
+{
+  "GrantlessOperationConfig": {
+    "ClientId": "amzn1.application-oa2-client.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "ClientSecret": "amzn1.oa2-cs.v1.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "RegionCode": "FE"
+  },
+  "SecretsFileName": "secret.csv",
+  "NotificationTypes": [
+    {
+      "NotificationType": "ORDER_CHANGE",
+      "WebHook": {
+        "Url": "https://xxxxxxxxx.execute-api.us-west-2.amazonaws.com/prod/webhook",
+        "Auth": {
+          "HeaderName": "x-auth-token",
+          "Value": "6a615540-a0a4-d1dd-dae3-xxxxxxxxxxx"
+        },
+        "Lambda": "lambda.process.webhook.SQSNotificationsOrderChangeHandler",
+        "DlqLambda": "lambda.process.webhook.SQSReprocessOrderChangeHandler"
+      }
+    },
+    {
+      "NotificationType": "LISTINGS_ITEM_MFN_QUANTITY_CHANGE",
+      "WebHook": {
+        "Url": "https://xxxxxxxxx.execute-api.us-west-2.amazonaws.com/prod/webhook",
+        "Auth": {
+          "HeaderName": "x-auth-token",
+          "Value": "6a615540-a0a4-d1dd-dae3-xxxxxxxxxxx"
+        }
+      }
+    }
+  ]
+}

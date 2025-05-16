@@ -1,0 +1,10 @@
+{
+  "GrantlessOperationConfig": {
+    "ClientId": "<dev_value>",
+    "ClientSecret": "<dev_value>",
+    "RegionCode": "<dev_value>"
+  },
+  "SecretsFileName": "<dev_value>",
+  "NotificationTypes": [
+  ]
+}

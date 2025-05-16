@@ -1,0 +1,94 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Webhook Receiver using API Gateway + Lambda
+
+Resources:
+
+  WebhookLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: webhook-receiver-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaBasicExecution
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: '*'
+
+  WebhookLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: webhook-receiver
+      Handler: index.handler
+      Runtime: nodejs18.x
+      Role: !GetAtt WebhookLambdaRole.Arn
+      Code:
+        ZipFile: |
+          exports.handler = async (event) => {
+            const token = event.headers['x-auth-token'];
+            if (token !== '6a615540-a0a4-d1dd-dae3-37c73fb002de') {
+              return {
+                statusCode: 403,
+                body: JSON.stringify({ message: 'Forbidden' }),
+              };
+            }
+            console.log("📨 Webhook Received:");
+            console.log(JSON.stringify(event, null, 2));
+            return {
+              statusCode: 200,
+              body: JSON.stringify({ message: "Received" }),
+            };
+          };
+
+  HttpApi:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: webhook-api
+      ProtocolType: HTTP
+
+  WebhookIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref HttpApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub
+        arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${WebhookLambdaFunction.Arn}/invocations
+      PayloadFormatVersion: '2.0'
+
+  WebhookRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref HttpApi
+      RouteKey: 'POST /webhook'
+      Target: !Sub integrations/${WebhookIntegration}
+
+  WebhookStage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId: !Ref HttpApi
+      StageName: prod
+      AutoDeploy: true
+
+  LambdaPermissionForAPIGW:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref WebhookLambdaFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${HttpApi}/*/POST/webhook
+
+Outputs:
+  WebhookEndpoint:
+    Description: The API Gateway endpoint to receive webhooks
+    Value: !Sub https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com/prod/webhook

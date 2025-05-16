@@ -1,0 +1,29 @@
+{
+  "GrantlessOperationConfig": {
+    "ClientId": "amzn1.application-oa2-client.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "ClientSecret": "amzn1.oa2-cs.v1.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "RegionCode": "FE"
+  },
+  "SecretsFileName": "secret.csv",
+  "NotificationTypes": [
+    {
+      "NotificationType": "ORDER_CHANGE",
+      "Internal": {
+        "Lambda": "lambda.process.internal.orderchange.SQSNotificationsOrderChangeHandler",
+        "DlqLambda": "lambda.process.internal.orderchange.SQSReprocessOrderChangeHandler",
+        "StepFunctions": {
+          "OrderNotification" : {
+            "Lambdas": [
+              "lambda.process.internal.orderchange.stepfunctions.RetrieveOrderHandler",
+              "lambda.process.internal.orderchange.stepfunctions.SendNotificationHandler"
+            ],
+            "Definitions": "step-functions/order-change-step-functions-workflow-definition.json"
+          }
+        }
+      }
+    },
+    {
+      "NotificationType": "LISTINGS_ITEM_MFN_QUANTITY_CHANGE"
+    }
+  ]
+}
