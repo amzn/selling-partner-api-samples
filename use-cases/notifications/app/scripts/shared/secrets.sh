@@ -15,13 +15,13 @@ register_secrets() {
           region=$(aws configure get region)
           echo "Creating S3 bucket with secure configuration: ${secret_bucket_name}" >&2
           if [ "$region" == "us-east-1" ]; then
-            aws s3api create-bucket \\
-              --bucket "${secret_bucket_name}" \\
+            aws s3api create-bucket \
+              --bucket "${secret_bucket_name}" \
               >/dev/null
           else
-            aws s3api create-bucket \\
-              --bucket "${secret_bucket_name}" \\
-              --create-bucket-configuration LocationConstraint="$region" \\
+            aws s3api create-bucket \
+              --bucket "${secret_bucket_name}" \
+              --create-bucket-configuration LocationConstraint="$region" \
               >/dev/null
           fi
 
