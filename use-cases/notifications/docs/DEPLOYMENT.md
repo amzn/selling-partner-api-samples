@@ -157,7 +157,8 @@ To create a new IAM policy with the required permissions, follow the steps below
               "events:CreateEventBus",
               "events:ListPartnerEventSources",
               "events:DeleteRule",
-              "events:RemoveTargets"
+              "events:RemoveTargets",
+              "events:DescribeEventBus"
             ],
             "Resource": "*"
         },

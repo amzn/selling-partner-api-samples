@@ -153,7 +153,8 @@ Sample Solution App を AWS 上にデプロイするには、以下の前提条�
         "events:CreateEventBus",
         "events:ListPartnerEventSources",
         "events:DeleteRule",
-        "events:RemoveTargets"
+        "events:RemoveTargets",
+        "events:DescribeEventBus"
       ],
       "Resource": "*"
     },

@@ -129,8 +129,25 @@ fi
 
 aws events delete-rule --name "$rule_name" || echo "⚠️  Failed to delete EventBridge rule $rule_name"
 
+## 8. DELETE EVENTBRIDGE EVENT BUS (best-effort)
+if [ -n "$event_bus_arn" ]; then
+  event_bus_name=$(basename "$event_bus_arn")
+  echo "🗑️  Attempting to delete EventBridge event bus: $event_bus_name"
 
-## 8. DELETE RESOURCE FILES
+  aws events delete-event-bus --name "$event_bus_name" --region "$aws_region"
+  if [ $? -eq 0 ]; then
+    echo "✅ Deleted EventBridge event bus: $event_bus_name"
+  else
+    echo "⚠️ Could not delete EventBridge event bus: $event_bus_name"
+    echo "   ℹ️ Partner EventBridge event buses (aws.partner/...) can often only be deleted from the AWS Console."
+    echo "   👉 Please go to the AWS Console > EventBridge > Event Buses, and delete it manually if needed."
+    echo "      https://console.aws.amazon.com/events/home?region=${aws_region}#/event-buses"
+  fi
+fi
+
+
+
+## 9. DELETE RESOURCE FILES
 #echo "🧾 Deleting resource summary files"
 rm -f "$resources_file"
 rm -f "$secrets_summary_file"
