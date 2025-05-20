@@ -14,7 +14,7 @@ See also from the README in other language:
 
 This solution helps you explore how to integrate SP-API Notifications into your own system—whether you're just starting out, or building advanced multi-cloud workflows.
 
-See [USAGE_GUIDE.md](/docs/USAGE_GUIDE.md) for step-by-step use cases and implementation examples.
+See [USAGE_GUIDE.md](docs/USAGE_GUIDE.md) for step-by-step use cases and implementation examples.
 
 
 
@@ -76,7 +76,7 @@ src/SPAPINotificationsSampleSolution/
 
 ##  Quick Start
 
-- [DEPLOYMENT.md](/docs/DEPLOYMENT.md) – English deployment guide
+- [DEPLOYMENT.md](docs/DEPLOYMENT.md) – English deployment guide
 
 1. **Install prerequisites**: AWS CLI, Node.js (14+), Maven, GitBash (Windows), jq
 2. **Register your SP-API app**: [Register your app](https://developer-docs.amazon.com/sp-api/docs/registering-your-application)
@@ -118,8 +118,8 @@ Invoke: `SPAPISubscribeNotificationsLambdaFunction-<suffix>`
 
 ## Documentation
 
-- [DEPLOYMENT.md](/docs/DEPLOYMENT.md) – Setup & Deployment Guide
-- [secret-example.csv](/docs/secret-example.csv) – Example seller credential format
+- [DEPLOYMENT.md](docs/DEPLOYMENT.md) – Setup & Deployment Guide
+- [secret-example.csv](docs/secret-example.csv) – Example seller credential format
 - [notification-type-definition.json](/app/config/notification-type-definition.json) – All available notification types
 
 ---
