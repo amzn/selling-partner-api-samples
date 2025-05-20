@@ -1,0 +1,152 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Create SQS and EventBridge EventBus with access for account 417650863749
+
+Parameters:
+  ExternalAccountId:
+    Type: String
+    Default: "417650863749"
+    Description: The AWS Account ID allowed to access resources
+
+Resources:
+
+  ### SQS ###
+  CrossAccountSQSQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: cross-account-sqs-queue
+
+  ### SQS policy ###
+  CrossAccountSQSQueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      Queues:
+        - !Ref CrossAccountSQSQueue
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: AllowSendMessageFromExternalAccount
+            Effect: Allow
+            Principal:
+              AWS: !Sub "arn:aws:iam::${ExternalAccountId}:root"
+            Action: "sqs:SendMessage"
+            Resource: !GetAtt CrossAccountSQSQueue.Arn
+
+  ### EventBridge EventBus ###
+  CrossAccountEventBus:
+    Type: AWS::Events::EventBus
+    Properties:
+      Name: cross-account-event-bus
+
+  CrossAccountEventBusPolicy:
+    Type: AWS::Events::EventBusPolicy
+    Properties:
+      EventBusName: !Ref CrossAccountEventBus
+      StatementId: AllowPutEventsFromExternalAccount
+      Action: "events:PutEvents"
+      Principal: !Ref ExternalAccountId
+
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: cross-account-lambda-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaExecutionPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - sqs:ReceiveMessage
+                  - sqs:DeleteMessage
+                  - sqs:GetQueueAttributes
+                Resource: !GetAtt CrossAccountSQSQueue.Arn
+              - Effect: Allow
+                Action:
+                  - events:DescribeRule
+                Resource: "*"
+
+  SQSEventHandlerFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: handle-sqs-events
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Code:
+        ZipFile: |
+          exports.handler = async (event) => {
+            console.log("Received SQS message:", JSON.stringify(event, null, 2));
+            return;
+          };
+
+  SQSEventSourceMapping:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      EventSourceArn: !GetAtt CrossAccountSQSQueue.Arn
+      FunctionName: !Ref SQSEventHandlerFunction
+      Enabled: true
+      BatchSize: 10
+
+  EventBridgeEventHandlerFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: handle-eventbridge-events
+      Runtime: nodejs18.x
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Code:
+        ZipFile: |
+          exports.handler = async (event) => {
+            console.log("Received EventBridge event:", JSON.stringify(event, null, 2));
+            return;
+          };
+
+  EventBridgeRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: eventbridge-to-lambda-rule
+      EventBusName: !Ref CrossAccountEventBus
+      EventPattern:
+        account:
+          - !Ref ExternalAccountId
+      Targets:
+        - Arn: !GetAtt EventBridgeEventHandlerFunction.Arn
+          Id: "TargetLambda"
+
+  EventBridgeInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref EventBridgeEventHandlerFunction
+      Action: lambda:InvokeFunction
+      Principal: events.amazonaws.com
+      SourceArn: !GetAtt EventBridgeRule.Arn
+
+Outputs:
+  SQSQueueUrl:
+    Description: URL of the created SQS queue
+    Value: !Ref CrossAccountSQSQueue
+
+  SQSQueueArn:
+    Description: ARN of the created SQS queue
+    Value: !GetAtt CrossAccountSQSQueue.Arn
+
+  EventBusName:
+    Description: Name of the EventBridge EventBus
+    Value: !Ref CrossAccountEventBus
+
+  EventBusArn:
+    Description: ARN of the EventBridge EventBus
+    Value: !GetAtt CrossAccountEventBus.Arn
