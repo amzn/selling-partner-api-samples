@@ -5,11 +5,11 @@ register_secrets() {
   tempFile="tmp/secrets-resource-summary.txt"
   echo "" > "$tempFile"
 
-  ####  Client Secrets Bucket creation #####
+  ####  Client Secrets Bucket cregit ation #####
   secret_bucket_name="spapi-clients-storage-${random_string}"
   # Ask the user whether to create S3 bucket for storing Client Secret
   while true; do
-    read -p "⚠️ [IMPORTANT!!!] This script requires a Client Secret to be stored in S3. Do you want to create the S3 bucket now? [y/n] " store_secret_response
+    read -p "⚠️ [IMPORTANT!!!] This script requires a Client Secret to be stored in S3. Do you want to create the S3 bucket now? If you have uploaded secret file already, please put N.[y/n] " store_secret_response
     case "$store_secret_response" in
       [yY][eE][sS]|[yY])
           region=$(aws configure get region)

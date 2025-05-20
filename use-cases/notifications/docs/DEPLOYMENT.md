@@ -595,10 +595,10 @@ Once the `app-config.json` and `client_secrets.csv` are ready, proceed to the de
 Update the `app-config.json` file with your SP-API credentials, region code, and notification types. Ensure `SecretsFileName` refers to a valid CSV file.
 
 ### 2. Execute Deployment
-To deploy the solution, run the `deploy.sh` script with the target language (e.g., Java Go to `app/script/java`):
+To deploy the solution, run the `deploy.sh` scripts with the target language (e.g., Java Go to `app/script/java`):
 
 ```bash
-bash deploy.sh
+bash java-app.sh
 ````
 
 This script will:
@@ -692,7 +692,7 @@ This will delete a subscription and destination and return the deleted `subscrip
 A clean-up script is available to remove provisioned resources and secrets. Run:
 
 ```bash
-bash destroy.sh
+bash java-app-clean.sh
 ```
 
 This deletes the stack, IAM policies, secrets, and uploaded S3 objects.

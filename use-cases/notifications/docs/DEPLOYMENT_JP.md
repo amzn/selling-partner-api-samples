@@ -699,7 +699,7 @@ Azure Service Bus Queue に通知を送信します。
 本ソリューションをデプロイするには、対象言語のスクリプトディレクトリ（例：Java の場合 `app/script/java`）に移動し、以下のコマンドを実行します：
 
 ```bash
-bash deploy.sh
+bash java-app.sh
 ```
 
 このスクリプトは以下の処理を行います：
@@ -801,7 +801,7 @@ bash deploy.sh
 作成されたリソースやシークレットを一括削除するためのクリーンアップスクリプトが用意されています：
 
 ```bash
-bash destroy.sh
+bash java-app-clean.sh
 ```
 
 このスクリプトは、CDK スタック、IAM ポリシー、Secrets、S3 にアップロードされたファイルなどを削除します。
