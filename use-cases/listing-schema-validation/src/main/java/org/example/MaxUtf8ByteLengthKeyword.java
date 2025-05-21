@@ -1,0 +1,58 @@
+package org.example;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
+import com.networknt.schema.*;
+
+import java.nio.charset.StandardCharsets;
+import java.text.MessageFormat;
+import java.util.Set;
+
+/**
+ * Example validator for the "maxUtf8ByteLength" keyword.
+ */
+public class MaxUtf8ByteLengthKeyword extends AbstractKeyword {
+
+    private static final MessageFormat ERROR_MESSAGE_FORMAT =
+            new MessageFormat("Value must be less than or equal {1} bytes in length.");
+
+    private static final String KEYWORD = "maxUtf8ByteLength";
+
+    public MaxUtf8ByteLengthKeyword() {
+        super(KEYWORD);
+    }
+
+    @Override
+    public JsonValidator newValidator(SchemaLocation schemaLocation, JsonNodePath jsonNodePath, JsonNode schemaNode, JsonSchema parentSchema,
+                                      ValidationContext validationContext) {
+        // Only process if the provided schema value is a number.
+        if (!JsonNodeType.NUMBER.equals(schemaNode.getNodeType())) {
+            return null;
+        }
+
+        int maxUtf8ByteLength = schemaNode.asInt();
+
+        return new AbstractJsonValidator(schemaLocation, jsonNodePath, this, schemaNode) {
+
+            @Override
+            public Set<ValidationMessage> validate(ExecutionContext executionContext, JsonNode node, JsonNode rootNode, JsonNodePath jsonNodePath) {
+                // Get the value as a string and evaluate its length in bytes.
+                String value = node.asText();
+                if (value.getBytes(StandardCharsets.UTF_8).length > maxUtf8ByteLength) {
+                    var validationMessage = ValidationMessage.builder()
+                            .type(KEYWORD)
+                            .schemaLocation(schemaLocation)
+                            .instanceLocation(jsonNodePath)
+                            .format(ERROR_MESSAGE_FORMAT)
+                            .arguments(jsonNodePath.toString(), Integer.toString(maxUtf8ByteLength),
+                                    value.getBytes(StandardCharsets.UTF_8).length)
+                            .build();
+                    return Set.of(validationMessage);
+                }
+                return Set.of();
+            }
+        };
+    }
+
+
+}

@@ -1,0 +1,8 @@
+clientId: "your client id here"
+clientSecret: "your client secret here"
+refreshToken: "your refresh token here"
+endpoint: "https://sellingpartnerapi-na.amazon.com"
+marketPlaceIds:
+  - "ATVPDKIKX0DER"
+sellerId: "AMY6FKRUBY7XV"
+sku: "TestingSKU"
