@@ -13,7 +13,7 @@ See also from the README in other language:
 
 SP-API通知を自社システムに統合するための、導入から応用までを支援します。初心者から上級者まで、様々なユースケースに対応しています。
 
-📘ユースケース別の実装例については、[USAGE_GUIDE_JP.md](/docs/USAGE_GUIDE_JP.md) をご参照ください。
+📘ユースケース別の実装例については、[USAGE_GUIDE_JP.md](docs/USAGE_GUIDE_JP.md) をご参照ください。
 
 ---
 
@@ -75,7 +75,7 @@ src/SPAPINotificationsSampleSolution/
 
 ## クイックスタート
 
-- [DEPLOYMENT_JP.md](/docs/DEPLOYMENT_JP.md) – 日本語による導入手順
+- [DEPLOYMENT_JP.md](docs/DEPLOYMENT_JP.md) – 日本語による導入手順
 
 1. 事前準備：AWS CLI、Node.js (14+)、Maven、GitBash (Windows)、jq をインストール
 2. [SP-APIアプリの登録](https://developer-docs.amazon.com/sp-api/docs/registering-your-application)
@@ -83,7 +83,7 @@ src/SPAPINotificationsSampleSolution/
 4. デプロイ：
    ```bash
    cd app/scripts/java
-   bash deploy.sh
+   bash java-app.sh
    ```
 5. 通知購読：デプロイ後、Lambda `SPAPISubscribeNotificationsLambdaFunction-<suffix>` を AWS Console または CLI から呼び出す
 
@@ -117,9 +117,9 @@ src/SPAPINotificationsSampleSolution/
 
 ## ドキュメント一覧
 
-- [DEPLOYMENT_JP.md](/docs/DEPLOYMENT_JP.md) – 日本語による導入手順
-- [secret-example.csv](/docs/secret-example.csv) – 出品者ごとの認証情報CSVサンプル
-- [notification-type-definition.json](/app/config/notification-type-definition.json) – 通知タイプ定義一覧
+- [DEPLOYMENT_JP.md](docs/DEPLOYMENT_JP.md) – 日本語による導入手順
+- [secret-example.csv](docs/secret-example.csv) – 出品者ごとの認証情報CSVサンプル
+- [notification-type-definition.json](app/config/notification-type-definition.json) – 通知タイプ定義一覧
 
 ---
 
@@ -128,7 +128,7 @@ src/SPAPINotificationsSampleSolution/
 すべてのAWSリソースを削除するには：
 
 ```bash
-bash destroy.sh
+bash java-app-clean.sh
 ```
 
 これにより、Lambda・SQS・Secrets・Step Functions・CDKスタックがすべて削除されます。

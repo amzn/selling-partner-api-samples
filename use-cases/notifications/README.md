@@ -84,7 +84,7 @@ src/SPAPINotificationsSampleSolution/
 4. **Deploy**:
    ```bash
    cd app/scripts/java
-   bash deploy.sh
+   bash java-app.sh
    ```
 5. **Subscribe**: After deployment, trigger `SPAPISubscribeNotificationsLambdaFunction-<suffix>` from AWS Console or CLI
 
@@ -120,7 +120,7 @@ Invoke: `SPAPISubscribeNotificationsLambdaFunction-<suffix>`
 
 - [DEPLOYMENT.md](docs/DEPLOYMENT.md) – Setup & Deployment Guide
 - [secret-example.csv](docs/secret-example.csv) – Example seller credential format
-- [notification-type-definition.json](/app/config/notification-type-definition.json) – All available notification types
+- [notification-type-definition.json](app/config/notification-type-definition.json) – All available notification types
 
 ---
 
@@ -129,7 +129,7 @@ Invoke: `SPAPISubscribeNotificationsLambdaFunction-<suffix>`
 To remove all provisioned AWS resources:
 
 ```bash
-bash destroy.sh
+bash java-app-clean.sh
 ```
 
 This deletes Lambda functions, SQS queues, secrets, Step Functions, and CDK stack.
