@@ -1,5 +1,5 @@
 {
-  "name": "@amazon-data-kiosk/common",
+  "name": "common",
   "version": "1.0.0",
   "description": "Common utilities for Amazon Data Kiosk MCP servers",
   "type": "module",

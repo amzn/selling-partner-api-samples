@@ -1,6 +1,6 @@
 // src/api/vendorAnalytics.ts
-import { makeApiRequest } from '@amazon-data-kiosk/common';
-import { API_VERSION } from '@amazon-data-kiosk/common';
+import { makeApiRequest } from 'common';
+import { API_VERSION } from 'common';
 
 // Vendor Analytics Query Types
 export type ViewType = 'sourcing' | 'manufacturing';

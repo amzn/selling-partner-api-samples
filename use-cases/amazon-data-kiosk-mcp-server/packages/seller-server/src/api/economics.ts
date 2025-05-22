@@ -1,6 +1,6 @@
 // src/api/economics.ts
-import { makeApiRequest } from '@amazon-data-kiosk/common';
-import { API_VERSION, SCHEMA_NAMES } from '@amazon-data-kiosk/common';
+import { makeApiRequest } from 'common';
+import { API_VERSION, SCHEMA_NAMES } from 'common';
 
 // Economics Query Types
 export type DateGranularity = 'DAY' | 'WEEK' | 'MONTH' | 'RANGE';
