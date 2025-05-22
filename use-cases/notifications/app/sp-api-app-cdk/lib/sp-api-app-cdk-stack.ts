@@ -169,8 +169,11 @@ export class SpApiAppCdkStack extends Stack {
 		const commonNotificationTypes: string[] = appConfig.NotificationTypes || [];
 		const notificationResources: NotificationResourceInfo[] = [];
 		const eventBusArn = this.node.tryGetContext('EVENT_BUS_ARN');
-		if (commonNotificationTypes && eventBusArn) {
-			const eventBus = events.EventBus.fromEventBusArn(this, 'SPAPIImportedEventBus', eventBusArn);
+		let eventBus: events.IEventBus | undefined = undefined;
+		if (commonNotificationTypes) {
+			if (eventBusArn) {
+				eventBus = events.EventBus.fromEventBusArn(this, 'SPAPIImportedEventBus', eventBusArn);
+			}
 			commonNotificationTypes.forEach((notification: any) => {
 				const type = notification.NotificationType;
 				if (
