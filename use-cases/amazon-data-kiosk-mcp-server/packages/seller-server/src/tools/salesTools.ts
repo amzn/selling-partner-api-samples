@@ -2,8 +2,8 @@
 import { z } from "zod";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { buildSalesAndTrafficQuery } from "../api/salesAndTraffic.js";
-import { formatErrorMessage } from "@amazon-data-kiosk/common";
-import { MARKETPLACES } from "@amazon-data-kiosk/common";
+import { formatErrorMessage } from "common";
+import { MARKETPLACES } from "common";
 
 /**
  * Register sales and traffic tools with the MCP server

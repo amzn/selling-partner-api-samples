@@ -2,7 +2,7 @@
 import { z } from "zod";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { buildVendorAnalyticsQuery } from "../api/vendorAnalytics.js";
-import { formatErrorMessage } from "@amazon-data-kiosk/common";
+import { formatErrorMessage } from "common";
 
 
 /**
