@@ -4,8 +4,8 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { registerSalesTools } from "./tools/salesTools.js";
 import { registerEconomicsTools } from "./tools/economicsTools.js";
-import { registerGeneralTools } from "@amazon-data-kiosk/common";
-import { checkEnvironment } from "@amazon-data-kiosk/common";
+import { registerGeneralTools } from "common";
+import { checkEnvironment } from "common";
 
 // Create server instance with seller-specific name
 const server = new McpServer({

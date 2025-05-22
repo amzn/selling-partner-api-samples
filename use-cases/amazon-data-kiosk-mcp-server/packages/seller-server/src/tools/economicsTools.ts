@@ -2,8 +2,8 @@
 import { z } from "zod";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { buildEconomicsQuery, buildEconomicsPreviewQuery } from "../api/economics.js";
-import { formatErrorMessage } from "@amazon-data-kiosk/common";
-import { MARKETPLACES } from "@amazon-data-kiosk/common";
+import { formatErrorMessage } from "common";
+import { MARKETPLACES } from "common";
 
 /**
  * Register economics tools with the MCP server

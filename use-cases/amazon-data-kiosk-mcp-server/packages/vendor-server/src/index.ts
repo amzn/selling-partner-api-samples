@@ -2,7 +2,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { registerVendorTools } from "./tools/vendorTools.js";
-import { checkEnvironment, registerGeneralTools } from "@amazon-data-kiosk/common";
+import { checkEnvironment, registerGeneralTools } from "common";
 
 // Create server instance with vendor-specific name
 const server = new McpServer({

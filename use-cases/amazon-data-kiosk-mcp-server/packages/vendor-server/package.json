@@ -13,7 +13,7 @@
     "dev": "tsc -w"
   },
   "dependencies": {
-    "@amazon-data-kiosk/common": "^1.0.0",
+    "common": "^1.0.0",
     "@modelcontextprotocol/sdk": "^1.10.2",
     "zod": "^3.22.4"
   },
