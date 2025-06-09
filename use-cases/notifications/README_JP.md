@@ -6,6 +6,7 @@ Amazon出品者向けに、スケーラブルかつセキュアで拡張性の�
 
 See also from the README in other language:
 - [README.md](README.md) – English Developer guide
+- [README.md](README_CN.md) – 中文开发者指南
 
 ---
 
