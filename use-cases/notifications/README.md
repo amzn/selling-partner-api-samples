@@ -7,6 +7,7 @@ It enables scalable, secure, and extensible subscription-based processing for Am
 
 See also from the README in other language:
 - [日本語ガイド](README_JP.md) – 開発者ガイド
+- [日本語ガイド](README_CN.md) – 開発者ガイド
 
 ---
 
