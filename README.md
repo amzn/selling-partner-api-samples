@@ -39,7 +39,6 @@ This is considered an intermediate learning resource, and should typically be re
 | [Solicitations](use-cases/solicitations)                         | C# / Python              | -                                                                                                                               | Sellers                    |
 | [Vendor Direct Fulfillment](use-cases/vendor-direct-fulfillment) | C#                       | [Vendor Direct Fulfillment Code Snippets](https://developer-docs.amazon.com/sp-api/docs/code-samples#vendor-direct-fulfillment) | Vendors                    |
 | [Website Authorization](use-cases/website-authorization)         | Python                   | -                                                                                                                               | Sellers and Vendors        |
-| [MCP Server for Data Kiosk](use-cases/amazon-data-kiosk-mcp-server)| TypeScript             | -                                                                                                                               | Sellers and Vendors        |
 | [Listing Schema Validation](use-cases/listing-schema-validation) | Java                     | -                                                                                                                               | Sellers and Vendors        |
 
 ## Learning Resources <a name="learning"></a>
