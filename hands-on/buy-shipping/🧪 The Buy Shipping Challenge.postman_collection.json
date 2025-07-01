@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "019356d0-3771-437b-ba83-015bb3bf5717",
 		"name": "🧪 The Buy Shipping Challenge",
-		"description": "## 🧦 Ship Happens\n\nWelcome, brave SP-API developer!\n\nToday, **Chris Khoury** placed a **priority order** from _Debugville_, and Harsh needs to ship it **ASAP**. Only the **fastest shipping rate** will do.\n\nBut there’s a problem…\n\nHis **Buy Shipping Postman flow is broken** 💀\n\nHarsh needs **your debugging magic** to fix it.\n\n---\n\n### 🛠️ Your Mission\n\nYour goal is to **fix the broken requests** and get a **label** successfully generated using **Buy Shipping**.\n\nThe flow is split into 3 steps:\n\n---\n\n### 🏠 Step 1: Get the Order\n\n- Use the `getOrder` request to fetch the order details.\n    \n- Make note of:\n    \n    - `AmazonOrderId`\n        \n    - `ShipFrom` address attributes (you'll need these next).\n        \n\n---\n\n### 🔍 Step 2: Get Rates\n\n- Fix the `getRates` request body:\n    \n    - Go to the **Body Tab** to edit the request body\n        \n    - Replace the placeholder `orderId` with the actual `AmazonOrderId` from Step 1\n        \n    - Use the correct `ShipFrom` address from the order’s fulfillment data\n        \n- Send the request to retrieve available shipping rates.\n    \n- Identify the **fastest** rate — the one with the **earliest** **delivery promise** **date**.\n    \n    - 💡 In the response, you can visualize the data in a table format if you click on 🪄 **Visualize**.\n        \n- Copy the `rateId` from that fastest option — you’ll need it for the next step.\n    \n\n---\n\n### 📦 Step 3: Purchase the Shipment\n\n- Go to the **Body Tab** to edit the request body\n    \n- Plug the correct `rateId` into the `purchaseShipment` request\n    \n- Ensure the `labelFormat` is set to `\"PNG\"` and not `\"ZPL\"`\n    \n- Send the request and get a successful response with the label!\n    \n- The label is returned in the format of a github link under packageDocument.contents\n    \n\n---\n\n### 🔁 Bonus Round (Optional)\n\nFinished early? Flex your skills with these bonus operations:\n\n#### 📡 Track the Shipment\n\n- Use the `getTracking` request to retrieve live tracking info.\n    \n- You'll need:\n    \n    - `trackingId` (from the Step 3 `purchaseShipment` response)\n        \n    - `carrierId` (also from the Step 3 response)\n        \n\n#### ❌ Cancel the Shipment\n\n- Use the `cancelShipment` request to void a shipment.\n    \n- You'll need:\n    \n    - `shipmentId` (returned in the Step 3 `purchaseShipment` response)\n        \n\n---\n\n### 🕺 Celebrate\n\nIf everything worked, Harsh got his label and you undestood the BuyShipping Flow.\n\nYou are one step close to getting the title of **Fulfillment Wizard**. 🪄",
+		"description": "## 🧦 Ship Happens\n\nWelcome, brave SP-API developer!\n\nToday, **Chris Khoury** placed a **priority order** from _Debugville_, and Harsh needs to ship it **ASAP**. Only the **fastest shipping rate** will do.\n\nBut there’s a problem…\n\nHis **Buy Shipping Postman flow is broken** 💀\n\nHarsh needs **your debugging magic** to fix it.\n\n---\n\n### 🛠️ Your Mission\n\nYour goal is to **fix the broken requests** and get a **label** successfully generated using **Buy Shipping**.\n\nThe flow is split into 3 steps:\n\n---\n\n### 🏠 Step 1: Get the Order\n\n- Use the `getOrder` request to fetch the order details.\n    \n- Make note of:\n    \n    - `AmazonOrderId`\n        \n    - `ShipFrom` address attributes (you'll need these next).\n        \n\n---\n\n### 🔍 Step 2: Get Rates\n\n- Fix the `getRates` request body:\n    \n    - Go to the **Body Tab** to edit the request body\n        \n    - Replace the placeholder `orderId` with the actual `AmazonOrderId` from Step 1\n        \n    - Use the correct `ShipFrom` address from the order’s fulfillment data\n        \n    - Note that they are marked with a `// TODO`\n        \n- Send the request to retrieve available shipping rates.\n    \n- Identify the **fastest** rate — the one with the **earliest** **delivery promise** **date**.\n    \n- 💡 In the response, you can visualize the data in a table format if you click on 🪄 **Visualize**.\n    \n- Copy the `rateId` from that fastest option — you’ll need it for the next step.\n    \n\n---\n\n### 📦 Step 3: Purchase the Shipment\n\n- Go to the **Body Tab** to edit the request body\n    \n- Plug the correct `rateId` into the `purchaseShipment` request\n    \n- Note that it is marked with a `// TODO`\n    \n- Send the request and get a successful response with the label!\n    \n- The label is returned in the format of a github link under `packageDocument.labelFile`\n    \n\n## 🚨🗣️🎉 The password drops in the final response! When you spot it — shout it out loud like it’s BINGO! 🚨🗣️🎉\n\n---\n\n### 🔁 Bonus Round (Optional)\n\nFinished early? Flex your skills with these bonus operations:\n\n#### 📡 Track the Shipment\n\n- Use the `getTracking` request to retrieve live tracking info.\n    \n- You'll need:\n    \n    - `trackingId` (from the Step 3 `purchaseShipment` response)\n        \n    - `carrierId` (also from the Step 3 response)\n        \n\n#### ❌ Cancel the Shipment\n\n- Use the `cancelShipment` request to void a shipment.\n    \n- You'll need:\n    \n    - `shipmentId` (returned in the Step 3 `purchaseShipment` response)\n        \n\n---\n\n### 🕺 Celebrate\n\nIf everything worked, Harsh got his label and you undestood the BuyShipping Flow.\n\nYou are one step close to getting the title of **Fulfillment Wizard**. 🪄\n\n### 🖇️ Resources\n\n- [https://linktr.ee/sp_api_mfn](https://linktr.ee/sp_api_mfn)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "21608927"
 	},
@@ -55,12 +55,9 @@
 							}
 						],
 						"url": {
-							"raw": "https://sellingpartnerapi-na.amazon.com/orders/v0/orders/:orderId",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/orders/v0/orders/:orderId",
 							"host": [
-								"sellingpartnerapi-na",
-								"amazon",
-								"com"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"orders",
@@ -515,7 +512,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    // TODO FIX THE ORDER ID\n    \"channelDetails\": {\n        \"channelType\": \"AMAZON\",\n        \"amazonOrderDetails\": {\n            \"orderId\": \"123-1234567-1234567\"\n        }\n    },\n    // TODO FIX THE SHIP TO\n    \"shipTo\": {\n        \"name\": \"Chris 'Fulfillment Guru' Khoury\",\n        \"addressLine1\": \"Amazon API Temple\",\n        \"addressLine2\": \"Suite 404 – Socks Not Found\",\n        \"city\": \"Debugville\",\n        \"stateOrRegion\": \"WA\",\n        \"postalCode\": \"98199\",\n        \"countryCode\": \"US\"\n    },\n    \"shipFrom\": {\n        \"name\": \"Harsh The Sock Hero\",\n        \"addressLine1\": \"Laundry Room B2\",\n        \"addressLine2\": \"SoloSock HQ (Above Grandma’s Garage)\",\n        \"city\": \"Seattle\",\n        \"stateOrRegion\": \"NY\",\n        \"postalCode\": \"131341431231\",\n        \"countryCode\": \"US\",\n        \"companyName\": \"SoloSock Inc.\",\n        \"phoneNumber\": \"+1-867-5309\"\n    },\n    \"packages\": [\n        {\n            \"dimensions\": {\n                \"length\": 6,\n                \"width\": 4,\n                \"height\": 2,\n                \"unit\": \"INCH\"\n            },\n            \"weight\": {\n                \"unit\": \"GRAM\",\n                \"value\": 120\n            },\n            \"items\": [\n                {\n                    \"itemValue\": {\n                        \"unit\": \"USD\",\n                        \"value\": \"7.99\"\n                    },\n                    \"itemIdentifier\": \"111111111111111\",\n                    \"quantity\": 1,\n                    \"weight\": {\n                        \"unit\": \"GRAM\",\n                        \"value\": 120\n                    }\n                }\n            ],\n            \"insuredValue\": {\n                \"unit\": \"USD\",\n                \"value\": \"7.99\"\n            },\n            \"packageClientReferenceId\": \"Order_111-1111111-1111111_Package\"\n        }\n    ]\n}",
+					"raw": "{\n    \"channelDetails\": {\n        \"channelType\": \"AMAZON\",\n        \"amazonOrderDetails\": {\n            // TODO FIX THE ORDER ID FROM THE GET ORDERS REQUEST\n            \"orderId\": \"000-0000000-0000000\"\n        }\n    },\n\n    \"shipTo\": {\n        // TODO FIX THE SHIP TO ADDRESS FROM THE GET ORDERS REQUEST\n        \"name\": \"Leonardo's Warehouse\",\n        \"addressLine1\": \"Amazon Brazil\",\n        \"addressLine2\": \"404 – Naka Not Found\",\n        \"city\": \"SaoPao\",\n        \"stateOrRegion\": \"WA\",\n        \"postalCode\": \"98199\",\n        \"countryCode\": \"US\"\n    },\n\n\n\n\n    // REST OF REQUEST BODY IS GOOD\n    \"shipFrom\": {\n        \"name\": \"Harsh The Sock Hero\",\n        \"addressLine1\": \"Laundry Room B2\",\n        \"addressLine2\": \"SoloSock HQ (Above Grandma’s Garage)\",\n        \"city\": \"Seattle\",\n        \"stateOrRegion\": \"IM\",\n        \"postalCode\": \"40404\",\n        \"countryCode\": \"US\",\n        \"companyName\": \"SoloSock Inc.\",\n        \"phoneNumber\": \"+1-867-5309\"\n    },\n    \"packages\": [\n        {\n            \"dimensions\": {\n                \"length\": 6,\n                \"width\": 4,\n                \"height\": 2,\n                \"unit\": \"INCH\"\n            },\n            \"weight\": {\n                \"unit\": \"GRAM\",\n                \"value\": 120\n            },\n            \"items\": [\n                {\n                    \"itemValue\": {\n                        \"unit\": \"USD\",\n                        \"value\": \"7.99\"\n                    },\n                    \"itemIdentifier\": \"111111111111111\",\n                    \"quantity\": 1,\n                    \"weight\": {\n                        \"unit\": \"GRAM\",\n                        \"value\": 120\n                    }\n                }\n            ],\n            \"insuredValue\": {\n                \"unit\": \"USD\",\n                \"value\": \"7.99\"\n            },\n            \"packageClientReferenceId\": \"Order_111-1111111-1111111_Package\"\n        }\n    ]\n}",
 					"options": {
 						"raw": {
 							"headerFamily": "json",
@@ -573,12 +570,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://sellingpartnerapi-na.amazon.com/shipping/v2/shipments/rates",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/shipping/v2/shipments/rates",
 							"host": [
-								"sellingpartnerapi-na",
-								"amazon",
-								"com"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"shipping",
@@ -1422,7 +1416,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"rateId\": \"fast-express-003\",\n    \"requestToken\": \"SOLOSOCK-REQ-20250618\",\n    \"requestedDocumentSpecification\": {\n        \"format\": \"PNG\",\n        \"size\": {\n            \"length\": 11.0,\n            \"unit\": \"INCH\",\n            \"width\": 8.5\n        },\n        \"needFileJoining\": {\n            \"supported_document_details\": [\n                {\n                    \"is_mandatory\": true,\n                    \"name\": \"LABEL\"\n                },\n                {\n                    \"is_mandatory\": true,\n                    \"name\": \"RECEIPT\"\n                }\n            ],\n            \"supported_dpis\": [],\n            \"supported_file_joining_options\": [\n                true\n            ],\n            \"supported_page_layouts\": [\n                \"LEFT\",\n                \"RIGHT\"\n            ]\n        },\n        \"requestedDocumentTypes\": {\n            \"supported_document_details\": [\n                {\n                    \"is_mandatory\": true,\n                    \"name\": \"LABEL\"\n                },\n                {\n                    \"is_mandatory\": true,\n                    \"name\": \"RECEIPT\"\n                }\n            ],\n            \"supported_dpis\": [],\n            \"supported_file_joining_options\": [\n                true\n            ],\n            \"supported_page_layouts\": [\n                \"LEFT\",\n                \"RIGHT\"\n            ]\n        },\n        \"pageLayout\": {\n            \"supported_document_details\": [\n                {\n                    \"is_mandatory\": true,\n                    \"name\": \"LABEL\"\n                },\n                {\n                    \"is_mandatory\": true,\n                    \"name\": \"RECEIPT\"\n                }\n            ],\n            \"supported_dpis\": [],\n            \"supported_file_joining_options\": [\n                true\n            ],\n            \"supported_page_layouts\": [\n                \"LEFT\",\n                \"RIGHT\"\n            ]\n        }\n    },\n    \"requestedValueAddedServices\": [\n        {\n            \"id\": \"NO_CONFIRMATION\"\n        }\n    ]\n}",
+					"raw": "{    \n    // TODO PLUG THE RIGHT RATE ID\n    \"rateId\": \"very-slow-rate\",\n\n\n    // REST OF REQUEST IS GOOD\n    \"requestToken\": \"SOLOSOCK-REQ-20250618\",\n    \"requestedDocumentSpecification\": {\n        \"format\": \"PNG\",\n        \"size\": {\n            \"length\": 11.0,\n            \"unit\": \"INCH\",\n            \"width\": 8.5\n        },\n        \"needFileJoining\": {\n            \"supported_document_details\": [\n                {\n                    \"is_mandatory\": true,\n                    \"name\": \"LABEL\"\n                },\n                {\n                    \"is_mandatory\": true,\n                    \"name\": \"RECEIPT\"\n                }\n            ],\n            \"supported_dpis\": [],\n            \"supported_file_joining_options\": [\n                true\n            ],\n            \"supported_page_layouts\": [\n                \"LEFT\",\n                \"RIGHT\"\n            ]\n        },\n        \"requestedDocumentTypes\": {\n            \"supported_document_details\": [\n                {\n                    \"is_mandatory\": true,\n                    \"name\": \"LABEL\"\n                },\n                {\n                    \"is_mandatory\": true,\n                    \"name\": \"RECEIPT\"\n                }\n            ],\n            \"supported_dpis\": [],\n            \"supported_file_joining_options\": [\n                true\n            ],\n            \"supported_page_layouts\": [\n                \"LEFT\",\n                \"RIGHT\"\n            ]\n        },\n        \"pageLayout\": {\n            \"supported_document_details\": [\n                {\n                    \"is_mandatory\": true,\n                    \"name\": \"LABEL\"\n                },\n                {\n                    \"is_mandatory\": true,\n                    \"name\": \"RECEIPT\"\n                }\n            ],\n            \"supported_dpis\": [],\n            \"supported_file_joining_options\": [\n                true\n            ],\n            \"supported_page_layouts\": [\n                \"LEFT\",\n                \"RIGHT\"\n            ]\n        }\n    },\n    \"requestedValueAddedServices\": [\n        {\n            \"id\": \"NO_CONFIRMATION\"\n        }\n    ]\n}",
 					"options": {
 						"raw": {
 							"headerFamily": "json",
@@ -1479,12 +1473,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://sellingpartnerapi-na.amazon.com/shipping/v2/shipments",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/shipping/v2/shipments",
 							"host": [
-								"sellingpartnerapi-na",
-								"amazon",
-								"com"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"shipping",
@@ -2202,7 +2193,7 @@
 					}
 				],
 				"url": {
-					"raw": "{{base_url_mock}}/shipping/v2/tracking?trackingId=12341231231231&carrierId=GROUNDLING_GO",
+					"raw": "{{base_url_mock}}/shipping/v2/tracking?trackingId=INSERT TRACKING ID&carrierId=INSERT CARRIER ID",
 					"host": [
 						"{{base_url_mock}}"
 					],
@@ -2214,12 +2205,12 @@
 					"query": [
 						{
 							"key": "trackingId",
-							"value": "12341231231231",
+							"value": "INSERT TRACKING ID",
 							"description": "(Required) A carrier-generated tracking identifier originally returned by the purchaseShipment operation."
 						},
 						{
 							"key": "carrierId",
-							"value": "GROUNDLING_GO",
+							"value": "INSERT CARRIER ID",
 							"description": "(Required) A carrier identifier originally returned by the getRates operation for the selected rate."
 						}
 					]
@@ -2248,12 +2239,9 @@
 							}
 						],
 						"url": {
-							"raw": "https://sellingpartnerapi-na.amazon.com/shipping/v2/tracking?trackingId=<string>&carrierId=<string>",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/shipping/v2/tracking?trackingId=<string>&carrierId=<string>",
 							"host": [
-								"sellingpartnerapi-na",
-								"amazon",
-								"com"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"shipping",
@@ -2979,7 +2967,7 @@
 					"variable": [
 						{
 							"key": "shipmentId",
-							"value": "amzn1.sid.SHIPSOCK_ECO",
+							"value": "INSERT SHIPMENT ID",
 							"description": "(Required) The shipment identifier originally returned by the purchaseShipment operation."
 						}
 					]
@@ -3008,12 +2996,9 @@
 							}
 						],
 						"url": {
-							"raw": "https://sellingpartnerapi-na.amazon.com/shipping/v2/shipments/:shipmentId/cancel",
-							"protocol": "https",
+							"raw": "{{baseUrl}}/shipping/v2/shipments/:shipmentId/cancel",
 							"host": [
-								"sellingpartnerapi-na",
-								"amazon",
-								"com"
+								"{{baseUrl}}"
 							],
 							"path": [
 								"shipping",
@@ -3663,7 +3648,7 @@
 				"packages": {},
 				"exec": [
 					"pm.sendRequest({",
-					"    url: pm.environment.get(\"oauth_url_mock\"),",
+					"    url: pm.collectionVariables.get(\"oauth_url_mock\"),",
 					"    method: 'POST',",
 					"    header: {",
 					"        'content-type': 'application/x-www-form-urlencoded',",
@@ -3673,14 +3658,26 @@
 					"        mode: 'urlencoded',",
 					"        urlencoded: [",
 					"            {key: \"grant_type\", value: \"refresh_token\", disabled: false},",
-					"            {key: \"refresh_token\", value: pm.environment.get(\"refresh_token\"), disabled: false},",
-					"            {key: \"client_id\", value: pm.environment.get(\"client_id\"), disabled: false},",
-					"            {key: \"client_secret\", value: pm.environment.get(\"client_secret\"), disabled: false}",
+					"            {key: \"refresh_token\", value: pm.collectionVariables.get(\"refresh_token\"), disabled: false},",
+					"            {key: \"client_id\", value: pm.collectionVariables.get(\"client_id\"), disabled: false},",
+					"            {key: \"client_secret\", value: pm.collectionVariables.get(\"client_secret\"), disabled: false}",
 					"        ]",
 					"    }",
 					"}, function (err, res) {",
-					"    pm.environment.set(\"access_token\", res.json().access_token);",
-					"});"
+					"    if (err) {",
+					"        console.log(\"Request error:\", err);",
+					"        return;",
+					"    }",
+					"",
+					"    if (!res || !res.json) {",
+					"        console.log(\"Invalid response object:\", res);",
+					"        return;",
+					"    }",
+					"",
+					"    const jsonData = res.json();",
+					"    pm.collectionVariables.set(\"access_token\", jsonData.access_token);",
+					"});",
+					""
 				]
 			}
 		},
@@ -3693,6 +3690,97 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://sellingpartnerapi-na.amazon.com"
+		},
+		{
+			"key": "baseUrl",
+			"value": "https://sellingpartnerapi-na.amazon.com",
+			"type": "default"
+		},
+		{
+			"key": "base_url_mock",
+			"value": "http://54.173.241.222:80",
+			"type": "default"
+		},
+		{
+			"key": "oauth_url",
+			"value": "https://api.amazon.com/auth/O2/token"
+		},
+		{
+			"key": "oauth_url_mock",
+			"value": "http://54.173.241.222:80/auth/O2/token",
+			"type": "default"
+		},
+		{
+			"key": "order_id",
+			"value": "111-1111111-1111111",
+			"type": "default"
+		},
+		{
+			"key": "shipping_preference",
+			"value": "AmazonShipping_US",
+			"type": "default"
+		},
+		{
+			"key": "shipment_id",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "carrier_id",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "tracking_id",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "client_id",
+			"value": "Harsh"
+		},
+		{
+			"key": "client_secret",
+			"value": "Harsh"
+		},
+		{
+			"key": "refresh_token",
+			"value": "MockRefreshToken"
+		},
+		{
+			"key": "access_token",
+			"value": "FakeAccessToken"
+		},
+		{
+			"key": "aws_region",
+			"value": "us-east-1",
+			"type": "default"
+		},
+		{
+			"key": "marketplace_us",
+			"value": "ATVPDKIKX0DER",
+			"type": "default"
+		},
+		{
+			"key": "marketplace_mx",
+			"value": "A1AM78C64UM0Y8",
+			"type": "default"
+		},
+		{
+			"key": "marketplace_ca",
+			"value": "A2EUQ1WTGCTBG2",
+			"type": "default"
+		},
+		{
+			"key": "marketplace_br",
+			"value": "A2Q3Y263D00KWC",
+			"type": "default"
 		}
 	]
 }
