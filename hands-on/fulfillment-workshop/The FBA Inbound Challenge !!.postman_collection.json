@@ -2324,12 +2324,12 @@
 		},
 		{
 			"key": "oauth_url",
-			"value": "https://6acc1c77-4e55-4417-b117-c9636ae9d80d.mock.pstmn.io/api.amazon.com/auth/O2/token",
+			"value": "https://d36c087c-23f7-44c8-9fd0-242d7476b199.mock.pstmn.io",
 			"type": "string"
 		},
 		{
 			"key": "mockUrl",
-			"value": "https://6acc1c77-4e55-4417-b117-c9636ae9d80d.mock.pstmn.io",
+			"value": "https://d36c087c-23f7-44c8-9fd0-242d7476b199.mock.pstmn.io",
 			"type": "string"
 		},
 		{
