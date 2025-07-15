@@ -1,11 +1,10 @@
 {
 	"info": {
-		"_postman_id": "a9310735-07d9-4255-946b-929ea8b37b2e",
+		"_postman_id": "94d95e53-7c35-4e00-84b0-b0d0b66b70b4",
 		"name": "The FBA Inbound Challenge !!",
-		"description": "## 🚚 Help Harsh Ship with Amazon Partnered Carrier\n\n**Scenario:**  \nHarsh wants to make full use of **FBA Inbound Transportation benefits** to ship his **one box shipment (small parcel)** using **Amazon Partnered Carriers**. The inbound plan is already set up — packing options and destination placement have been confirmed.  \nYou just need to finish the remaining steps to select the transportation option and fetch the shipping label.\n\n---\n\n## 🧩 Task Overview\n\nYour work is split into **3 main steps**.\n\n---\n\n## 🏁 Step 1: Retrieve Inbound Plan Details\n\n1. Call the `getInboundPlan` API.\n    \n2. From the response, note down:\n    \n    1. `placementOptionId`\n        \n    2. `shipmentId`\n        \n\n---\n\n## 🚛 Step 2: Choose Amazon Partnered Carrier Option\n\n### a. Generate Transportation Options\n\n- Use the `generateTransportationOptions` API.\n    \n- Go to Body tab:\n    \n    - Update right `placementOptionId`\n        \n    - Update right `shipmentId`\n        \n- Send the request. Response will be an `operationId` to test the success.\n    \n\n### b. Check Operation Status\n\n- Call the `getInboundOperationStatus` API.\n    \n\n**Note :** No manual `operationId` input needed here - it's passed automatically from **step a**. You just need to wait for status = `SUCCESS`.\n\n### c. List Available Transportation Options\n\n- Call the `listTransportationOptions` API.\n    \n- Params:\n    \n    - `inboundPlanId` & `placementOptionId` is already fetched **no need to modify.**\n        \n- Call the API and look for:\n    \n    - `shippingSolution = AMAZON_PARTNERED_CARRIER`\n        \n    - `shippingMode = GROUND_SMALL_PARCEL`\n        \n- Copy the corresponding `transportationOptionId`.\n    \n\n### d. Confirm the Chosen Option\n\n- Use `confirmTransportationOptions` API.\n    \n- Go to Body:\n    \n    - Update right `shipmentId`\n        \n    - Update right `transportationOptionId`\n        \n- Input right values and send the request. Response will be an `operationId` to test the success.\n    \n\n### e. Check Operation Status\n\n- Call the `getInboundOperationStatus` API.\n    \n\n**Note :** No manual `operationId` input needed here - it's passed automatically from **step d**. You just need to wait for status = `SUCCESS`.\n\n✅ Once this is successful, the shipping method is set!\n\n---\n\n## 📦 Step 3: Download Shipping Labels\n\n### a. Get Shipment Details\n\n- Call the `getShipment` API.\n    \n- Params:\n    \n    - `inboundPlanId` & `shipmentId` is already fetched **no need to modify.**\n        \n- Copy `shipmentConfirmationId` from response.\n    \n\n### b. Get the Labels\n\n- Call the `getLabels` API.\n    \n- Params:\n    \n    - Update right `shipmentConfirmationId`\n        \n    - **No need to modify PageType = PackageLabel_Letter_2**\n        \n- A successful response will include a **label download link**.\n    \n\n---\n\n## 🎉 Mission Complete!\n\nYou’ve helped Harsh to ship his first Inbound Shipment — and you're on your way to earning the title of **Fulfillment Wizard 🪄**",
+		"description": "## 🚚 Help Harsh Ship with Amazon Partnered Carrier\n\n**Scenario:**  \nHarsh wants to make full use of **FBA Inbound Transportation benefits** to ship his **one box shipment (small parcel)** using **Amazon Partnered Carriers**. The inbound plan is already set up — packing options and destination placement have been confirmed.  \nYou just need to finish the remaining steps to select the transportation option and fetch the shipping label.\n\n---\n\n## 🧩 Task Overview\n\nYour work is split into **3 main steps**.\n\n---\n\n## 🏁 Step 1: Retrieve Inbound Plan Details\n\n1. Call the `getInboundPlan` API.\n    \n2. From the response, note down:\n    \n    1. `placementOptionId`\n        \n    2. `shipmentId`\n        \n\n---\n\n## 🚛 Step 2: Choose Amazon Partnered Carrier Option\n\n### a. Generate Transportation Options\n\n- Use the `generateTransportationOptions` API.\n    \n- Go to Body tab:\n    \n    - Update right `placementOptionId`\n        \n    - Update right `shipmentId`\n        \n- Send the request. Response will be an `operationId` to test the success.\n    \n\n### b. Check Operation Status\n\n- Call the `getInboundOperationStatus` API.\n    \n\n**Note :** No manual `operationId` input needed here - it's passed automatically from **step a**. You just need to wait for status = `SUCCESS`.\n\n### c. List Available Transportation Options\n\n- Call the `listTransportationOptions` API.\n    \n- Params:\n    \n    - `inboundPlanId` & `placementOptionId` is already fetched **no need to modify.**\n        \n- Call the API and look for:\n    \n    - `shippingSolution = AMAZON_PARTNERED_CARRIER`\n        \n    - `shippingMode = GROUND_SMALL_PARCEL`\n        \n- Copy the corresponding `transportationOptionId`.\n    \n\n### d. Confirm the Chosen Option\n\n- Use `confirmTransportationOptions` API.\n    \n- Go to Body:\n    \n    - Update right `shipmentId`\n        \n    - Update right `transportationOptionId`\n        \n- Input right values and send the request. Response will be an `operationId` to test the success.\n    \n\n### e. Check Operation Status\n\n- Call the `getInboundOperationStatus` API.\n    \n\n**Note :** No manual `operationId` input needed here - it's passed automatically from **step d**. You just need to wait for status = `SUCCESS`.\n\n✅ Once this is successful, the shipping method is set!\n\n---\n\n## 📦 Step 3: Download Shipping Labels\n\n### a. Get Shipment Details\n\n- Call the `getShipment` API.\n    \n- Params:\n    \n    - `inboundPlanId` & `shipmentId` is already fetched **no need to modify.**\n        \n- Copy `shipmentConfirmationId` from response.\n    \n\n### b. Get the Labels\n\n- Call the `getLabels` API.\n    \n- Params:\n    \n    - Update right `shipmentConfirmationId`\n        \n    - **No need to modify PageType = PackageLabel_Letter_2**\n        \n- A successful response will include a **label download link**.\n    \n\n#### The label in the final response contains a **password**!\n\n#### Spot it and send it to [<b>sp-api-harsh-challenge@amazon.com</b>](https://mailto:sp-api-harsh-challenge@amazon.com) to complete the challenge!\n\n---\n\n## 🎉 Mission Complete!\n\nYou’ve helped Harsh to ship his first Inbound Shipment — and you're on your way to earning the title of **Fulfillment Wizard 🪄**",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "18643883",
-		"_collection_link": "https://galactic-rocket-691225.postman.co/workspace/ASPS-2025~26c8b236-b75c-4d6c-b918-28725faea737/collection/18643883-a9310735-07d9-4255-946b-929ea8b37b2e?action=share&source=collection_link&creator=18643883"
+		"_exporter_id": "18643883"
 	},
 	"item": [
 		{
@@ -62,7 +61,7 @@
 									},
 									{
 										"key": "x-amz-access-token",
-										"value": "{{x-amz-access-token}}",
+										"value": "MockAccessToken",
 										"type": "text"
 									},
 									{
@@ -72,9 +71,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{mockUrl}}/inbound/fba/2024-03-20/inboundPlans/:inboundPlanId",
+									"raw": "https://d36c087c-23f7-44c8-9fd0-242d7476b199.mock.pstmn.io/inbound/fba/2024-03-20/inboundPlans/:inboundPlanId",
+									"protocol": "https",
 									"host": [
-										"{{mockUrl}}"
+										"d36c087c-23f7-44c8-9fd0-242d7476b199",
+										"mock",
+										"pstmn",
+										"io"
 									],
 									"path": [
 										"inbound",
@@ -304,7 +307,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"placementOptionId\": \"{{$randomAlphaNumeric}}\",\n  \"shipmentTransportationConfigurations\": [\n    {\n      \"readyToShipWindow\": {\n        \"start\": \"2025-07-30T00:00:00Z\"\n      },\n      \"shipmentId\": \"{{$randomAlphaNumeric}}\"\n    }\n  ]\n}",
+									"raw": "{\n  \"placementOptionId\": \"0\",\n  \"shipmentTransportationConfigurations\": [\n    {\n      \"readyToShipWindow\": {\n        \"start\": \"2025-07-30T00:00:00Z\"\n      },\n      \"shipmentId\": \"0\"\n    }\n  ]\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -313,9 +316,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{mockUrl}}/inbound/fba/2024-03-20/inboundPlans/:inboundPlanId/transportationOptions",
+									"raw": "https://d36c087c-23f7-44c8-9fd0-242d7476b199.mock.pstmn.io/inbound/fba/2024-03-20/inboundPlans/:inboundPlanId/transportationOptions",
+									"protocol": "https",
 									"host": [
-										"{{mockUrl}}"
+										"d36c087c-23f7-44c8-9fd0-242d7476b199",
+										"mock",
+										"pstmn",
+										"io"
 									],
 									"path": [
 										"inbound",
@@ -543,14 +550,18 @@
 									},
 									{
 										"key": "x-amz-access-token",
-										"value": "{{x-amz-access-token}}",
+										"value": "MockAccessToken",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "{{mockUrl}}/inbound/fba/2024-03-20/operations/:operationId",
+									"raw": "https://d36c087c-23f7-44c8-9fd0-242d7476b199.mock.pstmn.io/inbound/fba/2024-03-20/operations/:operationId",
+									"protocol": "https",
 									"host": [
-										"{{mockUrl}}"
+										"d36c087c-23f7-44c8-9fd0-242d7476b199",
+										"mock",
+										"pstmn",
+										"io"
 									],
 									"path": [
 										"inbound",
@@ -711,14 +722,18 @@
 									},
 									{
 										"key": "x-amz-access-token",
-										"value": "{{x-amz-access-token}}",
+										"value": "MockAccessToken",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "{{mockUrl}}/inbound/fba/2024-03-20/inboundPlans/:inboundPlanId/transportationOptions?pageSize=20&placementOptionId=ple2a1ef03-81b7-4a12-83a2-b2d7c61a329f",
+									"raw": "https://d36c087c-23f7-44c8-9fd0-242d7476b199.mock.pstmn.io/inbound/fba/2024-03-20/inboundPlans/:inboundPlanId/transportationOptions?pageSize=20&placementOptionId=ple2a1ef03-81b7-4a12-83a2-b2d7c61a329f",
+									"protocol": "https",
 									"host": [
-										"{{mockUrl}}"
+										"d36c087c-23f7-44c8-9fd0-242d7476b199",
+										"mock",
+										"pstmn",
+										"io"
 									],
 									"path": [
 										"inbound",
@@ -1111,7 +1126,7 @@
 									},
 									{
 										"key": "x-amz-access-token",
-										"value": "{{x-amz-access-token}}"
+										"value": "MockAccessToken"
 									}
 								],
 								"body": {
@@ -1125,9 +1140,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{mockUrl}}/inbound/fba/2024-03-20/inboundPlans/:inboundPlanId/transportationOptions/confirmation",
+									"raw": "https://d36c087c-23f7-44c8-9fd0-242d7476b199.mock.pstmn.io/inbound/fba/2024-03-20/inboundPlans/:inboundPlanId/transportationOptions/confirmation",
+									"protocol": "https",
 									"host": [
-										"{{mockUrl}}"
+										"d36c087c-23f7-44c8-9fd0-242d7476b199",
+										"mock",
+										"pstmn",
+										"io"
 									],
 									"path": [
 										"inbound",
@@ -1702,14 +1721,18 @@
 									},
 									{
 										"key": "x-amz-access-token",
-										"value": "{{x-amz-access-token}}",
+										"value": "MockAccessToken",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "{{mockUrl}}/inbound/fba/2024-03-20/operations/:operationId",
+									"raw": "https://d36c087c-23f7-44c8-9fd0-242d7476b199.mock.pstmn.io/inbound/fba/2024-03-20/operations/:operationId",
+									"protocol": "https",
 									"host": [
-										"{{mockUrl}}"
+										"d36c087c-23f7-44c8-9fd0-242d7476b199",
+										"mock",
+										"pstmn",
+										"io"
 									],
 									"path": [
 										"inbound",
@@ -1863,14 +1886,18 @@
 									},
 									{
 										"key": "x-amz-access-token",
-										"value": "{{x-amz-access-token}}",
+										"value": "MockAccessToken",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "{{mockUrl}}/inbound/fba/2024-03-20/inboundPlans/:inboundPlanId/shipments/:shipmentId",
+									"raw": "https://d36c087c-23f7-44c8-9fd0-242d7476b199.mock.pstmn.io/inbound/fba/2024-03-20/inboundPlans/:inboundPlanId/shipments/:shipmentId",
+									"protocol": "https",
 									"host": [
-										"{{mockUrl}}"
+										"d36c087c-23f7-44c8-9fd0-242d7476b199",
+										"mock",
+										"pstmn",
+										"io"
 									],
 									"path": [
 										"inbound",
@@ -2044,14 +2071,18 @@
 									},
 									{
 										"key": "x-amz-access-token",
-										"value": "{{x-amz-access-token}}",
+										"value": "MockAccessToken",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "{{mockUrl}}/fba/inbound/v0/shipments/:*/labels?PageType=PackageLabel_Letter_2",
+									"raw": "https://d36c087c-23f7-44c8-9fd0-242d7476b199.mock.pstmn.io/fba/inbound/v0/shipments/:*/labels?PageType=PackageLabel_Letter_2",
+									"protocol": "https",
 									"host": [
-										"{{mockUrl}}"
+										"d36c087c-23f7-44c8-9fd0-242d7476b199",
+										"mock",
+										"pstmn",
+										"io"
 									],
 									"path": [
 										"fba",
