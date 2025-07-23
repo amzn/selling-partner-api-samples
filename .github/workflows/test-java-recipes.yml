@@ -1,0 +1,31 @@
+name: Test Java Recipes
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: test java recipes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'corretto'
+          cache: gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Execute tests
+        working-directory: ./code-recipes/java
+        run: ./gradlew test
+      - name: Archive reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: ./java/sdk/build/reports/tests/test

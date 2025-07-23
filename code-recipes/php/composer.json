@@ -1,0 +1,19 @@
+{
+    "name": "amzn-spapi/code-recipes",
+    "type": "project",
+    "require": {
+        "amzn-spapi/sdk": "^1.3",
+        "php": "^8.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src/",
+            "Test\\": "test/"
+        }
+    },
+    "license": "Apache-2.0",
+    "require-dev": {
+        "guzzlehttp/guzzle": "^7.0",
+        "phpunit/phpunit": "^12.2"
+    }
+}

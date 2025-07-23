@@ -1,0 +1,48 @@
+plugins {
+	id "com.github.node-gradle.node" version "7.1.0"
+}
+
+apply plugin: 'java'
+
+repositories {
+	mavenCentral()
+}
+
+node {
+	download = true
+	version = "18.20.2"
+	nodeProjectDir = file("${buildDir}/resources/test")
+}
+
+task startMockBackend(type: NpmTask) {
+	args=["start"]
+}
+
+task stopMockBackend(type: NpmTask) {
+	args=["stop"]
+}
+
+test {
+	dependsOn npmInstall
+	dependsOn startMockBackend
+	useJUnitPlatform()
+	finalizedBy stopMockBackend
+}
+
+sourceSets {
+	test {
+		resources {
+			srcDir '../test'
+		}
+	}
+}
+
+npmInstall.dependsOn("processTestResources")
+
+dependencies {
+	implementation 'software.amazon.spapi:spapi-sdk:1.3.0'
+	testImplementation 'com.fasterxml.jackson.jr:jackson-jr-all:2.19.0'
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.13.0'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+}

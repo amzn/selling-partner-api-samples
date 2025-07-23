@@ -1,0 +1,45 @@
+{
+    "createdAt": "2025-07-17T11:30:30Z",
+    "orderId": "94587c90-8274-4162-88f8-23b88aedd17b",
+    "orderStatus": "DRAFT",
+    "originAddress": {
+        "addressLine1": "2031 7th Ave",
+        "countryCode": "US",
+        "name": "John Doe",
+        "postalCode": "98121",
+        "stateOrRegion": "WA"
+    },
+    "packagesToInbound": [
+        {
+            "count": "1",
+            "distributionPackage": {
+                "contents": {
+                    "products": [
+                        {
+                            "quantity": "100",
+                            "sku": "test-sku"
+                        }
+                    ]
+                },
+                "measurements": {
+                    "weight": {
+                        "unitOfMeasurement": "KILOGRAMS",
+                        "weight": "6"
+                    }
+                },
+                "type": "CASE"
+            }
+        }
+    ],
+    "destinationDetails": {
+        "destinationAddress": {
+            "addressLine1": "14000 NW 37th Ave",
+            "countryCode": "US",
+            "name": "MIA1",
+            "city": "Miami",
+            "postalCode": "33054",
+            "stateOrRegion": "FL"
+        }
+    },
+    "updatedAt": "2025-03-12T10:45:30Z"
+}
