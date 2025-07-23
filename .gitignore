@@ -6,3 +6,6 @@ tmp/
 *.iml
 node_modules
 *php-lambda-function.zip
+.gradle/
+vendor/
+.phpunit**
