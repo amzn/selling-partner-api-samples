@@ -1,6 +1,6 @@
-# Amazon Data Kiosk MCP Server
+# Data Kiosk MCP Server
 
-A Model Context Protocol (MCP) server that enables AI assistants like Claude to interact with Amazon's Data Kiosk API for analyzing seller and vendor data.
+A Model Context Protocol (MCP) server that enables AI assistants like Claude Desktop to interact with Amazon's Data Kiosk API for analyzing seller and vendor data.
 
 **This MCP server example runs locally in your test environment and provides a foundation for development and experimentation. Developers utilizing this sample solution are responsible for its implementation, usage patterns, and ensuring compliance with Amazon's Acceptable Use Policy (AUP) and Data Protection Policy (DPP).**
 
@@ -77,7 +77,7 @@ DATA_KIOSK_OAUTH_URL=https://api.amazon.com/auth/o2/token
 DATA_KIOSK_API_VERSION=2023-11-15
 ```
 
-### Claude Desktop Configuration
+### MCP Client Configuration (Using Claude Desktop as an Example)
 
 Add the server to your Claude Desktop configuration file located at:
 - macOS/Linux: `~/Library/Application Support/Claude/claude_desktop_config.json`
