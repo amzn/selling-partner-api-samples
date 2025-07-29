@@ -19,6 +19,7 @@ This is considered an intermediate learning resource, and should typically be re
 
 ## Learning Resources
 * [SP-API Website](https://developer.amazonservices.com)
+* [SP-API SDK](https://github.com/amzn/selling-partner-api-sdk)
 * [SP-API Documentation](https://developer-docs.amazon.com/sp-api)
 * [SP-API Developer Support](https://developer.amazonservices.com/support)
 
