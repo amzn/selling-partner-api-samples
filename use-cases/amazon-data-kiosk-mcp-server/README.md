@@ -4,6 +4,9 @@ A Model Context Protocol (MCP) server that enables AI assistants like Claude Des
 
 **This MCP server example runs locally in your test environment and provides a foundation for development and experimentation. Developers utilizing this sample solution are responsible for its implementation, usage patterns, and ensuring compliance with Amazon's Acceptable Use Policy (AUP) and Data Protection Policy (DPP).**
 
+https://github.com/user-attachments/assets/e90896e6-bec2-4a5b-ad42-81052feada1d
+
+
 ## Overview
 
 This MCP server provides a bridge between AI assistants and Amazon's Data Kiosk API, allowing for powerful analytics capabilities through natural language conversations. It enables users to:
