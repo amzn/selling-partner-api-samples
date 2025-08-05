@@ -89,8 +89,8 @@ Before setting up the Amazon SP-API MCP Server, ensure you have:
 
 1. **Clone the Repository**
    ```bash
-   git clone <repository-url>
-   cd amazon-sp-api-mcp-server
+   git clone https://github.com/amzn/selling-partner-api-samples.git
+   cd selling-partner-api-samples/use-cases/sp-api-mcp-server
    ```
 
 2. **Install Dependencies**
