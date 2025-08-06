@@ -74,7 +74,30 @@ async function main() {
         category: z.string().optional().describe("Category to explore"),
         listEndpoints: z.boolean().optional().default(false).describe("List all available endpoints"),
         listCategories: z.boolean().optional().default(false).describe("List all available categories"),
-        depth: z.union([z.number(), z.literal("full")]).optional().default("full").describe("Control nested object expansion depth (0-N or 'full')"),
+        depth: z.union([z.number(), z.string()]).transform((val, ctx) => {
+          if (typeof val === 'number') {
+            if (val < 0) {
+              ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: "Number must be non-negative",
+              });
+              return z.NEVER;
+            }
+            return val;
+          }
+          
+          if (val === "full") return val;
+          
+          const num = parseInt(val, 10);
+          if (isNaN(num) || num < 0) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: "String must be 'full' or a valid non-negative number",
+            });
+            return z.NEVER;
+          }
+          return num;
+        }).optional().default("full").describe("Control nested object expansion depth. Use a number (0, 1, 2, etc.) for specific depth levels, or the string 'full' for complete expansion. Examples: 1 (number), 2 (number), or 'full' (string)"),
         ref: z.string().optional().describe("Extract specific nested object using dot notation (e.g., 'Order.ShippingAddress')")
       },
       async (params) => {

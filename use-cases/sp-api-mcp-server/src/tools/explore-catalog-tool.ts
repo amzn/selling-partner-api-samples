@@ -10,7 +10,32 @@ export const exploreCatalogSchema = z.object({
   category: z.string().optional().describe("Category to explore"),
   listEndpoints: z.boolean().optional().default(false).describe("List all available endpoints"),
   listCategories: z.boolean().optional().default(false).describe("List all available categories"),
-  depth: z.union([z.number().min(0), z.literal("full")]).optional().default("full").describe("Control nested object expansion depth. Use a number (0, 1, 2, etc.) for specific depth levels, or the string 'full' for complete expansion. Examples: 1 (number), 2 (number), or 'full' (string)"),
+  depth: z.union([z.number(), z.string()]).transform((val, ctx) => {
+    // If it's already a number, validate it
+    if (typeof val === 'number') {
+      if (val < 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Number must be non-negative",
+        });
+        return z.NEVER;
+      }
+      return val;
+    }
+    
+    // If it's a string, handle "full" or convert to number
+    if (val === "full") return val;
+    
+    const num = parseInt(val, 10);
+    if (isNaN(num) || num < 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "String must be 'full' or a valid non-negative number",
+      });
+      return z.NEVER;
+    }
+    return num;
+  }).optional().default("full").describe("Control nested object expansion depth. Use a number (0, 1, 2, etc.) for specific depth levels, or the string 'full' for complete expansion. Examples: 1 (number), 2 (number), or 'full' (string)"),
   ref: z.string().optional().describe("Extract specific nested object using dot notation (e.g., 'Order.ShippingAddress')")
 });
 
@@ -96,6 +121,23 @@ export class ExploreCatalogTool {
   }
 
   /**
+   * Navigate schema object using dot notation path
+   */
+  private navigateSchemaPath(schema: any, path: string): any {
+    const parts = path.split('.');
+    let current = schema;
+    
+    for (const part of parts) {
+      if (current && typeof current === 'object' && part in current) {
+        current = current[part];
+      } else {
+        return null; // Path not found
+      }
+    }
+    return current;
+  }
+
+  /**
    * Extract specific nested object reference
    */
   private extractReference(endpointId: string, refPath: string): string {
@@ -114,12 +156,106 @@ export class ExploreCatalogTool {
       return `# Reference Not Found\n\nThe endpoint '${endpointId}' was not found in the catalog.`;
     }
 
-    // For now, return a placeholder - full implementation would navigate the schema
+    // Find the response schema (look for 200 response first, then any successful response)
+    const successResponse = endpoint.responses.find(r => r.statusCode === 200) ||
+                           endpoint.responses.find(r => r.statusCode >= 200 && r.statusCode < 300);
+    
+    if (!successResponse || !successResponse.schema) {
+      return JSON.stringify({
+        ref: refPath,
+        endpoint: endpointId,
+        error: "No schema found for successful response",
+        available_responses: endpoint.responses.map(r => ({
+          status: r.statusCode,
+          has_schema: !!r.schema
+        }))
+      }, null, 2);
+    }
+
+    // Navigate to the specific path
+    const extractedSchema = this.navigateSchemaPath(successResponse.schema, refPath);
+    
+    if (extractedSchema === null) {
+      return JSON.stringify({
+        ref: refPath,
+        endpoint: endpointId,
+        error: `Path '${refPath}' not found in schema`,
+        suggestions: this.generatePathSuggestions(successResponse.schema, refPath),
+        navigation_context: this.analyzeCurrentLocation(successResponse.schema, '')
+      }, null, 2);
+    }
+
+    // Apply existing depth limiting and return formatted result
     return JSON.stringify({
       ref: refPath,
       endpoint: endpointId,
-      schema: `[Placeholder for ${refPath} extraction - Full implementation would navigate response schema]`
+      path_found: true,
+      schema: this.limitSchemaDepth(extractedSchema, "full"),
+      navigation_context: this.analyzeCurrentLocation(extractedSchema, refPath)
     }, null, 2);
+  }
+
+  /**
+   * Analyze current schema location and provide navigation context
+   */
+  private analyzeCurrentLocation(schema: any, currentPath: string): object {
+    if (!schema || typeof schema !== 'object') {
+      return { available_next_steps: [] };
+    }
+
+    const context: any = {
+      schema_type: schema.type || 'unknown',
+      available_next_steps: []
+    };
+
+    // Analyze what's directly available at current level
+    if (schema.properties) {
+      const fields = Object.keys(schema.properties);
+      context.available_next_steps = fields.map(field => 
+        `${currentPath ? currentPath + '.' : ''}properties.${field}`
+      );
+    }
+    
+    if (schema.items) {
+      context.available_next_steps.push(`${currentPath ? currentPath + '.' : ''}items`);
+    }
+
+    return context;
+  }
+
+  /**
+   * Generate path suggestions for invalid paths
+   */
+  private generatePathSuggestions(schema: any, attemptedPath: string): string[] {
+    const suggestions: string[] = [];
+    const pathParts = attemptedPath.split('.');
+    const firstPart = pathParts[0];
+    
+    // Find similar top-level keys
+    if (schema && typeof schema === 'object') {
+      const availableKeys = Object.keys(schema);
+      
+      // Exact matches at top level
+      const exactMatches = availableKeys.filter(key => 
+        key.toLowerCase() === firstPart.toLowerCase()
+      );
+      
+      // Partial matches at top level
+      const partialMatches = availableKeys.filter(key =>
+        key.toLowerCase().includes(firstPart.toLowerCase()) ||
+        firstPart.toLowerCase().includes(key.toLowerCase())
+      );
+      
+      suggestions.push(...exactMatches);
+      suggestions.push(...partialMatches.filter(m => !exactMatches.includes(m)));
+      
+      // If we have too few suggestions, add all available top-level keys
+      if (suggestions.length < 3) {
+        suggestions.push(...availableKeys.slice(0, 5 - suggestions.length));
+      }
+    }
+    
+    return [...new Set(suggestions)]; // Remove duplicates
   }
 
   /**
@@ -214,7 +350,8 @@ export class ExploreCatalogTool {
       if (pathParams.length > 0) {
         result += `### Path Parameters\n`;
         for (const param of pathParams) {
-          result += `- \`${param.name}\` (${param.required ? 'Required' : 'Optional'}) - ${param.description}\n`;
+          const typeInfo = Array.isArray(param.type) ? param.type.join(' | ') : param.type;
+          result += `- \`${param.name}\` (${param.required ? 'Required' : 'Optional'}, ${typeInfo}) - ${param.description}\n`;
         }
         result += '\n';
       }
@@ -223,7 +360,8 @@ export class ExploreCatalogTool {
       if (queryParams.length > 0) {
         result += `### Query Parameters\n`;
         for (const param of queryParams) {
-          result += `- \`${param.name}\` (${param.required ? 'Required' : 'Optional'}) - ${param.description}\n`;
+          const typeInfo = Array.isArray(param.type) ? param.type.join(' | ') : param.type;
+          result += `- \`${param.name}\` (${param.required ? 'Required' : 'Optional'}, ${typeInfo}) - ${param.description}\n`;
         }
         result += '\n';
       }
@@ -232,7 +370,8 @@ export class ExploreCatalogTool {
       if (bodyParams.length > 0) {
         result += `### Body Parameters\n`;
         for (const param of bodyParams) {
-          result += `- \`${param.name}\` (${param.required ? 'Required' : 'Optional'}) - ${param.description}\n`;
+          const typeInfo = Array.isArray(param.type) ? param.type.join(' | ') : param.type;
+          result += `- \`${param.name}\` (${param.required ? 'Required' : 'Optional'}, ${typeInfo}) - ${param.description}\n`;
 
           if (param.schema) {
             const limitedSchema = this.limitSchemaDepth(param.schema, depth);
@@ -246,7 +385,8 @@ export class ExploreCatalogTool {
       if (headerParams.length > 0) {
         result += `### Header Parameters\n`;
         for (const param of headerParams) {
-          result += `- \`${param.name}\` (${param.required ? 'Required' : 'Optional'}) - ${param.description}\n`;
+          const typeInfo = Array.isArray(param.type) ? param.type.join(' | ') : param.type;
+          result += `- \`${param.name}\` (${param.required ? 'Required' : 'Optional'}, ${typeInfo}) - ${param.description}\n`;
         }
         result += '\n';
       }
@@ -258,6 +398,15 @@ export class ExploreCatalogTool {
       for (const response of endpoint.responses) {
         result += `### Status ${response.statusCode}\n`;
         result += `${response.description}\n\n`;
+
+        // Add headers if present
+        if (response.headers && Object.keys(response.headers).length > 0) {
+          result += `**Headers:**\n`;
+          for (const [headerName, headerInfo] of Object.entries(response.headers)) {
+            result += `- \`${headerName}\`: ${headerInfo.type} - ${headerInfo.description}\n`;
+          }
+          result += `\n`;
+        }
 
         if (response.schema && Object.keys(response.schema).length > 0) {
           const limitedSchema = this.limitSchemaDepth(response.schema, depth);

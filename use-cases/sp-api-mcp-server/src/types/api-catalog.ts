@@ -41,6 +41,7 @@ export interface ApiResponse {
   statusCode: number;
   description: string;
   schema?: object;
+  headers?: { [key: string]: { type: string; description: string; } };
 }
 
 export interface RelatedEndpoint {

@@ -354,10 +354,40 @@ export class CatalogMapper {
           schema = response.content['application/json'].schema;
         }
         
+        // Parse headers if present
+        let headers: { [key: string]: { type: string; description: string; } } | undefined;
+        if (response.headers && typeof response.headers === 'object') {
+          headers = {};
+          for (const [headerName, headerSpec] of Object.entries(response.headers)) {
+            if (headerSpec && typeof headerSpec === 'object') {
+              // Handle both Swagger 2.0 format (direct type/description) and OpenAPI 3.x format (Header object)
+              if ('type' in headerSpec && 'description' in headerSpec) {
+                // Swagger 2.0 format
+                headers[headerName] = {
+                  type: headerSpec.type as string,
+                  description: headerSpec.description as string
+                };
+              } else if ('schema' in headerSpec && headerSpec.schema && 
+                        typeof headerSpec.schema === 'object' && 'type' in headerSpec.schema) {
+                // OpenAPI 3.x format with schema
+                headers[headerName] = {
+                  type: (headerSpec.schema as any).type as string,
+                  description: headerSpec.description as string || ''
+                };
+              }
+            }
+          }
+          // Only include headers if we found any
+          if (Object.keys(headers).length === 0) {
+            headers = undefined;
+          }
+        }
+        
         responses.push({
           statusCode: parseInt(code, 10) || 0,
           description: response.description,
-          schema
+          schema,
+          headers
         });
       }
     }
