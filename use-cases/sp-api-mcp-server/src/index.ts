@@ -5,7 +5,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { logger } from "./utils/logger.js";
 import { CatalogLoader } from "./catalog/catalog-loader.js";
 import { ExecuteApiTool } from "./tools/execute-api-tool.js";
-import { ExploreCatalogTool } from "./tools/explore-catalog-tool.js";
+import { ExploreCatalogTool, exploreCatalogSchema } from "./tools/explore-catalog-tool.js";
 import { createAuthenticatorFromEnv } from "./auth/sp-api-auth.js";
 import * as dotenv from 'dotenv';
 import { z } from 'zod';
@@ -69,37 +69,7 @@ async function main() {
     server.tool(
       "explore-sp-api-catalog",
       "Get information about SP-API endpoints and parameters",
-      {
-        endpoint: z.string().optional().describe("Specific endpoint to get details for"),
-        category: z.string().optional().describe("Category to explore"),
-        listEndpoints: z.boolean().optional().default(false).describe("List all available endpoints"),
-        listCategories: z.boolean().optional().default(false).describe("List all available categories"),
-        depth: z.union([z.number(), z.string()]).transform((val, ctx) => {
-          if (typeof val === 'number') {
-            if (val < 0) {
-              ctx.addIssue({
-                code: z.ZodIssueCode.custom,
-                message: "Number must be non-negative",
-              });
-              return z.NEVER;
-            }
-            return val;
-          }
-          
-          if (val === "full") return val;
-          
-          const num = parseInt(val, 10);
-          if (isNaN(num) || num < 0) {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              message: "String must be 'full' or a valid non-negative number",
-            });
-            return z.NEVER;
-          }
-          return num;
-        }).optional().default("full").describe("Control nested object expansion depth. Use a number (0, 1, 2, etc.) for specific depth levels, or the string 'full' for complete expansion. Examples: 1 (number), 2 (number), or 'full' (string)"),
-        ref: z.string().optional().describe("Extract specific nested object using dot notation (e.g., 'Order.ShippingAddress')")
-      },
+      exploreCatalogSchema.shape,
       async (params) => {
         const result = await exploreTool.execute(params);
         return {

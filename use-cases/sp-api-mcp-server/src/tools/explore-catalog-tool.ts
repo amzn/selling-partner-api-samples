@@ -5,18 +5,40 @@ import { ApiCatalog, ApiEndpoint, ApiCategory } from '../types/api-catalog.js';
 import { logger } from '../utils/logger.js';
 import { config } from '../config/index.js';
 
-export const exploreCatalogSchema = z.object({
-  endpoint: z.string().optional().describe("Specific endpoint to get details for"),
-  category: z.string().optional().describe("Category to explore"),
-  listEndpoints: z.boolean().optional().default(false).describe("List all available endpoints"),
-  listCategories: z.boolean().optional().default(false).describe("List all available categories"),
-  depth: z.union([z.number(), z.string()]).transform((val, ctx) => {
+// Enhanced validation with better error messages
+function createDepthValidator() {
+  return z.union([z.number(), z.string()]).transform((val, ctx) => {
+    // Handle null, undefined, and empty values
+    if (val === null || val === undefined || val === '') {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: JSON.stringify({
+          error: "Invalid depth parameter",
+          message: `The 'depth' parameter must be a number (0, 1, 2, etc.) or the string 'full'. Received: ${val}. TIP: To get full expansion, simply OMIT the depth parameter entirely - do not pass null/undefined.`,
+          validExamples: [
+            {"endpoint": "orders_getOrder"},
+            {"endpoint": "orders_getOrder", "depth": 2},
+            {"endpoint": "orders_getOrder", "depth": "full"}
+          ]
+        })
+      });
+      return z.NEVER;
+    }
+    
     // If it's already a number, validate it
     if (typeof val === 'number') {
       if (val < 0) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: "Number must be non-negative",
+          message: JSON.stringify({
+            error: "Invalid depth parameter",
+            message: `Depth must be non-negative. Received: ${val}`,
+            validExamples: [
+              {"depth": 0},
+              {"depth": 1},
+              {"depth": 2}
+            ]
+          })
         });
         return z.NEVER;
       }
@@ -30,12 +52,28 @@ export const exploreCatalogSchema = z.object({
     if (isNaN(num) || num < 0) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "String must be 'full' or a valid non-negative number",
+        message: JSON.stringify({
+          error: "Invalid depth parameter",
+          message: `The 'depth' parameter must be a number (0, 1, 2, etc.) or the string 'full'. Received: "${val}". Cannot parse as valid number. TIP: To get full expansion, simply OMIT the depth parameter entirely.`,
+          validExamples: [
+            {"endpoint": "orders_getOrder"},
+            {"endpoint": "orders_getOrder", "depth": "full"},
+            {"endpoint": "orders_getOrder", "depth": 2}
+          ]
+        })
       });
       return z.NEVER;
     }
     return num;
-  }).optional().default("full").describe("Control nested object expansion depth. Use a number (0, 1, 2, etc.) for specific depth levels, or the string 'full' for complete expansion. Examples: 1 (number), 2 (number), or 'full' (string)"),
+  }).optional().default("full").describe("Control nested object expansion depth. When NOT specified, defaults to 'full' (complete expansion). REQUIRED: Must be either a number (0, 1, 2, 3, etc.) for specific depth levels, or the string 'full' for complete expansion. Invalid values like null, undefined, or empty strings will cause errors. IMPORTANT: Omit this parameter entirely for full expansion - do NOT pass null or undefined.");
+}
+
+export const exploreCatalogSchema = z.object({
+  endpoint: z.string().optional().describe("Specific endpoint to get details for"),
+  category: z.string().optional().describe("Category to explore"),
+  listEndpoints: z.boolean().optional().default(false).describe("List all available endpoints"),
+  listCategories: z.boolean().optional().default(false).describe("List all available categories"),
+  depth: createDepthValidator(),
   ref: z.string().optional().describe("Extract specific nested object using dot notation (e.g., 'Order.ShippingAddress')")
 });
 
@@ -75,7 +113,7 @@ export class ExploreCatalogTool {
 
     // Handle reference extraction first
     if (params.ref && params.endpoint) {
-      return this.extractReference(params.endpoint, params.ref);
+      return this.extractReference(params.endpoint, params.ref, params);
     }
 
     if (params.endpoint) {
@@ -92,32 +130,140 @@ export class ExploreCatalogTool {
     }
   }
   /**
-   * Check response size and return truncation message if needed
+   * Check response size and return truncation message with enhanced metadata
    */
   private checkResponseSize(result: string, params: ExploreCatalogParams): string {
     const estimatedTokens = Math.ceil(result.length / 4); // Rough token estimation
+    const currentDepth = params.depth || "full";
 
-    if (estimatedTokens > config.maxTokens && params.depth === "full") {
+    if (estimatedTokens > config.maxTokens) {
+      // Analyze truncated fields for better suggestions
+      const truncatedFields = this.analyzeTruncatedFields(result);
+      
       return JSON.stringify({
         endpoint: params.endpoint,
         status: "truncated",
         reason: `Response size (${estimatedTokens.toLocaleString()} tokens) exceeds limit (${config.maxTokens.toLocaleString()} tokens)`,
+        metadata: {
+          truncatedFields: truncatedFields,
+          currentDepth: currentDepth,
+          suggestedActions: this.generateActionableSuggestions(params, truncatedFields)
+        },
         suggestions: {
           progressive_exploration: [
-            `Try: --depth 1 for overview`,
-            `Try: --depth 2 for moderate detail`
+            currentDepth === "full" ? "Try depth: 1 for overview" : `Try depth: ${Math.max(0, Number(currentDepth) - 1)} for less detail`,
+            currentDepth === "full" ? "Try depth: 2 for moderate detail" : `Try depth: ${Number(currentDepth) + 1} for more detail`,
+            "Try depth: 'full' for complete expansion (may still truncate)"
           ],
           targeted_investigation: [
-            `Try: --ref Order.ShippingAddress for specific object`,
-            `Try: --ref Order.BuyerInfo for buyer details`,
-            `Try: --ref Order.OrderItems for item details`
+            "Use ref: 'properties.payload' for main response data",
+            "Use ref: 'properties.errors' for error structure",
+            ...this.generateRefSuggestions(params.endpoint || "")
           ]
         },
         schema: "[TRUNCATED - Use suggested approaches above]"
       }, null, 2);
     }
 
+    return this.addResponseMetadata(result, params);
+  }
+
+  /**
+   * Add metadata to non-truncated responses
+   */
+  private addResponseMetadata(result: string, params: ExploreCatalogParams): string {
+    // For JSON responses, add metadata
+    if (result.startsWith('{') || result.startsWith('[')) {
+      try {
+        const parsed = JSON.parse(result);
+        if (parsed.schema || parsed.ref) {
+          // This is already a structured response, add metadata
+          parsed.metadata = {
+            responseComplete: true,
+            currentDepth: params.depth || "full",
+            suggestions: this.generateActionableSuggestions(params, [])
+          };
+          return JSON.stringify(parsed, null, 2);
+        }
+      } catch (e) {
+        // Not JSON, return as-is
+      }
+    }
     return result;
+  }
+
+  /**
+   * Analyze result to find truncated fields
+   */
+  private analyzeTruncatedFields(result: string): string[] {
+    const truncatedFields: string[] = [];
+    const patterns = [
+      /\[Object: \d+ properties\] - Use greater depth/g,
+      /\[Array\] - Use greater depth/g,
+      /"\[Object: \d+ properties\] - Use greater depth or ref parameter to expand"/g
+    ];
+    
+    patterns.forEach(pattern => {
+      const matches = result.match(pattern);
+      if (matches) {
+        truncatedFields.push(...matches);
+      }
+    });
+    
+    return [...new Set(truncatedFields)];
+  }
+
+  /**
+   * Generate actionable suggestions based on context
+   */
+  private generateActionableSuggestions(params: ExploreCatalogParams, truncatedFields: string[]): string[] {
+    const suggestions: string[] = [];
+    const currentDepth = params.depth || "full";
+    
+    if (truncatedFields.length > 0) {
+      suggestions.push(`Found ${truncatedFields.length} truncated field(s) - try increasing depth`);
+    }
+    
+    if (typeof currentDepth === 'number') {
+      suggestions.push(`Current depth: ${currentDepth}, try depth: ${currentDepth + 2} or higher for more detail`);
+      suggestions.push(`Try depth: 'full' for complete expansion`);
+    } else if (currentDepth === 'full') {
+      suggestions.push("Using 'full' depth - response may be truncated due to size limits");
+      suggestions.push("Use 'ref' parameter to explore specific sections");
+    }
+    
+    if (params.endpoint && !params.ref) {
+      suggestions.push("Use 'ref' parameter to explore specific nested objects (e.g., 'properties.payload')");
+    }
+    
+    return suggestions;
+  }
+
+  /**
+   * Generate reference suggestions for specific endpoints
+   */
+  private generateRefSuggestions(endpointId: string): string[] {
+    const suggestions: string[] = [];
+    
+    if (endpointId.includes('Order')) {
+      suggestions.push(
+        "Try: --ref Order.ShippingAddress for shipping details",
+        "Try: --ref Order.BuyerInfo for buyer information",
+        "Try: --ref Order.PaymentExecutionDetail for payment info"
+      );
+    } else if (endpointId.includes('Inventory')) {
+      suggestions.push(
+        "Try: --ref InventorySummary.TotalQuantity for quantities",
+        "Try: --ref InventorySummary.Condition for item conditions"
+      );
+    } else {
+      suggestions.push(
+        "Try: --ref properties.payload for main data structure",
+        "Try: --ref properties.errors for error definitions"
+      );
+    }
+    
+    return suggestions;
   }
 
   /**
@@ -140,7 +286,7 @@ export class ExploreCatalogTool {
   /**
    * Extract specific nested object reference
    */
-  private extractReference(endpointId: string, refPath: string): string {
+  private extractReference(endpointId: string, refPath: string, params: ExploreCatalogParams): string {
     // Find the endpoint
     let endpoint: ApiEndpoint | undefined;
     
@@ -185,13 +331,19 @@ export class ExploreCatalogTool {
       }, null, 2);
     }
 
-    // Apply existing depth limiting and return formatted result
+    // Apply existing depth limiting and return formatted result with metadata
+    const limitedSchema = this.limitSchemaDepth(extractedSchema, params.depth || "full");
     return JSON.stringify({
       ref: refPath,
       endpoint: endpointId,
       path_found: true,
-      schema: this.limitSchemaDepth(extractedSchema, "full"),
-      navigation_context: this.analyzeCurrentLocation(extractedSchema, refPath)
+      schema: limitedSchema,
+      navigation_context: this.analyzeCurrentLocation(extractedSchema, refPath),
+      metadata: {
+        depth_applied: params.depth || "full",
+        schema_truncated: JSON.stringify(limitedSchema).includes('[Object:') || JSON.stringify(limitedSchema).includes('[Array]'),
+        suggestions: this.generateActionableSuggestions(params, [])
+      }
     }, null, 2);
   }
 
@@ -259,7 +411,7 @@ export class ExploreCatalogTool {
   }
 
   /**
-   * Apply depth limiting to schema object
+   * Apply depth limiting to schema object with enhanced truncation messages
    */
   private limitSchemaDepth(schema: any, maxDepth: number | "full", currentDepth: number = 0): any {
     if (maxDepth === "full") {
@@ -273,7 +425,9 @@ export class ExploreCatalogTool {
         } else {
           const keys = Object.keys(schema);
           if (keys.length > 0) {
-            return `[Object: ${keys.length} properties] - Use greater depth or ref parameter to expand`;
+            // Enhanced truncation message with field hints
+            const fieldHints = keys.slice(0, 3).join(', ') + (keys.length > 3 ? ', ...' : '');
+            return `[Object: ${keys.length} properties (${fieldHints})] - Use greater depth or ref parameter to expand`;
           }
         }
       }
