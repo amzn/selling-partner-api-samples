@@ -1,50 +1,37 @@
-# Amazon SP-API MCP Server
+# SP-API MCP Server Documentation
 
-A Model Context Protocol (MCP) server that enables natural language interaction with Amazon's Selling Partner API through MCP Client.
+This document describes the Model Context Protocol (MCP) server for interacting with Amazon's Selling Partner API through natural language.
 
-**This MCP server example runs locally in your test environment and provides a foundation for development and experimentation. Developers utilizing this sample solution are responsible for its implementation, usage patterns, and ensuring compliance with Amazon's Acceptable Use Policy (AUP) and Data Protection Policy (DPP).**
+**Developers utilizing this sample solution are solely responsible for its implementation, usage patterns, and must ensure full compliance with all applicable Amazon Selling Partner API Terms of Service, Acceptable Use Policy (AUP), Data Protection Policy (DPP), and any other relevant Amazon policies and agreements. This sample code is provided 'as-is' without any warranties or guarantees.**
 
-## Description
+## Overview
 
-The Amazon SP-API MCP Server bridges the gap between Large Languange Model's natural language capabilities and Amazon's comprehensive Selling Partner API ecosystem. This server allows developers, sellers, and businesses to interact with SP-API endpoints through conversational interfaces, making complex API operations accessible through simple natural language requests.
+The SP-API MCP Server connects Large Language Models to Amazon's Selling Partner API ecosystem. Through conversational interfaces, developers and sellers can explore and execute SP-API operations using natural language.
 
-### Key Capabilities
+The server provides:
+- Natural language API exploration and execution
+- Automatic parameter validation and response formatting
+- Code generation in multiple languages
+- OAuth2 token management and request signing
+- Complete SP-API endpoint documentation
 
-- **Natural Language API Exploration**: Discover and understand SP-API endpoints through conversational queries
-- **Intelligent Request Execution**: Execute authenticated SP-API calls with automatic parameter validation and formatting
-- **Smart Response Processing**: Get structured, human-readable responses with insights and next-step recommendations
-- **Code Generation**: Generate ready-to-use code snippets in multiple programming languages
-- **Real-time Authentication**: Automatic OAuth2 token management and request signing
-- **Comprehensive Catalog**: Built-in knowledge of all SP-API endpoints with detailed parameter information
 
-## Architecture
+## Data Protection & Privacy
+Users must implement appropriate security measures to protect SP-API credentials and any data accessed through this integration. Handle all seller and customer data in accordance with Amazon's Data Protection Policy and applicable privacy laws. Do not store sensitive data in logs or temporary files.
 
-The MCP server is built with a modular TypeScript architecture designed for scalability and maintainability:
+## Architecture 
+
+The server uses a modular TypeScript architecture:
 
 ```
-├── src/
-│   ├── index.ts                 # Main MCP server entry point
-│   ├── auth/
-│   │   └── sp-api-auth.ts      # OAuth2 authentication & request signing
-│   ├── catalog/
-│   │   ├── catalog-loader.ts    # API catalog management
-│   │   ├── cache/
-│   │   │   └── catalog-cache.ts # Caching layer for performance
-│   │   └── swagger/
-│   │       ├── swagger-loader.ts    # OpenAPI/Swagger processing
-│   │       ├── catalog-mapper.ts    # Schema to catalog mapping
-│   │       ├── reference-resolver.ts # JSON reference resolution
-│   │       └── schema-processor.ts  # Schema validation & processing
-│   ├── tools/
-│   │   ├── execute-api-tool.ts     # API execution tool
-│   │   └── explore-catalog-tool.ts # Catalog exploration tool
-│   ├── types/
-│   │   ├── api-catalog.ts      # Type definitions for API catalog
-│   │   └── swagger-types.ts    # OpenAPI/Swagger type definitions
-│   ├── utils/
-│   │   └── logger.ts          # Structured logging utility
-│   └── config/
-│       └── index.ts           # Configuration management
+src/
+  index.ts                # Server entry point
+  auth/                   # Authentication
+  catalog/                # API definitions
+  tools/                  # Execution tools  
+  types/                  # Type definitions
+  utils/                  # Utilities
+  config/                 # Configuration
 ```
 
 ### Core Components
@@ -65,142 +52,114 @@ The MCP server is built with a modular TypeScript architecture designed for scal
    - Provides intelligent endpoint discovery and parameter validation
 
 4. **Tool System** (`src/tools/`)
-   - **Execute API Tool**: Executes authenticated SP-API requests with response processing
-   - **Explore Catalog Tool**: Provides endpoint discovery and documentation
+   - Execute API Tool: Executes authenticated SP-API requests
+   - Explore Catalog Tool: Provides endpoint discovery and documentation
 
-5. **Type System** (`src/types/`)
-   - Comprehensive TypeScript definitions for all API structures
-   - Ensures type safety across the entire application
+## Prerequisites
 
-## Getting Started
+Before setting up the SP-API MCP Server, ensure you have:
 
-### Prerequisites
-
-Before setting up the Amazon SP-API MCP Server, ensure you have:
-
-- **Node.js 16+**: Required for running the TypeScript/JavaScript server
-- **Amazon Selling Partner API Credentials**: 
+- Node.js 16 or higher
+- Amazon Selling Partner API Credentials:
   - Client ID and Client Secret from Amazon Developer Console
   - Refresh Token from the SP-API authorization flow
   - Proper SP-API application permissions
-- **MCP Client**: Any Model Context Protocol client (Claude Desktop or other MCP-compatible applications)
+- SP-API Model Files
+- MCP-compatible client
 
-### Installation
+## Installation
 
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/amzn/selling-partner-api-samples.git
-   cd selling-partner-api-samples/use-cases/sp-api-mcp-server
-   ```
+1. Clone the repository:
+```bash
+git clone https://github.com/amzn/selling-partner-api-samples.git
+cd selling-partner-api-samples/use-cases/sp-api-mcp-server
+```
 
-2. **Install Dependencies**
-   ```bash
-   npm install
-   ```
+2. Download API models:
+```bash
+# Clone the models repository
+git clone https://github.com/amzn/selling-partner-api-models.git
 
-3. **Build the Server**
-   ```bash
-   npm run build
-   ```
+# Create swagger directory
+mkdir swagger
 
-4. **Configure Environment Variables**
-   
-   Create a `.env` file in the root directory:
-   ```bash
-   # Required SP-API Credentials
-   SP_API_CLIENT_ID=your_client_id_here
-   SP_API_CLIENT_SECRET=your_client_secret_here  
-   SP_API_REFRESH_TOKEN=your_refresh_token_here
-   
-   # Optional Configuration
-   SP_API_BASE_URL=https://sellingpartnerapi-na.amazon.com  # Default for North America
-   SP_API_OAUTH_URL=https://api.amazon.com/auth/o2/token   # OAuth endpoint
-   LOG_LEVEL=info                                          # Logging level
-   CATALOG_PATH=./swagger                                  # Path to Swagger files
-   MAX_RESPONSE_TOKENS=25000                               # Max tokens for API response truncation
-   NODE_ENV=production                                     # Environment
-   ```
+# Copy all models
+cp -r selling-partner-api-models/models/* ./swagger/
 
-#### Configuration Options
+# Alternative: Copy specific models (recommended)
+# cp -r selling-partner-api-models/models/orders-api-model ./swagger/
+# cp -r selling-partner-api-models/models/catalog-items-api-model ./swagger/
+```
 
-- **`MAX_RESPONSE_TOKENS`** (Optional, default: 25000): Controls the maximum number of tokens allowed in API catalog responses before truncation occurs. When exploring complex endpoints like `orders_getOrders`, responses exceeding this limit will be truncated with suggestions for progressive exploration using depth parameters or reference extraction.
-  
-  **Usage examples:**
-  ```bash
-  # Use default 25,000 token limit
-  MAX_RESPONSE_TOKENS=25000
-  
-  # Increase limit for more detailed responses
-  MAX_RESPONSE_TOKENS=50000
-  
-  # Reduce limit for more concise responses
-  MAX_RESPONSE_TOKENS=10000
-  ```
+3. Install and build:
+```bash
+npm install
+npm run build
+```
 
-### MCP Client Configuration
+## Configuration
 
-Add the MCP server to your MCP client configuration. Below are examples for popular clients:
+The SP-API MCP Server is configured through your MCP client configuration file. You can set environment variables in two ways:
 
-#### Claude Desktop
+### Method 1: Environment Variables (.env file)
 
-**Location**: `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows)
+Create a `.env` file in the root directory with the following variables:
+
+**Required Variables:**
+```bash
+# SP-API Authentication (Required)
+SP_API_CLIENT_ID=your_client_id
+SP_API_CLIENT_SECRET=your_client_secret  
+SP_API_REFRESH_TOKEN=your_refresh_token
+
+# API Endpoint (Required)
+SP_API_BASE_URL=https://sellingpartnerapi-na.amazon.com
+```
+
+**Optional Variables:**
+```bash
+# Server Configuration (Optional)
+MAX_RESPONSE_TOKENS=25000    # Controls response truncation
+CATALOG_PATH=./swagger       # Path to API model files
+LOG_LEVEL=info              # Logging detail (debug|info|warn|error)
+SP_API_OAUTH_URL=https://api.amazon.com/auth/o2/token  # OAuth endpoint
+```
+
+### Method 2: Direct Configuration in MCP Client
+
+Set environment variables directly in your MCP client's configuration file:
 
 ```json
 {
   "mcpServers": {
     "amazon-sp-api": {
       "command": "node",
-      "args": [
-        "/absolute/path/to/amazon-sp-api-mcp-server/build/index.js"
-      ],
+      "args": ["/path/to/selling-partner-api-samples/use-cases/sp-api-mcp-server/build/index.js"],
       "env": {
-        "NODE_ENV": "production"
+        // Required Variables
+        "SP_API_CLIENT_ID": "your_client_id",
+        "SP_API_CLIENT_SECRET": "your_client_secret",
+        "SP_API_REFRESH_TOKEN": "your_refresh_token",
+        "SP_API_BASE_URL": "https://sellingpartnerapi-na.amazon.com",
+        
+        // Optional Variables
+        "MAX_RESPONSE_TOKENS": "25000",
+        "CATALOG_PATH": "./swagger",
+        "LOG_LEVEL": "info",
+        "SP_API_OAUTH_URL": "https://api.amazon.com/auth/o2/token"
       }
     }
   }
 }
 ```
 
-#### Other MCP Clients
+## Development
 
-For other MCP-compatible clients (Continue, Cline, etc.), configure the server with:
-- **Command**: `node`
-- **Args**: `["/path/to/build/index.js"]`
-- **Transport**: stdio (standard input/output)
-
-### Verification
-
-1. **Test the Build**
-   ```bash
-   npm run start
-   ```
-   You should see logs indicating successful server initialization.
-
-2. **Restart your MCP client** and verify the server appears in the MCP section.
-
-3. **Test Basic Functionality** by asking Claude:
-   ```
-   "What SP-API categories are available?"
-   "Show me information about the Orders API"
-   ```
-
-### Development Setup
-
-For development with hot-reloading:
+For development work:
 
 ```bash
-# Install development dependencies
-npm install
-
-# Run in development mode  
-npm run dev
-
-# Run tests
-npm test
-
-# Lint code
-npm run lint
-
-# Format code
-npm run format
+npm run dev    # Start with hot reloading
+npm test      # Run tests
+npm run lint  # Check code style
+npm run format # Format code
 ```
