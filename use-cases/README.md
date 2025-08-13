@@ -22,6 +22,7 @@ Sample solutions provide a demonstration of a well-architected, end-to-end imple
 | [Vendor Direct Fulfillment](vendor-direct-fulfillment) | C#                       | [Vendor Direct Fulfillment Code Snippets](https://developer-docs.amazon.com/sp-api/docs/code-samples#vendor-direct-fulfillment) | Vendors                    |
 | [Website Authorization](website-authorization)         | Python                   | -                                                                                                                               | Sellers and Vendors        |
 | [Data Kiosk MCP Server](amazon-data-kiosk-mcp-server)         | TypeScript / JavaScript                   | -                                                                                                                               | Sellers and Vendors        |
+| [SP API MCP Server](sp-api-mcp-server)         | TypeScript / JavaScript                   | -                                                                                                                               | Sellers and Vendors        |
 
 
 ## Anonymous Metrics
