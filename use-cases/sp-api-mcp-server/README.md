@@ -141,10 +141,10 @@ Set environment variables directly in your MCP client's configuration file:
         "SP_API_CLIENT_SECRET": "your_client_secret",
         "SP_API_REFRESH_TOKEN": "your_refresh_token",
         "SP_API_BASE_URL": "https://sellingpartnerapi-na.amazon.com",
+        "CATALOG_PATH": "/path/to/selling-partner-api-samples/use-cases/sp-api-mcp-server/swagger",
         
         // Optional Variables
         "MAX_RESPONSE_TOKENS": "25000",
-        "CATALOG_PATH": "./swagger",
         "LOG_LEVEL": "info",
         "SP_API_OAUTH_URL": "https://api.amazon.com/auth/o2/token"
       }
