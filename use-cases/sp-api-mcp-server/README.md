@@ -69,65 +69,29 @@ Before setting up the SP-API MCP Server, ensure you have:
 
 ## Installation
 
-1. Clone the repository:
+1. Clone both repositories at the same folder level:
 ```bash
-git clone https://github.com/amzn/selling-partner-api-samples.git
-cd selling-partner-api-samples/use-cases/sp-api-mcp-server
-```
-
-2. Download API models:
-```bash
-# Clone the models repository
+# Clone the models repository first
 git clone https://github.com/amzn/selling-partner-api-models.git
 
-# Create swagger directory
-mkdir swagger
+# Clone the samples repository  
+git clone https://github.com/amzn/selling-partner-api-samples.git
 
-# Copy all models
-cp -r selling-partner-api-models/models/* ./swagger/
-
-# Alternative: Copy specific models (recommended)
-# cp -r selling-partner-api-models/models/orders-api-model ./swagger/
-# cp -r selling-partner-api-models/models/catalog-items-api-model ./swagger/
 ```
 
-3. Install and build:
+2. Install and build:
 ```bash
+# Navigate to the MCP server
+cd selling-partner-api-samples/use-cases/sp-api-mcp-server
+
+# Install and build
 npm install
 npm run build
 ```
 
 ## Configuration
 
-The SP-API MCP Server is configured through your MCP client configuration file. You can set environment variables in two ways:
-
-### Method 1: Environment Variables (.env file)
-
-Create a `.env` file in the root directory with the following variables:
-
-**Required Variables:**
-```bash
-# SP-API Authentication (Required)
-SP_API_CLIENT_ID=your_client_id
-SP_API_CLIENT_SECRET=your_client_secret  
-SP_API_REFRESH_TOKEN=your_refresh_token
-
-# API Endpoint (Required)
-SP_API_BASE_URL=https://sellingpartnerapi-na.amazon.com
-```
-
-**Optional Variables:**
-```bash
-# Server Configuration (Optional)
-MAX_RESPONSE_TOKENS=25000    # Controls response truncation
-CATALOG_PATH=./swagger       # Path to API model files
-LOG_LEVEL=info              # Logging detail (debug|info|warn|error)
-SP_API_OAUTH_URL=https://api.amazon.com/auth/o2/token  # OAuth endpoint
-```
-
-### Method 2: Direct Configuration in MCP Client
-
-Set environment variables directly in your MCP client's configuration file:
+Configure the SP-API MCP Server by setting environment variables directly in your MCP client's configuration file:
 
 ```json
 {
@@ -141,7 +105,7 @@ Set environment variables directly in your MCP client's configuration file:
         "SP_API_CLIENT_SECRET": "your_client_secret",
         "SP_API_REFRESH_TOKEN": "your_refresh_token",
         "SP_API_BASE_URL": "https://sellingpartnerapi-na.amazon.com",
-        "CATALOG_PATH": "/path/to/selling-partner-api-samples/use-cases/sp-api-mcp-server/swagger",
+        "CATALOG_PATH": "/absolute/path/to/selling-partner-api-models/models",
         
         // Optional Variables
         "MAX_RESPONSE_TOKENS": "25000",
@@ -152,6 +116,26 @@ Set environment variables directly in your MCP client's configuration file:
   }
 }
 ```
+
+### Environment Variables Explained
+
+**Required Variables:**
+- `SP_API_CLIENT_ID`: Your Amazon SP-API client ID from Amazon Developer Console
+- `SP_API_CLIENT_SECRET`: Your Amazon SP-API client secret from Amazon Developer Console  
+- `SP_API_REFRESH_TOKEN`: Your Amazon SP-API refresh token from either Amazon Developer Console(self-authentication) or OAuth authorization flow
+- `SP_API_BASE_URL`: Amazon SP-API base URL for your marketplace (e.g., `https://sellingpartnerapi-na.amazon.com`)
+- `CATALOG_PATH`: **Absolute path to the models subdirectory within the cloned selling-partner-api-models repository**
+
+**CATALOG_PATH Example:**
+If you cloned the repositories to `/home/user/projects/`, then:
+```json
+"CATALOG_PATH": "/home/user/projects/selling-partner-api-models/models"
+```
+
+**Optional Variables:**
+- `MAX_RESPONSE_TOKENS`: Maximum tokens for API responses (default: 25000)
+- `LOG_LEVEL`: Logging level - `debug`, `info`, `warn`, or `error` (default: info)
+- `SP_API_OAUTH_URL`: Amazon OAuth endpoint (default: https://api.amazon.com/auth/o2/token)
 
 ## Development
 
