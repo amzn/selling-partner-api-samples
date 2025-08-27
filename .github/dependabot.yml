@@ -1,11 +1,11 @@
 version: 2
 updates:
   - package-ecosystem: "gradle"
-    directory: "/code-recipes/java/"
+    directory: "/code-recipes/java"
     schedule:
       interval: "weekly"
       
   - package-ecosystem: "composer"
-    directory: "/code-recipes/php/"
+    directory: "/code-recipes/php"
     schedule:
       interval: "weekly"
