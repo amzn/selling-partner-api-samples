@@ -17,4 +17,4 @@ Think of these as quick-start "hello world" references for developers.
 
 | Demo                       | File/Folder             | Language | APIs Used        | Description                                                                 |
 |----------------------------|-------------------------|----------|------------------|-----------------------------------------------------------------------------|
-| AWD Inbound Workflow Demo  | `awd/AWDDemoSolution.java`  | Java     | AWD (2024-05-09) | End-to-end AWD flow: check eligibility → create inbound → get inbound → confirm inbound |
+| AWD Inbound Workflow Demo  | [`awd/AWDDemoSolution.java`](https://github.com/amzn/selling-partner-api-samples/blob/hands-on-labs/labs/demos/awd/AwdDemoSolution.java)  | Java     | AWD (2024-05-09) | End-to-end AWD flow: check eligibility → create inbound → get inbound → confirm inbound |
