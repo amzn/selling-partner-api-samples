@@ -28,6 +28,6 @@ This directory contains hands-on resources to help you learn and master the **Se
 
 | Category    | Folder        | Description                                                                 | Example                                                |
 |-------------|---------------|-----------------------------------------------------------------------------|--------------------------------------------------------|
-| 💡 Demos    | `[demos/](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/demos)`      | Short code snippets using the SP-API SDK                                    | GetOrders with the Python SDK                          |
-| 📖 Tutorials | `[tutorials/](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/tutorials)` | Guided Jupyter notebooks focused on a single API workflow                   | Querying SKU economics with Data Kiosk                 |
-| 🏋️ Workshops | `[workshops/](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/workshops)` | Multi-step challenges combining multiple APIs to solve real-world problems | Listing error diagnosis, Fulfillment workflows with MLI |
+| 💡 Demos    | [`demos/`](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/demos)      | Short code snippets using the SP-API SDK                                    | GetOrders with the Python SDK                          |
+| 📖 Tutorials | [`tutorials/`](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/tutorials) | Guided Jupyter notebooks focused on a single API workflow                   | Querying SKU economics with Data Kiosk                 |
+| 🏋️ Workshops | [`workshops/`](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/workshops) | Multi-step challenges combining multiple APIs to solve real-world problems | Listing error diagnosis, Fulfillment workflows with MLI |
