@@ -24,10 +24,11 @@ Each workshop:
    git clone https://github.com/amzn/sp-api-sample-solutions.git
    cd labs/workshops
    pip install -r ../env/requirements.txt
-   jupyter lab```
+   jupyter lab
+   ```
 
 ## 📚 Available Challenges
 
 | Challenge             | Folder              | Focus APIs                         | Scenario                                                       |
 |-----------------------|---------------------|------------------------------------|----------------------------------------------------------------|
-| 🧙 ListingsWizard     | `listings-wizard/`   | Listings, Pricing, Data Kiosk      | Optimize listings conversion, pricing, and refund rates        |
+| 🧙 ListingsWizard     | [`listings-wizard/`](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/workshops/listings-wizard)   | Listings, Pricing, Data Kiosk      | Optimize listings conversion, pricing, and refund rates        |
