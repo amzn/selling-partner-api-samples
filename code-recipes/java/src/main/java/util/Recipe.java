@@ -4,9 +4,9 @@ import com.amazon.SellingPartnerAPIAA.LWAAuthorizationCredentials;
 
 public abstract class Recipe {
     protected LWAAuthorizationCredentials lwaCredentials = LWAAuthorizationCredentials.builder()
-            .clientId("")
-            .clientSecret("")
-            .refreshToken("") 
+            .clientId("clientId")
+            .clientSecret("clientSecret")
+            .refreshToken("clientSecret")
             .endpoint(Constants.BACKEND_URL + "/auth/o2/token")
             .build();
 
