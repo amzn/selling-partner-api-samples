@@ -9,3 +9,4 @@ node_modules
 .gradle/
 vendor/
 .phpunit**
+code-recipes/java/src/main/java/util/Recipe.java
