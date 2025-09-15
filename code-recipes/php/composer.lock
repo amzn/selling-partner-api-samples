@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "amzn-spapi/sdk",
-            "version": "1.4.1",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amzn/selling-partner-api-php-release.git",
-                "reference": "2b27c8416debaa18310ebfa7e880dd5b55ba6f5b"
+                "reference": "df4b6c6e7c9d5bdb6fd86c4e3eb9ed00fa5bc555"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amzn/selling-partner-api-php-release/zipball/2b27c8416debaa18310ebfa7e880dd5b55ba6f5b",
-                "reference": "2b27c8416debaa18310ebfa7e880dd5b55ba6f5b",
+                "url": "https://api.github.com/repos/amzn/selling-partner-api-php-release/zipball/df4b6c6e7c9d5bdb6fd86c4e3eb9ed00fa5bc555",
+                "reference": "df4b6c6e7c9d5bdb6fd86c4e3eb9ed00fa5bc555",
                 "shasum": ""
             },
             "require": {
@@ -68,9 +68,9 @@
                 "sp-api"
             ],
             "support": {
-                "source": "https://github.com/amzn/selling-partner-api-php-release/tree/1.4.1"
+                "source": "https://github.com/amzn/selling-partner-api-php-release/tree/1.5.0"
             },
-            "time": "2025-08-13T13:50:02+00:00"
+            "time": "2025-09-10T11:03:27+00:00"
         },
         {
             "name": "aws/aws-crt-php",
@@ -128,16 +128,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.356.5",
+            "version": "3.356.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "5872ccb5100c4afb0dae3db0bd46636f63ae8147"
+                "reference": "af1bf3dee5e66cf9b3d5d2507b08d9465636df29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5872ccb5100c4afb0dae3db0bd46636f63ae8147",
-                "reference": "5872ccb5100c4afb0dae3db0bd46636f63ae8147",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/af1bf3dee5e66cf9b3d5d2507b08d9465636df29",
+                "reference": "af1bf3dee5e66cf9b3d5d2507b08d9465636df29",
                 "shasum": ""
             },
             "require": {
@@ -150,7 +150,7 @@
                 "guzzlehttp/psr7": "^2.4.5",
                 "mtdowling/jmespath.php": "^2.8.0",
                 "php": ">=8.1",
-                "psr/http-message": "^2.0"
+                "psr/http-message": "^1.0 || ^2.0"
             },
             "require-dev": {
                 "andrewsville/php-token-reflection": "^1.4",
@@ -219,9 +219,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.356.5"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.356.18"
             },
-            "time": "2025-08-26T18:05:04+00:00"
+            "time": "2025-09-15T18:21:28+00:00"
         },
         {
             "name": "dallgoot/yaml",
@@ -1088,16 +1088,16 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v7.3.2",
+            "version": "v7.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "119bcf13e67dbd188e5dbc74228b1686f66acd37"
+                "reference": "0ff2f5c3df08a395232bbc3c2eb7e84912df911d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/119bcf13e67dbd188e5dbc74228b1686f66acd37",
-                "reference": "119bcf13e67dbd188e5dbc74228b1686f66acd37",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/0ff2f5c3df08a395232bbc3c2eb7e84912df911d",
+                "reference": "0ff2f5c3df08a395232bbc3c2eb7e84912df911d",
                 "shasum": ""
             },
             "require": {
@@ -1135,7 +1135,7 @@
                 "options"
             ],
             "support": {
-                "source": "https://github.com/symfony/options-resolver/tree/v7.3.2"
+                "source": "https://github.com/symfony/options-resolver/tree/v7.3.3"
             },
             "funding": [
                 {
@@ -1155,7 +1155,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-07-15T11:36:08+00:00"
+            "time": "2025-08-05T10:16:07+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
