@@ -1,0 +1,16 @@
+# Core Jupyter environment
+jupyterlab
+ipykernel
+
+# SP-API SDK
+sp-api
+
+# Data analysis & visualization
+pandas
+numpy
+matplotlib
+seaborn
+
+# Utils
+requests
+python-dotenv

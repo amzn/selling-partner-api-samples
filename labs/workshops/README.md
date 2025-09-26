@@ -23,6 +23,7 @@ Each workshop:
    ```bash
    git clone https://github.com/amzn/sp-api-sample-solutions.git
    cd labs/workshops
+   pip install -r ../../env/requirements.txt
    jupyter lab
    ```
 

@@ -15,7 +15,6 @@ We’ve prepared AWS test accounts with SageMaker for you:
 3. Navigate to **Amazon SageMaker → Notebook Instances**.
 4. Open Jupyter and launch the `workshops/listings-wizard/` folder.
 
-👉 If you run into issues, raise your hand and we’ll help.  
 
 Alternatively, you can download these notebooks and run them locally in any Jupyter environment:
 ```bash
@@ -57,7 +56,7 @@ You’ll tackle three Listings scenarios, each in its own notebook:
 
 - SP-API SDK → pre-installed in the environment (Python).
 - Sample Payloads → included in each notebook.
-- Mock Endpoints → provided during workshop for safe submission
+- Mock Endpoints → provided during SP-API in person workshops for safe submission. If you have your own Mock Endpoints developed feel free to use them in the variables listed instead.
 - Clues & Hints → embedded in notebooks to guide you.
 
 ---
@@ -67,5 +66,3 @@ You’ll tackle three Listings scenarios, each in its own notebook:
 This is a challenge format:
 - Work through the notebooks.
 - Submit your answers to the mock endpoints provided.
-
-The first participant to submit a correct solution will be crowned the Wizard of Glory 🧙‍♀️✨.
