@@ -54,6 +54,7 @@ The script will automatically:
 
 ## 📚 Available Challenges
 
-| Challenge             | Folder              | Focus APIs                         | Scenario                                                       |
-|-----------------------|---------------------|------------------------------------|----------------------------------------------------------------|
-| 🧙 ListingsWizard     | [`listings-wizard/`](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/workshops/listings-wizard)   | Listings, Pricing, Data Kiosk      | Optimize listings conversion, pricing, and refund rates        |
+| Challenge                                | Folder                                                                                                                                         | Focus APIs                     | Scenario                                                               |
+|------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------|------------------------------------------------------------------------|
+| 🧙 ListingsWizard                        | [`listings-wizard/`](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/workshops/listings-wizard)                     | Listings, Pricing, Data Kiosk   | Optimize listings conversion, pricing, and refund rates                |
+| 🚚 ShippingGuru - Buy Shipping Challenge | [`shipping-guru/buy-shipping-challenge/`](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/workshops/shipping-guru/buy-shipping-challenge) | Orders, Shipping (Buy Shipping) | Debug and optimize a seller’s shipping workflow using SP-API Buy Shipping |
