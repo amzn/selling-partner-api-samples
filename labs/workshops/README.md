@@ -19,7 +19,7 @@ The fastest way to get started is using our automated setup scripts:
 
 **macOS/Linux:**
 ```bash
-cd sellig-partner-api-samples/labs/server
+cd selling-partner-api-samples/labs/server
 sh setup.sh
 ```
 

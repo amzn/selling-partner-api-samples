@@ -44,6 +44,9 @@ You can run these notebooks on **Amazon SageMaker → Notebook Instances**
 ```bash
 git clone https://github.com/amzn/sp-api-sample-solutions.git
 cd labs/workshops/listings-wizard
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 jupyter lab
 ```
 ---
