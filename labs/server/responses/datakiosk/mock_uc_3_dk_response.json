@@ -1,0 +1,62 @@
+{
+  "documentId": "usecase_3_document_id.amzn.100003",
+  "documentUrl": {
+    "data": {
+      "analytics_economics_2024_03_15": {
+        "economics": [
+          {
+            "msku": "BICYCLE-RED-L",
+            "startDate": "2025-06-01",
+            "endDate": "2025-06-01",
+            "sales": {
+              "unitsOrdered": 100,
+              "unitsRefunded": 50,
+              "orderedProductSales": {
+                "amount": 2000.0,
+                "currencyCode": "USD"
+              },
+              "refundedProductSales": {
+                "amount": 1000.0,
+                "currencyCode": "USD"
+              }
+            }
+          },
+          {
+            "msku": "BICYCLE-GRAY-M",
+            "startDate": "2025-06-01",
+            "endDate": "2025-06-01",
+            "sales": {
+              "unitsOrdered": 60,
+              "unitsRefunded": 30,
+              "orderedProductSales": {
+                "amount": 1200.0,
+                "currencyCode": "USD"
+              },
+              "refundedProductSales": {
+                "amount": 600.0,
+                "currencyCode": "USD"
+              }
+            }
+          },
+          {
+            "msku": "BICYCLE-BLUE-M",
+            "startDate": "2025-06-01",
+            "endDate": "2025-06-01",
+            "sales": {
+              "unitsOrdered": 80,
+              "unitsRefunded": 5,
+              "orderedProductSales": {
+                "amount": 1600.0,
+                "currencyCode": "USD"
+              },
+              "refundedProductSales": {
+                "amount": 100.0,
+                "currencyCode": "USD"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -3,7 +3,7 @@ jupyterlab
 ipykernel
 
 # SP-API SDK
-sp-api
+amzn-sp-api
 
 # Data analysis & visualization
 pandas
@@ -14,3 +14,10 @@ seaborn
 # Utils
 requests
 python-dotenv
+
+# Server Tools
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+python-multipart==0.0.9
+pydantic==2.9.2
+pydantic-settings==2.5.2

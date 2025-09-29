@@ -9,18 +9,41 @@ You’ll solve **real-world listing optimization scenarios** using SP-API, Jupyt
 
 ## 🚀 How to Access
 
-We’ve prepared AWS test accounts with SageMaker for you:
-1. Open the launch URL shared in the presentation.
-2. Log in with the provided credentials.
-3. Navigate to **Amazon SageMaker → Notebook Instances**.
-4. Open Jupyter and launch the `workshops/listings-wizard/` folder.
+### Quick Start - Amazon SP-API Mock Server
 
+The fastest way to get started is using our automated setup scripts:
 
-Alternatively, you can download these notebooks and run them locally in any Jupyter environment:
+**macOS/Linux:**
+```bash
+cd sellig-partner-api-samples/labs/server
+sh setup.sh
+```
+
+Or download and run:
+```bash
+curl -O https://raw.githubusercontent.com/amzn/sp-api-sample-solutions/main/labs/server/setup.sh
+chmod +x setup.sh
+./setup.sh
+```
+
+**Windows:**
+```cmd
+setup.bat
+```
+
+The script will automatically:
+- Set up a virtual environment
+- Install all dependencies
+- Start the server at `http://localhost:8000`
+
+---
+
+You can run these notebooks on **Amazon SageMaker → Notebook Instances** 
+
+**OR** run them locally in any Jupyter environment:
 ```bash
 git clone https://github.com/amzn/sp-api-sample-solutions.git
 cd labs/workshops/listings-wizard
-pip install -r ../../env/requirements.txt
 jupyter lab
 ```
 ---
@@ -56,7 +79,7 @@ You’ll tackle three Listings scenarios, each in its own notebook:
 
 - SP-API SDK → pre-installed in the environment (Python).
 - Sample Payloads → included in each notebook.
-- Mock Endpoints → provided during SP-API in person workshops for safe submission. If you have your own Mock Endpoints developed feel free to use them in the variables listed instead.
+- Mock Endpoints → provided for safe submission. If you have your own Mock Endpoints developed feel free to use them in the variables listed instead.
 - Clues & Hints → embedded in notebooks to guide you.
 
 ---

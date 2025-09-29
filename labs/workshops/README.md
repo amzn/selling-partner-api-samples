@@ -13,17 +13,42 @@ Each workshop:
 
 ## 🚀 How to Get Started
 
-1. **SageMaker (Workshop Mode)**  
-   - Open the launch URL shared during your session.  
-   - Log in with provided credentials.  
-   - Go to **Amazon SageMaker → Notebook Instances**.  
-   - Open Jupyter and navigate to `labs/workshops/`.
+### Quick Start - Amazon SP-API Mock Server
 
-2. **Local Jupyter (Self-Paced Mode)**  
+The fastest way to get started is using our automated setup scripts:
+
+**macOS/Linux:**
+```bash
+cd sellig-partner-api-samples/labs/server
+sh setup.sh
+```
+
+Or download and run:
+```bash
+curl -O https://raw.githubusercontent.com/amzn/sp-api-sample-solutions/main/labs/server/setup.sh
+chmod +x setup.sh
+./setup.sh
+```
+
+**Windows:**
+```cmd
+setup.bat
+```
+
+The script will automatically:
+- Set up a virtual environment
+- Install all dependencies
+- Start the server at `http://localhost:8000`
+
+---
+1. **SageMaker (AWS Mode)**  
+   - Open your AWS account.  
+   - Go to **Amazon SageMaker → Notebook Instances**.  
+   - Open Jupyter and upload the notebook for a cleaner visual.
+
+2. **Local Jupyter (Local Mode)**  
    ```bash
-   git clone https://github.com/amzn/sp-api-sample-solutions.git
    cd labs/workshops
-   pip install -r ../../env/requirements.txt
    jupyter lab
    ```
 

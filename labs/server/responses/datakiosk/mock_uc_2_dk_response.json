@@ -1,0 +1,41 @@
+{
+  "documentId": "pricing_data_document_id.amzn.100001",
+  "documentUrl": {
+    "data": {
+      "analytics_economics_2024_03_15": {
+        "economics": [
+          {
+            "sku": "VOLLEYBALL",
+            "childAsin": "B0CLZHRQK8",
+            "sales": {
+              "orderedProductSales": {
+                "amount": 0.0,
+                "currencyCode": "USD"
+              },
+              "totalOrderItems": 0
+            },
+            "traffic": {
+              "pageViews": 968,
+              "buyBoxPercentage": 0.59
+            }
+          },
+          {
+            "sku": "TSHIRT",
+            "childAsin": "B0DW9HKH5H",
+            "sales": {
+              "orderedProductSales": {
+                "amount": 5000,
+                "currencyCode": "USD"
+              },
+              "totalOrderItems": 50
+            },
+            "traffic": {
+              "pageViews": 70,
+              "buyBoxPercentage": 74.29
+            }
+          }
+        ]
+      }
+    }
+  }
+}
