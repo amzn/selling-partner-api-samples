@@ -5,12 +5,6 @@ ipykernel
 # SP-API SDK
 amzn-sp-api
 
-# Data analysis & visualization
-pandas
-numpy
-matplotlib
-seaborn
-
 # Utils
 requests
 python-dotenv

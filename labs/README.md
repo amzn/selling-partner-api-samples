@@ -25,6 +25,19 @@ This directory contains hands-on resources to help you learn and master the **Se
 
 ---
 
+## Quick Start Command
+
+Open Terminal run the following:
+```bash
+  cd selling-partner-api-samples/labs/server
+  sh setup.sh
+```
+
+Open a new terminal and run:
+```bash
+   cd selling-partner-api-samples/labs
+   jupyter lab .
+```
 ## 📚 Quick Access Table
 
 | Category     | Folder                                                                                      | Description                                                                 | Example                                                |
@@ -32,3 +45,5 @@ This directory contains hands-on resources to help you learn and master the **Se
 | 📖 Tutorials | [`tutorials/`](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/tutorials) | Guided Jupyter notebooks focused on a single API workflow                   | Querying SKU economics with Data Kiosk                 |
 | 🏋️ Workshops | [`workshops/`](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/workshops) | Multi-step challenges combining multiple APIs to solve real-world problems   | Listing error diagnosis, Fulfillment workflows with MLI |
 | 🖥 Server    | [`server/`](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/server)       | Mock server to run tutorials and workshops locally, and understand API flows | Listings Wizard, Data Kiosk, Shipping Guru             |
+
+

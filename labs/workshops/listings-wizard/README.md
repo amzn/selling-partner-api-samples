@@ -1,4 +1,6 @@
-# 🧙‍♂️ ListingsWizard SP-API Workshop
+# 🧙‍♂️ Listings Wizard Workshop
+
+---
 
 Welcome to the **ListingsWizard Challenge**!  
 In this hands-on workshop, you’ll take on the role of an **Amazon Listings Expert** helping our (fictional) company **ListingsWizard** optimize their sellers’ performance.  
@@ -7,47 +9,8 @@ You’ll solve **real-world listing optimization scenarios** using SP-API, Jupyt
 
 ---
 
-## 🚀 How to Access
+#### ⚠️ Check the [🚀 How to Access](#-how-to-access) to learn more about deployment.
 
-### Quick Start - Amazon SP-API Mock Server
-
-The fastest way to get started is using our automated setup scripts:
-
-**macOS/Linux:**
-```bash
-cd sellig-partner-api-samples/labs/server
-sh setup.sh
-```
-
-Or download and run:
-```bash
-curl -O https://raw.githubusercontent.com/amzn/sp-api-sample-solutions/main/labs/server/setup.sh
-chmod +x setup.sh
-./setup.sh
-```
-
-**Windows:**
-```cmd
-setup.bat
-```
-
-The script will automatically:
-- Set up a virtual environment
-- Install all dependencies
-- Start the server at `http://localhost:8000`
-
----
-
-You can run these notebooks on **Amazon SageMaker → Notebook Instances** 
-
-**OR** run them locally in any Jupyter environment:
-```bash
-cd labs/workshops/listings-wizard
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-jupyter lab .
-```
 ---
 
 ## 🧩 The Challenges
@@ -91,3 +54,39 @@ You’ll tackle three Listings scenarios, each in its own notebook:
 This is a challenge format:
 - Work through the notebooks.
 - Submit your answers to the mock endpoints provided.
+
+## 🚀 How to Access
+
+### Quick Start - Amazon SP-API Mock Server
+
+The fastest way to get started is using our automated setup scripts:
+
+**macOS/Linux:**
+```bash
+cd sellig-partner-api-samples/labs/server
+sh setup.sh
+```
+
+**Windows:**
+```cmd
+setup.bat
+```
+
+The script will automatically:
+- Set up a virtual environment
+- Install all dependencies
+- Start the server at `http://localhost:8000`
+
+---
+
+You can run these notebooks on **Amazon SageMaker → Notebook Instances** 
+
+**OR** run them locally in any Jupyter environment:
+```bash
+cd labs/workshops/listings-wizard
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+jupyter lab .
+```
+---

@@ -23,13 +23,6 @@ cd selling-partner-api-samples/labs/server
 sh setup.sh
 ```
 
-Or download and run:
-```bash
-curl -O https://raw.githubusercontent.com/amzn/sp-api-sample-solutions/main/labs/server/setup.sh
-chmod +x setup.sh
-./setup.sh
-```
-
 **Windows:**
 ```cmd
 setup.bat
