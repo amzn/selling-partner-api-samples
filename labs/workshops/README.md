@@ -49,7 +49,7 @@ The script will automatically:
 2. **Local Jupyter (Local Mode)**  
    ```bash
    cd labs/workshops
-   jupyter lab
+   jupyter lab .
    ```
 
 ## 📚 Available Challenges
