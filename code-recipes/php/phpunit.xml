@@ -1,0 +1,10 @@
+<phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+        bootstrap="vendor/autoload.php"
+        cacheResult="false"
+>
+    <extensions>
+        <bootstrap class="Test\util\CodeRecipeExtension"/>
+    </extensions>
+</phpunit>
