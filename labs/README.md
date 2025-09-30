@@ -14,13 +14,13 @@ This directory contains hands-on resources to help you learn and master the **Se
 
 - **`workshops/`**  
   End-to-end labs that combine multiple APIs to solve a real-world problem.  
-  - Ideal for deeper learning or group workshops.  
+  - Ideal for deeper learning and real world usecase understandings. 
   - Example: diagnosing listing errors, or building a fulfillment solution with Buy Shipping + MLI.
 
 - **`server/`**  
-  A  mock server that powers the tutorials and workshops.  
+  A  mock server that powers the [tutorials](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/tutorials) and [workshops](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/workshops).  
   - Run this locally to simulate SP-API endpoints.  
-  - **Purpose:** help you understand the **flow of the APIs** without calling the real SP-API.  
+  - **Purpose:** help you understand the **flow of the APIs** without calling SP-API production endpoints.  
   - Example: test Listings Wizard or Shipping Guru without hitting live SP-API.
 
 ---
@@ -38,6 +38,10 @@ Open a new terminal and run:
    cd selling-partner-api-samples/labs
    jupyter lab .
 ```
+
+📝 This will open Jupyer Lab web version and load the labs directory folder. 
+In the directory section of Jupyter you would be able to navigate to different workshops, and tutorials.
+
 ## 📚 Quick Access Table
 
 | Category     | Folder                                                                                      | Description                                                                 | Example                                                |
