@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "amzn-spapi/sdk",
-            "version": "1.5.0",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/amzn/selling-partner-api-php-release.git",
-                "reference": "df4b6c6e7c9d5bdb6fd86c4e3eb9ed00fa5bc555"
+                "reference": "082ff3ffaa986f1d1adfe82dbd25e96fd08d9d0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/amzn/selling-partner-api-php-release/zipball/df4b6c6e7c9d5bdb6fd86c4e3eb9ed00fa5bc555",
-                "reference": "df4b6c6e7c9d5bdb6fd86c4e3eb9ed00fa5bc555",
+                "url": "https://api.github.com/repos/amzn/selling-partner-api-php-release/zipball/082ff3ffaa986f1d1adfe82dbd25e96fd08d9d0f",
+                "reference": "082ff3ffaa986f1d1adfe82dbd25e96fd08d9d0f",
                 "shasum": ""
             },
             "require": {
@@ -68,9 +68,9 @@
                 "sp-api"
             ],
             "support": {
-                "source": "https://github.com/amzn/selling-partner-api-php-release/tree/1.5.0"
+                "source": "https://github.com/amzn/selling-partner-api-php-release/tree/1.6.0"
             },
-            "time": "2025-09-10T11:03:27+00:00"
+            "time": "2025-10-06T08:32:30+00:00"
         },
         {
             "name": "aws/aws-crt-php",
@@ -128,16 +128,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.356.18",
+            "version": "3.356.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "af1bf3dee5e66cf9b3d5d2507b08d9465636df29"
+                "reference": "c564fb87e180da5ae45185a4526bb05a69998d05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/af1bf3dee5e66cf9b3d5d2507b08d9465636df29",
-                "reference": "af1bf3dee5e66cf9b3d5d2507b08d9465636df29",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c564fb87e180da5ae45185a4526bb05a69998d05",
+                "reference": "c564fb87e180da5ae45185a4526bb05a69998d05",
                 "shasum": ""
             },
             "require": {
@@ -219,9 +219,9 @@
             "support": {
                 "forum": "https://github.com/aws/aws-sdk-php/discussions",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.356.18"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.356.32"
             },
-            "time": "2025-09-15T18:21:28+00:00"
+            "time": "2025-10-03T18:12:05+00:00"
         },
         {
             "name": "dallgoot/yaml",
