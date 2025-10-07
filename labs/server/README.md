@@ -1,6 +1,6 @@
 # SP-API Mock Server
 
-A professional, production-ready mock server for testing Amazon Selling Partner API integrations locally.
+A deployable mock server for testing Amazon Selling Partner API integrations locally.
 
 ## ⚠️Scope & Extensibility
 
