@@ -1,0 +1,9 @@
+{
+    "payload": {
+        "uploadDestinationId": "1b00d421-7a23-46e2-b5bb-1fb6c03a188b",
+        "url": "https://s3.amazonaws.com/com.amazon.acp.prod.na.buyer-seller-messaging.draft-attachment/attachment/1b00d421-7a23-46e2-b5bb-1fb6c03a188b?x-amz-meta-sender_role=SELLER&x-amz-meta-marketplace_id=A2Q3Y263D00KWC&x-amz-meta-sender_id=A2ZPJ4TLUOSWY8&x-amz-meta-tenant_id=BUYER_SELLER_MESSAGING&x-amz-meta-mime_type=EMPTY&X-Amz-Security-Token=FwoGZXIvYXdzEMb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDC33KfMKXHb%2BRoBEhCLEAS28tchPFbSsrK%2FA%2BUVQH81%2BMyT3yxvgctGY0Gq7cHc%2FsvRJ3V6PCRrqctE8TkUDhy89JIPjIRTbvAUS5G3NBswNNe4qTsnu%2Fba86LV929KP%2BfCcoaiURu0aW1gkkzww0DkQ24YsMYRQJDQ89dToe14VjWEBtdxl1DUQNgDqlIdI1CiI%2BLVTvzw%2FUhx4iFXJGPJ%2FAg4agfUECQ6OGiDcU7aXy5nOENLUzai6pSV6BvJwOu3jsy3MkxTnWUf%2BcnZGhgHL%2Fk0o9aaQxgYyLWD2f52oXC7RGJV%2F5ydGAKrwhj2i0c5cgLSHDWusgxpCaBTIu7xs0Q5T3iST9w%3D%3D&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250912T124201Z&X-Amz-SignedHeaders=content-md5%3Bhost&X-Amz-Expires=900&X-Amz-Credential=ASIA567AYZ3MDX37P3PL%2F20250912%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=212b9a1e5b8785d523c80842111b8d8fc7c007620ebed14d17da68b764a656a8",
+        "headers": {
+            "Content-MD5": "HSHRNxjSpMtBS6XzlObXhg=="
+        }
+    }
+}
