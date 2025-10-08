@@ -9,6 +9,7 @@
     "dev": "tsc -w"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.10.2",
     "fs": "^0.0.1-security",
     "node-fetch": "^3.3.2",
     "os": "^0.1.2",
