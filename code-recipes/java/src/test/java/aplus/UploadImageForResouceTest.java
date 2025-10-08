@@ -8,13 +8,9 @@ public class UploadImageForResouceTest extends RecipeTest {
 
     protected UploadImageForResouceTest() {
         super(
-                new UploadImageForResouce(),
+                new UploadImageForResouceRecipe(),
                 List.of(
-                    "",
-                    "",
-                    "uploads-createUploadDestination",
-                    "",
-                    ""
+                    "aplus-createUploadDestinationResponse"
                 )
         );
     }

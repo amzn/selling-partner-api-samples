@@ -9,4 +9,3 @@ node_modules
 .gradle/
 vendor/
 .phpunit**
-*Recipe.java
