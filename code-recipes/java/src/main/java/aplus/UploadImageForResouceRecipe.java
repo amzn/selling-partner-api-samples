@@ -95,8 +95,9 @@ public class UploadImageForResouceRecipe extends Recipe {
         try (InputStream is = new FileInputStream(imageFilePath)) {
             byte[] fileBytes = is.readAllBytes();
             
-            okhttp3.MultipartBody.Builder formBuilder = new okhttp3.MultipartBody.Builder()
-                    .setType(okhttp3.MultipartBody.FORM);
+            // Create multipart form data manually
+            String boundary = "----WebKitFormBoundary" + System.currentTimeMillis();
+            StringBuilder formData = new StringBuilder();
             
             // Extract query parameters from URL and add as form fields
             java.net.URL url = new java.net.URL(uploadDestinationUrl);
@@ -108,30 +109,43 @@ public class UploadImageForResouceRecipe extends Recipe {
                     if (keyValue.length == 2) {
                         String key = java.net.URLDecoder.decode(keyValue[0], "UTF-8");
                         String value = java.net.URLDecoder.decode(keyValue[1], "UTF-8");
-                        formBuilder.addFormDataPart(key, value);
+                        formData.append("--").append(boundary).append("\r\n");
+                        formData.append("Content-Disposition: form-data; name=\"").append(key).append("\"\r\n\r\n");
+                        formData.append(value).append("\r\n");
                     }
                 }
             }
             
-            // Add file as form field
-            okhttp3.RequestBody fileBody = okhttp3.RequestBody.create(fileBytes, okhttp3.MediaType.get(contentType));
-            formBuilder.addFormDataPart("File", "test_image.jpg", fileBody);
+            // Add file field header
+            formData.append("--").append(boundary).append("\r\n");
+            formData.append("Content-Disposition: form-data; name=\"File\"; filename=\"test_image.jpg\"\r\n");
+            formData.append("Content-Type: ").append(contentType).append("\r\n\r\n");
             
-            okhttp3.RequestBody requestBody = formBuilder.build();
+            // Combine form data with file bytes
+            byte[] formDataBytes = formData.toString().getBytes("UTF-8");
+            String endBoundary = "\r\n--" + boundary + "--\r\n";
+            byte[] endBoundaryBytes = endBoundary.getBytes("UTF-8");
+            
+            byte[] requestBody = new byte[formDataBytes.length + fileBytes.length + endBoundaryBytes.length];
+            System.arraycopy(formDataBytes, 0, requestBody, 0, formDataBytes.length);
+            System.arraycopy(fileBytes, 0, requestBody, formDataBytes.length, fileBytes.length);
+            System.arraycopy(endBoundaryBytes, 0, requestBody, formDataBytes.length + fileBytes.length, endBoundaryBytes.length);
             
             // Use base URL without query parameters
             String baseUrl = uploadDestinationUrl.split("\\?")[0];
-            okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url(baseUrl)
-                    .post(requestBody)
+            
+            java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
+            java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder()
+                    .uri(java.net.URI.create(baseUrl))
+                    .POST(java.net.http.HttpRequest.BodyPublishers.ofByteArray(requestBody))
+                    .header("Content-Type", "multipart/form-data; boundary=" + boundary)
                     .build();
-
-            okhttp3.OkHttpClient client = new okhttp3.OkHttpClient();
-            try (okhttp3.Response response = client.newCall(request).execute()) {
-                System.out.println("Upload response code: " + response.code());
-                return response.isSuccessful();
-            }
-        } catch (IOException e) {
+            
+            java.net.http.HttpResponse<String> response = client.send(request, 
+                    java.net.http.HttpResponse.BodyHandlers.ofString());
+            System.out.println("Upload response code: " + response.statusCode());
+            return response.statusCode() >= 200 && response.statusCode() < 300;
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException("Failed to upload image", e);
         }
     }

@@ -132,19 +132,18 @@ public class SendInvoiceToBuyerRecipe extends Recipe {
     private Boolean UploadInvoice(String uploadDestinationUrl, String invoiceFilePath, String contentMd5) {
         try (InputStream is = new FileInputStream(invoiceFilePath)) {
             byte[] fileBytes = is.readAllBytes();
-            okhttp3.RequestBody requestBody = okhttp3.RequestBody.create(fileBytes,
-                    okhttp3.MediaType.get(contentType));
-            okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url(uploadDestinationUrl)
-                    .put(requestBody)
+            java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
+            java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder()
+                    .uri(java.net.URI.create(uploadDestinationUrl))
+                    .PUT(java.net.http.HttpRequest.BodyPublishers.ofByteArray(fileBytes))
+                    .header("Content-Type", contentType)
                     .header("Content-MD5", contentMd5)
                     .build();
-
-            okhttp3.OkHttpClient client = new okhttp3.OkHttpClient();
-            try (okhttp3.Response response = client.newCall(request).execute()) {
-                return response.isSuccessful();
-            }
-        } catch (IOException e) {
+            
+            java.net.http.HttpResponse<String> response = client.send(request, 
+                    java.net.http.HttpResponse.BodyHandlers.ofString());
+            return response.statusCode() >= 200 && response.statusCode() < 300;
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException("Failed to upload invoice", e);
         }
     }
