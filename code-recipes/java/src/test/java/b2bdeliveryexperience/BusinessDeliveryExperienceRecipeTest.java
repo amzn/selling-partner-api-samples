@@ -11,6 +11,7 @@ public class BusinessDeliveryExperienceRecipeTest extends RecipeTest {
                 new BusinessDeliveryExperienceRecipe(),
                 List.of(
                         "orders-getOrder",
+                        "orders-getOrderBuyerInfo",
                         "orders-getOrderItems", 
                         "orders-getOrderAddress",
                         "orders-confirmShipment",
