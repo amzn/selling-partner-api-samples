@@ -41,7 +41,7 @@ class BusinessDeliveryExperienceRecipe extends Recipe
         $order = $this->getOrder($orderId);
         
         if ($order->getIsBusinessOrder()) {
-            $poNumber = $order->getBuyerInfo()?->getPurchaseOrderNumber();
+            $poNumber = $this->getPurchaseOrderNumber($orderId);
             $orderItems = $this->getOrderItems($orderId);
             $address = $this->getOrderAddress($orderId);
             
@@ -49,9 +49,10 @@ class BusinessDeliveryExperienceRecipe extends Recipe
             $carriers = $this->getCarrierOptions();
             
             // Filter weekend deliveries only for commercial addresses
-            if ($address->getAddressType() === 'Commercial') {
-                $carriers = $this->filterWeekendDeliveries($carriers);
-            }
+             $shipping = $address->getShippingAddress();
+        if ($shipping !== null && strcasecmp($shipping->getAddressType(), 'Commercial') === 0) {
+            $carriers = $this->filterWeekendDeliveries($carriers);
+        }
             
             $selectedCarrier = $this->selectCarrier($carriers);
             $label = $this->generateShippingLabel($orderId, $selectedCarrier, $poNumber);
@@ -71,7 +72,20 @@ class BusinessDeliveryExperienceRecipe extends Recipe
             throw new Exception("Unsuccessful response from Orders API: " . $e->getMessage(), 0, $e);
         }
     }
-
+ /**
+     * Get Purchase Order Number - REQUIRES Restricted Data Token (RDT) for PII access
+     * Must obtain RDT before calling this method using createRestrictedDataToken API
+     */
+    private function getPurchaseOrderNumber(string $orderId): ?string
+{
+    try {
+        $resp = $this->ordersApi->getOrderBuyerInfo($orderId);
+        $buyerInfo = $resp->getPayload();
+        return $buyerInfo ? $buyerInfo->getPurchaseOrderNumber() : null;
+    } catch (Exception $e) {
+        throw new Exception("Unsuccessful response from Orders API: " . $e->getMessage(), 0, $e);
+    }
+}
     /**
      * Gets order items - no Restricted Data Token required
      */
@@ -195,7 +209,7 @@ class BusinessDeliveryExperienceRecipe extends Recipe
     }
 }
 
-// Mock CarrierOption class - replace with actual SP-API model
+// Mock CarrierOption class 
 class CarrierOption
 {
     private string $carrierName;
@@ -222,7 +236,7 @@ class CarrierOption
     }
 }
 
-// Mock ShippingLabel class - replace with actual SP-API model
+// Mock ShippingLabel class 
 class ShippingLabel
 {
     private string $labelId;
