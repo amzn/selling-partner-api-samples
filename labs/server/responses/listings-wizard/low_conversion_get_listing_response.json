@@ -1,0 +1,410 @@
+{
+  "sku": "MOTOR-GEAR-US",
+  "summaries": [
+    {
+      "marketplaceId": "ATVPDKIKX0DER",
+      "asin": "B0FFR5DH5P",
+      "productType": "POWERSPORTS_PROTECTIVE_GEAR",
+      "conditionType": "new_new",
+      "status": [
+        "BUYABLE"
+      ],
+      "itemName": "Adventure Motorcycle Spools Caps Accessories(A Set-Black)",
+      "createdDate": "2025-06-26T22:44:35.641Z",
+      "lastUpdatedDate": "2025-06-26T23:12:58.273Z",
+      "mainImage": {
+        "link": "https://m.media-amazon.com/images/I/41qCIYBc5ZL.jpg",
+        "height": 500,
+        "width": 500
+      }
+    }
+  ],
+  "productTypes": [
+    {
+      "marketplaceId": "ATVPDKIKX0DER",
+      "productType": "POWERSPORTS_VEHICLE_PART"
+    }
+  ],
+  "attributes": {
+    "color": [
+      {
+        "language_tag": "en_US",
+        "value": "A set-Black",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "variation_theme": [
+      {
+        "name": "COLOR"
+      }
+    ],
+    "included_components": [
+      {
+        "language_tag": "en_US",
+        "value": "none",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "item_package_weight": [
+      {
+        "unit": "grams",
+        "value": 10.0,
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "skip_offer": [
+      {
+        "value": false,
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "fulfillment_availability": [
+      {
+        "fulfillment_channel_code": "DEFAULT",
+        "quantity": 5,
+        "lead_time_to_ship_max_days": 3
+      }
+    ],
+    "manufacturer": [
+      {
+        "language_tag": "en_US",
+        "value": "The Motors",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "number_of_boxes": [
+      {
+        "value": 1,
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "model_name": [
+      {
+        "language_tag": "en_US",
+        "value": "2699",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "bullet_point": [
+      {
+        "language_tag": "en_US",
+        "value": "Condition: 100% Brand New and High Quality",
+        "marketplace_id": "ATVPDKIKX0DER"
+      },
+      {
+        "language_tag": "en_US",
+        "value": "Material: T6061 CNC aluminum alloy",
+        "marketplace_id": "ATVPDKIKX0DER"
+      },
+      {
+        "language_tag": "en_US",
+        "value": "Surface finish: Anodized surface protection layer",
+        "marketplace_id": "ATVPDKIKX0DER"
+      },
+      {
+        "language_tag": "en_US",
+        "value": "Color: Titanium/Red/Black/Blue/Gold/Orange",
+        "marketplace_id": "ATVPDKIKX0DER"
+      },
+      {
+        "language_tag": "en_US",
+        "value": "The installation is simple, just install it in the flat fork position behind the original car, and the frame can be easily fixed.",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "item_package_quantity": [
+      {
+        "value": 1,
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "model_number": [
+      {
+        "value": "2699",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "product_description": [
+      {
+        "language_tag": "en_US",
+        "value": "Compatible Adventure Bike",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "supplier_declared_dg_hz_regulation": [
+      {
+        "value": "not_applicable",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "brand": [
+      {
+        "language_tag": "en_US",
+        "value": "GENERIC",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "generic_keyword": [
+      {
+        "language_tag": "en_US",
+        "value": "Automotive / Motorcycle & Powersports / Parts / Body & Frame Parts / Kickstands & Jiffy Stands powersports-kickstands",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "supplier_declared_has_product_identifier_exemption": [
+      {
+        "value": true,
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "fit_type": [
+      {
+        "language_tag": "en_US",
+        "value": "universal_fit",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "import_designation": [
+      {
+        "value": "Made in the USA",
+        "language_tag": "en_US",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "country_of_origin": [
+      {
+        "value": "CN",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "merchant_shipping_group": [
+      {
+        "value": "legacy-template-id",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "item_name": [
+      {
+        "language_tag": "en_US",
+        "value": "Adventure Motorcycle Spools Tire Valve Caps Accessories(A set-Black)",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "list_price": [
+      {
+        "currency": "USD",
+        "value": 31.98,
+        "value_with_tax": 31.98,
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "batteries_required": [
+      {
+        "value": false,
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "fabric_type": [
+      {
+        "value": "steel",
+        "language_tag": "en_US",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "item_type_keyword": [
+      {
+        "value": "powersports-kickstands",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "condition_type": [
+      {
+        "value": "new_new",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "number_of_items": [
+      {
+        "value": 1,
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "merchant_suggested_asin": [
+      {
+        "value": "B0FFR5DH4P",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "item_package_dimensions": [
+      {
+        "height": {
+          "unit": "centimeters",
+          "value": 1.0
+        },
+        "length": {
+          "unit": "centimeters",
+          "value": 1.0
+        },
+        "width": {
+          "unit": "centimeters",
+          "value": 1.0
+        },
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "size": [
+      {
+        "language_tag": "en_US",
+        "value": "One Size",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "material": [
+      {
+        "language_tag": "en_US",
+        "value": "Unknown",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "is_assembly_required": [
+      {
+        "value": false,
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "warranty_description": [
+      {
+        "language_tag": "en_US",
+        "value": "none",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "part_number": [
+      {
+        "value": "2699",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "style": [
+      {
+        "language_tag": "en_US",
+        "value": "convertable",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "max_order_quantity": [
+      {
+        "value": 1000,
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "other_product_image_locator_6": [
+      {
+        "media_location": "https://m.media-amazon.com/images/I/616nTngkR1L.jpg",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "other_product_image_locator_5": [
+      {
+        "media_location": "https://m.media-amazon.com/images/I/71vR9PV+fvL.jpg",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "other_product_image_locator_4": [
+      {
+        "media_location": "https://m.media-amazon.com/images/I/61eQZyiVyjL.jpg",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "other_product_image_locator_3": [
+      {
+        "media_location": "https://m.media-amazon.com/images/I/71UqoOrONBL.jpg",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "other_product_image_locator_2": [
+      {
+        "media_location": "https://m.media-amazon.com/images/I/71gTXIMKrRL.jpg",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "other_product_image_locator_1": [
+      {
+        "media_location": "https://m.media-amazon.com/images/I/71VJQ-Dx+WL.jpg",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "main_product_image_locator": [
+      {
+        "media_location": "https://m.media-amazon.com/images/I/61CGMLKRUdL.jpg",
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ],
+    "purchasable_offer": [
+      {
+        "currency": "USD",
+        "start_at": {
+          "value": "2025-06-26T22:45:25.823Z"
+        },
+        "end_at": {
+          "value": null
+        },
+        "audience": "ALL",
+        "our_price": [
+          {
+            "schedule": [
+              {
+                "value_with_tax": 31.98
+              }
+            ]
+          }
+        ],
+        "marketplace_id": "ATVPDKIKX0DER"
+      }
+    ]
+  },
+  "issues": [
+    {
+      "code": "90220",
+      "message": "Department Name is required but was not provided.",
+      "severity": "ERROR",
+      "attributeNames": [
+        "department"
+      ],
+      "categories": [
+        "MISSING_ATTRIBUTE"
+      ],
+      "enforcements": {
+        "actions": [
+          {
+            "action": "SEARCH_SUPPRESSED"
+          }
+        ],
+        "exemption": {
+          "status": "NOT_EXEMPT"
+        }
+      }
+    }
+  ],
+  "offers": [
+    {
+      "marketplaceId": "ATVPDKIKX0DER",
+      "offerType": "B2C",
+      "price": {
+        "currency": "USD",
+        "currencyCode": "USD",
+        "amount": "31.98"
+      },
+      "audience": {
+        "value": "ALL",
+        "displayName": "Sell on Amazon"
+      }
+    }
+  ],
+  "fulfillmentAvailability": [
+    {
+      "fulfillmentChannelCode": "DEFAULT",
+      "quantity": 5
+    }
+  ]
+}

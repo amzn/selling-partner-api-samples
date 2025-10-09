@@ -28,4 +28,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: reports
-          path: ./java/sdk/build/reports/tests/test
+          path: ./code-recipes/java/build/reports/tests/test

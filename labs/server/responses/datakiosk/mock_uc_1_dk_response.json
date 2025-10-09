@@ -1,0 +1,71 @@
+{
+  "documentId": "usecase_1_document_id.amzn.100001",
+  "documentUrl": {
+    "data": {
+      "analytics_economics_2024_03_15": {
+        "economics": [
+          {
+            "startDate": "2025-06-01",
+            "endDate": "2025-06-01",
+            "msku": "MOTOR-GEAR-US",
+            "marketplaceId": "ATVPDKIKX0DER",
+            "sales": {
+              "unitsOrdered": 0,
+              "netUnitsSold": 0,
+              "netProductSales": {
+                "amount": 0.0,
+                "currencyCode": "USD"
+              }
+            },
+            "netProceeds": {
+              "total": {
+                "amount": 0.0,
+                "currencyCode": "USD"
+              }
+            }
+          },
+          {
+            "startDate": "2025-06-01",
+            "endDate": "2025-06-01",
+            "msku": "MOTOR-GEAR-CA",
+            "marketplaceId": "A2EUQ1WTGCTBG2",
+            "sales": {
+              "unitsOrdered": 50,
+              "netUnitsSold": 50,
+              "netProductSales": {
+                "amount": 1000.0,
+                "currencyCode": "CAD"
+              }
+            },
+            "netProceeds": {
+              "total": {
+                "amount": 800.0,
+                "currencyCode": "CAD"
+              }
+            }
+          },
+          {
+            "startDate": "2025-06-01",
+            "endDate": "2025-06-01",
+            "msku": "MOTOR-GEAR-MX",
+            "marketplaceId": "A1AM78C64UM0Y8",
+            "sales": {
+              "unitsOrdered": 50,
+              "netUnitsSold": 50,
+              "netProductSales": {
+                "amount": 1000.0,
+                "currencyCode": "Mex"
+              }
+            },
+            "netProceeds": {
+              "total": {
+                "amount": 800.0,
+                "currencyCode": "Mex"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

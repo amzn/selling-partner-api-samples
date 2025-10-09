@@ -1,0 +1,430 @@
+{
+    "sku": "BICYCLE-GRAY-M",
+    "summaries": [
+        {
+            "marketplaceId": "ATVPDKIKX0DER",
+            "asin": "B1B135FM7W",
+            "productType": "BICYCLE",
+            "conditionType": "new_new",
+            "status": [
+                "BUYABLE",
+                "DISCOVERABLE"
+            ],
+            "itemName": "Sense Montain Bike Rim - Frame Size M - Color Gray/Green",
+            "createdDate": "2024-11-27T19:16:58.550Z",
+            "lastUpdatedDate": "2024-11-27T20:55:31.010Z",
+            "mainImage": {
+                "link": "https://m.media-amazon.com/images/I/418Drwj6xiL.jpg",
+                "height": 331,
+                "width": 500
+            }
+        }
+    ],
+    "attributes": {
+        "suspension_type": [
+            {
+                "language_tag": "en_US",
+                "value": "Rear",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "color": [
+            {
+                "language_tag": "en_US",
+                "value": "Grey-Blue",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "included_components": [
+            {
+                "language_tag": "en_US",
+                "value": "Instruction Manual",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "item_package_weight": [
+            {
+                "unit": "kilograms",
+                "value": 12.0,
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "assembly_instructions": [
+            {
+                "language_tag": "en_US",
+                "value": "[Stated as 'Instruction Manual', cannot confirm detail level]",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "fulfillment_availability": [
+            {
+                "fulfillment_channel_code": "DEFAULT",
+                "quantity": 3
+            }
+        ],
+        "bike_type": [
+            {
+                "language_tag": "en_US",
+                "value": "Mountain Bike",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "manufacturer": [
+            {
+                "language_tag": "en_US",
+                "value": "Sense",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "bicycle_gear_shifter_type": [
+            {
+                "value": "trigger",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "age_range_description": [
+            {
+                "language_tag": "en_US",
+                "value": "Adult",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "brake_style": [
+            {
+                "language_tag": "en_US",
+                "value": "Disc",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "model_name": [
+            {
+                "language_tag": "en_US",
+                "value": "Sense One",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "bullet_point": [
+            {
+                "language_tag": "en_US",
+                "value": "With Sense One, the passionate world of MTB is at your fingertips",
+                "marketplace_id": "ATVPDKIKX0DER"
+            },
+            {
+                "language_tag": "en_US",
+                "value": "With its 6061 aluminum frame and sports geometry available in three color options, front suspension with 100 mm stroke, 21 gears and powerful hydraulic disc brakes, Sense One is able to deliver everything you need to get started in the sport with the \"right pedal\"!",
+                "marketplace_id": "ATVPDKIKX0DER"
+            },
+            {
+                "language_tag": "en_US",
+                "value": "Get ready to live new adventures and get to know amazing places with a bike created especially for those who do not give up quality and cost-benefit",
+                "marketplace_id": "ATVPDKIKX0DER"
+            },
+            {
+                "language_tag": "en_US",
+                "value": "Aluminum frame 6061 T4/T6 with sports geometry",
+                "marketplace_id": "ATVPDKIKX0DER"
+            },
+            {
+                "language_tag": "en_US",
+                "value": "100mm Render Suspension with Magnesium Body, Shimano Transmission 21 Gear",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "item_package_quantity": [
+            {
+                "value": 1,
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "number_of_speeds": [
+            {
+                "value": 21,
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "is_autographed": [
+            {
+                "value": false,
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "product_description": [
+            {
+                "language_tag": "en_US",
+                "value": "test bike asin to test api calls",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "supplier_declared_dg_hz_regulation": [
+            {
+                "value": "not_applicable",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "brand": [
+            {
+                "language_tag": "en_US",
+                "value": "sense",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "tire": [
+            {
+                "tire_type": [
+                    {
+                        "language_tag": "en_US",
+                        "value": "Tubular"
+                    }
+                ],
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "maximum_weight_recommendation": [
+            {
+                "unit": "pounds",
+                "value": 300.0,
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "special_feature": [
+            {
+                "language_tag": "en_US",
+                "value": "Aluminum Frame",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "import_designation": [
+            {
+                "language_tag": "en_US",
+                "value": "Made in the USA",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "wheel": [
+            {
+                "material": [
+                    {
+                        "language_tag": "en_US",
+                        "value": "Aluminum"
+                    }
+                ],
+                "size": [
+                    {
+                        "unit": "inches",
+                        "value": 29.0
+                    }
+                ],
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "country_of_origin": [
+            {
+                "value": "US",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "merchant_shipping_group": [
+            {
+                "value": "legacy-template-id",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "item_name": [
+            {
+                "value": "Sense Montain Bike Rim 29 One 2021/2022 - Frame Size M - Color Gray/Green - Test",
+                "language_tag": "en_US",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "list_price": [
+            {
+                "currency": "USD",
+                "value": 1000.0,
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "warranty_type": [
+            {
+                "language_tag": "en_US",
+                "value": "Full Warranty",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "power_source_type": [
+            {
+                "language_tag": "en_US",
+                "value": "manual winding",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "item_type_keyword": [
+            {
+                "value": "mountain-bicycles",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "product_site_launch_date": [
+            {
+                "value": "2022-07-14T07:19:00.076Z",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "merchant_suggested_asin": [
+            {
+                "value": "B0B135FM7W",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "condition_type": [
+            {
+                "value": "new_new",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "item_package_dimensions": [
+            {
+                "height": {
+                    "unit": "centimeters",
+                    "value": 80.0
+                },
+                "length": {
+                    "unit": "centimeters",
+                    "value": 146.0
+                },
+                "width": {
+                    "unit": "centimeters",
+                    "value": 21.0
+                },
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "size": [
+            {
+                "language_tag": "en_US",
+                "value": "17",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "material": [
+            {
+                "language_tag": "en_US",
+                "value": "Aluminum Aluminium Carbon Steel",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "warranty_description": [
+            {
+                "language_tag": "en_US",
+                "value": "1",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "specific_uses_for_product": [
+            {
+                "language_tag": "en_US",
+                "value": "Trail",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "target_gender": [
+            {
+                "value": "unisex",
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "frame": [
+            {
+                "material": [
+                    {
+                        "language_tag": "en_US",
+                        "value": "Aluminum"
+                    }
+                ],
+                "size": [
+                    {
+                        "language_tag": "en_US",
+                        "value": "large"
+                    }
+                ],
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ],
+        "purchasable_offer": [
+            {
+                "currency": "USD",
+                "audience": "ALL",
+                "our_price": [
+                    {
+                        "schedule": [
+                            {
+                                "value_with_tax": 800.0
+                            }
+                        ]
+                    }
+                ],
+                "marketplace_id": "ATVPDKIKX0DER"
+            },
+            {
+                "currency": "USD",
+                "audience": "B2B",
+                "our_price": [
+                    {
+                        "schedule": [
+                            {
+                                "value_with_tax": 25.0
+                            }
+                        ]
+                    }
+                ],
+                "marketplace_id": "ATVPDKIKX0DER"
+            }
+        ]
+    },
+    "issues": [
+        {
+            "code": "18448",
+            "message": "Attributes tagged as relevant_attributes are incomplete. Provide values for the following attribute(s): age_range_description",
+            "severity": "WARNING",
+            "attributeNames": [
+                "age_range_description"
+            ],
+            "categories": [
+                "MISSING_ATTRIBUTE"
+            ]
+        }
+    ],
+    "offers": [
+        {
+            "marketplaceId": "ATVPDKIKX0DER",
+            "offerType": "B2C",
+            "price": {
+                "currency": "USD",
+                "currencyCode": "USD",
+                "amount": "800.0"
+            },
+            "audience": {
+                "value": "ALL",
+                "displayName": "Sell on Amazon"
+            }
+        },
+        {
+            "marketplaceId": "ATVPDKIKX0DER",
+            "offerType": "B2B",
+            "price": {
+                "currency": "USD",
+                "currencyCode": "USD",
+                "amount": "25.0"
+            },
+            "audience": {
+                "value": "B2B",
+                "displayName": "Amazon Business (B2B)"
+            }
+        }
+    ],
+    "fulfillmentAvailability": [
+        {
+            "fulfillmentChannelCode": "DEFAULT",
+            "quantity": 3
+        }
+    ]
+}

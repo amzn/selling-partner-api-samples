@@ -1,0 +1,313 @@
+{
+  "responses": [
+    {
+      "body": {
+        "asin": "B0CLZHRQK8",
+        "featuredBuyingOptions": [
+          {
+            "buyingOptionType": "New",
+            "segmentedFeaturedOffers": [
+              {
+                "condition": "New",
+                "featuredOfferSegments": [
+                  {
+                    "customerMembership": "PRIME",
+                    "segmentDetails": {
+                      "glanceViewWeightPercentage": 22.81,
+                      "sampleLocation": {
+                        "postalCode": {
+                          "countryCode": "BR",
+                          "value": "01319"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "customerMembership": "NON_PRIME",
+                    "segmentDetails": {
+                      "glanceViewWeightPercentage": 4.39,
+                      "sampleLocation": {
+                        "postalCode": {
+                          "countryCode": "BR",
+                          "value": "29933"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "customerMembership": "PRIME",
+                    "segmentDetails": {
+                      "glanceViewWeightPercentage": 29.82,
+                      "sampleLocation": {
+                        "postalCode": {
+                          "countryCode": "BR",
+                          "value": "02512"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "fulfillmentType": "MFN",
+                "listingPrice": {
+                  "amount": 199.49,
+                  "currencyCode": "BRL"
+                },
+                "sellerId": "A1ZZFT5FULY4LN",
+                "shippingOptions": [
+                  {
+                    "price": {
+                      "amount": 0,
+                      "currencyCode": "BRL"
+                    },
+                    "shippingOptionType": "DEFAULT"
+                  }
+                ]
+              },
+              {
+                "condition": "New",
+                "featuredOfferSegments": [
+                  {
+                    "customerMembership": "PRIME",
+                    "segmentDetails": {
+                      "glanceViewWeightPercentage": 0.66,
+                      "sampleLocation": {
+                        "postalCode": {
+                          "countryCode": "BR",
+                          "value": "14001"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "customerMembership": "PRIME",
+                    "segmentDetails": {
+                      "glanceViewWeightPercentage": 2.63,
+                      "sampleLocation": {
+                        "postalCode": {
+                          "countryCode": "BR",
+                          "value": "76820"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "customerMembership": "NON_PRIME",
+                    "segmentDetails": {
+                      "glanceViewWeightPercentage": 1.97,
+                      "sampleLocation": {
+                        "postalCode": {
+                          "countryCode": "BR",
+                          "value": "76932"
+                        }
+                      }
+                    }
+                  }
+                ],
+                "fulfillmentType": "MFN",
+                "listingPrice": {
+                  "amount": 238,
+                  "currencyCode": "BRL"
+                },
+                "sellerId": "A2NNAVUHADRNLJ",
+                "shippingOptions": [
+                  {
+                    "price": {
+                      "amount": 0,
+                      "currencyCode": "BRL"
+                    },
+                    "shippingOptionType": "DEFAULT"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "lowestPricedOffers": [
+          {
+            "lowestPricedOffersInput": {
+              "itemCondition": "New",
+              "offerType": "Consumer"
+            },
+            "offers": [
+              {
+                "condition": "New",
+                "fulfillmentType": "MFN",
+                "listingPrice": {
+                  "amount": 199.49,
+                  "currencyCode": "BRL"
+                },
+                "primeDetails": {
+                  "eligibility": "NATIONAL"
+                },
+                "sellerId": "A1ZZFT5FULY4LN",
+                "shippingOptions": [
+                  {
+                    "price": {
+                      "amount": 0,
+                      "currencyCode": "BRL"
+                    },
+                    "shippingOptionType": "DEFAULT"
+                  }
+                ],
+                "subCondition": "New"
+              },
+              {
+                "condition": "New",
+                "fulfillmentType": "MFN",
+                "listingPrice": {
+                  "amount": 238,
+                  "currencyCode": "BRL"
+                },
+                "primeDetails": {
+                  "eligibility": "NONE"
+                },
+                "sellerId": "A2NNAVUHADRNLJ",
+                "shippingOptions": [
+                  {
+                    "price": {
+                      "amount": 0,
+                      "currencyCode": "BRL"
+                    },
+                    "shippingOptionType": "DEFAULT"
+                  }
+                ],
+                "subCondition": "New"
+              },
+              {
+                "condition": "New",
+                "fulfillmentType": "MFN",
+                "listingPrice": {
+                  "amount": 238.9,
+                  "currencyCode": "BRL"
+                },
+                "primeDetails": {
+                  "eligibility": "NONE"
+                },
+                "sellerId": "AR4CX725HNCQD",
+                "shippingOptions": [
+                  {
+                    "price": {
+                      "amount": 0,
+                      "currencyCode": "BRL"
+                    },
+                    "shippingOptionType": "DEFAULT"
+                  }
+                ],
+                "subCondition": "New"
+              },
+              {
+                "condition": "New",
+                "fulfillmentType": "MFN",
+                "listingPrice": {
+                  "amount": 240,
+                  "currencyCode": "BRL"
+                },
+                "primeDetails": {
+                  "eligibility": "NONE"
+                },
+                "sellerId": "A29BQPLTVM90A9",
+                "shippingOptions": [
+                  {
+                    "price": {
+                      "amount": 0,
+                      "currencyCode": "BRL"
+                    },
+                    "shippingOptionType": "DEFAULT"
+                  }
+                ],
+                "subCondition": "New"
+              },
+              {
+                "condition": "New",
+                "fulfillmentType": "MFN",
+                "listingPrice": {
+                  "amount": 259.9,
+                  "currencyCode": "BRL"
+                },
+                "primeDetails": {
+                  "eligibility": "NONE"
+                },
+                "sellerId": "A1OBYHY407P1CX",
+                "shippingOptions": [
+                  {
+                    "price": {
+                      "amount": 0,
+                      "currencyCode": "BRL"
+                    },
+                    "shippingOptionType": "DEFAULT"
+                  }
+                ],
+                "subCondition": "New"
+              },
+              {
+                "condition": "New",
+                "fulfillmentType": "MFN",
+                "listingPrice": {
+                  "amount": 279.9,
+                  "currencyCode": "BRL"
+                },
+                "primeDetails": {
+                  "eligibility": "NONE"
+                },
+                "sellerId": "A2JMFSGN25KAWQ",
+                "shippingOptions": [
+                  {
+                    "price": {
+                      "amount": 0,
+                      "currencyCode": "BRL"
+                    },
+                    "shippingOptionType": "DEFAULT"
+                  }
+                ],
+                "subCondition": "New"
+              },
+              {
+                "condition": "New",
+                "fulfillmentType": "MFN",
+                "listingPrice": {
+                  "amount": 329.99,
+                  "currencyCode": "BRL"
+                },
+                "primeDetails": {
+                  "eligibility": "NONE"
+                },
+                "sellerId": "A2ZPJ4TLUOSWY8",
+                "shippingOptions": [
+                  {
+                    "price": {
+                      "amount": 0,
+                      "currencyCode": "BRL"
+                    },
+                    "shippingOptionType": "DEFAULT"
+                  }
+                ],
+                "subCondition": "New"
+              }
+            ]
+          }
+        ],
+        "marketplaceId": "A2Q3Y263D00KWC",
+        "referencePrices": [
+          {
+            "name": "CompetitivePrice",
+            "price": {
+              "amount": 199.49,
+              "currencyCode": "BRL"
+            }
+          },
+          {
+            "name": "WasPrice",
+            "price": {
+              "amount": 183.9,
+              "currencyCode": "BRL"
+            }
+          }
+        ]
+      },
+      "status": {
+        "reasonPhrase": "Success",
+        "statusCode": 200
+      }
+    }
+  ]
+}
