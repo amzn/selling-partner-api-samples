@@ -1,0 +1,221 @@
+{
+  "payload": {
+    "requestToken": "SOLOSOCK-REQ-20250618",
+    "rates": [
+      {
+        "rateId": "economy-ss-001",
+        "carrierId": "SHIPSOCK_ECO",
+        "carrierName": "ShipSock Eco",
+        "serviceId": "SS_ECONOMY_PLUS",
+        "serviceName": "Economy Plus (Rolled & Tossed)",
+        "totalCharge": {
+          "value": 1.49,
+          "unit": "USD"
+        },
+        "promise": {
+          "deliveryWindow": {
+            "start": "2025-08-18T08:00:00Z",
+            "end": "2025-08-19T20:00:00Z"
+          }
+        },
+        "supportedDocumentSpecifications": [
+      {
+        "format": "PNG",
+        "printOptions": [
+          {
+            "supportedDPIs": [],
+            "supportedDocumentDetails": [
+              {
+                "isMandatory": true,
+                "name": "LABEL"
+              }
+            ],
+            "supportedFileJoiningOptions": [
+              true
+            ],
+            "supportedPageLayouts": [
+              "LEFT"
+            ]
+          }
+        ],
+        "size": {
+          "length": 6,
+          "unit": "INCH",
+          "width": 4
+        }
+      },
+      {
+        "format": "ZPL",
+        "printOptions": [
+          {
+            "supportedDPIs": [
+              300
+            ],
+            "supportedDocumentDetails": [
+              {
+                "isMandatory": true,
+                "name": "LABEL"
+              }
+            ],
+            "supportedFileJoiningOptions": [
+              true
+            ],
+            "supportedPageLayouts": [
+              "LEFT"
+            ]
+          }
+        ],
+        "size": {
+          "length": 6,
+          "unit": "INCH",
+          "width": 4
+        }
+      }
+    ],
+        "availableValueAddedServiceGroups": [
+          {
+            "groupDescription": "Confirmation",
+            "groupId": "VAS_GROUP_ID_CONFIRMATION",
+            "isRequired": true,
+            "valueAddedServices": [
+              {
+                "cost": { "unit": "USD", "value": 0 },
+                "id": "SIGNATURE_CONFIRMATION",
+                "name": "Signature confirmation"
+              },
+              {
+                "cost": { "unit": "USD", "value": 0 },
+                "id": "NO_CONFIRMATION",
+                "name": "No confirmation"
+              },
+              {
+                "cost": { "unit": "USD", "value": 1.1 },
+                "id": "ADULT_SIGNATURE_CONFIRMATION",
+                "name": "Adult signature confirmation"
+              }
+            ]
+          }
+        ],
+        "requiresAdditionalInputs": false
+      },
+      {
+        "rateId": "cheap-pigeon-002",
+        "carrierId": "PIGEON_POST",
+        "carrierName": "Pigeon Post",
+        "serviceId": "PP_BUDGET_BIRD",
+        "serviceName": "Budget Bird Delivery",
+        "totalCharge": {
+          "value": 1.99,
+          "unit": "USD"
+        },
+        "promise": {
+          "deliveryWindow": {
+            "start": "2025-07-28T12:00:00Z",
+            "end": "2025-07-30T18:00:00Z"
+          }
+        },
+        "supportedDocumentSpecifications": [
+          {
+            "format": "ZPL",
+            "printOptions": [
+              {
+                "supportedDPIs": [300],
+                "supportedDocumentDetails": [
+                  { "isMandatory": true, "name": "LABEL" }
+                ],
+                "supportedFileJoiningOptions": [true],
+                "supportedPageLayouts": ["LEFT"]
+              }
+            ],
+            "size": { "length": 6, "unit": "INCH", "width": 4 }
+          }
+        ],
+        "availableValueAddedServiceGroups": [
+          {
+            "groupDescription": "Confirmation",
+            "groupId": "VAS_GROUP_ID_CONFIRMATION",
+            "isRequired": true,
+            "valueAddedServices": [
+              {
+                "cost": { "unit": "USD", "value": 0 },
+                "id": "NO_CONFIRMATION",
+                "name": "No confirmation"
+              }
+            ]
+          }
+        ],
+        "requiresAdditionalInputs": false
+      },
+      {
+        "rateId": "fast-express-003",
+        "carrierId": "GROUNDLING_GO",
+        "carrierName": "Groundling Go",
+        "serviceId": "GG_EXPRESS_FAST",
+        "serviceName": "Fast Express Ground Delivery",
+        "totalCharge": {
+          "value": 4.20,
+          "unit": "USD"
+        },
+        "promise": {
+          "deliveryWindow": {
+            "start": "2025-07-18T10:00:00Z",
+            "end": "2025-07-19T16:00:00Z"
+          }
+        },
+        "supportedDocumentSpecifications": [
+          {
+            "format": "PNG",
+            "printOptions": [
+              {
+                "supportedDPIs": [],
+                "supportedDocumentDetails": [
+                  { "isMandatory": true, "name": "LABEL" },
+                  { "isMandatory": true, "name": "RECEIPT" }
+                ],
+                "supportedFileJoiningOptions": [true],
+                "supportedPageLayouts": ["LEFT", "RIGHT"]
+              }
+            ],
+            "size": { "length": 11, "unit": "INCH", "width": 8.5 }
+          },
+          {
+            "format": "PDF",
+            "printOptions": [
+              {
+                "supportedDPIs": [],
+                "supportedDocumentDetails": [
+                  { "isMandatory": true, "name": "LABEL" },
+                  { "isMandatory": true, "name": "RECEIPT" }
+                ],
+                "supportedFileJoiningOptions": [true],
+                "supportedPageLayouts": ["LEFT", "RIGHT"]
+              }
+            ],
+            "size": { "length": 11, "unit": "INCH", "width": 8.5 }
+          }
+        ],
+        "availableValueAddedServiceGroups": [
+          {
+            "groupDescription": "Confirmation",
+            "groupId": "VAS_GROUP_ID_CONFIRMATION",
+            "isRequired": false,
+            "valueAddedServices": [
+              {
+                "cost": { "unit": "USD", "value": 0 },
+                "id": "NO_CONFIRMATION",
+                "name": "No confirmation"
+              },
+              {
+                "cost": { "unit": "USD", "value": 2.5 },
+                "id": "SIGNATURE_CONFIRMATION",
+                "name": "Signature confirmation"
+              }
+            ]
+          }
+        ],
+        "requiresAdditionalInputs": false
+      }
+    ],
+    "ineligibleRates": []
+  }
+}

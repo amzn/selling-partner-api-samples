@@ -1,0 +1,33 @@
+{
+  "payload": {
+    "shipmentId": "amzn1.sid.SHIPSOCK_ECO",
+    "carrierId":"GROUNDLING_GO",
+    "packageDocumentDetails": [
+      {
+        "packageDocuments": [
+          {
+            "labelFile": "https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/shipping-v2/docs/images/mock_label/mock_shipping_label.png",
+            "format": "PNG",
+            "type": "LABEL"
+          }
+        ],
+        "trackingId": "123456789123456789"
+      }
+    ],
+    "paymentType": "PAY_THROUGH_AMAZON",
+    "promise": {
+      "deliveryWindow": {
+        "start": "2025-07-18T08:00:00Z",
+        "end": "2025-07-19T20:00:00Z"
+      },
+      "pickupWindow": {
+        "start": "2025-07-17T08:00:00Z",
+        "end": "2025-07-18T20:00:00Z"
+      }
+    },
+    "totalCharge": {
+      "unit": "USD",
+      "value": 3.49
+    }
+  }
+}
