@@ -305,38 +305,4 @@ class ShippingLabel
     {
         $this->purchaseOrderNumber = $purchaseOrderNumber;
     }
-}etTrackingNumber(string $trackingNumber): void
-    {
-        $this->trackingNumber = $trackingNumber;
-    }
-
-    public function getLabelFormat(): string
-    {
-        return $this->labelFormat;
-    }
-
-    public function setLabelFormat(string $labelFormat): void
-    {
-        $this->labelFormat = $labelFormat;
-    }
-
-    public function getLabelUrl(): string
-    {
-        return $this->labelUrl;
-    }
-
-    public function setLabelUrl(string $labelUrl): void
-    {
-        $this->labelUrl = $labelUrl;
-    }
-
-    public function getPurchaseOrderNumber(): ?string
-    {
-        return $this->purchaseOrderNumber;
-    }
-
-    public function setPurchaseOrderNumber(?string $purchaseOrderNumber): void
-    {
-        $this->purchaseOrderNumber = $purchaseOrderNumber;
-    }
 }
