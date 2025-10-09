@@ -12,6 +12,7 @@ This repository contains sample code in various programming languages for use ca
 This repository contains two types of sample code:
 - [Code Recipes](code-recipes): Easy to read sample code for common use cases of Amazon Selling Partner API. Recipes are written in multiple programming languages, and you can read or browse through them and copy parts of them over into your codebase.
 - [Sample Solutions](use-cases): More complex solutions to demonstrate specific use cases in more detail. You can easily deploy them in AWS to learn and explore.
+- [Labs](labs): Hands-on resources to help you learn and master flows and scenarios through Jupyter code samples, guided tutorials, and full workshop challenges.
 
 We welcome contributions to this repo in the form of fixes or improvements to existing content. For more information on contributing, please see the [CONTRIBUTING](CONTRIBUTING.md) guide.
 

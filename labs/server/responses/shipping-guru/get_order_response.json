@@ -1,0 +1,32 @@
+{
+    "AmazonOrderId": "111-1111111-1111111",
+    "OrderItemId": "111111111111111",
+    "SalesChannel": "Amazon.com",
+    "NumberOfItemsShipped": 1,
+    "SellerSKU": "FUNKY-SOCK-1",
+    "ASIN": "B08F8PWR34",
+    "IsGift": "false",
+    "MarketplaceId": "ATVPDKIKX0DER",
+    "DefaultShipFromLocationAddress": {
+        "name": "Harsh The Sock Hero",
+        "addressLine1": "Laundry Room B2",
+        "addressLine2": "SoloSock HQ (Above Grandma’s Garage)",
+        "city": "Seattle",
+        "stateOrRegion": "IM",
+        "postalCode": "40404",
+        "countryCode": "US",
+        "companyName": "SoloSock Inc.",
+        "phoneNumber": "+1-867-5309"
+    },
+    "shipTo": {
+        "name": "Chris 'Fulfillment Guru' Khoury",
+        "addressLine1": "Amazon API Temple",
+        "addressLine2": "Suite 404 – Socks Not Found",
+        "city": "Debugville",
+        "stateOrRegion": "WA",
+        "postalCode": "98199",
+        "countryCode": "US"
+    },
+    "IsBusinessOrder": false,
+    "HasRegulatedItems": false
+}
