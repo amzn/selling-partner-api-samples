@@ -15,6 +15,12 @@ import java.io.InputStream;
 import java.io.FileInputStream;
 import java.security.MessageDigest;
 import java.io.IOException;
+import java.io.ByteArrayOutputStream;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /** 
  * Code Recipe to upload an image to A+ Content API
@@ -94,44 +100,9 @@ public class UploadImageForResouceRecipe extends Recipe {
     private Boolean uploadImage(String uploadDestinationUrl, CreateUploadDestinationResponse uploadResponse) {
         try (InputStream is = new FileInputStream(imageFilePath)) {
             byte[] fileBytes = is.readAllBytes();
-            
-            // Create multipart form data manually
             String boundary = "----WebKitFormBoundary" + System.currentTimeMillis();
-            StringBuilder formData = new StringBuilder();
             
-            // Extract query parameters from URL and add as form fields
-            java.net.URL url = new java.net.URL(uploadDestinationUrl);
-            String query = url.getQuery();
-            if (query != null) {
-                String[] params = query.split("&");
-                for (String param : params) {
-                    String[] keyValue = param.split("=", 2);
-                    if (keyValue.length == 2) {
-                        String key = java.net.URLDecoder.decode(keyValue[0], "UTF-8");
-                        String value = java.net.URLDecoder.decode(keyValue[1], "UTF-8");
-                        formData.append("--").append(boundary).append("\r\n");
-                        formData.append("Content-Disposition: form-data; name=\"").append(key).append("\"\r\n\r\n");
-                        formData.append(value).append("\r\n");
-                    }
-                }
-            }
-            
-            // Add file field header
-            formData.append("--").append(boundary).append("\r\n");
-            formData.append("Content-Disposition: form-data; name=\"File\"; filename=\"test_image.jpg\"\r\n");
-            formData.append("Content-Type: ").append(contentType).append("\r\n\r\n");
-            
-            // Combine form data with file bytes
-            byte[] formDataBytes = formData.toString().getBytes("UTF-8");
-            String endBoundary = "\r\n--" + boundary + "--\r\n";
-            byte[] endBoundaryBytes = endBoundary.getBytes("UTF-8");
-            
-            byte[] requestBody = new byte[formDataBytes.length + fileBytes.length + endBoundaryBytes.length];
-            System.arraycopy(formDataBytes, 0, requestBody, 0, formDataBytes.length);
-            System.arraycopy(fileBytes, 0, requestBody, formDataBytes.length, fileBytes.length);
-            System.arraycopy(endBoundaryBytes, 0, requestBody, formDataBytes.length + fileBytes.length, endBoundaryBytes.length);
-            
-            // Use base URL without query parameters
+            byte[] requestBody = buildMultipartBody(uploadDestinationUrl, fileBytes, contentType, boundary);
             String baseUrl = uploadDestinationUrl.split("\\?")[0];
             
             java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
@@ -147,6 +118,52 @@ public class UploadImageForResouceRecipe extends Recipe {
             return response.statusCode() >= 200 && response.statusCode() < 300;
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException("Failed to upload image", e);
+        }
+    }
+    
+    private byte[] buildMultipartBody(String url, byte[] fileBytes, String contentType, String boundary) 
+            throws IOException {
+        
+        try (ByteArrayOutputStream output = new ByteArrayOutputStream()) {
+            // Add query parameters as form fields
+            Map<String, String> queryParams = extractQueryParameters(url);
+            for (Map.Entry<String, String> param : queryParams.entrySet()) {
+                String fieldHeader = String.format("--%s\r\nContent-Disposition: form-data; name=\"%s\"\r\n\r\n%s\r\n", 
+                    boundary, param.getKey(), param.getValue());
+                output.write(fieldHeader.getBytes(StandardCharsets.UTF_8));
+            }
+            
+            // Add file field
+            String fileHeader = String.format("--%s\r\nContent-Disposition: form-data; name=\"File\"; filename=\"test_image.jpg\"\r\nContent-Type: %s\r\n\r\n", 
+                boundary, contentType);
+            output.write(fileHeader.getBytes(StandardCharsets.UTF_8));
+            output.write(fileBytes);
+            
+            // Add closing boundary
+            output.write(("\r\n--" + boundary + "--\r\n").getBytes(StandardCharsets.UTF_8));
+            
+            return output.toByteArray();
+        }
+    }
+    
+    private Map<String, String> extractQueryParameters(String urlString) throws IOException {
+        try {
+            URL url = new URL(urlString);
+            String query = url.getQuery();
+            
+            if (query == null || query.isEmpty()) {
+                return Map.of();
+            }
+            
+            return Arrays.stream(query.split("&"))
+                    .map(param -> param.split("=", 2))
+                    .filter(keyValue -> keyValue.length == 2)
+                    .collect(Collectors.toMap(
+                            keyValue -> URLDecoder.decode(keyValue[0], StandardCharsets.UTF_8),
+                            keyValue -> URLDecoder.decode(keyValue[1], StandardCharsets.UTF_8)
+                    ));
+        } catch (Exception e) {
+            throw new IOException("Failed to parse URL: " + urlString, e);
         }
     }
 }
