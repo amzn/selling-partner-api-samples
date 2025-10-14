@@ -2,12 +2,18 @@ package messaging;
 
 import software.amazon.spapi.ApiException;
 import software.amazon.spapi.api.messaging.v1.MessagingApi;
-import software.amazon.spapi.models.messaging.v1.*;
-import software.amazon.spapi.models.uploads.v2020_11_01.*;
 import software.amazon.spapi.api.uploads.v2020_11_01.UploadsApi;
+import software.amazon.spapi.models.messaging.v1.Attachment;
+import software.amazon.spapi.models.messaging.v1.GetMessagingActionsForOrderResponse;
+import software.amazon.spapi.models.messaging.v1.InvoiceRequest;
+import software.amazon.spapi.models.messaging.v1.LinkObject;
+import software.amazon.spapi.models.uploads.v2020_11_01.CreateUploadDestinationResponse;
 import util.Recipe;
 import util.Constants;
-import java.util.Arrays;
+
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.List;
 
 import com.amazon.SellingPartnerAPIAA.LWAException;
@@ -16,6 +22,8 @@ import java.io.InputStream;
 import java.io.FileInputStream;
 import java.security.MessageDigest;
 import java.io.IOException;
+
+import static java.net.URI.*;
 
 /**
  * Code Recipe to send a message to a buyer using the Messaging API
@@ -28,7 +36,6 @@ import java.io.IOException;
  * 5. Upload Invoice to URL
  * 6. Send Invoice Message to Buyer
  */
-
 public class SendInvoiceToBuyerRecipe extends Recipe {
 
     private MessagingApi messagingApi;
@@ -49,17 +56,16 @@ public class SendInvoiceToBuyerRecipe extends Recipe {
             initializeUploadsApi();
             String md5 = calculateMd5();
             CreateUploadDestinationResponse response = createUploadDestination(md5);
-            Boolean uploaded = UploadInvoice(response.getPayload().getUrl(), invoiceFilePath, md5);
+            Boolean uploaded = uploadInvoice(response.getPayload().getUrl(), invoiceFilePath, md5);
             if (uploaded) {
                 System.out.println("✅ Invoice uploaded");
-                SendInvoiceMessage(response.getPayload().getUploadDestinationId(),amazonOrderId,"Invoice.pdf");
+                sendInvoiceMessage(response.getPayload().getUploadDestinationId(),amazonOrderId,"Invoice.pdf");
 
             } else {
                 System.out.println("❌ Failed to upload invoice");
             }
         } else {
             System.out.println("❌ You cannot send an invoice for this order");
-            return;
         }
     }
 
@@ -83,7 +89,7 @@ public class SendInvoiceToBuyerRecipe extends Recipe {
 
     private void setupOrderDetails() {
         amazonOrderId = "701-2312323-4427400";
-        marketplaceIds = Arrays.asList("A2Q3Y263D00KWC");
+        marketplaceIds = List.of("A2Q3Y263D00KWC");
         invoiceFilePath = "src/main/resources/invoice.pdf";
         contentType = "application/pdf";
         System.out.println("Order details configured: " + amazonOrderId);
@@ -129,34 +135,33 @@ public class SendInvoiceToBuyerRecipe extends Recipe {
         }
     }
 
-    private Boolean UploadInvoice(String uploadDestinationUrl, String invoiceFilePath, String contentMd5) {
+    private Boolean uploadInvoice(String uploadDestinationUrl, String invoiceFilePath, String contentMd5) {
         try (InputStream is = new FileInputStream(invoiceFilePath)) {
             byte[] fileBytes = is.readAllBytes();
-            java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
-            java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder()
-                    .uri(java.net.URI.create(uploadDestinationUrl))
-                    .PUT(java.net.http.HttpRequest.BodyPublishers.ofByteArray(fileBytes))
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(create(uploadDestinationUrl))
+                    .PUT(HttpRequest.BodyPublishers.ofByteArray(fileBytes))
                     .header("Content-Type", contentType)
                     .header("Content-MD5", contentMd5)
                     .build();
-            
-            java.net.http.HttpResponse<String> response = client.send(request, 
-                    java.net.http.HttpResponse.BodyHandlers.ofString());
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             return response.statusCode() >= 200 && response.statusCode() < 300;
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException("Failed to upload invoice", e);
         }
     }
 
-    private void SendInvoiceMessage(String uploadDestinationId, String orderId, String fileName) {
+    private void sendInvoiceMessage(String uploadDestinationId, String orderId, String fileName) {
         InvoiceRequest body = new InvoiceRequest();
         Attachment attachment = new Attachment();
         attachment.setFileName(fileName);
         attachment.setUploadDestinationId(uploadDestinationId);
-        body.setAttachments(Arrays.asList(attachment));
+        body.setAttachments(List.of(attachment));
         
         try {
-            InvoiceResponse response = messagingApi.sendInvoice(body, orderId, marketplaceIds);
+            messagingApi.sendInvoice(body, orderId, marketplaceIds);
             System.out.println("✅ Invoice message sent successfully");
         } catch (ApiException | LWAException e) {
             throw new RuntimeException("Failed to send invoice message", e);
