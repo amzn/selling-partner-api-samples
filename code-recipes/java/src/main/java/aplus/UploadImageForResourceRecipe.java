@@ -1,11 +1,16 @@
 package aplus;
 
 import software.amazon.spapi.ApiException;
-import software.amazon.spapi.models.uploads.v2020_11_01.*;
 import software.amazon.spapi.api.uploads.v2020_11_01.UploadsApi;
 
+import software.amazon.spapi.models.uploads.v2020_11_01.CreateUploadDestinationResponse;
 import util.Recipe;
 import util.Constants;
+
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,6 +27,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.net.URI.*;
+
 /** 
  * Code Recipe to upload an image to A+ Content API
  * Steps:
@@ -31,8 +38,7 @@ import java.util.stream.Collectors;
  * 4. Create Upload Destination
  * 5. Upload Image to URL
  */
-
-public class UploadImageForResouceRecipe extends Recipe {
+public class UploadImageForResourceRecipe extends Recipe {
 
     private UploadsApi uploadsApi;
     private List<String> marketplaceIds;
@@ -45,7 +51,7 @@ public class UploadImageForResouceRecipe extends Recipe {
         initializeUploadsApi();
         String md5 = calculateMd5();
         CreateUploadDestinationResponse response = createUploadDestination(md5);
-        Boolean uploaded = uploadImage(response.getPayload().getUrl(), response);
+        Boolean uploaded = uploadImage(response.getPayload().getUrl());
         if (uploaded) {
             System.out.println("✅ Image uploaded successfully");
             System.out.println("Upload Destination ID: " + response.getPayload().getUploadDestinationId());
@@ -55,7 +61,7 @@ public class UploadImageForResouceRecipe extends Recipe {
     }
 
     private void setupImageDetails() {
-        marketplaceIds = Arrays.asList("A2Q3Y263D00KWC");
+        marketplaceIds = List.of("A2Q3Y263D00KWC");
         imageFilePath = "src/main/resources/test_image.jpg";
         contentType = "image/jpeg";
         System.out.println("Image details configured: " + imageFilePath);
@@ -97,23 +103,22 @@ public class UploadImageForResouceRecipe extends Recipe {
         }
     }
 
-    private Boolean uploadImage(String uploadDestinationUrl, CreateUploadDestinationResponse uploadResponse) {
+    private Boolean uploadImage(String uploadDestinationUrl) {
         try (InputStream is = new FileInputStream(imageFilePath)) {
             byte[] fileBytes = is.readAllBytes();
             String boundary = "----WebKitFormBoundary" + System.currentTimeMillis();
             
             byte[] requestBody = buildMultipartBody(uploadDestinationUrl, fileBytes, contentType, boundary);
             String baseUrl = uploadDestinationUrl.split("\\?")[0];
-            
-            java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
-            java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder()
-                    .uri(java.net.URI.create(baseUrl))
-                    .POST(java.net.http.HttpRequest.BodyPublishers.ofByteArray(requestBody))
+
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(create(baseUrl))
+                    .POST(HttpRequest.BodyPublishers.ofByteArray(requestBody))
                     .header("Content-Type", "multipart/form-data; boundary=" + boundary)
                     .build();
-            
-            java.net.http.HttpResponse<String> response = client.send(request, 
-                    java.net.http.HttpResponse.BodyHandlers.ofString());
+
+            HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
             System.out.println("Upload response code: " + response.statusCode());
             return response.statusCode() >= 200 && response.statusCode() < 300;
         } catch (IOException | InterruptedException e) {

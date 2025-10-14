@@ -4,11 +4,11 @@ import util.RecipeTest;
 
 import java.util.List;
 
-public class UploadImageForResouceTest extends RecipeTest {
+public class UploadImageForResourceTest extends RecipeTest {
 
-    protected UploadImageForResouceTest() {
+    protected UploadImageForResourceTest() {
         super(
-                new UploadImageForResouceRecipe(),
+                new UploadImageForResourceRecipe(),
                 List.of(
                     "aplus-createUploadDestinationResponse"
                 )
