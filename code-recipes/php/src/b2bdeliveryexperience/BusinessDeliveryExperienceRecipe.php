@@ -44,10 +44,7 @@ class BusinessDeliveryExperienceRecipe extends Recipe
             $poNumber = $this->getPurchaseOrderNumber($orderId);
             $orderItems = $this->getOrderItems($orderId);
             $address = $this->getOrderAddress($orderId);
-            
-            $preferences = $address->getDeliveryPreferences();
             $carriers = $this->getCarrierOptions();
-            
             // Filter weekend deliveries only for commercial addresses
              $shipping = $address->getShippingAddress();
         if ($shipping !== null && strcasecmp($shipping->getAddressType(), 'Commercial') === 0) {
