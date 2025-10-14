@@ -48,13 +48,12 @@ public class BusinessDeliveryExperienceRecipe extends Recipe {
         String orderId = "123-4567890-1234567"; // Sample order ID
 
         Order order = getOrder(orderId);
-
-        if (Boolean.TRUE.equals(order.isIsBusinessOrder())) {
+        boolean isBusiness = isBusinessOrder(order);
+         if (isBusiness) {
+        
             String poNumber = getPurchaseOrderNumber(orderId);
             List<OrderItem> orderItems = getOrderItems(orderId);
             OrderAddress address = getOrderAddress(orderId);
-
-            DeliveryPreferences preferences = address.getDeliveryPreferences();
             List<CarrierOption> carriers = getCarrierOptions();
 
             // Filter weekend deliveries only for commercial addresses
@@ -66,8 +65,13 @@ public class BusinessDeliveryExperienceRecipe extends Recipe {
             ShippingLabel label = generateShippingLabel(orderId, selectedCarrier, poNumber);
             confirmShipment(order, orderItems, selectedCarrier);
         }
+    
+     /**
+     * Checks if an order is a business order
+     */
+       private boolean isBusinessOrder(Order order) {
+        return order != null && Boolean.TRUE.equals(order.isIsBusinessOrder());
     }
-
     /**
      * Gets order details - no Restricted Data Token required
      */
