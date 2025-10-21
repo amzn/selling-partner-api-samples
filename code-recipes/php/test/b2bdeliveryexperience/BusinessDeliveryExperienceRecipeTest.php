@@ -11,9 +11,10 @@ class BusinessDeliveryExperienceRecipeTest extends RecipeTestCase
         $this->recipe = new BusinessDeliveryExperienceRecipe();
         $this->responses = [
             "orders-getOrder",
-            "orders-getOrderItems", 
+            "orders-getOrderBuyerInfo",
+            "orders-getOrderItems",
             "orders-getOrderAddress",
-            ""
+            "orders-confirmShipment",
         ];
     }
 }
