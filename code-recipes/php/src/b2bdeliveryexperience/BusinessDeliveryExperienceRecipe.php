@@ -5,7 +5,6 @@ namespace Src\b2bdeliveryexperience;
 use DateTime;
 use Exception;
 use SpApi\Api\orders\v0\OrdersV0Api;
-use SpApi\Model\orders\v0\Address;
 use SpApi\Model\orders\v0\ConfirmShipmentOrderItem;
 use SpApi\Model\orders\v0\ConfirmShipmentRequest;
 use SpApi\Model\orders\v0\Order;
@@ -15,12 +14,11 @@ use SpApi\Model\orders\v0\PackageDetail;
 use Src\util\Recipe;
 
 /**
- * Amazon Business Delivery Experience is a seven-step process:
+ * Amazon Business Delivery Experience is a six-step process:
  * - Get order details and check if it's a business order
  * - Retrieve purchase order number for business orders
  * - Get order address and verify it's commercial
- * - Get delivery preferences for the order
- * - Filter carrier options to exclude weekend deliveries
+ * - Filter carrier options to exclude weekend deliveries for commercial addresses
  * - Generate shipping label with PO number
  * - Confirm shipment with selected carrier
  */
@@ -37,20 +35,24 @@ class BusinessDeliveryExperienceRecipe extends Recipe
     public function start(): void
     {
         $orderId = "123-4567890-1234567"; // Sample order ID
-        
+
         $order = $this->getOrder($orderId);
-        
+
         if ($order->getIsBusinessOrder()) {
-            $poNumber = $this->getPurchaseOrderNumber($orderId);
+
+            $poNumber   = $this->getPurchaseOrderNumber($orderId);
             $orderItems = $this->getOrderItems($orderId);
-            $address = $this->getOrderAddress($orderId);
-            $carriers = $this->getCarrierOptions();
+            $address    = $this->getOrderAddress($orderId);
+            $carriers   = $this->getCarrierOptions();
+
             // Filter weekend deliveries only for commercial addresses
-             $shipping = $address->getShippingAddress();
-        if ($shipping !== null && strcasecmp($shipping->getAddressType(), 'Commercial') === 0) {
-            $carriers = $this->filterWeekendDeliveries($carriers);
-        }
-            
+            $shipping = $address?->getShippingAddress();
+            if ($shipping !== null
+                && is_string($shipping->getAddressType())
+                && strcasecmp($shipping->getAddressType(), 'Commercial') === 0) {
+                $carriers = $this->filterWeekendDeliveries($carriers);
+            }
+
             $selectedCarrier = $this->selectCarrier($carriers);
             $label = $this->generateShippingLabel($orderId, $selectedCarrier, $poNumber);
             $this->confirmShipment($order, $orderItems, $selectedCarrier);
@@ -69,20 +71,22 @@ class BusinessDeliveryExperienceRecipe extends Recipe
             throw new Exception("Unsuccessful response from Orders API: " . $e->getMessage(), 0, $e);
         }
     }
- /**
+
+    /**
      * Get Purchase Order Number - REQUIRES Restricted Data Token (RDT) for PII access
      * Must obtain RDT before calling this method using createRestrictedDataToken API
      */
     private function getPurchaseOrderNumber(string $orderId): ?string
-{
-    try {
-        $resp = $this->ordersApi->getOrderBuyerInfo($orderId);
-        $buyerInfo = $resp->getPayload();
-        return $buyerInfo ? $buyerInfo->getPurchaseOrderNumber() : null;
-    } catch (Exception $e) {
-        throw new Exception("Unsuccessful response from Orders API: " . $e->getMessage(), 0, $e);
+    {
+        try {
+            $resp = $this->ordersApi->getOrderBuyerInfo($orderId);
+            $buyerInfo = $resp->getPayload();
+            return $buyerInfo ? $buyerInfo->getPurchaseOrderNumber() : null;
+        } catch (Exception $e) {
+            throw new Exception("Unsuccessful response from Orders API: " . $e->getMessage(), 0, $e);
+        }
     }
-}
+
     /**
      * Gets order items - no Restricted Data Token required
      */
@@ -138,11 +142,12 @@ class BusinessDeliveryExperienceRecipe extends Recipe
      */
     private function filterWeekendDeliveries(array $carriers): array
     {
-        return array_filter($carriers, function(CarrierOption $carrier) {
+        // 0 = Sunday, 6 = Saturday
+        return array_values(array_filter($carriers, function (CarrierOption $carrier) {
             $deliveryDate = new DateTime($carrier->getEstimatedDeliveryDate());
-            $dayOfWeek = (int)$deliveryDate->format('w'); // 0 = Sunday, 6 = Saturday
+            $dayOfWeek = (int)$deliveryDate->format('w');
             return $dayOfWeek !== 0 && $dayOfWeek !== 6;
-        });
+        }));
     }
 
     private function selectCarrier(array $carriers): ?CarrierOption
@@ -150,10 +155,10 @@ class BusinessDeliveryExperienceRecipe extends Recipe
         // Select first available carrier (in real implementation, this would be user choice)
         return empty($carriers) ? null : $carriers[0];
     }
-    
+
     /**
      * MOCK METHOD: Generates shipping label with purchase order number
-     * In real implementation, this would integrate with SP-API Shipping API or carrier APIs
+     * In real implementation, this would integrate with carrier APIs
      */
     private function generateShippingLabel(string $orderId, ?CarrierOption $carrier, ?string $poNumber): ?ShippingLabel
     {
@@ -161,8 +166,8 @@ class BusinessDeliveryExperienceRecipe extends Recipe
             echo "No carrier available for label generation\n";
             return null;
         }
-        
-        // Mock shipping label generation - in real implementation, this would call shipping API
+
+        // Mock shipping label generation - in real implementation, this would call carrier API to generate shipping label
         $label = new ShippingLabel();
         $label->setLabelId("LBL-" . $orderId . "-" . time());
         $label->setCarrierName($carrier->getCarrierName());
@@ -170,26 +175,26 @@ class BusinessDeliveryExperienceRecipe extends Recipe
         $label->setLabelFormat("PDF");
         $label->setLabelUrl("https://mock-label-url.com/" . $label->getLabelId() . ".pdf");
         $label->setPurchaseOrderNumber($poNumber);
-        
-        echo "Shipping label generated: " . $label->getLabelId() . 
-             ($poNumber ? " with PO: " . $poNumber : "") . "\n";
+
+        echo "Shipping label generated: " . $label->getLabelId() .
+            ($poNumber ? " with PO: " . $poNumber : "") . "\n";
         return $label;
     }
-    
+
     private function confirmShipment(Order $order, array $orderItems, ?CarrierOption $carrier): void
     {
         if ($carrier === null) {
             echo "No carrier available for shipment\n";
             return;
         }
-        
+
         try {
-            $confirmItems = array_map(function(OrderItem $item) {
+            $confirmItems = array_map(function (OrderItem $item) {
                 return (new ConfirmShipmentOrderItem())
                     ->setOrderItemId($item->getOrderItemId())
                     ->setQuantity($item->getQuantityOrdered());
             }, $orderItems);
-            
+
             $request = (new ConfirmShipmentRequest())
                 ->setMarketplaceId($order->getMarketplaceId())
                 ->setPackageDetail((new PackageDetail())
@@ -197,7 +202,7 @@ class BusinessDeliveryExperienceRecipe extends Recipe
                     ->setCarrierCode($carrier->getCarrierName())
                     ->setTrackingNumber("1Z999AA1234567890")
                     ->setOrderItems($confirmItems));
-            
+
             $this->ordersApi->confirmShipment($order->getAmazonOrderId(), $request);
             echo "Shipment confirmed with carrier: " . $carrier->getCarrierName() . "\n";
         } catch (Exception $e) {
@@ -206,7 +211,7 @@ class BusinessDeliveryExperienceRecipe extends Recipe
     }
 }
 
-// Mock CarrierOption class 
+// Mock CarrierOption class
 class CarrierOption
 {
     private string $carrierName;
@@ -233,7 +238,7 @@ class CarrierOption
     }
 }
 
-// Mock ShippingLabel class 
+// Mock ShippingLabel class
 class ShippingLabel
 {
     private string $labelId;
