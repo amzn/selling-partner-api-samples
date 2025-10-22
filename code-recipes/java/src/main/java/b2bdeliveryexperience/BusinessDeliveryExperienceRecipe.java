@@ -12,7 +12,6 @@ import software.amazon.spapi.api.orders.OrdersV0Api;
 import software.amazon.spapi.models.orders.BuyerInfo;
 import software.amazon.spapi.models.orders.ConfirmShipmentOrderItem;
 import software.amazon.spapi.models.orders.ConfirmShipmentRequest;
-import software.amazon.spapi.models.orders.DeliveryPreferences;
 import software.amazon.spapi.models.orders.GetOrderAddressResponse;
 import software.amazon.spapi.models.orders.GetOrderBuyerInfoResponse;
 import software.amazon.spapi.models.orders.GetOrderItemsResponse;
@@ -26,14 +25,15 @@ import util.Constants;
 import util.Recipe;
 
 /**
- * Amazon Business Delivery Experience is a seven-step process:
- * - Get order details and check if it's a business order
- * - Retrieve purchase order number for business orders
- * - Get order address and verify it's commercial
- * - Get delivery preferences for the order
- * - Filter carrier options to exclude weekend deliveries
- * - Generate shipping label with PO number
- * - Confirm shipment with selected carrier
+ * Amazon Business Delivery Experience is a six-step process:
+ * 1) Get order details and check if it's a business order
+ * 2) Retrieve purchase order number (RDT required)
+ * 3) Get order address and verify it's commercial (RDT required)
+ * 4) Filter carrier options to exclude weekend deliveries (for commercial addresses)
+ * 5) Generate shipping label with PO number
+ * 6) Confirm shipment with selected carrier
+ *
+ * NOTE: Methods that access PII (buyer info, address) require a Restricted Data Token (RDT).
  */
 public class BusinessDeliveryExperienceRecipe extends Recipe {
 
@@ -42,39 +42,39 @@ public class BusinessDeliveryExperienceRecipe extends Recipe {
             .endpoint(Constants.BACKEND_URL)
             .build();
 
-
     @Override
     protected void start() {
-        String orderId = "123-4567890-1234567"; // Sample order ID
+        final String orderId = "123-4567890-1234567"; // Sample order ID
 
         Order order = getOrder(orderId);
-        boolean isBusiness = isBusinessOrder(order);
-         if (isBusiness) {
-        
-            String poNumber = getPurchaseOrderNumber(orderId);
-            List<OrderItem> orderItems = getOrderItems(orderId);
-            OrderAddress address = getOrderAddress(orderId);
-            List<CarrierOption> carriers = getCarrierOptions();
-
-            // Filter weekend deliveries only for commercial addresses
-            if ("Commercial".equalsIgnoreCase(address.getShippingAddress().getAddressType())) {
-                carriers = filterWeekendDeliveries(carriers);
-            }
-
-            CarrierOption selectedCarrier = selectCarrier(carriers);
-            ShippingLabel label = generateShippingLabel(orderId, selectedCarrier, poNumber);
-            confirmShipment(order, orderItems, selectedCarrier);
+        if (!isBusinessOrder(order)) {
+            System.out.println("Not a business order; skipping business delivery flow.");
+            return;
         }
-    
-     /**
-     * Checks if an order is a business order
-     */
-       private boolean isBusinessOrder(Order order) {
+
+        // RDT must be obtained before calling buyer info or address endpoints.
+        String poNumber = getPurchaseOrderNumber(orderId);
+        List<OrderItem> orderItems = getOrderItems(orderId);
+        OrderAddress orderAddress = getOrderAddress(orderId);
+
+        List<CarrierOption> carriers = getCarrierOptions();
+
+        // Filter weekend deliveries only for commercial addresses
+        if (isCommercialAddress(orderAddress)) {
+            carriers = filterWeekendDeliveries(carriers);
+        }
+
+        CarrierOption selectedCarrier = selectCarrier(carriers);
+        ShippingLabel label = generateShippingLabel(orderId, selectedCarrier, poNumber);
+        confirmShipment(order, orderItems, selectedCarrier);
+    }
+
+    /** Checks if an order is a business order. */
+    private boolean isBusinessOrder(Order order) {
         return order != null && Boolean.TRUE.equals(order.isIsBusinessOrder());
     }
-    /**
-     * Gets order details - no Restricted Data Token required
-     */
+
+    /** Gets order details - no Restricted Data Token required. */
     private Order getOrder(String orderId) {
         try {
             GetOrderResponse response = ordersApi.getOrder(orderId);
@@ -87,278 +87,183 @@ public class BusinessDeliveryExperienceRecipe extends Recipe {
     }
 
     /**
-     * Gets Purchase Order Number - REQUIRES Restricted Data Token (RDT) for PII access
-     * Must obtain RDT before calling this method using createRestrictedDataToken API
+     * Gets Purchase Order Number - REQUIRES Restricted Data Token (RDT) for PII access.
+     * Obtain an RDT beforehand using the createRestrictedDataToken API.
      */
-    private String getPurchaseOrderNumber(orderId) {
+    private String getPurchaseOrderNumber(String orderId) {
         try {
             GetOrderBuyerInfoResponse buyerInfoResponse = ordersApi.getOrderBuyerInfo(orderId);
-            BuyerInfo buyerInfo = buyerInfoResponse.getPayload();
+            BuyerInfo buyerInfo = (buyerInfoResponse != null) ? buyerInfoResponse.getPayload() : null;
             return (buyerInfo != null) ? buyerInfo.getPurchaseOrderNumber() : null;
-
+        } catch (ApiException e) {
+            throw new RuntimeException("Unsuccessful response from Orders API", e);
+        } catch (LWAException e) {
+            throw new RuntimeException("Authentication error", e);
         }
-    } catch(
-    ApiException e)
-
-    {
-        throw new RuntimeException("Unsuccessful response from Orders API", e);
-    } catch(
-    LWAException e)
-
-    {
-        throw new RuntimeException("Authentication error", e);
     }
-}
 
-
-/**
- * Gets order items - no Restricted Data Token required
- */
-private List<OrderItem> getOrderItems(String orderId) {
-    try {
-        GetOrderItemsResponse response = ordersApi.getOrderItems(orderId);
-        return response.getPayload().getOrderItems();
-    } catch (ApiException e) {
-        throw new RuntimeException("Unsuccessful response from Orders API", e);
-    } catch (LWAException e) {
-        throw new RuntimeException("Authentication error", e);
+    /** Gets order items - no Restricted Data Token required. */
+    private List<OrderItem> getOrderItems(String orderId) {
+        try {
+            GetOrderItemsResponse response = ordersApi.getOrderItems(orderId);
+            return response.getPayload().getOrderItems();
+        } catch (ApiException e) {
+            throw new RuntimeException("Unsuccessful response from Orders API", e);
+        } catch (LWAException e) {
+            throw new RuntimeException("Authentication error", e);
+        }
     }
-}
 
-/**
- * Gets order address - REQUIRES Restricted Data Token (RDT) for PII access
- * Must obtain RDT before calling this method using createRestrictedDataToken API
- */
-private OrderAddress getOrderAddress(String orderId) {
-    try {
-        GetOrderAddressResponse response = ordersApi.getOrderAddress(orderId);
-        return response.getPayload();
-    } catch (ApiException e) {
-        throw new RuntimeException("Unsuccessful response from Orders API", e);
-    } catch (LWAException e) {
-        throw new RuntimeException("Authentication error", e);
+    /**
+     * Gets order address - REQUIRES Restricted Data Token (RDT) for PII access.
+     * Obtain an RDT beforehand using the createRestrictedDataToken API.
+     */
+    private OrderAddress getOrderAddress(String orderId) {
+        try {
+            GetOrderAddressResponse response = ordersApi.getOrderAddress(orderId);
+            return response.getPayload(); // payload contains shippingAddress
+        } catch (ApiException e) {
+            throw new RuntimeException("Unsuccessful response from Orders API", e);
+        } catch (LWAException e) {
+            throw new RuntimeException("Authentication error", e);
+        }
     }
-}
 
-/**
- * MOCK METHOD: Gets available carrier options
- * In real implementation, this would integrate with shipping APIs to get actual carrier options
- */
-private List<CarrierOption> getCarrierOptions() {
-    // Mock carrier options - in real implementation, this would come from shipping API
-    return List.of(
-            createCarrierOption("UPS", LocalDate.now().plusDays(1)),
-            createCarrierOption("FedEx", LocalDate.now().plusDays(2)),
-            createCarrierOption("DHL", LocalDate.now().plusDays(6)) // Saturday
-    );
-}
+    // ---------- Helper / mock logic ----------
 
-private CarrierOption createCarrierOption(String carrier, LocalDate deliveryDate) {
-    CarrierOption option = new CarrierOption();
-    option.setCarrierName(carrier);
-    option.setEstimatedDeliveryDate(deliveryDate.toString());
-    return option;
-}
+    /** True if the shipping address type is "Commercial" (case-insensitive). */
+    private boolean isCommercialAddress(OrderAddress orderAddress) {
+        if (orderAddress == null || orderAddress.getShippingAddress() == null) return false;
+        String addressType = orderAddress.getShippingAddress().getAddressType();
+        return addressType != null && "Commercial".equalsIgnoreCase(addressType);
+    }
 
-/**
+    /** MOCK: Get available carrier options (replace with real carrier/shipping API integration). */
+    private List<CarrierOption> getCarrierOptions() {
+        return List.of(
+                createCarrierOption("UPS", LocalDate.now().plusDays(1)),
+                createCarrierOption("FedEx", LocalDate.now().plusDays(2)),
+                createCarrierOption("DHL", LocalDate.now().plusDays(6)) // Saturday
+        );
+    }
+
+    private CarrierOption createCarrierOption(String carrier, LocalDate deliveryDate) {
+        CarrierOption option = new CarrierOption();
+        option.setCarrierName(carrier);
+        option.setEstimatedDeliveryDate(deliveryDate.toString());
+        return option;
+    }
+
+    /**
  * MOCK METHOD: Filters out carriers that deliver on weekends
  * In real implementation, this would be part of carrier selection logic
  */
-private List<CarrierOption> filterWeekendDeliveries(List<CarrierOption> carriers) {
-    return carriers.stream()
-            .filter(carrier -> {
-                LocalDate deliveryDate = LocalDate.parse(carrier.getEstimatedDeliveryDate());
-                DayOfWeek dayOfWeek = deliveryDate.getDayOfWeek();
-                return dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY;
-            })
-            .collect(Collectors.toList());
-}
+    private List<CarrierOption> filterWeekendDeliveries(List<CarrierOption> carriers) {
+        return carriers.stream()
+                .filter(c -> {
+                    LocalDate date = LocalDate.parse(c.getEstimatedDeliveryDate());
+                    DayOfWeek dow = date.getDayOfWeek();
+                    return dow != DayOfWeek.SATURDAY && dow != DayOfWeek.SUNDAY;
+                })
+                .collect(Collectors.toList());
+    }
 
-private CarrierOption selectCarrier(List<CarrierOption> carriers) {
-    // Select first available carrier (in real implementation, this would be user choice)
-    return carriers.isEmpty() ? null : carriers.get(0);
-}
+    /** Simple selection logic; pick first available. */
+    private CarrierOption selectCarrier(List<CarrierOption> carriers) {
+        return (carriers == null || carriers.isEmpty()) ? null : carriers.get(0);
+    }
 
-/**
+  /**
  * MOCK METHOD: Generates shipping label with purchase order number
  * In real implementation, this would integrate with SP-API Shipping API or carrier APIs
  */
-private ShippingLabel generateShippingLabel(String orderId, CarrierOption carrier, String poNumber) {
-    if (carrier == null) {
-        System.out.println("No carrier available for label generation");
-        return null;
+    private ShippingLabel generateShippingLabel(String orderId, CarrierOption carrier, String poNumber) {
+        if (carrier == null) {
+            System.out.println("No carrier available for label generation");
+            return null;
+        }
+
+        ShippingLabel label = new ShippingLabel();
+        label.setLabelId("LBL-" + orderId + "-" + System.currentTimeMillis());
+        label.setCarrierName(carrier.getCarrierName());
+        label.setTrackingNumber("1Z999AA1234567890");
+        label.setLabelFormat("PDF");
+        label.setLabelUrl("https://mock-label-url.com/" + label.getLabelId() + ".pdf");
+        label.setPurchaseOrderNumber(poNumber);
+
+        System.out.println("Shipping label generated: " + label.getLabelId() +
+                (poNumber != null ? " with PO: " + poNumber : ""));
+        return label;
     }
 
-    // Mock shipping label generation - in real implementation, this would call shipping API
-    ShippingLabel label = new ShippingLabel();
-    label.setLabelId("LBL-" + orderId + "-" + System.currentTimeMillis());
-    label.setCarrierName(carrier.getCarrierName());
-    label.setTrackingNumber("1Z999AA1234567890");
-    label.setLabelFormat("PDF");
-    label.setLabelUrl("https://mock-label-url.com/" + label.getLabelId() + ".pdf");
-    label.setPurchaseOrderNumber(poNumber);
+    /** Confirm shipment in Orders API. */
+    private void confirmShipment(Order order, List<OrderItem> orderItems, CarrierOption carrier) {
+        if (order == null || carrier == null || orderItems == null || orderItems.isEmpty()) {
+            System.out.println("Missing data; cannot confirm shipment.");
+            return;
+        }
 
-    System.out.println("Shipping label generated: " + label.getLabelId() +
-            (poNumber != null ? " with PO: " + poNumber : ""));
-    return label;
-}
+        try {
+            List<ConfirmShipmentOrderItem> confirmItems = orderItems.stream()
+                    .map(item -> new ConfirmShipmentOrderItem()
+                            .orderItemId(item.getOrderItemId())
+                            .quantity(item.getQuantityOrdered()))
+                    .collect(Collectors.toList());
 
-private void confirmShipment(Order order, List<OrderItem> orderItems, CarrierOption carrier) {
-    if (carrier == null) {
-        System.out.println("No carrier available for shipment");
-        return;
+            ConfirmShipmentRequest request = new ConfirmShipmentRequest()
+                    .marketplaceId(order.getMarketplaceId())
+                    .packageDetail(new PackageDetail()
+                            .packageReferenceId("PKG001")
+                            .carrierCode(carrier.getCarrierName())
+                            .trackingNumber("1Z999AA1234567890")
+                            .orderItems(confirmItems));
+
+            ordersApi.confirmShipment(order.getAmazonOrderId(), request);
+            System.out.println("Shipment confirmed with carrier: " + carrier.getCarrierName());
+        } catch (ApiException e) {
+            throw new RuntimeException("Failed to confirm shipment", e);
+        } catch (LWAException e) {
+            throw new RuntimeException("Authentication error", e);
+        }
     }
 
-    try {
-        List<ConfirmShipmentOrderItem> confirmItems = orderItems.stream()
-                .map(item -> new ConfirmShipmentOrderItem()
-                        .orderItemId(item.getOrderItemId())
-                        .quantity(item.getQuantityOrdered()))
-                .collect(Collectors.toList());
-        ConfirmShipmentRequest request = new ConfirmShipmentRequest()
-                .marketplaceId(order.getMarketplaceId())
-                .packageDetail(new PackageDetail()
-                        .packageReferenceId("PKG001")
-                        .carrierCode(carrier.getCarrierName())
-                        .trackingNumber("1Z999AA1234567890")
-                        .orderItems(confirmItems));
+    // ---------- Mock DTOs (replace with real models if available) ----------
 
-        ordersApi.confirmShipment(order.getAmazonOrderId(), request);
-        System.out.println("Shipment confirmed with carrier: " + carrier.getCarrierName());
-    } catch (ApiException e) {
-        throw new RuntimeException("Failed to confirm shipment", e);
-    } catch (LWAException e) {
-        throw new RuntimeException("Authentication error", e);
-    }
-}
+    private static class CarrierOption {
+        private String carrierName;
+        private String estimatedDeliveryDate;
 
-// Mock CarrierOption class - replace with actual SP-API model
-private static class CarrierOption {
-    private String carrierName;
-    private String estimatedDeliveryDate;
+        public String getCarrierName() { return carrierName; }
+        public void setCarrierName(String carrierName) { this.carrierName = carrierName; }
 
-    public String getCarrierName() {
-        return carrierName;
+        public String getEstimatedDeliveryDate() { return estimatedDeliveryDate; }
+        public void setEstimatedDeliveryDate(String estimatedDeliveryDate) { this.estimatedDeliveryDate = estimatedDeliveryDate; }
     }
 
-    public void setCarrierName(String carrierName) {
-        this.carrierName = carrierName;
-    }
+    private static class ShippingLabel {
+        private String labelId;
+        private String carrierName;
+        private String trackingNumber;
+        private String labelFormat;
+        private String labelUrl;
+        private String purchaseOrderNumber;
 
-    public String getEstimatedDeliveryDate() {
-        return estimatedDeliveryDate;
-    }
+        public String getLabelId() { return labelId; }
+        public void setLabelId(String labelId) { this.labelId = labelId; }
 
-    public void setEstimatedDeliveryDate(String estimatedDeliveryDate) {
-        this.estimatedDeliveryDate = estimatedDeliveryDate;
-    }
-}
+        public String getCarrierName() { return carrierName; }
+        public void setCarrierName(String carrierName) { this.carrierName = carrierName; }
 
-// Mock ShippingLabel class - replace with actual SP-API model
-private static class ShippingLabel {
-    private String labelId;
-    private String carrierName;
-    private String trackingNumber;
-    private String labelFormat;
-    private String labelUrl;
-    private String purchaseOrderNumber;
+        public String getTrackingNumber() { return trackingNumber; }
+        public void setTrackingNumber(String trackingNumber) { this.trackingNumber = trackingNumber; }
 
-    public String getLabelId() {
-        return labelId;
-    }
+        public String getLabelFormat() { return labelFormat; }
+        public void setLabelFormat(String labelFormat) { this.labelFormat = labelFormat; }
 
-    public void setLabelId(String labelId) {
-        this.labelId = labelId;
-    }
+        public String getLabelUrl() { return labelUrl; }
+        public void setLabelUrl(String labelUrl) { this.labelUrl = labelUrl; }
 
-    public String getCarrierName() {
-        return carrierName;
-    }
-
-    public void setCarrierName(String carrierName) {
-        this.carrierName = carrierName;
-    }
-
-    public String getTrackingNumber() {
-        return trackingNumber;
-    }
-
-    public void setTrackingNumber(String trackingNumber) {
-        this.trackingNumber = trackingNumber;
-    }
-
-    public String getLabelFormat() {
-        return labelFormat;
-    }
-
-    public void setLabelFormat(String labelFormat) {
-        this.labelFormat = labelFormat;
-    }
-
-    public String getLabelUrl() {
-        return labelUrl;
-    }
-
-    public void setLabelUrl(String labelUrl) {
-        this.labelUrl = labelUrl;
-    }
-
-    public String getPurchaseOrderNumber() {
-        return purchaseOrderNumber;
-    }
-
-    public void setPurchaseOrderNumber(String purchaseOrderNumber) {
-        this.purchaseOrderNumber = purchaseOrderNumber;
+        public String getPurchaseOrderNumber() { return purchaseOrderNumber; }
+        public void setPurchaseOrderNumber(String purchaseOrderNumber) { this.purchaseOrderNumber = purchaseOrderNumber; }
     }
 }
-
-public static void main(String[] args) {
-    new BusinessDeliveryExperienceRecipe().start();
-}
-}}
-
-public void setLabelId(String labelId) {
-    this.labelId = labelId;
-}
-
-public String getCarrierName() {
-    return carrierName;
-}
-
-public void setCarrierName(String carrierName) {
-    this.carrierName = carrierName;
-}
-
-public String getTrackingNumber() {
-    return trackingNumber;
-}
-
-public void setTrackingNumber(String trackingNumber) {
-    this.trackingNumber = trackingNumber;
-}
-
-public String getLabelFormat() {
-    return labelFormat;
-}
-
-public void setLabelFormat(String labelFormat) {
-    this.labelFormat = labelFormat;
-}
-
-public String getLabelUrl() {
-    return labelUrl;
-}
-
-public void setLabelUrl(String labelUrl) {
-    this.labelUrl = labelUrl;
-}
-
-public String getPurchaseOrderNumber() {
-    return purchaseOrderNumber;
-}
-
-public void setPurchaseOrderNumber(String purchaseOrderNumber) {
-    this.purchaseOrderNumber = purchaseOrderNumber;
-}
-    }
-            }
