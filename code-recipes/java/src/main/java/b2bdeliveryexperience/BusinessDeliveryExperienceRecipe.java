@@ -32,7 +32,6 @@ import util.Recipe;
  * 4) Filter carrier options to exclude weekend deliveries (for commercial addresses)
  * 5) Generate shipping label with PO number
  * 6) Confirm shipment with selected carrier
- *
  * NOTE: Methods that access PII (buyer info, address) require a Restricted Data Token (RDT).
  */
 public class BusinessDeliveryExperienceRecipe extends Recipe {
@@ -69,12 +68,16 @@ public class BusinessDeliveryExperienceRecipe extends Recipe {
         confirmShipment(order, orderItems, selectedCarrier);
     }
 
-    /** Checks if an order is a business order. */
+    /**
+     * Checks if an order is a business order.
+     */
     private boolean isBusinessOrder(Order order) {
         return order != null && Boolean.TRUE.equals(order.isIsBusinessOrder());
     }
 
-    /** Gets order details - no Restricted Data Token required. */
+    /**
+     * Gets order details - no Restricted Data Token required.
+     */
     private Order getOrder(String orderId) {
         try {
             GetOrderResponse response = ordersApi.getOrder(orderId);
@@ -102,7 +105,9 @@ public class BusinessDeliveryExperienceRecipe extends Recipe {
         }
     }
 
-    /** Gets order items - no Restricted Data Token required. */
+    /**
+     * Gets order items - no Restricted Data Token required.
+     */
     private List<OrderItem> getOrderItems(String orderId) {
         try {
             GetOrderItemsResponse response = ordersApi.getOrderItems(orderId);
@@ -131,14 +136,18 @@ public class BusinessDeliveryExperienceRecipe extends Recipe {
 
     // ---------- Helper / mock logic ----------
 
-    /** True if the shipping address type is "Commercial" (case-insensitive). */
+    /**
+     * True if the shipping address type is "Commercial" (case-insensitive).
+     */
     private boolean isCommercialAddress(OrderAddress orderAddress) {
         if (orderAddress == null || orderAddress.getShippingAddress() == null) return false;
         String addressType = orderAddress.getShippingAddress().getAddressType();
         return addressType != null && "Commercial".equalsIgnoreCase(addressType);
     }
 
-    /** MOCK: Get available carrier options (replace with real carrier/shipping API integration). */
+    /**
+     * MOCK: Get available carrier options (replace with real carrier/shipping API integration).
+     */
     private List<CarrierOption> getCarrierOptions() {
         return List.of(
                 createCarrierOption("UPS", LocalDate.now().plusDays(1)),
@@ -155,9 +164,9 @@ public class BusinessDeliveryExperienceRecipe extends Recipe {
     }
 
     /**
- * MOCK METHOD: Filters out carriers that deliver on weekends
- * In real implementation, this would be part of carrier selection logic
- */
+     * MOCK METHOD: Filters out carriers that deliver on weekends
+     * In real implementation, this would be part of carrier selection logic
+     */
     private List<CarrierOption> filterWeekendDeliveries(List<CarrierOption> carriers) {
         return carriers.stream()
                 .filter(c -> {
@@ -168,15 +177,17 @@ public class BusinessDeliveryExperienceRecipe extends Recipe {
                 .collect(Collectors.toList());
     }
 
-    /** Simple selection logic; pick first available. */
+    /**
+     * Simple selection logic; pick first available.
+     */
     private CarrierOption selectCarrier(List<CarrierOption> carriers) {
         return (carriers == null || carriers.isEmpty()) ? null : carriers.get(0);
     }
 
-  /**
- * MOCK METHOD: Generates shipping label with purchase order number
- * In real implementation, this would integrate with SP-API Shipping API or carrier APIs
- */
+    /**
+     * MOCK METHOD: Generates shipping label with purchase order number
+     * In real implementation, this would integrate with SP-API Shipping API or carrier APIs
+     */
     private ShippingLabel generateShippingLabel(String orderId, CarrierOption carrier, String poNumber) {
         if (carrier == null) {
             System.out.println("No carrier available for label generation");
@@ -196,7 +207,9 @@ public class BusinessDeliveryExperienceRecipe extends Recipe {
         return label;
     }
 
-    /** Confirm shipment in Orders API. */
+    /**
+     * Confirm shipment in Orders API.
+     */
     private void confirmShipment(Order order, List<OrderItem> orderItems, CarrierOption carrier) {
         if (order == null || carrier == null || orderItems == null || orderItems.isEmpty()) {
             System.out.println("Missing data; cannot confirm shipment.");
@@ -233,11 +246,21 @@ public class BusinessDeliveryExperienceRecipe extends Recipe {
         private String carrierName;
         private String estimatedDeliveryDate;
 
-        public String getCarrierName() { return carrierName; }
-        public void setCarrierName(String carrierName) { this.carrierName = carrierName; }
+        public String getCarrierName() {
+            return carrierName;
+        }
 
-        public String getEstimatedDeliveryDate() { return estimatedDeliveryDate; }
-        public void setEstimatedDeliveryDate(String estimatedDeliveryDate) { this.estimatedDeliveryDate = estimatedDeliveryDate; }
+        public void setCarrierName(String carrierName) {
+            this.carrierName = carrierName;
+        }
+
+        public String getEstimatedDeliveryDate() {
+            return estimatedDeliveryDate;
+        }
+
+        public void setEstimatedDeliveryDate(String estimatedDeliveryDate) {
+            this.estimatedDeliveryDate = estimatedDeliveryDate;
+        }
     }
 
     private static class ShippingLabel {
@@ -248,22 +271,52 @@ public class BusinessDeliveryExperienceRecipe extends Recipe {
         private String labelUrl;
         private String purchaseOrderNumber;
 
-        public String getLabelId() { return labelId; }
-        public void setLabelId(String labelId) { this.labelId = labelId; }
+        public String getLabelId() {
+            return labelId;
+        }
 
-        public String getCarrierName() { return carrierName; }
-        public void setCarrierName(String carrierName) { this.carrierName = carrierName; }
+        public void setLabelId(String labelId) {
+            this.labelId = labelId;
+        }
 
-        public String getTrackingNumber() { return trackingNumber; }
-        public void setTrackingNumber(String trackingNumber) { this.trackingNumber = trackingNumber; }
+        public String getCarrierName() {
+            return carrierName;
+        }
 
-        public String getLabelFormat() { return labelFormat; }
-        public void setLabelFormat(String labelFormat) { this.labelFormat = labelFormat; }
+        public void setCarrierName(String carrierName) {
+            this.carrierName = carrierName;
+        }
 
-        public String getLabelUrl() { return labelUrl; }
-        public void setLabelUrl(String labelUrl) { this.labelUrl = labelUrl; }
+        public String getTrackingNumber() {
+            return trackingNumber;
+        }
 
-        public String getPurchaseOrderNumber() { return purchaseOrderNumber; }
-        public void setPurchaseOrderNumber(String purchaseOrderNumber) { this.purchaseOrderNumber = purchaseOrderNumber; }
+        public void setTrackingNumber(String trackingNumber) {
+            this.trackingNumber = trackingNumber;
+        }
+
+        public String getLabelFormat() {
+            return labelFormat;
+        }
+
+        public void setLabelFormat(String labelFormat) {
+            this.labelFormat = labelFormat;
+        }
+
+        public String getLabelUrl() {
+            return labelUrl;
+        }
+
+        public void setLabelUrl(String labelUrl) {
+            this.labelUrl = labelUrl;
+        }
+
+        public String getPurchaseOrderNumber() {
+            return purchaseOrderNumber;
+        }
+
+        public void setPurchaseOrderNumber(String purchaseOrderNumber) {
+            this.purchaseOrderNumber = purchaseOrderNumber;
+        }
     }
 }
