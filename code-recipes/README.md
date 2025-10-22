@@ -6,3 +6,4 @@ Code recipes provides easy to read sample code for common use cases of Amazon Se
 | API | Use Case | Java                                                           | PHP                                                |
 | --- | -------- |----------------------------------------------------------------|----------------------------------------------------|
 | AWD | Inbound Shipment Creation | [Link](java/src/main/java/awd/InboundOrderCreationRecipe.java) | [Link](php/src/awd/InboundOrderCreationRecipe.php) |
+| Orders | B2B Delivery Experience | [Link](java/src/main/java/b2bdeliveryexperience/BusinessDeliveryExperienceRecipe.java) | [Link](php/src/b2bdeliveryexperience/BusinessDeliveryExperienceRecipe.php) |
