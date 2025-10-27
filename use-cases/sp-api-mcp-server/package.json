@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node build/index.js",
     "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" src/index.ts",
-    "build": "rimraf ./build && tsc && chmod +x build/index.js",
+    "build": "rimraf ./build && tsc && shx chmod +x build/index.js",
     "test": "jest",
     "lint": "eslint src/**/*.ts",
     "format": "prettier --write \"src/**/*.ts\""
@@ -47,6 +47,7 @@
     "nodemon": "^3.1.10",
     "prettier": "^3.5.3",
     "rimraf": "^6.0.1",
+    "shx": "^0.3.4",
     "ts-jest": "^29.3.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
