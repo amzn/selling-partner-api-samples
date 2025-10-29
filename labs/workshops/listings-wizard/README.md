@@ -9,6 +9,22 @@ You’ll solve **real-world listing optimization scenarios** using SP-API, Jupyt
 
 ---
 
+## ⏱️ Workshop Overview
+
+**Estimated Time**: 1-2 hours  
+**Difficulty Level**: Intermediate
+
+### 🎯 Learning Goals
+
+By completing this workshop, you will:
+- Master SP-API Listings operations for product optimization
+- Analyze pricing strategies using competitive data
+- Diagnose product performance issues with Data Kiosk insights
+- Implement data-driven solutions for common seller challenges
+- Practice real-world troubleshooting scenarios
+
+---
+
 #### ⚠️ Check the [🚀 How to Access](#-how-to-access) to learn more about deployment.
 
 ---
