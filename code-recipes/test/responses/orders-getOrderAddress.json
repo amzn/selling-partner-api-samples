@@ -1,0 +1,18 @@
+{
+  "payload": {
+    "AmazonOrderId": "123-4567890-1234567",
+    "ShippingAddress": {
+      "Name": "Receiving Department",
+      "AddressLine1": "1000 Business Park Dr",
+      "AddressLine2": "Suite 200",
+      "City": "Chicago",
+      "StateOrRegion": "IL",
+      "PostalCode": "60601",
+      "CountryCode": "US",
+      "AddressType": "Commercial"
+    },
+    "DeliveryPreferences": {
+      "DropOffLocation": "FrontDesk"
+    }
+  }
+}
