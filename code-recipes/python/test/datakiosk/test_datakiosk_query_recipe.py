@@ -5,6 +5,13 @@ import pytest
 
 from src.recipes.datakiosk.datakiosk_query_recipe import DataKioskQueryRecipe
 
+# ---------------------------------------------------------------------------
+# How to Test?
+# ---------------------------------------------------------------------------
+
+# pip install pytest
+# cd code-recipes/python
+# pytest test/datakiosk/test_datakiosk_query_recipe.py -q
 
 # ---------------------------------------------------------------------------
 # Helpers
