@@ -9,8 +9,9 @@ sample_data_kiosk_notification = {
   "eventTime": "2023-12-23T21:30:13.713Z",
   "payload": {
     "accountId": "amzn1.merchant.o.ABCD0123456789",
-    "processingStatus": "FATAL",
-    "errorDocumentId": "amzn1.tortuga.4.na.2f9d3460-fbe1-4b76-98dc-0f7af28ccad5.T3IN36JA9NX45R",
+    "processingStatus": "DONE",
+    "dataDocumentId": "amzn1.tortuga.4.na.sample-data-document",
+    "errorDocumentId": None,
     "query": "query MyQuery {analytics_salesAndTraffic_2023_11_15 {salesAndTrafficByDate(aggregateBy:DAY,endDate:\"11-02-2023\",startDate:\"25-02-2023\",marketplaceIds:[\"ATVPDKIKX0DER\"]) {endDate marketplaceId sales {ordersShipped}}}}",
     "createdTime": "2024-03-12T16:05:20Z",
     "processingStartTime": "2024-03-12T16:05:25Z",

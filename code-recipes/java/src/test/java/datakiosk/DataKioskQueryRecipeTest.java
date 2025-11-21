@@ -12,7 +12,7 @@ public class DataKioskQueryRecipeTest extends RecipeTest {
                 List.of(
                         "datakiosk-createQuery",
                         "datakiosk-getDocument",
-                        ""
+                        "datakiosk-document"
                 )
         );
     }

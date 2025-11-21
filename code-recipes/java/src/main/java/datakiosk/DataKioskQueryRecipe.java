@@ -1,19 +1,18 @@
 package datakiosk;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import software.amazon.spapi.api.datakiosk.v2023_11_15.DataKioskApi;
-import software.amazon.spapi.model.datakiosk.v2023_11_15.*;
+import com.fasterxml.jackson.jr.ob.JSON;
+import software.amazon.spapi.api.datakiosk.v2023_11_15.QueriesApi;
+import software.amazon.spapi.models.datakiosk.v2023_11_15.CreateQueryResponse;
+import software.amazon.spapi.models.datakiosk.v2023_11_15.CreateQuerySpecification;
+import software.amazon.spapi.models.datakiosk.v2023_11_15.GetDocumentResponse;
 import util.Constants;
 import util.Recipe;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Base64;
+import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -29,20 +28,30 @@ import java.util.zip.GZIPInputStream;
  */
 public class DataKioskQueryRecipe extends Recipe {
 
-    private final DataKioskApi dataKioskApi = new DataKioskApi.Builder()
+    private final QueriesApi dataKioskApi = new QueriesApi.Builder()
             .lwaAuthorizationCredentials(lwaCredentials)
             .endpoint(Constants.BACKEND_URL)
             .build();
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     protected void start() {
         String queryId = submitQuery();
         System.out.println("Query submitted with ID: " + queryId);
-        
-        // In real implementation, you would receive notification asynchronously
-        handleNotificationFlow(Constants.DATAKIOSK_SAMPLE_NOTIFICATION);
+
+        try {
+            Map<String, Object> notification = parseNotification(Constants.DATAKIOSK_SAMPLE_NOTIFICATION);
+            NotificationResult result = handleNotification(notification);
+
+            if (result.documentId != null) {
+                GetDocumentResponse metadata = getDocumentMetadata(result.documentId);
+                downloadAndParseDocument(metadata);
+            } else {
+                System.out.println("[Step 2] No document to process. Status: " + result.status);
+            }
+        } catch (Exception e) {
+            System.err.println("Error running Data Kiosk flow: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -50,7 +59,7 @@ public class DataKioskQueryRecipe extends Recipe {
      */
     private String submitQuery() {
         try {
-            CreateQueryRequest request = new CreateQueryRequest();
+            CreateQuerySpecification request = new CreateQuerySpecification();
             request.setQuery(Constants.DATAKIOSK_SAMPLE_QUERY);
             
             CreateQueryResponse response = dataKioskApi.createQuery(request);
@@ -64,38 +73,27 @@ public class DataKioskQueryRecipe extends Recipe {
         }
     }
 
-    /**
-     * Step 2: Handle DATA_KIOSK_QUERY_PROCESSING_FINISHED notification
-     */
-    private void handleNotificationFlow(String notificationJson) {
+    private Map<String, Object> parseNotification(String notificationJson) {
         try {
-            JsonNode notification = objectMapper.readTree(notificationJson);
-            NotificationResult result = handleNotification(notification);
-            
-            if (result.documentId != null) {
-                GetDocumentResponse metadata = getDocumentMetadata(result.documentId);
-                downloadAndParseDocument(metadata);
-            } else {
-                System.out.println("[Step 2] No document to process. Status: " + result.status);
-            }
+            return JSON.std.mapFrom(notificationJson);
         } catch (Exception e) {
-            System.err.println("Error handling notification: " + e.getMessage());
+            System.err.println("Error parsing notification: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
-    private NotificationResult handleNotification(JsonNode notification) {
-        String notificationType = notification.path("notificationType").asText();
+    private NotificationResult handleNotification(Map<String, Object> notification) {
+        String notificationType = asString(notification.get("notificationType"));
         if (!"DATA_KIOSK_QUERY_PROCESSING_FINISHED".equals(notificationType)) {
             System.out.println("Ignored wrong notificationType: " + notificationType);
             return new NotificationResult("IGNORED_WRONG_TYPE", null);
         }
 
-        JsonNode payload = notification.path("payload");
-        String status = payload.path("processingStatus").asText();
-        String dataDocumentId = payload.path("dataDocumentId").asText(null);
-        String errorDocumentId = payload.path("errorDocumentId").asText(null);
-        String queryId = payload.path("queryId").asText();
+        Map<String, Object> payload = asMap(notification.get("payload"));
+        String status = asString(payload.get("processingStatus"));
+        String dataDocumentId = asString(payload.get("dataDocumentId"));
+        String errorDocumentId = asString(payload.get("errorDocumentId"));
+        String queryId = asString(payload.get("queryId"));
 
         System.out.println("[Step 2] Received notification for queryId=" + queryId + ", status=" + status);
 
@@ -144,7 +142,7 @@ public class DataKioskQueryRecipe extends Recipe {
      */
     private void downloadAndParseDocument(GetDocumentResponse documentMetadata) {
         try {
-            String url = documentMetadata.getUrl();
+            String url = documentMetadata.getDocumentUrl();
             if (url == null || url.isEmpty()) {
                 throw new RuntimeException("Document metadata does not contain a URL field.");
             }
@@ -152,12 +150,9 @@ public class DataKioskQueryRecipe extends Recipe {
             System.out.println("[Step 4] Downloading document from: " + url);
 
             byte[] data = downloadDocument(url);
-            
-            // Handle compression
-            if ("GZIP".equalsIgnoreCase(documentMetadata.getCompressionAlgorithm())) {
-                System.out.println("Detected compressionAlgorithm=GZIP. Decompressing...");
-                data = decompressGzip(data);
-            }
+
+            // System.out.println("Detected compressionAlgorithm=GZIP. Decompressing...");
+            // data = decompressGzip(data);
 
             String content = new String(data, "UTF-8");
             parseDocument(content);
@@ -186,25 +181,37 @@ public class DataKioskQueryRecipe extends Recipe {
     private void parseDocument(String content) {
         try {
             String trimmed = content.trim();
-            
+
             if (trimmed.contains("\n")) {
                 System.out.println("Detected JSONL document. Parsing lines...");
                 String[] lines = trimmed.split("\n");
                 for (String line : lines) {
                     if (!line.trim().isEmpty()) {
-                        JsonNode jsonLine = objectMapper.readTree(line);
-                        System.out.println("JSONL line: " + jsonLine.toString());
+                        Object jsonLine = JSON.std.anyFrom(line);
+                        System.out.println("JSONL line: " + jsonLine);
                     }
                 }
             } else {
                 System.out.println("Detected JSON document. Parsing...");
-                JsonNode json = objectMapper.readTree(trimmed);
-                System.out.println("JSON content: " + json.toString());
+                Object json = JSON.std.anyFrom(trimmed);
+                System.out.println("JSON content: " + json);
             }
         } catch (Exception e) {
             System.err.println("Error parsing document: " + e.getMessage());
             System.out.println("Raw content (first 500 chars): " + content.substring(0, Math.min(500, content.length())));
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> asMap(Object value) {
+        if (value instanceof Map<?, ?> map) {
+            return (Map<String, Object>) map;
+        }
+        return Map.of();
+    }
+
+    private String asString(Object value) {
+        return value == null ? null : String.valueOf(value);
     }
 
 

@@ -22,19 +22,10 @@ from typing import Any, Dict, Optional, Tuple
 
 from spapi import SPAPIClient, SPAPIConfig, QueriesApi
 from src.recipes.datakiosk import constants
+from src.util.recipe import Recipe
 
 
-# For real use, prefer reading these from environment variables or a config file.
-# These are just placeholders; replace with your own values.
-DEFAULT_CONFIG = SPAPIConfig(
-    client_id="YOUR_LWA_CLIENT_ID",
-    client_secret="YOUR_LWA_CLIENT_SECRET",
-    refresh_token="YOUR_LWA_REFRESH_TOKEN",
-    region="NA",
-)
-
-
-class DataKioskQueryRecipe:
+class DataKioskQueryRecipe(Recipe):
     """
     A small helper class that encapsulates the Data Kiosk flow:
 
@@ -54,11 +45,13 @@ class DataKioskQueryRecipe:
         config: Optional[SPAPIConfig] = None,
         queries_api: Optional[QueriesApi] = None,
         graphql_query: Optional[str] = None,
+        notification_body: Optional[Any] = None,
     ) -> None:
-        # Allow injection of config and a mocked API for tests
-        self._config = config or DEFAULT_CONFIG
+        super().__init__(config=config)
+        # Allow injection of a mocked API for tests
         self._queries_api = queries_api
         self._graphql_query = graphql_query or constants.sample_query
+        self._notification_body = notification_body or constants.sample_data_kiosk_notification
 
     # -------------------------------------------------------------------------
     # Internal helpers
@@ -67,7 +60,11 @@ class DataKioskQueryRecipe:
     @property
     def queries_api(self) -> QueriesApi:
         if self._queries_api is None:
-            client = SPAPIClient(self._config)
+            client = SPAPIClient(
+                self.config,
+                oauth_endpoint=f"{constants.backend_url}/auth/o2/token",
+                endpoint=constants.backend_url,
+            )
             self._queries_api = QueriesApi(client.api_client)
             print("Data Kiosk Queries API client initialized successfully.")
         return self._queries_api
@@ -279,7 +276,28 @@ class DataKioskQueryRecipe:
         return decrypted
 
     # -------------------------------------------------------------------------
-    # Convenience: end-to-end in one function
+    # Main recipe entry point
+    # -------------------------------------------------------------------------
+
+    def start(self) -> None:
+        """
+        Main entry point showing the complete Data Kiosk flow.
+        """
+        query_id = self.submit_query()
+        print(f"Submitted queryId={query_id}")
+
+        status, document_id = self.handle_notification(self._notification_body)
+        if not document_id:
+            print(f"No documentId to fetch. Status={status}")
+            return
+
+        metadata = self.get_document_metadata(document_id)
+        parsed = self.download_and_parse_document(metadata)
+        print(f"Downloaded and parsed document. Status={status}")
+        print("Parsed document (truncated):", str(parsed)[:500])
+
+    # -------------------------------------------------------------------------
+    # Convenience: end-to-end in one function for ad-hoc runs
     # -------------------------------------------------------------------------
 
     def run_with_notification(
@@ -321,15 +339,4 @@ class DataKioskQueryRecipe:
 if __name__ == "__main__":
 
     recipe = DataKioskQueryRecipe()
-
-    # Step 1: submit a query (in a real app, you'd call this in its own flow)
-    query_id = recipe.submit_query()
-    print(f"Submitted queryId={query_id}")
-
-    # Step 2–4: handling a notification + get_document + download + parse
-    sample_notification = constants.sample_data_kiosk_notification  # adapt name if needed
-    status, metadata, parsed = recipe.run_with_notification(sample_notification)
-
-    print("Final status:", status)
-    print("Document metadata:", json.dumps(metadata, indent=2) if metadata else None)
-    print("Parsed document (truncated):", str(parsed)[:500])
+    recipe.start()
