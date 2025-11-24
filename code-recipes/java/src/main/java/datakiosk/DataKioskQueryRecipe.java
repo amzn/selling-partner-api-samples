@@ -5,7 +5,6 @@ import software.amazon.spapi.api.datakiosk.v2023_11_15.QueriesApi;
 import software.amazon.spapi.models.datakiosk.v2023_11_15.CreateQueryResponse;
 import software.amazon.spapi.models.datakiosk.v2023_11_15.CreateQuerySpecification;
 import software.amazon.spapi.models.datakiosk.v2023_11_15.GetDocumentResponse;
-import util.Constants;
 import util.Recipe;
 
 import java.io.IOException;
@@ -30,7 +29,7 @@ public class DataKioskQueryRecipe extends Recipe {
 
     private final QueriesApi dataKioskApi = new QueriesApi.Builder()
             .lwaAuthorizationCredentials(lwaCredentials)
-            .endpoint(Constants.BACKEND_URL)
+            .endpoint(util.Constants.BACKEND_URL)
             .build();
 
     @Override
@@ -39,7 +38,7 @@ public class DataKioskQueryRecipe extends Recipe {
         System.out.println("Query submitted with ID: " + queryId);
 
         try {
-            Map<String, Object> notification = parseNotification(Constants.DATAKIOSK_SAMPLE_NOTIFICATION);
+            Map<String, Object> notification = parseNotification(Constants.SAMPLE_NOTIFICATION);
             NotificationResult result = handleNotification(notification);
 
             if (result.documentId != null) {
@@ -60,7 +59,7 @@ public class DataKioskQueryRecipe extends Recipe {
     private String submitQuery() {
         try {
             CreateQuerySpecification request = new CreateQuerySpecification();
-            request.setQuery(Constants.DATAKIOSK_SAMPLE_QUERY);
+            request.setQuery(Constants.SAMPLE_QUERY);
             
             CreateQueryResponse response = dataKioskApi.createQuery(request);
             String queryId = response.getQueryId();
