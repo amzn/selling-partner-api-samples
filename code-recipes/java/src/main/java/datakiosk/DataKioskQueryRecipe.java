@@ -203,8 +203,8 @@ public class DataKioskQueryRecipe extends Recipe {
 
     @SuppressWarnings("unchecked")
     private Map<String, Object> asMap(Object value) {
-        if (value instanceof Map<?, ?> map) {
-            return (Map<String, Object>) map;
+        if (value instanceof Map<?, ?>) {
+            return (Map<String, Object>) value;
         }
         return Map.of();
     }
