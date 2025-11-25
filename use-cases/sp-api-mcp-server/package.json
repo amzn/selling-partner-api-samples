@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node build/index.js",
     "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" src/index.ts",
-    "build": "rimraf ./build && tsc && shx +x build/index.js",
+    "build": "rimraf ./build && tsc && shx chmod +x build/index.js",
     "test": "jest",
     "lint": "eslint src/**/*.ts",
     "format": "prettier --write \"src/**/*.ts\""
