@@ -44,7 +44,7 @@ dependencies {
 	implementation 'software.amazon.spapi:spapi-sdk:1.6.0'
 	implementation 'org.threeten:threetenbp:1.6.5'
 	testImplementation 'com.fasterxml.jackson.jr:jackson-jr-all:2.20.0'
-	testImplementation 'org.junit.jupiter:junit-jupiter:5.13.4'
+	testImplementation 'org.junit.jupiter:junit-jupiter:6.0.1'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 }
