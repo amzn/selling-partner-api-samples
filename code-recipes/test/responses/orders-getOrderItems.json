@@ -1,0 +1,42 @@
+{
+  "payload": {
+    "AmazonOrderId": "902-3159121-1390916",
+    "OrderItems": [
+      {
+        "ASIN": "B08N5WRWNW",
+        "SellerSKU": "TEST-SKU-001",
+        "OrderItemId": "12345678901234",
+        "Title": "Sample Product Title",
+        "QuantityOrdered": 2,
+        "QuantityShipped": 0,
+        "ProductInfo": {
+          "NumberOfItems": 1
+        },
+        "ItemPrice": {
+          "CurrencyCode": "JPY",
+          "Amount": "2500"
+        },
+        "ItemTax": {
+          "CurrencyCode": "JPY",
+          "Amount": "250"
+        },
+        "ShippingPrice": {
+          "CurrencyCode": "JPY",
+          "Amount": "0"
+        },
+        "ShippingTax": {
+          "CurrencyCode": "JPY",
+          "Amount": "0"
+        },
+        "IsGift": false,
+        "ConditionId": "New",
+        "ConditionSubtypeId": "New",
+        "IsTransparency": false,
+        "SerialNumberRequired": false,
+        "IossNumber": "",
+        "StoreChainStoreId": "",
+        "DeemedResellerCategory": "IOSS"
+      }
+    ]
+  }
+}
