@@ -8,6 +8,22 @@ You’ll solve **real-world shipping and order management scenarios** using SP-A
 
 ---
 
+## ⏱️ Workshop Overview
+
+**Estimated Time**: 1-2 hours  
+**Difficulty Level**: Intermediate
+
+### 🎯 Learning Goals
+
+By completing this workshop, you will:
+- Master SP-API Orders and Shipping operations
+- Debug common shipping label purchase workflows
+- Validate order and shipment data integrity
+- Troubleshoot address and rate ID issues
+- Implement end-to-end shipping solutions
+
+---
+
 #### ⚠️ Check the [🚀 How to Access](#-how-to-access) to learn more about deployment.
 
 ---

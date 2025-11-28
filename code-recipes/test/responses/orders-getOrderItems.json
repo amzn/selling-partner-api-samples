@@ -1,41 +1,25 @@
 {
   "payload": {
-    "AmazonOrderId": "902-3159121-1390916",
+    "AmazonOrderId": "123-4567890-1234567",
     "OrderItems": [
       {
-        "ASIN": "B08N5WRWNW",
-        "SellerSKU": "TEST-SKU-001",
-        "OrderItemId": "12345678901234",
-        "Title": "Sample Product Title",
-        "QuantityOrdered": 2,
+        "ASIN": "B012345678",
+        "SellerSKU": "SKU-RED-XL",
+        "OrderItemId": "11223344556677",
+        "Title": "Heavy-Duty Storage Boxes (Red, XL)",
+        "QuantityOrdered": 1,
         "QuantityShipped": 0,
-        "ProductInfo": {
-          "NumberOfItems": 1
-        },
         "ItemPrice": {
-          "CurrencyCode": "JPY",
-          "Amount": "2500"
+          "CurrencyCode": "USD",
+          "Amount": "149.99"
         },
         "ItemTax": {
-          "CurrencyCode": "JPY",
-          "Amount": "250"
-        },
-        "ShippingPrice": {
-          "CurrencyCode": "JPY",
-          "Amount": "0"
-        },
-        "ShippingTax": {
-          "CurrencyCode": "JPY",
-          "Amount": "0"
+          "CurrencyCode": "USD",
+          "Amount": "0.00"
         },
         "IsGift": false,
         "ConditionId": "New",
-        "ConditionSubtypeId": "New",
-        "IsTransparency": false,
-        "SerialNumberRequired": false,
-        "IossNumber": "",
-        "StoreChainStoreId": "",
-        "DeemedResellerCategory": "IOSS"
+        "ConditionSubtypeId": "New"
       }
     ]
   }

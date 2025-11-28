@@ -1,48 +1,35 @@
 {
   "payload": {
-    "AmazonOrderId": "902-3159121-1390916",
-    "PurchaseDate": "2024-01-15T10:30:00Z",
-    "LastUpdateDate": "2024-01-15T11:00:00Z",
+    "AmazonOrderId": "123-4567890-1234567",
+    "SellerOrderId": "SO-1001",
+    "PurchaseDate": "2025-10-15T14:22:33Z",
+    "LastUpdateDate": "2025-10-16T12:10:00Z",
     "OrderStatus": "Unshipped",
     "FulfillmentChannel": "MFN",
     "SalesChannel": "Amazon.com",
     "OrderChannel": "Amazon.com",
-    "ShipServiceLevel": "Std JP Kanto8",
+    "ShipServiceLevel": "Std US D2D Dom",
     "OrderTotal": {
-      "CurrencyCode": "JPY",
-      "Amount": "2500"
+      "CurrencyCode": "USD",
+      "Amount": "149.99"
     },
     "NumberOfItemsShipped": 0,
     "NumberOfItemsUnshipped": 1,
     "PaymentMethod": "Other",
     "PaymentMethodDetails": ["Standard"],
-    "MarketplaceId": "A1VC38T7YXB528",
+    "IsReplacementOrder": false,
+    "MarketplaceId": "ATVPDKIKX0DER",
     "ShipmentServiceLevelCategory": "Standard",
-    "EasyShipShipmentStatus": "PendingSchedule",
-    "OrderType": "StandardOrder",
-    "EarliestShipDate": "2024-01-16T00:00:00Z",
-    "LatestShipDate": "2024-01-18T23:59:59Z",
-    "IsBusinessOrder": false,
+    "IsBusinessOrder": true,
     "IsPrime": false,
-    "IsGlobalExpressEnabled": false,
     "IsPremiumOrder": false,
-    "IsSoldByAB": false,
-    "IsIBA": false,
     "DefaultShipFromLocationAddress": {
-      "Name": "Seller Name",
-      "AddressLine1": "123 Main St",
-      "City": "Tokyo",
-      "StateOrRegion": "Tokyo",
-      "PostalCode": "100-0001",
-      "CountryCode": "JP"
-    },
-    "FulfillmentInstruction": {
-      "FulfillmentSupplySourceId": "sampleSupplySourceId"
-    },
-    "IsISPU": false,
-    "IsAccessPointOrder": false,
-    "AutomatedShippingSettings": {
-      "HasAutomatedShippingSettings": false
+      "Name": "Your Store",
+      "AddressLine1": "123 Merchant St",
+      "City": "Austin",
+      "StateOrRegion": "TX",
+      "PostalCode": "73301",
+      "CountryCode": "US"
     }
   }
 }
