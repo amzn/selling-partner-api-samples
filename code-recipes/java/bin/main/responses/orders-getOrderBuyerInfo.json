@@ -1,8 +1,0 @@
-{
-  "payload": {
-    "AmazonOrderId": "123-4567890-1234567",
-    "BuyerEmail": "0000000000@marketplace.amazon.com",
-    "BuyerName": "Amazon Business Buyer",
-    "PurchaseOrderNumber": "PO-987654"
-  }
-}
