@@ -35,6 +35,7 @@ ensure_venv() {
   fi
   "$VENV_DIR/bin/python" -m pip install --upgrade pip >/dev/null
   "$VENV_DIR/bin/pip" install pytest >/dev/null
+  "$VENV_DIR/bin/pip" install amzn-sp-api >/dev/null
 }
 
 resolve_targets() {
