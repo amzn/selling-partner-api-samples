@@ -1,0 +1,17 @@
+{
+  "amazonOrderId": "902-3159121-1390916",
+  "timeSlots": [
+    {
+      "slotId": "SLOT-001",
+      "startTime": "2024-03-28T10:00:00Z",
+      "endTime": "2024-03-28T12:30:00Z",
+      "handoverMethod": "PICKUP"
+    },
+    {
+      "slotId": "SLOT-002",
+      "startTime": "2024-03-28T14:00:00Z",
+      "endTime": "2024-03-28T16:30:00Z",
+      "handoverMethod": "PICKUP"
+    }
+  ]
+}

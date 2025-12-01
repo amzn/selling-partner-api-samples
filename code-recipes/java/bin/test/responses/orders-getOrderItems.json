@@ -1,0 +1,26 @@
+{
+  "payload": {
+    "AmazonOrderId": "123-4567890-1234567",
+    "OrderItems": [
+      {
+        "ASIN": "B012345678",
+        "SellerSKU": "SKU-RED-XL",
+        "OrderItemId": "11223344556677",
+        "Title": "Heavy-Duty Storage Boxes (Red, XL)",
+        "QuantityOrdered": 1,
+        "QuantityShipped": 0,
+        "ItemPrice": {
+          "CurrencyCode": "USD",
+          "Amount": "149.99"
+        },
+        "ItemTax": {
+          "CurrencyCode": "USD",
+          "Amount": "0.00"
+        },
+        "IsGift": false,
+        "ConditionId": "New",
+        "ConditionSubtypeId": "New"
+      }
+    ]
+  }
+}

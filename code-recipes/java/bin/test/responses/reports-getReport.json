@@ -1,0 +1,12 @@
+{
+  "reportId": "amzn1.easyship.document.12345678-abcd-efgh-ijkl-123456789012",
+  "reportType": "GET_EASYSHIP_DOCUMENTS",
+  "dataStartTime": "2024-01-15T10:00:00Z",
+  "dataEndTime": "2024-01-15T11:00:00Z",
+  "marketplaceIds": ["A2Q3Y263D00KWC"],
+  "createdTime": "2024-01-15T10:30:00Z",
+  "processingStatus": "DONE",
+  "processingStartTime": "2024-01-15T10:30:05Z",
+  "processingEndTime": "2024-01-15T10:30:15Z",
+  "reportDocumentId": "amzn1.tortuga.report.3.ed4cd0d8-447b-4c22-8a3e-52b69EXAMPLE"
+}

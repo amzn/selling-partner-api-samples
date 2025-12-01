@@ -10,7 +10,7 @@ public class RetrieveOrderRecipeTest extends RecipeTest {
         super(
                 new RetrieveOrderRecipe(),
                 List.of(
-                    "orders-getOrder",
+                    "easyship-orders-getOrder",
                     "orders-getOrderItems",
                     ""
                 )
