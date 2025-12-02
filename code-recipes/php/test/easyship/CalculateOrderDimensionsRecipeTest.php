@@ -12,6 +12,7 @@ class CalculateOrderDimensionsRecipeTest extends RecipeTestCase
         $this->recipe = new CalculateOrderDimensionsRecipe();
         $this->responses = [
             "orders-getOrderItems",
+            "catalogitems-getCatalogItem",
             "listings-getListingsItem"
         ];
     }

@@ -1,12 +1,18 @@
 {
-  "reportId": "amzn1.easyship.document.12345678-abcd-efgh-ijkl-123456789012",
-  "reportType": "GET_EASYSHIP_DOCUMENTS",
-  "dataStartTime": "2024-01-15T10:00:00Z",
-  "dataEndTime": "2024-01-15T11:00:00Z",
-  "marketplaceIds": ["A2Q3Y263D00KWC"],
-  "createdTime": "2024-01-15T10:30:00Z",
-  "processingStatus": "DONE",
-  "processingStartTime": "2024-01-15T10:30:05Z",
-  "processingEndTime": "2024-01-15T10:30:15Z",
-  "reportDocumentId": "amzn1.tortuga.report.3.ed4cd0d8-447b-4c22-8a3e-52b69EXAMPLE"
+    "reportType": "GET_EASYSHIP_DOCUMENTS",
+    "processingEndTime": "2025-12-02T11:59:33+00:00",
+    "processingStatus": "DONE",
+    "marketplaceIds": [
+        "ATVPDKIKX0DER",
+        "A2ZV50J4W1RKNI",
+        "A2Q3Y263D00KWC",
+        "A1AM78C64UM0Y8",
+        "A3H6HPSLHAK3XG"
+    ],
+    "reportDocumentId": "amzn1.spdoc.1.4.na.52d7591e-de2b-4d70-8fb1-0923856f9d59.T2OL05CQTET8D2.3211",
+    "reportId": "383187020424",
+    "dataEndTime": "2025-12-02T11:59:18+00:00",
+    "createdTime": "2025-12-02T11:59:18+00:00",
+    "processingStartTime": "2025-12-02T11:59:26+00:00",
+    "dataStartTime": "2025-12-02T11:59:18+00:00"
 }

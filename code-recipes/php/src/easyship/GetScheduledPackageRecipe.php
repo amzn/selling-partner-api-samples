@@ -5,6 +5,13 @@ namespace Src\easyship;
 use SpApi\Api\easyship\v2022_03_23\EasyShipApi;
 use Src\util\Recipe;
 
+/**
+ * Code Recipe to retrieve a scheduled EasyShip package
+ * Steps:
+ * 1. Initialize EasyShip API client
+ * 2. Call getScheduledPackage operation
+ * 3. Validate Scheduled Package Id
+ */
 class GetScheduledPackageRecipe extends Recipe
 {
     private EasyShipApi $easyShipApi;

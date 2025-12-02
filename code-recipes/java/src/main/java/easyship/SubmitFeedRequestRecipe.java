@@ -80,14 +80,14 @@ public class SubmitFeedRequestRecipe extends Recipe {
             String xmlContent = generateEasyShipXml();
             String contentType = String.format("text/xml; charset=%s", StandardCharsets.UTF_8);
             byte[] xmlBytes = xmlContent.getBytes(StandardCharsets.UTF_8);
-            
+
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(create(url))
                     .PUT(HttpRequest.BodyPublishers.ofByteArray(xmlBytes))
                     .header("Content-Type", contentType)
                     .build();
-            
+
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() < 200 || response.statusCode() >= 300) {
                 throw new RuntimeException("Upload failed: " + response.statusCode());
@@ -99,25 +99,47 @@ public class SubmitFeedRequestRecipe extends Recipe {
     }
 
     private String generateEasyShipXml() {
+        /**
+         * This document covers only one Easy Ship order, but multiple Messages can be added:
+         * 
+         * <?xml version="1.0" encoding="UTF-8"?>
+         * <AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         *                 xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
+         *     <MessageType>EasyShipDocument</MessageType>
+         *     <Message>
+         *         <MessageID>1</MessageID>
+         *         <EasyShipDocument>
+         *             <AmazonOrderID>702-2337326-9729803</AmazonOrderID>
+         *             <DocumentType>ShippingLabel</DocumentType>
+         *         </EasyShipDocument>
+         *     </Message>
+         *     <Message>
+         *         <MessageID>2</MessageID>
+         *         <EasyShipDocument>
+         *             <AmazonOrderID>702-5800097-0567417</AmazonOrderID>
+         *             <DocumentType>ShippingLabel</DocumentType>
+         *         </EasyShipDocument>
+         *     </Message>
+         * </AmazonEnvelope>
+         */        
         return String.format(
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-            "<AmazonEnvelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
-            "xsi:noNamespaceSchemaLocation=\"amzn-envelope.xsd\">\n" +
-            "  <Header>\n" +
-            "    <DocumentVersion>1.01</DocumentVersion>\n" +
-            "    <MerchantIdentifier>%s</MerchantIdentifier>\n" +
-            "  </Header>\n" +
-            "  <MessageType>EasyShipDocument</MessageType>\n" +
-            "  <Message>\n" +
-            "    <MessageID>1</MessageID>\n" +
-            "    <EasyShipDocument>\n" +
-            "      <AmazonOrderID>%s</AmazonOrderID>\n" +
-            "      <DocumentType>ShippingLabel</DocumentType>\n" +
-            "    </EasyShipDocument>\n" +
-            "  </Message>\n" +
-            "</AmazonEnvelope>",
-            sellerId, amazonOrderId
-        );
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                        "<AmazonEnvelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
+                        "xsi:noNamespaceSchemaLocation=\"amzn-envelope.xsd\">\n" +
+                        "  <Header>\n" +
+                        "    <DocumentVersion>1.01</DocumentVersion>\n" +
+                        "    <MerchantIdentifier>%s</MerchantIdentifier>\n" +
+                        "  </Header>\n" +
+                        "  <MessageType>EasyShipDocument</MessageType>\n" +
+                        "  <Message>\n" +
+                        "    <MessageID>1</MessageID>\n" +
+                        "    <EasyShipDocument>\n" +
+                        "      <AmazonOrderID>%s</AmazonOrderID>\n" +
+                        "      <DocumentType>ShippingLabel</DocumentType>\n" +
+                        "    </EasyShipDocument>\n" +
+                        "  </Message>\n" +
+                        "</AmazonEnvelope>",
+                sellerId, amazonOrderId);
     }
 
     private CreateFeedResponse createFeed(String feedDocumentId) {
@@ -125,13 +147,13 @@ public class SubmitFeedRequestRecipe extends Recipe {
             FeedOptions feedOptions = new FeedOptions();
             feedOptions.put("AmazonOrderId", amazonOrderId);
             feedOptions.put("DocumentType", "ShippingLabel");
-            
+
             CreateFeedSpecification spec = new CreateFeedSpecification()
                     .feedType("POST_EASYSHIP_DOCUMENTS")
                     .marketplaceIds(Collections.singletonList(marketplaceId))
                     .feedOptions(feedOptions)
                     .inputFeedDocumentId(feedDocumentId);
-            
+
             CreateFeedResponse response = feedsApi.createFeed(spec);
             System.out.println("Feed created successfully");
             return response;

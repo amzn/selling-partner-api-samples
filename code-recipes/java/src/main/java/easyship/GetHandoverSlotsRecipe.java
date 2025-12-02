@@ -70,6 +70,8 @@ public class GetHandoverSlotsRecipe extends Recipe {
     }
 
     private Dimensions createPackageDimensions() {
+        // TODO: In production, retrieve actual dimensions from CalculateOrderDimensionsRecipe
+        // These are sample values for demonstration purposes only
         return new Dimensions()
                 .length(10.0f)
                 .width(8.0f)
@@ -78,6 +80,8 @@ public class GetHandoverSlotsRecipe extends Recipe {
     }
 
     private Weight createPackageWeight() {
+        // TODO: In production, retrieve actual dimensions from CalculateOrderDimensionsRecipe
+        // These are sample values for demonstration purposes only
         return new Weight()
                 .value(500.0f)
                 .unit(UnitOfWeight.G);

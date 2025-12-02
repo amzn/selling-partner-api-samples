@@ -7,6 +7,13 @@ use SpApi\Model\feeds\v2021_06_30\CreateFeedDocumentSpecification;
 use SpApi\Model\feeds\v2021_06_30\CreateFeedSpecification;
 use Src\util\Recipe;
 
+/**
+ * Code Recipe to submit feed request for printing EasyShip shipping labels
+ * Steps:
+ * 1. Create feed document to get upload URL
+ * 2. Generate and upload XML feed document
+ * 3. Create feed to process the document
+ */
 class SubmitFeedRequestRecipe extends Recipe
 {
     private FeedsApi $feedsApi;
@@ -71,6 +78,29 @@ class SubmitFeedRequestRecipe extends Recipe
 
     private function generateEasyShipXml(): string
     {
+        /**
+         * This document covers only one Easy Ship order, but multiple Messages can be added:
+         * 
+         * <?xml version="1.0" encoding="UTF-8"?>
+         * <AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         *                 xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
+         *     <MessageType>EasyShipDocument</MessageType>
+         *     <Message>
+         *         <MessageID>1</MessageID>
+         *         <EasyShipDocument>
+         *             <AmazonOrderID>702-2337326-9729803</AmazonOrderID>
+         *             <DocumentType>ShippingLabel</DocumentType>
+         *         </EasyShipDocument>
+         *     </Message>
+         *     <Message>
+         *         <MessageID>2</MessageID>
+         *         <EasyShipDocument>
+         *             <AmazonOrderID>702-5800097-0567417</AmazonOrderID>
+         *             <DocumentType>ShippingLabel</DocumentType>
+         *         </EasyShipDocument>
+         *     </Message>
+         * </AmazonEnvelope>
+         */        
         return sprintf(
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" .
             "<AmazonEnvelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " .

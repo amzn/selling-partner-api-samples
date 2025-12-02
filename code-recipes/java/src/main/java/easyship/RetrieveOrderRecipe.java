@@ -69,6 +69,10 @@ public class RetrieveOrderRecipe extends Recipe {
     }
 
     private void validateEasyShipOrder(GetOrderResponse orderResponse) {
+        /** EasyShipShipmentStatus 
+         *      The status of the Amazon Easy Ship order. 
+         *      This property is only included for Amazon Easy Ship orders.
+        **/
         if (!EasyShipShipmentStatus.PENDINGSCHEDULE.equals(orderResponse.getPayload().getEasyShipShipmentStatus())) {
             throw new IllegalArgumentException("Order is not an EasyShip order with PENDING_SCHEDULE status");
         }

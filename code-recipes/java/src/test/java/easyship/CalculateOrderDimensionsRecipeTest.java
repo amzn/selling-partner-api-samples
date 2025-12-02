@@ -11,6 +11,7 @@ public class CalculateOrderDimensionsRecipeTest extends RecipeTest {
                 new CalculateOrderDimensionsRecipe(),
                 List.of(
                     "orders-getOrderItems",
+                    "catalogitems-getCatalogItem",
                     "listings-getListingsItem"
                 )
         );

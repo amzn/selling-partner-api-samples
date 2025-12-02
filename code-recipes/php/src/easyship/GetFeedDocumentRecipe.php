@@ -5,6 +5,14 @@ namespace Src\easyship;
 use SpApi\Api\feeds\v2021_06_30\FeedsApi;
 use Src\util\Recipe;
 
+/**
+ * Code Recipe to get feed document and extract document report reference ID
+ * Steps:
+ * 1. Get feed status to retrieve resultFeedDocumentId
+ * 2. Get feed document to retrieve download URL
+ * 3. Download feed result document
+ * 4. Parse XML and extract DocumentReportReferenceID
+ */
 class GetFeedDocumentRecipe extends Recipe
 {
     private FeedsApi $feedsApi;
@@ -18,11 +26,12 @@ class GetFeedDocumentRecipe extends Recipe
         $documentUrl = $this->getFeedDocumentUrl($resultFeedDocumentId);
         $xmlContent = $this->downloadFeedDocument($documentUrl);
         $documentReportReferenceId = $this->extractDocumentReportReferenceId($xmlContent);
-        echo "✅ Document Report Reference Id: {$documentReportReferenceId}\n";
+        echo "✅ Document Report Reference Id [Used to Retrieve the Shipping Label through the Reports API]: {$documentReportReferenceId}\n";
     }
 
     private function initializeParameters(): void
     {
+        // Feed ID Generated during the SubmitFeedRequestRecipe to generate the Shipping Label
         $this->feedId = "378823020417";
         echo "Parameters initialized for feed: {$this->feedId}\n";
     }
@@ -36,6 +45,9 @@ class GetFeedDocumentRecipe extends Recipe
     private function getFeedStatus(): string
     {
         $feed = $this->feedsApi->getFeed($this->feedId);
+        if ($feed->getProcessingStatus() !== 'DONE') {
+            throw new \RuntimeException("Feed is not done. Current status: {$feed->getProcessingStatus()}");
+        }
         echo "Feed status retrieved: {$feed->getProcessingStatus()}\n";
         return $feed->getResultFeedDocumentId();
     }
@@ -56,30 +68,11 @@ class GetFeedDocumentRecipe extends Recipe
         curl_close($ch);
 
         echo $response . "\n";
-        if ($statusCode === 204) {
-            return $this->getMockXmlContent();
-        }
         if ($statusCode < 200 || $statusCode >= 300) {
             throw new \RuntimeException("Download failed: {$statusCode}");
         }
         echo "Feed document downloaded successfully\n";
         return $response;
-    }
-
-    private function getMockXmlContent(): string
-    {
-        return '<?xml version="1.0" encoding="UTF-8"?>' .
-            '<EasyShipProcessingReport>' .
-            '<FeedSubmissionID>378823020417</FeedSubmissionID>' .
-            '<MessagesProcessed>1</MessagesProcessed>' .
-            '<MessagesSuccessful>1</MessagesSuccessful>' .
-            '<MessagesWithError>0</MessagesWithError>' .
-            '<SuccessMessage>' .
-            '<MessageID>1</MessageID>' .
-            '<AmazonOrderID>701-5497852-1014649</AmazonOrderID>' .
-            '<DocumentReportReferenceId>amzn1.easyship.document.12345678-abcd-efgh-ijkl-123456789012</DocumentReportReferenceId>' .
-            '</SuccessMessage>' .
-            '</EasyShipProcessingReport>';
     }
 
     private function extractDocumentReportReferenceId(string $xmlContent): string
@@ -88,9 +81,9 @@ class GetFeedDocumentRecipe extends Recipe
         if ($xml === false) {
             throw new \RuntimeException("Failed to parse XML document");
         }
-        $nodes = $xml->xpath('//DocumentReportReferenceId');
+        $nodes = $xml->xpath('//DocumentReportReferenceID');
         if (empty($nodes)) {
-            throw new \RuntimeException("DocumentReportReferenceId not found in XML");
+            throw new \RuntimeException("DocumentReportReferenceID not found in XML");
         }
         return (string)$nodes[0];
     }

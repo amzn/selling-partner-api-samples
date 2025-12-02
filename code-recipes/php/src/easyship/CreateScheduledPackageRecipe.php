@@ -9,6 +9,13 @@ use SpApi\Model\easyship\v2022_03_23\PackageDetails;
 use SpApi\Model\easyship\v2022_03_23\TimeSlot;
 use Src\util\Recipe;
 
+/**
+ * Code Recipe to create a scheduled EasyShip package
+ * Steps:
+ * 1. Prepare CreateScheduledPackageRequest with preferred shipment handover slots
+ * 2. Initialize EasyShip API client
+ * 3. Return Scheduled Package Id for confirmation
+ */
 class CreateScheduledPackageRecipe extends Recipe
 {
     private EasyShipApi $easyShipApi;
@@ -30,7 +37,9 @@ class CreateScheduledPackageRecipe extends Recipe
         $this->marketplaceId = "A1AM78C64UM0Y8";
 
         $timeSlot = new TimeSlot();
-        $timeSlot->setSlotId('SLOT123');
+        // TODO: In production, retrieve actual slot ID from GetHandoverSlotsRecipe
+        // This is a sample value for demonstration purposes only
+        $timeSlot->setSlotId('AQc1HTgeAAAAAJhLqlEAAAAAyE8AAAAAAAA=');
         $timeSlot->setHandoverMethod(HandoverMethod::PICKUP);
 
         $packageDetails = new PackageDetails();
@@ -41,7 +50,7 @@ class CreateScheduledPackageRecipe extends Recipe
         $request->setMarketplaceId($this->marketplaceId);
         $request->setPackageDetails($packageDetails);
 
-        echo "Request prepared with time slot: SLOT123\n";
+        echo "Request prepared with time slot: AQc1HTgeAAAAAJhLqlEAAAAAyE8AAAAAAAA=\n";
         return $request;
     }
 

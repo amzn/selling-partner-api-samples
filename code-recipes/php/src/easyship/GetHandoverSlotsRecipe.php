@@ -10,6 +10,15 @@ use SpApi\Model\easyship\v2022_03_23\UnitOfWeight;
 use SpApi\Model\easyship\v2022_03_23\Weight;
 use Src\util\Recipe;
 
+/**
+ * Code Recipe to get available handover time slots for EasyShip orders
+ * Steps:
+ * 1. Setup order and package details
+ * 2. Initialize EasyShip API client
+ * 3. Create request with package dimensions and weight
+ * 4. Call listHandoverSlots API
+ * 5. Display available time slots
+ */
 class GetHandoverSlotsRecipe extends Recipe
 {
     private EasyShipApi $easyShipApi;
@@ -53,6 +62,8 @@ class GetHandoverSlotsRecipe extends Recipe
 
     private function createPackageDimensions(): Dimensions
     {
+        // TODO: In production, retrieve actual dimensions from CalculateOrderDimensionsRecipe
+        // These are sample values for demonstration purposes only
         $dimensions = new Dimensions();
         $dimensions->setLength(10.0);
         $dimensions->setWidth(8.0);
@@ -63,6 +74,8 @@ class GetHandoverSlotsRecipe extends Recipe
 
     private function createPackageWeight(): Weight
     {
+        // TODO: In production, retrieve actual dimensions from CalculateOrderDimensionsRecipe
+        // These are sample values for demonstration purposes only
         $weight = new Weight();
         $weight->setValue(500.0);
         $weight->setUnit(UnitOfWeight::G);

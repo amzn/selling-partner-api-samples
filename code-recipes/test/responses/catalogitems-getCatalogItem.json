@@ -1,0 +1,237 @@
+{
+    "asin": "B0F7YT4YW2",
+    "attributes": {
+        "apparel_size": [
+            {
+                "size": "numeric_38",
+                "size_system": "as2",
+                "body_type": "regular",
+                "height_type": "regular",
+                "size_class": "numeric",
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "color": [
+            {
+                "language_tag": "pt_BR",
+                "value": "Marinho",
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "version_for_country": [
+            {
+                "value": "BR",
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "item_package_weight": [
+            {
+                "unit": "grams",
+                "value": 1.0,
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "item_weight": [
+            {
+                "unit": "grams",
+                "value": 1.0,
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "externally_assigned_product_identifier": [
+            {
+                "value": "7908700005505",
+                "type": "ean",
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "model_name": [
+            {
+                "language_tag": "pt_BR",
+                "value": "Blusão Moletom com Capuz Plus Size",
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "age_range_description": [
+            {
+                "language_tag": "pt_BR",
+                "value": "Adulto",
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "recommended_browse_nodes": [
+            {
+                "value": "17682411011",
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "bullet_point": [
+            {
+                "language_tag": "pt_BR",
+                "value": "Blusão moletom com capuz plus size",
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "product_description": [
+            {
+                "language_tag": "pt_BR",
+                "value": "Blusão moletom com capuz plus size. Cor: Marinho. Tamanho: G3.",
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "department": [
+            {
+                "language_tag": "pt_BR",
+                "value": "Feminino",
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "brand": [
+            {
+                "language_tag": "pt_BR",
+                "value": "Debex",
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "supplier_declared_dg_hz_regulation": [
+            {
+                "value": "not_applicable",
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "special_size_type": [
+            {
+                "language_tag": "pt_BR",
+                "value": "Desconhecido",
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "item_name": [
+            {
+                "language_tag": "pt_BR",
+                "value": "Blusão Moletom com Capuz Plus Size",
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "fabric_type": [
+            {
+                "language_tag": "pt_BR",
+                "value": "Moletom",
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "product_site_launch_date": [
+            {
+                "value": "2025-05-08T16:54:42.200Z",
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "item_package_dimensions": [
+            {
+                "length": {
+                    "unit": "centimeters",
+                    "value": 10.0
+                },
+                "width": {
+                    "unit": "centimeters",
+                    "value": 10.0
+                },
+                "height": {
+                    "unit": "centimeters",
+                    "value": 10.0
+                },
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "style": [
+            {
+                "language_tag": "pt_BR",
+                "value": "Média",
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "care_instructions": [
+            {
+                "language_tag": "pt_BR",
+                "value": "Apenas lavagem à mão",
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "unit_count": [
+            {
+                "type": {
+                    "language_tag": "pt_BR",
+                    "value": "Unidade"
+                },
+                "value": 1.0,
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ],
+        "target_gender": [
+            {
+                "value": "female",
+                "marketplace_id": "A2Q3Y263D00KWC"
+            }
+        ]
+    },
+    "dimensions": [
+        {
+            "marketplaceId": "A2Q3Y263D00KWC",
+            "item": {
+                "weight": {
+                    "unit": "pounds",
+                    "value": 0.00220462262
+                }
+            },
+            "package": {
+                "height": {
+                    "unit": "inches",
+                    "value": 3.937007870
+                },
+                "length": {
+                    "unit": "inches",
+                    "value": 3.937007870
+                },
+                "weight": {
+                    "unit": "pounds",
+                    "value": 0.00220462262
+                },
+                "width": {
+                    "unit": "inches",
+                    "value": 3.937007870
+                }
+            }
+        }
+    ],
+    "images": [
+        {
+            "marketplaceId": "A2Q3Y263D00KWC",
+            "images": [
+                {
+                    "variant": "MAIN",
+                    "link": "https://m.media-amazon.com/images/I/41j-L-teihL.jpg",
+                    "height": 390,
+                    "width": 530
+                },
+                {
+                    "variant": "MAIN",
+                    "link": "https://m.media-amazon.com/images/I/41j-L-teihL._SL75_.jpg",
+                    "height": 55,
+                    "width": 75
+                },
+                {
+                    "variant": "PT01",
+                    "link": "https://m.media-amazon.com/images/I/31Xp9r0oyoL.jpg",
+                    "height": 355,
+                    "width": 707
+                },
+                {
+                    "variant": "PT01",
+                    "link": "https://m.media-amazon.com/images/I/31Xp9r0oyoL._SL75_.jpg",
+                    "height": 38,
+                    "width": 75
+                }
+            ]
+        }
+    ]
+}

@@ -1,9 +1,9 @@
 package easyship;
 
 import software.amazon.spapi.ApiException;
+import software.amazon.spapi.api.catalogitems.v2022_04_01.CatalogApi;
 import software.amazon.spapi.api.listings.items.v2021_08_01.ListingsApi;
 import software.amazon.spapi.api.orders.v0.OrdersV0Api;
-import software.amazon.spapi.models.listings.items.v2021_08_01.Item;
 import software.amazon.spapi.models.orders.v0.GetOrderItemsResponse;
 import software.amazon.spapi.models.orders.v0.OrderItem;
 import util.Constants;
@@ -18,13 +18,17 @@ import java.util.Map;
 /**
  * Code Recipe to calculate order weight and dimensions for EasyShip
  * Steps:
- * 1. Get order items to retrieve SKU
- * 2. Get listing item to retrieve package dimensions and fulfillment availability
- * 3. Calculate total weight and dimensions
+ * 1. Get order items to retrieve all SKUs
+ * 2. For each SKU, search Catalog Items API for ASIN dimensions
+ * 3. Fallback to Listings Items API if dimensions not available
+ * 4. Sum all weights and dimensions
+ * 
+ * IMPORTANT: Neither APIs guarantees 100% of data availability.
  */
 public class CalculateOrderDimensionsRecipe extends Recipe {
 
     private OrdersV0Api ordersApi;
+    private CatalogApi catalogApi;
     private ListingsApi listingsApi;
     private String amazonOrderId;
     private String marketplaceId;
@@ -35,13 +39,13 @@ public class CalculateOrderDimensionsRecipe extends Recipe {
         setupOrderDetails();
         initializeApis();
         GetOrderItemsResponse orderItemsResponse = getOrderItems();
-        String sku = extractSku(orderItemsResponse);
-        Item listingItem = getListingItem(sku);
-        calculateDimensions(listingItem, orderItemsResponse);
+        calculateTotalDimensions(orderItemsResponse);
         System.out.println("✅ Successfully calculated order dimensions");
     }
 
     private void setupOrderDetails() {
+        // IMPORTANT: Replace these sample values with actual values from your environment
+        // These IDs are for demonstration purposes only
         amazonOrderId = "702-3035602-4225066";
         marketplaceId = "A1AM78C64UM0Y8";
         sellerId = "A2ZPJ4TLUOSWY8";
@@ -50,6 +54,12 @@ public class CalculateOrderDimensionsRecipe extends Recipe {
 
     private void initializeApis() {
         ordersApi = new OrdersV0Api.Builder()
+                .lwaAuthorizationCredentials(lwaCredentials)
+                .endpoint(Constants.BACKEND_URL)
+                .disableAccessTokenCache()
+                .build();
+        
+        catalogApi = new CatalogApi.Builder()
                 .lwaAuthorizationCredentials(lwaCredentials)
                 .endpoint(Constants.BACKEND_URL)
                 .disableAccessTokenCache()
@@ -74,41 +84,67 @@ public class CalculateOrderDimensionsRecipe extends Recipe {
         }
     }
 
-    private String extractSku(GetOrderItemsResponse response) {
-        OrderItem firstItem = response.getPayload().getOrderItems().get(0);
-        String sku = firstItem.getSellerSKU();
-        System.out.println("Extracted SKU: " + sku);
-        return sku;
+    private void calculateTotalDimensions(GetOrderItemsResponse orderItemsResponse) {
+        BigDecimal totalWeight = BigDecimal.ZERO;
+        BigDecimal totalLength = BigDecimal.ZERO;
+        BigDecimal totalWidth = BigDecimal.ZERO;
+        BigDecimal totalHeight = BigDecimal.ZERO;
+        
+        for (OrderItem orderItem : orderItemsResponse.getPayload().getOrderItems()) {
+            String sku = orderItem.getSellerSKU();
+            String asin = orderItem.getASIN();
+            int quantity = orderItem.getQuantityOrdered();
+            
+            System.out.println("Processing SKU: " + sku + ", ASIN: " + asin + ", Quantity: " + quantity);
+            
+            Map<String, Object> attributes = getDimensionsFromCatalog(asin);
+            if (attributes == null) {
+                attributes = getDimensionsFromListings(sku);
+            }
+            
+            if (attributes != null) {
+                Map<String, BigDecimal> dimensions = extractPackageDimensions(attributes);
+                BigDecimal weight = extractPackageWeight(attributes);
+                
+                totalWeight = totalWeight.add(weight.multiply(BigDecimal.valueOf(quantity)));
+                totalLength = totalLength.add(dimensions.get("length").multiply(BigDecimal.valueOf(quantity)));
+                totalWidth = totalWidth.add(dimensions.get("width").multiply(BigDecimal.valueOf(quantity)));
+                totalHeight = totalHeight.add(dimensions.get("height").multiply(BigDecimal.valueOf(quantity)));
+            }
+        }
+        
+        System.out.println("\nTotal Order Dimensions:");
+        System.out.println("  Total Length: " + totalLength + " cm");
+        System.out.println("  Total Width: " + totalWidth + " cm");
+        System.out.println("  Total Height: " + totalHeight + " cm");
+        System.out.println("  Total Weight: " + totalWeight + " g");
     }
-
-    private Item getListingItem(String sku) {
+    
+    private Map<String, Object> getDimensionsFromCatalog(String asin) {
         try {
-            Item response = listingsApi.getListingsItem(sellerId, sku, List.of(marketplaceId), null, List.of("attributes", "fulfillmentAvailability"));
-            System.out.println("Listing item retrieved for SKU: " + sku);
-            return response;
+            software.amazon.spapi.models.catalogitems.v2022_04_01.Item catalogItem = 
+                catalogApi.getCatalogItem(asin, List.of(marketplaceId), List.of("attributes"), null);
+            System.out.println("  Retrieved dimensions from Catalog API");
+            if (catalogItem.getAttributes() != null) {
+                return (Map<String, Object>) catalogItem.getAttributes();
+            }
+            return null;
         } catch (ApiException | LWAException e) {
-            throw new RuntimeException("Failed to get listing item", e);
+            System.out.println("  Catalog API failed, will try Listings API");
+            return null;
         }
     }
-
-    private void calculateDimensions(Item listingItem, GetOrderItemsResponse orderItemsResponse) {
-        Map<String, Object> attributes = listingItem.getAttributes();
-        if (attributes == null) {
-            System.out.println("No attributes found");
-            return;
+    
+    private Map<String, Object> getDimensionsFromListings(String sku) {
+        try {
+            software.amazon.spapi.models.listings.items.v2021_08_01.Item listingItem = 
+                listingsApi.getListingsItem(sellerId, sku, List.of(marketplaceId), null, List.of("attributes"));
+            System.out.println("  Retrieved dimensions from Listings API");
+            return listingItem.getAttributes();
+        } catch (ApiException | LWAException e) {
+            System.out.println("  Failed to retrieve dimensions from Listings API");
+            return null;
         }
-        int quantity = orderItemsResponse.getPayload().getOrderItems().get(0).getQuantityOrdered();
-        
-        Map<String, BigDecimal> dimensions = extractPackageDimensions(attributes);
-        BigDecimal weight = extractPackageWeight(attributes);
-        BigDecimal totalWeight = weight.multiply(BigDecimal.valueOf(quantity));
-        
-        System.out.println("Package Dimensions:");
-        System.out.println("  Length: " + dimensions.get("length") + " cm");
-        System.out.println("  Width: " + dimensions.get("width") + " cm");
-        System.out.println("  Height: " + dimensions.get("height") + " cm");
-        System.out.println("  Weight per unit: " + weight + " g");
-        System.out.println("  Total weight (quantity " + quantity + "): " + totalWeight + " g");
     }
 
     private Map<String, BigDecimal> extractPackageDimensions(Map<String, Object> attributes) {

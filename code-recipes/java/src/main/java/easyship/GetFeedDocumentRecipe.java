@@ -25,7 +25,7 @@ import static java.net.URI.create;
  * 1. Get feed status to retrieve resultFeedDocumentId
  * 2. Get feed document to retrieve download URL
  * 3. Download feed result document
- * 4. Parse XML and extract documentReportReferenceId
+ * 4. Parse XML and extract DocumentReportReferenceID
  */
 public class GetFeedDocumentRecipe extends Recipe {
 
@@ -39,11 +39,12 @@ public class GetFeedDocumentRecipe extends Recipe {
         String resultFeedDocumentId = getFeedStatus();
         String documentUrl = getFeedDocumentUrl(resultFeedDocumentId);
         String xmlContent = downloadFeedDocument(documentUrl);
-        String documentReportReferenceId = extractDocumentReportReferenceId(xmlContent);
-        System.out.println("✅ Document Report Reference Id: " + documentReportReferenceId);
+        String DocumentReportReferenceID = extractDocumentReportReferenceID(xmlContent);
+        System.out.println("✅ Document Report Reference Id [Used to Retrieve the Shipping Label through the Reports API]: " + DocumentReportReferenceID);
     }
 
     private void initializeParameters() {
+        // Feed ID Generated during the SubmitFeedRequestRecipe to generate the Shipping Label
         feedId = "378823020417";
         System.out.println("Parameters initialized for feed: " + feedId);
     }
@@ -60,6 +61,9 @@ public class GetFeedDocumentRecipe extends Recipe {
     private String getFeedStatus() {
         try {
             Feed feed = feedsApi.getFeed(feedId);
+            if (feed.getProcessingStatus() != Feed.ProcessingStatusEnum.DONE) {
+                throw new RuntimeException("Feed is not done. Current status: " + feed.getProcessingStatus());
+            }
             String resultDocumentId = feed.getResultFeedDocumentId();
             System.out.println("Feed status retrieved: " + feed.getProcessingStatus());
             return resultDocumentId;
@@ -88,9 +92,6 @@ public class GetFeedDocumentRecipe extends Recipe {
             
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println(response.body());
-            if (response.statusCode() == 204) {
-                return getMockXmlContent();
-            }
             if (response.statusCode() < 200 || response.statusCode() >= 300) {
                 throw new RuntimeException("Download failed: " + response.statusCode());
             }
@@ -100,31 +101,15 @@ public class GetFeedDocumentRecipe extends Recipe {
             throw new RuntimeException("Failed to download feed document", e);
         }
     }
-
-    private String getMockXmlContent() {
-        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-                "<EasyShipProcessingReport>" +
-                "<FeedSubmissionID>378823020417</FeedSubmissionID>" +
-                "<MessagesProcessed>1</MessagesProcessed>" +
-                "<MessagesSuccessful>1</MessagesSuccessful>" +
-                "<MessagesWithError>0</MessagesWithError>" +
-                "<SuccessMessage>" +
-                "<MessageID>1</MessageID>" +
-                "<AmazonOrderID>701-5497852-1014649</AmazonOrderID>" +
-                "<DocumentReportReferenceId>amzn1.easyship.document.12345678-abcd-efgh-ijkl-123456789012</DocumentReportReferenceId>" +
-                "</SuccessMessage>" +
-                "</EasyShipProcessingReport>";
-    }
-
-    private String extractDocumentReportReferenceId(String xmlContent) {
+    private String extractDocumentReportReferenceID(String xmlContent) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(new ByteArrayInputStream(xmlContent.getBytes()));
             
-            NodeList nodes = doc.getElementsByTagName("DocumentReportReferenceId");
+            NodeList nodes = doc.getElementsByTagName("DocumentReportReferenceID");
             if (nodes.getLength() == 0) {
-                throw new RuntimeException("DocumentReportReferenceId not found in XML");
+                throw new RuntimeException("DocumentReportReferenceID not found in XML");
             }
             return nodes.item(0).getTextContent();
         } catch (RuntimeException e) {

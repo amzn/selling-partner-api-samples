@@ -37,9 +37,11 @@ public class CreateScheduledPackageRecipe extends Recipe {
     private CreateScheduledPackageRequest prepareRequest() {
         amazonOrderId = "702-3035602-4225066";
         marketplaceId = "A1AM78C64UM0Y8";
-
+        
         TimeSlot timeSlot = new TimeSlot()
-                .slotId("SLOT123")
+                // TODO: In production, retrieve actual slot ID from GetHandoverSlotsRecipe
+                // This is a sample value for demonstration purposes only
+                .slotId("AQc1HTgeAAAAAJhLqlEAAAAAyE8AAAAAAAA=")
                 .handoverMethod(HandoverMethod.PICKUP);
 
         PackageDetails packageDetails = new PackageDetails()
@@ -50,7 +52,7 @@ public class CreateScheduledPackageRecipe extends Recipe {
                 .marketplaceId(marketplaceId)
                 .packageDetails(packageDetails);
 
-        System.out.println("Request prepared with time slot: SLOT123");
+        System.out.println("Request prepared with time slot: AQc1HTgeAAAAAJhLqlEAAAAAyE8AAAAAAAA=");
         return request;
     }
 

@@ -2,13 +2,25 @@
 
 namespace Src\easyship;
 
+use SpApi\Api\catalogitems\v2022_04_01\CatalogApi;
 use SpApi\Api\listings\items\v2021_08_01\ListingsApi;
 use SpApi\Api\orders\v0\OrdersV0Api;
 use Src\util\Recipe;
 
+/**
+ * Code Recipe to calculate order weight and dimensions for EasyShip
+ * Steps:
+ * 1. Get order items to retrieve all SKUs
+ * 2. For each SKU, search Catalog Items API for ASIN dimensions
+ * 3. Fallback to Listings Items API if dimensions not available
+ * 4. Sum all weights and dimensions
+ * 
+ * IMPORTANT: Neither APIs guarantees 100% of data availability.
+ */
 class CalculateOrderDimensionsRecipe extends Recipe
 {
     private OrdersV0Api $ordersApi;
+    private CatalogApi $catalogApi;
     private ListingsApi $listingsApi;
     private string $amazonOrderId;
     private string $marketplaceId;
@@ -19,14 +31,14 @@ class CalculateOrderDimensionsRecipe extends Recipe
         $this->setupOrderDetails();
         $this->initializeApis();
         $orderItemsResponse = $this->getOrderItems();
-        $sku = $this->extractSku($orderItemsResponse);
-        $listingItem = $this->getListingItem($sku);
-        $this->calculateDimensions($listingItem, $orderItemsResponse);
+        $this->calculateTotalDimensions($orderItemsResponse);
         echo "✅ Successfully calculated order dimensions\n";
     }
 
     private function setupOrderDetails(): void
     {
+        // IMPORTANT: Replace these sample values with actual values from your environment
+        // These IDs are for demonstration purposes only
         $this->amazonOrderId = "702-3035602-4225066";
         $this->marketplaceId = "A1AM78C64UM0Y8";
         $this->sellerId = "A2ZPJ4TLUOSWY8";
@@ -36,6 +48,7 @@ class CalculateOrderDimensionsRecipe extends Recipe
     private function initializeApis(): void
     {
         $this->ordersApi = new OrdersV0Api($this->config);
+        $this->catalogApi = new CatalogApi($this->config);
         $this->listingsApi = new ListingsApi($this->config);
         echo "APIs initialized\n";
     }
@@ -48,44 +61,75 @@ class CalculateOrderDimensionsRecipe extends Recipe
         return $response;
     }
 
-    private function extractSku($response): string
+    private function calculateTotalDimensions($orderItemsResponse): void
     {
-        $sku = $response->getPayload()->getOrderItems()[0]->getSellerSku();
-        echo "Extracted SKU: {$sku}\n";
-        return $sku;
-    }
-
-    private function getListingItem(string $sku)
-    {
-        $response = $this->listingsApi->getListingsItem(
-            $this->sellerId,
-            $sku,
-            [$this->marketplaceId],
-            null,
-            ['attributes', 'fulfillmentAvailability']
-        );
-        echo "Listing item retrieved for SKU: {$sku}\n";
-        return $response;
-    }
-
-    private function calculateDimensions($listingItem, $orderItemsResponse): void
-    {
-        $attributes = $listingItem->getAttributes();
-        if (!$attributes) {
-            echo "No attributes found\n";
-            return;
+        $totalWeight = 0.0;
+        $totalLength = 0.0;
+        $totalWidth = 0.0;
+        $totalHeight = 0.0;
+        
+        foreach ($orderItemsResponse->getPayload()->getOrderItems() as $orderItem) {
+            $sku = $orderItem->getSellerSku();
+            $asin = $orderItem->getAsin();
+            $quantity = $orderItem->getQuantityOrdered();
+            
+            echo "Processing SKU: {$sku}, ASIN: {$asin}, Quantity: {$quantity}\n";
+            
+            $attributes = $this->getDimensionsFromCatalog($asin);
+            if ($attributes === null) {
+                $attributes = $this->getDimensionsFromListings($sku);
+            }
+            
+            if ($attributes !== null) {
+                $dimensions = $this->extractPackageDimensions($attributes);
+                $weight = $this->extractPackageWeight($attributes);
+                
+                $totalWeight += $weight * $quantity;
+                $totalLength += $dimensions['length'] * $quantity;
+                $totalWidth += $dimensions['width'] * $quantity;
+                $totalHeight += $dimensions['height'] * $quantity;
+            }
         }
-        $quantity = $orderItemsResponse->getPayload()->getOrderItems()[0]->getQuantityOrdered();
-        $dimensions = $this->extractPackageDimensions($attributes);
-        $weight = $this->extractPackageWeight($attributes);
-        $totalWeight = $weight * $quantity;
-
-        echo "Package Dimensions:\n";
-        echo "  Length: {$dimensions['length']} cm\n";
-        echo "  Width: {$dimensions['width']} cm\n";
-        echo "  Height: {$dimensions['height']} cm\n";
-        echo "  Weight per unit: {$weight} g\n";
-        echo "  Total weight (quantity {$quantity}): {$totalWeight} g\n";
+        
+        echo "\nTotal Order Dimensions:\n";
+        echo "  Total Length: {$totalLength} cm\n";
+        echo "  Total Width: {$totalWidth} cm\n";
+        echo "  Total Height: {$totalHeight} cm\n";
+        echo "  Total Weight: {$totalWeight} g\n";
+    }
+    
+    private function getDimensionsFromCatalog(string $asin): ?array
+    {
+        try {
+            $catalogItem = $this->catalogApi->getCatalogItem(
+                $asin,
+                [$this->marketplaceId],
+                ['attributes']
+            );
+            echo "  Retrieved dimensions from Catalog API\n";
+            return $catalogItem->getAttributes() ? (array)$catalogItem->getAttributes() : null;
+        } catch (\Exception $e) {
+            echo "  Catalog API failed, will try Listings API\n";
+            return null;
+        }
+    }
+    
+    private function getDimensionsFromListings(string $sku): ?array
+    {
+        try {
+            $listingItem = $this->listingsApi->getListingsItem(
+                $this->sellerId,
+                $sku,
+                [$this->marketplaceId],
+                null,
+                ['attributes']
+            );
+            echo "  Retrieved dimensions from Listings API\n";
+            return $listingItem->getAttributes();
+        } catch (\Exception $e) {
+            echo "  Failed to retrieve dimensions from Listings API\n";
+            return null;
+        }
     }
 
     private function extractPackageDimensions(array $attributes): array

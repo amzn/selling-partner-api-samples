@@ -5,6 +5,14 @@ namespace Src\easyship;
 use SpApi\Api\reports\v2021_06_30\ReportsApi;
 use Src\util\Recipe;
 
+/**
+ * Code Recipe to download shipping label from Report API and store to S3
+ * Steps:
+ * 1. Get report to retrieve reportDocumentId
+ * 2. Get report document to retrieve download URL
+ * 3. Download and decompress report document
+ * 4. Store document to S3 and generate pre-signed URL
+ */
 class DownloadShippingLabelRecipe extends Recipe
 {
     private ReportsApi $reportsApi;
