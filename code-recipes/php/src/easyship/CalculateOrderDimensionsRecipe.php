@@ -2,7 +2,7 @@
 
 namespace Src\easyship;
 
-use SpApi\Api\catalogitems\v2022_04_01\CatalogApi;
+use SpApi\Api\catalogItems\v2022_04_01\CatalogApi;
 use SpApi\Api\listings\items\v2021_08_01\ListingsApi;
 use SpApi\Api\orders\v0\OrdersV0Api;
 use Src\util\Recipe;
