@@ -1,5 +1,5 @@
 from src.recipes.datakiosk.datakiosk_query_recipe import DataKioskQueryRecipe
-from src.util.recipe_test import RecipeTest
+from tests.recipe_test import RecipeTest
 
 
 class TestDataKioskQueryRecipe(RecipeTest):

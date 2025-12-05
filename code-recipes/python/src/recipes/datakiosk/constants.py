@@ -1,5 +1,3 @@
-backend_url = "http://localhost:3000"
-
 sample_query = "query MyQuery{analytics_salesAndTraffic_2023_11_15{salesAndTrafficByAsin(aggregateBy:CHILD endDate:\"10-05-2025\" startDate:\"10-06-2025\"){sku traffic{browserSessions pageViews}}}}"
 
 sample_data_kiosk_notification = {

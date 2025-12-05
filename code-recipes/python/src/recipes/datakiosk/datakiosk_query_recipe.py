@@ -22,6 +22,7 @@ from typing import Any, Dict, Optional, Tuple
 
 from spapi import SPAPIClient, SPAPIConfig, QueriesApi
 from src.recipes.datakiosk import constants
+from src import config
 from src.util.recipe import Recipe
 
 
@@ -62,8 +63,8 @@ class DataKioskQueryRecipe(Recipe):
         if self._queries_api is None:
             client = SPAPIClient(
                 self.config,
-                oauth_endpoint=f"{constants.backend_url}/auth/o2/token",
-                endpoint=constants.backend_url,
+                oauth_endpoint=f"{config.backend_url}/auth/o2/token",
+                endpoint=config.backend_url,
             )
             self._queries_api = QueriesApi(client.api_client)
             print("Data Kiosk Queries API client initialized successfully.")
