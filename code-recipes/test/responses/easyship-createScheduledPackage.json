@@ -1,0 +1,39 @@
+{
+  "scheduledPackageId": {
+    "amazonOrderId": "902-3159121-1390916",
+    "packageId": "PKG123456789"
+  },
+  "packageDimensions": {
+    "length": 30.0,
+    "width": 20.0,
+    "height": 10.0,
+    "unit": "cm",
+    "identifier": "DIM001"
+  },
+  "packageWeight": {
+    "value": 500.0,
+    "unit": "grams"
+  },
+  "packageItems": [
+    {
+      "orderItemId": "12345678901234",
+      "orderItemSerialNumbers": ["SN001", "SN002"]
+    }
+  ],
+  "packageTimeSlot": {
+    "slotId": "SLOT123",
+    "startTime": "2024-01-16T09:00:00Z",
+    "endTime": "2024-01-16T12:00:00Z",
+    "handoverMethod": "PICKUP"
+  },
+  "packageIdentifier": "PKG123456789",
+  "invoice": {
+    "invoiceNumber": "INV-2024-001",
+    "invoiceDate": "2024-01-15T10:30:00Z"
+  },
+  "packageStatus": "ReadyForPickup",
+  "trackingDetails": {
+    "trackingId": "TRK987654321"
+  }
+}
+

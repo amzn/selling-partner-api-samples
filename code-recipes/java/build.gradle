@@ -30,6 +30,11 @@ test {
 }
 
 sourceSets {
+	main {
+		resources {
+			srcDir '../test'
+		}
+	}
 	test {
 		resources {
 			srcDir '../test'

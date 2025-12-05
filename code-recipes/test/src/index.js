@@ -6,6 +6,8 @@ const port = 3000
 
 app.use(express.json())
 
+app.use('/resources', express.static('./resources'))
+
 app.post('/auth/o2/token', (req, res) => {
     res.json({
         access_token: 'accessToken',
