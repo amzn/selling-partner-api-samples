@@ -61,8 +61,11 @@ public class GetFeedDocumentRecipe extends Recipe {
     private String getFeedStatus() {
         try {
             Feed feed = feedsApi.getFeed(feedId);
-            if (feed.getProcessingStatus() != Feed.ProcessingStatusEnum.DONE) {
-                throw new RuntimeException("Feed is not done. Current status: " + feed.getProcessingStatus());
+            if (feed.getProcessingStatus() == Feed.ProcessingStatusEnum.IN_QUEUE | feed.getProcessingStatus() == Feed.ProcessingStatusEnum.IN_PROGRESS) {
+                throw new RuntimeException("Feed is not done. Current status: " + feed.getProcessingStatus() + "Wait a moment before checking again.");
+            }
+            if (feed.getProcessingStatus() == Feed.ProcessingStatusEnum.CANCELLED | feed.getProcessingStatus() == Feed.ProcessingStatusEnum.FATAL) {
+                throw new RuntimeException("Feed is cancelled. Current status: " + feed.getProcessingStatus());
             }
             String resultDocumentId = feed.getResultFeedDocumentId();
             System.out.println("Feed status retrieved: " + feed.getProcessingStatus());

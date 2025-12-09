@@ -45,8 +45,11 @@ class GetFeedDocumentRecipe extends Recipe
     private function getFeedStatus(): string
     {
         $feed = $this->feedsApi->getFeed($this->feedId);
-        if ($feed->getProcessingStatus() !== 'DONE') {
-            throw new \RuntimeException("Feed is not done. Current status: {$feed->getProcessingStatus()}");
+        if ($feed->getProcessingStatus() === 'IN_QUEUE' || $feed->getProcessingStatus() === 'IN_PROGRESS') {
+            throw new \RuntimeException("Feed is not done. Current status: {$feed->getProcessingStatus()}. Wait a moment before checking again.");
+        }
+        if ($feed->getProcessingStatus() === 'CANCELLED' || $feed->getProcessingStatus() === 'FATAL') {
+            throw new \RuntimeException("Feed is cancelled. Current status: {$feed->getProcessingStatus()}");
         }
         echo "Feed status retrieved: {$feed->getProcessingStatus()}\n";
         return $feed->getResultFeedDocumentId();
