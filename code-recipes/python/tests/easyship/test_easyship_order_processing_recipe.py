@@ -9,11 +9,11 @@ class TestEasyShipOrderProcessingRecipe(RecipeTest):
         super().__init__(
             EasyShipOrderProcessingRecipe(),
             [
-                "externalFulfillmentShipments-getShipments",
-                "externalFulfillmentShipments-processShipment",
-                "externalFulfillmentShipments-createPackages",
-                "externalFulfillmentShipments-retrieveShippingOptions",
-                "externalFulfillmentShipments-generateShipLabels",
+                "externalFulfillmentShipping-getShipments",
+                "externalFulfillmentShipping-processShipment",
+                "externalFulfillmentShipping-createPackages",
+                "externalFulfillmentShipping-retrieveShippingOptions",
+                "externalFulfillmentShipping-generateShipLabels",
             ],
         )
 

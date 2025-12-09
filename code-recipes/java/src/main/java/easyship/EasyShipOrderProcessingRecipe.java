@@ -54,16 +54,34 @@ public class EasyShipOrderProcessingRecipe extends Recipe {
                 .build();
     }
 
-    /**
-     * Check if shipment is Easy Ship (shippingType=MARKETPLACE, channelName=MFN).
-     */
-    private boolean isEasyShipShipment(Shipment shipment) {
-        try {
-            return "MARKETPLACE".equals(shipment.getShippingInfo().getShippingType().getValue()) &&
-                    "MFN".equals(shipment.getMarketplaceAttributes().getChannelName());
-        } catch (Exception e) {
-            return false;
-        }
+    // -------------------------------------------------------------------------
+    // Main recipe entry point
+    // -------------------------------------------------------------------------
+
+    @Override
+    protected void start() {
+        System.out.println("======================================================================");
+        System.out.println("Easy Ship Order Processing Recipe");
+        System.out.println("======================================================================");
+
+        // Step 1: Fetch open orders
+        fetchOpenShipments();
+
+        // Step 2: Acknowledge shipment
+        acknowledgeShipment();
+
+        // Step 3: Create packages
+        createPackages();
+
+        // Step 4: Retrieve shipping options
+        retrieveShippingOptions();
+
+        // Step 5: Generate shipping labels
+        generateShippingLabels();
+
+        System.out.println("\n======================================================================");
+        System.out.println("✅ Easy Ship order processing completed successfully");
+        System.out.println("======================================================================");
     }
 
     // -------------------------------------------------------------------------
@@ -381,33 +399,16 @@ public class EasyShipOrderProcessingRecipe extends Recipe {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Main recipe entry point
-    // -------------------------------------------------------------------------
-
-    @Override
-    protected void start() {
-        System.out.println("======================================================================");
-        System.out.println("Easy Ship Order Processing Recipe");
-        System.out.println("======================================================================");
-
-        // Step 1: Fetch open orders
-        fetchOpenShipments();
-
-        // Step 2: Acknowledge shipment
-        acknowledgeShipment();
-
-        // Step 3: Create packages
-        createPackages();
-
-        // Step 4: Retrieve shipping options
-        retrieveShippingOptions();
-
-        // Step 5: Generate shipping labels
-        generateShippingLabels();
-
-        System.out.println("\n======================================================================");
-        System.out.println("✅ Easy Ship order processing completed successfully");
-        System.out.println("======================================================================");
+    /**
+     * Check if shipment is Easy Ship (shippingType=MARKETPLACE, channelName=MFN).
+     */
+    private boolean isEasyShipShipment(Shipment shipment) {
+        try {
+            return "MARKETPLACE".equals(shipment.getShippingInfo().getShippingType().getValue()) &&
+                    "MFN".equals(shipment.getMarketplaceAttributes().getChannelName());
+        } catch (Exception e) {
+            return false;
+        }
     }
+
 }
