@@ -5,8 +5,7 @@ Base test helper that mirrors the Java RecipeTest implementation.
 import json
 import urllib.request
 from typing import List
-
-from src.recipes.datakiosk import constants
+from src import config
 
 
 class RecipeTest:
@@ -19,7 +18,7 @@ class RecipeTest:
     def __init__(self, recipe, responses: List[str]) -> None:
         self.recipe = recipe
         self.responses = responses
-        self.backend_url = constants.backend_url
+        self.backend_url = config.backend_url
 
     def test_recipe(self) -> None:
         self._instruct_backend_mock()

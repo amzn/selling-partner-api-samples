@@ -1,0 +1,19 @@
+{
+  "packageShipLabelList": [
+    {
+      "fileData": {
+        "url": "https://content.pstmn.io/92b01524-f3b9-426e-8c61-2d3b2c1db305/ZXNfc2hpcHBpbmdfbGFiZWwtaGFuZHNvbi5wbmc="
+      },
+      "packageId": "easy-ship-demo-package",
+      "shipLabelMetadata": {
+        "carrierName": "ATS",
+        "trackingId": "ABC12345678",
+        "pickupWindow": {
+          "startTime": 1736793268,
+          "endTime": 1736793268
+        }
+      },
+      "isErrored": false
+    }
+  ]
+}
