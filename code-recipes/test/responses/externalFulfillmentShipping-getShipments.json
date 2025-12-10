@@ -1,0 +1,235 @@
+{
+  "shipments": [
+    {
+      "id": "U6GsCjSJX",
+      "shippingInfo": {
+        "shipToAddress": {
+          "postalCode": "10115"
+        },
+        "expectedShippingDateTime": "2025-01-13T14:05:00Z",
+        "expectedShippingDateTimeInUTC": "2025-01-13T13:05:00Z",
+        "recommendedShipMethod": "DE_STD",
+        "shippingType": "MARKETPLACE",
+        "recommendedPackages": [
+          {
+            "weight": {
+              "value": 280,
+              "weightUnit": "G"
+            },
+            "dimensions": {
+              "length": {
+                "dimensionUnit": "CM",
+                "value": 28
+              },
+              "width": {
+                "dimensionUnit": "CM",
+                "value": 26
+              },
+              "height": {
+                "dimensionUnit": "CM",
+                "value": 10
+              }
+            },
+            "lineItems": [
+              {
+                "lineItemId": "1",
+                "quantity": 1,
+                "serialNumbers": []
+              }
+            ]
+          }
+        ]
+      },
+      "marketplaceAttributes": {
+        "marketplaceId": "A1PA6795UKMFR9",
+        "channelName": "MFN"
+      },
+      "shipmentRequirements": {
+        "pSlip": {
+          "requirement": "REQUIRED",
+          "status": "GENERATED"
+        },
+        "invoice": {
+          "requirement": "REQUIRED",
+          "status": "AVAILABLE"
+        }
+      },
+      "charges": [
+        {
+          "baseCharge": {
+            "baseAmount": {
+              "value": "15.99",
+              "currencyCode": "EUR"
+            },
+            "discountAmount": {
+              "value": "3.00",
+              "currencyCode": "EUR"
+            },
+            "netAmount": {
+              "value": "12.99",
+              "currencyCode": "EUR"
+            }
+          },
+          "taxBreakup": [
+            {
+              "type": "VAT",
+              "rate": "0.19",
+              "charge": {
+                "baseAmount": {
+                  "value": "3.04",
+                  "currencyCode": "EUR"
+                },
+                "discountAmount": {
+                  "value": "0.57",
+                  "currencyCode": "EUR"
+                },
+                "netAmount": {
+                  "value": "2.47",
+                  "currencyCode": "EUR"
+                }
+              }
+            }
+          ],
+          "totalCharge": {
+            "baseAmount": {
+              "value": "19.03",
+              "currencyCode": "EUR"
+            },
+            "discountAmount": {
+              "value": "3.57",
+              "currencyCode": "EUR"
+            },
+            "netAmount": {
+              "value": "15.46",
+              "currencyCode": "EUR"
+            }
+          },
+          "totalTax": {
+            "type": "TOTAL",
+            "rate": "0.19",
+            "charge": {
+              "baseAmount": {
+                "value": "3.04",
+                "currencyCode": "EUR"
+              },
+              "discountAmount": {
+                "value": "0.57",
+                "currencyCode": "EUR"
+              },
+              "netAmount": {
+                "value": "2.47",
+                "currencyCode": "EUR"
+              }
+            }
+          },
+          "chargeType": "TOTAL"
+        }
+      ],
+      "lineItems": [
+        {
+          "pieceType": "SINGLE",
+          "shipmentLineItemId": "1",
+          "numberOfUnits": 1,
+          "serialNumberRequirement": "DISALLOWED",
+          "giftAttributes": {
+            "giftWrapRequirement": "DISALLOWED",
+            "giftMessagePresence": "ABSENT"
+          },
+          "merchantSku": "DE-TEST-SKU-001",
+          "hazmatLabelRequirement": "DISALLOWED",
+          "complianceAttributes": {
+            "serialNumberRequirement": "DISALLOWED",
+            "hazmatLabelsRequirement": "DISALLOWED",
+            "countryOfOriginRequirement": "DISALLOWED",
+            "itemValueRequirement": "DISALLOWED"
+          },
+          "charges": [
+            {
+              "baseCharge": {
+                "baseAmount": {
+                  "value": "15.99",
+                  "currencyCode": "EUR"
+                },
+                "discountAmount": {
+                  "value": "3.00",
+                  "currencyCode": "EUR"
+                },
+                "netAmount": {
+                  "value": "12.99",
+                  "currencyCode": "EUR"
+                }
+              },
+              "taxBreakup": [
+                {
+                  "type": "VAT",
+                  "rate": "0.19",
+                  "charge": {
+                    "baseAmount": {
+                      "value": "3.04",
+                      "currencyCode": "EUR"
+                    },
+                    "discountAmount": {
+                      "value": "0.57",
+                      "currencyCode": "EUR"
+                    },
+                    "netAmount": {
+                      "value": "2.47",
+                      "currencyCode": "EUR"
+                    }
+                  }
+                }
+              ],
+              "totalCharge": {
+                "baseAmount": {
+                  "value": "19.03",
+                  "currencyCode": "EUR"
+                },
+                "discountAmount": {
+                  "value": "3.57",
+                  "currencyCode": "EUR"
+                },
+                "netAmount": {
+                  "value": "15.46",
+                  "currencyCode": "EUR"
+                }
+              },
+              "totalTax": {
+                "type": "TOTAL",
+                "rate": "0.19",
+                "charge": {
+                  "baseAmount": {
+                    "value": "3.04",
+                    "currencyCode": "EUR"
+                  },
+                  "discountAmount": {
+                    "value": "0.57",
+                    "currencyCode": "EUR"
+                  },
+                  "netAmount": {
+                    "value": "2.47",
+                    "currencyCode": "EUR"
+                  }
+                }
+              },
+              "chargeType": "TOTAL"
+            }
+          ]
+        }
+      ],
+      "locationId": "DEFAULT",
+      "partyInfoList": [],
+      "lastUpdatedDateTime": "2025-01-09T17:19:20Z",
+      "shipmentInfo": {
+        "numberOfUnits": 1,
+        "priority": "HIGH",
+        "buyerOrderId": "302-8234567-1234567",
+        "shipmentType": "NEW"
+      },
+      "status": "ACCEPTED",
+      "creationDateTime": "2025-01-09T13:12:34Z"
+    }
+  ],
+  "pagination": {
+    "nextToken": null
+  }
+}
