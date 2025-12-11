@@ -40,11 +40,14 @@ public class GetFeedDocumentRecipe extends Recipe {
         String documentUrl = getFeedDocumentUrl(resultFeedDocumentId);
         String xmlContent = downloadFeedDocument(documentUrl);
         String DocumentReportReferenceID = extractDocumentReportReferenceID(xmlContent);
-        System.out.println("✅ Document Report Reference Id [Used to Retrieve the Shipping Label through the Reports API]: " + DocumentReportReferenceID);
+        System.out.println(
+                "✅ Document Report Reference Id [Used to Retrieve the Shipping Label through the Reports API]: "
+                        + DocumentReportReferenceID);
     }
 
     private void initializeParameters() {
-        // Feed ID Generated during the SubmitFeedRequestRecipe to generate the Shipping Label
+        // Feed ID Generated during the SubmitFeedRequestRecipe to generate the Shipping
+        // Label
         feedId = "378823020417";
         System.out.println("Parameters initialized for feed: " + feedId);
     }
@@ -61,10 +64,27 @@ public class GetFeedDocumentRecipe extends Recipe {
     private String getFeedStatus() {
         try {
             Feed feed = feedsApi.getFeed(feedId);
-            if (feed.getProcessingStatus() == Feed.ProcessingStatusEnum.IN_QUEUE | feed.getProcessingStatus() == Feed.ProcessingStatusEnum.IN_PROGRESS) {
-                throw new RuntimeException("Feed is not done. Current status: " + feed.getProcessingStatus() + "Wait a moment before checking again.");
+            if (feed.getProcessingStatus() == Feed.ProcessingStatusEnum.IN_QUEUE
+                    | feed.getProcessingStatus() == Feed.ProcessingStatusEnum.IN_PROGRESS) {
+                /**
+                 * 
+                 * NOTE ON IMPLEMENTATION:
+                 * While this code throws an exception for IN_QUEUE/IN_PROGRESS status, this is
+                 * a simplified approach
+                 * for demonstration purposes. In production environments, it's recommended to
+                 * implement a retry mechanism
+                 * with sleep intervals (typically 3 attempts) as feed processing typically
+                 * completes within seconds
+                 * or tens of seconds. This simplified implementation is maintained for recipe
+                 * clarity but should be
+                 * enhanced with proper retry logic in actual applications.
+                 */
+
+                throw new RuntimeException("Feed is not done. Current status: " + feed.getProcessingStatus()
+                        + "Wait a moment before checking again.");
             }
-            if (feed.getProcessingStatus() == Feed.ProcessingStatusEnum.CANCELLED | feed.getProcessingStatus() == Feed.ProcessingStatusEnum.FATAL) {
+            if (feed.getProcessingStatus() == Feed.ProcessingStatusEnum.CANCELLED
+                    | feed.getProcessingStatus() == Feed.ProcessingStatusEnum.FATAL) {
                 throw new RuntimeException("Feed is cancelled. Current status: " + feed.getProcessingStatus());
             }
             String resultDocumentId = feed.getResultFeedDocumentId();
@@ -92,7 +112,7 @@ public class GetFeedDocumentRecipe extends Recipe {
                     .uri(create(url))
                     .GET()
                     .build();
-            
+
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println(response.body());
             if (response.statusCode() < 200 || response.statusCode() >= 300) {
@@ -104,12 +124,13 @@ public class GetFeedDocumentRecipe extends Recipe {
             throw new RuntimeException("Failed to download feed document", e);
         }
     }
+
     private String extractDocumentReportReferenceID(String xmlContent) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(new ByteArrayInputStream(xmlContent.getBytes()));
-            
+
             NodeList nodes = doc.getElementsByTagName("DocumentReportReferenceID");
             if (nodes.getLength() == 0) {
                 throw new RuntimeException("DocumentReportReferenceID not found in XML");
