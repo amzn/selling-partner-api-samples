@@ -1,0 +1,71 @@
+{
+    "payload": {
+        "BuyerInfo": {
+            "BuyerEmail": "<buyer-email>",
+            "BuyerCounty": "<buyer-county>"
+        },
+        "AmazonOrderId": "701-6210829-5037842",
+        "EarliestDeliveryDate": "2025-11-21T03:00:00Z",
+        "EarliestShipDate": "2025-08-18T03:00:00Z",
+        "SalesChannel": "Amazon.com.br",
+        "AutomatedShippingSettings": {
+            "HasAutomatedShippingSettings": false
+        },
+        "OrderStatus": "Shipped",
+        "NumberOfItemsShipped": 1,
+        "OrderType": "StandardOrder",
+        "IsPremiumOrder": false,
+        "IsPrime": false,
+        "FulfillmentChannel": "MFN",
+        "NumberOfItemsUnshipped": 0,
+        "HasRegulatedItems": false,
+        "IsReplacementOrder": false,
+        "IsSoldByAB": false,
+        "LatestShipDate": "2025-08-19T02:59:59Z",
+        "PaymentExecutionDetail": [
+            {
+                "AuthorizationCode": "<authorization-code>",
+                "Payment": {
+                    "CurrencyCode": "BRL",
+                    "Amount": "1.00"
+                },
+                "PaymentMethod": "CreditCard",
+                "AcquirerId": "<acquirer-id>",
+                "CardBrand": "MasterCard"
+            }
+        ],
+        "ShipServiceLevel": "EXP DOM 6",
+        "DefaultShipFromLocationAddress": {
+            "AddressLine2": "null",
+            "StateOrRegion": "SÃO PAULO",
+            "AddressLine1": "null",
+            "PostalCode": "<postal-code>",
+            "City": "<city>",
+            "CountryCode": "BR",
+            "Name": "null"
+        },
+        "IsISPU": false,
+        "MarketplaceId": "A2Q3Y263D00KWC",
+        "LatestDeliveryDate": "2025-11-30T02:59:59Z",
+        "PurchaseDate": "2025-08-15T11:25:50Z",
+        "ShippingAddress": {
+            "StateOrRegion": "SP",
+            "PostalCode": "<postal-code>",
+            "City": "<city>",
+            "CountryCode": "BR"
+        },
+        "IsAccessPointOrder": false,
+        "PaymentMethod": "Other",
+        "IsBusinessOrder": false,
+        "OrderTotal": {
+            "CurrencyCode": "BRL",
+            "Amount": "1.00"
+        },
+        "PaymentMethodDetails": [
+            "CreditCard"
+        ],
+        "IsGlobalExpressEnabled": false,
+        "LastUpdateDate": "2025-09-19T03:36:58Z",
+        "ShipmentServiceLevelCategory": "Expedited"
+    }
+}
