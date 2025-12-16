@@ -1,0 +1,34 @@
+{
+  "sku": "TEST-SKU-001",
+  "summaries": [
+    {
+      "marketplaceId": "ATVPDKIKX0DER",
+      "asin": "B08N5WRWNW",
+      "productType": "PRODUCT",
+      "status": ["BUYABLE"]
+    }
+  ],
+  "attributes": {
+    "purchasable_offer": {
+      "marketplace_id": "ATVPDKIKX0DER",
+      "currency": "USD",
+      "our_price": [
+        {
+          "schedule": [
+            {
+              "value_with_tax": 29.99
+            }
+          ]
+        }
+      ],
+      "offers": [
+        {
+          "price": {
+            "value_with_tax": 29.99,
+            "currency": "USD"
+          }
+        }
+      ]
+    }
+  }
+}
