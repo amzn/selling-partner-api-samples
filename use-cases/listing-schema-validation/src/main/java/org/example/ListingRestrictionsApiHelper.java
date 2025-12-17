@@ -1,4 +1,5 @@
 package org.example;
+
 import com.amazon.SellingPartnerAPIAA.LWAException;
 import software.amazon.spapi.ApiException;
 import software.amazon.spapi.api.listings.restrictions.v2021_08_01.ListingsApi;
@@ -12,10 +13,7 @@ public class ListingRestrictionsApiHelper {
     private static ListingsApi listingRestrictionsApi;
 
     public static void initListingRestrictionsApi() {
-        listingRestrictionsApi = new software.amazon.spapi.api.listings.restrictions.v2021_08_01.ListingsApi.Builder()
-                .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
-                .endpoint(endpoint)
-                .build();
+        listingRestrictionsApi = new software.amazon.spapi.api.listings.restrictions.v2021_08_01.ListingsApi(apiClient, true);
     }
 
     public static void findListingRestrictions(String asin) throws LWAException, ApiException {
