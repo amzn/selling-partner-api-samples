@@ -1,0 +1,47 @@
+{
+  "payload": [
+    {
+      "status": "Success",
+      "SellerSKU": "TEST-SKU-001",
+      "Product": {
+        "Identifiers": {
+          "MarketplaceASIN": {
+            "MarketplaceId": "ATVPDKIKX0DER",
+            "ASIN": "B08N5WRWNW"
+          },
+          "SKUIdentifier": {
+            "MarketplaceId": "ATVPDKIKX0DER",
+            "SellerId": "A3SELLER123",
+            "SellerSKU": "TEST-SKU-001"
+          }
+        },
+        "Offers": [
+          {
+            "BuyingPrice": {
+              "LandedPrice": {
+                "Amount": 29.99,
+                "CurrencyCode": "USD"
+              },
+              "ListingPrice": {
+                "Amount": 29.99,
+                "CurrencyCode": "USD"
+              },
+              "Shipping": {
+                "Amount": 0.00,
+                "CurrencyCode": "USD"
+              }
+            },
+            "RegularPrice": {
+              "Amount": 29.99,
+              "CurrencyCode": "USD"
+            },
+            "FulfillmentChannel": "AMAZON",
+            "ItemCondition": "New",
+            "ItemSubCondition": "New",
+            "SellerSKU": "TEST-SKU-001"
+          }
+        ]
+      }
+    }
+  ]
+}
