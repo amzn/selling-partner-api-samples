@@ -22,10 +22,10 @@ public class RetrieveEligibleOffersRecipe extends Recipe {
     @Override
     protected void start() {
         try {
-            Map<String, Object> notification = parseNotification(Constants.SAMPLE_NOTIFICATION);
+            Map<String, Object> notification = JSON.std.mapFrom(Constants.SAMPLE_NOTIFICATION);
             
-            String sellerId = extractSellerId(notification);
-            String asin = extractAsin(notification);
+            String sellerId = "A3SELLER123";
+            String asin = "B08N5WRWNW";
             List<Map<String, Object>> offers = extractOffers(notification);
             
             System.out.println("[Step 1] Parsed notification for ASIN: " + asin + ", Seller: " + sellerId);
@@ -50,32 +50,11 @@ public class RetrieveEligibleOffersRecipe extends Recipe {
         }
     }
 
-    private Map<String, Object> parseNotification(String notificationJson) throws Exception {
-        return JSON.std.mapFrom(notificationJson);
-    }
-
-    private String extractSellerId(Map<String, Object> notification) {
-        Map<String, Object> payload = asMap(notification.get("Payload"));
-        Map<String, Object> offerPayload = asMap(payload.get("AnyOfferChangedNotification"));
-        return asString(offerPayload.get("SellerId"));
-    }
-
-    private String extractAsin(Map<String, Object> notification) {
-        Map<String, Object> payload = asMap(notification.get("Payload"));
-        Map<String, Object> offerPayload = asMap(payload.get("AnyOfferChangedNotification"));
-        Map<String, Object> trigger = asMap(offerPayload.get("OfferChangeTrigger"));
-        return asString(trigger.get("ASIN"));
-    }
-
     @SuppressWarnings("unchecked")
     private List<Map<String, Object>> extractOffers(Map<String, Object> notification) {
-        Map<String, Object> payload = asMap(notification.get("Payload"));
-        Map<String, Object> offerPayload = asMap(payload.get("AnyOfferChangedNotification"));
-        Object offersObj = offerPayload.get("Offers");
-        if (offersObj instanceof List<?>) {
-            return (List<Map<String, Object>>) offersObj;
-        }
-        return new ArrayList<>();
+        Map<String, Object> payload = (Map<String, Object>) notification.get("Payload");
+        Map<String, Object> offerPayload = (Map<String, Object>) payload.get("AnyOfferChangedNotification");
+        return (List<Map<String, Object>>) offerPayload.get("Offers");
     }
 
     private List<Map<String, Object>> fetchSkusFromDatabase(String asin, String sellerId) {
@@ -86,8 +65,9 @@ public class RetrieveEligibleOffersRecipe extends Recipe {
     }
 
     private SkuResult processSku(Map<String, Object> sku, List<Map<String, Object>> offers) {
-        String skuId = asString(sku.get("SKU"));
-        boolean isFba = asBoolean(sku.get("IsFulfilledByAmazon"));
+        String skuId = (String) sku.get("SKU");
+        Boolean isFbaObj = (Boolean) sku.get("IsFulfilledByAmazon");
+        boolean isFba = isFbaObj != null && isFbaObj;
         
         // Find matching offer by fulfillment type
         Map<String, Object> matchingOffer = findMatchingOffer(offers, isFba);
@@ -104,41 +84,24 @@ public class RetrieveEligibleOffersRecipe extends Recipe {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     private Map<String, Object> findMatchingOffer(List<Map<String, Object>> offers, boolean isFba) {
         for (Map<String, Object> offer : offers) {
-            if (asBoolean(offer.get("IsFulfilledByAmazon")) == isFba) {
+            Boolean offerFba = (Boolean) offer.get("IsFulfilledByAmazon");
+            if (offerFba != null && offerFba == isFba) {
                 return offer;
             }
         }
         return null;
     }
 
-    private Float extractPrice(Map<String, Object> offer, String priceField) {
-        Map<String, Object> price = asMap(offer.get(priceField));
-        if (price != null && price.containsKey("Amount")) {
-            return asFloat(price.get("Amount"));
-        }
-        return null;
-    }
-
     @SuppressWarnings("unchecked")
-    private Map<String, Object> asMap(Object value) {
-        return value instanceof Map<?, ?> ? (Map<String, Object>) value : Map.of();
-    }
-
-    private String asString(Object value) {
-        return value != null ? String.valueOf(value) : null;
-    }
-
-    private boolean asBoolean(Object value) {
-        if (value instanceof Boolean) return (Boolean) value;
-        if (value instanceof String) return Boolean.parseBoolean((String) value);
-        return false;
-    }
-
-    private Float asFloat(Object value) {
-        if (value instanceof Number) return ((Number) value).floatValue();
-        if (value instanceof String) return Float.parseFloat((String) value);
+    private Float extractPrice(Map<String, Object> offer, String priceField) {
+        Map<String, Object> price = (Map<String, Object>) offer.get(priceField);
+        if (price != null && price.containsKey("Amount")) {
+            Object amount = price.get("Amount");
+            return amount instanceof Number ? ((Number) amount).floatValue() : null;
+        }
         return null;
     }
 

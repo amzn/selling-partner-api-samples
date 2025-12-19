@@ -18,54 +18,45 @@ public class CalculateNewPriceRecipe extends Recipe {
 
     @Override
     protected void start() {
-        float listingPrice = 29.99f;
-        float shippingPrice = 0.00f;
-        float buyBoxPrice = 27.99f;
-        float minThreshold = 20.00f;
+        BigDecimal listingPrice = new BigDecimal("29.99");
+        BigDecimal shippingPrice = new BigDecimal("0.00");
+        BigDecimal buyBoxPrice = new BigDecimal("27.99");
+        BigDecimal minThreshold = new BigDecimal("20.00");
         String priceChangeRule = "PERCENTAGE";
-        float priceChangeValue = 5.0f;
+        BigDecimal priceChangeValue = new BigDecimal("5.0");
         
         System.out.println("[Step 1] Calculating landed price");
-        float landedPrice = listingPrice + shippingPrice;
+        BigDecimal landedPrice = listingPrice.add(shippingPrice);
         
-        if (buyBoxPrice < minThreshold) {
+        if (buyBoxPrice.compareTo(minThreshold) < 0) {
             System.out.println("[Step 2] Buy Box Price is less than threshold, skipping");
             return;
         }
         
-        if (buyBoxPrice > landedPrice) {
+        if (buyBoxPrice.compareTo(landedPrice) > 0) {
             System.out.println("[Step 2] Landed Price is already less than Buy Box Price, skipping");
             return;
         }
         
         System.out.println("[Step 3] Calculating new price using " + priceChangeRule + " rule");
-        float newItemPrice;
-        float buyBoxPriceExcludingShipping = buyBoxPrice - shippingPrice;
+        BigDecimal buyBoxPriceExcludingShipping = buyBoxPrice.subtract(shippingPrice);
+        BigDecimal newItemPrice;
         
         if ("PERCENTAGE".equals(priceChangeRule)) {
-            newItemPrice = subtractPercentage(buyBoxPriceExcludingShipping, priceChangeValue);
+            BigDecimal percentage = priceChangeValue.divide(new BigDecimal("100"));
+            newItemPrice = buyBoxPriceExcludingShipping.subtract(buyBoxPriceExcludingShipping.multiply(percentage));
         } else if ("FIXED".equals(priceChangeRule)) {
-            newItemPrice = subtractFixed(buyBoxPriceExcludingShipping, priceChangeValue);
+            newItemPrice = buyBoxPriceExcludingShipping.subtract(priceChangeValue);
         } else {
             System.out.println("Invalid price change rule");
             return;
         }
         
-        if (newItemPrice < minThreshold) {
+        if (newItemPrice.compareTo(minThreshold) < 0) {
             System.out.println("[Step 4] New price is less than threshold, skipping");
             return;
         }
         
         System.out.println("[Step 4] New listing price: " + newItemPrice);
-    }
-    
-    private float subtractPercentage(float n1, float percentage) {
-        return BigDecimal.valueOf(n1)
-                .subtract(BigDecimal.valueOf(n1).multiply(BigDecimal.valueOf(percentage / 100)))
-                .floatValue();
-    }
-    
-    private float subtractFixed(float n1, float n2) {
-        return BigDecimal.valueOf(n1).subtract(BigDecimal.valueOf(n2)).floatValue();
     }
 }
