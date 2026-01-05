@@ -1,0 +1,40 @@
+{
+  "NotificationVersion": "1.0",
+  "NotificationType": "ORDER_CHANGE",
+  "PayloadVersion": "1.0",
+  "EventTime": "2025-12-01T19:30:15.261Z",
+  "Payload": {
+    "OrderChangeNotification": {
+      "NotificationLevel": "OrderLevel",
+      "SellerId": "A2ZPJ4TLUOSWY8",
+      "AmazonOrderId": "701-1588164-9632243",
+      "OrderChangeType": "OrderStatusChange",
+      "OrderChangeTrigger": {
+        "TimeOfOrderChange": "2025-12-01T19:26:52.000Z",
+        "ChangeReason": "Order Status Change"
+      },
+      "Summary": {
+        "MarketplaceId": "A2Q3Y263D00KWC",
+        "OrderStatus": "Shipped",
+        "PurchaseDate": "2025-12-01T18:24:39.346Z",
+        "DestinationPostalCode": null,
+        "FulfillmentType": "MFN",
+        "OrderType": "StandardOrder",
+        "OrderPrograms": [],
+        "ShippingPrograms": [],
+        "OrderItems": [{
+          "OrderItemId": "148197599524161",
+          "SellerSKU": "132577",
+          "SupplySourceId": null,
+          "Quantity": 1
+        }]
+      }
+    }
+  },
+  "NotificationMetadata": {
+    "ApplicationId": "amzn1.sp.solution.cfb7a8b4-5e9e-4ed2-9a62-f3dd92d61a2f",
+    "SubscriptionId": "68730dd5-7a75-496d-bbba-b85074f246d8",
+    "PublishTime": "2025-12-01T19:30:16.976Z",
+    "NotificationId": "fb7a833f-bcb7-48b7-8f0b-10397b015af8"
+  }
+}

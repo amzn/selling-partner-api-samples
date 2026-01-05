@@ -4,7 +4,7 @@ Code recipes provides easy to read sample code for common use cases of Amazon Se
 
 ## Use Cases
 | API | Use Case | Java | Python | PHP | Reference |
-| --- | -------- | ---- | ------ | --- | --------- |
+| --- | --- | --- | --- | --- | --- |
 | AWD | Inbound Shipment Creation | [Link](java/src/main/java/awd/InboundOrderCreationRecipe.java) | - | [Link](php/src/awd/InboundOrderCreationRecipe.php) | [Docs](https://developer-docs.amazon.com/sp-api/docs/amazon-warehousing-and-distribution-api) |
 | A+ Content API | Submit an Image to A+ Content | [Link](java/src/main/java/aplus/UploadImageForResourceRecipe.java) | - | [Link](php/src/aplus/UploadImageForResourceRecipe.php) | [Docs](https://developer-docs.amazon.com/sp-api/docs/a-plus-content-api-use-case-guide) |
 | Messaging API | Submit an Invoice to Buyer | [Link](java/src/main/java/messaging/SendInvoiceToBuyerRecipe.java) | - | [Link](php/src/messaging/SendInvoiceToBuyerRecipe.php) | [Docs](https://developer-docs.amazon.com/sp-api/docs/messaging-api) |
@@ -19,3 +19,6 @@ Code recipes provides easy to read sample code for common use cases of Amazon Se
 | Easy Ship | Submit Feed Request | [Link](java/src/main/java/easyship/SubmitFeedRequestRecipe.java) | - | [Link](php/src/easyship/SubmitFeedRequestRecipe.php) | [Docs](https://developer-docs.amazon.com/sp-api/docs/feeds-api-v2021-06-30-reference) |
 | Easy Ship | Get Feed Document | [Link](java/src/main/java/easyship/GetFeedDocumentRecipe.java) | - | [Link](php/src/easyship/GetFeedDocumentRecipe.php) | [Docs](https://developer-docs.amazon.com/sp-api/docs/feeds-api-v2021-06-30-reference) |
 | Easy Ship | Download Shipping Label | [Link](java/src/main/java/easyship/DownloadShippingLabelRecipe.java) | - | [Link](php/src/easyship/DownloadShippingLabelRecipe.php) | [Docs](https://developer-docs.amazon.com/sp-api/docs/easy-ship-api) |
+| Notifications | Create Destination | [Link](code-recipes/java/src/test/java/notifications/CreateDestinationRecipe.java) | - | - | [Docs](https://developer-docs.amazon.com/sp-api/docs/notifications-api) |
+| Notifications | Create Subscription | [Link](code-recipes/java/src/test/java/notifications/CreateSubscriptionRecipe.java) | - | - | [Docs](https://developer-docs.amazon.com/sp-api/docs/notifications-api) |
+| Solicitations | Solicit Product Review | [Link](code-recipes/java/src/main/java/solicitations/SolicitProductReviewRecipe.java) | - | - | [Docs](https://developer-docs.amazon.com/sp-api/docs/solicitations-api) |
