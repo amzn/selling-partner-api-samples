@@ -15,21 +15,21 @@ This repository contains two types of sample code:
 - [Labs](labs): Hands-on resources to help you learn and master flows and scenarios through Jupyter code samples, guided tutorials, and full workshop challenges.
 
 ### Code Recipes
-| API | Use Case | Java | Python | PHP |
-| --- | -------- | ---- | ------ | --- |
-| AWD | Inbound Shipment Creation | [Link](code-recipes/java/src/main/java/awd/InboundOrderCreationRecipe.java) | - | [Link](code-recipes/php/src/awd/InboundOrderCreationRecipe.php) |
-| A+ Content API | Submit an Image to A+ Content | [Link](code-recipes/java/src/main/java/aplus/UploadImageForResourceRecipe.java) | - | [Link](code-recipes/php/src/aplus/UploadImageForResourceRecipe.php) |
-| Messaging API | Submit an Invoice to Buyer | [Link](code-recipes/java/src/main/java/messaging/SendInvoiceToBuyerRecipe.java) | - | [Link](code-recipes/php/src/messaging/SendInvoiceToBuyerRecipe.php) |
+| API | Use Case | Java | Python | PHP                                                                                     |
+| --- | -------- | ---- | ------ |-----------------------------------------------------------------------------------------|
+| AWD | Inbound Shipment Creation | [Link](code-recipes/java/src/main/java/awd/InboundOrderCreationRecipe.java) | - | [Link](code-recipes/php/src/awd/InboundOrderCreationRecipe.php)                         |
+| A+ Content API | Submit an Image to A+ Content | [Link](code-recipes/java/src/main/java/aplus/UploadImageForResourceRecipe.java) | - | -                                                                                       |
+| Messaging API | Submit an Invoice to Buyer | [Link](code-recipes/java/src/main/java/messaging/SendInvoiceToBuyerRecipe.java) | - | -                                                                                       |
 | Orders | B2B Delivery Experience | [Link](code-recipes/java/src/main/java/b2bdeliveryexperience/BusinessDeliveryExperienceRecipe.java) | - | [Link](code-recipes/php/src/b2bdeliveryexperience/BusinessDeliveryExperienceRecipe.php) |
-| Data Kiosk | End-to-end Query Submission | [Link](code-recipes/java/src/main/java/datakiosk/DataKioskQueryRecipe.java) | [Link](code-recipes/python/src/recipes/datakiosk/datakiosk_query_recipe.py) | - |
-| Easy Ship | Calculate Order Dimensions | [Link](code-recipes/java/src/main/java/easyship/CalculateOrderDimensionsRecipe.java) | - | [Link](code-recipes/php/src/easyship/CalculateOrderDimensionsRecipe.php) |
-| Easy Ship | Create Scheduled Package | [Link](code-recipes/java/src/main/java/easyship/CreateScheduledPackageRecipe.java) | - | [Link](code-recipes/php/src/easyship/CreateScheduledPackageRecipe.php) |
-| Easy Ship | Download Shipping Label | [Link](code-recipes/java/src/main/java/easyship/DownloadShippingLabelRecipe.java) | - | [Link](code-recipes/php/src/easyship/DownloadShippingLabelRecipe.php) |
-| Easy Ship | Get Feed Document | [Link](code-recipes/java/src/main/java/easyship/GetFeedDocumentRecipe.java) | - | [Link](code-recipes/php/src/easyship/GetFeedDocumentRecipe.php) |
-| Easy Ship | Get Handover Slots | [Link](code-recipes/java/src/main/java/easyship/GetHandoverSlotsRecipe.java) | - | [Link](code-recipes/php/src/easyship/GetHandoverSlotsRecipe.php) |
-| Easy Ship | Get Scheduled Package | [Link](code-recipes/java/src/main/java/easyship/GetScheduledPackageRecipe.java) | - | [Link](code-recipes/php/src/easyship/GetScheduledPackageRecipe.php) |
-| Easy Ship | Retrieve Order | [Link](code-recipes/java/src/main/java/easyship/RetrieveOrderRecipe.java) | - | [Link](code-recipes/php/src/easyship/RetrieveOrderRecipe.php) |
-| Easy Ship | Submit Feed Request | [Link](code-recipes/java/src/main/java/easyship/SubmitFeedRequestRecipe.java) | - | [Link](code-recipes/php/src/easyship/SubmitFeedRequestRecipe.php) |
+| Data Kiosk | End-to-end Query Submission | [Link](code-recipes/java/src/main/java/datakiosk/DataKioskQueryRecipe.java) | [Link](code-recipes/python/src/recipes/datakiosk/datakiosk_query_recipe.py) | -                                                                                       |
+| Easy Ship | Calculate Order Dimensions | [Link](code-recipes/java/src/main/java/easyship/CalculateOrderDimensionsRecipe.java) | - | [Link](code-recipes/php/src/easyship/CalculateOrderDimensionsRecipe.php)                |
+| Easy Ship | Create Scheduled Package | [Link](code-recipes/java/src/main/java/easyship/CreateScheduledPackageRecipe.java) | - | [Link](code-recipes/php/src/easyship/CreateScheduledPackageRecipe.php)                  |
+| Easy Ship | Download Shipping Label | [Link](code-recipes/java/src/main/java/easyship/DownloadShippingLabelRecipe.java) | - | [Link](code-recipes/php/src/easyship/DownloadShippingLabelRecipe.php)                   |
+| Easy Ship | Get Feed Document | [Link](code-recipes/java/src/main/java/easyship/GetFeedDocumentRecipe.java) | - | [Link](code-recipes/php/src/easyship/GetFeedDocumentRecipe.php)                         |
+| Easy Ship | Get Handover Slots | [Link](code-recipes/java/src/main/java/easyship/GetHandoverSlotsRecipe.java) | - | [Link](code-recipes/php/src/easyship/GetHandoverSlotsRecipe.php)                        |
+| Easy Ship | Get Scheduled Package | [Link](code-recipes/java/src/main/java/easyship/GetScheduledPackageRecipe.java) | - | [Link](code-recipes/php/src/easyship/GetScheduledPackageRecipe.php)                     |
+| Easy Ship | Retrieve Order | [Link](code-recipes/java/src/main/java/easyship/RetrieveOrderRecipe.java) | - | [Link](code-recipes/php/src/easyship/RetrieveOrderRecipe.php)                           |
+| Easy Ship | Submit Feed Request | [Link](code-recipes/java/src/main/java/easyship/SubmitFeedRequestRecipe.java) | - | [Link](code-recipes/php/src/easyship/SubmitFeedRequestRecipe.php)                       |
 
 We welcome contributions to this repo in the form of fixes or improvements to existing content. For more information on contributing, please see the [CONTRIBUTING](CONTRIBUTING.md) guide.
 
