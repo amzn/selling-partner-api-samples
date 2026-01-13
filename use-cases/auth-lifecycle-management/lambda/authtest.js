@@ -2,6 +2,8 @@ const axios = require('./spApiLogger');
 
 
 class AuthorizationTest {
+    static abc = 'Auth Management Sample App/1.0/JavaScript';
+
     constructor(region, marketplace) {
         this.region = region;
         this.marketplace = marketplace;
@@ -80,7 +82,8 @@ class AuthorizationTest {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                         'x-amz-access-token': accessToken,
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'User-Agent': AuthorizationTest.abc
                     },
                     params: {
                         createdAfter: createdAfter,

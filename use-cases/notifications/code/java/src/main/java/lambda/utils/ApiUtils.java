@@ -1,8 +1,10 @@
 package lambda.utils;
 
+import com.amazon.SellingPartnerAPIAA.LWAAuthorizationSigner;
 import com.amazon.SellingPartnerAPIAA.LWAClientScopes;
 import com.amazon.SellingPartnerAPIAA.LWAAuthorizationCredentials;
 import lambda.common.AppCredentials;
+import software.amazon.spapi.ApiClient;
 import software.amazon.spapi.api.notifications.v1.NotificationsApi;
 
 import java.util.Set;
@@ -68,10 +70,12 @@ public class ApiUtils {
                         .refreshToken(refreshToken)
                         .build();
 
-        return new NotificationsApi.Builder()
-                .endpoint(endpoint)
-                .lwaAuthorizationCredentials(lwaCredentials)
-                .build();
+        ApiClient apiClient = new ApiClient();
+        apiClient.setBasePath(endpoint);
+        apiClient.setLWAAuthorizationSigner(new LWAAuthorizationSigner(lwaCredentials));
+        apiClient.setUserAgent("Notifications Sample App/1.0/Java");
+
+        return new NotificationsApi(apiClient);
     }
 
     /**
@@ -97,9 +101,11 @@ public class ApiUtils {
                 .refreshToken(refreshToken)
                 .build();
 
-        return new OrdersV0Api.Builder()
-                .endpoint(endpoint)
-                .lwaAuthorizationCredentials(lwaCredentials)
-                .build();
+        ApiClient apiClient = new ApiClient();
+        apiClient.setBasePath(endpoint);
+        apiClient.setLWAAuthorizationSigner(new LWAAuthorizationSigner(lwaCredentials));
+        apiClient.setUserAgent("Notifications Sample App/1.0/Java");
+
+        return new OrdersV0Api(apiClient);
     }
 }

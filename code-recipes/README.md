@@ -3,11 +3,11 @@
 Code recipes provides easy to read sample code for common use cases of Amazon Selling Partner API. They are provided in multiple programming languages and are based on [Amazon Selling Partner API SDK](https://github.com/amzn/selling-partner-api-sdk). The main purpose of them is to read or browse through them and copy parts of them over into your codebase.
 
 ## Use Cases
-| API | Use Case | Java | Python | PHP | Reference |
-| --- | -------- | ---- | ------ | --- | --------- |
-| AWD | Inbound Shipment Creation | [Link](java/src/main/java/awd/InboundOrderCreationRecipe.java) | - | [Link](php/src/awd/InboundOrderCreationRecipe.php) | [Docs](https://developer-docs.amazon.com/sp-api/docs/amazon-warehousing-and-distribution-api) |
-| A+ Content API | Submit an Image to A+ Content | [Link](java/src/main/java/aplus/UploadImageForResourceRecipe.java) | - | [Link](php/src/aplus/UploadImageForResourceRecipe.php) | [Docs](https://developer-docs.amazon.com/sp-api/docs/a-plus-content-api-use-case-guide) |
-| Messaging API | Submit an Invoice to Buyer | [Link](java/src/main/java/messaging/SendInvoiceToBuyerRecipe.java) | - | [Link](php/src/messaging/SendInvoiceToBuyerRecipe.php) | [Docs](https://developer-docs.amazon.com/sp-api/docs/messaging-api) |
+| API | Use Case | Java | Python | PHP                                                                        | Reference |
+| --- | -------- | ---- | ------ |----------------------------------------------------------------------------| --------- |
+| AWD | Inbound Shipment Creation | [Link](java/src/main/java/awd/InboundOrderCreationRecipe.java) | - | [Link](php/src/awd/InboundOrderCreationRecipe.php)                         | [Docs](https://developer-docs.amazon.com/sp-api/docs/amazon-warehousing-and-distribution-api) |
+| A+ Content API | Submit an Image to A+ Content | [Link](java/src/main/java/aplus/UploadImageForResourceRecipe.java) | - | -                                                                          | [Docs](https://developer-docs.amazon.com/sp-api/docs/a-plus-content-api-use-case-guide) |
+| Messaging API | Submit an Invoice to Buyer | [Link](java/src/main/java/messaging/SendInvoiceToBuyerRecipe.java) | - | -                                                                          | [Docs](https://developer-docs.amazon.com/sp-api/docs/messaging-api) |
 | Orders | B2B Delivery Experience | [Link](java/src/main/java/b2bdeliveryexperience/BusinessDeliveryExperienceRecipe.java) | - | [Link](php/src/b2bdeliveryexperience/BusinessDeliveryExperienceRecipe.php) | [Docs](https://developer-docs.amazon.com/sp-api/docs/get-all-amazon-business-orders) |
 | Data Kiosk | End-to-end Query Submission | [Link](java/src/main/java/datakiosk/DataKioskQueryRecipe.java) | [Link](python/src/recipes/datakiosk/datakiosk_query_recipe.py) | - | [Docs](https://developer-docs.amazon.com/sp-api/docs/data-kiosk-api) |
 | Easy Ship with External Fulfillment | Easy Ship order processing with External Fulfillment APIs | [Link](java/src/main/java/easyship/EasyShipOrderProcessingRecipe.java) | [Link](python/src/recipes/easyship/easyship_order_processing_recipe.py) | - | [Docs](https://developer-docs.amazon.com/sp-api/docs/external-fulfillment-shipping) |
