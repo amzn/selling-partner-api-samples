@@ -17,9 +17,9 @@
     "start": "npm run build && npm run startserver"
   },
   "dependencies": {
-    "@aws-sdk/client-eventbridge": "^3.427.0",
-    "@aws-sdk/client-secrets-manager": "^3.199.0",
-    "@aws-sdk/client-sqs": "^3.428.0",
+    "@aws-sdk/client-eventbridge": "^3.965.0",
+    "@aws-sdk/client-secrets-manager": "^3.965.0",
+    "@aws-sdk/client-sqs": "^3.965.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@jsonforms/core": "^3.1.0",
