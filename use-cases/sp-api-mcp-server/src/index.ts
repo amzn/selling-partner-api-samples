@@ -16,11 +16,7 @@ dotenv.config();
 // Create server instance
 const server = new McpServer({
   name: "amazon-sp-api",
-  version: "0.1.0",
-  capabilities: {
-    resources: {},
-    tools: {},
-  },
+  version: "0.1.0"
 });
 
 // Main function
