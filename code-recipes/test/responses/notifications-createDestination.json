@@ -1,0 +1,11 @@
+{
+  "payload": {
+    "destinationId": "dest-12345-abcde-67890",
+    "name": "sp-api-destination",
+    "resource": {
+      "sqs": {
+        "arn": "arn:aws:sqs:us-east-1:123456789012:sp-api-notifications"
+      }
+    }
+  }
+}
