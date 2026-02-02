@@ -22,3 +22,7 @@ Code recipes provides easy to read sample code for common use cases of Amazon Se
 | Notifications | Create Destination | [Link](code-recipes/java/src/test/java/notifications/CreateDestinationRecipe.java) | - | - | [Docs](https://developer-docs.amazon.com/sp-api/docs/notifications-api) |
 | Notifications | Create Subscription | [Link](code-recipes/java/src/test/java/notifications/CreateSubscriptionRecipe.java) | - | - | [Docs](https://developer-docs.amazon.com/sp-api/docs/notifications-api) |
 | Solicitations | Solicit Product Review | [Link](code-recipes/java/src/main/java/solicitations/SolicitProductReviewRecipe.java) | - | - | [Docs](https://developer-docs.amazon.com/sp-api/docs/solicitations-api) |
+| Pricing | Retrieve Eligible Offers | [Link](java/src/main/java/pricing/RetrieveEligibleOffersRecipe.java) | - | - | [Docs](https://developer-docs.amazon.com/sp-api/docs/notification-type-values#any_offer_changed) |
+| Pricing | Fetch Price | [Link](java/src/main/java/pricing/FetchPriceRecipe.java) | - | - | [Docs](https://developer-docs.amazon.com/sp-api/docs/product-pricing-api-v0-reference) |
+| Pricing | Calculate New Price | [Link](java/src/main/java/pricing/CalculateNewPriceRecipe.java) | - | - | [Docs](https://developer-docs.amazon.com/sp-api/docs/product-pricing-api-v0-reference) |
+| Pricing | Submit Price | [Link](java/src/main/java/pricing/SubmitPriceRecipe.java) | - | - | [Docs](https://developer-docs.amazon.com/sp-api/docs/listings-items-api-v2021-08-01-reference#patchlistingsitem) |
