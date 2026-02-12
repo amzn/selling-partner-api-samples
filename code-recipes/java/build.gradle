@@ -46,6 +46,7 @@ npmInstall.dependsOn("processTestResources")
 
 dependencies {
 	implementation 'com.fasterxml.jackson.jr:jackson-jr-objects:2.21.0'
+	implementation 'com.google.code.gson:gson:2.10.1'
 	implementation 'software.amazon.spapi:spapi-sdk:1.6.1'
 	implementation 'org.threeten:threetenbp:1.7.2'
 	testImplementation 'com.fasterxml.jackson.jr:jackson-jr-all:2.21.0'
