@@ -1,45 +1,35 @@
-package util.notifications.datakiosk;
+package util.notifications.pricing;
 
 import com.google.gson.annotations.SerializedName;
 
 /**
- * The notification's metadata.
+ * An explanation about the purpose of this instance.
  */
 public class NotificationMetadata {
-    @SerializedName("applicationId")
+    @SerializedName("ApplicationId")
     private String applicationid;
-    @SerializedName("notificationId")
+    
+    @SerializedName("NotificationId")
     private String notificationid;
-    @SerializedName("publishTime")
+    
+    @SerializedName("PublishTime")
     private String publishTime;
-    @SerializedName("subscriptionId")
+    
+    @SerializedName("SubscriptionId")
     private String subscriptionid;
 
-    /**
-     * The application identifier.
-     */
     public String getApplicationid() {
         return applicationid;
     }
 
-    /**
-     * The notification identifier.
-     */
     public String getNotificationid() {
         return notificationid;
     }
 
-    /**
-     * The time the notification was published in ISO 8601 format.
-     */
-    @SerializedName("publishTime")
     public String getPublishTime() {
         return publishTime;
     }
 
-    /**
-     * The subscription identifier.
-     */
     public String getSubscriptionid() {
         return subscriptionid;
     }

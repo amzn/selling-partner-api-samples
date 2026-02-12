@@ -19,8 +19,4 @@ public class Pagination {
     public String getNextToken() {
         return nextToken;
     }
-
-    public void setNextToken(String value) {
-        this.nextToken = value;
-    }
 }

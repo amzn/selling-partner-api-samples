@@ -29,10 +29,6 @@ public class Payload {
         return accountid;
     }
 
-    public void setAccountid(String value) {
-        this.accountid = value;
-    }
-
     /**
      * The data document identifier. This document identifier is only present when there is data
      * available as a result of the query. This identifier is unique only in combination with
@@ -43,10 +39,6 @@ public class Payload {
         return dataDocumentid;
     }
 
-    public void setDataDocumentid(String value) {
-        this.dataDocumentid = value;
-    }
-
     /**
      * The error document identifier. This document identifier is only present when an error
      * occurs during query processing. This identifier is unique only in combination with the
@@ -55,10 +47,6 @@ public class Payload {
      */
     public String getErrorDocumentid() {
         return errorDocumentid;
-    }
-
-    public void setErrorDocumentid(String value) {
-        this.errorDocumentid = value;
     }
 
     /**
@@ -72,19 +60,11 @@ public class Payload {
         return pagination;
     }
 
-    public void setPagination(Pagination value) {
-        this.pagination = value;
-    }
-
     /**
      * The processing status of the query.
      */
     public ProcessingStatus getProcessingStatus() {
         return processingStatus;
-    }
-
-    public void setProcessingStatus(ProcessingStatus value) {
-        this.processingStatus = value;
     }
 
     /**
@@ -94,18 +74,10 @@ public class Payload {
         return query;
     }
 
-    public void setQuery(String value) {
-        this.query = value;
-    }
-
     /**
      * The query identifier. This identifier is unique only in combination with the `accountId`.
      */
     public String getQueryid() {
         return queryid;
-    }
-
-    public void setQueryid(String value) {
-        this.queryid = value;
     }
 }
