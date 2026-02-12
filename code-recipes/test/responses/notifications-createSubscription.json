@@ -1,0 +1,7 @@
+{
+  "payload": {
+    "subscriptionId": "sub-98765-fghij-43210",
+    "payloadVersion": "1.0",
+    "destinationId": "dest-12345-abcde-67890"
+  }
+}
