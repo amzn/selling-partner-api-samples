@@ -24,6 +24,7 @@ from spapi import SPAPIClient, SPAPIConfig, QueriesApi
 from src.recipes.datakiosk import constants
 from src import config
 from src.util.recipe import Recipe
+from src.util.data_kiosk_query_processing_finished_notification import DataKioskQueryProcessingFinishedNotification
 
 
 class DataKioskQueryRecipe(Recipe):
@@ -31,14 +32,13 @@ class DataKioskQueryRecipe(Recipe):
     A small helper class that encapsulates the Data Kiosk flow:
 
     * submit_query(): calls create_query and returns queryId
-    * handle_notification(): inspects the notification and picks the right documentId
     * get_document_metadata(): calls get_document(document_id=...)
     * download_and_parse_document(): downloads, (optionally) decrypts, parses JSON/JSONL
 
     In production you would typically:
     - Call submit_query() in one component.
     - Receive the notification in another component.
-    - Use handle_notification() + get_document_metadata() + download_and_parse_document() there.
+    - Use get_document_metadata() + download_and_parse_document() there.
     """
 
     def __init__(
@@ -88,73 +88,7 @@ class DataKioskQueryRecipe(Recipe):
         return query_id
 
     # -------------------------------------------------------------------------
-    # Step 2 – Handle DATA_KIOSK_QUERY_PROCESSING_FINISHED notification
-    # -------------------------------------------------------------------------
-
-    def handle_notification(
-        self,
-        notification_body: Any,
-    ) -> Tuple[str, Optional[str]]:
-        """
-        Parse a DATA_KIOSK_QUERY_PROCESSING_FINISHED notification and decide which
-        documentId to use.
-
-        Args:
-            notification_body: Raw JSON string or dict with the notification.
-
-        Returns:
-            (status_code, document_id_or_None)
-        """
-        # Accept both raw JSON string and dict
-        if isinstance(notification_body, str):
-            try:
-                notification = json.loads(notification_body)
-            except json.JSONDecodeError as e:
-                print(f"Invalid JSON notification: {e}")
-                return "INVALID_JSON", None
-        else:
-            notification = notification_body
-
-        notification_type = notification.get("notificationType")
-        if notification_type != "DATA_KIOSK_QUERY_PROCESSING_FINISHED":
-            print(f"Ignored wrong notificationType: {notification_type}")
-            return "IGNORED_WRONG_TYPE", None
-
-        payload = notification.get("payload", {})
-        status = payload.get("processingStatus")
-        data_document_id = payload.get("dataDocumentId")
-        error_document_id = payload.get("errorDocumentId")
-        query_id = payload.get("queryId")
-        account_id = payload.get("accountId")
-
-        print(
-            f"[Step 2] Received notification for queryId={query_id}, "
-            f"status={status}, accountId={account_id}"
-        )
-
-        # Your implementation uses upper-case status values: DONE / FATAL / etc.
-        if status in ("PENDING", "PROCESSING", "QUEUED"):
-            return f"NOT_READY ({status})", None
-
-        if status == "FATAL":
-            if error_document_id:
-                print(f"Using errorDocumentId={error_document_id}")
-                return "FATAL_WITH_ERROR_DOCUMENT", error_document_id
-            return "FATAL_NO_ERROR_DOCUMENT", None
-
-        if status == "DONE":
-            if data_document_id:
-                print(f"Using dataDocumentId={data_document_id}")
-                return "DONE_WITH_DATA_DOCUMENT", data_document_id
-            if error_document_id:
-                print(f"Done but only errorDocumentId={error_document_id}")
-                return "DONE_WITH_ERROR_DOCUMENT_ONLY", error_document_id
-            return "DONE_NO_DOCUMENT", None
-
-        return f"UNKNOWN_STATUS ({status})", None
-
-    # -------------------------------------------------------------------------
-    # Step 3 – Call get_document(document_id=...)
+    # Step 2 – Call get_document(document_id=...)
     # -------------------------------------------------------------------------
 
     def get_document_metadata(self, document_id: str) -> Dict[str, Any]:
@@ -287,14 +221,15 @@ class DataKioskQueryRecipe(Recipe):
         query_id = self.submit_query()
         print(f"Submitted queryId={query_id}")
 
-        status, document_id = self.handle_notification(self._notification_body)
+        notification = DataKioskQueryProcessingFinishedNotification.from_dict(self._notification_body)
+        document_id = notification.payload.dataDocumentId
         if not document_id:
-            print(f"No documentId to fetch. Status={status}")
+            print(f"No documentId to fetch.")
             return
 
         metadata = self.get_document_metadata(document_id)
         parsed = self.download_and_parse_document(metadata)
-        print(f"Downloaded and parsed document. Status={status}")
+        print(f"Downloaded and parsed document.")
         print("Parsed document (truncated):", str(parsed)[:500])
 
     # -------------------------------------------------------------------------
@@ -305,7 +240,7 @@ class DataKioskQueryRecipe(Recipe):
         self,
         notification_body: Any,
         download_document: bool = True,
-    ) -> Tuple[str, Optional[Dict[str, Any]], Optional[Any]]:
+    ) -> Tuple[Optional[Dict[str, Any]], Optional[Any]]:
         """
         Convenience method to show the complete flow in one place.
 
@@ -317,20 +252,21 @@ class DataKioskQueryRecipe(Recipe):
         Returns:
             (status_code, document_metadata_or_None, parsed_document_or_None)
         """
-        status, document_id = self.handle_notification(notification_body)
+        notification = DataKioskQueryProcessingFinishedNotification.from_dict(self._notification_body)
+        document_id = notification.payload.dataDocumentId
         if not document_id:
-            print(f"[Run] No documentId to fetch. Status={status}")
-            return status, None, None
+            print(f"[Run] No documentId to fetch.")
+            return None, None
 
         metadata = self.get_document_metadata(document_id)
 
         if not download_document:
-            print(f"[Run] Skipping download. Returning only metadata. Status={status}")
-            return status, metadata, None
+            print(f"[Run] Skipping download. Returning only metadata.")
+            return metadata, None
 
         parsed = self.download_and_parse_document(metadata)
-        print(f"[Run] Downloaded and parsed document. Status={status}")
-        return status, metadata, parsed
+        print(f"[Run] Downloaded and parsed document.")
+        return metadata, parsed
 
 
 # -----------------------------------------------------------------------------

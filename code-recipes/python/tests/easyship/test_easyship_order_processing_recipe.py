@@ -1,6 +1,4 @@
-from src.recipes.easyship.easyship_order_processing_recipe import (
-    EasyShipOrderProcessingRecipe,
-)
+from src.recipes.easyship.easyship_order_processing_recipe import EasyShipOrderProcessingRecipe
 from tests.recipe_test import RecipeTest
 
 

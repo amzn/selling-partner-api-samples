@@ -6,12 +6,13 @@ import software.amazon.spapi.models.datakiosk.v2023_11_15.CreateQueryResponse;
 import software.amazon.spapi.models.datakiosk.v2023_11_15.CreateQuerySpecification;
 import software.amazon.spapi.models.datakiosk.v2023_11_15.GetDocumentResponse;
 import util.Recipe;
+import util.notifications.datakiosk.DataKioskNotificationConverter;
+import util.notifications.datakiosk.DataKioskQueryProcessingFinishedNotification;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -38,14 +39,14 @@ public class DataKioskQueryRecipe extends Recipe {
         System.out.println("Query submitted with ID: " + queryId);
 
         try {
-            Map<String, Object> notification = parseNotification(Constants.SAMPLE_NOTIFICATION);
-            NotificationResult result = handleNotification(notification);
+            DataKioskQueryProcessingFinishedNotification notification =
+                    DataKioskNotificationConverter.fromJsonString(Constants.SAMPLE_NOTIFICATION);
 
-            if (result.documentId != null) {
-                GetDocumentResponse metadata = getDocumentMetadata(result.documentId);
+            if (notification.getPayload().getDataDocumentid() != null) {
+                GetDocumentResponse metadata = getDocumentMetadata(notification.getPayload().getDataDocumentid());
                 downloadAndParseDocument(metadata);
             } else {
-                System.out.println("[Step 2] No document to process. Status: " + result.status);
+                System.out.println("[Step 2] No document to process. Status: " + notification.getPayload().getProcessingStatus());
             }
         } catch (Exception e) {
             System.err.println("Error running Data Kiosk flow: " + e.getMessage());
@@ -70,57 +71,6 @@ public class DataKioskQueryRecipe extends Recipe {
             System.err.println("Error submitting query: " + e.getMessage());
             throw new RuntimeException(e);
         }
-    }
-
-    private Map<String, Object> parseNotification(String notificationJson) {
-        try {
-            return JSON.std.mapFrom(notificationJson);
-        } catch (Exception e) {
-            System.err.println("Error parsing notification: " + e.getMessage());
-            throw new RuntimeException(e);
-        }
-    }
-
-    private NotificationResult handleNotification(Map<String, Object> notification) {
-        String notificationType = asString(notification.get("notificationType"));
-        if (!"DATA_KIOSK_QUERY_PROCESSING_FINISHED".equals(notificationType)) {
-            System.out.println("Ignored wrong notificationType: " + notificationType);
-            return new NotificationResult("IGNORED_WRONG_TYPE", null);
-        }
-
-        Map<String, Object> payload = asMap(notification.get("payload"));
-        String status = asString(payload.get("processingStatus"));
-        String dataDocumentId = asString(payload.get("dataDocumentId"));
-        String errorDocumentId = asString(payload.get("errorDocumentId"));
-        String queryId = asString(payload.get("queryId"));
-
-        System.out.println("[Step 2] Received notification for queryId=" + queryId + ", status=" + status);
-
-        if ("PENDING".equals(status) || "PROCESSING".equals(status) || "QUEUED".equals(status)) {
-            return new NotificationResult("NOT_READY (" + status + ")", null);
-        }
-
-        if ("FATAL".equals(status)) {
-            if (errorDocumentId != null && !errorDocumentId.isEmpty()) {
-                System.out.println("Using errorDocumentId=" + errorDocumentId);
-                return new NotificationResult("FATAL_WITH_ERROR_DOCUMENT", errorDocumentId);
-            }
-            return new NotificationResult("FATAL_NO_ERROR_DOCUMENT", null);
-        }
-
-        if ("DONE".equals(status)) {
-            if (dataDocumentId != null && !dataDocumentId.isEmpty()) {
-                System.out.println("Using dataDocumentId=" + dataDocumentId);
-                return new NotificationResult("DONE_WITH_DATA_DOCUMENT", dataDocumentId);
-            }
-            if (errorDocumentId != null && !errorDocumentId.isEmpty()) {
-                System.out.println("Done but only errorDocumentId=" + errorDocumentId);
-                return new NotificationResult("DONE_WITH_ERROR_DOCUMENT_ONLY", errorDocumentId);
-            }
-            return new NotificationResult("DONE_NO_DOCUMENT", null);
-        }
-
-        return new NotificationResult("UNKNOWN_STATUS (" + status + ")", null);
     }
 
     /**
@@ -198,30 +148,6 @@ public class DataKioskQueryRecipe extends Recipe {
         } catch (Exception e) {
             System.err.println("Error parsing document: " + e.getMessage());
             System.out.println("Raw content (first 500 chars): " + content.substring(0, Math.min(500, content.length())));
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private Map<String, Object> asMap(Object value) {
-        if (value instanceof Map<?, ?>) {
-            return (Map<String, Object>) value;
-        }
-        return Map.of();
-    }
-
-    private String asString(Object value) {
-        return value == null ? null : String.valueOf(value);
-    }
-
-
-
-    private static class NotificationResult {
-        final String status;
-        final String documentId;
-
-        NotificationResult(String status, String documentId) {
-            this.status = status;
-            this.documentId = documentId;
         }
     }
 }
