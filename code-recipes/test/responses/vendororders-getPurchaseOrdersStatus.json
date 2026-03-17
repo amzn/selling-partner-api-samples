@@ -1,0 +1,57 @@
+{
+  "payload": {
+    "ordersStatus": [
+      {
+        "purchaseOrderNumber": "2JK3S9VC",
+        "purchaseOrderStatus": "OPEN",
+        "itemStatus": [
+          {
+            "itemSequenceNumber": "1",
+            "buyerProductIdentifier": "B07DFVDRAB",
+            "vendorProductIdentifier": "8806098286500",
+            "orderedQuantity": {
+              "amount": 10,
+              "unitOfMeasure": "Eaches",
+              "unitSize": 1
+            },
+            "acknowledgedQuantity": {
+              "acceptedQuantity": {
+                "amount": 10,
+                "unitOfMeasure": "Eaches"
+              }
+            },
+            "receivingStatus": {
+              "receivedQuantity": {
+                "amount": 5,
+                "unitOfMeasure": "Eaches"
+              },
+              "lastReceiveDate": "2019-08-25T10:30:00Z"
+            }
+          },
+          {
+            "itemSequenceNumber": "2",
+            "buyerProductIdentifier": "B07DFYF5AB",
+            "vendorProductIdentifier": "8806098286123",
+            "orderedQuantity": {
+              "amount": 5,
+              "unitOfMeasure": "Eaches",
+              "unitSize": 1
+            },
+            "acknowledgedQuantity": {
+              "acceptedQuantity": {
+                "amount": 5,
+                "unitOfMeasure": "Eaches"
+              }
+            },
+            "receivingStatus": {
+              "receivedQuantity": {
+                "amount": 0,
+                "unitOfMeasure": "Eaches"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

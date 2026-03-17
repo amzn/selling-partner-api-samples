@@ -1,0 +1,56 @@
+{
+  "payload": {
+    "pagination": {
+      "nextToken": "MDAwMDAwMDAwMQ=="
+    },
+    "shipments": [
+      {
+        "vendorShipmentIdentifier": "SHIP001",
+        "buyerReferenceNumber": "14511336331",
+        "transactionType": "New",
+        "transactionDate": "2024-03-01T10:00:00Z",
+        "currentShipmentStatus": "Shipped",
+        "shipmentCreateDate": "2024-03-01T08:00:00Z",
+        "shipmentConfirmDate": "2024-03-01T09:00:00Z",
+        "sellingParty": {
+          "partyId": "VENDOR001"
+        },
+        "shipFromParty": {
+          "partyId": "WAREHOUSE001"
+        },
+        "shipToParty": {
+          "partyId": "FC001"
+        },
+        "purchaseOrders": [
+          {
+            "purchaseOrderNumber": "2JK3S9VC",
+            "purchaseOrderDate": "2024-02-28T12:00:00Z",
+            "items": [
+              {
+                "itemSequenceNumber": "001",
+                "buyerProductIdentifier": "B07DFVDRAB",
+                "vendorProductIdentifier": "8806098286500",
+                "shippedQuantity": {
+                  "amount": 10,
+                  "unitOfMeasure": "Eaches"
+                }
+              }
+            ]
+          }
+        ],
+        "containers": [
+          {
+            "containerType": "Carton",
+            "containerIdentifier": "CARTON001",
+            "trackingNumber": "1Z999AA10123456784"
+          }
+        ],
+        "transportationDetails": {
+          "carrierScac": "UPS",
+          "carrierShipmentReferenceNumber": "1Z999AA10123456784",
+          "transportationMode": "Road"
+        }
+      }
+    ]
+  }
+}
