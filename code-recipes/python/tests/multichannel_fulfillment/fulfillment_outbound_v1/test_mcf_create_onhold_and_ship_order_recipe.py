@@ -18,11 +18,11 @@ def test_mcf_create_onhold_and_ship_order():
     test = RecipeTest(
         recipe=recipe,
         responses=[
-            "getFulfillmentPreview_response.json",
-            "createFulfillmentOrder_response.json",
-            "updateFulfillmentOrder_response.json",
-            "getFulfillmentOrder_response.json",
-            "getPackageTrackingDetails_response.json",
+            "mcf-v1-getFulfillmentPreview.json",
+            "mcf-v1-createFulfillmentOrder.json",
+            "mcf-v1-updateFulfillmentOrder.json",
+            "mcf-v1-getFulfillmentOrder.json",
+            "mcf-v1-getPackageTrackingDetails.json",
         ],
     )
     test.test_recipe()

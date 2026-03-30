@@ -18,10 +18,10 @@ def test_mcf_create_and_cancel_order():
     test = RecipeTest(
         recipe=recipe,
         responses=[
-            "getFulfillmentPreview_response.json",
-            "createFulfillmentOrder_response.json",
-            "cancelFulfillmentOrder_response.json",
-            "getFulfillmentOrder_cancelled_response.json",
+            "mcf-v1-getFulfillmentPreview.json",
+            "mcf-v1-createFulfillmentOrder.json",
+            "mcf-v1-cancelFulfillmentOrder.json",
+            "mcf-v1-getFulfillmentOrder-cancelled.json",
         ],
     )
     test.test_recipe()
