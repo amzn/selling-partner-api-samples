@@ -98,7 +98,7 @@ class McfCreateOnHoldAndShipOrderRecipe(Recipe):
             body=self._preview_request,
         )
         if hasattr(response, "to_dict"):
-            response = response.to_dict()
+            response = response.to_dict() or {}
         print("[Step 1] Fulfillment preview retrieved successfully.")
         return response
 
@@ -114,7 +114,7 @@ class McfCreateOnHoldAndShipOrderRecipe(Recipe):
             body=self._create_order_request,
         )
         if hasattr(response, "to_dict"):
-            response = response.to_dict()
+            response = response.to_dict() or {}
         print(
             f"[Step 2] Fulfillment order created on Hold: "
             f"{self._create_order_request['sellerFulfillmentOrderId']}"
@@ -137,7 +137,7 @@ class McfCreateOnHoldAndShipOrderRecipe(Recipe):
             body=update_body,
         )
         if hasattr(response, "to_dict"):
-            response = response.to_dict()
+            response = response.to_dict() or {}
         print("[Step 3] Order released from hold — shipment requested.")
         return response
 
@@ -153,7 +153,7 @@ class McfCreateOnHoldAndShipOrderRecipe(Recipe):
             seller_fulfillment_order_id=seller_fulfillment_order_id,
         )
         if hasattr(response, "to_dict"):
-            response = response.to_dict()
+            response = response.to_dict() or {}
         print("[Step 4] Fulfillment order details retrieved successfully.")
         return response
 
@@ -169,7 +169,7 @@ class McfCreateOnHoldAndShipOrderRecipe(Recipe):
             package_number=package_number,
         )
         if hasattr(response, "to_dict"):
-            response = response.to_dict()
+            response = response.to_dict() or {}
         print("[Step 5] Package tracking details retrieved successfully.")
         return response
 
@@ -180,11 +180,10 @@ class McfCreateOnHoldAndShipOrderRecipe(Recipe):
         """
         Extract packageNumber values from the getFulfillmentOrder response.
         """
-        shipments = (
-            order_response
-            .get("payload", {})
-            .get("fulfillmentShipments", [])
-        )
+        if not order_response:
+            return []
+        payload = order_response.get("payload") or {}
+        shipments = payload.get("fulfillmentShipments") or []
         package_numbers = []
         for shipment in shipments:
             for package in shipment.get("fulfillmentShipmentPackage", []):

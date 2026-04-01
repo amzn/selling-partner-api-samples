@@ -103,7 +103,7 @@ class McfCreateAndCancelOrderRecipe(Recipe):
             body=self._preview_request,
         )
         if hasattr(response, "to_dict"):
-            response = response.to_dict()
+            response = response.to_dict() or {}
         print("[Step 1] Fulfillment preview retrieved successfully.")
         return response
 
@@ -122,7 +122,7 @@ class McfCreateAndCancelOrderRecipe(Recipe):
             body=self._create_order_request,
         )
         if hasattr(response, "to_dict"):
-            response = response.to_dict()
+            response = response.to_dict() or {}
         print(
             f"[Step 2] Fulfillment order created: "
             f"{self._create_order_request['sellerFulfillmentOrderId']}"
@@ -147,7 +147,7 @@ class McfCreateAndCancelOrderRecipe(Recipe):
             seller_fulfillment_order_id=seller_fulfillment_order_id,
         )
         if hasattr(response, "to_dict"):
-            response = response.to_dict()
+            response = response.to_dict() or {}
         print("[Step 3] Fulfillment order cancelled successfully.")
         return response
 
@@ -168,7 +168,7 @@ class McfCreateAndCancelOrderRecipe(Recipe):
             seller_fulfillment_order_id=seller_fulfillment_order_id,
         )
         if hasattr(response, "to_dict"):
-            response = response.to_dict()
+            response = response.to_dict() or {}
         print("[Step 4] Fulfillment order details retrieved successfully.")
         return response
 
