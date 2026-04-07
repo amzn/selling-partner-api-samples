@@ -1,4 +1,4 @@
-name: Release MCP Server
+name: Consolidate MCP Servers
 
 on:
   workflow_dispatch:
