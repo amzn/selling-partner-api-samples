@@ -31,9 +31,6 @@ jobs:
           node-version: '22'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Update npm
-        run: npm install -g npm@latest
-
       # ── Build amazon-data-kiosk-mcp-server ──────────────────────────
       - name: Install data-kiosk dependencies
         working-directory: use-cases/amazon-data-kiosk-mcp-server
