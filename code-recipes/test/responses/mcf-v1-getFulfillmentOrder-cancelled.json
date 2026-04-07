@@ -1,0 +1,55 @@
+{
+  "payload": {
+    "fulfillmentOrder": {
+      "sellerFulfillmentOrderId": "SidOMSTestOrder_MCF_12",
+      "marketplaceId": "ATVPDKIKX0DER",
+      "displayableOrderId": "TestOrder-CustomerFacing-12",
+      "displayableOrderDate": "2026-03-30T11:06:00Z",
+      "displayableOrderComment": "TestOrder12",
+      "shippingSpeedCategory": "Standard",
+      "primeUpgraded": "true",
+      "destinationAddress": {
+        "name": "Tom Jones",
+        "addressLine1": "123 Main St",
+        "addressLine2": "c/o Susan Spectre",
+        "addressLine3": "Ste. 100",
+        "city": "Anytown",
+        "stateOrRegion": "AZ",
+        "countryCode": "US",
+        "postalCode": "85050",
+        "phone": "5555555555",
+        "email": "customer@example.com"
+      },
+      "fulfillmentAction": "Ship",
+      "fulfillmentPolicy": "FillAll",
+      "receivedDate": "2026-03-30T17:58:24Z",
+      "fulfillmentOrderStatus": "Cancelled",
+      "statusUpdatedDate": "2026-03-30T17:58:35Z",
+      "notificationEmails": [
+        "customer@example.com"
+      ],
+      "featureConstraints": [
+        {
+          "featureName": "BLANK_BOX",
+          "featureFulfillmentPolicy": "NotRequired"
+        },
+        {
+          "featureName": "PRIME_ELIGIBILITY",
+          "featureFulfillmentPolicy": "Required"
+        }
+      ]
+    },
+    "fulfillmentOrderItems": [
+      {
+        "cancelledQuantity": 1,
+        "quantity": 1,
+        "sellerFulfillmentOrderItemId": "5X-K5YM-JYEO",
+        "sellerSku": "5X-K5YM-JYEO",
+        "unfulfillableQuantity": 0
+      }
+    ],
+    "fulfillmentShipments": [],
+    "returnItems": [],
+    "returnAuthorizations": []
+  }
+}
