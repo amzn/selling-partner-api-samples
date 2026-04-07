@@ -1,0 +1,198 @@
+name: Release MCP Server
+
+on:
+  workflow_dispatch:
+    inputs:
+      newVersionNumber:
+        type: string
+        description: New version number (e.g., 1.0.0)
+        required: true
+  workflow_call:
+    inputs:
+      newVersionNumber:
+        type: string
+        required: true
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  release_npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Clone selling-partner-api-models
+        run: git clone --depth 1 https://github.com/amzn/selling-partner-api-models.git ../selling-partner-api-models
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Update npm
+        run: npm install -g npm@latest
+
+      # ── Build amazon-data-kiosk-mcp-server ──────────────────────────
+      - name: Install data-kiosk dependencies
+        working-directory: use-cases/amazon-data-kiosk-mcp-server
+        run: npm install
+
+      - name: Build data-kiosk (common → seller → vendor)
+        working-directory: use-cases/amazon-data-kiosk-mcp-server
+        run: npm run build
+
+      # ── Build sp-api-mcp-server ──────────────────────────────────────
+      - name: Install sp-api-mcp-server dependencies
+        working-directory: use-cases/sp-api-mcp-server
+        run: npm ci
+
+      - name: Build sp-api-mcp-server
+        working-directory: use-cases/sp-api-mcp-server
+        run: npm run build
+
+      # ── Bundle vendors into sp-api-dev-mcp ──────────────────────────
+      - name: Install esbuild
+        run: npm install -g esbuild
+
+      - name: Create vendors directory
+        run: mkdir -p sp-api-dev-mcp/vendors
+
+      - name: Bundle amazon-data-kiosk-sc-mcp-server
+        working-directory: use-cases/amazon-data-kiosk-mcp-server
+        run: |
+          esbuild packages/seller-server/build/index.js \
+            --bundle \
+            --platform=node \
+            --format=esm \
+            --outfile=../../sp-api-dev-mcp/vendors/amazon-data-kiosk-sc-mcp-server.mjs
+
+      - name: Bundle amazon-data-kiosk-vc-mcp-server
+        working-directory: use-cases/amazon-data-kiosk-mcp-server
+        run: |
+          esbuild packages/vendor-server/build/index.js \
+            --bundle \
+            --platform=node \
+            --format=esm \
+            --outfile=../../sp-api-dev-mcp/vendors/amazon-data-kiosk-vc-mcp-server.mjs
+
+      - name: Bundle sp-api-mcp-server
+        working-directory: use-cases/sp-api-mcp-server
+        run: |
+          esbuild build/index.js \
+            --bundle \
+            --platform=node \
+            --format=esm \
+            --outfile=../../sp-api-dev-mcp/vendors/sp-api-mcp-server.mjs
+
+      - name: Copy OpenAPI models
+        run: cp -r ../selling-partner-api-models/models sp-api-dev-mcp/vendors/models
+
+      # Wrapper sets CATALOG_PATH to the bundled models before starting sp-api-mcp-server
+      - name: Create sp-api-mcp-server wrapper
+        run: |
+          cat > sp-api-dev-mcp/vendors/sp-api-mcp-server-wrapper.mjs << 'EOF'
+          #!/usr/bin/env node
+          import { fileURLToPath } from 'url';
+          import { dirname, join } from 'path';
+
+          const __dirname = dirname(fileURLToPath(import.meta.url));
+          process.env.CATALOG_PATH = process.env.CATALOG_PATH || join(__dirname, 'models');
+
+          await import('./sp-api-mcp-server.mjs');
+          EOF
+
+      - name: Make vendor bundles executable
+        run: chmod +x sp-api-dev-mcp/vendors/*.mjs
+
+      # ── Update sp-api-dev-mcp package.json ──────────────────────────
+      - name: Update package.json
+        working-directory: sp-api-dev-mcp
+        run: |
+          node --input-type=module << 'EOF'
+          import { readFileSync, writeFileSync } from 'fs';
+          const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+
+          pkg.bin['amazon-data-kiosk-sc-mcp-server'] = './vendors/amazon-data-kiosk-sc-mcp-server.mjs';
+          pkg.bin['amazon-data-kiosk-vc-mcp-server'] = './vendors/amazon-data-kiosk-vc-mcp-server.mjs';
+          pkg.bin['sp-api-mcp-server'] = './vendors/sp-api-mcp-server-wrapper.mjs';
+
+          if (!pkg.files.includes('vendors/')) pkg.files.push('vendors/');
+
+          writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+          EOF
+
+      # ── Set version ──────────────────────────────────────────────────
+      - name: Set version in package.json
+        working-directory: sp-api-dev-mcp
+        run: |
+          VERSION="${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}"
+          npm version "$VERSION" --no-git-tag-version
+          echo "Updated package.json version to $VERSION"
+
+      - name: Install dependencies
+        working-directory: sp-api-dev-mcp
+        run: npm ci
+
+      - name: Run tests
+        working-directory: sp-api-dev-mcp
+        run: npm test
+
+      - name: Build for production
+        working-directory: sp-api-dev-mcp
+        run: npm run build
+
+      - name: Publish to npm
+        working-directory: sp-api-dev-mcp
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  tag_and_release:
+    needs: [release_npm]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create Git tag
+        run: |
+          VERSION="${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "mcp-server-v${VERSION}" -m "Release MCP Server v${VERSION}"
+          git push origin "mcp-server-v${VERSION}"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "mcp-server-v${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}"
+          name: "MCP Server v${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}"
+          body: |
+            ## SP-API Dev MCP Server v${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}
+
+            ### Installation
+            ```bash
+            npm install -g @amazon-sp-api-release/dev-mcp@${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}
+            ```
+
+            ### Available Servers
+            | Server | npx arg |
+            |--------|---------|
+            | sp-api-dev-mcp | `selling-partner-api-dev-mcp` |
+            | amazon-data-kiosk-sc-mcp-server | `amazon-data-kiosk-sc-mcp-server` |
+            | amazon-data-kiosk-vc-mcp-server | `amazon-data-kiosk-vc-mcp-server` |
+            | sp-api-mcp-server | `sp-api-mcp-server` |
+
+            ### What's Changed
+            See the [CHANGELOG](https://github.com/${{ github.repository }}/blob/main/sp-api-dev-mcp/CHANGELOG.md) for details.
+
+            ### Package
+            - NPM: https://www.npmjs.com/package/@amazon-sp-api-release/dev-mcp/v/${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
