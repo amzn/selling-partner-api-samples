@@ -152,9 +152,7 @@ jobs:
 
       - name: Publish to npm
         working-directory: sp-api-dev-mcp
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --provenance
 
   tag_and_release:
     needs: [release_npm]
