@@ -60,38 +60,6 @@ sample_create_order_request = {
     # "featureConstraints": [{"featureName": "BLANK_BOX", "featureFulfillmentPolicy": "Required"}],
 }
 
-# -- Step 2 (alternate version for Prime orders): createFulfillmentOrder with Prime shipping ------------
-# Use this payload instead of sample_create_order_request when the merchant
-# is enrolled in Prime and wants to offer Prime shipping speeds.
-sample_create_order_request_prime = {
-    "sellerFulfillmentOrderId": "MCF-TEST-ORDER-001",
-    "displayableOrderId": "TEST-DISPLAY-001",
-    "displayableOrderDate": "2026-03-27T00:00:00Z",
-    "displayableOrderComment": "MCF code recipe test order - Prime",
-    "shippingSpeedCategory": "Standard",                 
-    "destinationAddress": {
-        "name": "<recipient-name>",
-        "addressLine1": "<address-line-1>",
-        "city": "<city>",
-        "stateOrRegion": "<state>",
-        "postalCode": "<postal-code>",
-        "countryCode": "US",
-    },
-    "items": [
-        {
-            "sellerSku": "MY-SKU-001",
-            "sellerFulfillmentOrderItemId": "item-001",
-            "quantity": 1,
-        }
-    ],
-    "featureConstraints": [
-        {
-            "featureName": "PRIME_ELIGIBILITY",
-            "featureFulfillmentPolicy": "Required",
-        }
-    ],
-}
-
 # -- Step 2 (alternate version for Hold orders): createFulfillmentOrder with Hold action ---------------
 # Use this payload to create an order that is NOT shipped immediately.
 # The order stays on hold until you call updateFulfillmentOrder with
