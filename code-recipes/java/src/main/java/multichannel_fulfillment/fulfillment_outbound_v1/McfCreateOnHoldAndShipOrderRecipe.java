@@ -1,7 +1,15 @@
 package multichannel_fulfillment.fulfillment_outbound_v1;
 
 import software.amazon.spapi.api.fulfillment.outbound.v2020_07_01.FbaOutboundApi;
-import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.*;
+import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.CreateFulfillmentOrderResponse;
+import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.FulfillmentAction;
+import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.FulfillmentShipment;
+import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.FulfillmentShipmentPackage;
+import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.GetFulfillmentOrderResponse;
+import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.GetFulfillmentPreviewResponse;
+import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.GetPackageTrackingDetailsResponse;
+import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.UpdateFulfillmentOrderRequest;
+import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.UpdateFulfillmentOrderResponse;
 import util.Constants;
 import util.Recipe;
 

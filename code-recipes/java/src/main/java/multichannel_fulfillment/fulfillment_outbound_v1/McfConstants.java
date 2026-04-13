@@ -1,6 +1,12 @@
 package multichannel_fulfillment.fulfillment_outbound_v1;
 
-import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.*;
+import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.Address;
+import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.CreateFulfillmentOrderItem;
+import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.CreateFulfillmentOrderRequest;
+import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.FulfillmentAction;
+import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.GetFulfillmentPreviewItem;
+import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.GetFulfillmentPreviewRequest;
+import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.ShippingSpeedCategory;
 
 import java.util.Arrays;
 
