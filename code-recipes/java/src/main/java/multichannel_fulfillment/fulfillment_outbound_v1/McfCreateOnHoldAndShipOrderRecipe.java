@@ -139,7 +139,7 @@ public class McfCreateOnHoldAndShipOrderRecipe extends Recipe {
                     .fulfillmentAction(FulfillmentAction.SHIP);
 
             UpdateFulfillmentOrderResponse response = fbaOutboundApi.updateFulfillmentOrder(
-                    sellerFulfillmentOrderId, updateBody);
+                    updateBody, sellerFulfillmentOrderId);
             System.out.println("✅ Order released from hold — shipment requested.");
             return response;
         } catch (Exception e) {

@@ -2,13 +2,15 @@ package multichannel_fulfillment.fulfillment_outbound_v1;
 
 import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.Address;
 import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.CreateFulfillmentOrderItem;
+import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.CreateFulfillmentOrderItemList;
 import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.CreateFulfillmentOrderRequest;
 import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.FulfillmentAction;
 import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.GetFulfillmentPreviewItem;
+import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.GetFulfillmentPreviewItemList;
 import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.GetFulfillmentPreviewRequest;
 import software.amazon.spapi.models.fulfillment.outbound.v2020_07_01.ShippingSpeedCategory;
 
-import java.util.Arrays;
+import org.threeten.bp.OffsetDateTime;
 
 /**
  * Sample constants for the MCF (Multichannel Fulfillment) order processing recipes.
@@ -46,9 +48,12 @@ public class McfConstants {
                 .quantity(1)
                 .sellerFulfillmentOrderItemId("item-001");
 
+        GetFulfillmentPreviewItemList itemList = new GetFulfillmentPreviewItemList();
+        itemList.add(item);
+
         return new GetFulfillmentPreviewRequest()
                 .address(address)
-                .items(Arrays.asList(item));
+                .items(itemList);
     }
 
     /**
@@ -68,14 +73,17 @@ public class McfConstants {
                 .sellerFulfillmentOrderItemId("item-001")
                 .quantity(1);
 
+        CreateFulfillmentOrderItemList itemList = new CreateFulfillmentOrderItemList();
+        itemList.add(item);
+
         return new CreateFulfillmentOrderRequest()
                 .sellerFulfillmentOrderId(SAMPLE_SELLER_FULFILLMENT_ORDER_ID)
                 .displayableOrderId("TEST-DISPLAY-001")
-                .displayableOrderDate("2026-03-27T00:00:00Z")
+                .displayableOrderDate(OffsetDateTime.parse("2026-03-27T00:00:00Z"))
                 .displayableOrderComment("MCF code recipe test order")
                 .shippingSpeedCategory(ShippingSpeedCategory.STANDARD)
                 .destinationAddress(address)
-                .items(Arrays.asList(item));
+                .items(itemList);
     }
 
     /**
@@ -97,14 +105,17 @@ public class McfConstants {
                 .sellerFulfillmentOrderItemId("item-001")
                 .quantity(1);
 
+        CreateFulfillmentOrderItemList itemList = new CreateFulfillmentOrderItemList();
+        itemList.add(item);
+
         return new CreateFulfillmentOrderRequest()
                 .sellerFulfillmentOrderId(SAMPLE_SELLER_FULFILLMENT_ORDER_ID)
                 .displayableOrderId("TEST-DISPLAY-001")
-                .displayableOrderDate("2026-03-27T00:00:00Z")
+                .displayableOrderDate(OffsetDateTime.parse("2026-03-27T00:00:00Z"))
                 .displayableOrderComment("MCF code recipe test order - On Hold")
                 .shippingSpeedCategory(ShippingSpeedCategory.STANDARD)
                 .fulfillmentAction(FulfillmentAction.HOLD)
                 .destinationAddress(address)
-                .items(Arrays.asList(item));
+                .items(itemList);
     }
 }
