@@ -26,7 +26,7 @@ A Model Context Protocol (MCP) server that provides tools for interacting with A
 
 ## Usage with MCP Clients
 
-The `@spectrumtest/dev-mcp` package consolidates multiple SP-API MCP servers into a single npm package:
+The `@spectrumtest/sp-api-dev-mcp` package consolidates multiple SP-API MCP servers into a single npm package:
 
 | Server | npx command arg |
 |--------|----------------|
@@ -42,7 +42,7 @@ The `@spectrumtest/dev-mcp` package consolidates multiple SP-API MCP servers int
   "mcpServers": {
     "sp-api-dev": {
       "command": "npx",
-      "args": ["-y", "@spectrumtest/dev-mcp", "selling-partner-api-dev-mcp"],
+      "args": ["-y", "@spectrumtest/sp-api-dev-mcp", "selling-partner-api-dev-mcp"],
       "env": {
         "SP_API_CLIENT_ID": "your_client_id",
         "SP_API_CLIENT_SECRET": "your_client_secret",
@@ -52,7 +52,7 @@ The `@spectrumtest/dev-mcp` package consolidates multiple SP-API MCP servers int
     },
     "amazon-data-kiosk-sc": {
       "command": "npx",
-      "args": ["-y", "@spectrumtest/dev-mcp", "amazon-data-kiosk-sc-mcp-server"],
+      "args": ["-y", "@spectrumtest/sp-api-dev-mcp", "amazon-data-kiosk-sc-mcp-server"],
       "env": {
         "SP_API_CLIENT_ID": "your_client_id",
         "SP_API_CLIENT_SECRET": "your_client_secret",
@@ -62,7 +62,7 @@ The `@spectrumtest/dev-mcp` package consolidates multiple SP-API MCP servers int
     },
     "amazon-data-kiosk-vc": {
       "command": "npx",
-      "args": ["-y", "@spectrumtest/dev-mcp", "amazon-data-kiosk-vc-mcp-server"],
+      "args": ["-y", "@spectrumtest/sp-api-dev-mcp", "amazon-data-kiosk-vc-mcp-server"],
       "env": {
         "SP_API_CLIENT_ID": "your_client_id",
         "SP_API_CLIENT_SECRET": "your_client_secret",
@@ -72,7 +72,7 @@ The `@spectrumtest/dev-mcp` package consolidates multiple SP-API MCP servers int
     },
     "sp-api-mcp-server": {
       "command": "npx",
-      "args": ["-y", "@spectrumtest/dev-mcp", "sp-api-mcp-server"],
+      "args": ["-y", "@spectrumtest/sp-api-dev-mcp", "sp-api-mcp-server"],
       "env": {
         "SP_API_CLIENT_ID": "your_client_id",
         "SP_API_CLIENT_SECRET": "your_client_secret",
