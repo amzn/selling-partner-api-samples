@@ -1,165 +1,42 @@
 #!/usr/bin/env node
 
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { OrdersApiTool } from "./tools/api-tools/orders-api-tools.js";
-import { SPAPIMigrationAssistantTool } from "./tools/migration-assistant-tools/migration-tools.js";
-import { CredentialTools } from "./tools/auth-tools/credential-tools.js";
-import {
-  searchOrdersSchema,
-  getOrderSchema,
-  cancelOrderSchema,
-  updateShipmentStatusSchema,
-  updateVerificationStatusSchema,
-  confirmShipmentSchema,
-  getOrderRegulatedInfoSchema,
-} from "./zod-schemas/orders-schemas.js";
-import { migrationAssistantSchema } from "./zod-schemas/migration-schemas.js";
-import { credentialToolSchema } from "./zod-schemas/credential-schemas.js";
-import { config } from "dotenv";
+/**
+ * SP-API Dev MCP - Consolidated package entry point.
+ *
+ * Routes to the correct bundled MCP server based on the CLI argument.
+ *
+ * Usage:
+ *   npx @spectrumtest/sp-api-dev-mcp sp-api-dev-assistant-mcp-server
+ *   npx @spectrumtest/sp-api-dev-mcp amazon-data-kiosk-sc-mcp-server
+ *   npx @spectrumtest/sp-api-dev-mcp amazon-data-kiosk-vc-mcp-server
+ *   npx @spectrumtest/sp-api-dev-mcp sp-api-mcp-server
+ */
 
-config();
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
 
-class SPAPIDevMCPServer {
-  private server: McpServer;
-  private ordersApiTool: OrdersApiTool;
-  private migrationAssistantTool: SPAPIMigrationAssistantTool;
-  private credentialTools: CredentialTools;
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const bundledDir = join(__dirname, "..", "bundled-servers");
 
-  constructor() {
-    this.server = new McpServer({
-      name: "selling-partner-api-dev-mcp",
-      version: "1.2.0",
-    });
+const SERVER_MAP: Record<string, string> = {
+  "sp-api-dev-assistant-mcp-server": "sp-api-dev-assistant-mcp-server.mjs",
+  "amazon-data-kiosk-sc-mcp-server": "amazon-data-kiosk-sc-mcp-server.mjs",
+  "amazon-data-kiosk-vc-mcp-server": "amazon-data-kiosk-vc-mcp-server.mjs",
+  "sp-api-mcp-server": "sp-api-mcp-server-wrapper.mjs",
+};
 
-    this.ordersApiTool = new OrdersApiTool();
-    this.migrationAssistantTool = new SPAPIMigrationAssistantTool();
-    this.credentialTools = new CredentialTools();
-    this.setupTools();
-  }
+const serverName = process.argv[2];
 
-  private setupTools(): void {
-    // Register Orders API V1 Tools
-    this.server.registerTool(
-      "search_orders",
-      {
-        description:
-          "Search orders with various filters and include specific data sets. Use this to get orders by date, status, marketplace, etc.",
-        inputSchema: searchOrdersSchema,
-      },
-      async (args: any) => {
-        return await this.ordersApiTool.searchOrders(args);
-      },
-    );
+if (!serverName || !SERVER_MAP[serverName]) {
+  const available = Object.keys(SERVER_MAP)
+    .map((name) => `  ${name}`)
+    .join("\n");
 
-    this.server.registerTool(
-      "get_order",
-      {
-        description:
-          "Get detailed information for a specific order by order ID",
-        inputSchema: getOrderSchema,
-      },
-      async (args: any) => {
-        return await this.ordersApiTool.getOrder(args);
-      },
-    );
-
-    this.server.registerTool(
-      "cancel_order",
-      {
-        description: "Cancel a specific order with a reason code",
-        inputSchema: cancelOrderSchema,
-      },
-      async (args: any) => {
-        return await this.ordersApiTool.cancelOrder(args);
-      },
-    );
-
-    // Register Orders API V0 Tools
-    this.server.registerTool(
-      "update_shipment_status",
-      {
-        description:
-          "Update shipment status for an order (V0 API - for orders that require shipment status updates)",
-        inputSchema: updateShipmentStatusSchema,
-      },
-      async (args: any) => {
-        return await this.ordersApiTool.updateShipmentStatus(args);
-      },
-    );
-
-    this.server.registerTool(
-      "update_verification_status",
-      {
-        description:
-          "Update verification status for regulated orders (V0 API - for compliance-related orders)",
-        inputSchema: updateVerificationStatusSchema,
-      },
-      async (args: any) => {
-        return await this.ordersApiTool.updateVerificationStatus(args);
-      },
-    );
-
-    this.server.registerTool(
-      "confirm_shipment",
-      {
-        description:
-          "Confirm shipment for an order (V0 API - for orders that require shipment confirmation)",
-        inputSchema: confirmShipmentSchema,
-      },
-      async (args: any) => {
-        return await this.ordersApiTool.confirmShipment(args);
-      },
-    );
-
-    this.server.registerTool(
-      "get_order_regulated_info",
-      {
-        description:
-          "Get regulated information for an order (V0 API - for compliance-related orders)",
-        inputSchema: getOrderRegulatedInfoSchema,
-      },
-      async (args: any) => {
-        return await this.ordersApiTool.getOrderRegulatedInfo(args);
-      },
-    );
-
-    // Register Migration Assistant Tool
-    this.server.registerTool(
-      "migration_assistant",
-      {
-        description:
-          "Assists with API version migrations. Can provide general migration guidance or analyze existing code and generate refactored implementations. When source_code is provided: returns detailed analysis with deprecated endpoints, breaking changes, refactored code, and migration checklist. When source_code is omitted: returns comprehensive migration guide with API mappings, attribute changes, code examples, and best practices. Supported Migrations: Orders API v0 → v2026-01-01",
-        inputSchema: migrationAssistantSchema,
-      },
-      async (args: any) => {
-        return await this.migrationAssistantTool.migrationAssistant(args);
-      },
-    );
-
-    // Register Unified Credential Management Tool
-    this.server.registerTool(
-      "credentials",
-      {
-        description:
-          "Manage SP-API credentials. Actions: 'configure' to set clientId, clientSecret, refreshToken, baseUrl (region: 'na', 'eu', 'fe' or full URL); 'status' to check current configuration; 'clear' to remove all credentials. Credentials are stored in memory until server restart.",
-        inputSchema: credentialToolSchema,
-      },
-      async (args: any) => {
-        return this.credentialTools.handleCredentials(args);
-      },
-    );
-  }
-
-  async run(): Promise<void> {
-    const transport = new StdioServerTransport();
-    await this.server.connect(transport);
-  }
-}
-
-try {
-  const server = new SPAPIDevMCPServer();
-  await server.run();
-} catch (error) {
+  console.error(
+    `Usage: sp-api-dev-mcp <server-name>\n\nAvailable servers:\n${available}\n`,
+  );
   process.exit(1);
 }
+
+const serverFile = join(bundledDir, SERVER_MAP[serverName]);
+await import(serverFile);

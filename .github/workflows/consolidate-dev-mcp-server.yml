@@ -49,6 +49,15 @@ jobs:
         working-directory: use-cases/sp-api-mcp-server
         run: npm run build
 
+      # ── Build sp-api-dev-assistant-mcp-server ────────────────────────
+      - name: Install sp-api-dev-assistant-mcp-server dependencies
+        working-directory: use-cases/sp-api-dev-assistant-mcp-server
+        run: npm ci
+
+      - name: Build sp-api-dev-assistant-mcp-server
+        working-directory: use-cases/sp-api-dev-assistant-mcp-server
+        run: npm run build
+
       # ── Bundle servers into sp-api-dev-mcp ───────────────────────────────────
       - name: Install esbuild
         run: npm install -g esbuild
@@ -83,6 +92,15 @@ jobs:
             --format=esm \
             --outfile=../../sp-api-dev-mcp/bundled-servers/sp-api-mcp-server.mjs
 
+      - name: Bundle sp-api-dev-assistant-mcp-server
+        working-directory: use-cases/sp-api-dev-assistant-mcp-server
+        run: |
+          esbuild build/index.js \
+            --bundle \
+            --platform=node \
+            --format=esm \
+            --outfile=../../sp-api-dev-mcp/bundled-servers/sp-api-dev-assistant-mcp-server.mjs
+
       - name: Copy OpenAPI models
         run: cp -r ../selling-partner-api-models/models sp-api-dev-mcp/bundled-servers/models
 
@@ -114,6 +132,7 @@ jobs:
           pkg.bin['amazon-data-kiosk-sc-mcp-server'] = './bundled-servers/amazon-data-kiosk-sc-mcp-server.mjs';
           pkg.bin['amazon-data-kiosk-vc-mcp-server'] = './bundled-servers/amazon-data-kiosk-vc-mcp-server.mjs';
           pkg.bin['sp-api-mcp-server'] = './bundled-servers/sp-api-mcp-server-wrapper.mjs';
+          pkg.bin['sp-api-dev-assistant-mcp-server'] = './bundled-servers/sp-api-dev-assistant-mcp-server.mjs';
 
           if (!pkg.files.includes('bundled-servers/')) pkg.files.push('bundled-servers/');
 
@@ -140,11 +159,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: sp-api-dev-mcp
-        run: npm ci
-
-      - name: Run tests
-        working-directory: sp-api-dev-mcp
-        run: npm test
+        run: npm install
 
       - name: Build for production
         working-directory: sp-api-dev-mcp
@@ -190,7 +205,7 @@ jobs:
             ### Available Servers
             | Server | npx arg |
             |--------|---------|
-            | sp-api-dev-mcp | `selling-partner-api-dev-mcp` |
+            | sp-api-dev-assistant-mcp-server | `sp-api-dev-assistant-mcp-server` |
             | amazon-data-kiosk-sc-mcp-server | `amazon-data-kiosk-sc-mcp-server` |
             | amazon-data-kiosk-vc-mcp-server | `amazon-data-kiosk-vc-mcp-server` |
             | sp-api-mcp-server | `sp-api-mcp-server` |

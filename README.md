@@ -33,7 +33,7 @@ npm install -g @spectrumtest/sp-api-dev-mcp
 
 | Server | Command |
 |--------|---------|
-| SP-API Dev MCP | `selling-partner-api-dev-mcp` |
+| SP-API Dev Assistant | `sp-api-dev-assistant-mcp-server` |
 | Amazon Data Kiosk (Seller Central) | `amazon-data-kiosk-sc-mcp-server` |
 | Amazon Data Kiosk (Vendor Central) | `amazon-data-kiosk-vc-mcp-server` |
 | SP-API MCP Server | `sp-api-mcp-server` |
@@ -41,7 +41,7 @@ npm install -g @spectrumtest/sp-api-dev-mcp
 ### Usage with npx
 
 ```bash
-npx @spectrumtest/sp-api-dev-mcp selling-partner-api-dev-mcp
+npx @spectrumtest/sp-api-dev-mcp sp-api-dev-assistant-mcp-server
 npx @spectrumtest/sp-api-dev-mcp amazon-data-kiosk-sc-mcp-server
 npx @spectrumtest/sp-api-dev-mcp amazon-data-kiosk-vc-mcp-server
 npx @spectrumtest/sp-api-dev-mcp sp-api-mcp-server

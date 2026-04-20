@@ -1,52 +1,61 @@
 {
-  "name": "@amazon-sp-api-release/dev-mcp",
+  "name": "sp-api-dev-assistant-mcp-server",
   "version": "0.0.1",
-  "description": "Consolidated npm package that bundles multiple SP-API MCP servers",
+  "description": "MCP server for Amazon SP-API developer assistant tools (Orders API, Migration Assistant, Credentials)",
   "license": "Apache-2.0",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "build/index.js",
   "bin": {
-    "sp-api-dev-mcp": "./dist/index.js"
+    "sp-api-dev-assistant-mcp-server": "./build/index.js"
   },
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "node build/index.js",
     "dev": "tsx src/index.ts",
     "build": "tsc",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\"",
-    "test": "echo \"No tests - this is a consolidation package\"",
-    "test:watch": "echo \"No tests\"",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "type-check": "tsc --noEmit",
-    "prepublishOnly": "npm run build",
-    "prepare": "npm run lint:fix && npm run format && npm run type-check"
+    "prepublishOnly": "npm run build"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.11.2",
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "zod": "^3.22.4"
+  },
   "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.4",
+    "@babel/preset-typescript": "^7.24.7",
+    "@types/jest": "^29.5.12",
     "@types/node": "^22.5.4",
     "@typescript-eslint/eslint-plugin": "^8.3.0",
     "@typescript-eslint/parser": "^8.3.0",
+    "babel-jest": "^29.7.0",
     "eslint": "^9.9.1",
     "eslint-config-prettier": "^9.1.0",
+    "jest": "^29.7.0",
     "prettier": "^3.3.3",
+    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.1",
     "typescript": "^5.5.4"
   },
   "files": [
     "src/",
-    "dist/",
-    "bundled-servers/",
+    "build/",
     "README.md"
   ],
   "keywords": [
     "mcp",
     "amazon",
     "sp-api",
+    "orders",
+    "migration-assistant",
     "model-context-protocol"
-  ],
-  "publishConfig": {
-    "access": "public"
-  }
+  ]
 }

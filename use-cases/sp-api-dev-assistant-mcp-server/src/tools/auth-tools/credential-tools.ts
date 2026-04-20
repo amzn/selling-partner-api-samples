@@ -36,9 +36,6 @@ const BASE_URL_OPTIONS: Record<string, string> = {
 };
 
 export class CredentialTools {
-  /**
-   * Unified credential management tool
-   */
   handleCredentials(args: CredentialToolArgs): ToolResponse {
     switch (args.action) {
       case "configure":
@@ -63,13 +60,11 @@ export class CredentialTools {
   private configureCredentials(args: CredentialToolArgs): ToolResponse {
     const { clientId, clientSecret, refreshToken, baseUrl } = args;
 
-    // Resolve base URL from region shorthand if provided
     let resolvedBaseUrl = baseUrl;
     if (baseUrl && BASE_URL_OPTIONS[baseUrl.toLowerCase()]) {
       resolvedBaseUrl = BASE_URL_OPTIONS[baseUrl.toLowerCase()];
     }
 
-    // Update credentials
     const updates: Partial<SPAPICredentials> = {};
     if (clientId) updates.clientId = clientId;
     if (clientSecret) updates.clientSecret = clientSecret;

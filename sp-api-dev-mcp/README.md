@@ -2,35 +2,13 @@
 
 A Model Context Protocol (MCP) server that provides tools for interacting with Amazon's Selling Partner API (SP-API), specifically focused on Orders API operations and migration assistance.
 
-## Features
-
-### Migration Assistant
-
-- `migration_assistant` - Assists with API version migrations
-  - Provides general migration guidance (without source code)
-  - Analyzes existing code and generates refactored implementations
-  - Supports: Orders API v0 → v2026-01-01
-
-### Orders API Tools
-
-**V1 API (2026-01-01)**
-- `search_orders` - Search orders with various filters (date, status, marketplace, etc.)
-- `get_order` - Get detailed information for a specific order
-- `cancel_order` - Cancel an order with a reason code
-
-**V0 API (Legacy)**
-- `update_shipment_status` - Update shipment status for an order
-- `update_verification_status` - Update verification status for regulated orders
-- `confirm_shipment` - Confirm shipment for an order
-- `get_order_regulated_info` - Get regulated information for compliance-related orders
-
 ## Usage with MCP Clients
 
 The `@spectrumtest/sp-api-dev-mcp` package consolidates multiple SP-API MCP servers into a single npm package:
 
 | Server | npx command arg |
 |--------|----------------|
-| SP-API Dev MCP | `selling-partner-api-dev-mcp` |
+| SP-API Dev Assistant | `sp-api-dev-assistant-mcp-server` |
 | Amazon Data Kiosk (Seller Central) | `amazon-data-kiosk-sc-mcp-server` |
 | Amazon Data Kiosk (Vendor Central) | `amazon-data-kiosk-vc-mcp-server` |
 | SP-API MCP Server | `sp-api-mcp-server` |
@@ -40,9 +18,9 @@ The `@spectrumtest/sp-api-dev-mcp` package consolidates multiple SP-API MCP serv
 ```json
 {
   "mcpServers": {
-    "sp-api-dev": {
+    "sp-api-dev-assistant": {
       "command": "npx",
-      "args": ["-y", "@spectrumtest/sp-api-dev-mcp", "selling-partner-api-dev-mcp"],
+      "args": ["-y", "@spectrumtest/sp-api-dev-mcp", "sp-api-dev-assistant-mcp-server"],
       "env": {
         "SP_API_CLIENT_ID": "your_client_id",
         "SP_API_CLIENT_SECRET": "your_client_secret",

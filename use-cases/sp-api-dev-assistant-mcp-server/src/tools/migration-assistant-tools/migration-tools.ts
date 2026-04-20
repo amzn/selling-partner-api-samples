@@ -36,7 +36,6 @@ export class SPAPIMigrationAssistantTool {
       analysis_only = false,
     } = args;
 
-    // Validate supported migrations
     const supportedMigrations: Record<
       string,
       { source: string; target: string }
@@ -67,7 +66,6 @@ export class SPAPIMigrationAssistantTool {
       };
     }
 
-    // Route to appropriate migration handler
     if (
       source_version === "orders-v0" &&
       target_version === "orders-2026-01-01"
@@ -95,10 +93,8 @@ export class SPAPIMigrationAssistantTool {
     targetVersion: string,
     analysisOnly: boolean,
   ): Promise<ToolResponse> {
-    // Get migration data
     const migrationData = getOrdersApiMigrationData();
 
-    // If no source code provided, return general guidance
     if (!sourceCode) {
       return {
         content: [
@@ -110,7 +106,6 @@ export class SPAPIMigrationAssistantTool {
       };
     }
 
-    // Analyze the source code
     const analysis = analyzeOrdersApiCode(sourceCode, migrationData);
 
     if (analysisOnly) {
@@ -124,7 +119,6 @@ export class SPAPIMigrationAssistantTool {
       };
     }
 
-    // Generate refactored code
     const refactoredCode = generateRefactoredOrdersApiCode(
       sourceCode,
       analysis,

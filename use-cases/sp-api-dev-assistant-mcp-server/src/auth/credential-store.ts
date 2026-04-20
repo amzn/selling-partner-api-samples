@@ -47,9 +47,6 @@ class CredentialStore {
     return CredentialStore.instance;
   }
 
-  /**
-   * Set credentials from user input
-   */
   setCredentials(credentials: Partial<SPAPICredentials>): void {
     if (credentials.clientId) {
       this.credentials.clientId = credentials.clientId;
@@ -66,16 +63,10 @@ class CredentialStore {
     this.configuredAt = new Date();
   }
 
-  /**
-   * Get current credentials
-   */
   getCredentials(): Partial<SPAPICredentials> {
     return { ...this.credentials };
   }
 
-  /**
-   * Check if all required credentials are configured
-   */
   isConfigured(): boolean {
     return !!(
       this.credentials.clientId &&
@@ -84,9 +75,6 @@ class CredentialStore {
     );
   }
 
-  /**
-   * Get status of credential configuration
-   */
   getStatus(): CredentialStoreStatus {
     return {
       isConfigured: this.isConfigured(),
@@ -99,9 +87,6 @@ class CredentialStore {
     };
   }
 
-  /**
-   * Clear all credentials
-   */
   clearCredentials(): void {
     this.credentials = {
       baseUrl: "https://sellingpartnerapi-na.amazon.com",
@@ -109,9 +94,6 @@ class CredentialStore {
     this.configuredAt = undefined;
   }
 
-  /**
-   * Get masked credentials for display (hide sensitive data)
-   */
   getMaskedCredentials(): Record<string, string> {
     const mask = (value?: string): string => {
       if (!value) return "(not set)";

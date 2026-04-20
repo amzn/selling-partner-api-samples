@@ -25,12 +25,10 @@ export class SPAPIAuth {
   }
 
   private async getAccessToken(): Promise<string> {
-    // Check if we have a valid token
     if (this.accessToken && this.tokenExpiry && Date.now() < this.tokenExpiry) {
       return this.accessToken;
     }
 
-    // Refresh the access token using LWA refresh token
     try {
       const response = await this.axiosInstance.post<TokenResponse>(
         "https://api.amazon.com/auth/o2/token",
@@ -48,7 +46,6 @@ export class SPAPIAuth {
       );
 
       this.accessToken = response.data.access_token;
-      // Set expiry 5 minutes before actual expiry to be safe
       this.tokenExpiry = Date.now() + (response.data.expires_in - 300) * 1000;
 
       return this.accessToken;
@@ -73,7 +70,7 @@ export class SPAPIAuth {
       headers: {
         "x-amz-access-token": accessToken!,
         "Content-Type": "application/json",
-        "User-Agent": "SP-API-Orders-V1-MCP/1.1.0",
+        "User-Agent": "SP-API-Dev-Assistant-MCP/0.0.1",
       },
       params,
       timeout: 30000,

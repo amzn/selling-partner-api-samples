@@ -15,21 +15,15 @@ export class Logger {
   private logPath: string;
 
   constructor(logFile: string = "dev-mcp.log") {
-    // Create logs directory under current working directory
     const logsDir = join(process.cwd(), "logs");
 
-    // Ensure logs directory exists
     if (!existsSync(logsDir)) {
       mkdirSync(logsDir, { recursive: true });
     }
 
-    // Create log file path
     this.logPath = join(logsDir, logFile);
-
-    // Create write stream
     this.logStream = createWriteStream(this.logPath, { flags: "a" });
 
-    // Log initialization
     this.log("INFO", "Logger initialized", {
       logPath: this.logPath,
       cwd: process.cwd(),
@@ -51,8 +45,6 @@ export class Logger {
     };
 
     const logLine = JSON.stringify(logEntry);
-
-    // Write to log file
     this.logStream.write(logLine + "\n");
   }
 

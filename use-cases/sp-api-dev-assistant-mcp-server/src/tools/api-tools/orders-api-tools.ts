@@ -62,7 +62,6 @@ export interface CancelOrderArgs {
     | "PRICING_ERROR";
 }
 
-// V0 API Args
 export interface UpdateShipmentStatusArgs {
   orderId: string;
   marketplaceId: string;
@@ -129,7 +128,6 @@ export interface ToolResponse {
 
 export class OrdersApiTool {
   private getAuth(): SPAPIAuth | null {
-    // First check credential store (runtime configured)
     const storeCredentials = credentialStore.getCredentials();
     if (credentialStore.isConfigured()) {
       return new SPAPIAuth({
@@ -201,7 +199,6 @@ export SP_API_REFRESH_TOKEN="your_refresh_token"
       paginationToken,
     } = args;
 
-    // Validate date parameters
     if (!createdAfter && !lastUpdatedAfter) {
       return {
         content: [
@@ -311,17 +308,13 @@ export SP_API_REFRESH_TOKEN="your_refresh_token"
 
     const { orderId, cancelReasonCode } = args;
 
-    const requestBody = {
-      cancelReasonCode: cancelReasonCode,
-    };
-
     try {
       const auth = this.getAuth()!;
       await auth.makeAuthenticatedRequest(
         "PUT",
         `${this.getBaseUrl()}/orders/2026-01-01/orders/${orderId}/cancellation`,
         {},
-        requestBody,
+        { cancelReasonCode },
       );
 
       return {
@@ -401,18 +394,13 @@ export SP_API_REFRESH_TOKEN="your_refresh_token"
 
     const { orderId, marketplaceId, regulatedOrderVerificationStatus } = args;
 
-    const requestBody = {
-      marketplaceId,
-      regulatedOrderVerificationStatus,
-    };
-
     try {
       const auth = this.getAuth()!;
       const response = await auth.makeAuthenticatedRequest(
         "PATCH",
         `${this.getBaseUrl()}/orders/v0/orders/${orderId}/regulatedInfo`,
         {},
-        requestBody,
+        { marketplaceId, regulatedOrderVerificationStatus },
       );
 
       return {
@@ -442,11 +430,7 @@ export SP_API_REFRESH_TOKEN="your_refresh_token"
 
     const { orderId, marketplaceId, packageDetail, codCollectionMethod } = args;
 
-    const requestBody: any = {
-      marketplaceId,
-      packageDetail,
-    };
-
+    const requestBody: any = { marketplaceId, packageDetail };
     if (codCollectionMethod) {
       requestBody.codCollectionMethod = codCollectionMethod;
     }
