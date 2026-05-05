@@ -1,0 +1,13 @@
+{
+  "_links": {
+    "self": {
+      "href": "/solicitations/v1/orders/123-4567890-1234567"
+    },
+    "actions": [
+      {
+        "href": "/solicitations/v1/orders/123-4567890-1234567/solicitations/productReviewAndSellerFeedback?marketplaceIds=ATVPDKIKX0DER",
+        "name": "productReviewAndSellerFeedback"
+      }
+    ]
+  }
+}
