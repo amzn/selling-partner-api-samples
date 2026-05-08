@@ -37,7 +37,7 @@ export class VectraVectorStore implements VectorStore {
       filter = { locale: { $eq: filters.locale } };
     }
 
-    const results = await index.queryItems(queryVector, topK, filter);
+    const results = await index.queryItems(queryVector, "", topK, filter);
 
     return results.map((r) => ({
       item: {

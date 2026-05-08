@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Consolidated npm package that bundles multiple SP-API MCP servers",
   "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20"
+  },
   "type": "module",
   "main": "dist/index.js",
   "bin": {

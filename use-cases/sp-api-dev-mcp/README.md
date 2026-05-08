@@ -2,6 +2,10 @@
 
 A consolidated npm package that bundles MCP servers for Amazon Selling Partner API development. Install once, get access to all SP-API developer tools.
 
+## Prerequisites
+
+- **Node.js >= 20** is required.
+
 ## Installation
 
 ```bash
