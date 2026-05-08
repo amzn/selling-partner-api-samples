@@ -24,7 +24,7 @@ A Model Context Protocol (MCP) server that provides tools for interacting with A
 | `additionalHeaders` | No       | Extra request headers                                      |
 | `rawMode`           | No       | Return raw response without formatting (default: `false`)  |
 | `generateCode`      | No       | Generate a code snippet for the request (default: `false`) |
-| `region`            | No       | AWS region or selling region (default: `us-east-1`)        |
+| `region`            | No       | SP-API region. Accepts `NA` / `EU` / `FE`, or country codes (`US`, `UK`, `DE`, `JP`, etc.). Falls back to `SP_API_REGION` env var, then warns and uses `NA`. |
 
 ### SP-API Explore Catalog
 
@@ -165,7 +165,8 @@ Supports: Python, JavaScript, Java, C#, PHP.
 | `SP_API_CLIENT_ID`     | `sp_api_execute`                           | SP-API OAuth client ID                                            |
 | `SP_API_CLIENT_SECRET` | `sp_api_execute`                           | SP-API OAuth client secret                                        |
 | `SP_API_REFRESH_TOKEN` | `sp_api_execute`                           | SP-API refresh token                                              |
-| `SP_API_BASE_URL`      | Optional                                   | Override SP-API base URL (default: NA endpoint)                   |
+| `SP_API_REGION`        | Optional                                   | Default selling region for `sp_api_execute` when the `region` tool arg is omitted. `NA` / `EU` / `FE`, or country code. |
+| `SP_API_BASE_URL`      | Optional                                   | Override the SP-API base URL outright. When set, takes precedence over `region` and `SP_API_REGION`. |
 | `SP_API_OAUTH_URL`     | Optional                                   | Override OAuth token URL                                          |
 | `CATALOG_PATH`         | `sp_api_execute`, `sp_api_explore_catalog` | Path to Swagger/OpenAPI JSON files (default: `./swagger`)         |
 | `MAX_RESPONSE_TOKENS`  | Optional                                   | Max tokens before catalog responses truncate (default: `25000`)   |

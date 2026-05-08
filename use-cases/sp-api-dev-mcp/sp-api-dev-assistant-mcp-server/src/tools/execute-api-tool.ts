@@ -32,9 +32,75 @@ export const executeApiSchema = z.object({
   region: z
     .string()
     .optional()
-    .default("us-east-1")
-    .describe("AWS region for the request"),
+    .describe(
+      "SP-API selling region. Accepts: 'NA' | 'EU' | 'FE' (preferred), or " +
+        "ISO country codes ('US', 'CA', 'MX', 'BR', 'UK', 'GB', 'DE', 'FR', 'IT', 'ES', 'IN', 'JP', 'AU', 'SG'). " +
+        "If omitted, falls back to the SP_API_REGION env var, then warns and uses NA.",
+    ),
 });
+
+const SP_API_ENDPOINTS = {
+  NA: "https://sellingpartnerapi-na.amazon.com",
+  EU: "https://sellingpartnerapi-eu.amazon.com",
+  FE: "https://sellingpartnerapi-fe.amazon.com",
+} as const;
+
+type SellingRegion = keyof typeof SP_API_ENDPOINTS;
+
+const REGION_ALIASES: Record<string, SellingRegion> = {
+  // Selling regions
+  na: "NA",
+  "north america": "NA",
+  eu: "EU",
+  europe: "EU",
+  fe: "FE",
+  "far east": "FE",
+
+  // NA country codes
+  us: "NA",
+  ca: "NA",
+  mx: "NA",
+  br: "NA",
+  canada: "NA",
+  mexico: "NA",
+  brazil: "NA",
+
+  // EU country codes
+  uk: "EU",
+  gb: "EU",
+  de: "EU",
+  fr: "EU",
+  it: "EU",
+  es: "EU",
+  nl: "EU",
+  se: "EU",
+  pl: "EU",
+  tr: "EU",
+  ae: "EU",
+  sa: "EU",
+  eg: "EU",
+  in: "EU",
+  za: "EU",
+  germany: "EU",
+  france: "EU",
+  italy: "EU",
+  spain: "EU",
+  india: "EU",
+
+  // FE country codes
+  jp: "FE",
+  au: "FE",
+  sg: "FE",
+  japan: "FE",
+  australia: "FE",
+  singapore: "FE",
+};
+
+export function resolveRegionEndpoint(region: string): string | null {
+  const key = region.trim().toLowerCase();
+  const sellingRegion = REGION_ALIASES[key];
+  return sellingRegion ? SP_API_ENDPOINTS[sellingRegion] : null;
+}
 
 export type ExecuteApiParams = z.infer<typeof executeApiSchema>;
 
@@ -104,8 +170,11 @@ export class ExecuteApiTool {
       // Override method if specified
       const method = params.method || endpoint.method;
 
+      // Resolve region: explicit param > SP_API_REGION env var > warn + default NA
+      const region = this.resolveRegion(params.region);
+
       // Build request URL
-      const url = this.buildUrl(endpoint, params.parameters, params.region);
+      const url = this.buildUrl(endpoint, params.parameters, region);
 
       // Prepare headers
       const headers = this.prepareHeaders(endpoint, params.additionalHeaders);
@@ -220,6 +289,31 @@ export class ExecuteApiTool {
   }
 
   /**
+   * Resolve the effective region string, falling back to SP_API_REGION,
+   * then warning and using "NA" so the request is never silently misrouted.
+   * Skipped entirely when SP_API_BASE_URL is explicitly set.
+   */
+  private resolveRegion(paramRegion: string | undefined): string {
+    if (paramRegion && paramRegion.trim()) {
+      return paramRegion;
+    }
+
+    const envRegion = process.env.SP_API_REGION;
+    if (envRegion && envRegion.trim()) {
+      return envRegion;
+    }
+
+    if (!this.authenticator.getExplicitBaseUrl()) {
+      logger.warn(
+        "No region specified on the request and SP_API_REGION env var is not set; " +
+          "defaulting to NA. If your seller account is in EU or FE, pass region='EU' or region='FE' " +
+          "(or set SP_API_REGION / SP_API_BASE_URL) to avoid 403 errors.",
+      );
+    }
+    return "NA";
+  }
+
+  /**
    * Validate parameters against endpoint definition
    */
   private validateParameters(
@@ -258,49 +352,22 @@ export class ExecuteApiTool {
     parameters: Record<string, any>,
     region: string,
   ): string {
-    // Use configured base URL or map selling regions to SP-API endpoints
-    let spApiEndpoint = this.authenticator.getBaseUrl();
+    // Explicit SP_API_BASE_URL (via authenticator credentials) takes precedence over region mapping.
+    const explicitBaseUrl = this.authenticator.getExplicitBaseUrl();
+    let spApiEndpoint: string;
 
-    // If using default base URL, apply region logic
-    if (spApiEndpoint === "https://sellingpartnerapi-na.amazon.com") {
-      // Convert region to lowercase for case-insensitive comparison
-      const regionLower = region.toLowerCase();
-
-      // Map selling region to the correct endpoint
-      if (
-        regionLower.includes("na") ||
-        regionLower.includes("north america") ||
-        regionLower.includes("us") ||
-        regionLower.includes("canada") ||
-        regionLower.includes("mexico") ||
-        regionLower.includes("brazil") ||
-        regionLower === "us-east-1"
-      ) {
-        spApiEndpoint = "https://sellingpartnerapi-na.amazon.com";
-      } else if (
-        regionLower.includes("eu") ||
-        regionLower.includes("europe") ||
-        regionLower.includes("uk") ||
-        regionLower.includes("germany") ||
-        regionLower.includes("france") ||
-        regionLower.includes("italy") ||
-        regionLower.includes("spain") ||
-        regionLower.includes("india")
-      ) {
-        spApiEndpoint = "https://sellingpartnerapi-eu.amazon.com";
-      } else if (
-        regionLower.includes("fe") ||
-        regionLower.includes("far east") ||
-        regionLower.includes("japan") ||
-        regionLower.includes("australia") ||
-        regionLower.includes("singapore")
-      ) {
-        spApiEndpoint = "https://sellingpartnerapi-fe.amazon.com";
+    if (explicitBaseUrl) {
+      spApiEndpoint = explicitBaseUrl;
+    } else {
+      const resolved = resolveRegionEndpoint(region);
+      if (resolved) {
+        spApiEndpoint = resolved;
       } else {
-        // Log a warning if region doesn't match known patterns
         logger.warn(
-          `Unknown region '${region}', defaulting to North America endpoint`,
+          `Unknown region '${region}', defaulting to NA endpoint. ` +
+            `Supported values: NA, EU, FE, or country codes (US, UK, DE, JP, etc.).`,
         );
+        spApiEndpoint = SP_API_ENDPOINTS.NA;
       }
     }
 

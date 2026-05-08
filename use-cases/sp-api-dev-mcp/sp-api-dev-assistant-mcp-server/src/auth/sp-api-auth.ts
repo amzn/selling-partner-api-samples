@@ -26,12 +26,22 @@ export class SpApiAuthenticator {
   constructor(private credentials: SpApiCredentials) {}
 
   /**
-   * Get the configured base URL for SP-API requests
+   * Get the configured base URL for SP-API requests.
+   * Returns the default NA endpoint if not explicitly configured.
    */
   getBaseUrl(): string {
     return (
       this.credentials.baseUrl || "https://sellingpartnerapi-na.amazon.com"
     );
+  }
+
+  /**
+   * Returns the explicitly configured base URL (from SP_API_BASE_URL),
+   * or null if none was set. Callers use this to decide whether to apply
+   * region-based endpoint mapping.
+   */
+  getExplicitBaseUrl(): string | null {
+    return this.credentials.baseUrl || null;
   }
 
   /**

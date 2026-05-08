@@ -47,7 +47,47 @@ unresolved — every Task parameter that uses a JSONPath reference (e.g.
 IMPORTANT: When executing a workflow and it requires input (e.g. callbacks,
 selections, or any user-provided values), ALWAYS ask the user what value they
 want to provide. Never assume or pick default values on the user's behalf.
-Wait for the user's response before submitting the callback.`;
+Wait for the user's response before submitting the callback.
+
+DEBUGGING A FAILED EXECUTION:
+When a workflow execution fails (status=FAILED) or a Task state errors out,
+do not guess. Follow this procedure:
+
+1. Call get_execution_events(execution_id) and locate the StateFailed event.
+   Its "details" field contains:
+     - details.request  — the exact method/path/pathParams/queryParams/body
+                          that was sent (after JSONPath resolution)
+     - details.status   — HTTP status code (e.g. 400, 403, 429, 500)
+     - details.response — the SP-API error body, typically
+                          { errors: [ { code, message, details } ] }
+     - details.retryable — whether the interpreter considered it retryable
+2. Read details.response.errors[].code and .details to identify the root
+   cause. Common SP-API errors:
+     - InvalidInput / "One or more required parameters missing"
+         → a Parameter is the wrong TYPE or SHAPE. SP-API is strict:
+           * marketplaceIds must be an ARRAY of strings, not a single string
+             — use a MultiSelect Input state, or wrap a Text value with an
+             intrinsic (States.Array(...)) / a Pass state that splits on
+             comma before the Task state.
+           * dataStartTime / dataEndTime must be ISO 8601 timestamps
+             (e.g. 2026-04-01T00:00:00Z), not bare YYYY-MM-DD.
+           * Enum fields (reportType, orderStatuses) must match the exact
+             documented values.
+     - Unauthorized / InvalidSignature → credentials/region problem,
+       not a workflow bug. Tell the user to check SP_API_* env vars.
+     - QuotaExceeded (429) → rate limit. Suggest adding Retry with
+       backoff, or a Wait state.
+     - 5xx → transient; Retry should handle it. If it doesn't, the
+       request shape is probably wrong even though the code is 500.
+3. Propose a concrete fix: name the state, name the Parameter, and state
+   the new value/shape. Then apply it via the workflow tools (remove_state,
+   add_input_state, add_task_state, connect_states) and re-validate.
+4. If the error body is empty or ambiguous, use tail_execution_events or
+   list_executions to compare with a prior successful run, and check the
+   SP-API endpoint documentation via the sp-api MCP tools.
+
+Never tell the user "SP-API returned 400" without reporting the error
+code, message, and the offending parameter.`;
 
 const ALLOWED_TOOLS = ['Read', 'Glob', 'Grep', 'Write'];
 

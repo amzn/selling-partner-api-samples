@@ -149,6 +149,10 @@ export function createBuilderTools() {
             enum: ['json', 'text', 'base64'],
             description: 'How to parse the response: json (default), text, or base64 for binary'
           },
+          decompress: {
+            type: 'boolean',
+            description: 'Decompress gzip/deflate response body (default: false). Auto-applied when the server sets Content-Encoding; set true for servers that return gzip without that header (e.g., some SP-API report document URLs).'
+          },
           headers: {
             type: 'object',
             description: 'Custom HTTP headers to include in the request'
