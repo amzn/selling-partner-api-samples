@@ -1,0 +1,67 @@
+{
+  "payload": {
+    "fulfillmentPreviews": [
+      {
+        "estimatedFees": [
+          {
+            "amount": {
+              "currencyCode": "USD",
+              "value": "6.17"
+            },
+            "name": "FBAPerOrderFulfillmentFee"
+          },
+          {
+            "amount": {
+              "currencyCode": "USD",
+              "value": "1.01"
+            },
+            "name": "FBATransportationFee"
+          },
+          {
+            "amount": {
+              "currencyCode": "USD",
+              "value": "8.06"
+            },
+            "name": "FBAPerUnitFulfillmentFee"
+          }
+        ],
+        "estimatedShippingWeight": {
+          "unit": "POUNDS",
+          "value": "8.185"
+        },
+        "featureConstraints": [
+          {
+            "featureFulfillmentPolicy": "Required",
+            "featureName": "BLANK_BOX"
+          }
+        ],
+        "fulfillmentPreviewShipments": [
+          {
+            "earliestArrivalDate": "2026-04-03T17:45:10Z",
+            "earliestShipDate": "2026-04-01T17:45:10Z",
+            "fulfillmentPreviewItems": [
+              {
+                "estimatedShippingWeight": {
+                  "unit": "POUNDS",
+                  "value": "2.041"
+                },
+                "quantity": 1,
+                "sellerFulfillmentOrderItemId": "mySampleSKU1",
+                "sellerSku": "5X-K5YM-JYEO",
+                "shippingWeightCalculationMethod": "Package"
+              }
+            ],
+            "latestArrivalDate": "2026-04-04T17:45:10Z",
+            "latestShipDate": "2026-04-02T17:45:10Z"
+          }
+        ],
+        "isCODCapable": false,
+        "isFulfillable": true,
+        "marketplaceId": "ATVPDKIKX0DER",
+        "orderUnfulfillableReasons": [],
+        "shippingSpeedCategory": "Standard",
+        "unfulfillablePreviewItems": []
+      }
+    ]
+  }
+}

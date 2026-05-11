@@ -1,0 +1,60 @@
+{
+  "payload": {
+    "packageNumber": 543939833,
+    "trackingNumber": "cf28ebcb-be19-4f4c-b7d4-99486bd2ad6c",
+    "carrierCode": "Amazon Logistics",
+    "carrierPhoneNumber": "1111111111",
+    "carrierURL": "https://logistics.amazon.com/",
+    "shipDate": "2026-04-02T17:54:04Z",
+    "estimatedArrivalDate": "2026-04-04T17:54:04Z",
+    "shipToAddress": {
+      "city": "Anytown",
+      "state": "AZ",
+      "country": "US"
+    },
+    "currentStatus": "DELIVERED",
+    "additionalLocationInfo": "FRONT_DOOR",
+    "trackingEvents": [
+      {
+        "eventDate": "2026-04-02T17:54:03Z",
+        "eventAddress": {
+          "city": "Seattle",
+          "state": "WA",
+          "country": "US"
+        },
+        "eventCode": "EVENT_101",
+        "eventDescription": "Carrier notified to pick up package."
+      },
+      {
+        "eventDate": "2026-04-02T17:54:04Z",
+        "eventAddress": {
+          "city": "Orlando",
+          "state": "FL",
+          "country": "US"
+        },
+        "eventCode": "EVENT_102",
+        "eventDescription": "Shipment picked up from seller's facility."
+      },
+      {
+        "eventDate": "2026-04-03T20:01:03Z",
+        "eventAddress": {
+          "city": "Denver",
+          "state": "CO",
+          "country": "US"
+        },
+        "eventCode": "EVENT_302",
+        "eventDescription": "Out for delivery."
+      },
+      {
+        "eventDate": "2026-04-04T17:54:04Z",
+        "eventAddress": {
+          "city": "Anytown",
+          "state": "AZ",
+          "country": "US"
+        },
+        "eventCode": "EVENT_301",
+        "eventDescription": "Delivered."
+      }
+    ]
+  }
+}
