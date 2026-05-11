@@ -1,0 +1,393 @@
+{
+  "name": "Outbound Fulfillment Migration Data",
+  "description": "Migration mapping data for Fulfillment Outbound API v2020-07-01 to v2025-09-24",
+  "version": "1.0.0",
+  "deprecated": [
+    "getFeatures",
+    "getFeatureSKU",
+    "getFeatureInventory",
+    "createFulfillmentReturn",
+    "listReturnReasonCodes",
+    "getPackageTrackingDetails",
+    "includeDeliveryWindows",
+    "earliestShipDate",
+    "latestShipDate"
+  ],
+  "notSupported": [
+    "getFeatures - Check documentation for supported feature constraints and services",
+    "getFeatureSKU - Check documentation for supported feature constraints and services",
+    "getFeatureInventory - Use getOrderPreview to check if products are fulfillable",
+    "createFulfillmentReturn - Deprecated in v2025-09-24",
+    "listReturnReasonCodes - Deprecated in v2025-09-24",
+    "getPackageTrackingDetails - Moved to Amazon Tracking API"
+  ],
+  "attributeMappings": {
+    "sellerFulfillmentOrderId": "orderId",
+    "shippingSpeedCategory": "deliveryServiceLevel",
+    "destinationAddress": "destination.deliveryAddress",
+    "marketplaceId": "origin.countryCode",
+    "items": "lineItems",
+    "featureConstraints": "services",
+    "deliveryPreferences": "destination.deliveryNotes / destination.dropOffLocation",
+    "codSettings": "services.delivery.paymentOnDelivery",
+    "sellerSKU": "product.productIdentifier.amazonSku",
+    "sellerFulfillmentOrderItemId": "lineItemId",
+    "quantity": "amount.value",
+    "fulfillmentOrderStatus": "status",
+    "statusUpdatedDate": "statusUpdateTime",
+    "receivedDate": "receiveTime",
+    "fulfillmentShipments": "shipments",
+    "fulfillmentShipmentPackage": "shipmentPackages",
+    "serialNumber": "unitIdentifiers",
+    "fulfillmentCenterId": "fulfillmentCenter.id",
+    "fulfillmentShipmentStatus": "status",
+    "shippingDate": "shipTime",
+    "estimatedArrivalDate": "deliveryTime",
+    "fulfillmentPreviewShipments": "plannedShipments[].offers",
+    "earliestArrivalDate": "deliveryInterval.startTime",
+    "latestArrivalDate": "deliveryInterval.endTime",
+    "fulfillmentPreviews": "plannedShipments",
+    "shippingSpeedCategories": "deliveryServiceLevels",
+    "address": "destination.deliveryAddress",
+    "queryStartDate": "updatedAfter",
+    "nextToken": "pageToken",
+    "expiresAt": "expiryTime",
+    "dateRange.earliest": "deliveryInterval.startTime",
+    "dateRange.latest": "deliveryInterval.endTime",
+    "policy.message": "policy.messaging"
+  },
+  "newFeatures": [
+    "Authorization: Interoperable use of merchant and partner account (multi-tenant) credentials",
+    "Channel-based feature configuration: Fulfillment services with distinct channels per merchant",
+    "x-amzn-fulfillment-service-id header for multi-site API scoping",
+    "New tenancy operations: Create, List, Retrieve, Update fulfillment services",
+    "FULFILLMENT_ORDER_STATUS notification v2025-09-24 with granular package-level updates (Delivered, In Transit, Delayed)",
+    "Webhook subscription support for notifications (in addition to SQS)",
+    "Subscription by Query (SBQ) with CEL filter expressions for event filtering",
+    "New event types: ORDER_STATUS_CHANGED, SHIPMENT_STATUS_CHANGED, SHIPMENT_PACKAGE_STATUS_CHANGED",
+    "updatePackage operation (PUT /orders/{orderId}/packages/{packageNumber}) for package status and tracking updates",
+    "deliveryOffers operation (POST /offers) for delivery date promises",
+    "Shipment query parameter (shipments=EXCLUDE/INCLUDE) on getOrder and listOrders",
+    "Sandbox status simulation with IN_TRANSIT, DELAYED, DELIVERED milestones",
+    "All enum values standardized to SCREAMING_SNAKE_CASE"
+  ],
+  "apiMappings": {
+    "createFulfillmentOrder": {
+      "v1": "createOrder",
+      "status": "✅ Available",
+      "notes": "POST /fulfillmentOrders → POST /orders. Request body restructured with new field names."
+    },
+    "getFulfillmentOrder": {
+      "v1": "getOrder",
+      "status": "✅ Available",
+      "notes": "GET /fulfillmentOrders/{sellerFulfillmentOrderId} → GET /orders/{orderId}. Supports shipments=EXCLUDE/INCLUDE query param."
+    },
+    "updateFulfillmentOrder": {
+      "v1": "updateOrder",
+      "status": "✅ Available",
+      "notes": "PUT /fulfillmentOrders/{sellerFulfillmentOrderId} → PUT /orders/{orderId}. Only fulfillmentAction needed in v2025-09-24."
+    },
+    "cancelFulfillmentOrder": {
+      "v1": "cancelOrder",
+      "status": "✅ Available",
+      "notes": "PUT /fulfillmentOrders/{sellerFulfillmentOrderId}/cancel → PUT /orders/{orderId}/cancel"
+    },
+    "listAllFulfillmentOrders": {
+      "v1": "listOrders",
+      "status": "✅ Available",
+      "notes": "GET /fulfillmentOrders → GET /orders. queryStartDate → updatedAfter, nextToken → pageToken."
+    },
+    "getFulfillmentPreview": {
+      "v1": "getOrderPreview",
+      "status": "✅ Available",
+      "notes": "POST /fulfillmentOrders/preview → POST /previews. Response uses plannedShipments with offers array inside each shipment."
+    },
+    "submitFulfillmentOrderStatusUpdate": {
+      "v1": "updateOrderStatus",
+      "status": "✅ Available",
+      "notes": "PUT /fulfillmentOrders/{id}/status → PUT /orders/{orderId}/status. Sandbox-only. Supports IN_TRANSIT, DELAYED, DELIVERED."
+    },
+    "deliveryOffers": {
+      "v1": "getOffers",
+      "status": "✅ Available",
+      "notes": "POST /deliveryOffers → POST /offers. Response: expiresAt → expiryTime, dateRange → deliveryInterval."
+    },
+    "getPackageTrackingDetails": {
+      "v1": "Moved to Amazon Tracking API",
+      "status": "❌ Not Available",
+      "notes": "Moved to a separate Amazon Tracking API. Continue using v2020-07-01 until Tracking API is GA. For package status updates, use updatePackage (PUT /orders/{orderId}/packages/{packageNumber})."
+    },
+    "getFeatures": {
+      "v1": "Deprecated",
+      "status": "❌ Not Available",
+      "notes": "Deprecated. Check documentation for supported feature constraints and services."
+    },
+    "getFeatureSKU": {
+      "v1": "Deprecated",
+      "status": "❌ Not Available",
+      "notes": "Deprecated. Check documentation for supported feature constraints and services."
+    },
+    "getFeatureInventory": {
+      "v1": "Deprecated",
+      "status": "❌ Not Available",
+      "notes": "Deprecated. Use getOrderPreview to check if products are fulfillable before placing an order."
+    },
+    "createFulfillmentReturn": {
+      "v1": "Deprecated",
+      "status": "❌ Not Available",
+      "notes": "Deprecated in v2025-09-24."
+    },
+    "listReturnReasonCodes": {
+      "v1": "Deprecated",
+      "status": "❌ Not Available",
+      "notes": "Deprecated in v2025-09-24."
+    }
+  },
+  "deliveryServiceLevelMappings": {
+    "Standard": "STANDARD",
+    "Expedited": "EXPEDITED",
+    "Priority": "PRIORITY",
+    "ScheduledDelivery": "SCHEDULED"
+  },
+  "fulfillmentActionMappings": {
+    "Ship": "SHIP",
+    "Hold": "HOLD"
+  },
+  "fulfillmentPolicyMappings": {
+    "FillOrKill": "FILL_OR_KILL",
+    "FillAll": "FILL_ALL",
+    "FillAllAvailable": "FILL_ALL_AVAILABLE"
+  },
+  "statusMappings": {
+    "fulfillmentOrderStatus": {
+      "New": "PROCESSING",
+      "Received": "PROCESSING",
+      "Planning": "PROCESSING",
+      "Processing": "PROCESSING",
+      "Complete": "COMPLETE",
+      "CompletePartialled": "COMPLETE_PARTIAL",
+      "Unfulfillable": "UNFULFILLABLE",
+      "Invalid": "INVALID"
+    },
+    "shipmentStatus": {
+      "PENDING": "PROCESSING",
+      "SHIPPED": "SHIPPED",
+      "CANCELLED": "CANCELLED"
+    },
+    "packageStatus": {
+      "PROCESSING": "PROCESSING",
+      "IN_TRANSIT": "IN_TRANSIT",
+      "DELAYED": "DELAYED",
+      "OUT_FOR_DELIVERY": "OUT_FOR_DELIVERY",
+      "DELIVERED": "DELIVERED",
+      "UNDELIVERABLE": "UNDELIVERABLE"
+    }
+  },
+  "queryParameterMappings": {
+    "queryStartDate": "updatedAfter (ISO 8601 format)",
+    "nextToken": "pageToken (Breaking: renamed pagination parameter)",
+    "ShippingSpeedCategories": "deliveryServiceLevels (Breaking: renamed and uppercase values)"
+  },
+  "requestBodyChanges": {
+    "createFulfillmentOrder": {
+      "removed": ["includeDeliveryWindows"],
+      "renamed": {
+        "sellerFulfillmentOrderId": "orderId",
+        "shippingSpeedCategory": "deliveryServiceLevel",
+        "destinationAddress": "destination.deliveryAddress",
+        "marketplaceId": "origin.countryCode",
+        "items": "lineItems",
+        "featureConstraints": "services",
+        "items[].sellerSKU": "lineItems[].product.productIdentifier.amazonSku",
+        "items[].sellerFulfillmentOrderItemId": "lineItems[].lineItemId",
+        "items[].quantity": "lineItems[].amount.value"
+      },
+      "added": [
+        "origin.countryCode",
+        "lineItems[].amount.unitOfMeasure",
+        "services.packaging",
+        "services.additionalServices"
+      ],
+      "enumChanges": {
+        "fulfillmentAction": "Ship → SHIP, Hold → HOLD",
+        "fulfillmentPolicy": "FillOrKill → FILL_OR_KILL, FillAll → FILL_ALL, FillAllAvailable → FILL_ALL_AVAILABLE",
+        "shippingSpeedCategory/deliveryServiceLevel": "Standard → STANDARD, Expedited → EXPEDITED, Priority → PRIORITY"
+      }
+    },
+    "getFulfillmentPreview": {
+      "removed": [
+        "includeDeliveryWindows",
+        "earliestShipDate",
+        "latestShipDate"
+      ],
+      "renamed": {
+        "address": "destination.deliveryAddress",
+        "items": "lineItems",
+        "shippingSpeedCategories": "deliveryServiceLevels",
+        "marketplaceId": "origin.countryCode",
+        "featureConstraints": "services",
+        "items[].sellerSku": "lineItems[].product.productIdentifier.amazonSku",
+        "items[].sellerFulfillmentOrderItemId": "lineItems[].lineItemId (removed in preview)",
+        "items[].quantity": "lineItems[].amount.value"
+      },
+      "added": [
+        "origin.countryCode",
+        "lineItems[].amount.unitOfMeasure",
+        "services.packaging"
+      ],
+      "enumChanges": {
+        "shippingSpeedCategories": "Standard → STANDARD, Expedited → EXPEDITED, Priority → PRIORITY"
+      }
+    },
+    "updateFulfillmentOrder": {
+      "removed": ["Full order object no longer needed"],
+      "renamed": {
+        "fulfillmentAction": "fulfillmentAction (same name, new enum values)"
+      },
+      "added": [],
+      "enumChanges": {
+        "fulfillmentAction": "Ship → SHIP, Hold → HOLD"
+      }
+    },
+    "deliveryOffers": {
+      "removed": [],
+      "renamed": {
+        "product.productIdentifier.merchantSku": "product.productIdentifier.amazonSku",
+        "product.amount": "amount (moved to top level)",
+        "terms.origin": "origin (moved to top level)",
+        "terms.destination": "destination (moved to top level)"
+      },
+      "added": [],
+      "enumChanges": {
+        "unitOfMeasure": "Eaches → EACHES"
+      }
+    }
+  },
+  "responseChanges": {
+    "getFulfillmentOrder": {
+      "renamed": {
+        "payload.fulfillmentOrder": "fulfillmentOrder (no payload wrapper)",
+        "payload.fulfillmentOrderItems": "fulfillmentOrder.lineItems (nested inside order)",
+        "payload.fulfillmentShipments": "fulfillmentOrder.shipments (nested inside order)",
+        "fulfillmentOrderStatus": "status",
+        "statusUpdatedDate": "statusUpdateTime",
+        "receivedDate": "receiveTime",
+        "fulfillmentShipmentPackage": "shipmentPackages",
+        "fulfillmentCenterId": "fulfillmentCenter.id",
+        "shippingDate": "shipTime",
+        "estimatedArrivalDate": "deliveryTime",
+        "serialNumber": "unitIdentifiers"
+      },
+      "structureChanges": [
+        "No payload wrapper - response is direct object",
+        "Order items nested inside fulfillmentOrder as lineItems",
+        "Shipments nested inside fulfillmentOrder as shipments",
+        "Package tracking uses carrierTracking object with carrierCode and trackingNumber"
+      ]
+    },
+    "getFulfillmentPreview": {
+      "renamed": {
+        "payload.fulfillmentPreviews": "plannedShipments (no payload wrapper)",
+        "fulfillmentPreviewShipments": "plannedShipments[].offers",
+        "earliestArrivalDate": "deliveryInterval.startTime",
+        "latestArrivalDate": "deliveryInterval.endTime",
+        "shippingSpeedCategory": "deliveryServiceLevel",
+        "estimatedFees": "estimatedPrice.rollupPrices"
+      },
+      "structureChanges": [
+        "No payload wrapper - response is direct object",
+        "Delivery windows replaced by deliveryOffers with deliveryInterval",
+        "Fees restructured into estimatedPrice with rollupPrices and totalPrice",
+        "earliestShipDate and latestShipDate deprecated"
+      ]
+    },
+    "listAllFulfillmentOrders": {
+      "renamed": {
+        "payload.fulfillmentOrders": "fulfillmentOrders (no payload wrapper)",
+        "payload.nextToken": "pagination.pageToken"
+      },
+      "structureChanges": [
+        "No payload wrapper - response is direct object",
+        "Pagination moved to pagination.pageToken"
+      ]
+    },
+    "deliveryOffers": {
+      "renamed": {
+        "payload.deliveryOffers": "offers (no payload wrapper)",
+        "expiresAt": "expiryTime",
+        "dateRange.earliest": "deliveryInterval.startTime",
+        "dateRange.latest": "deliveryInterval.endTime",
+        "policy.message": "policy.messaging"
+      },
+      "structureChanges": ["No payload wrapper - response is direct object"]
+    }
+  },
+  "basePath": {
+    "old": "/fba/outbound/2020-07-01",
+    "new": "/fulfillment/outbound/2025-09-24"
+  },
+  "tenancyOperations": {
+    "description": "New operations for managing fulfillment services (multi-tenant support)",
+    "operations": {
+      "createFulfillmentService": {
+        "endpoint": "POST /fulfillment/outbound/2025-09-24/services",
+        "description": "Create a fulfillment service with default settings"
+      },
+      "listFulfillmentServices": {
+        "endpoint": "GET /fulfillment/outbound/2025-09-24/services",
+        "description": "List all fulfillment services for your account"
+      },
+      "getFulfillmentService": {
+        "endpoint": "GET /fulfillment/outbound/2025-09-24/services/{fulfillmentServiceId}",
+        "description": "Get metadata for a specific fulfillment service"
+      },
+      "updateFulfillmentService": {
+        "endpoint": "PUT /fulfillment/outbound/2025-09-24/services/{fulfillmentServiceId}",
+        "description": "Update fulfillment service metadata and default settings"
+      }
+    }
+  },
+  "notifications": {
+    "description": "Enhanced FULFILLMENT_ORDER_STATUS notification with granular package-level updates",
+    "eventTypes": {
+      "ORDER_STATUS_CHANGED": {
+        "statuses": [
+          "PROCESSING",
+          "COMPLETE",
+          "COMPLETE_PARTIAL",
+          "UNFULFILLABLE",
+          "CANCELLED"
+        ],
+        "description": "Tracks overall order state changes"
+      },
+      "SHIPMENT_STATUS_CHANGED": {
+        "statuses": ["PROCESSING", "SHIPPED", "CANCELLED"],
+        "description": "Tracks shipment-level status"
+      },
+      "SHIPMENT_PACKAGE_STATUS_CHANGED": {
+        "statuses": [
+          "IN_TRANSIT",
+          "DELAYED",
+          "DELIVERED",
+          "UNDELIVERABLE",
+          "RETURNED"
+        ],
+        "description": "Tracks individual package delivery status"
+      }
+    },
+    "webhookSupport": true,
+    "sbqFilterSupport": true,
+    "payloadVersion": "2025-09-24"
+  },
+  "migrationBenefits": [
+    "Simplified API schema: Cleaner URIs, consistent camelCase naming, SCREAMING_SNAKE_CASE enums",
+    "Multi-tenant support: Partner account credentials and channel-based fulfillment services",
+    "Granular notifications: Package-level delivery tracking (IN_TRANSIT, DELAYED, DELIVERED) via webhooks",
+    "Reduced API calls: Consolidated response structure eliminates need for multiple calls",
+    "Flexible event filtering: CEL-based subscription filters for precise event targeting",
+    "Simplified updates: updateOrder only requires fulfillmentAction field",
+    "Better delivery promises: deliveryOffers/getOffers with expiry times and delivery intervals",
+    "Enhanced sandbox: Simulate delivery milestones (IN_TRANSIT, DELAYED, DELIVERED)",
+    "No payload wrapper: Direct response objects without nested payload structure"
+  ]
+}

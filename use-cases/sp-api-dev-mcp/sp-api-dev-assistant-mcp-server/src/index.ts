@@ -52,7 +52,7 @@ class SPAPIDevMCPServer {
     this.catalogLoader = new CatalogLoader();
 
     this.migrationAssistantTool = new SPAPIMigrationAssistantTool(
-      join(dataRoot, "resources", "orders-api-migration-data.json"),
+      join(dataRoot, "resources"),
     );
     this.CodeGenerationTool = new CodeGenerationTool();
     this.optimizationTool = new OptimizationTool();
@@ -119,6 +119,64 @@ class SPAPIDevMCPServer {
         };
       },
     );
+
+    // Register Outbound Fulfillment Migration Data Resource
+    this.server.registerResource(
+      "outbound-fulfillment-migration-data",
+      "sp-api://migration/outbound-fulfillment",
+      {
+        description:
+          "Migration mapping data for Fulfillment Outbound API v2020-07-01 to v2025-09-24. Contains deprecated attributes, unsupported fields, attribute mappings, new features, and API method mappings.",
+        mimeType: "application/json",
+      },
+      async () => {
+        const resourcePath = join(
+          dataRoot,
+          "resources",
+          "outbound-fulfillment-migration-data.json",
+        );
+        const content = readFileSync(resourcePath, "utf-8");
+        return {
+          contents: [
+            {
+              uri: "sp-api://migration/outbound-fulfillment",
+              mimeType: "application/json",
+              text: content,
+            },
+          ],
+        };
+      },
+    );
+
+    // Register Fulfillment Outbound v2025-09-24 Swagger/OpenAPI Spec
+    this.server.registerResource(
+      "fulfillment-outbound-v2025-09-24-api-model",
+      "sp-api://models/fulfillment-outbound-2025-09-24",
+      {
+        description:
+          "Swagger/OpenAPI 2.0 specification for the Selling Partner API Fulfillment Outbound v2025-09-24. " +
+          "Contains all endpoints, request/response schemas, and data model definitions for Multi-Channel Fulfillment operations including " +
+          "order creation, previews, delivery offers, tracking, and fulfillment service tenancy management.",
+        mimeType: "application/json",
+      },
+      async () => {
+        const resourcePath = join(
+          dataRoot,
+          "resources",
+          "fulfillmentOutbound_2025-09-24.json",
+        );
+        const content = readFileSync(resourcePath, "utf-8");
+        return {
+          contents: [
+            {
+              uri: "sp-api://models/fulfillment-outbound-2025-09-24",
+              mimeType: "application/json",
+              text: content,
+            },
+          ],
+        };
+      },
+    );
   }
 
   private setupTools(): void {
@@ -135,7 +193,7 @@ class SPAPIDevMCPServer {
           "instead of source_code to get accurate per-file line numbers. " +
           "Only use source_code when the user pastes a code snippet directly. " +
           "Do NOT strip comments, blank lines, or reformat the code — preserve it exactly as-is. " +
-          "Supported Migrations: Orders API v0 → v2026-01-01",
+          "Supported Migrations: Orders API v0 → v2026-01-01, Fulfillment Outbound API v2020-07-01 → v2025-09-24",
         inputSchema: migrationAssistantSchema,
       },
       async (args: any) => {

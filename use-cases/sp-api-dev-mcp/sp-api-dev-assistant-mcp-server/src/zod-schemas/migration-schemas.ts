@@ -33,10 +33,14 @@ export const migrationAssistantSchema = z.object({
     ),
   source_version: z
     .string()
-    .describe("Current API version (e.g., 'orders-v0')"),
+    .describe(
+      "Current API version (e.g., 'orders-v0', 'fulfillment-outbound-v2020-07-01')",
+    ),
   target_version: z
     .string()
-    .describe("Target API version (e.g., 'orders-2026-01-01')"),
+    .describe(
+      "Target API version (e.g., 'orders-2026-01-01', 'fulfillment-outbound-2025-09-24')",
+    ),
   language: z
     .string()
     .optional()

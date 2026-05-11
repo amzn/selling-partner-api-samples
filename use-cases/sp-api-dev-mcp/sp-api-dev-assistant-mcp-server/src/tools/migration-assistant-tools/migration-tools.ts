@@ -1,3 +1,4 @@
+import { join } from "path";
 import { getOrdersApiMigrationData } from "./orders-api-migration/migration-data.js";
 import { analyzeOrdersApiCode } from "./orders-api-migration/code-analyzer.js";
 import { generateRefactoredOrdersApiCode } from "./orders-api-migration/code-generator.js";
@@ -6,6 +7,14 @@ import {
   formatMigrationReport,
 } from "./orders-api-migration/report-formatter.js";
 import { formatGeneralGuidance } from "./orders-api-migration/guidance-formatter.js";
+import { getOutboundFulfillmentMigrationData } from "./outbound-fulfillment-migration/migration-data.js";
+import { analyzeOutboundFulfillmentCode } from "./outbound-fulfillment-migration/code-analyzer.js";
+import { generateRefactoredOutboundCode } from "./outbound-fulfillment-migration/code-generator.js";
+import {
+  formatOutboundAnalysisReport,
+  formatOutboundMigrationReport,
+} from "./outbound-fulfillment-migration/report-formatter.js";
+import { formatOutboundGeneralGuidance } from "./outbound-fulfillment-migration/guidance-formatter.js";
 
 export interface SourceFileInput {
   fileName: string;
@@ -31,11 +40,46 @@ export interface ToolResponse {
   [key: string]: unknown;
 }
 
-export class SPAPIMigrationAssistantTool {
-  private resourcePath: string;
+/**
+ * Resolves the resource path for a given migration data file.
+ *
+ * The constructor accepts either:
+ *   - a directory containing migration data JSON files (preferred), or
+ *   - a direct path to the orders-api-migration-data.json file (backwards-compatible).
+ */
+function resolveResourcePath(resourcesBase: string, fileName: string): string {
+  // If the caller passed a path that ends with a .json file, treat the parent
+  // directory as the resources root. This keeps existing callers working that
+  // passed the orders-api JSON path directly.
+  if (resourcesBase.endsWith(".json")) {
+    const lastSep = Math.max(
+      resourcesBase.lastIndexOf("/"),
+      resourcesBase.lastIndexOf("\\"),
+    );
+    const dir = lastSep >= 0 ? resourcesBase.slice(0, lastSep) : ".";
+    return join(dir, fileName);
+  }
+  return join(resourcesBase, fileName);
+}
 
-  constructor(resourcePath: string) {
-    this.resourcePath = resourcePath;
+export class SPAPIMigrationAssistantTool {
+  private ordersApiResourcePath: string;
+  private outboundFulfillmentResourcePath: string;
+
+  /**
+   * @param resourcesBase Either a directory containing migration data JSON
+   * files, or a direct path to orders-api-migration-data.json (for backwards
+   * compatibility with earlier callers).
+   */
+  constructor(resourcesBase: string) {
+    this.ordersApiResourcePath = resolveResourcePath(
+      resourcesBase,
+      "orders-api-migration-data.json",
+    );
+    this.outboundFulfillmentResourcePath = resolveResourcePath(
+      resourcesBase,
+      "outbound-fulfillment-migration-data.json",
+    );
   }
 
   async migrationAssistant(
@@ -57,6 +101,10 @@ export class SPAPIMigrationAssistantTool {
       "orders-v0->orders-2026-01-01": {
         source: "orders-v0",
         target: "orders-2026-01-01",
+      },
+      "fulfillment-outbound-v2020-07-01->fulfillment-outbound-2025-09-24": {
+        source: "fulfillment-outbound-v2020-07-01",
+        target: "fulfillment-outbound-2025-09-24",
       },
     };
 
@@ -93,6 +141,18 @@ export class SPAPIMigrationAssistantTool {
       );
     }
 
+    if (
+      source_version === "fulfillment-outbound-v2020-07-01" &&
+      target_version === "fulfillment-outbound-2025-09-24"
+    ) {
+      return this.handleOutboundFulfillmentMigration(
+        source_code,
+        source_files,
+        target_version,
+        analysis_only,
+      );
+    }
+
     return {
       content: [
         {
@@ -110,7 +170,7 @@ export class SPAPIMigrationAssistantTool {
     targetVersion: string,
     analysisOnly: boolean,
   ): Promise<ToolResponse> {
-    const migrationData = getOrdersApiMigrationData(this.resourcePath);
+    const migrationData = getOrdersApiMigrationData(this.ordersApiResourcePath);
 
     // Prefer source_files over source_code
     const hasSourceFiles = sourceFiles && sourceFiles.length > 0;
@@ -196,6 +256,116 @@ export class SPAPIMigrationAssistantTool {
         {
           type: "text",
           text: formatMigrationReport(analysis, refactoredCode, migrationData),
+        },
+      ],
+    };
+  }
+
+  private async handleOutboundFulfillmentMigration(
+    sourceCode: string | undefined,
+    sourceFiles: SourceFileInput[] | undefined,
+    targetVersion: string,
+    analysisOnly: boolean,
+  ): Promise<ToolResponse> {
+    const migrationData = getOutboundFulfillmentMigrationData(
+      this.outboundFulfillmentResourcePath,
+    );
+
+    const hasSourceFiles = sourceFiles && sourceFiles.length > 0;
+    const hasSourceCode = sourceCode && sourceCode.trim();
+
+    if (!hasSourceFiles && !hasSourceCode) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: formatOutboundGeneralGuidance(migrationData),
+          },
+        ],
+      };
+    }
+
+    // If source_files provided, process each file independently
+    if (hasSourceFiles) {
+      const sections: string[] = [];
+
+      for (const file of sourceFiles!) {
+        const code = file.code?.trim();
+        if (!code) continue;
+
+        const analysis = analyzeOutboundFulfillmentCode(code, migrationData);
+
+        // Skip files with no migration-relevant findings
+        if (
+          analysis.apiCalls.length === 0 &&
+          analysis.usedAttributes.length === 0 &&
+          analysis.breakingChanges.length === 0
+        ) {
+          continue;
+        }
+
+        if (analysisOnly) {
+          sections.push(
+            `# 📄 ${file.fileName}\n\n${formatOutboundAnalysisReport(analysis, migrationData)}`,
+          );
+        } else {
+          const refactoredCode = generateRefactoredOutboundCode(
+            code,
+            analysis,
+            targetVersion,
+            migrationData,
+          );
+          sections.push(
+            `# 📄 ${file.fileName}\n\n${formatOutboundMigrationReport(analysis, refactoredCode, migrationData)}`,
+          );
+        }
+      }
+
+      if (sections.length === 0) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: "No Fulfillment Outbound API v2020-07-01 usage detected in the provided files. No migration needed.",
+            },
+          ],
+        };
+      }
+
+      return {
+        content: [{ type: "text", text: sections.join("\n\n---\n\n") }],
+      };
+    }
+
+    // Single source_code path
+    const analysis = analyzeOutboundFulfillmentCode(sourceCode!, migrationData);
+
+    if (analysisOnly) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: formatOutboundAnalysisReport(analysis, migrationData),
+          },
+        ],
+      };
+    }
+
+    const refactoredCode = generateRefactoredOutboundCode(
+      sourceCode!,
+      analysis,
+      targetVersion,
+      migrationData,
+    );
+    return {
+      content: [
+        {
+          type: "text",
+          text: formatOutboundMigrationReport(
+            analysis,
+            refactoredCode,
+            migrationData,
+          ),
         },
       ],
     };
