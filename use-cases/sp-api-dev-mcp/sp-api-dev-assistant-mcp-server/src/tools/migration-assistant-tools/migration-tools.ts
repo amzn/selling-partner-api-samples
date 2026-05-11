@@ -1,4 +1,4 @@
-import { join } from "path";
+import { dirname, join } from "path";
 import { getOrdersApiMigrationData } from "./orders-api-migration/migration-data.js";
 import { analyzeOrdersApiCode } from "./orders-api-migration/code-analyzer.js";
 import { generateRefactoredOrdersApiCode } from "./orders-api-migration/code-generator.js";
@@ -52,12 +52,7 @@ function resolveResourcePath(resourcesBase: string, fileName: string): string {
   // directory as the resources root. This keeps existing callers working that
   // passed the orders-api JSON path directly.
   if (resourcesBase.endsWith(".json")) {
-    const lastSep = Math.max(
-      resourcesBase.lastIndexOf("/"),
-      resourcesBase.lastIndexOf("\\"),
-    );
-    const dir = lastSep >= 0 ? resourcesBase.slice(0, lastSep) : ".";
-    return join(dir, fileName);
+    return join(dirname(resourcesBase), fileName);
   }
   return join(resourcesBase, fileName);
 }
