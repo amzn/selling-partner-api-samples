@@ -256,6 +256,11 @@ export class SPAPIMigrationAssistantTool {
     };
   }
 
+  private static readonly OUTBOUND_DISCLAIMER =
+    "⚠️ DISCLAIMER: The Fulfillment Outbound API v2025-09-24 schema has NOT been " +
+    "officially released yet and is subject to change. Migration guidance provided " +
+    "here is based on a pre-release specification and may not reflect the final API.\n\n";
+
   private async handleOutboundFulfillmentMigration(
     sourceCode: string | undefined,
     sourceFiles: SourceFileInput[] | undefined,
@@ -274,7 +279,9 @@ export class SPAPIMigrationAssistantTool {
         content: [
           {
             type: "text",
-            text: formatOutboundGeneralGuidance(migrationData),
+            text:
+              SPAPIMigrationAssistantTool.OUTBOUND_DISCLAIMER +
+              formatOutboundGeneralGuidance(migrationData),
           },
         ],
       };
@@ -321,14 +328,23 @@ export class SPAPIMigrationAssistantTool {
           content: [
             {
               type: "text",
-              text: "No Fulfillment Outbound API v2020-07-01 usage detected in the provided files. No migration needed.",
+              text:
+                SPAPIMigrationAssistantTool.OUTBOUND_DISCLAIMER +
+                "No Fulfillment Outbound API v2020-07-01 usage detected in the provided files. No migration needed.",
             },
           ],
         };
       }
 
       return {
-        content: [{ type: "text", text: sections.join("\n\n---\n\n") }],
+        content: [
+          {
+            type: "text",
+            text:
+              SPAPIMigrationAssistantTool.OUTBOUND_DISCLAIMER +
+              sections.join("\n\n---\n\n"),
+          },
+        ],
       };
     }
 
@@ -340,7 +356,9 @@ export class SPAPIMigrationAssistantTool {
         content: [
           {
             type: "text",
-            text: formatOutboundAnalysisReport(analysis, migrationData),
+            text:
+              SPAPIMigrationAssistantTool.OUTBOUND_DISCLAIMER +
+              formatOutboundAnalysisReport(analysis, migrationData),
           },
         ],
       };
@@ -356,11 +374,13 @@ export class SPAPIMigrationAssistantTool {
       content: [
         {
           type: "text",
-          text: formatOutboundMigrationReport(
-            analysis,
-            refactoredCode,
-            migrationData,
-          ),
+          text:
+            SPAPIMigrationAssistantTool.OUTBOUND_DISCLAIMER +
+            formatOutboundMigrationReport(
+              analysis,
+              refactoredCode,
+              migrationData,
+            ),
         },
       ],
     };

@@ -12,6 +12,18 @@ describe("SPAPIMigrationAssistantTool - Outbound Fulfillment", () => {
   });
 
   describe("outbound fulfillment migration", () => {
+    it("should prepend disclaimer to all outbound migration responses", async () => {
+      const result = await migrationAssistant.migrationAssistant({
+        source_version: "fulfillment-outbound-v2020-07-01",
+        target_version: "fulfillment-outbound-2025-09-24",
+      });
+
+      expect(result.content[0].text).toContain("⚠️ DISCLAIMER");
+      expect(result.content[0].text).toContain(
+        "has NOT been officially released yet and is subject to change",
+      );
+    });
+
     it("should return error for unsupported migration path", async () => {
       const result = await migrationAssistant.migrationAssistant({
         source_version: "fulfillment-outbound-v1",
