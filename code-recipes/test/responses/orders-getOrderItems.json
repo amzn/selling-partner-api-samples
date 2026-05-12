@@ -1,26 +1,55 @@
 {
-  "payload": {
-    "AmazonOrderId": "123-4567890-1234567",
-    "OrderItems": [
-      {
-        "ASIN": "B012345678",
-        "SellerSKU": "SKU-RED-XL",
-        "OrderItemId": "11223344556677",
-        "Title": "Heavy-Duty Storage Boxes (Red, XL)",
-        "QuantityOrdered": 1,
-        "QuantityShipped": 0,
-        "ItemPrice": {
-          "CurrencyCode": "USD",
-          "Amount": "149.99"
-        },
-        "ItemTax": {
-          "CurrencyCode": "USD",
-          "Amount": "0.00"
-        },
-        "IsGift": false,
-        "ConditionId": "New",
-        "ConditionSubtypeId": "New"
-      }
-    ]
-  }
+    "payload": {
+        "OrderItems": [
+            {
+                "ProductInfo": {
+                    "NumberOfItems": "1"
+                },
+                "BuyerInfo": {},
+                "ItemTax": {
+                    "CurrencyCode": "BRL",
+                    "Amount": "0.00"
+                },
+                "QuantityShipped": 0,
+                "ItemPrice": {
+                    "CurrencyCode": "BRL",
+                    "Amount": "1.00"
+                },
+                "ASIN": "B0F7YT4YW2",
+                "SellerSKU": "gb-mg5-x116440",
+                "Title": "Blusão Moletom com Capuz Plus Size",
+                "ShippingTax": {
+                    "CurrencyCode": "BRL",
+                    "Amount": "0.00"
+                },
+                "IsGift": "false",
+                "ShippingPrice": {
+                    "CurrencyCode": "BRL",
+                    "Amount": "7.02"
+                },
+                "ConditionSubtypeId": "New",
+                "ShippingDiscount": {
+                    "CurrencyCode": "BRL",
+                    "Amount": "0.00"
+                },
+                "ShippingDiscountTax": {
+                    "CurrencyCode": "BRL",
+                    "Amount": "0.00"
+                },
+                "IsTransparency": false,
+                "QuantityOrdered": 1,
+                "PromotionDiscountTax": {
+                    "CurrencyCode": "BRL",
+                    "Amount": "0.00"
+                },
+                "ConditionId": "New",
+                "PromotionDiscount": {
+                    "CurrencyCode": "BRL",
+                    "Amount": "0.00"
+                },
+                "OrderItemId": "147645420374961"
+            }
+        ],
+        "AmazonOrderId": "701-3922379-8329033"
+    }
 }

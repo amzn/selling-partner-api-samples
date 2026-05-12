@@ -8,18 +8,14 @@ import software.amazon.spapi.models.catalogitems.v2022_04_01.ItemSearchResults;
 
 import java.util.List;
 
-import static org.example.Main.marketPlaceIds;
+import static org.example.Main.apiClient;
 
 public class CatalogApiHelper {
 
     private static CatalogApi catalogApi;
 
     public static void initCatalogApi() {
-        catalogApi = new CatalogApi.Builder()
-                .lwaAuthorizationCredentials(Main.lwaAuthorizationCredentials)
-                .endpoint(Main.endpoint)
-                .build();
-
+        catalogApi = new CatalogApi(apiClient, true);
     }
     public static CatalogApi getCatalogApi() {
         return catalogApi;

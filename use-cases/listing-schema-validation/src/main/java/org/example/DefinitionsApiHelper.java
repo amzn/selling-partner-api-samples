@@ -15,19 +15,13 @@ public class DefinitionsApiHelper {
     private static DefinitionsApi definitionsApi;
 
     public static void initDefinitionsApi() {
-        definitionsApi = new DefinitionsApi.Builder()
-                .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
-                .endpoint(endpoint)
-                .build();
+        definitionsApi = new DefinitionsApi(apiClient, true);
     }
 
 
     public static ProductTypeList searchProductTypes(List<String> ptKeywords) throws LWAException, ApiException {
         // Initialize the Product Type Definitions API client
-        DefinitionsApi definitionsApi = new DefinitionsApi.Builder()
-                .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
-                .endpoint(endpoint)
-                .build();
+        DefinitionsApi definitionsApi = new DefinitionsApi(apiClient, true);
 
         // Set up request parameters
         String locale = "en_US"; // For localized attribute names

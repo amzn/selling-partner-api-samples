@@ -21,10 +21,7 @@ public class ListingApiHelper {
     private static ListingsApi listingsApi;
 
     public static void initListingsApi() {
-        listingsApi = new ListingsApi.Builder()
-                .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
-                .endpoint(endpoint)
-                .build();
+        listingsApi = new ListingsApi(apiClient, true);
     }
 
     /***
@@ -40,10 +37,7 @@ public class ListingApiHelper {
      * @throws LWAException
      */
     public static ListingsItemSubmissionResponse putListingsItemValidationMode(String payloadStr, String productType) throws IOException, ApiException, LWAException {
-        ListingsApi listingsApi = new ListingsApi.Builder()
-                .lwaAuthorizationCredentials(lwaAuthorizationCredentials)
-                .endpoint(endpoint)
-                .build();
+        ListingsApi listingsApi = new ListingsApi(apiClient, true);
         Gson gson = new Gson();
         Type type = new TypeToken<HashMap<String, Object>>(){}.getType();
         ListingsItemPutRequest putRequest = new ListingsItemPutRequest();

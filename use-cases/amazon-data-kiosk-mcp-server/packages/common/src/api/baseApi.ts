@@ -36,7 +36,8 @@ export async function makeApiRequest(path: string, method: string, body?: any): 
   const url = `${BASE_URL}${path}`;
   const headers: Record<string, string> = {
     "x-amz-access-token": accessToken,
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    'User-Agent': 'Data Kiosk MCP Server/1.0'
   };
 
   try {

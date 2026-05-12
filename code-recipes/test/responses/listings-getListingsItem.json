@@ -1,0 +1,47 @@
+{
+  "sku": "TEST-SKU-001",
+  "summaries": [
+    {
+      "marketplaceId": "A2Q3Y263D00KWC",
+      "asin": "B08N5WRWNW",
+      "productType": "PRODUCT",
+      "conditionType": "new_new",
+      "status": ["BUYABLE"],
+      "itemName": "Sample Product Title",
+      "createdDate": "2024-01-01T00:00:00Z",
+      "lastUpdatedDate": "2024-01-15T10:00:00Z"
+    }
+  ],
+  "attributes": {
+    "item_package_dimensions": [
+      {
+        "length": {
+          "unit": "centimeters",
+          "value": 30.0
+        },
+        "width": {
+          "unit": "centimeters",
+          "value": 20.0
+        },
+        "height": {
+          "unit": "centimeters",
+          "value": 10.0
+        },
+        "marketplace_id": "A2Q3Y263D00KWC"
+      }
+    ],
+    "item_package_weight": [
+      {
+        "unit": "grams",
+        "value": 1500.0,
+        "marketplace_id": "A2Q3Y263D00KWC"
+      }
+    ]
+  },
+  "fulfillmentAvailability": [
+    {
+      "fulfillmentChannelCode": "DEFAULT",
+      "quantity": 100
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "payload": {
+    "fulfillmentOrder": {
+      "sellerFulfillmentOrderId": "SidOMSTestOrder_MCF_11",
+      "marketplaceId": "ATVPDKIKX0DER",
+      "displayableOrderId": "TestOrder-CustomerFacing-11",
+      "displayableOrderDate": "2026-03-30T11:06:00Z",
+      "displayableOrderComment": "TestOrder11",
+      "shippingSpeedCategory": "Standard",
+      "primeUpgraded": "true",
+      "destinationAddress": {
+        "name": "Tom Jones",
+        "addressLine1": "123 Main St",
+        "addressLine2": "c/o Susan Spectre",
+        "addressLine3": "Ste. 100",
+        "city": "Anytown",
+        "stateOrRegion": "AZ",
+        "countryCode": "US",
+        "postalCode": "85050",
+        "phone": "5555555555",
+        "email": "customer@example.com"
+      },
+      "fulfillmentAction": "Ship",
+      "fulfillmentPolicy": "FillAll",
+      "receivedDate": "2026-03-30T17:44:38Z",
+      "fulfillmentOrderStatus": "Complete",
+      "statusUpdatedDate": "2026-03-30T17:54:09Z",
+      "notificationEmails": [
+        "customer@example.com"
+      ],
+      "featureConstraints": [
+        {
+          "featureName": "BLANK_BOX",
+          "featureFulfillmentPolicy": "NotRequired"
+        },
+        {
+          "featureName": "PRIME_ELIGIBILITY",
+          "featureFulfillmentPolicy": "Required"
+        }
+      ]
+    },
+    "fulfillmentOrderItems": [
+      {
+        "cancelledQuantity": 0,
+        "quantity": 1,
+        "sellerFulfillmentOrderItemId": "5X-K5YM-JYEO",
+        "sellerSku": "5X-K5YM-JYEO",
+        "unfulfillableQuantity": 0
+      }
+    ],
+    "fulfillmentShipments": [
+      {
+        "amazonShipmentId": "890ada4c017f383482686d480d5280bc0",
+        "estimatedArrivalDate": "2026-04-04T17:54:04Z",
+        "fulfillmentCenterId": "PHX3",
+        "fulfillmentShipmentItem": [
+          {
+            "packageNumber": 543939833,
+            "quantity": 1,
+            "sellerFulfillmentOrderItemId": "5X-K5YM-JYEO",
+            "sellerSku": "5X-K5YM-JYEO"
+          }
+        ],
+        "fulfillmentShipmentPackage": [
+          {
+            "carrierCode": "Amazon Logistics",
+            "estimatedArrivalDate": "2026-04-04T17:54:04Z",
+            "packageNumber": 543939833,
+            "trackingNumber": "cf28ebcb-be19-4f4c-b7d4-99486bd2ad6c"
+          }
+        ],
+        "fulfillmentShipmentStatus": "SHIPPED",
+        "shippingDate": "2026-04-02T17:54:04Z"
+      }
+    ],
+    "returnItems": [],
+    "returnAuthorizations": []
+  }
+}

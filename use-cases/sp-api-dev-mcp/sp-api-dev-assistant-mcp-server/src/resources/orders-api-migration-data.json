@@ -1,0 +1,293 @@
+{
+  "name": "Orders API Migration Data",
+  "description": "Migration mapping data for Orders API v0 to v2026-01-01",
+  "version": "1.0.0",
+  "deprecated": [
+    "OrderChannel",
+    "ShipServiceLevel",
+    "CbaDisplayableShippingLabel",
+    "IsGlobalExpressEnabled",
+    "PromiseResponseDueDate",
+    "IsEstimatedShipDateSet",
+    "IsSoldByAB",
+    "BuyerInfo.BuyerCounty"
+  ],
+  "notSupported": [
+    "NumberOfItemsShipped",
+    "NumberOfItemsUnshipped",
+    "PaymentExecutionDetail",
+    "PaymentMethod",
+    "PaymentMethodDetails",
+    "IsIBA",
+    "HasRegulatedItems",
+    "DefaultShipFromLocationAddress",
+    "ElectronicInvoiceStatus",
+    "BuyerInvoicePreference",
+    "BuyerTaxInformation",
+    "FulfillmentInstruction",
+    "MarketplaceTaxInfo",
+    "SellerDisplayName",
+    "AutomatedShippingSettings",
+    "BuyerInfo.BuyerTaxInfo",
+    "ProductInfo",
+    "ProductInfo.NumberOfItems",
+    "TaxCollection",
+    "TaxCollection.Model",
+    "TaxCollection.ResponsibleParty",
+    "DeemedResellerCategory",
+    "StoreChainStoreId",
+    "SerialNumberRequired",
+    "AssociatedItems",
+    "AssociatedItem.OrderId",
+    "AssociatedItem.OrderItemId",
+    "AssociatedItem.AssociationType"
+  ],
+  "attributeMappings": {
+    "AmazonOrderId": "Order.orderId",
+    "SellerOrderId": "Order.orderAliases (with aliasType == SELLER_ORDER_ID)",
+    "MarketplaceId": "Order.salesChannel.marketplaceId",
+    "PurchaseDate": "Order.createdTime",
+    "LastUpdateDate": "Order.lastUpdatedTime",
+    "OrderType": "Order.programs (check for PREORDER)",
+    "OrderStatus": "Order.fulfillment.fulfillmentStatus",
+    "FulfillmentChannel": "Order.fulfillment.fulfilledBy",
+    "SalesChannel": "Order.salesChannel.marketplaceName",
+    "ShipmentServiceLevelCategory": "Order.fulfillment.fulfillmentServiceLevel",
+    "OrderTotal": "Order.proceeds.grandTotal",
+    "EasyShipShipmentStatus": "Order.packages.packageStatus.detailedStatus",
+    "EarliestShipDate": "Order.fulfillment.shipByWindow.earliestDateTime",
+    "LatestShipDate": "Order.fulfillment.shipByWindow.latestDateTime",
+    "EarliestDeliveryDate": "Order.fulfillment.deliverByWindow.earliestDateTime",
+    "LatestDeliveryDate": "Order.fulfillment.deliverByWindow.latestDateTime",
+    "IsBusinessOrder": "Order.programs (check for AMAZON_BUSINESS)",
+    "IsPrime": "Order.programs (check for PRIME)",
+    "IsPremiumOrder": "Order.programs (check for PREMIUM)",
+    "ReplacedOrderId": "Order.associatedOrders (with associationType == REPLACEMENT_ORIGINAL_ID or EXCHANGE_ORIGINAL_ID)",
+    "IsReplacementOrder": "Order.associatedOrders (check for REPLACEMENT_ORIGINAL_ID or EXCHANGE_ORIGINAL_ID)",
+    "IsISPU": "Order.programs (check for IN_STORE_PICK_UP)",
+    "IsAccessPointOrder": "Order.recipient.deliveryAddress.addressType (check for PICKUP_POINT)",
+    "ShippingAddress": "Order.recipient.deliveryAddress",
+    "BuyerInfo.BuyerEmail": "Order.buyer.buyerEmail",
+    "BuyerInfo.BuyerName": "Order.buyer.buyerName",
+    "BuyerInfo.PurchaseOrderNumber": "Order.buyer.buyerPurchaseOrderNumber",
+    "BuyerCompanyName": "Order.buyer.buyerCompanyName",
+    "DeliveryPreferences": "Order.recipient.deliveryPreference",
+    "ASIN": "Order.orderItems.product.asin",
+    "SellerSKU": "Order.orderItems.product.sellerSku",
+    "OrderItemId": "Order.orderItems.orderItemId",
+    "Title": "Order.orderItems.product.title",
+    "QuantityOrdered": "Order.orderItems.quantityOrdered",
+    "QuantityShipped": "Order.orderItems.fulfillment.quantityFulfilled",
+    "PointsGranted": "Order.orderItems.expense.pointsCost.pointsGranted",
+    "PointsGranted.PointsNumber": "Order.orderItems.expense.pointsCost.pointsGranted.pointsNumber",
+    "PointsGranted.PointsMonetaryValue": "Order.orderItems.expense.pointsCost.pointsGranted.pointsMonetaryValue",
+    "ItemPrice": "Order.orderItems.proceeds.breakdowns.subtotal (with type == ITEM)",
+    "ShippingPrice": "Order.orderItems.proceeds.breakdowns.subtotal (with type == SHIPPING)",
+    "ItemTax": "Order.orderItems.proceeds.breakdowns.detailedBreakdowns.value (type == TAX && subtype == ITEM)",
+    "ShippingTax": "Order.orderItems.proceeds.breakdowns.detailedBreakdowns.value (type == TAX && subtype == SHIPPING)",
+    "ShippingDiscount": "Order.orderItems.proceeds.breakdowns.detailedBreakdowns.value (type == DISCOUNT && subtype == SHIPPING)",
+    "PromotionDiscount": "Order.orderItems.proceeds.breakdowns.subtotal (with type == DISCOUNT)",
+    "PromotionDiscountTax": "Order.orderItems.proceeds.breakdowns.detailedBreakdowns.value (type == TAX && subtype == DISCOUNT)",
+    "CODFee": "Order.orderItems.proceeds.breakdowns.subtotal (with type == COD_FEE)",
+    "CODFeeDiscount": "Order.orderItems.proceeds.breakdowns.detailedBreakdowns.value (type == DISCOUNT && subtype == COD_FEE)",
+    "ItemBuyerInfo.GiftWrapPrice": "Order.orderItems.proceeds.breakdowns.subtotal (with type == GIFT_WRAP)",
+    "ItemBuyerInfo.GiftWrapTax": "Order.orderItems.proceeds.breakdowns.detailedBreakdowns.value (type == TAX && subtype == GIFT_WRAP)",
+    "PromotionIds": "Order.orderItems.promotion.breakdowns.promotionId",
+    "IsGift": "Order.orderItems.fulfillment.packing.giftOption",
+    "ConditionNote": "Order.orderItems.product.condition.conditionNote",
+    "ConditionId": "Order.orderItems.product.condition.conditionType",
+    "ConditionSubtypeId": "Order.orderItems.product.condition.conditionSubtype",
+    "ScheduledDeliveryStartDate": "Order.orderItems.fulfillment.shipping.scheduledDeliveryWindow.earliestDateTime",
+    "ScheduledDeliveryEndDate": "Order.orderItems.fulfillment.shipping.scheduledDeliveryWindow.latestDateTime",
+    "PriceDesignation": "Order.orderItems.product.price.priceDesignation",
+    "IossNumber": "Order.orderItems.fulfillment.shipping.internationalShipping.iossNumber",
+    "IsTransparency": "Order.orderItems.programs (check for TRANSPARENCY)",
+    "ItemBuyerInfo.BuyerCustomizedInfo": "Order.orderItems.product.customization",
+    "ItemBuyerInfo.BuyerCustomizedInfo.CustomizedURL": "Order.orderItems.product.customization.customizedUrl",
+    "ItemBuyerInfo.GiftMessageText": "Order.orderItems.fulfillment.packing.giftMessage",
+    "ItemBuyerInfo.GiftWrapLevel": "Order.orderItems.fulfillment.packing.giftWrapLevel",
+    "BuyerRequestedCancel.IsBuyerRequestedCancel": "Order.orderItems.cancellation.requester (check for BUYER)",
+    "BuyerRequestedCancel.BuyerCancelReason": "Order.orderItems.cancellation.cancelReason",
+    "SerialNumbers": "Order.orderItems.product.serialNumbers",
+    "SubstitutionPreferences": "Order.orderItems.fulfillment.picking.substitutionPreference",
+    "Measurement": "Order.orderItems.measurement",
+    "ShippingConstraints": "Order.orderItems.fulfillment.shipping.shippingConstraints",
+    "AmazonPrograms": "Order.orderItems.programs or Order.programs (check for SUBSCRIBE_AND_SAVE, FBM_SHIP_PLUS)"
+  },
+  "newFeatures": [
+    "Higher precision timestamps: Millisecond-level precision (yyyy-MM-ddTHH:mm:ss.SSSZ) for all date-time fields",
+    "Order.programs with AMAZON_BAZAAR",
+    "Order.programs with AMAZON_HAUL",
+    "Order.programs with AMAZON_EASY_SHIP (non-Brazil) or DELIVERY_BY_AMAZON (Brazil only)",
+    "Order.orderItems.product.price.unitPrice - Price per unit as displayed on Amazon retail website",
+    "Order.orderItems.proceeds.proceedsTotal - Total proceeds for the order item",
+    "Order.orderItems.fulfillment.shipping.shippingConstraints.cashOnDelivery",
+    "Order.packages for FBM orders (carrier, shippingService, trackingNumber, package status)",
+    "Explicit tax handling with clear separation between tax-inclusive and tax-exclusive pricing",
+    "Multi-layered financial breakdown structure with type and subtype classifications"
+  ],
+  "apiMappings": {
+    "getOrders": {
+      "v1": "searchOrders (with filters)",
+      "status": "✅ Available",
+      "notes": "Use with filters like createdAfter, marketplaceIds, etc. Supports includedData parameter for bulk order sync workflows"
+    },
+    "getOrder": {
+      "v1": "getOrder (with includedData parameter)",
+      "status": "✅ Available",
+      "notes": "Order items included by default, use includedData for additional data"
+    },
+    "getOrderBuyerInfo": {
+      "v1": "getOrder (with includedData=['BUYER'])",
+      "status": "✅ Available",
+      "notes": "Include BUYER in includedData parameter. No RDT required, only appropriate roles"
+    },
+    "getOrderAddress": {
+      "v1": "getOrder (with includedData=['RECIPIENT'])",
+      "status": "✅ Available",
+      "notes": "Include RECIPIENT in includedData parameter. No RDT required, only appropriate roles"
+    },
+    "getOrderItems": {
+      "v1": "getOrder (order items included by default)",
+      "status": "✅ Available",
+      "notes": "Order items are always included, no need for separate call"
+    },
+    "getOrderItemsBuyerInfo": {
+      "v1": "getOrder (with includedData=['BUYER'])",
+      "status": "✅ Available",
+      "notes": "Item buyer info included when BUYER is in includedData"
+    },
+    "getOrderRegulatedInfo": {
+      "v1": "No v2026-01-01 counterpart",
+      "status": "❌ Not Available",
+      "notes": "Continue using V0 API: GET /orders/v0/orders/{orderId}/regulatedInfo"
+    },
+    "updateShipmentStatus": {
+      "v1": "No v2026-01-01 counterpart",
+      "status": "❌ Not Available",
+      "notes": "Continue using V0 API: POST /orders/v0/orders/{orderId}/shipment"
+    },
+    "updateVerificationStatus": {
+      "v1": "No v2026-01-01 counterpart",
+      "status": "❌ Not Available",
+      "notes": "Continue using V0 API: PATCH /orders/v0/orders/{orderId}/verificationStatus"
+    },
+    "confirmShipment": {
+      "v1": "No v2026-01-01 counterpart",
+      "status": "❌ Not Available",
+      "notes": "Continue using V0 API: POST /orders/v0/orders/{orderId}/shipConfirmation"
+    },
+    "cancelOrder": {
+      "v1": "cancelOrder",
+      "status": "✅ Available",
+      "notes": "Available in v2026-01-01 as PUT /orders/2026-01-01/orders/{orderId}/cancellation"
+    }
+  },
+  "includedDataParameters": {
+    "BUYER": {
+      "description": "Buyer information",
+      "attributes": ["Order.buyer"],
+      "notes": "No RDT required in v2026-01-01, only appropriate roles"
+    },
+    "RECIPIENT": {
+      "description": "Delivery address and preferences",
+      "attributes": ["Order.recipient"],
+      "notes": "No RDT required in v2026-01-01, only appropriate roles"
+    },
+    "FULFILLMENT": {
+      "description": "Shipping and fulfillment details",
+      "attributes": ["Order.fulfillment", "Order.orderItems.fulfillment"]
+    },
+    "PROCEEDS": {
+      "description": "Revenue and financial breakdown",
+      "attributes": ["Order.proceeds", "Order.orderItems.proceeds"]
+    },
+    "EXPENSE": {
+      "description": "Cost information",
+      "attributes": ["Order.orderItems.expense"]
+    },
+    "PROMOTION": {
+      "description": "Discount and promotional offers",
+      "attributes": ["Order.orderItems.promotion"]
+    },
+    "CANCELLATION": {
+      "description": "Cancellation information",
+      "attributes": ["Order.orderItems.cancellation"]
+    },
+    "PACKAGES": {
+      "description": "Shipping packages and tracking",
+      "attributes": ["Order.packages"],
+      "notes": "New feature providing comprehensive FBM package tracking"
+    }
+  },
+  "statusMappings": {
+    "fulfillmentStatus": {
+      "Unshipped": "UNSHIPPED",
+      "PartiallyShipped": "PARTIALLY_SHIPPED",
+      "Shipped": "SHIPPED",
+      "Canceled": "CANCELLED",
+      "Pending": "PENDING",
+      "Unfulfillable": "UNFULFILLABLE",
+      "PendingAvailability": "PENDING_AVAILABILITY",
+      "InvoiceUnconfirmed": "INVOICE_UNCONFIRMED"
+    },
+    "fulfillmentChannel": {
+      "MFN": "MERCHANT",
+      "AFN": "AMAZON"
+    }
+  },
+  "queryParameterMappings": {
+    "MarketplaceIds": "marketplaceIds (camel case)",
+    "LastUpdatedAfter": "lastUpdatedAfter (camel case)",
+    "LastUpdatedBefore": "lastUpdatedBefore (camel case)",
+    "CreatedAfter": "createdAfter (camel case)",
+    "CreatedBefore": "createdBefore (camel case)",
+    "MaxResultsPerPage": "maxResultsPerPage (camel case)",
+    "NextToken": "paginationToken (Breaking: Token expires after 24 hours)",
+    "OrderStatuses": "fulfillmentStatuses (Breaking: Different values)",
+    "FulfillmentChannels": "fulfilledBy (Breaking: Different values)",
+    "PaymentMethods": "Not available in v2026-01-01",
+    "BuyerEmail": "Not available in v2026-01-01",
+    "EasyShipShipmentStatuses": "Not available (use includedData=PACKAGES)",
+    "ActualFulfillmentSupplySourceId": "Not available in v2026-01-01",
+    "IsISPU": "Not available (check programs[] for IN_STORE_PICK_UP)"
+  },
+  "packageTracking": {
+    "description": "New feature in v2026-01-01 providing comprehensive FBM package tracking",
+    "attributes": {
+      "packageReferenceId": "Order.packages[].packageReferenceId",
+      "carrier": "Order.packages[].carrier",
+      "trackingNumber": "Order.packages[].trackingNumber",
+      "shippingService": "Order.packages[].shippingService",
+      "packageStatus": "Order.packages[].packageStatus.status",
+      "detailedStatus": "Order.packages[].packageStatus.detailedStatus",
+      "createdTime": "Order.packages[].createdTime",
+      "shipTime": "Order.packages[].shipTime",
+      "shipFromAddress": "Order.packages[].shipFromAddress"
+    }
+  },
+  "programsList": {
+    "orderLevel": [
+      "AMAZON_BAZAAR",
+      "AMAZON_BUSINESS",
+      "AMAZON_EASY_SHIP",
+      "AMAZON_HAUL",
+      "DELIVERY_BY_AMAZON",
+      "FBM_SHIP_PLUS",
+      "IN_STORE_PICK_UP",
+      "PREMIUM",
+      "PREORDER",
+      "PRIME"
+    ],
+    "orderItemLevel": ["TRANSPARENCY", "SUBSCRIBE_AND_SAVE"]
+  },
+  "migrationBenefits": [
+    "Reduction in API calls: Consolidated endpoints eliminate the need for multiple calls per order",
+    "Simplified PII access: Role-based permissions replace Restricted Data Token (RDT) generation",
+    "Flexible data retrieval: The includedData parameter lets you retrieve only the data you need",
+    "Enhanced order information: Access to package tracking, detailed financial breakdowns, and new program support",
+    "Program integration: Support for Amazon Bazaar, Amazon Haul, EasyShip, and Deliver by Amazon programs",
+    "Pagination: Token handling with 24-hour expiration",
+    "Better performance: Request less data for better response times"
+  ]
+}

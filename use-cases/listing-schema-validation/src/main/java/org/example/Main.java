@@ -1,4 +1,5 @@
 package org.example;
+import com.amazon.SellingPartnerAPIAA.LWAAuthorizationSigner;
 import com.google.gson.Gson;
 import com.amazon.SellingPartnerAPIAA.LWAAuthorizationCredentials;
 import com.amazon.SellingPartnerAPIAA.LWAException;
@@ -7,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.reflect.TypeToken;
 import com.networknt.schema.*;
 import org.yaml.snakeyaml.Yaml;
+import software.amazon.spapi.ApiClient;
 import software.amazon.spapi.ApiException;
 import software.amazon.spapi.api.catalogitems.v2022_04_01.CatalogApi;
 import software.amazon.spapi.api.producttypedefinitions.v2020_09_01.DefinitionsApi;
@@ -56,9 +58,7 @@ public class Main {
     public static List<String> marketPlaceIds;
     public static String sellerId;
     public static String sku;
-    public static LWAAuthorizationCredentials lwaAuthorizationCredentials;
-
-
+    public static ApiClient apiClient;
 
     public static void main(String[] args) throws LWAException, ApiException, IOException, InterruptedException {
         System.out.println("Listing Schema validation Sample App Started");
@@ -123,12 +123,17 @@ public class Main {
 
     public static void initializeApiClients(String configPath) throws IOException {
         // Configure your LWA credentials
-        lwaAuthorizationCredentials = LWAAuthorizationCredentials.builder()
+        LWAAuthorizationCredentials lwaAuthorizationCredentials = LWAAuthorizationCredentials.builder()
                 .clientId(clientId)
                 .clientSecret(clientSecret)
                 .refreshToken(refreshToken)
                 .endpoint("https://api.amazon.com/auth/o2/token")
                 .build();
+
+        apiClient = new ApiClient();
+        apiClient.setUserAgent("Listing Schema Validation Sample App/1.0/Java");
+        apiClient.setLWAAuthorizationSigner(new LWAAuthorizationSigner(lwaAuthorizationCredentials));
+        apiClient.setBasePath(endpoint);
 
         CatalogApiHelper.initCatalogApi();
         DefinitionsApiHelper.initDefinitionsApi();

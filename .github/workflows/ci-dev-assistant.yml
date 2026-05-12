@@ -1,0 +1,32 @@
+name: CI - Dev Assistant MCP Server
+
+on:
+  pull_request:
+    paths:
+      - 'use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server/**'
+  push:
+    branches: [main]
+    paths:
+      - 'use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server/**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        working-directory: use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server
+        run: npm ci
+
+      - name: Build
+        working-directory: use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server
+        run: npm run build
+
+      - name: Test
+        working-directory: use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server
+        run: npm test

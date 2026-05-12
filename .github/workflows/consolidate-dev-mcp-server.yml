@@ -1,0 +1,239 @@
+name: Consolidate MCP Servers
+
+on:
+  workflow_dispatch:
+    inputs:
+      newVersionNumber:
+        type: string
+        description: New version number (e.g., 1.0.0)
+        required: true
+  workflow_call:
+    inputs:
+      newVersionNumber:
+        type: string
+        required: true
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  release_npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Used by sp-api-dev-assistant-mcp-server for OpenAPI specs (CATALOG_PATH)
+      - name: Clone selling-partner-api-models
+        run: git clone --depth 1 https://github.com/amzn/selling-partner-api-models.git ../selling-partner-api-models
+
+      # Used by dev-assistant parser integration tests
+      - name: Clone selling-partner-api-sdk (for integration tests)
+        run: git clone --depth 1 https://github.com/amzn/selling-partner-api-sdk.git use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server/selling-partner-api-sdk
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+          cache-dependency-path: |
+            use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server/package-lock.json
+            use-cases/sp-api-dev-mcp/sp-api-workflow-mcp/package-lock.json
+
+      # ── Build sp-api-dev-assistant-mcp-server ────────────────────────
+      - name: Install sp-api-dev-assistant-mcp-server dependencies
+        working-directory: use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server
+        run: npm ci
+
+      - name: Build sp-api-dev-assistant-mcp-server
+        working-directory: use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server
+        run: npm run build
+
+      - name: Run sp-api-dev-assistant-mcp-server tests
+        working-directory: use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server
+        run: npm test
+
+      - name: Get date for crawl cache key
+        id: crawl-date
+        run: echo "date=$(date +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore crawl cache (daily TTL)
+        uses: actions/cache@v4
+        with:
+          path: use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server/build/crawl-cache
+          key: sp-api-docs-crawl-${{ steps.crawl-date.outputs.date }}
+          restore-keys: |
+            sp-api-docs-crawl-
+
+      - name: Build pre-built search/Vectra index for sp-api-dev-assistant
+        working-directory: use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server
+        timeout-minutes: 30
+        run: npm run build:index
+
+      # ── Build sp-api-workflow-mcp ────────────────────────────────────
+      - name: Install sp-api-workflow-mcp dependencies
+        working-directory: use-cases/sp-api-dev-mcp/sp-api-workflow-mcp
+        run: npm ci
+
+      - name: Run sp-api-workflow-mcp tests
+        working-directory: use-cases/sp-api-dev-mcp/sp-api-workflow-mcp
+        run: npm test
+
+      # ── Bundle servers into sp-api-dev-mcp ───────────────────────────
+      - name: Install esbuild
+        run: npm install -g esbuild
+
+      - name: Create bundled-servers directory
+        working-directory: use-cases/sp-api-dev-mcp
+        run: mkdir -p bundled-servers
+
+      - name: Bundle sp-api-dev-assistant-mcp-server
+        working-directory: use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server
+        run: |
+          esbuild dist/index.js \
+            --bundle \
+            --platform=node \
+            --format=esm \
+            --banner:js="import { createRequire } from 'module'; const require = createRequire(import.meta.url);" \
+            --external:@huggingface/transformers \
+            --external:sharp \
+            --external:vectra \
+            --external:onnxruntime-node \
+            --outfile=../bundled-servers/sp-api-dev-assistant-mcp-server.mjs
+
+      - name: Bundle sp-api-workflow-mcp
+        working-directory: use-cases/sp-api-dev-mcp/sp-api-workflow-mcp
+        run: |
+          esbuild index.js \
+            --bundle \
+            --platform=node \
+            --format=esm \
+            --outfile=../bundled-servers/sp-api-workflow-mcp-server.mjs
+
+      - name: Copy dev-assistant data (OpenAPI models, pre-built index and resources)
+        run: |
+          mkdir -p use-cases/sp-api-dev-mcp/bundled-servers/sp-api-dev-assistant-data
+          cp -r use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server/dist/data use-cases/sp-api-dev-mcp/bundled-servers/sp-api-dev-assistant-data/
+          cp -r use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server/dist/resources use-cases/sp-api-dev-mcp/bundled-servers/sp-api-dev-assistant-data/
+          cp -r ../selling-partner-api-models/models use-cases/sp-api-dev-mcp/bundled-servers/models
+
+      - name: Create sp-api-dev-assistant-mcp-server wrapper
+        working-directory: use-cases/sp-api-dev-mcp
+        run: |
+          cat > bundled-servers/sp-api-dev-assistant-mcp-server-wrapper.mjs << 'EOF'
+          #!/usr/bin/env node
+          import { fileURLToPath } from 'url';
+          import { dirname, join } from 'path';
+
+          const __dirname = dirname(fileURLToPath(import.meta.url));
+          process.env.SP_API_DEV_ASSISTANT_DATA_DIR = join(__dirname, 'sp-api-dev-assistant-data');
+          if (!process.env.CATALOG_PATH) {
+            process.env.CATALOG_PATH = join(__dirname, 'models');
+          }
+
+          await import('./sp-api-dev-assistant-mcp-server.mjs');
+          EOF
+
+      - name: Make bundled servers executable
+        working-directory: use-cases/sp-api-dev-mcp
+        run: chmod +x bundled-servers/*.mjs
+
+      # ── Update sp-api-dev-mcp package.json ──────────────────────────
+      - name: Update package.json
+        working-directory: use-cases/sp-api-dev-mcp
+        run: |
+          node --input-type=module << 'EOF'
+          import { readFileSync, writeFileSync } from 'fs';
+          const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+
+          pkg.bin['sp-api-dev-assistant-mcp-server'] = './bundled-servers/sp-api-dev-assistant-mcp-server-wrapper.mjs';
+          pkg.bin['sp-api-workflow-mcp-server'] = './bundled-servers/sp-api-workflow-mcp-server.mjs';
+
+          if (!pkg.files.includes('bundled-servers/')) pkg.files.push('bundled-servers/');
+
+          // Native deps for sp-api-dev-assistant (excluded from esbuild bundle)
+          if (!pkg.dependencies) pkg.dependencies = {};
+          pkg.dependencies['@huggingface/transformers'] = '^3.0.0';
+          pkg.dependencies['sharp'] = '^0.33.5';
+          pkg.dependencies['vectra'] = '^0.9.0';
+
+          writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+          EOF
+
+      # ── Set scope and version ────────────────────────────────────────
+      - name: Update package name to @spectrumtest scope
+        working-directory: use-cases/sp-api-dev-mcp
+        run: |
+          node --input-type=module << 'EOF'
+          import { readFileSync, writeFileSync } from 'fs';
+          const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+          pkg.name = '@spectrumtest/sp-api-dev-mcp';
+          writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+          EOF
+
+      - name: Set version in package.json
+        working-directory: use-cases/sp-api-dev-mcp
+        run: |
+          VERSION="${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}"
+          npm version "$VERSION" --no-git-tag-version
+          echo "Updated package.json version to $VERSION"
+
+      - name: Install dependencies
+        working-directory: use-cases/sp-api-dev-mcp
+        run: npm install
+
+      - name: Build for production
+        working-directory: use-cases/sp-api-dev-mcp
+        run: npm run build
+
+      - name: Publish to npm
+        working-directory: use-cases/sp-api-dev-mcp
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  tag_and_release:
+    needs: [release_npm]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create Git tag
+        run: |
+          VERSION="${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "mcp-server-v${VERSION}" -m "Release MCP Server v${VERSION}"
+          git push origin "mcp-server-v${VERSION}"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "mcp-server-v${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}"
+          name: "MCP Server v${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}"
+          body: |
+            ## SP-API Dev MCP Server v${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}
+
+            ### Installation
+            ```bash
+            npm install -g @spectrumtest/sp-api-dev-mcp@${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}
+            ```
+
+            ### Available Servers
+            | Server | npx arg |
+            |--------|---------|
+            | sp-api-dev-assistant-mcp-server | `sp-api-dev-assistant-mcp-server` |
+            | sp-api-workflow-mcp-server | `sp-api-workflow-mcp-server` |
+
+            ### What's Changed
+            See the [CHANGELOG](https://github.com/${{ github.repository }}/blob/main/use-cases/sp-api-dev-mcp/CHANGELOG.md) for details.
+
+            ### Package
+            - NPM: https://www.npmjs.com/package/@spectrumtest/sp-api-dev-mcp/v/${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true

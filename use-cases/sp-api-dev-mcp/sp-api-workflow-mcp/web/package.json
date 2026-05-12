@@ -1,0 +1,29 @@
+{
+  "name": "workflow-web",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "node server/app.js & npx vite --port 5173 && kill %1",
+    "dev:server": "node server/app.js",
+    "dev:client": "npx vite --port 5173",
+    "build": "npx vite build",
+    "setup": "node setup.js",
+    "start": "node server/app.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "0.2.120",
+    "cors": "^2.8.5",
+    "express": "^4.21.0",
+    "remark-gfm": "^4.0.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.0",
+    "mermaid": "^11.14.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.0.0",
+    "vite": "^6.0.0"
+  }
+}

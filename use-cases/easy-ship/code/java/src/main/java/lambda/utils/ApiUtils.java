@@ -82,7 +82,7 @@ public class ApiUtils {
     private static void setUserAgent(ApiClient api) {
         if (!OPT_OUT) {
             System.out.println("Setting User-Agent");
-            api.setUserAgent("Dummy Sample App/1.0/Java");
+            api.setUserAgent("Easy Ship Sample App/1.0/Java");
         }
     }
 

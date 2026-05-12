@@ -1,0 +1,22 @@
+{
+  "shippingOptions": [
+    {
+      "shippingOptionId": "ABDGYEBDVGUZTYWX==",
+      "shipBy": "MARKETPLACE",
+      "carrierName": "ATS",
+      "pickupWindow": {
+        "startTime": 1736793268,
+        "endTime": 1736793268
+      }
+    }
+  ],
+  "recommendedShippingOption": {
+    "shippingOptionId": "ABDGYEBDVGUZTYWX==",
+    "shipBy": "MARKETPLACE",
+    "carrierName": "ATS",
+    "pickupWindow": {
+      "startTime": 1736793268,
+      "endTime": 1736793268
+    }
+  }
+}

@@ -70,7 +70,7 @@ class ApiUtils
     private static function setUserAgent(object $apiClient): void
     {
         if (!self::OPT_OUT) {
-            $apiClient->setUserAgent("Dummy Sample App/1.0/PHP");
+            $apiClient->setUserAgent("Easy Ship Sample App/1.0/PHP");
         }
     }
 
@@ -176,7 +176,7 @@ class ApiUtils
         $config = new Configuration([], $lwaAuthorizationCredentials);
         $config->setHost(self::getSpApiEndpoint($regionCode));
         if (!self::OPT_OUT) {
-            $config->setUserAgent("Dummy Sample App/1.0/PHP");
+            $config->setUserAgent("Easy Ship Sample App/1.0/PHP");
         }
 
         return $config;
