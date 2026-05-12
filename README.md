@@ -21,12 +21,12 @@ This is considered an intermediate learning resource, and should typically be re
 
 ## SP-API Dev MCP Package
 
-The [`@spectrumtest/sp-api-dev-mcp`](https://www.npmjs.com/package/@spectrumtest/sp-api-dev-mcp) package is a consolidated MCP (Model Context Protocol) server that bundles multiple SP-API MCP servers into a single npm package.
+The [`@amazon-sp-api-release/sp-api-dev-mcp`](https://www.npmjs.com/package/@amazon-sp-api-release/sp-api-dev-mcp) package is a consolidated MCP (Model Context Protocol) server that bundles multiple SP-API MCP servers into a single npm package.
 
 ### Installation
 
 ```bash
-npm install -g @spectrumtest/sp-api-dev-mcp
+npm install -g @amazon-sp-api-release/sp-api-dev-mcp
 ```
 
 ### Available Servers
@@ -41,10 +41,10 @@ npm install -g @spectrumtest/sp-api-dev-mcp
 ### Usage with npx
 
 ```bash
-npx @spectrumtest/sp-api-dev-mcp sp-api-dev-assistant-mcp-server
-npx @spectrumtest/sp-api-dev-mcp amazon-data-kiosk-sc-mcp-server
-npx @spectrumtest/sp-api-dev-mcp amazon-data-kiosk-vc-mcp-server
-npx @spectrumtest/sp-api-dev-mcp sp-api-mcp-server
+npx @amazon-sp-api-release/sp-api-dev-mcp sp-api-dev-assistant-mcp-server
+npx @amazon-sp-api-release/sp-api-dev-mcp amazon-data-kiosk-sc-mcp-server
+npx @amazon-sp-api-release/sp-api-dev-mcp amazon-data-kiosk-vc-mcp-server
+npx @amazon-sp-api-release/sp-api-dev-mcp sp-api-mcp-server
 ```
 
 ### Releasing a New Version
@@ -55,7 +55,7 @@ Releases are published automatically via the [Consolidate MCP Servers](.github/w
 2. Enter the new version number (e.g. `1.0.0`)
 3. The workflow will build, bundle, publish to npm, and create a GitHub release
 
-**Required secret:** `NPM_TOKEN` — a granular npm access token with read/write permission for `@spectrumtest/sp-api-dev-mcp`.
+**Required secret:** `NPM_TOKEN` — a granular npm access token with read/write permission for `@amazon-sp-api-release/sp-api-dev-mcp`.
 
 ## Learning Resources
 * [SP-API Website](https://developer.amazonservices.com)

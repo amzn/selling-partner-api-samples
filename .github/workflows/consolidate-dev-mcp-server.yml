@@ -161,13 +161,13 @@ jobs:
           EOF
 
       # ── Set scope and version ────────────────────────────────────────
-      - name: Update package name to @spectrumtest scope
+      - name: Update package name to @amazon-sp-api-release scope
         working-directory: use-cases/sp-api-dev-mcp
         run: |
           node --input-type=module << 'EOF'
           import { readFileSync, writeFileSync } from 'fs';
           const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
-          pkg.name = '@spectrumtest/sp-api-dev-mcp';
+          pkg.name = '@amazon-sp-api-release/sp-api-dev-mcp';
           writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
           EOF
 
@@ -220,7 +220,7 @@ jobs:
 
             ### Installation
             ```bash
-            npm install -g @spectrumtest/sp-api-dev-mcp@${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}
+            npm install -g @amazon-sp-api-release/sp-api-dev-mcp@${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}
             ```
 
             ### Available Servers
@@ -233,7 +233,7 @@ jobs:
             See the [CHANGELOG](https://github.com/${{ github.repository }}/blob/main/use-cases/sp-api-dev-mcp/CHANGELOG.md) for details.
 
             ### Package
-            - NPM: https://www.npmjs.com/package/@spectrumtest/sp-api-dev-mcp/v/${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}
+            - NPM: https://www.npmjs.com/package/@amazon-sp-api-release/sp-api-dev-mcp/v/${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}
           draft: false
           prerelease: false
           generate_release_notes: true

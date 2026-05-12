@@ -9,7 +9,7 @@ A consolidated npm package that bundles MCP servers for Amazon Selling Partner A
 ## Installation
 
 ```bash
-npm install -g @spectrumtest/sp-api-dev-mcp
+npm install -g @amazon-sp-api-release/sp-api-dev-mcp
 ```
 
 Or use directly with `npx` (no install required).
@@ -54,7 +54,7 @@ Add to your MCP config file:
   "mcpServers": {
     "sp-api-dev-assistant": {
       "command": "npx",
-      "args": ["-y", "@spectrumtest/sp-api-dev-mcp", "sp-api-dev-assistant-mcp-server"],
+      "args": ["-y", "@amazon-sp-api-release/sp-api-dev-mcp", "sp-api-dev-assistant-mcp-server"],
       "env": {
         "SP_API_CLIENT_ID": "your-client-id",
         "SP_API_CLIENT_SECRET": "your-client-secret",
@@ -63,7 +63,7 @@ Add to your MCP config file:
     },
     "sp-api-workflow": {
       "command": "npx",
-      "args": ["-y", "@spectrumtest/sp-api-dev-mcp", "sp-api-workflow-mcp-server"],
+      "args": ["-y", "@amazon-sp-api-release/sp-api-dev-mcp", "sp-api-workflow-mcp-server"],
       "env": {
         "SP_API_CLIENT_ID": "your-client-id",
         "SP_API_CLIENT_SECRET": "your-client-secret",
