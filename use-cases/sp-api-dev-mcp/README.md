@@ -1,5 +1,10 @@
 # SP-API Dev MCP
 
+> [!IMPORTANT]  
+> The SP-API Dev MCP servers are example MCPs that demonstrate practical implementations of SP-APIs AI tooling for developer integration workflows.
+> 
+> These are not supported products in their own right, but educational examples to help our customers use our products for their applications. As our customer, any applications you integrate these examples into should be thoroughly tested, secured, and optimized according to your business's security standards & policies before deploying to production or handling production workloads.
+
 A consolidated npm package that bundles MCP servers for Amazon Selling Partner API development. Install once, get access to all SP-API developer tools.
 
 ## Prerequisites

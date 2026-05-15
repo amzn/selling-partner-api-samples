@@ -39,17 +39,13 @@ npm install -g @amazon-sp-api-release/sp-api-dev-mcp
 | Server | Command |
 |--------|---------|
 | SP-API Dev Assistant | `sp-api-dev-assistant-mcp-server` |
-| Amazon Data Kiosk (Seller Central) | `amazon-data-kiosk-sc-mcp-server` |
-| Amazon Data Kiosk (Vendor Central) | `amazon-data-kiosk-vc-mcp-server` |
-| SP-API MCP Server | `sp-api-mcp-server` |
+| SP-API Workflow Builder | `sp-api-workflow-mcp` |
 
 ### Usage with npx
 
 ```bash
-npx @amazon-sp-api-release/sp-api-dev-mcp sp-api-dev-assistant-mcp-server
-npx @amazon-sp-api-release/sp-api-dev-mcp amazon-data-kiosk-sc-mcp-server
-npx @amazon-sp-api-release/sp-api-dev-mcp amazon-data-kiosk-vc-mcp-server
-npx @amazon-sp-api-release/sp-api-dev-mcp sp-api-mcp-server
+npx -y @amazon-sp-api-release/sp-api-dev-mcp sp-api-dev-assistant-mcp-server
+npx -y @amazon-sp-api-release/sp-api-dev-mcp sp-api-workflow-mcp-server
 ```
 
 ### Releasing a New Version
