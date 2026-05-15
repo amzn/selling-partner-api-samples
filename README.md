@@ -2,6 +2,11 @@
 
 This repository contains sample code in various programming languages for use cases supported by the [Amazon Selling Partner API (SP-API)](https://developer-docs.amazon.com/sp-api/).
 
+> [!IMPORTANT]  
+> SP-API code samples are example code that demonstrates practical implementations of SP-APIs for specific use cases and scenarios.
+> 
+> These sample solutions are not supported products in their own right, but educational examples to help our customers use our products for their applications. As our customer, any applications you integrate these examples into should be thoroughly tested, secured, and optimized according to your business's security standards & policies before deploying to production or handling production workloads.
+
 ## Table of Contents
 - [About this Repo](#about-this-repo)
 - [SP-API Dev MCP Package](#sp-api-dev-mcp-package)
