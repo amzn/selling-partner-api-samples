@@ -15,32 +15,13 @@
   "notSupported": [
     "NumberOfItemsShipped",
     "NumberOfItemsUnshipped",
-    "PaymentExecutionDetail",
-    "PaymentMethod",
-    "PaymentMethodDetails",
-    "IsIBA",
     "HasRegulatedItems",
     "DefaultShipFromLocationAddress",
-    "ElectronicInvoiceStatus",
-    "BuyerInvoicePreference",
-    "BuyerTaxInformation",
     "FulfillmentInstruction",
-    "MarketplaceTaxInfo",
-    "SellerDisplayName",
     "AutomatedShippingSettings",
-    "BuyerInfo.BuyerTaxInfo",
     "ProductInfo",
     "ProductInfo.NumberOfItems",
-    "TaxCollection",
-    "TaxCollection.Model",
-    "TaxCollection.ResponsibleParty",
-    "DeemedResellerCategory",
-    "StoreChainStoreId",
-    "SerialNumberRequired",
-    "AssociatedItems",
-    "AssociatedItem.OrderId",
-    "AssociatedItem.OrderItemId",
-    "AssociatedItem.AssociationType"
+    "StoreChainStoreId"
   ],
   "attributeMappings": {
     "AmazonOrderId": "Order.orderId",
@@ -112,7 +93,26 @@
     "SubstitutionPreferences": "Order.orderItems.fulfillment.picking.substitutionPreference",
     "Measurement": "Order.orderItems.measurement",
     "ShippingConstraints": "Order.orderItems.fulfillment.shipping.shippingConstraints",
-    "AmazonPrograms": "Order.orderItems.programs or Order.programs (check for SUBSCRIBE_AND_SAVE, FBM_SHIP_PLUS)"
+    "AmazonPrograms": "Order.orderItems.programs or Order.programs (check for SUBSCRIBE_AND_SAVE, FBM_SHIP_PLUS)",
+    "PaymentExecutionDetail": "Order.payment.paymentExecutions (includedData=PAYMENT)",
+    "PaymentMethod": "Order.payment.paymentExecutions[].paymentMethod (includedData=PAYMENT)",
+    "PaymentMethodDetails": "Order.payment.paymentExecutions[].paymentMethod (includedData=PAYMENT)",
+    "IsIBA": "Order.payment (includedData=PAYMENT, check paymentExecutions for Invoice-based payment)",
+    "ElectronicInvoiceStatus": "Order.tax.taxInvoicing.invoiceStatus (includedData=TAX)",
+    "BuyerInvoicePreference": "Order.tax.taxInvoicing.buyerInvoicePreference (includedData=TAX)",
+    "BuyerTaxInformation": "Order.tax.taxRegistrations (filter by entityType=BUYER, includedData=TAX)",
+    "MarketplaceTaxInfo": "Order.tax.taxRegistrations (filter by entityType=MARKETPLACE, includedData=TAX)",
+    "SellerDisplayName": "Order.tax.taxRegistrations (filter by entityType=MERCHANT, use legalName, includedData=TAX)",
+    "BuyerInfo.BuyerTaxInfo": "Order.tax.taxRegistrations (filter by entityType=BUYER, includedData=TAX)",
+    "TaxCollection": "Order.orderItems.tax.taxCollections (includedData=TAX)",
+    "TaxCollection.Model": "Order.orderItems.tax.taxCollections[].model (includedData=TAX)",
+    "TaxCollection.ResponsibleParty": "Order.orderItems.tax.taxCollections[].responsibleParty (includedData=TAX)",
+    "DeemedResellerCategory": "Order.orderItems.tax.taxCalculationBreakdowns[].reportingScheme (includedData=TAX, values: IOSS, UOSS)",
+    "SerialNumberRequired": "Order.orderItems.fulfillment.packing.serialNumberRequirement (includedData=FULFILLMENT)",
+    "AssociatedItems": "Order.orderItems.associatedOrderItems",
+    "AssociatedItem.OrderId": "Order.orderItems.associatedOrderItems[].orderId",
+    "AssociatedItem.OrderItemId": "Order.orderItems.associatedOrderItems[].orderItemId",
+    "AssociatedItem.AssociationType": "Order.orderItems.associatedOrderItems[].associationType"
   },
   "newFeatures": [
     "Higher precision timestamps: Millisecond-level precision (yyyy-MM-ddTHH:mm:ss.SSSZ) for all date-time fields",
@@ -124,18 +124,28 @@
     "Order.orderItems.fulfillment.shipping.shippingConstraints.cashOnDelivery",
     "Order.packages for FBM orders (carrier, shippingService, trackingNumber, package status)",
     "Explicit tax handling with clear separation between tax-inclusive and tax-exclusive pricing",
-    "Multi-layered financial breakdown structure with type and subtype classifications"
+    "Multi-layered financial breakdown structure with type and subtype classifications",
+    "TAX includedData parameter: Access tax registrations (buyer/merchant/marketplace), invoice status, buyer invoice preference, and item-level tax collections including TaxCollection model and responsible party",
+    "PAYMENT includedData parameter: Access payment execution details including payment method, amount, acquirer ID, card brand, and authorization code",
+    "Order.tax.taxRegistrations - Tax registration info for buyer, merchant, and marketplace entities with addresses and attributes",
+    "Order.tax.taxInvoicing - Invoice status and buyer invoice preference (Turkey marketplace)",
+    "Order.payment.paymentExecutions - Payment method details with acquirer and authorization info (Brazil marketplace)",
+    "Order.orderItems.tax.taxCollections - Item-level tax collection model and responsible party",
+    "Order.orderItems.tax.taxCalculationBreakdowns - Tax calculation reporting scheme (IOSS/UOSS)",
+    "Order.orderItems.associatedOrderItems - Associated order items (e.g., VALUE_ADD_SERVICE)",
+    "Order.orderItems.fulfillment.packing.serialNumberRequirement - Serial number requirement for line items",
+    "INVOICE_BY_AMAZON program value in Order.programs"
   ],
   "apiMappings": {
     "getOrders": {
       "v1": "searchOrders (with filters)",
       "status": "✅ Available",
-      "notes": "Use with filters like createdAfter, marketplaceIds, etc. Supports includedData parameter for bulk order sync workflows"
+      "notes": "Use with filters like createdAfter, marketplaceIds, etc. Supports includedData parameter (BUYER, RECIPIENT, PROCEEDS, EXPENSE, PROMOTION, CANCELLATION, FULFILLMENT, PACKAGES, TAX, PAYMENT) for bulk order sync workflows"
     },
     "getOrder": {
       "v1": "getOrder (with includedData parameter)",
       "status": "✅ Available",
-      "notes": "Order items included by default, use includedData for additional data"
+      "notes": "Order items included by default, use includedData (BUYER, RECIPIENT, PROCEEDS, EXPENSE, PROMOTION, CANCELLATION, FULFILLMENT, PACKAGES, TAX, PAYMENT) for additional data"
     },
     "getOrderBuyerInfo": {
       "v1": "getOrder (with includedData=['BUYER'])",
@@ -218,6 +228,16 @@
       "description": "Shipping packages and tracking",
       "attributes": ["Order.packages"],
       "notes": "New feature providing comprehensive FBM package tracking"
+    },
+    "TAX": {
+      "description": "Tax information associated with the order",
+      "attributes": ["Order.tax", "Order.orderItems.tax"],
+      "notes": "Added in April 2026 update. Includes tax registrations (buyer, merchant, marketplace), invoice status, buyer invoice preference, and item-level tax collections"
+    },
+    "PAYMENT": {
+      "description": "Payment information associated with the order",
+      "attributes": ["Order.payment"],
+      "notes": "Added in April 2026 update. Includes payment execution details such as payment method, amount, acquirer ID, card brand, and authorization code"
     }
   },
   "statusMappings": {
@@ -274,6 +294,7 @@
       "AMAZON_HAUL",
       "DELIVERY_BY_AMAZON",
       "FBM_SHIP_PLUS",
+      "INVOICE_BY_AMAZON",
       "IN_STORE_PICK_UP",
       "PREMIUM",
       "PREORDER",
