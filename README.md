@@ -26,7 +26,7 @@ This is considered an intermediate learning resource, and should typically be re
 
 ## SP-API Dev MCP Package
 
-The [`@amazon-sp-api-release/sp-api-dev-mcp`](https://www.npmjs.com/package/@amazon-sp-api-release/sp-api-dev-mcp) package is a consolidated MCP (Model Context Protocol) server that bundles multiple SP-API MCP servers into a single npm package.
+The [`@amazon-sp-api-release/sp-api-dev-mcp`](https://www.npmjs.com/package/@amazon-sp-api-release/sp-api-dev-mcp) package is a consolidated MCP (Model Context Protocol) server that bundles multiple SP-API MCP servers into a single npm package. It is published from the [`sp-api-dev-mcp`](https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/sp-api-dev-mcp) source in the selling-partner-api-samples GitHub repository.
 
 ### Installation
 
@@ -50,7 +50,7 @@ npx -y @amazon-sp-api-release/sp-api-dev-mcp sp-api-workflow-mcp-server
 
 ### Releasing a New Version
 
-Releases are published automatically via the [Consolidate MCP Servers](.github/workflows/consolidate.yml) GitHub Actions workflow. To trigger a release:
+Releases are published automatically via the [Consolidate MCP Servers](.github/workflows/consolidate-dev-mcp-server.yml) GitHub Actions workflow. To trigger a release:
 
 1. Go to **Actions** → **Consolidate MCP Servers** → **Run workflow**
 2. Enter the new version number (e.g. `1.0.0`)
