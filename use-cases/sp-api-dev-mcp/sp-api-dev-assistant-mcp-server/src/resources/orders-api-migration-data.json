@@ -97,11 +97,17 @@
     "PaymentExecutionDetail": "Order.payment.paymentExecutions (includedData=PAYMENT)",
     "PaymentMethod": "Order.payment.paymentExecutions[].paymentMethod (includedData=PAYMENT)",
     "PaymentMethodDetails": "Order.payment.paymentExecutions[].paymentMethod (includedData=PAYMENT)",
-    "IsIBA": "Order.payment (includedData=PAYMENT, check paymentExecutions for Invoice-based payment)",
+    "IsIBA": "Order.programs (check for INVOICE_BY_AMAZON, includedData not required)",
     "ElectronicInvoiceStatus": "Order.tax.taxInvoicing.invoiceStatus (includedData=TAX)",
     "BuyerInvoicePreference": "Order.tax.taxInvoicing.buyerInvoicePreference (includedData=TAX)",
     "BuyerTaxInformation": "Order.tax.taxRegistrations (filter by entityType=BUYER, includedData=TAX)",
+    "BuyerTaxInformation.BuyerLegalCompanyName": "Order.tax.taxRegistrations[].legalName (filter by entityType=BUYER, includedData=TAX)",
+    "BuyerTaxInformation.BuyerBusinessAddress": "Order.tax.taxRegistrations[].taxRegistrationAddress (filter by entityType=BUYER, includedData=TAX)",
+    "BuyerTaxInformation.BuyerTaxRegistrationId": "Order.tax.taxRegistrations[].taxRegistrationNumber (filter by entityType=BUYER, includedData=TAX)",
+    "BuyerTaxInformation.BuyerTaxOffice": "Order.tax.taxRegistrations[].taxRegistrationAttributes[].value (filter by entityType=BUYER && taxRegistrationAttributes.key=TAX_OFFICE, includedData=TAX)",
     "MarketplaceTaxInfo": "Order.tax.taxRegistrations (filter by entityType=MARKETPLACE, includedData=TAX)",
+    "MarketplaceTaxInfo.TaxClassifications.Name": "Order.tax.taxRegistrations[].taxRegistrationType (filter by entityType=MARKETPLACE, includedData=TAX)",
+    "MarketplaceTaxInfo.TaxClassifications.Value": "Order.tax.taxRegistrations[].taxRegistrationNumber (filter by entityType=MARKETPLACE, includedData=TAX)",
     "SellerDisplayName": "Order.tax.taxRegistrations (filter by entityType=MERCHANT, use legalName, includedData=TAX)",
     "BuyerInfo.BuyerTaxInfo": "Order.tax.taxRegistrations (filter by entityType=BUYER, includedData=TAX)",
     "TaxCollection": "Order.orderItems.tax.taxCollections (includedData=TAX)",
@@ -125,11 +131,11 @@
     "Order.packages for FBM orders (carrier, shippingService, trackingNumber, package status)",
     "Explicit tax handling with clear separation between tax-inclusive and tax-exclusive pricing",
     "Multi-layered financial breakdown structure with type and subtype classifications",
-    "TAX includedData parameter: Access tax registrations (buyer/merchant/marketplace), invoice status, buyer invoice preference, and item-level tax collections including TaxCollection model and responsible party",
-    "PAYMENT includedData parameter: Access payment execution details including payment method, amount, acquirer ID, card brand, and authorization code",
+    "TAX includedData parameter: Access tax registrations (buyer/merchant/marketplace), invoice status (Brazil Easy Ship orders), buyer invoice preference (Turkey marketplace), and item-level tax collections including TaxCollection model and responsible party",
+    "PAYMENT includedData parameter: Access payment method (worldwide), acquirer ID, card brand, and authorization code (Brazil marketplace only)",
     "Order.tax.taxRegistrations - Tax registration info for buyer, merchant, and marketplace entities with addresses and attributes",
-    "Order.tax.taxInvoicing - Invoice status and buyer invoice preference (Turkey marketplace)",
-    "Order.payment.paymentExecutions - Payment method details with acquirer and authorization info (Brazil marketplace)",
+    "Order.tax.taxInvoicing - Invoice status (Brazil Easy Ship orders) and buyer invoice preference (Turkey marketplace)",
+    "Order.payment.paymentExecutions - Payment method (worldwide), acquirer ID, card brand, and authorization code (Brazil marketplace only)",
     "Order.orderItems.tax.taxCollections - Item-level tax collection model and responsible party",
     "Order.orderItems.tax.taxCalculationBreakdowns - Tax calculation reporting scheme (IOSS/UOSS)",
     "Order.orderItems.associatedOrderItems - Associated order items (e.g., VALUE_ADD_SERVICE)",
@@ -232,12 +238,12 @@
     "TAX": {
       "description": "Tax information associated with the order",
       "attributes": ["Order.tax", "Order.orderItems.tax"],
-      "notes": "Added in April 2026 update. Includes tax registrations (buyer, merchant, marketplace), invoice status, buyer invoice preference, and item-level tax collections"
+      "notes": "Added in April 2026 update. Includes tax registrations (buyer, merchant, marketplace), invoice status (Brazil Easy Ship orders), buyer invoice preference (Turkey marketplace), and item-level tax collections"
     },
     "PAYMENT": {
       "description": "Payment information associated with the order",
       "attributes": ["Order.payment"],
-      "notes": "Added in April 2026 update. Includes payment execution details such as payment method, amount, acquirer ID, card brand, and authorization code"
+      "notes": "Added in April 2026 update. Includes payment method (worldwide) and acquirer ID, card brand, authorization code (Brazil marketplace only)"
     }
   },
   "statusMappings": {
