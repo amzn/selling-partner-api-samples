@@ -155,7 +155,7 @@ jobs:
           if (!pkg.dependencies) pkg.dependencies = {};
           pkg.dependencies['@huggingface/transformers'] = '^3.0.0';
           pkg.dependencies['sharp'] = '^0.33.5';
-          pkg.dependencies['vectra'] = '^0.9.0';
+          pkg.dependencies['vectra'] = '^0.14.0';
 
           writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
           EOF
