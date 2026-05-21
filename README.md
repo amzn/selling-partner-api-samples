@@ -9,7 +9,7 @@ This repository contains sample code in various programming languages for use ca
 
 ## Table of Contents
 - [About this Repo](#about-this-repo)
-- [SP-API Dev MCP Package](#sp-api-dev-mcp-package)
+- [Local MCP for SP-API](#local-mcp-for-sp-api)
 - [Learning Resources](#learning-resources)
 - [Security](#security)
 - [License](#license)
@@ -24,9 +24,9 @@ We welcome contributions to this repo in the form of fixes or improvements to ex
 
 This is considered an intermediate learning resource, and should typically be referenced after reading the [SP-API Documentation](https://developer-docs.amazon.com/sp-api). Please see [Learning Resources](#learning-resources) for additional resources.
 
-## SP-API Dev MCP Package
+## Local MCP for SP-API
 
-The [`@amazon-sp-api-release/sp-api-dev-mcp`](https://www.npmjs.com/package/@amazon-sp-api-release/sp-api-dev-mcp) package is a consolidated MCP (Model Context Protocol) server that bundles multiple SP-API MCP servers into a single npm package. It is published from the [`sp-api-dev-mcp`](https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/sp-api-dev-mcp) source in the selling-partner-api-samples GitHub repository.
+The [`@amazon-sp-api-release/sp-api-dev-mcp`](https://www.npmjs.com/package/@amazon-sp-api-release/sp-api-dev-mcp) package is a local MCP (Model Context Protocol) server for SP-API that bundles multiple developer tools into a single npm package. It is published from the [`sp-api-dev-mcp`](https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/sp-api-dev-mcp) source in the selling-partner-api-samples GitHub repository.
 
 ### Installation
 
