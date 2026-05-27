@@ -29,6 +29,7 @@ import {
   projectFields,
   validateFields,
 } from "../../../utils/filtering.js";
+import { SdkInitializer } from "../../../utils/sdk-initializer.js";
 import * as path from "path";
 import { MCP_CACHE_DIR } from "../../../utils/paths.js";
 
@@ -50,15 +51,18 @@ export class DiscoveryService {
   private readonly repositoryService: RepositoryService;
   private readonly repositoryPath: string;
   private readonly supportedLanguages: Set<SupportedLanguage>;
+  private readonly sdkInitializer: SdkInitializer | null;
 
   constructor(
     repositoryPath: string = path.join(
       MCP_CACHE_DIR,
       "selling-partner-api-sdk",
     ),
+    sdkInitializer?: SdkInitializer,
   ) {
     this.repositoryService = new RepositoryService();
     this.repositoryPath = repositoryPath;
+    this.sdkInitializer = sdkInitializer ?? null;
     this.supportedLanguages = new Set([
       "python",
       "java",
@@ -148,11 +152,16 @@ export class DiscoveryService {
   }
 
   /**
-   * Validate that the repository is available and accessible
+   * Validate that the repository is available and accessible.
+   * If an SdkInitializer is configured, awaits it first (which may still be
+   * cloning in the background or will retry on failure).
    * @throws ServiceError if repository is not available
    */
   private async validateRepository(): Promise<void> {
     try {
+      if (this.sdkInitializer) {
+        await this.sdkInitializer.ensureReady();
+      }
       await this.repositoryService.validateRepository(this.repositoryPath);
     } catch (error) {
       if (ErrorHandlingUtils.isServiceError(error)) {
