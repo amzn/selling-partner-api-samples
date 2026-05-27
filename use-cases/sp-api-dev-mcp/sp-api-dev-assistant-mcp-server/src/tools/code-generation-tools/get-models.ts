@@ -5,6 +5,7 @@ import {
   isServiceError,
 } from "../../utils/error-handling.js";
 import { ModelsFilterParams } from "./models/filters.js";
+import { SdkInitializer } from "../../utils/sdk-initializer.js";
 
 /**
  * Retrieves data models and schemas for a specific API category with pagination and filtering support
@@ -59,8 +60,8 @@ import { ModelsFilterParams } from "./models/filters.js";
 export class GetModels {
   private readonly discoveryService: DiscoveryService;
 
-  constructor() {
-    this.discoveryService = new DiscoveryService();
+  constructor(sdkInitializer?: SdkInitializer) {
+    this.discoveryService = new DiscoveryService(undefined, sdkInitializer);
   }
 
   /**

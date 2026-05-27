@@ -1,25 +1,23 @@
+import { SdkInitializer } from "./sdk-initializer.js";
 import { RepositoryService } from "../tools/code-generation-tools/services/repository.js";
 import { ErrorHandlingUtils, isServiceError } from "./error-handling.js";
 
 /**
- * MCP tool for cloning the Amazon Selling Partner API repository
- * Implements requirements 1.1, 1.2, 1.3, 1.4
+ * MCP tool for ensuring the Amazon Selling Partner API SDK repository is available.
+ * Delegates to the shared SdkInitializer so the background clone is reused.
  */
 export class CloneRepo {
+  private readonly sdkInitializer: SdkInitializer;
   private readonly repositoryService: RepositoryService;
 
-  constructor() {
+  constructor(sdkInitializer?: SdkInitializer) {
     this.repositoryService = new RepositoryService();
+    this.sdkInitializer =
+      sdkInitializer ?? new SdkInitializer(this.repositoryService);
   }
 
-  /**
-   * Execute the clone repository tool
-   * @param args - Tool arguments containing optional repositoryUrl and targetPath
-   * @returns Tool execution result
-   */
   async execute(args: Record<string, any>): Promise<any> {
     try {
-      // Validate parameters first before applying defaults
       if (
         args.repositoryUrl !== undefined &&
         (typeof args.repositoryUrl !== "string" ||
@@ -43,42 +41,58 @@ export class CloneRepo {
         );
       }
 
-      // Apply defaults after validation
-      const repositoryUrl =
-        args.repositoryUrl || this.repositoryService.getDefaultRepositoryUrl();
-      const targetPath =
-        args.targetPath || this.repositoryService.getDefaultTargetPath();
+      // If custom URL/path is provided, fall back to direct clone
+      const hasCustomUrl =
+        args.repositoryUrl &&
+        args.repositoryUrl !== this.repositoryService.getDefaultRepositoryUrl();
+      const hasCustomPath =
+        args.targetPath &&
+        args.targetPath !== this.repositoryService.getDefaultTargetPath();
 
-      // Check if repository already exists
-      const isAlreadyCloned =
-        await this.repositoryService.isRepositoryCloned(targetPath);
+      if (hasCustomUrl || hasCustomPath) {
+        const repositoryUrl =
+          args.repositoryUrl ||
+          this.repositoryService.getDefaultRepositoryUrl();
+        const targetPath =
+          args.targetPath || this.repositoryService.getDefaultTargetPath();
 
-      if (isAlreadyCloned) {
-        // Repository already exists - handle gracefully per requirement 1.4
+        const isAlreadyCloned =
+          await this.repositoryService.isRepositoryCloned(targetPath);
+        if (isAlreadyCloned) {
+          return {
+            content: [
+              {
+                type: "text",
+                text: `Repository already exists at ${targetPath}. No action needed.`,
+              },
+            ],
+          };
+        }
+
+        await this.repositoryService.cloneRepository(repositoryUrl, targetPath);
         return {
           content: [
             {
               type: "text",
-              text: `Repository already exists at ${targetPath}. No action needed.`,
+              text: `Successfully cloned Amazon Selling Partner API SDK repository from ${repositoryUrl} to ${targetPath}`,
             },
           ],
         };
       }
 
-      // Clone the repository
-      await this.repositoryService.cloneRepository(repositoryUrl, targetPath);
+      // Default path — use the shared initializer (awaits background clone or retries)
+      await this.sdkInitializer.ensureReady();
 
-      // Return success confirmation per requirement 1.2
+      const targetPath = this.repositoryService.getDefaultTargetPath();
       return {
         content: [
           {
             type: "text",
-            text: `Successfully cloned Amazon Selling Partner API SDK repository from ${repositoryUrl} to ${targetPath}`,
+            text: `Successfully cloned Amazon Selling Partner API SDK repository to ${targetPath}`,
           },
         ],
       };
     } catch (error) {
-      // Handle errors and return descriptive error messages per requirement 1.3
       if (isServiceError(error)) {
         return {
           content: [
@@ -91,7 +105,6 @@ export class CloneRepo {
         };
       }
 
-      // Handle unexpected errors
       const unexpectedError = ErrorHandlingUtils.createInternalError(
         "clone repository tool execution",
         error as Error,

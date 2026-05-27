@@ -3,6 +3,7 @@ import {
   ErrorHandlingUtils,
   isServiceError,
 } from "../../utils/error-handling.js";
+import { SdkInitializer } from "../../utils/sdk-initializer.js";
 
 /**
  * Retrieves SDK categories for a specific programming language
@@ -11,8 +12,8 @@ import {
 export class GetCategories {
   private readonly discoveryService: DiscoveryService;
 
-  constructor() {
-    this.discoveryService = new DiscoveryService();
+  constructor(sdkInitializer?: SdkInitializer) {
+    this.discoveryService = new DiscoveryService(undefined, sdkInitializer);
   }
 
   /**

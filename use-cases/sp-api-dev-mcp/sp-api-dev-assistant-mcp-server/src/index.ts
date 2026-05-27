@@ -19,6 +19,7 @@ import {
 } from "./tools/explore-catalog-tool.js";
 import { createAuthenticatorFromEnv } from "./auth/sp-api-auth.js";
 import type { ApiCatalog } from "./types/api-catalog.js";
+import { SdkInitializer } from "./utils/sdk-initializer.js";
 import { config } from "dotenv";
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
@@ -43,6 +44,7 @@ class SPAPIDevMCPServer {
   private executeTool: ExecuteApiTool | null = null;
   private exploreTool: ExploreCatalogTool | null = null;
   private catalogPromise: Promise<ApiCatalog> | null = null;
+  private sdkInitializer: SdkInitializer;
 
   constructor() {
     this.server = new McpServer({
@@ -50,11 +52,14 @@ class SPAPIDevMCPServer {
       version: "1.3.0",
     });
     this.catalogLoader = new CatalogLoader();
+    this.sdkInitializer = new SdkInitializer();
 
     this.migrationAssistantTool = new SPAPIMigrationAssistantTool(
       join(dataRoot, "resources", "orders-api-migration-data.json"),
     );
-    this.CodeGenerationTool = new CodeGenerationTool();
+    this.CodeGenerationTool = new CodeGenerationTool({
+      sdkInitializer: this.sdkInitializer,
+    });
     this.optimizationTool = new OptimizationTool();
     this.search = createSearchTool(dataRoot);
 
@@ -287,6 +292,8 @@ OUTPUT CHAINING:
     // Pre-load embedding model and initialize search index (non-blocking background tasks)
     this.search.embeddingService.preload().catch(() => {});
     this.search.indexManager.initialize().catch(() => {});
+    // Eagerly clone the SDK repo in the background so it's ready when tools need it
+    this.sdkInitializer.startBackgroundClone();
   }
 }
 
