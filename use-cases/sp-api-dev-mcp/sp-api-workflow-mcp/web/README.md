@@ -7,7 +7,8 @@ A browser-based interface for building, visualizing, and executing SP-API workfl
 ### Prerequisites
 
 - Node.js 18+
-- Amazon Bedrock access (for the agent chat feature)
+- Amazon Bedrock access — required for the agent chat feature
+- Amazon SP-API credentials (Client ID, Secret, Refresh Token) — required to execute workflows against live endpoints
 
 ### Automated Setup
 
@@ -74,6 +75,42 @@ Alternatively, create a `web/.env.json` file:
   }
 }
 ```
+
+> The `amazon-sp-api` MCP server is **optional** — it gives the agent live SP-API endpoint discovery during chat. Omit it to run with just the `workflow` server; workflow building and execution work without it. The automated setup configures it for you, but it is not required for manual setup.
+
+#### Variable reference
+
+Every key read from `.env.json`. "Required" depends on which features you use — the app starts with an empty file; features degrade gracefully when their keys are absent.
+
+**Web authentication**
+
+| Key | Required | Meaning |
+|-----|----------|---------|
+| `WEB_USERNAME` | Optional | Login username. If both username and password are blank/absent, the login page is disabled and the app is open. |
+| `WEB_PASSWORD` | Optional | Login password. Set together with `WEB_USERNAME` to gate `/api/*` routes behind a login page. |
+
+**SP-API credentials** — forwarded to the `workflow` MCP subprocess so it can call live SP-API endpoints.
+
+| Key | Required | Meaning |
+|-----|----------|---------|
+| `SP_API_CLIENT_ID` | For execution | LWA OAuth client ID of your SP-API app. |
+| `SP_API_CLIENT_SECRET` | For execution | LWA OAuth client secret. |
+| `SP_API_REFRESH_TOKEN` | For execution | Seller refresh token used to mint access tokens. |
+| `SP_API_REGION` | Optional | Selling region: `na` (default), `eu`, or `fe`. Selects the regional SP-API host. |
+| `SP_API_BASE_URL` | Optional | Override the SP-API host outright (e.g. a mock server or proxy). Takes precedence over the region. |
+| `SP_API_OAUTH_URL` | Optional | Override the LWA token endpoint. Defaults to the standard Amazon OAuth URL. |
+
+> Without SP-API credentials you can still build, visualize, and validate workflows; only live execution (Task states that call SP-API) needs them.
+
+**Bedrock / Agent SDK** — power the agent chat. The agent runs on the Claude Agent SDK against Amazon Bedrock; `.env.json` forwards these keys to it. At minimum, set `CLAUDE_CODE_USE_BEDROCK` to `"1"`, an `AWS_REGION`, and one auth method (`AWS_BEARER_TOKEN_BEDROCK`, IAM keys, or `AWS_PROFILE`).
+
+> For the full list of Bedrock variables, authentication options, model pinning (`ANTHROPIC_DEFAULT_*_MODEL`), and IAM policy requirements, see [Claude Code on Amazon Bedrock](https://code.claude.com/docs/en/amazon-bedrock). Set any of those variables in `.env.json` and the agent picks them up. `CLAUDE_DEFAULT_MODEL` overrides the model the agent runs on.
+
+**MCP servers**
+
+| Key | Required | Meaning |
+|-----|----------|---------|
+| `AGENT_MCP_SERVERS` | For chat | Map of MCP servers the agent connects to. The `workflow` server is required for building/executing; `amazon-sp-api` is optional (endpoint discovery). Relative `args` paths resolve against `web/`. |
 
 > **Note:** `web/.env.json` is gitignored and should never be committed.
 
@@ -182,7 +219,7 @@ Browser        ┌────────────────────�
 | Script | Command | Description |
 |--------|---------|-------------|
 | `npm run setup` | `node setup.js` | Automated quickstart — clone deps, build, configure |
-| `npm run dev` | `node server/app.js & npx vite` | Development with hot-reload (backend :3001, frontend :5173) |
+| `npm run dev` | `node server/app.js & npx vite --port 5173` | Development with hot-reload (backend :3001, frontend :5173) |
 | `npm run dev:server` | `node server/app.js` | Start backend only |
 | `npm run dev:client` | `npx vite --port 5173` | Start frontend only (proxies API to :3001) |
 | `npm run build` | `npx vite build` | Build frontend for production |

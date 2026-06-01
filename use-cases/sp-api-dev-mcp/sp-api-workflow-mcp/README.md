@@ -2,8 +2,6 @@
 
 Build and execute Amazon SP-API workflows using natural language with any MCP-compatible AI assistant. Describe what you want — the AI discovers the right SP-API endpoints, builds the workflow step-by-step, and executes it when you're ready.
 
-> **Recommended:** Use alongside the [SP-API MCP Server](https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/sp-api-mcp-server), which gives your AI assistant live access to SP-API specs and documentation. Together, they enable accurate workflow building without manual API lookup.
-
 ## Quick Start
 
 ### Option A: Web UI (Recommended)
@@ -11,9 +9,9 @@ Build and execute Amazon SP-API workflows using natural language with any MCP-co
 The [Web UI](web/) provides a browser-based interface with agent chat, diagram visualization, and workflow execution. The setup script handles cloning dependencies, building, and configuration:
 
 ```bash
-git clone <repo-url> Sp-api-workflow-mcp
-cd Sp-api-workflow-mcp/web
-npm run setup    # clones sp-api-mcp, builds everything, prompts for credentials
+git clone https://github.com/amzn/selling-partner-api-samples.git
+cd selling-partner-api-samples/use-cases/sp-api-dev-mcp/sp-api-workflow-mcp/web
+npm run setup    # installs and builds everything, prompts for credentials
 npm start        # open http://localhost:3001
 ```
 
@@ -31,16 +29,9 @@ Use with any MCP-compatible client (Claude Desktop, Cursor, VS Code with MCP ext
 ### 1. Clone and Install
 
 ```bash
-git clone <repo-url> Sp-api-workflow-mcp
-cd Sp-api-workflow-mcp
-npm install
-```
-
-To also set up the SP-API MCP Server:
-```bash
 git clone https://github.com/amzn/selling-partner-api-samples.git
-cd selling-partner-api-samples/use-cases/sp-api-mcp-server
-npm install && npm run build
+cd selling-partner-api-samples/use-cases/sp-api-dev-mcp/sp-api-workflow-mcp
+npm install
 ```
 
 ### 2. Configure Your MCP Client
@@ -59,10 +50,6 @@ Add this server to your MCP client's configuration. The MCP server block looks t
         "SP_API_REFRESH_TOKEN": "Atzr|xxx",
         "SP_API_REGION": "na"
       }
-    },
-    "sp-api-mcp": {
-      "command": "node",
-      "args": ["/absolute/path/to/selling-partner-api-samples/use-cases/sp-api-mcp-server/index.js"]
     }
   }
 }
