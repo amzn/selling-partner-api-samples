@@ -23,7 +23,7 @@ Use with any MCP-compatible client (Claude Desktop, Cursor, VS Code with MCP ext
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 22+
 - Amazon SP-API credentials (Client ID, Secret, Refresh Token) — only needed for live SP-API calls
 
 ### 1. Clone and Install
