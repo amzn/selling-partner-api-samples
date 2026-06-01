@@ -12,7 +12,7 @@ A browser-based interface for building, visualizing, and executing SP-API workfl
 
 ### Automated Setup
 
-The setup script clones dependencies (sp-api-mcp-server, sp-api-models), builds everything, and generates `.env.json`:
+The setup script clones dependencies (sp-api-dev-assistant, sp-api-models), builds everything, and generates `.env.json`:
 
 ```bash
 cd web
@@ -54,7 +54,7 @@ On first launch, go to **Settings** and configure:
 1. **Web Authentication** — Username and password (optional — leave blank to disable)
 2. **SP-API credentials** — Client ID, Secret, Refresh Token, Region
 3. **Bedrock credentials** — AWS Region, Bearer Token or IAM credentials
-4. **MCP servers** — Paths to the workflow-mcp and sp-api-mcp server entry points
+4. **MCP servers** — The `workflow` server, plus the optional `sp-api-dev-assistant` server for endpoint discovery
 
 Alternatively, create a `web/.env.json` file:
 
@@ -71,12 +71,12 @@ Alternatively, create a `web/.env.json` file:
   "AWS_BEARER_TOKEN_BEDROCK": "your-token",
   "AGENT_MCP_SERVERS": {
     "workflow": { "command": "node", "args": ["../index.js"] },
-    "amazon-sp-api": { "command": "node", "args": ["/path/to/sp-api-mcp-server/build/index.js"] }
+    "sp-api-dev-assistant": { "command": "npx", "args": ["-y", "@amazon-sp-api-release/sp-api-dev-mcp", "sp-api-dev-assistant-mcp-server"] }
   }
 }
 ```
 
-> The `amazon-sp-api` MCP server is **optional** — it gives the agent live SP-API endpoint discovery during chat. Omit it to run with just the `workflow` server; workflow building and execution work without it. The automated setup configures it for you, but it is not required for manual setup.
+> The `sp-api-dev-assistant` MCP server is **optional** — it gives the agent live SP-API endpoint discovery during chat. When setting up manually, add the entry shown above: it runs the SP-API discovery tools from the [`@amazon-sp-api-release/sp-api-dev-mcp`](https://www.npmjs.com/package/@amazon-sp-api-release/sp-api-dev-mcp) npm package via `npx` (requires Node.js 20+ — no separate clone or build). Omit it to run with just the `workflow` server; workflow building and execution work without it.
 
 #### Variable reference
 
@@ -110,7 +110,7 @@ Every key read from `.env.json`. "Required" depends on which features you use �
 
 | Key | Required | Meaning |
 |-----|----------|---------|
-| `AGENT_MCP_SERVERS` | For chat | Map of MCP servers the agent connects to. The `workflow` server is required for building/executing; `amazon-sp-api` is optional (endpoint discovery). Relative `args` paths resolve against `web/`. |
+| `AGENT_MCP_SERVERS` | For chat | Map of MCP servers the agent connects to. The `workflow` server is required for building/executing; `sp-api-dev-assistant` is optional (endpoint discovery). Relative `args` paths resolve against `web/`. |
 
 > **Note:** `web/.env.json` is gitignored and should never be committed.
 
@@ -139,7 +139,7 @@ Set `PORT=80` to serve on port 80 (may require `sudo setcap 'cap_net_bind_servic
 
 ### Agent Chat
 
-Chat with a Claude agent to build workflows conversationally. The agent has access to the Workflow MCP tools (create workflow, add states, connect states, etc.) and the SP-API MCP for endpoint discovery.
+Chat with a Claude agent to build workflows conversationally. The agent has access to the Workflow MCP tools (create workflow, add states, connect states, etc.) and, when configured, the `sp-api-dev-assistant` server for endpoint discovery.
 
 - Type natural language requests in the chat panel
 - Watch the Mermaid diagram and schema update in real-time as the agent makes changes
@@ -200,8 +200,8 @@ Browser        ┌────────────────────�
                │                        │
                │  Agent Service         │
                │  └── Claude Agent SDK  │
-               │      ├── workflow-mcp  │
-               │      └── sp-api-mcp    │
+               │      ├── workflow      │
+               │      └── sp-api-dev-mcp│
                │                        │
                │  Shared Stores         │
                │  └── ../.data/         │
