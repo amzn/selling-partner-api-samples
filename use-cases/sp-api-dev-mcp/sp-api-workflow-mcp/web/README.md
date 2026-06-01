@@ -6,7 +6,7 @@ A browser-based interface for building, visualizing, and executing SP-API workfl
 
 ### Prerequisites
 
-- Node.js 22+
+- Node.js 20+
 - Amazon Bedrock access — required for the agent chat feature
 - Amazon SP-API credentials (Client ID, Secret, Refresh Token) — required to execute workflows against live endpoints
 
@@ -76,7 +76,7 @@ Alternatively, create a `web/.env.json` file:
 }
 ```
 
-> The `sp-api-dev-assistant` MCP server is **optional** — it gives the agent live SP-API endpoint discovery during chat. When setting up manually, add the entry shown above: it runs the SP-API discovery tools from the [`@amazon-sp-api-release/sp-api-dev-mcp`](https://www.npmjs.com/package/@amazon-sp-api-release/sp-api-dev-mcp) npm package via `npx` (no separate clone or build). Omit it to run with just the `workflow` server; workflow building and execution work without it.
+> The `sp-api-dev-assistant` MCP server is **optional** — it gives the agent live SP-API endpoint discovery during chat. When setting up manually, add the entry shown above: it runs the SP-API discovery tools from the [`@amazon-sp-api-release/sp-api-dev-mcp`](https://www.npmjs.com/package/@amazon-sp-api-release/sp-api-dev-mcp) npm package via `npx` (requires Node.js 20+ — no separate clone or build). Omit it to run with just the `workflow` server; workflow building and execution work without it.
 
 #### Variable reference
 

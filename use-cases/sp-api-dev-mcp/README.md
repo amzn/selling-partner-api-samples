@@ -9,7 +9,7 @@ A local MCP server for SP-API that bundles multiple developer tools into a singl
 
 ## Prerequisites
 
-- **Node.js >= 22** is required.
+- **Node.js >= 20** is required.
 
 ## Installation
 
