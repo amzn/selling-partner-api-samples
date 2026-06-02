@@ -1,0 +1,1863 @@
+{
+  "info": {
+    "_postman_id": "01d02ea7-80dd-4f59-8afe-b09982b5a897",
+    "name": "[ASPS 2026] Listings Integration Lab",
+    "description": "## 🎯 Welcome **Challenge Structure** 🧩\n\nEach challenge folder follows this format:\n\n1. 📖 **Background** — The story behind the scenario\n    \n2. 🚨 **What Happened** — Why it's a problem\n    \n3. 🎯 **Your Job** — Desired end state + step-by-step tasks\n    \n4. 🏆 **Takeaway** — Key lesson for production integrations\n    \n\n#### Table\n\n| Section | Description |\n| --- | --- |\n| 📖 Background | The Story — context about the system, seller, or integration scenarion |\n| 🚨 What Happened | Why it's a problem — the incident, error, or gap that triggered this challenge |\n| 🎯 Your Job 🏢 | The desired end state and step-by-step tasks to complete |\n| 🏆 Takeaway | Key takeaway for production integrations |\n\n---\n\n## 💡 Hint:\n\nUse hints when stuck — they nudge you toward the answer without giving it away.\n\n## 🔍 Observe:\n\n- Before diving into fixes, take time to **observe the situation**:\n    \n    - 📊 **Read the data** — Look at logs, error responses, and metrics provided\n        \n    - 🔗 **Trace the flow** — Follow the request/response chain end to end\n        \n    - 🧩 **Spot the pattern** — Is this a one-off failure or a recurring issue?\n        \n    - ❓ **Ask \"why\"** — Don't just fix the symptom; understand the root cause\n        \n\n---\n\n## 🚀 How to Approach Each Challenge\n\n1. **Read the Background** — Understand the full context before acting\n    \n2. **Identify the Problem** — Use the \"What Happened\" section to frame the issue\n    \n3. **Plan Your Fix** — Map out your approach before jumping into implementation\n    \n4. **Execute the Tasks** — Complete each step in \"Your Job\" sequentially\n    \n5. **Validate** — Confirm the desired end state is achieved\n    \n6. **Reflect on the Takeaway** — Connect it back to real-world production scenarios\n    \n\n---\n\n### **🧪 Mock Responses — No Credentials Needed**\n\nThis collection uses mock responses so you can complete all challenges without needing SP-API credentials, sandbox access, or seller account authorization. Simply send the requests and observe the responses as if you were interacting with the live API. Focus on learning the workflows, not on setup.\n\n### 💡 Documentation Reference:\n\n- [SP-API Postman Collection](https://www.postman.com/amazon-selling-partner-api/selling-partner-api)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "55287314"
+  },
+  "item": [
+    {
+      "name": "🏗️ Challenge 1 - The Smooth Listing Operator",
+      "item": [
+        {
+          "name": "🟢 Level 1 - Right Type, Right Start",
+          "item": [
+            {
+              "name": "Step 1: Observe The Current Listing",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "x-mock-response-name",
+                    "value": "Get Listings Item",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/:sku?marketplaceIds={{marketplace}}&issueLocale=en_US&includedData=issues,attributes,summaries",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    ":sku"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "{{marketplace}}"
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "en_US"
+                    },
+                    {
+                      "key": "includedData",
+                      "value": "issues,attributes,summaries"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "Alex-001"
+                    },
+                    {
+                      "key": "sku",
+                      "value": "LS-CHARM-BRC-SLV-001"
+                    }
+                  ]
+                },
+                "description": "No changes needed! Just make the call and observe 🌟\n\n🧐 Observe: What issues are there in the API response"
+              },
+              "response": []
+            },
+            {
+              "name": "Step 2: Find All Product Types",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{mock_url}}/definitions/2020-09-01/productTypes?marketplaceIds={{marketplace}}",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "definitions",
+                    "2020-09-01",
+                    "productTypes"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "{{marketplace}}",
+                      "description": "(Required) A comma-delimited list of Amazon marketplace identifiers for the request."
+                    },
+                    {
+                      "key": "keywords",
+                      "value": "",
+                      "description": "A comma-delimited list of keywords to search product types by.",
+                      "disabled": true
+                    },
+                    {
+                      "key": "itemName",
+                      "value": "",
+                      "description": "The title of the ASIN to get the product type recommendation. Note: Cannot be used with keywords.",
+                      "disabled": true
+                    },
+                    {
+                      "key": "locale",
+                      "value": "",
+                      "description": "The locale for the display names in the response. Defaults to the primary locale of the marketplace.",
+                      "disabled": true
+                    },
+                    {
+                      "key": "searchLocale",
+                      "value": "",
+                      "description": "The locale used for the keywords and itemName parameters. Defaults to the primary locale of the marketplace.",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "description": "No changes needed! Just make the call and observe the complexity of choosing from a large amount of product types 🌟"
+              },
+              "response": []
+            },
+            {
+              "name": "Step 3: Find Product Types More Efficiently",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{mock_url}}/definitions/2020-09-01/productTypes?marketplaceIds={{marketplace}}",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "definitions",
+                    "2020-09-01",
+                    "productTypes"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "{{marketplace}}",
+                      "description": "(Required) A comma-delimited list of Amazon marketplace identifiers for the request."
+                    },
+                    {
+                      "key": "keywords",
+                      "value": "",
+                      "description": "A comma-delimited list of keywords to search product types by.",
+                      "disabled": true
+                    },
+                    {
+                      "key": "itemName",
+                      "value": "",
+                      "description": "The title of the ASIN to get the product type recommendation. Note: Cannot be used with keywords.",
+                      "disabled": true
+                    },
+                    {
+                      "key": "locale",
+                      "value": "",
+                      "description": "The locale for the display names in the response. Defaults to the primary locale of the marketplace.",
+                      "disabled": true
+                    },
+                    {
+                      "key": "searchLocale",
+                      "value": "",
+                      "description": "The locale used for the keywords and itemName parameters. Defaults to the primary locale of the marketplace.",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "description": "💡 **Hint:** Use the product title and/or description from the instruction as itemName param when calling the searchProductTypeDefinitions endpoint.\n\n🔍 Observe: How does the recommended PT compare to \"ACCESSORY\"?\n\n### 📦 Alex's New Product\n\nHere is the product information for Alex's next listing. Use these details when calling the Product Type Recommender to find the correct product type:\n\n| Field | Value |\n| --- | --- |\n| **Product Title** | Gold Hair Claw Clip with Pearl Accents - Metal Hair Claw for Thick Hair, Elegant Updo Accessory |\n| **Product Description** | The VelvetPearl Gold Claw Clip elevates everyday hairstyles with genuine freshwater pearls set in an 18K gold-plated frame. The oversized 3.5-inch design accommodates thick and long hair while the reinforced spring hinge provides a secure hold without pulling or snagging. |"
+              },
+              "response": []
+            },
+            {
+              "name": "Step 4: Create New Product",
+              "protocolProfileBehavior": {
+                "disabledSystemHeaders": {}
+              },
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "x-mock-match-request-body",
+                    "value": "true"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"productType\": \"PROVIDE VALUE\",\n    \"attributes\": {\n        \"item_name\": [\n            {\n                \"value\": \"Gold Hair Claw Clip with Pearl Accents - Metal Hair Claw for Thick Hair, Elegant Updo Accessory\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"brand\": [\n            {\n                \"value\": \"GENERIC\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"bullet_point\": [\n            {\n                \"value\": \"18K GOLD PLATED - Zinc alloy base with durable gold plating that resists tarnishing and fading\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            },\n            {\n                \"value\": \"GENUINE FRESHWATER PEARLS - 8 hand-set 6mm freshwater pearls for timeless elegance\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            },\n            {\n                \"value\": \"STRONG GRIP - Spring-loaded hinge holds thick, curly, and long hair securely all day\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            },\n            {\n                \"value\": \"VERSATILE STYLING - Perfect for French twists, half-up styles, messy buns, and claw clip updos\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            },\n            {\n                \"value\": \"GIFT BOXED - Presented in a magnetic closure gift box, ideal for bridesmaids, Mother's Day, or birthdays\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"product_description\": [\n            {\n                \"value\": \"The VelvetPearl Gold Claw Clip elevates everyday hairstyles with genuine freshwater pearls set in an 18K gold-plated frame. The oversized 3.5-inch design accommodates thick and long hair while the reinforced spring hinge provides a secure hold without pulling or snagging.\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"manufacturer\": [\n            {\n                \"value\": \"VelvetPearl Accessories\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"color\": [\n            {\n                \"value\": \"Gold\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"material\": [\n            {\n                \"value\": \"Zinc Alloy, Freshwater Pearl\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"item_weight\": [\n            {\n                \"value\": 1.4,\n                \"unit\": \"ounces\"\n            }\n        ],\n        \"item_dimensions\": [\n            {\n                \"length\": {\n                    \"value\": 3.5,\n                    \"unit\": \"inches\"\n                },\n                \"width\": {\n                    \"value\": 2.0,\n                    \"unit\": \"inches\"\n                },\n                \"height\": {\n                    \"value\": 1.5,\n                    \"unit\": \"inches\"\n                }\n            }\n        ],\n        \"item_package_weight\": [\n            {\n                \"value\": 4.0,\n                \"unit\": \"ounces\"\n            }\n        ],\n        \"item_package_dimensions\": [\n            {\n                \"length\": {\n                    \"value\": 5.0,\n                    \"unit\": \"inches\"\n                },\n                \"width\": {\n                    \"value\": 4.0,\n                    \"unit\": \"inches\"\n                },\n                \"height\": {\n                    \"value\": 2.5,\n                    \"unit\": \"inches\"\n                }\n            }\n        ],\n        \"item_package_quantity\": [\n            {\n                \"value\": 1\n            }\n        ],\n        \"country_of_origin\": [\n            {\n                \"value\": \"CN\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"generic_keyword\": [\n            {\n                \"value\": \"gold hair claw clip pearl metal thick hair updo jewelry accessory wedding bridal\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"condition_type\": [\n            {\n                \"value\": \"new_new\"\n            }\n        ],\n        \"purchasable_offer\": [\n            {\n                \"currency\": \"USD\",\n                \"our_price\": [\n                    {\n                        \"schedule\": [\n                            {\n                                \"value_with_tax\": 24.99\n                            }\n                        ]\n                    }\n                ],\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"list_price\": [\n            {\n                \"value\": 34.99,\n                \"currency\": \"USD\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"supplier_declared_has_product_identifier_exemption\": [\n            {\n                \"value\": true,\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"age_range_description\": [\n            {\n                \"value\": \"Adult\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"import_designation\": [\n            {\n                \"value\": \"Imported\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"supplier_declared_dg_hz_regulation\": [\n            {\n                \"value\": \"not_applicable\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"item_type_keyword\": [\n            {\n                \"value\": \"hair-clips\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"model_name\": [\n            {\n                \"value\": \"VelvetPearl Gold Claw\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"department\": [\n            {\n                \"value\": \"womens\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"size\": [\n            {\n                \"value\": \"Large\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"fabric_type\": [\n            {\n                \"value\": \"Not Applicable\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"target_gender\": [\n            {\n                \"value\": \"Female\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"care_instructions\": [\n            {\n                \"value\": \"Wipe gently with soft dry cloth. Store in gift box when not in use. Avoid contact with perfume and hairspray.\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"batteries_required\": [\n            {\n                \"value\": false\n            }\n        ],\n        \"gem_type\": [\n            {\n                \"value\": \"Freshwater Pearl\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ],\n        \"metal_type\": [\n            {\n                \"value\": \"Gold Plated\",\n                \"language_tag\": \"en_US\",\n                \"marketplace_id\": \"ATVPDKIKX0DER\"\n            }\n        ]\n    },\n    \"requirements\": \"LISTING\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/:sku?marketplaceIds={{marketplace}}",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    ":sku"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "{{marketplace}}"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "Alex-001"
+                    },
+                    {
+                      "key": "sku",
+                      "value": "VP-CLAW-GLD-PRL-001"
+                    }
+                  ]
+                },
+                "description": "💡 **Hint:** Use the product type retrieved from step 3 in your request body"
+              },
+              "response": []
+            }
+          ],
+          "description": "## Level 🟢 100 — Product Type Recommender\n\n---\n\n## 📖 Background\n\nAlex owns a jewerly business just registered as a seller on Amazon, and is ready to list his first product — a handmade **bracelet**.  \nExcited to get started, he navigates through the listing creation process but quickly becomes overwhelmed by the sheer number of product types available. Unsure which one to pick, Alex chooses **\"ACCESSORY\"**. He submits his listing and moves on. But things start going wrong.\n\n---\n\n## 🚨 What Happened\n\n1. Alex submitted his listing using product type `ACCESSORY`\n    \n2. Because he chose `ACCESSORY`, the schema required him to provide attributes that seemed **completely irrelevant** to his bracelet — he filled them in anyway just to get pass validation\n    \n3. He received a **warning** that his product type was switched by Amazon's catalog system to a more appropriate type\n    \n4. His listing was **never successfully created**. It failed to create a new ASIN due to missing required information that only became mandatory after the switch\n    \n5. As a result, Alex never made any sales on Amazon for his product\n    \n\nVisual of the chain reaction:\n\n`Wrong PT selected → Irrelevant attributes required → PT switched by Amazon → New attributes now required → Missing info → Listing never created -> no sales`\n\n---\n\n## 🎯 Your Job\n\nAlex's first listing attempt failed — it was never successfully created. But he's about to submit **a new series of products** to expand his catalog and doesn't want to repeat the same mistake. Help him fix his workflow by using the **Product Type Definitions API** to identify the correct product type _before_ creating the listing — no more guessing, no more failures.\n\n---\n\n### 📦 Alex's New Product\n\nHere is the product information for Alex's next listing. Use these details when calling the Product Type Recommender to find the correct product type:\n\n| Field | Value |\n| --- | --- |\n| **Product Title** | Gold Hair Claw Clip with Pearl Accents - Metal Hair Claw for Thick Hair, Elegant Updo Accessory |\n| **Product Description** | The VelvetPearl Gold Claw Clip elevates everyday hairstyles with genuine freshwater pearls set in an 18K gold-plated frame. The oversized 3.5-inch design accommodates thick and long hair while the reinforced spring hinge provides a secure hold without pulling or snagging. |\n\n---\n\n### 🗺️ Steps Overview\n\nAs a Listings API expert, complete the following steps:\n\n1. 👀 **Step 1: Observe The Current Listing** — GET Listings Item to see what went wrong: warnings, missing attributes, unsuccessful listing.\n    \n2. 📚 **Step 2: Find All Product Types** — GET Product Type Definitions to see all available product types and understand the complexity.\n    \n3. 🎯 **Step 3: Find Product Types More Efficiently** — Build the better flow — use the Product Type Recommender with Alex's new product info to get the correct PT.\n    \n4. ✨ **Step 4: Create New Product** — Final submission PUT Listings Item with the correct product type.\n    \n\n---\n\n## 🏆 Takeaway\n\nThe Product Type Recommender is not just a convenience — it's a **safeguard**. Instead of letting merchants guess product types (risking warnings, automatic switches, and listing suppression), call the Recommender to programmatically select the correct type from the start.\n\n**Integrating it into your listing creation flow prevents downstream issues that are harder to debug and resolve after the fact.**\n\n---\n\n**Let's get started! Open Step 1 and send the request. →**"
+        },
+        {
+          "name": "🟡 Level 2 - The Selector Mystery",
+          "item": [
+            {
+              "name": "Step 1: Failed patch Listings Item",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"productType\": \"BRACELET\",\n    \"patches\": [\n        {\n            \"op\": \"delete\",\n            \"path\": \"/attributes/other_product_image_locator_1\"\n        },\n        {\n            \"op\": \"delete\",\n            \"path\": \"/attributes/metal_type\"\n        }\n    ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/:sku?marketplaceIds={{marketplace}}",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    ":sku"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "{{marketplace}}",
+                      "description": "(Required) A comma-delimited list of Amazon marketplace identifiers for the request."
+                    },
+                    {
+                      "key": "includedData",
+                      "value": "",
+                      "description": "A comma-delimited list of data sets to include in the response. Default: `issues`.",
+                      "disabled": true
+                    },
+                    {
+                      "key": "mode",
+                      "value": "",
+                      "description": "The mode of operation for the request.",
+                      "disabled": true
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "",
+                      "description": "A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: `en_US`, `fr_CA`, `fr_FR`. Localized messages default to `en_US` when a localization is not available in the specified locale.",
+                      "disabled": true
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "Alex-001",
+                      "description": "(Required) A selling partner identifier, such as a merchant account or vendor code."
+                    },
+                    {
+                      "key": "sku",
+                      "value": "LS-CHARM-BRC-SLV-001",
+                      "description": "(Required) A selling partner provided identifier for an Amazon listing."
+                    }
+                  ]
+                },
+                "description": "No changes needed! Just make the call and observe the error 🌟"
+              },
+              "response": []
+            },
+            {
+              "name": "Step 2: patch Listings Item",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "x-mock-match-request-body",
+                    "value": "true",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"productType\": \"BRACELET\",\n    \"patches\": [\n        {\n            \"op\": \"delete\",\n            \"path\": \"/attributes/other_product_image_locator_1\",\n            \"value\": [\n                {\n                    \"PROVIDE KEY\": \"APROVIDE VALUE\"\n                }\n            ]\n        },\n        {\n            \"op\": \"delete\",\n            \"path\": \"/attributes/metal_type\",\n            \"value\": [\n                {\n                    \"PROVIDE KEY\": \"APROVIDE VALUE\",\n                    \"PROVIDE KEY\": \"APROVIDE VALUE\"\n                }\n            ]\n        }\n    ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/:sku?marketplaceIds={{marketplace}}",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    ":sku"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "{{marketplace}}",
+                      "description": "(Required) A comma-delimited list of Amazon marketplace identifiers for the request."
+                    },
+                    {
+                      "key": "includedData",
+                      "value": "",
+                      "description": "A comma-delimited list of data sets to include in the response. Default: `issues`.",
+                      "disabled": true
+                    },
+                    {
+                      "key": "mode",
+                      "value": "",
+                      "description": "The mode of operation for the request.",
+                      "disabled": true
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "",
+                      "description": "A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: `en_US`, `fr_CA`, `fr_FR`. Localized messages default to `en_US` when a localization is not available in the specified locale.",
+                      "disabled": true
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "Alex-001",
+                      "description": "(Required) A selling partner identifier, such as a merchant account or vendor code."
+                    },
+                    {
+                      "key": "sku",
+                      "value": "LS-CHARM-BRC-SLV-001",
+                      "description": "(Required) A selling partner provided identifier for an Amazon listing."
+                    }
+                  ]
+                },
+                "description": "Find BRACELET product type JSON Schema here. [https://github.com/amzn/selling-partner-api-samples/blob/asps2026/labs/workshops/listing-integration-lab-2026/sample-data/BRACELET.json](https://github.com/amzn/selling-partner-api-samples/blob/asps2026/labs/workshops/listing-integration-lab-2026/sample-data/BRACELET.json)\n\n💡 **Hint:** Update the value needed to delete the attribute.\n\n🤫 Hint: Look for selector properties within the attribute definitions. The selector tells you which field acts as the identifier for entries.\n\n🤔 Still stuck? Check the `selector` key inside the attribute's schema — it names the field you must include."
+              },
+              "response": []
+            }
+          ],
+          "description": "## Level 🟡 200 — Understanding Selectors\n\n---\n\n## 📖 Background\n\nAlex's products are selling well! Business is growing and he's feeling more confident with the SP-API. Now he wants to **clean up his product data** and enhance his listings by removing outdated attribute values he provided in the past.\n\nThe documentation mentions something about \"selectors\" but he's not sure what they are or how they apply to his situation.\n\n---\n\n## 🚨 What Happened\n\nAlex tried to delete an attribute without understanding the selector concept:\n\n1. He sent a `PATCH` request trying to delete an attribute value from his listing\n    \n2. The API responded with an error saying he **needs to provide a value.**\n    \n3. Alex is confused — why does he need to provide a value when he's trying to _delete_ something?\n    \n4. He doesn't know whether he needs to provide the original value, a null value, or something else entirely\n    \n\nHe is stuck. `Delete attempt without selector → API requires value → Confusion → Blocked`\n\n---\n\n## 🎯 Your Job\n\nAlex has a failed `PATCH` request attempting to remove an attribute value - the API requires a selector value he didn't provide.\n\nHelp Alex understand the **selector concept** in the Product Type JSON schema, identify the correct selector value for the attribute he wants to delete, and successfully remove the unwanted data from his listing.\n\n---\n\n### 🗺️ Steps Overview\n\nAs a Listings API and JSON schema expert, complete the following steps:\n\n1. 🔍 **Step 1: Inspect failed Listing** **Item:** Send the `PATCH` request attempting to delete the attribute without a selector and observe the error response\n    \n2. ✨ **Step 2: PATCH Listings Item (with selector):**\n    \n    1. Inspect the JSON schema attached in the doc to find how selectors are defined for this attribute and determine the selector value is needed to target the specific attribute entry Alex wants to delete.\n        \n    2. Resubmit the request with the correct selector value and confirm the attribute is successfully deleted.\n        \n\n---\n\n## 🏆 Takeaway\n\n**Selectors** are a fundamental concept in the Listings API schema. They identify a specific entry within multi-value attributes - you must provide the selector value to target the exact entry you want to modify or delete.\n\n**Where to find selectors:**\n\n- Product Type JSON schema (via Product Type Definitions endpoint)\n    \n- Look for `selector` properties within attribute definitions\n    \n- The selector tells you _which field_ acts as the identifier for entries\n    \n\n**Common mistake:** Trying to delete or update without specifying the selector value - the API doesn't know which entry you're targeting.\n\n**Learn selectors once. Use them everywhere.**\n\n---\n\n**Let's get started! Open Step 1 and see what happens when Alex tries to delete without a selector. →**"
+        },
+        {
+          "name": "🔴 Level 3 - The Fulfillment Switch",
+          "item": [
+            {
+              "name": "Step 1: Observe The Current Listing (both FBA and MFN)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "x-mock-response-name",
+                    "value": "Step 1: Observe The Current Listing (both FBA and MFN)",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/:sku?marketplaceIds={{marketplace}}&issueLocale=en_US&includedData=attributes,fulfillmentAvailability",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    ":sku"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "{{marketplace}}"
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "en_US"
+                    },
+                    {
+                      "key": "includedData",
+                      "value": "attributes,fulfillmentAvailability"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "Alex-001"
+                    },
+                    {
+                      "key": "sku",
+                      "value": "LS-CHARM-BRC-SLV-001"
+                    }
+                  ]
+                },
+                "description": "No changes needed! Just make the call and observe 🌟\n\n🧐 Observe: How are the two fulfillment channels represented? What selector value identifies each one?"
+              },
+              "response": []
+            },
+            {
+              "name": "Step 2: Patch to update to delete FBA",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "x-mock-match-request-body",
+                    "value": "true",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"productType\": \"BRACELET\",\n    \"patches\": [\n        {\n            \"op\": \"delete\",\n            \"path\": \"/attributes/fulfillment_availability\",\n            \"value\": [\n                {\n                    \"PROVIDE VALUE\": \"PROVIDE VALUE\"\n                }\n            ]\n        }\n    ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{mock_url}}/:sellerId/:sku?marketplaceIds={{marketplace}}",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    ":sellerId",
+                    ":sku"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "{{marketplace}}"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "Alex-001"
+                    },
+                    {
+                      "key": "sku",
+                      "value": "LS-CHARM-BRC-SLV-001"
+                    }
+                  ]
+                },
+                "description": "💡 Hint: What operation + selector combination removes a specific fulfillment channel?"
+              },
+              "response": []
+            },
+            {
+              "name": "Step 3: Observe The Current Listing (only MFN)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "x-mock-response-name",
+                    "value": "Step 3: Observe The Current Listing (only MFN)",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/:sku?marketplaceIds={{marketplace}}&issueLocale=en_US&includedData=attributes,fulfillmentAvailability",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    ":sku"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "{{marketplace}}"
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "en_US"
+                    },
+                    {
+                      "key": "includedData",
+                      "value": "attributes,fulfillmentAvailability"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "Alex-001"
+                    },
+                    {
+                      "key": "sku",
+                      "value": "LS-CHARM-BRC-SLV-001"
+                    }
+                  ]
+                },
+                "description": "No changes needed! Just make the call and observe 🌟\n\n🔍 Observe: Confirm FBA is gone and MFN is the sole fulfillment channel."
+              },
+              "response": []
+            },
+            {
+              "name": "Step 4: Delete MFN and add FBA quantity",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "x-mock-match-request-body",
+                    "value": "true",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": " {\n    \"productType\": \"BRACELET\",\n    \"patches\": [\n      {\n        \"op\": \"\",\n        \"path\": \"/attributes/fulfillment_availability\",\n        \"value\": [\n          {\n            \"fulfillment_channel_code\": \"\"\n          }\n        ]\n      },\n      {\n        \"op\": \"\",\n        \"path\": \"/attributes/fulfillment_availability\",\n        \"value\": [\n          {\n            \"fulfillment_channel_code\": \"\"\n          }\n        ]\n      }\n    ]\n  }",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{mock_url}}/:sellerId/:sku?marketplaceIds={{marketplace}}",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    ":sellerId",
+                    ":sku"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "{{marketplace}}"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "Alex-001"
+                    },
+                    {
+                      "key": "sku",
+                      "value": "LS-CHARM-BRC-SLV-001"
+                    }
+                  ]
+                },
+                "description": "💡 Hint: You can combine multiple operations (delete + add) in one PATCH request."
+              },
+              "response": []
+            },
+            {
+              "name": "Step 5: Observe The Current Listing (only FBA)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "x-mock-response-name",
+                    "value": "Step 5: Observe The Current Listing (only FBA)",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/:sku?marketplaceIds={{marketplace}}&issueLocale=en_US&includedData=attributes,fulfillmentAvailability",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    ":sku"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "{{marketplace}}"
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "en_US"
+                    },
+                    {
+                      "key": "includedData",
+                      "value": "attributes,fulfillmentAvailability"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "Alex-001"
+                    },
+                    {
+                      "key": "sku",
+                      "value": "LS-CHARM-BRC-SLV-001"
+                    }
+                  ]
+                },
+                "description": "No changes needed! Just make the call and observe 🌟"
+              },
+              "response": []
+            }
+          ],
+          "description": "## Level 🔴 300 — Fulfillment Availability & Selector Operations\n\n---\n\n## 📖 Background\n\nAlex's jewelry business is booming! Sales are growing fast and he's decided to onboard to **Fulfillment by Amazon (FBA)** to scale his operations. No more packing boxes in his garage — Amazon will handle storage, packing, and shipping.\n\nBut Alex has a plan: he wants to **sell out his remaining MFN inventory first**, then switch fully to FBA. Sounds straightforward — but the Listings API has a few surprises in store.\n\n---\n\n## 🚨 What Happened\n\nAlex submitted a `replace` request with only MFN in the `fulfillment_availability` attribute, expecting it to have only MFN remain.\n\nBut orders keep coming in via FBA.\n\n- He checked his listing — **both MFN and FBA are active.**\n    \n- The `replace` didn't remove FBA\n    \n- Alex can not sell out his MFN inventory.\n    \n\n---\n\n**Alex didn't understand** how **selectors** apply to `fulfillment_availability`**:**\n\neach fulfillment channel is identified by a selector (`fulfillment_channel_code`), and managing them requires explicit `PATCH` operations with the correct selector — you can't simply overwrite one with another using `replace`.\n\n---\n\n## 🎯 Your Job\n\n🥅 Help Alex use `PATCH` operations with the correct **selector values** to precisely manage his fulfillment channels — removing and adding them individually to execute his inventory transition plan cleanly.\n\n1. Remove FBA temporarily so he can sell out remaining MFN inventory\n    \n2. Once MFN inventory is cleared, switch fully to FBA\n    \n\n---\n\n### 🗺️ Steps Overview\n\nAs a Listings API and fulfillment expert, complete the following steps:\n\n1. 🔎 **Step 1: GET Listings Item:** Inspect the current listing to observe the dual MFN + FBA state.\n    \n2. ✨ **Step 2: PATCH Listings Item (delete FBA):** Remove FBA using the correct selector so only MFN remains while inventory sells out.\n    \n3. 🔎 **Step 3: GET Listings Item:** Verify only MFN remains active.\n    \n4. ✨ **Step 4: PATCH Listings Item (delete MFN + add FBA):** Switch fully to FBA by removing MFN and adding FBA in a single PATCH.\n    \n5. 🔎 **Step 5: GET Listings Item:** Verify only FBA remains and the transition is complete.\n    \n\n---\n\n### 🎉 **Win Condition**\n\nOnce you complete all the steps, you’ve helped Alex to switch fulfillment channel smoothly. There are 2 secret codes in this level. Find both and send your secret code \\[secret1 + secret2\\] to **Pigeonhole**!\n\n---\n\n## 🏆 Takeaway\n\nUnderstanding how **selectors** work with `fulfillment_availability` is critical for building a robust fulfillment management flow.\n\n**Fulfillment Availability Selectors:**\n\n- `fulfillment_channel_code` is the selector key for `fulfillment_availability`\n    \n- `DEFAULT` = MFN (Merchant Fulfilled Network)\n    \n- `AMAZON_NA` = FBA (Fulfillment by Amazon)\n    \n\n**PATCH Operations with Selectors:**\n\n- `delete` + selector → removes a specific fulfillment channel\n    \n- `add` + selector → adds a new fulfillment channel entry\n    \n\n**Why replace didn't work as expected:** `replace` for nested attributes with selectors doesn't automatically remove existing entries not included in the payload. You need explicit `delete` operations via `PATCH` to remove _**specific selector entry.**_\n\n**Story 2 → Story 3 Connection:**  \nThe selector concept you learned in Story 2 is now applied to a real fulfillment management scenario. Same concept, higher stakes.\n\n**Master selector-based PATCH operations. Build reliable fulfillment switching. Avoid fulfillment nightmares.**\n\n---\n\n**Let's get started! Open Step 1 and inspect Alex's dual-fulfillment listing. →**"
+        }
+      ],
+      "description": "## Welcome to the smooth listing operator challenge! 🎯\n\nThis collection is a progressive challenge series designed to help you master the **Amazon SP-API Listings** workflows — from creating your first listing to managing complex inventory fulfillment scenarios.\n\nThis series showcases both **new and existing features** that are critical to building an efficient listing workflow.\n\n---\n\n## Meet Alex 👤\n\nAlex is a home run jewerly business owner who just registered as a seller on Amazon eager to grow his business. Throughout this challenge series, you'll follow Alex's journey as he encounters real-world listing and inventory management problems — and help him solve them using SP-API best practices.\n\n---\n\n## Challenge Overview 📖\n\n| Challenge | Topic | Level | Summary |\n| --- | --- | --- | --- |\n| Level 1 | Right Type, Right Start | 🟢 100 | Alex picks the wrong product type and faces listing blocker. Learn how using the PT Recommender feature prevents this. |\n| Level 2 | The Selector Mystery | 🟡 200 | Alex tries to delete attribute data but gets errors. Learn how selectors work using the Product Type JSON schema. |\n| Level 3 | The Fulfillment Switch | 🔴 300 | Alex onboards to FBA but can't switch away from MFN. Master selector-based PATCH operations for fulfillment management. |\n\n## Ready? Let's help Alex build a thriving Amazon business — the right way! 🚀",
+      "auth": {
+        "type": "noauth"
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "🌍 Challenge 2 - International Pricing Expert",
+      "item": [
+        {
+          "name": "🟢 Level  1 - Scale Without Limits 🚀",
+          "item": [
+            {
+              "name": "Step 1: PATCH Multi-Marketplace Prices",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "x-mock-match-request-body",
+                    "value": "true",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"productType\": \"PRODUCT\",\n    \"patches\": [\n        {\n            \"op\": \"replace\",\n            \"path\": \"/attributes/purchasable_offer\",\n            \"value\": [\n                {\n                    \"marketplace_id\": \"PROVIDE Marketplace ID UK\",\n                    \"currency\": \"PROVIDE VALUE\",\n                    \"audience\": \"ALL\",\n                    \"our_price\": [\n                        {\n                            \"schedule\": [\n                                {\n                                    \"value_with_tax\": 10.00\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"marketplace_id\": \"PROVIDE Marketplace ID DE\",\n                    \"currency\": \"EUR\",\n                    \"audience\": \"ALL\",\n                    \"our_price\": [\n                        {\n                            \"schedule\": [\n                                {\n                                    \"value_with_tax\": 10.00\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"marketplace_id\": \"A13V1IB3VIYZZH\",\n                    \"currency\": \"EUR\",\n                    \"audience\": \"ALL\",\n                    \"our_price\": [\n                        {\n                            \"schedule\": [\n                                {\n                                    \"value_with_tax\": 10.00\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"marketplace_id\": \"A1805IZSGTT6HS\",\n                    \"currency\": \"EUR\",\n                    \"audience\": \"ALL\",\n                    \"our_price\": [\n                        {\n                            \"schedule\": [\n                                {\n                                    \"value_with_tax\": 10.00\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"marketplace_id\": \"APJ6JRA9NG5V4\",\n                    \"currency\": \"PROVIDE VALUE\",\n                    \"audience\": \"ALL\",\n                    \"our_price\": [\n                        {\n                            \"schedule\": [\n                                {\n                                    \"value_with_tax\": 10.00\n                                }\n                            ]\n                        }\n                    ]\n                }\n            ]\n        }\n    ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/MM-PRICING-GLOBAL?marketplaceIds=A1F83G8C2ARO7P, A1PA6795UKMFR9, A13V1IB3VIYZZH, A1805IZSGTT6HS, APJ6JRA9NG5V4",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    "MM-PRICING-GLOBAL"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "A1F83G8C2ARO7P, A1PA6795UKMFR9, A13V1IB3VIYZZH, A1805IZSGTT6HS, APJ6JRA9NG5V4",
+                      "description": "(Required) A comma-delimited list of Amazon marketplace identifiers for the request."
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "TEST123"
+                    }
+                  ]
+                },
+                "description": "1. 💡 **Hint**: How will the request payload change compared to the old way of sending individual PATCH requests?\n    \n2. 🧐 **Observe**: Does it matter what you pass for the `currency` and `audience` attributes?\n    \n3. **🤔** _Still not getting the right response!!?_ Did you check if request URL matches the marketplaces?"
+              },
+              "response": []
+            },
+            {
+              "name": "Step 2: GET Listing to Verify Prices (IT)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/MM-PRICING-GLOBAL?marketplaceIds=APJ6JRA9NG5V4&includedData=issues,attributes,summaries&issueLocale=en_US",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    "MM-PRICING-GLOBAL"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "APJ6JRA9NG5V4",
+                      "description": "(Required) A comma-delimited list of Amazon marketplace identifiers for the request."
+                    },
+                    {
+                      "key": "includedData",
+                      "value": "issues,attributes,summaries",
+                      "description": "A comma-delimited list of data sets to include in the response. Default: summaries."
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "en_US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "TEST123"
+                    }
+                  ]
+                },
+                "description": "No changes needed! Just make the call and observe 🌟"
+              },
+              "response": []
+            },
+            {
+              "name": "Step 3: GET Listing to Verify Prices (UK)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/MM-PRICING-GLOBAL?marketplaceIds=A1F83G8C2ARO7P&includedData=issues,attributes,summaries&issueLocale=en_US",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    "MM-PRICING-GLOBAL"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "A1F83G8C2ARO7P",
+                      "description": "(Required) A comma-delimited list of Amazon marketplace identifiers for the request."
+                    },
+                    {
+                      "key": "includedData",
+                      "value": "issues,attributes,summaries",
+                      "description": "A comma-delimited list of data sets to include in the response. Default: summaries."
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "en_US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "TEST123"
+                    }
+                  ]
+                },
+                "description": "No changes needed! Just make the call and observe 🌟"
+              },
+              "response": []
+            }
+          ],
+          "description": "## 📖 **Background**\n\nIt's Monday morning. Sofia's sellers are losing the Buy Box.\n\nHer integration works — requests go out, responses come back — but prices across five EU marketplaces (UK, Germany, France, Netherlands, Italy) land at different times. A customer in Germany sees €24.99 while France shows €27.99.\n\n**Root cause:** Sofia makes 5 separate PATCH calls per marketplace across 5,000 SKUs = 20,000 API calls per pricing cycle. With `x-amzn-RateLimit-Limit: 5`, she burns through quota before half the SKUs update.\n\nShe tried **JSON_LISTINGS_FEED** to reduce volume. It helped with throttles but introduced a new problem: **rate limits are shared in a region and only one request per marketplace can be submitted**. Updating five marketplaces now takes hours — not the simultaneous update her sellers need.\n\n---\n\n### 🚨 What Happened\n\nSofia's integration is architecturally correct for a single marketplace. It just doesn't scale across five.\n\n- 5 PATCH calls × 5,000 SKUs = 20,000 API calls per cycle — rate limits hit before completion\n    \n- Prices land at different times, creating inconsistency windows across marketplaces\n    \n- **`JSON_LISTINGS_FEED`** **doesn't help** — one submission per marketplace means a sequential queuing, not simultaneous updates\n    \n- **Sellers lose the Buy Box** in whichever marketplace updates last\n    \n\n**What Sofia didn't know:** Multi-marketplace PATCH updates all five marketplaces in a single API call. Same endpoint, similar payload — 75% fewer calls, minimal inconsistency window.\n\n---\n\n## 🎯 Your Job\n\nHelp Sofia update prices across EU marketplaces simultaneously without hitting rate limits. As a Listings API expert, work through the steps in order. Each one builds on the last:\n\n### 🗺️ Steps Overview\n\n1. ✨ **Step 1: PATCH Multi-Marketplace Prices:** Update the price to 10.00 for 5 marketplaces - **UK, Germany, France, Netherlands, Italy** in a single PATCH call.\n    \n2. ✅ **Step 2: GET Listing to Verify Prices (IT)**: GET Listings for **Italy marketplace** to verify the price update. Observe any issues.\n    \n3. ✅ **Step 3: GET Listing to Verify Prices (UK)**: GET Listings for **UK marketplace** to verify the price update. Observe any issues.\n    \n\n---\n\n## 🏆 Takeaway\n\nMulti-marketplace PATCH delivers one request covering all marketplaces — prices update simultaneously with no throttle storms. Particularly helpful during peak season for faster price changes.\n\n- If a seller operates across all 15 EU marketplaces, this reduces 15 submissions to one\n    \n- Instead of scaling API calls linearly with marketplace count, batch all updates into one request\n    \n- **Result:** 75% fewer calls. Zero inconsistency windows. No throttle storms.\n    \n\n---\n\n**Next:** Level 2 — The Flash Sale ⚡ uses the same pattern for promotions, with extra requirements that aren't obvious until something goes wrong.\n\nLet's get started! Open Step 1 and send the request.\n\n#### 💡 Documentation Reference:\n\n- [Multi-Marketplace PATCH Listings](https://developer-docs.amazon.com/sp-api/docs/update-price-for-multiple-marketplace)\n    \n- [SP-API Marketplaces](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids)"
+        },
+        {
+          "name": "🟡 Level 2 - The Flash Sale ⚡",
+          "item": [
+            {
+              "name": "Step 1: PATCH Discount Prices (DE + NL + PL)",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "x-mock-match-request-body",
+                    "value": "true",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"productType\": \"PRODUCT\",\n    \"patches\": [\n        {\n            \"op\": \"replace\",\n            \"path\": \"/attributes/purchasable_offer\",\n            \"value\": [\n                {\n                    \"marketplace_id\": \"A1PA6795UKMFR9\",\n                    \"currency\": \"EUR\",\n                    \"audience\": \"ALL\",\n                    \"discounted_price\": [\n                        {\n                            \"schedule\": [\n                                {\n                                    //complete the request\n                                    \"value_with_tax\": 8.0\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"marketplace_id\": \"A1805IZSGTT6HS\",\n                    \"currency\": \"EUR\",\n                    \"audience\": \"ALL\",\n                    \"discounted_price\": [\n                        {\n                            \"schedule\": [\n                                {\n                                    //complete the request\n                                    \"value_with_tax\": 100.0\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"marketplace_id\": \"A1C3SOZRARQ6R3\",\n                    \"currency\": \"PROVIDE VALUE\",\n                    \"audience\": \"ALL\",\n                    \"discounted_price\": [\n                        {\n                            \"schedule\": [\n                                {\n                                    //complete the request\n                                    \"value_with_tax\": 7.0\n                                }\n                            ]\n                        }\n                    ]\n                }\n            ]\n        }\n    ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/MM-DISCOUNT-GLOBAL?marketplaceIds=A1PA6795UKMFR9, A1805IZSGTT6HS, A1C3SOZRARQ6R3",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    "MM-DISCOUNT-GLOBAL"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "A1PA6795UKMFR9, A1805IZSGTT6HS, A1C3SOZRARQ6R3",
+                      "description": "(Required) A comma-delimited list of Amazon marketplace identifiers for the request."
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "TEST123"
+                    }
+                  ]
+                },
+                "description": "1. 🧐 Observe: The API will return ACCEPTED. What's missing from this request?\n    \n2. 🤫 **Hints!!**\n    \n    1. Is **discount amount set correctly for all marketplaces**? Check the current our_price baseline before setting discounts. DE and NL should have same discount amount.\n        \n    2. Does the **promotion price** have the right schedule to activate the promotion?\n        \n    3. Still not sure!!? **🤔** - did you check the `currency` and `audience?`"
+              },
+              "response": []
+            },
+            {
+              "name": "Step 2a: Verify Promotion Status (DE)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "x-mock-response-name",
+                    "value": "Verify Promotion DE",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/MM-DISCOUNT-GLOBAL?marketplaceIds=A1PA6795UKMFR9&includedData=issues,attributes,summaries&issueLocale=en_US",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    "MM-DISCOUNT-GLOBAL"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "A1PA6795UKMFR9",
+                      "description": "(Required) A comma-delimited list of Amazon marketplace identifiers for the request."
+                    },
+                    {
+                      "key": "includedData",
+                      "value": "issues,attributes,summaries",
+                      "description": "A comma-delimited list of data sets to include in the response. Default: summaries."
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "en_US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "TEST123"
+                    }
+                  ]
+                },
+                "description": "No changes needed! Just make the call and observe 🌟\n\n🔍 Observe the listing's `status` and `discount_price,` everything looks good!?"
+              },
+              "response": []
+            },
+            {
+              "name": "Step 2b: Verify Promotion Status (PL)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "x-mock-response-name",
+                    "value": "Verify Promotion PL",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/MM-DISCOUNT-GLOBAL?marketplaceIds=A1C3SOZRARQ6R3&includedData=issues,attributes,summaries&issueLocale=en_US",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    "MM-DISCOUNT-GLOBAL"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "A1C3SOZRARQ6R3",
+                      "description": "(Required) A comma-delimited list of Amazon marketplace identifiers for the request."
+                    },
+                    {
+                      "key": "includedData",
+                      "value": "issues,attributes,summaries",
+                      "description": "A comma-delimited list of data sets to include in the response. Default: summaries."
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "en_US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "TEST123"
+                    }
+                  ]
+                },
+                "description": "No changes needed! Just make the call and observe 🌟\n\n🔍 Observe the listing's `status` and `discount_price,` everything looks good!?"
+              },
+              "response": []
+            }
+          ],
+          "description": "## 📖 **Background**\n\nLevel 1 fixed Sofia's throttle problem. The Magic Cube Tissue Box is now selling steadily across UK, Germany (DE), France (FR), Netherlands (NL), Italy (IT) at regular prices and the seller wants to push harder. The seller wants Sofia to run a **2-week flash promotion**: marketplace-specific discounts in Germany, Netherlands, and a promotional price in Poland (PL) — deeper cuts in newer markets like Poland to build momentum.\n\nSofia already knows multi-marketplace PATCH. Should be a quick win. But things go wrong.\n\n---\n\n### 🚨 What Happened\n\n1. Sofia sent a **multi-marketplace** **`PATCH`** to set `discounted_price` across DE, NL, and PL. API returns ACCEPTED. She told the seller the promotion was live.\n    \n2. The seller checked his storefronts - sale price was only applied to **DE.** He told Sofia the flash sale isn't active on two marketplaces - NL and PL.\n    \n3. Over the next hour, Sofia discovers three separate problems, each silent or cryptic.\n    \n\n---\n\n## Your Job 🏢\n\nHelp Sofia set **marketplace-specific promotional prices** correctly across all 3 EU marketplaces and verify that the discounted prices are actually active. Work through the steps in order. Each one fixes something the previous step left broken.\n\n### 🗺️ Steps Overview\n\n1. ✨**Step 1: PATCH Discount Prices (DE + NL + PL):** Send a multi-marketplace PATCH request to add discount prices for all 3 marketplaces with marketplace-specific amounts. Set the correct discount and path. Include **start_at** as `2026-06-04` and **end_at** as `2026-06-18` to activate the two-weeks promotion.\n    \n2. 🔍**Step 2a: Verify Promotion Status (DE):** Retrieve the listing for the Germany store to check the promotion status.\n    \n3. 🔍**Step 2b: Verify Promotion Status (PL):** Retrieve the listing for the Poland store to check the promotion status.\n    \n\n## 🏆 Takeaway\n\n**Multi-marketplace promotional pricing** has three requirements that must ALL be met:\n\n1. `discounted_price` must be lower than `our_price` for each marketplace.\n    \n2. Currency must match the marketplace (DE/NL = EUR, PL = PLN)\n    \n3. A valid `schedule` with `start_at` and `end_at` must be included - without it, the promotion **never activates**.\n    \n\nGet any one wrong and the result ranges from a **hard error to a silent failure**. Verify after every submission. Build **schedule validation and post-submission verification** into your pricing workflow. Use `getListingsItem` or LISTINGS notifications to ensure listings are active and error-free.\n\n---\n\n## ➡️ Heading into Level 3\n\nSofia's promotion ran successfully across all three marketplaces. When the seller asked her to turn it off, she updated regular price and called it done. But the discount kept running anyway and it took a few days for anyone to notice."
+        },
+        {
+          "name": "🔴 Level 3 - The Promotion That Wouldn't Die 🧟",
+          "item": [
+            {
+              "name": "Step 1: Audit Current Listing (DE)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "x-mock-response-name",
+                    "value": "Audit DE Listing",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/MM-DISCOUNT-GLOBAL?marketplaceIds=A1PA6795UKMFR9&includedData=issues,attributes,summaries&issueLocale=en_US",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    "MM-DISCOUNT-GLOBAL"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "A1PA6795UKMFR9",
+                      "description": "(Required) A comma-delimited list of Amazon marketplace identifiers for the request."
+                    },
+                    {
+                      "key": "includedData",
+                      "value": "issues,attributes,summaries",
+                      "description": "A comma-delimited list of data sets to include in the response. Default: summaries."
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "en_US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "TEST123"
+                    }
+                  ]
+                },
+                "description": "No changes needed! Just make the call and observe 🌟\n\n🧐 Observe: Do you see both `our_price` and `discounted_price`? Which one is driving the customer's purchase price right now?"
+              },
+              "response": []
+            },
+            {
+              "name": "Step 2: Remove Discount Prices (op: \"replace\")",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "x-mock-match-request-body",
+                    "value": "true",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"productType\": \"PRODUCT\",\n    \"patches\": [\n        {\n            \"op\": \"PROVIDE VALUE\",\n            \"path\": \"/attributes/purchasable_offer\",\n            \"value\": [\n                {\n                    \"marketplace_id\": \"A1PA6795UKMFR9\",\n                    \"currency\": \"EUR\",\n                    \"audience\": \"ALL\",\n                    \"discounted_price\": null\n                },\n                {\n                    \"marketplace_id\": \"A1805IZSGTT6HS\",\n                    \"currency\": \"EUR\",\n                    \"audience\": \"ALL\",\n                    \"discounted_price\": null\n                },\n                {\n                    \"marketplace_id\": \"A1C3SOZRARQ6R3\",\n                    \"currency\": \"EUR\",\n                    \"audience\": \"ALL\",\n                    \"discounted_price\": null\n                }\n            ]\n        }\n    ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/MM-DISCOUNT-GLOBAL?marketplaceIds=A1PA6795UKMFR9, A1805IZSGTT6HS, A1C3SOZRARQ6R3&issueLocale=en_US",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    "MM-DISCOUNT-GLOBAL"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "A1PA6795UKMFR9, A1805IZSGTT6HS, A1C3SOZRARQ6R3",
+                      "description": "(Required) A comma-delimited list of Amazon marketplace identifiers for the request."
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "en_US",
+                      "description": "A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \"en_US\", \"fr_CA\", \"fr_FR\". Localized messages default to \"en_US\" when a localization is not available in the specified locale."
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "TEST123"
+                    }
+                  ]
+                },
+                "description": "🤫 Hint: Why can't you delete sub-attributes this way? See why setting `discounted_price` to null doesn't remove it using replace operation type."
+              },
+              "response": []
+            },
+            {
+              "name": "Step 3: Inspect Discount Still Active",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "x-mock-response-name",
+                    "value": "Audit DE Listing again",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/MM-DISCOUNT-GLOBAL?marketplaceIds=A1PA6795UKMFR9&includedData=issues,attributes,summaries&issueLocale=en_US",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    "MM-DISCOUNT-GLOBAL"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "A1PA6795UKMFR9",
+                      "description": "(Required) A comma-delimited list of Amazon marketplace identifiers for the request."
+                    },
+                    {
+                      "key": "includedData",
+                      "value": "issues,attributes,summaries",
+                      "description": "A comma-delimited list of data sets to include in the response. Default: summaries."
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "en_US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "TEST123"
+                    }
+                  ]
+                },
+                "description": "No changes needed! Just make the call and observe 🌟\n\n`discounted_price` still exists!!? Why?\n\n🤫 Hint: What did we learn in the first challenge about selectors?"
+              },
+              "response": []
+            },
+            {
+              "name": "Step 4: PATCH Listings Item (op: \"delete\")",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"productType\": \"PRODUCT\",\n    \"patches\": [\n        {\n            \"op\": \"PROVIDE VALUE\",\n            \"path\": \"/attributes/purchasable_offer\",\n            \"value\": [\n                {\n                    \"marketplace_id\": \"A1PA6795UKMFR9\",\n                    \"currency\": \"EUR\",\n                    \"audience\": \"ALL\",\n                    \"discounted_price\": [\n                        {\n                            \"schedule\": [\n                                {\n                                    \"start_at\": \"2026-06-04\",\n                                    \"end_at\": \"2026-06-18\",\n                                    \"value_with_tax\": 8.0\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"marketplace_id\": \"A1805IZSGTT6HS\",\n                    \"currency\": \"EUR\",\n                    \"audience\": \"ALL\",\n                    \"discounted_price\": [\n                        {\n                            \"schedule\": [\n                                {\n                                    \"start_at\": \"2026-06-04\",\n                                    \"end_at\": \"2026-06-18\",\n                                    \"value_with_tax\": 8.0\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"marketplace_id\": \"A1C3SOZRARQ6R3\",\n                    \"currency\": \"EUR\",\n                    \"audience\": \"ALL\",\n                    \"discounted_price\": [\n                        {\n                            \"schedule\": [\n                                {\n                                    \"start_at\": \"2026-06-04\",\n                                    \"end_at\": \"2026-06-18\",\n                                    \"value_with_tax\": 7.0\n                                }\n                            ]\n                        }\n                    ]\n                }\n            ]\n        }\n    ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/MM-DISCOUNT-GLOBAL?marketplaceIds=A1PA6795UKMFR9, A1805IZSGTT6HS, A1C3SOZRARQ6R3&issueLocale=en_US",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    "MM-DISCOUNT-GLOBAL"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "A1PA6795UKMFR9, A1805IZSGTT6HS, A1C3SOZRARQ6R3",
+                      "description": "(Required) A comma-delimited list of Amazon marketplace identifiers for the request."
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "en_US",
+                      "description": "A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \"en_US\", \"fr_CA\", \"fr_FR\". Localized messages default to \"en_US\" when a localization is not available in the specified locale."
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "TEST123"
+                    }
+                  ]
+                },
+                "description": "⚠️ **Careful - this operation is destructive. It removes the entire** **`purchasable_offer`** **attribute, not just the discount.**"
+              },
+              "response": []
+            },
+            {
+              "name": "Step 5: Inspect Listings Item - update",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "x-mock-response-name",
+                    "value": "NO Price Attribute",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/MM-DISCOUNT-GLOBAL?marketplaceIds=A1PA6795UKMFR9&includedData=issues,attributes,summaries&issueLocale=en_US",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    "MM-DISCOUNT-GLOBAL"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "A1PA6795UKMFR9",
+                      "description": "(Required) A comma-delimited list of Amazon marketplace identifiers for the request."
+                    },
+                    {
+                      "key": "includedData",
+                      "value": "issues,attributes,summaries",
+                      "description": "A comma-delimited list of data sets to include in the response. Default: summaries."
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "en_US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "TEST123"
+                    }
+                  ]
+                },
+                "description": "No changes needed! Just make the call and observe 🌟\n\n😱\n\n**`Delete`** **operation type removes the entire** **`purchasable_offer`** **attribute, not just the discounts.**"
+              },
+              "response": []
+            },
+            {
+              "name": "[Final Fix] Step 6: PATCH Listings Item",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"productType\": \"PRODUCT\",\n    \"patches\": [\n        {\n            \"op\": \"PROVIDE VALUE\",\n            \"path\": \"/attributes/purchasable_offer\",\n            \"value\": [\n                {\n                    \"marketplace_id\": \"A1PA6795UKMFR9\",\n                    \"currency\": \"EUR\",\n                    \"audience\": \"ALL\",\n                    \"discounted_price\": null\n                },\n                {\n                    \"marketplace_id\": \"A1805IZSGTT6HS\",\n                    \"currency\": \"EUR\",\n                    \"audience\": \"ALL\",\n                    \"discounted_price\": null\n                },\n                {\n                    \"marketplace_id\": \"A1C3SOZRARQ6R3\",\n                    \"currency\": \"EUR\",\n                    \"audience\": \"ALL\",\n                    \"discounted_price\": null\n                }\n            ]\n        }\n    ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/MM-DISCOUNT-GLOBAL?marketplaceIds=A1PA6795UKMFR9, A1805IZSGTT6HS, A1C3SOZRARQ6R3&issueLocale=en_US",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    "MM-DISCOUNT-GLOBAL"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "A1PA6795UKMFR9, A1805IZSGTT6HS, A1C3SOZRARQ6R3",
+                      "description": "(Required) A comma-delimited list of Amazon marketplace identifiers for the request."
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "en_US",
+                      "description": "A locale for localization of issues. When not provided, the default language code of the first marketplace is used. Examples: \"en_US\", \"fr_CA\", \"fr_FR\". Localized messages default to \"en_US\" when a localization is not available in the specified locale."
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "TEST123"
+                    }
+                  ]
+                },
+                "description": "🧐 Observe: Is `discounted_price` gone for DE?"
+              },
+              "response": []
+            },
+            {
+              "name": "Step 7: Final Verify Discount Removed (DE)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "x-mock-match-request-body",
+                    "value": "true",
+                    "type": "text"
+                  },
+                  {
+                    "key": "x-mock-response-name",
+                    "value": "Final GET",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/MM-DISCOUNT-GLOBAL?marketplaceIds=A1PA6795UKMFR9&includedData=issues,attributes,summaries&issueLocale=en_US",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    "MM-DISCOUNT-GLOBAL"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "A1PA6795UKMFR9",
+                      "description": "(Required) A comma-delimited list of Amazon marketplace identifiers for the request."
+                    },
+                    {
+                      "key": "includedData",
+                      "value": "issues,attributes,summaries",
+                      "description": "A comma-delimited list of data sets to include in the response. Default: summaries."
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "en_US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "TEST123"
+                    }
+                  ]
+                },
+                "description": "No changes needed! Just make the call and observe 🌟"
+              },
+              "response": []
+            }
+          ],
+          "description": "## 📖 **Background**\n\nThe flash sale was a massive success - the Magic Cube Tissue Box sold well across DE, NL, and PL during the promotional window. The seller was soo happy with the results - revenue spiked in all three stores. But now he wants to end the promotion early and restore regular pricing.\n\nSofia sends a multi-marketplace `patchListingsItem` restoring `our_price` for all three marketplaces, assuming this would implicitly cancel the promotion. The API returns `ACCEPTED`. She closes the ticket.\n\nThree days later — the seller is still processing orders at the discounted price.\n\n---\n\n### 🚨 What Happened\n\n1. Sofia sent a multi-marketplace PATCH with `op: \"replace\"` including only `our_price` - assuming omitting `discounted_price` would remove it.\n    \n2. The API returned ACCEPTED - but `replace` on `purchasable_offer` only replaces what you explicitly include. It doesn't delete sub-attributes you omit**.**\n    \n3. `our_price` and `discounted_price` are independent attributes. Updating one doesn't affect the other.\n    \n4. To end a promotion, you must **explicitly remove** `discounted_price` or change the schedule.\n    \n\nSofia didn't realize that updating `our_price` doesn't cancel or remove `discounted_price`. They are independent attributes within `purchasable_offer`. To truly end a promotion, you must explicitly remove the `discounted_price` - not just restore the base price.\n\n---\n\n## Your Job 🏢\n\n**🥅** Help Sofia discover **the right method** to remove the promotional price across all marketplaces without affecting regular price or any other offer properties.\n\n### 🗺️ Steps Overview\n\nThis challenge is an **investigation**. Step 1 show you what doesn't work - on purpose. Pay attention to why before moving to the fix:\n\n1. 🕵️ **Step 1: Audit Current Listing (DE):** GET the listing for the Germany marketplace and the observe `purchasable_offer` attribute.\n    \n2. 🛠️ **Step 2: Remove Discount Prices (op: \"replace\"):** Send a PATCH request to remove `discounted_price`for all three marketplaces(DE + NL + PL) using \"replace\" operation type. What does the API return?\n    \n3. 😱 **Step 3: Inspect Discount Still Active:** Make a GET call for the Germany marketplace again. Verify if the discount price has been removed. `discounted_price` still exists!!? Why?\n    \n4. 🙅 **Step 4: PATCH Listings Item (op: \"delete\"):** Send a PATCH request to remove `discounted_price`for all three marketplaces(DE + NL + PL) using \"delete\" operation type. See that you can't delete sub-attributes using this operation.\n    \n5. 😱 **Step 5: Inspect Discount Still Active:** Make a GET call for the Germany marketplace again. This operation removed the complete attribute.\n    \n6. 🥇 **\\[Final Fix\\] Step 6: PATCH Listings Item (correct approach):** Send the PATCH with the **right operation** to remove `discounted_price` for all 3 marketplaces without **affecting the regular price**.\n    \n7. 🎉 **Step 7: Verify Discount Removed (DE):** GET Germany one final time. Confirm discounted_price is gone and the product is buyable at the standard price only.\n    \n\n---\n\n## 🏆 Takeaway\n\n`merge` operation is the key to **granular sub-attribute management** within `purchasable_offer`. You can update individual fields (like `our_price`) or delete optional fields (like `discounted_price`) without touching anything else, as long as you include the **correct selectors -**`currency`**,** **`marketplace_id`**, and**`audience`**to identify which offer instance to modify.\n\nThree operations. Three behaviors.\n\n| Operation | What it does | Use case |\n| --- | --- | --- |\n| op: \"replace\" | Replaces what you include, but does NOT delete what you omit | Setting/updating prices (Level 1) |\n| op: \"delete\" | Cannot target sub-attributes within purchasable_offer | ❌ Don't use for sub-attribute removal |\n| op: \"merge\" | Surgically updates OR deletes individual sub-attributes (set to null to delete) | Removing discounted_price, map_price, start_at, end_at |\n\n**Stop replacing the entire offer just to change one field. Use** **`merge`** **for surgical precision.**\n\n#### 💡 Documentation Reference:\n\n- [Manage purchasable offer](https://developer-docs.amazon.com/sp-api/docs/manage-purchasable-offer)"
+        }
+      ],
+      "description": "## **Welcome to International Pricing Expert! 🎯**\n\n**Your sellers expect one configuration to work everywhere.** But most integrations treat each marketplace as a separate island - separate pricing calls, separate promotion setups, separate cleanup — a system that technically works but operationally doesn't.\n\nThis lab replaces those store-by-store patterns with SP-API's multi-marketplace pricing capabilities. Three levels. Three real failure modes. Built around real-life use cases.\n\n---\n\n## **Meet Sofia 👤**\n\nSofia is the lead developer at a European integration partner. She manages pricing for sellers across DE, FR, ES, IT, and the UK. Her integration works — but it doesn't scale, and today that's going to cost her sellers money.\n\nOver three levels, you'll follow Sofia's journey as she:\n\n- Hits throttle limits she didn't know existed\n    \n- Launches a promotion that silently fails in one marketplace\n    \n- Tries to restore standard pricing and discovers the discount won't die\n    \n\nEach level gives you a broken situation, a Postman request, and a question to answer. The API will tell you the rest.\n\n---\n\n## **Challenge Overview 📖**\n\n#### Table\n\n| Challenge | Topic | Level | Summary |\n| --- | --- | --- | --- |\n| Level 1 | Scale Without Limits | 🟢 100 | 20K API calls hit throttle limits → multi-marketplace PATCH reduces calls by 75% |\n| Level 2 | The Flash Sale | 🟡 200 | 2-week promotion across DE, NL, PL → marketplace-specific discounted prices with schedules |\n| Level 3 | The Promotion That Wouldn't Die | 🔴 300 | Stale discounted prices persist → investigate, debug, and surgically remove via merge operation |\n\n---\n\n#### _Three levels. One goal. Let's help Sofia conquer multi-marketplace pricing — the right way! 🚀_"
+    },
+    {
+      "name": "📦 Challenge 3 - Understand Package Hierarchy",
+      "item": [
+        {
+          "name": "📍Step 1 - Establish the Package Hierarchy Base",
+          "item": [
+            {
+              "name": "putListingsItem - base",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}"
+                  },
+                  {
+                    "key": "x-mock-match-request-body",
+                    "value": "true",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"productType\": \"CANDLE\",\n    \"requirements\": \"LISTING\",\n    \"attributes\": {\n        \"item_name\": [\n            {\n                \"value\": \"TerraGlow Vanilla Soy Candle 8oz\"\n            }\n        ],\n        \"externally_assigned_product_identifier\": [\n            {\n                \"type\": \"UPC\",\n                \"value\": \"811000000001\"\n            }\n        ],\n        \"package_level\": [\n            {\n                \"value\": \"single\"\n            }\n        ],\n        \"item_package_dimensions\": [\n            {\n                \"length\": {\n                    \"value\": 3.5,\n                    \"unit\": \"inches\"\n                },\n                \"width\": {\n                    \"value\": 3.5,\n                    \"unit\": \"inches\"\n                },\n                \"height\": {\n                    \"value\": 4.0,\n                    \"unit\": \"inches\"\n                }\n            }\n        ]\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/:SKU?marketplaceIds={{marketplace}}&issueLocale=en_US",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    ":SKU"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "{{marketplace}}"
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "en_US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "Jay-001"
+                    },
+                    {
+                      "key": "SKU",
+                      "value": "TG-CANDLE-UNIT"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "description": "#### 📖 Background\n\nJay is ready to register his first packaging level — the individual candle unit. He puts together a `putListingsItem` request and submits it confidently, expecting it to go through on the first try.\n\nBut the API rejects it immediately. The error points to `package_level` — the value Jay chose isn't recognized. Jay's stuck. He needs to figure out what values the API actually accepts.\n\n#### 🟢 Your Job\n\nHelp Jay create package configuration to send individual candles for small restocks.\n\n1. Observe the `putListingsItem` API. There is **1 bug** in this request. Something about the `package_level` value isn't right.\n    \n2. **Follow below 🏢**\n    \n    1. **Find the bug** — What's wrong with the `package_level` value?\n        \n    2. **Fix it** — Update the value and resend\n        \n    3. **Send the request** — Verify the response returns `ACCEPTED` with no issues\n        \n    4. Note down the `Secret Code`\n        \n\n##### 💡 Hint: The package hierarchy only recognizes three specific level values. `\"single\"` is not one of them.",
+          "auth": {
+            "type": "noauth"
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  ""
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  ""
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "📍Step 2: Setup the Case Package",
+          "item": [
+            {
+              "name": "putListingsItem - case",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}"
+                  },
+                  {
+                    "key": "x-mock-match-request-body",
+                    "value": "true",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"productType\": \"CANDLE\",\n    \"requirements\": \"LISTING\",\n    \"attributes\": {\n        \"item_name\": [\n            {\n                \"value\": \"TerraGlow Vanilla Soy Candle 8oz (Case of 10)\"\n            }\n        ],\n        \"externally_assigned_product_identifier\": [\n            {\n                \"type\": \"UPC\",\n                \"value\": \"811000000001\"\n            }\n        ],\n        \"package_level\": [\n            {\n                \"value\": \"case\"\n            }\n        ],\n        \"package_contains_sku\": [\n            {\n                \"quantity\": 10,\n                \"sku\": \"TG-CANDLE-UNIT\"\n            }\n        ],\n        \"item_package_dimensions\": [\n            {\n                \"length\": {\n                    \"value\": 3.5,\n                    \"unit\": \"inches\"\n                },\n                \"width\": {\n                    \"value\": 3.5,\n                    \"unit\": \"inches\"\n                },\n                \"height\": {\n                    \"value\": 4.0,\n                    \"unit\": \"inches\"\n                }\n            }\n        ]\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/:SKU?marketplaceIds={{marketplace}}&issueLocale=en_US",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    ":SKU"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "{{marketplace}}"
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "en_US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "Jay-001"
+                    },
+                    {
+                      "key": "SKU",
+                      "value": "TG-CANDLE-CASE"
+                    }
+                  ]
+                },
+                "description": "**SKU & Hierarchy Rules:**\n\nA unique identifier (stock keeping unit) must be created for **each package configuration with distinct package dimensions**. Use `package_contains_sku` to create a relationship between a larger pack of products and each SKU stored inside that pack."
+              },
+              "response": []
+            }
+          ],
+          "description": "#### 📖 Background\n\nWith the unit listing live, Jay moves to the next level — the case (a box of 10 candles). To save time, he copies his unit listing payload and updates the SKU and `package_level`.\n\nHe submits, expecting a quick win. But the API rejects it — multiple errors this time.\n\nJay's confused. He thought copying and tweaking would be enough. Clearly, there are other attributes he overlooked that can't be the same across different packaging levels.\n\n#### 🟡 Your Job\n\nHelp Jay create cases of 10 candles for standard replenishment.\n\n1. Observe the `putListingsItem` API request. This request has **2 bugs** — all caused by copy-pasting from the unit listing. Look carefully at what should be unique between a unit and a case.\n    \n2. **Follow below 🏢**\n    \n    1. **Find the bug** — What was copied that shouldn't be?\n        \n    2. **Fix all 2 errors** — Make sure each attribute accurately represent the case.\n        \n    3. **Send the request** — Verify the response returns `ACCEPTED` with no issues.\n        \n    4. Note down the `Secret Code`\n        \n\n##### 💡 Hint: Ask yourself: If Amazon receives two listings with the same UPC, what happens? And does a box of 10 candles fit in the same dimensions as one candle?"
+        },
+        {
+          "name": "📍Step 3: Create the Pallet",
+          "item": [
+            {
+              "name": "putListingsItem - pallet",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "x-amz-access-token",
+                    "value": "{{access_token}}"
+                  },
+                  {
+                    "key": "x-mock-match-request-body",
+                    "value": "true",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"productType\": \"CANDLE\",\n    \"requirements\": \"LISTING\",\n    \"attributes\": {\n        \"item_name\": [\n            {\n                \"value\": \"TerraGlow Vanilla Soy Candle 8oz (Pallet of 80)\"\n            }\n        ],\n        \"externally_assigned_product_identifier\": [\n            {\n                \"type\": \"UPC\",\n                \"value\": \"811000000003\"\n            }\n        ],\n        \"package_level\": [\n            {\n                \"value\": \"pallet\"\n            }\n        ],\n        \"package_contains_sku\": [\n            {\n                \"quantity\": 80,\n                \"sku\": \"TG-CANDLE-UNIT\"\n            }\n        ],\n        \"item_package_dimensions\": [\n            {\n                \"length\": {\n                    \"value\": 48.0,\n                    \"unit\": \"inches\"\n                },\n                \"width\": {\n                    \"value\": 40.0,\n                    \"unit\": \"inches\"\n                },\n                \"height\": {\n                    \"value\": 55.0,\n                    \"unit\": \"inches\"\n                }\n            }\n        ]\n    }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{mock_url}}/listings/2021-08-01/items/:sellerId/:SKU?marketplaceIds={{marketplace}}&issueLocale=en_US",
+                  "host": [
+                    "{{mock_url}}"
+                  ],
+                  "path": [
+                    "listings",
+                    "2021-08-01",
+                    "items",
+                    ":sellerId",
+                    ":SKU"
+                  ],
+                  "query": [
+                    {
+                      "key": "marketplaceIds",
+                      "value": "{{marketplace}}"
+                    },
+                    {
+                      "key": "issueLocale",
+                      "value": "en_US"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "sellerId",
+                      "value": "Jay-001"
+                    },
+                    {
+                      "key": "SKU",
+                      "value": "TG-CANDLE-PALLET"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "description": "#### 📖 Background\n\nJay's on the final stretch — the pallet level. He builds his request, sets `package_level` to `pallet`, and fills in `package_contains_sku` to link the pallet to its children.\n\nHe submits — and it fails again. The error points to `package_contains_sku` — something about the way he linked the hierarchy isn't right.\n\nJay thought he understood the chain, but the values he chose for the child reference don't match what he intends to send.\n\n---\n\n#### 🔴 Your Job\n\nHelp Jay create pallet of 8 cases with a total of 80 candles for bulk shipments.\n\n1. Observe the `putListingsItem` API. There are **2 attributes** that needs to be fixed. Something about the `package_contains_sku` values are not right.\n    \n2. **Follow below 🏢**\n    \n    1. **Find the bug** — What's wrong with the `package_contains_sku` values?\n        \n    2. **Fix all 2 errors :** Update and send.\n        \n    3. **Send the request** — Verify the response returns `ACCEPTED` with no issues.\n        \n    4. Note down the `Secret Code`\n        \n\n##### 💡 Hint: Pallets should contain cases. Does your SKU reference reflect that? Does quantity × units per case = 80 total?"
+        }
+      ],
+      "description": "## 🎯 Welcome to the Package Hierarchy Challenge! 📦\n\nMaster SP-API package hierarchy workflows — connect unit, case, and pallet levels through the Listings Items API so Amazon's PO system knows how items are packed.\n\nYou'll work through a real-life vendor use case, seeing how each step fits into a production-ready integration.\n\n---\n\n### 🏭 Vendor Listings — Quick Primer\n\nPrevious challenges focused on seller workflows. This one shifts to **vendor use-case**.\n\n**Sellers vs. Vendors — the key difference:**\n\n- **Sellers** sell _through_ Amazon directly to consumers. They own pricing, inventory, and fulfillment.\n    \n- **Vendors** sell _to_ Amazon. Amazon resells, controls pricing, issues Purchase Orders (POs), and manages fulfillment from its warehouses.\n    \n\n---\n\n### 📦 **What is Package Hierarchy?**\n\nPackage hierarchy links different packaging configurations into a chain so Amazon can order at the right level:\n\n- **Unit:** Smallest saleable package (e.g., 1 pen or a box of 10 pens).\n    \n- **Case:** Contains multiple units (e.g., a case of 10 boxes).\n    \n- **Pallet:** Contains multiple cases or units stacked on a frame (e.g., a pallet of 100 cases)\n    \n\nEach level is its own listing with its own SKU and distinct external product ID like UPC, connected through the `package_contains_sku` attribute.\n\n<img src=\"https://content.pstmn.io/2cdb4d2c-14a7-482e-b435-1f6529142870/aW1hZ2UucG5n\" width=\"1726\" height=\"866\">\n\n---\n\n### ❓Why This Matters?\n\nWithout a linked hierarchy, Amazon can only order individual units — leading to inefficient logistics, missed bulk opportunities.\n\n**Key benefits for vendors:**\n\n- **Receiving accuracy** — Amazon matches physical shipments to your ASNs\n    \n- **Better inventory management** — clear package-level data improves FC processing\n    \n- **Flexible ordering** — use `is_item_level_orderable` to control which levels Amazon can purchase\n    \n\n**Required attributes:**\n\n- `package_level` — unit, case, or pallet\n    \n- `package_contains_sku.sku` — SKU of the contained product (blank for units)\n    \n- `package_contains_sku.quantity` — quantity of child SKU contained (blank for units)\n    \n\n📚 **Refer the link for more details on Package Hierarchies:**\n\n[https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#configure-package-hierarchies](https://developer-docs.amazon.com/sp-api/docs/building-listings-management-workflows-guide#configure-package-hierarchies)\n\n---\n\n### 👤 Meet Vendor Client: Jay\n\nJay supplies **TerraGlow Vanilla Soy Candle 8oz** to Amazon. Currently, Amazon can only place purchase orders for individual candles — one unit at a time. Jay wants to send his inventory at three packaging levels:\n\n1. Individual candles for small restocks 🕯️\n    \n2. Cases of 10 candles for standard replenishment 📦\n    \n3. Pallets of 8 cases (80 candles) for bulk shipments 🚚\n    \n\n#### **📋 Jay's Product Specifications**\n\n| Level | SKU | UPC | Item Name | Dimensions |\n| --- | --- | --- | --- | --- |\n| Unit | TG-CANDLE-UNIT | 811000000001 | TerraGlow Vanilla Soy Candle 8oz | 3.5 × 3.5 × 4.0 in |\n| Case | TG-CANDLE-CASE | 811000000002 | TerraGlow Vanilla Soy Candle 8oz (Case of 10) | 12.0 × 8.0 × 9.0 in |\n| Pallet | TG-CANDLE-PALLET | 811000000003 | TerraGlow Vanilla Soy Candle 8oz (Pallet of 80) | 48.0 × 40.0 × 55.0 in |\n\n---\n\n### 📖 Challenge Overview\n\nYour job is to help Jay connect all three levels through the Listings Items API so Amazon can order at any packaging tier. Your work is split into **3 main steps**.\n\n| Step | Topic | Summary |\n| --- | --- | --- |\n| Step 1 | Establish the Package Hierarchy Base | Fix 1 bug in `package_level` to create the unit listing. |\n| Step 2 | Setup the Case Package | Fix 2 bugs from copy-paste errors to create the case listing. |\n| Step 3 | Create the Pallet | Fix 2 `package_contains_sku` issues to complete the pallet. |\n\n---\n\n#### Ready? Let's help Jay build an efficient multi-level packaging structure — the right way! 🚀\n\n---\n\n### 🎉 **Win Condition**\n\nOnce you complete all the steps, you’ve helped Jay to setup his first Package Hierarchy. Send your secret code \\[secret1 + secret2 +secret3\\] to **Pigeonhole**!\n\n---\n\n### **🏆 Takeaway**\n\nYou now know how to build a multi-level package hierarchy using the Listings Items API — enabling Amazon to place Purchase Orders at unit, case, or pallet level instead of being limited to individual items. This means flexible ordering, efficient bulk fulfillment, and accurate quantity calculations on every PO.\n\nNote that, the same capability is available for Sellers too — package hierarchy helps sellers grow their bulk sales business by linking different package configurations of the same product, making it easy for customers to find and buy in bulk or as per their preferred set package configuration."
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          "pm.sendRequest({",
+          "    url: pm.collectionVariables.get(\"oauth_url\"),",
+          "    method: 'POST',",
+          "    header: {",
+          "        'content-type': 'application/x-www-form-urlencoded',",
+          "        'Accept': 'application/json'",
+          "    },",
+          "    body: {",
+          "        mode: 'urlencoded',",
+          "        urlencoded: [",
+          "            {key: \"grant_type\", value: \"refresh_token\", disabled: false},",
+          "            {key: \"refresh_token\", value: pm.collectionVariables.get(\"refresh_token\"), disabled: false},",
+          "            {key: \"client_id\", value: pm.collectionVariables.get(\"client_id\"), disabled: false},",
+          "            {key: \"client_secret\", value: pm.collectionVariables.get(\"client_secret\"), disabled: false}",
+          "        ]",
+          "    }",
+          "}, function (err, res) {",
+          "    if (err) {",
+          "        console.log(\"Request error:\", err);",
+          "        return;",
+          "    }",
+          "",
+          "    if (!res || !res.json) {",
+          "        console.log(\"Invalid response object:\", res);",
+          "        return;",
+          "    }",
+          "",
+          "    const jsonData = res.json();",
+          "    pm.collectionVariables.set(\"access_token\", jsonData.access_token);",
+          "});"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
