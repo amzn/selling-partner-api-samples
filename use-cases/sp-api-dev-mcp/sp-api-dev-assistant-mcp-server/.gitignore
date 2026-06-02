@@ -1,0 +1,8 @@
+/node_modules
+/build
+.build-cache/
+/dist
+/coverage
+.eslintcache
+.DS_Store
+selling-partner-api-sdk/

@@ -1,0 +1,95 @@
+name: Release MCP Server
+
+on:
+  workflow_dispatch:
+    inputs:
+      newVersionNumber:
+        type: string
+        description: New version number (e.g., 1.0.0)
+        required: true
+  workflow_call:
+    inputs:
+      newVersionNumber:
+        type: string
+        required: true
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  release_npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Update npm
+        run: npm install -g npm@latest
+      
+      - name: Set version in package.json
+        working-directory: sp-api-dev-mcp
+        run: |
+          npm version ${{ github.event.inputs.newVersionNumber }} --no-git-tag-version
+          echo "Updated package.json version to ${{ github.event.inputs.newVersionNumber }}"
+      
+      - name: Install dependencies
+        working-directory: sp-api-dev-mcp
+        run: npm ci
+
+      - name: Run tests
+        working-directory: sp-api-dev-mcp
+        run: npm test
+      
+      - name: Build for production
+        working-directory: sp-api-dev-mcp
+        run: npm run build
+      
+      - name: Publish to npm
+        working-directory: sp-api-dev-mcp
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  tag_and_release:
+    needs: [release_npm]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Create Git tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "mcp-server-v${{ github.event.inputs.newVersionNumber }}" -m "Release MCP Server v${{ github.event.inputs.newVersionNumber }}"
+          git push origin "mcp-server-v${{ github.event.inputs.newVersionNumber }}"
+      
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "mcp-server-v${{ github.event.inputs.newVersionNumber }}"
+          name: "MCP Server v${{ github.event.inputs.newVersionNumber }}"
+          body: |
+            ## SP-API Dev MCP Server v${{ github.event.inputs.newVersionNumber }}
+            
+            ### Installation
+            ```bash
+            npm install -g @amazon-sp-api-release/dev-mcp@${{ github.event.inputs.newVersionNumber }}
+            ```
+            
+            ### What's Changed
+            See the [CHANGELOG](https://github.com/${{ github.repository }}/blob/main/sp-api-dev-mcp/CHANGELOG.md) for details.
+            
+            ### Package
+            - NPM: https://www.npmjs.com/package/@amazon-sp-api-release/dev-mcp/v/${{ github.event.inputs.newVersionNumber }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true

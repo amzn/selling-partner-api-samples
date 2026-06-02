@@ -97,7 +97,7 @@ public class GetFeedDocumentRecipe extends Recipe {
 
     private String getFeedDocumentUrl(String feedDocumentId) {
         try {
-            FeedDocument feedDocument = feedsApi.getFeedDocument(feedDocumentId);
+            FeedDocument feedDocument = feedsApi.getFeedDocument(feedDocumentId, false);
             System.out.println("Feed document URL retrieved " + feedDocument.getUrl());
             return feedDocument.getUrl();
         } catch (ApiException | LWAException e) {

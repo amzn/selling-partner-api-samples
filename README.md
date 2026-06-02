@@ -2,11 +2,17 @@
 
 This repository contains sample code in various programming languages for use cases supported by the [Amazon Selling Partner API (SP-API)](https://developer-docs.amazon.com/sp-api/).
 
+> [!IMPORTANT]  
+> SP-API code samples are example code that demonstrates practical implementations of SP-APIs for specific use cases and scenarios.
+> 
+> These sample solutions are not supported products in their own right, but educational examples to help our customers use our products for their applications. As our customer, any applications you integrate these examples into should be thoroughly tested, secured, and optimized according to your business's security standards & policies before deploying to production or handling production workloads.
+
 ## Table of Contents
-- [About this Repo ](#about-this-repo)
-- [Learning Resources ](#learning-resources)
-- [Security ](#security)
-- [License ](#license)
+- [About this Repo](#about-this-repo)
+- [Local MCP for SP-API](#local-mcp-for-sp-api)
+- [Learning Resources](#learning-resources)
+- [Security](#security)
+- [License](#license)
 
 ## About this Repo
 This repository contains two types of sample code:
@@ -17,6 +23,40 @@ This repository contains two types of sample code:
 We welcome contributions to this repo in the form of fixes or improvements to existing content. For more information on contributing, please see the [CONTRIBUTING](CONTRIBUTING.md) guide.
 
 This is considered an intermediate learning resource, and should typically be referenced after reading the [SP-API Documentation](https://developer-docs.amazon.com/sp-api). Please see [Learning Resources](#learning-resources) for additional resources.
+
+## Local MCP for SP-API
+
+The [`@amazon-sp-api-release/sp-api-dev-mcp`](https://www.npmjs.com/package/@amazon-sp-api-release/sp-api-dev-mcp) package is a local MCP (Model Context Protocol) server for SP-API that bundles multiple developer tools into a single npm package. It is published from the [`sp-api-dev-mcp`](https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/sp-api-dev-mcp) source in the selling-partner-api-samples GitHub repository.
+
+### Installation
+
+```bash
+npm install -g @amazon-sp-api-release/sp-api-dev-mcp
+```
+
+### Available Servers
+
+| Server | Command |
+|--------|---------|
+| SP-API Dev Assistant | `sp-api-dev-assistant-mcp-server` |
+| SP-API Workflow Builder | `sp-api-workflow-mcp` |
+
+### Usage with npx
+
+```bash
+npx -y @amazon-sp-api-release/sp-api-dev-mcp sp-api-dev-assistant-mcp-server
+npx -y @amazon-sp-api-release/sp-api-dev-mcp sp-api-workflow-mcp-server
+```
+
+### Releasing a New Version
+
+Releases are published automatically via the [Consolidate MCP Servers](.github/workflows/consolidate-dev-mcp-server.yml) GitHub Actions workflow. To trigger a release:
+
+1. Go to **Actions** → **Consolidate MCP Servers** → **Run workflow**
+2. Enter the new version number (e.g. `1.0.0`)
+3. The workflow will build, bundle, publish to npm, and create a GitHub release
+
+**Required secret:** `NPM_TOKEN` — a granular npm access token with read/write permission for `@amazon-sp-api-release/sp-api-dev-mcp`.
 
 ## Learning Resources
 * [SP-API Website](https://developer.amazonservices.com)

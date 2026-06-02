@@ -1,0 +1,73 @@
+{
+  "name": "sp-api-dev-assistant-mcp-server",
+  "version": "0.1.0",
+  "description": "MCP server for Amazon SP-API developer assistant tools (Migration Assistant, Code Generation, Search, Optimization)",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "sp-api-dev-assistant-mcp-server": "./dist/index.js"
+  },
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "clean": "rm -rf dist && rm -rf node_modules",
+    "build": "tsc && cp -r src/resources dist/",
+    "lint": "eslint --fix --cache src",
+    "lint:fix": "eslint --fix --cache src",
+    "format": "prettier --write --cache .",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "type-check": "tsc --noEmit",
+    "prepare": "npm run lint:fix && npm run format && npm run type-check",
+    "inspector": "npx @modelcontextprotocol/inspector node dist/index.js",
+    "prepublishOnly": "npm run build",
+    "build:index": "tsx scripts/search-tools/build-index.ts",
+    "test": "vitest run --exclude 'selling-partner-api-sdk/**'",
+    "test:watch": "vitest --exclude 'selling-partner-api-sdk/**'"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.11.2",
+    "aws4": "^1.13.2",
+    "axios": "^1.16.0",
+    "cheerio": "^1.0.0",
+    "dotenv": "^16.4.5",
+    "simple-git": "^3.27.0",
+    "undici": "^7.25.0",
+    "vectra": "^0.14.0",
+    "yaml": "^2.8.2",
+    "zod": "^3.22.4",
+    "@huggingface/transformers": "^3.0.0",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "@types/aws4": "^1.11.6",
+    "@types/node": "^22.5.4",
+    "@typescript-eslint/eslint-plugin": "^8.3.0",
+    "@typescript-eslint/parser": "^8.3.0",
+    "eslint": "^9.9.1",
+    "eslint-config-prettier": "^9.1.0",
+    "fast-check": "^4.7.0",
+    "prettier": "^3.3.3",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.1",
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.0"
+  },
+  "files": [
+    "src/",
+    "dist/",
+    "README.md"
+  ],
+  "keywords": [
+    "mcp",
+    "amazon",
+    "sp-api",
+    "migration-assistant",
+    "code-generation",
+    "optimization",
+    "model-context-protocol"
+  ]
+}
