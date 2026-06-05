@@ -152,6 +152,7 @@ POST integration tests contain hardcoded values like `"TestOrder202"`, `"ABCD1"`
 
 To run POST operations against a real endpoint (e.g., for live testing with a vendor account), replace the endpoint and request values:
 
+**Java:**
 ```java
 // Change from sandbox:
 private static final String SANDBOX_ENDPOINT = "https://sandbox.sellingpartnerapi-na.amazon.com";
@@ -160,6 +161,16 @@ private static final String SANDBOX_ENDPOINT = "https://sandbox.sellingpartnerap
 private static final String ENDPOINT = System.getenv("SP_API_ENDPOINT") != null
         ? System.getenv("SP_API_ENDPOINT")
         : "https://sellingpartnerapi-na.amazon.com";
+```
+
+**Python:**
+```python
+# Change from sandbox:
+SANDBOX_ENDPOINT = "https://sandbox.sellingpartnerapi-na.amazon.com"
+
+# To production (or use SP_API_ENDPOINT env var):
+import os
+ENDPOINT = os.environ.get("SP_API_ENDPOINT", "https://sellingpartnerapi-na.amazon.com")
 ```
 
 Then replace the sandbox fixture values with real data from your vendor account (real PO numbers, party IDs, product identifiers, etc.).

@@ -74,6 +74,23 @@ public class GetPurchaseOrderIntegrationTest {
             var order = response.getPayload();
             logger.info("PO Number: {}", order.getPurchaseOrderNumber());
             logger.info("State: {}", order.getPurchaseOrderState());
+            if (order.getOrderDetails() != null) {
+                var details = order.getOrderDetails();
+                logger.info("Order Date: {}", details.getPurchaseOrderDate());
+                logger.info("Order Type: {}", details.getPurchaseOrderType());
+                logger.info("Ship Window: {}", details.getShipWindow());
+                if (details.getSellingParty() != null) {
+                    logger.info("Selling Party: {}", details.getSellingParty().getPartyId());
+                }
+                if (details.getItems() != null) {
+                    logger.info("Items: {}", details.getItems().size());
+                    for (var item : details.getItems()) {
+                        logger.info("  - ASIN: {} | Qty: {}",
+                                item.getAmazonProductIdentifier(),
+                                item.getOrderedQuantity() != null ? item.getOrderedQuantity().getAmount() : "N/A");
+                    }
+                }
+            }
         }
     }
 }

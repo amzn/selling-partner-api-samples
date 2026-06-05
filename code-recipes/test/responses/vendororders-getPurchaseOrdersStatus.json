@@ -4,6 +4,13 @@
       {
         "purchaseOrderNumber": "2JK3S9VC",
         "purchaseOrderStatus": "OPEN",
+        "purchaseOrderDate": "2019-08-20T15:51:00Z",
+        "sellingParty": {
+          "partyId": "999US"
+        },
+        "shipToParty": {
+          "partyId": "ABCD"
+        },
         "itemStatus": [
           {
             "itemSequenceNumber": "1",

@@ -40,8 +40,13 @@
         ],
         "containers": [
           {
-            "containerType": "Carton",
-            "containerIdentifier": "CARTON001",
+            "containerType": "carton",
+            "containerIdentifiers": [
+              {
+                "containerIdentificationType": "SSCC",
+                "containerIdentificationNumber": "CARTON001"
+              }
+            ],
             "trackingNumber": "1Z999AA10123456784"
           }
         ],
