@@ -48,6 +48,8 @@ public class SubmitAcknowledgementIntegrationTest {
     void testSubmitAcknowledgement() throws ApiException, LWAException {
         logger.info("--- Testing submitAcknowledgement (sandbox) ---");
 
+        // Values below are required by SP-API static sandbox — the sandbox only returns
+        // a valid response when the request matches this exact payload.
         OrderItemAcknowledgement itemAck = new OrderItemAcknowledgement()
                 .acknowledgementCode(OrderItemAcknowledgement.AcknowledgementCodeEnum.ACCEPTED)
                 .acknowledgedQuantity(new ItemQuantity().amount(10));

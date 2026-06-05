@@ -66,7 +66,8 @@ public class SubmitInvoicesIntegrationTest {
     void testSubmitInvoices() throws Exception {
         logger.info("--- Testing submitInvoices (sandbox) ---");
 
-        // Build request matching sandbox expected data exactly
+        // Values below are required by SP-API static sandbox — the sandbox only returns
+        // a valid response when the request matches this exact payload.
         Invoice invoice = new Invoice()
                 .id("TestInvoice202")
                 .invoiceType(Invoice.InvoiceTypeEnum.INVOICE)

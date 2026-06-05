@@ -62,7 +62,8 @@ public class SubmitShipmentConfirmationIntegrationTest {
     void testSubmitShipmentConfirmation() throws Exception {
         logger.info("--- Testing submitShipmentConfirmations (sandbox) ---");
 
-        // Build request matching sandbox expected data
+        // Values below are required by SP-API static sandbox — the sandbox only returns
+        // a valid response when the request matches this exact payload.
         ShipmentConfirmation confirmation = new ShipmentConfirmation()
                 .shipmentIdentifier("TestShipmentConfirmation202")
                 .shipmentConfirmationDate(OffsetDateTime.now())

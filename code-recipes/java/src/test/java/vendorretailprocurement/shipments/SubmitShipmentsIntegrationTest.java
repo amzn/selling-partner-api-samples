@@ -53,7 +53,8 @@ public class SubmitShipmentsIntegrationTest {
     void testSubmitShipments() throws Exception {
         logger.info("--- Testing submitShipments (sandbox) ---");
 
-        // Build request matching sandbox expected data
+        // Values below are required by SP-API static sandbox — the sandbox only returns
+        // a valid response when the request matches this exact payload.
         PurchaseOrderItems poItem = new PurchaseOrderItems()
                 .itemSequenceNumber("001")
                 .vendorProductIdentifier("9782700001659")
