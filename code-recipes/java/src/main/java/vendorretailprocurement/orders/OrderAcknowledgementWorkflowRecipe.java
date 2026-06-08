@@ -14,6 +14,7 @@ import util.Constants;
 import util.Recipe;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Vendor Orders Workflow Recipe: Order Acknowledgement Flow
@@ -133,7 +134,7 @@ public class OrderAcknowledgementWorkflowRecipe extends Recipe {
                             .netCost(item.getNetCost())
                             .itemAcknowledgements(List.of(itemAck));
                 })
-                .toList();
+                .collect(Collectors.toList());
 
         String sellingPartyId = details.getSellingParty() != null ? details.getSellingParty().getPartyId() : "UNKNOWN";
 
