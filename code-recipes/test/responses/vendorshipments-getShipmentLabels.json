@@ -1,0 +1,44 @@
+{
+  "payload": {
+    "pagination": {
+      "nextToken": "MDAwMDAwMDAwMQ=="
+    },
+    "transportLabels": [
+      {
+        "labelCreateDateTime": "2024-03-03T14:40:29Z",
+        "shipmentInformation": {
+          "vendorDetails": {
+            "sellingParty": {
+              "partyId": "WHF47"
+            },
+            "vendorShipmentIdentifier": "SHIP001"
+          },
+          "buyerReferenceNumber": "14511336331",
+          "shipToParty": {
+            "partyId": "FC001"
+          },
+          "shipFromParty": {
+            "partyId": "WAREHOUSE001",
+            "address": {
+              "name": "Vendor Warehouse",
+              "addressLine1": "123 Main Street",
+              "city": "Seattle",
+              "stateOrRegion": "WA",
+              "postalCode": "98101",
+              "countryCode": "US"
+            }
+          }
+        },
+        "labelData": [
+          {
+            "packageIdentifier": "PKG001",
+            "trackingNumber": "1Z999AA10123456784",
+            "carrierCode": "UPS",
+            "labelFormat": "PDF",
+            "label": "JVBERi0xLjQKJeLjz9MKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cvUGFnZXMgMiAwIFI+PgplbmRvYmoK"
+          }
+        ]
+      }
+    ]
+  }
+}
