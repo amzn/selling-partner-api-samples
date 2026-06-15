@@ -2,6 +2,9 @@
 
 Sample AI Sandbox for SP-API is a local development tool for testing SP-API integrations before deploying to production. It validates requests against SP-API OpenAPI schemas, simulates API responses using an AI agent backed by Amazon Bedrock, and provides a Reports API implementation — helping catch integration issues early in the development cycle.
 
+Watch the following video for a brief introduction to Sample AI Sandbox for SP-API on YouTube:
+[![Video Thumbnail](docs/demo-thumbnail.png)](https://www.youtube.com/watch?v=DzuGgYYLuEM)
+
 ## Prerequisites
 
 - **Node.js 22+** (the project extends `@tsconfig/node22`)
@@ -119,6 +122,9 @@ The server starts on `http://localhost:9001` by default.
 ## Deployment
 
 A CloudFormation template is provided in `deployment/cloudformation-template.yml` for deploying to AWS Elastic Beanstalk on Node.js 24 / Amazon Linux 2023.
+
+Watch the following video on YouTube for step-by-step instructions on how to install Sample AI Sandbox for SP-API on AWS:
+[![Video Thumbnail](docs/instructions-thumbnail.png)](https://www.youtube.com/watch?v=XkAeyRcWB1A)
 
 ### CloudFormation instructions
 
