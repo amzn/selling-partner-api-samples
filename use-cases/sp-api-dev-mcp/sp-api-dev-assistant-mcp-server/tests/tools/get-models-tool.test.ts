@@ -6,9 +6,9 @@ import { Model } from "../../src/tools/code-generation-tools/models/model.js";
 // Mock the DiscoveryService to avoid simple-git dependency
 vi.mock("../../src/tools/code-generation-tools/services/discovery.js", () => {
   return {
-    DiscoveryService: vi.fn().mockImplementation(() => ({
-      getModels: vi.fn(),
-    })),
+    DiscoveryService: vi.fn().mockImplementation(function () {
+      return { getModels: vi.fn() };
+    }),
   };
 });
 
