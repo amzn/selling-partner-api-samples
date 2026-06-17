@@ -3,6 +3,7 @@ import {
   ErrorHandlingUtils,
   isServiceError,
 } from "../../utils/error-handling.js";
+import { SdkInitializer } from "../../utils/sdk-initializer.js";
 
 /**
  * Retrieves basic usage information for a programming language SDK
@@ -11,8 +12,8 @@ import {
 export class GetBasicUsage {
   private readonly discoveryService: DiscoveryService;
 
-  constructor() {
-    this.discoveryService = new DiscoveryService();
+  constructor(sdkInitializer?: SdkInitializer) {
+    this.discoveryService = new DiscoveryService(undefined, sdkInitializer);
   }
 
   /**

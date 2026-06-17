@@ -4,6 +4,7 @@ import { GetBasicUsage } from "./get-basic-usage.js";
 import { GetCategories } from "./get-categories.js";
 import { GetOperations } from "./get-operations.js";
 import { GetModels } from "./get-models.js";
+import { SdkInitializer } from "../../utils/sdk-initializer.js";
 
 /**
  * Tool that routes action-based requests to the appropriate code generation sub-tool.
@@ -54,14 +55,19 @@ export class CodeGenerationTool {
     categories?: GetCategories;
     operations?: GetOperations;
     models?: GetModels;
+    sdkInitializer?: SdkInitializer;
   }) {
+    const sdkInitializer = overrides?.sdkInitializer;
     this.handlers = {
       get_workflow_guide: overrides?.workflowGuide ?? new GetWorkflowGuide(),
-      clone_repo: overrides?.cloneRepo ?? new CloneRepo(),
-      get_basic_usage: overrides?.basicUsage ?? new GetBasicUsage(),
-      get_categories: overrides?.categories ?? new GetCategories(),
-      get_operations: overrides?.operations ?? new GetOperations(),
-      get_models: overrides?.models ?? new GetModels(),
+      clone_repo: overrides?.cloneRepo ?? new CloneRepo(sdkInitializer),
+      get_basic_usage:
+        overrides?.basicUsage ?? new GetBasicUsage(sdkInitializer),
+      get_categories:
+        overrides?.categories ?? new GetCategories(sdkInitializer),
+      get_operations:
+        overrides?.operations ?? new GetOperations(sdkInitializer),
+      get_models: overrides?.models ?? new GetModels(sdkInitializer),
     };
   }
 

@@ -5,6 +5,7 @@ import {
   isServiceError,
 } from "../../utils/error-handling.js";
 import { OperationsFilterParams } from "./models/filters.js";
+import { SdkInitializer } from "../../utils/sdk-initializer.js";
 
 /**
  * Retrieves operations within a specific API category with pagination and filtering support
@@ -59,8 +60,8 @@ import { OperationsFilterParams } from "./models/filters.js";
 export class GetOperations {
   private readonly discoveryService: DiscoveryService;
 
-  constructor() {
-    this.discoveryService = new DiscoveryService();
+  constructor(sdkInitializer?: SdkInitializer) {
+    this.discoveryService = new DiscoveryService(undefined, sdkInitializer);
   }
 
   /**
