@@ -17,9 +17,9 @@
     "start": "npm run build && npm run startserver"
   },
   "dependencies": {
-    "@aws-sdk/client-eventbridge": "^3.427.0",
-    "@aws-sdk/client-secrets-manager": "^3.199.0",
-    "@aws-sdk/client-sqs": "^3.428.0",
+    "@aws-sdk/client-eventbridge": "^3.1035.0",
+    "@aws-sdk/client-secrets-manager": "^3.1035.0",
+    "@aws-sdk/client-sqs": "^3.1035.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@jsonforms/core": "^3.1.0",
@@ -44,7 +44,7 @@
     "react-dom": "18.2.0",
     "superagent": "^9.0.2",
     "swr": "^2.2.0",
-    "uuid": "^9.0.0"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
