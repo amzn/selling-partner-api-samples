@@ -1,5 +1,8 @@
 # SP-API MCP Server Documentation
 
+> [!WARNING]  
+> **Deprecated:** This MCP server is deprecated. Please use [SP-API Dev MCP Server](../sp-api-dev-mcp) instead, which includes all the functionality of this server plus migration assistance, code optimization reviews, doc reference and a workflow builder.
+
 This document describes the Model Context Protocol (MCP) server for interacting with Amazon's Selling Partner API through natural language.
 
 **Developers utilizing this sample solution are solely responsible for its implementation, usage patterns, and must ensure full compliance with all applicable Amazon Selling Partner API Terms of Service, Acceptable Use Policy (AUP), Data Protection Policy (DPP), and any other relevant Amazon policies and agreements. This sample code is provided 'as-is' without any warranties or guarantees.**

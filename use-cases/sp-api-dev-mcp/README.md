@@ -1,6 +1,11 @@
-# SP-API Dev MCP
+# Local MCP for SP-API
 
-A consolidated npm package that bundles MCP servers for Amazon Selling Partner API development. Install once, get access to all SP-API developer tools.
+> [!IMPORTANT]  
+> The Local MCP for SP-API servers are example MCPs that demonstrate practical implementations of SP-APIs AI tooling for developer integration workflows.
+> 
+> These are not supported products in their own right, but educational examples to help our customers use our products for their applications. As our customer, any applications you integrate these examples into should be thoroughly tested, secured, and optimized according to your business's security standards & policies before deploying to production or handling production workloads.
+
+A local MCP server for SP-API that bundles multiple developer tools into a single npm package. Install once, get access to all SP-API developer tools.
 
 ## Prerequisites
 
@@ -9,7 +14,7 @@ A consolidated npm package that bundles MCP servers for Amazon Selling Partner A
 ## Installation
 
 ```bash
-npm install -g @spectrumtest/sp-api-dev-mcp
+npm install -g @amazon-sp-api-release/sp-api-dev-mcp
 ```
 
 Or use directly with `npx` (no install required).
@@ -54,7 +59,7 @@ Add to your MCP config file:
   "mcpServers": {
     "sp-api-dev-assistant": {
       "command": "npx",
-      "args": ["-y", "@spectrumtest/sp-api-dev-mcp", "sp-api-dev-assistant-mcp-server"],
+      "args": ["-y", "@amazon-sp-api-release/sp-api-dev-mcp", "sp-api-dev-assistant-mcp-server"],
       "env": {
         "SP_API_CLIENT_ID": "your-client-id",
         "SP_API_CLIENT_SECRET": "your-client-secret",
@@ -63,7 +68,7 @@ Add to your MCP config file:
     },
     "sp-api-workflow": {
       "command": "npx",
-      "args": ["-y", "@spectrumtest/sp-api-dev-mcp", "sp-api-workflow-mcp-server"],
+      "args": ["-y", "@amazon-sp-api-release/sp-api-dev-mcp", "sp-api-workflow-mcp-server"],
       "env": {
         "SP_API_CLIENT_ID": "your-client-id",
         "SP_API_CLIENT_SECRET": "your-client-secret",
