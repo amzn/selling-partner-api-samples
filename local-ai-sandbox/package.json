@@ -1,0 +1,56 @@
+{
+  "name": "@amzn/sp-api-ai-sandbox",
+  "license": "UNLICENSED",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx --watch --env-file .env src/index.ts",
+    "start": "node --env-file .env dist/src/index.js",
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest",
+    "test:run": "vitest --run",
+    "test:ui": "vitest --ui",
+    "coverage": "vitest run --coverage",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git.amazon.com/pkg/SpectrumAiSandbox"
+  },
+  "keywords": [],
+  "author": "",
+  "description": "",
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.985.0",
+    "@opentelemetry/api": "^1.9.1",
+    "@opentelemetry/exporter-metrics-otlp-http": "^0.214.0",
+    "@opentelemetry/resources": "^2.7.0",
+    "@opentelemetry/sdk-metrics": "^2.6.1",
+    "@opentelemetry/semantic-conventions": "^1.40.0",
+    "@strands-agents/sdk": "^1.2.0",
+    "class-validator": "^0.14.3",
+    "express": "^5.2.1",
+    "lowdb": "^7.0.1",
+    "openapi-enforcer": "^1.23.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@tsconfig/node22": "^22.0.5",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.2.0",
+    "@vitest/coverage-v8": "^4.0.18",
+    "@vitest/eslint-plugin": "^1.6.6",
+    "eslint": "^9.39.2",
+    "http-proxy-middleware": "^3.0.5",
+    "prettier": "^3.8.1",
+    "tsx": "^4.22.4",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.54.0",
+    "vitest": "^4.0.18"
+  }
+}
