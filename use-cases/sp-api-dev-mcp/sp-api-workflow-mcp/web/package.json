@@ -18,12 +18,12 @@
     "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.0",
+    "@vitejs/plugin-react": "^6.0.2",
     "mermaid": "^11.14.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^7.0.0",
-    "vite": "^6.0.0"
+    "vite": "^8.0.16"
   }
 }
