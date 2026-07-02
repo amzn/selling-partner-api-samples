@@ -33,9 +33,11 @@ jobs:
       
       - name: Set version in package.json
         working-directory: sp-api-dev-mcp
+        env:
+          VERSION: ${{ github.event.inputs.newVersionNumber }}
         run: |
-          npm version ${{ github.event.inputs.newVersionNumber }} --no-git-tag-version
-          echo "Updated package.json version to ${{ github.event.inputs.newVersionNumber }}"
+          npm version "$VERSION" --no-git-tag-version
+          echo "Updated package.json version to $VERSION"
       
       - name: Install dependencies
         working-directory: sp-api-dev-mcp
@@ -66,11 +68,13 @@ jobs:
           fetch-depth: 0
       
       - name: Create Git tag
+        env:
+          VERSION: ${{ github.event.inputs.newVersionNumber }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag -a "mcp-server-v${{ github.event.inputs.newVersionNumber }}" -m "Release MCP Server v${{ github.event.inputs.newVersionNumber }}"
-          git push origin "mcp-server-v${{ github.event.inputs.newVersionNumber }}"
+          git tag -a "mcp-server-v${VERSION}" -m "Release MCP Server v${VERSION}"
+          git push origin "mcp-server-v${VERSION}"
       
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
