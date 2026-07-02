@@ -27,8 +27,11 @@ public class XmlUtil {
      * @throws Exception If the specified tag is not found or if an error occurs during parsing.
      */
     public static String getXmlDocumentTag(InputStream inputStream, String targetTagName) throws Exception {
-        // Initialize the DocumentBuilder
+        // Initialize the DocumentBuilder with XXE protections
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+        factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+        factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
         DocumentBuilder builder = factory.newDocumentBuilder();
 
         // Parse the XML InputStream
@@ -59,8 +62,11 @@ public class XmlUtil {
     public static String generateEasyShipAmazonEnvelope(String merchantIdentifier, String amazonOrderID, String documentType)
             throws ParserConfigurationException, TransformerException {
 
-        // Initialize the XML Document Builder
+        // Initialize the XML Document Builder with XXE protections
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        docFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+        docFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+        docFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
         // Root element: AmazonEnvelope
@@ -112,8 +118,9 @@ public class XmlUtil {
         docType.appendChild(doc.createTextNode(documentType));
         easyShipDocument.appendChild(docType);
 
-        // Transform document to a String
+        // Transform document to a String with XXE protections
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        transformerFactory.setAttribute("http://javax.xml/transform/secure-processing", true);
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");

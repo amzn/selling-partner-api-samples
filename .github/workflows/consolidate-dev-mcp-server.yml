@@ -173,8 +173,9 @@ jobs:
 
       - name: Set version in package.json
         working-directory: use-cases/sp-api-dev-mcp
+        env:
+          VERSION: ${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}
         run: |
-          VERSION="${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}"
           npm version "$VERSION" --no-git-tag-version
           echo "Updated package.json version to $VERSION"
 
@@ -203,8 +204,9 @@ jobs:
           fetch-depth: 0
 
       - name: Create Git tag
+        env:
+          VERSION: ${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}
         run: |
-          VERSION="${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git tag -a "mcp-server-v${VERSION}" -m "Release MCP Server v${VERSION}"
