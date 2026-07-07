@@ -1,0 +1,810 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Sandbox Data Generator</title>
+    <style>
+      /* Cloudscape Design Tokens */
+      :root {
+        --color-background-layout-main: #ffffff;
+        --color-background-container-content: #ffffff;
+        --color-background-container-header: #ffffff;
+        --color-background-navigation: #171d25;
+        --color-text-heading-default: #000716;
+        --color-text-body-default: #000716;
+        --color-text-body-secondary: #414d5c;
+        --color-text-interactive-default: #0972d3;
+        --color-text-interactive-hover: #033160;
+        --color-text-inverse-default: #ffffff;
+        --color-border-divider-default: #e9ebed;
+        --color-border-container-top: transparent;
+        --color-border-input-default: #7d8998;
+        --color-border-input-focused: #0972d3;
+        --color-background-button-primary-default: #0972d3;
+        --color-background-button-primary-hover: #033160;
+        --color-background-button-primary-active: #033160;
+        --color-background-input-default: #ffffff;
+        --color-background-status-info: #f2f8fd;
+        --color-background-status-success: #f2fcf3;
+        --color-background-status-error: #fff7f7;
+        --color-text-status-info: #0972d3;
+        --color-text-status-success: #037f0c;
+        --color-text-status-error: #d91515;
+        --color-border-status-info: #0972d3;
+        --color-border-status-success: #037f0c;
+        --color-border-status-error: #d91515;
+        --shadow-container: 0 1px 1px 0 rgba(0, 28, 36, 0.3), 1px 1px 1px 0 rgba(0, 28, 36, 0.15), -1px 1px 1px 0 rgba(0, 28, 36, 0.15);
+        --font-family-base: "Amazon Ember", "Helvetica Neue", Roboto, Arial, sans-serif;
+        --space-xs: 4px;
+        --space-s: 8px;
+        --space-m: 12px;
+        --space-l: 16px;
+        --space-xl: 20px;
+        --space-xxl: 24px;
+        --space-xxxl: 32px;
+        --border-radius-container: 16px;
+        --border-radius-button: 8px;
+        --border-radius-input: 8px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: var(--font-family-base);
+        background-color: var(--color-background-layout-main);
+        color: var(--color-text-body-default);
+        line-height: 1.5;
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Navigation -->
+    <header class="top-nav">
+      <div class="top-nav-inner">
+        <div class="top-nav-brand">
+          <img src="/sp-api-logo.png" alt="Amazon Selling Partner API" height="28" />
+        </div>
+        <div class="top-nav-actions">
+          <button class="nav-button" id="viewDataBtn" title="View database contents">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <ellipse cx="12" cy="5" rx="9" ry="3" />
+              <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+              <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+            </svg>
+            <span>View Data</span>
+          </button>
+          <button class="nav-button" id="clearDataBtn" title="Clear all database contents">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="3 6 5 6 21 6" />
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+            </svg>
+            <span>Clear Data</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="layout-main">
+      <div class="content-wrapper">
+        <!-- Hero Section -->
+        <div class="hero-section">
+          <h2 class="hero-title">Generate Test Data</h2>
+          <div class="form-field">
+            <div class="textarea-wrapper">
+              <textarea
+                id="prompt-input"
+                class="form-textarea"
+                placeholder="Describe the data you need and the AI agent will generate it for you. Be specific about quantities, attributes, and any constraints."
+                rows="3"
+              ></textarea>
+              <button id="send" class="btn-send" title="Generate">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="transform: rotate(45deg)"
+                >
+                  <line x1="22" y1="2" x2="11" y2="13" />
+                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button id="clear" class="btn btn-normal">Clear</button>
+          </div>
+        </div>
+
+        <!-- Response Section -->
+        <div class="container response-container" id="response-container" style="display: none">
+          <div class="container-header">
+            <div class="response-header-row">
+              <h2>Result</h2>
+              <span class="status-badge" id="status-badge">
+                <span class="status-dot"></span>
+                <span id="status-text">Processing</span>
+              </span>
+            </div>
+          </div>
+          <div class="container-body">
+            <div id="response-content" class="response-content"></div>
+          </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div class="container loading-container" id="loading-container" style="display: none">
+          <div class="container-body loading-body">
+            <div class="spinner"></div>
+            <span class="loading-text">Generating data, this may take a moment...</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <span>© 2026, Amazon.com Services LLC.</span>
+    </footer>
+
+    <style>
+      /* Top Navigation */
+      .top-nav {
+        background-color: var(--color-background-navigation);
+        color: var(--color-text-inverse-default);
+        height: 56px;
+        display: flex;
+        align-items: center;
+        padding: 0 var(--space-xl);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      .top-nav-inner {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .top-nav-brand {
+        display: flex;
+        align-items: center;
+        gap: var(--space-s);
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        white-space: nowrap;
+      }
+      .top-nav-title {
+        flex: 1;
+        text-align: center;
+        font-size: 14px;
+        color: #8d99a8;
+        font-weight: 400;
+      }
+      .top-nav-actions {
+        display: flex;
+        gap: var(--space-s);
+        margin-left: auto;
+      }
+      .nav-button {
+        display: flex;
+        align-items: center;
+        gap: var(--space-xs);
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: var(--color-text-inverse-default);
+        padding: 6px 12px;
+        border-radius: var(--border-radius-button);
+        cursor: pointer;
+        font-size: 13px;
+        font-family: var(--font-family-base);
+        transition:
+          background 0.15s,
+          border-color 0.15s;
+      }
+      .nav-button:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.4);
+      }
+
+      /* Layout */
+      .layout-main {
+        padding: var(--space-xxxl) var(--space-xl);
+        min-height: calc(100vh - 56px - 48px);
+      }
+      .content-wrapper {
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xxl);
+      }
+
+      /* Container (Cloudscape-style card) */
+      .container {
+        background: var(--color-background-container-content);
+        border-radius: var(--border-radius-container);
+        box-shadow: var(--shadow-container);
+        overflow: hidden;
+      }
+      .container-header {
+        padding: var(--space-xl) var(--space-xxl);
+      }
+      .container-header h2 {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--color-text-heading-default);
+        margin-bottom: var(--space-xs);
+      }
+      .header-description {
+        font-size: 14px;
+        color: var(--color-text-body-secondary);
+        margin: 0;
+      }
+      .container-body {
+        padding: var(--space-xxl);
+      }
+
+      /* Form Elements */
+      .form-textarea {
+        width: 100%;
+        padding: var(--space-s) var(--space-m);
+        border: 1px solid var(--color-border-input-default);
+        border-radius: var(--border-radius-input);
+        font-family: var(--font-family-base);
+        font-size: 14px;
+        color: var(--color-text-body-default);
+        background: var(--color-background-input-default);
+        resize: none;
+        transition: border-color 0.15s;
+        line-height: 1.5;
+      }
+      .form-textarea:focus {
+        outline: none;
+        border-color: var(--color-border-input-focused);
+        box-shadow: 0 0 0 1px var(--color-border-input-focused);
+      }
+      .form-textarea::placeholder {
+        color: #8d99a8;
+        font-style: italic;
+      }
+
+      /* Buttons */
+      .form-actions {
+        display: flex;
+        gap: var(--space-s);
+        justify-content: flex-end;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-s);
+        padding: 8px 20px;
+        border-radius: var(--border-radius-button);
+        font-family: var(--font-family-base);
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        border: 1px solid transparent;
+        transition:
+          background 0.15s,
+          border-color 0.15s,
+          color 0.15s;
+        letter-spacing: 0.2px;
+      }
+      .btn-primary {
+        background: var(--color-background-button-primary-default);
+        color: var(--color-text-inverse-default);
+        border-color: var(--color-background-button-primary-default);
+      }
+      .btn-primary:hover {
+        background: var(--color-background-button-primary-hover);
+        border-color: var(--color-background-button-primary-hover);
+      }
+      .btn-primary:disabled {
+        background: #c6c6cd;
+        border-color: #c6c6cd;
+        cursor: not-allowed;
+      }
+      .btn-normal {
+        background: var(--color-background-container-content);
+        color: var(--color-text-body-default);
+        border-color: var(--color-border-input-default);
+      }
+      .btn-normal:hover {
+        background: #f4f4f4;
+        border-color: var(--color-text-body-default);
+      }
+      .btn-icon {
+        flex-shrink: 0;
+      }
+
+      /* Textarea with embedded send button */
+      .textarea-wrapper {
+        position: relative;
+      }
+      .btn-send {
+        position: absolute;
+        right: 8px;
+        bottom: 8px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--color-text-body-secondary);
+        padding: 4px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.15s;
+      }
+      .btn-send:hover {
+        color: var(--color-background-button-primary-default);
+      }
+      .btn-send:disabled {
+        color: #c6c6cd;
+        cursor: not-allowed;
+      }
+
+      /* Hero Section */
+      .hero-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--color-text-heading-default);
+        margin-bottom: var(--space-xs);
+      }
+
+      /* Response */
+      .response-header-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .response-header-row h2 {
+        margin-bottom: 0;
+      }
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 16px;
+      }
+      .status-badge.success {
+        background: var(--color-background-status-success);
+        color: var(--color-text-status-success);
+      }
+      .status-badge.error {
+        background: var(--color-background-status-error);
+        color: var(--color-text-status-error);
+      }
+      .status-badge.info {
+        background: var(--color-background-status-info);
+        color: var(--color-text-status-info);
+      }
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+      .response-content {
+        font-size: 14px;
+        color: var(--color-text-body-default);
+        line-height: 1.7;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      /* Loading */
+      .loading-body {
+        display: flex;
+        align-items: center;
+        gap: var(--space-m);
+        padding: var(--space-xl) var(--space-xxl);
+      }
+      .spinner {
+        width: 20px;
+        height: 20px;
+        border: 3px solid var(--color-border-divider-default);
+        border-top-color: var(--color-background-button-primary-default);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .loading-text {
+        font-size: 14px;
+        color: var(--color-text-body-secondary);
+      }
+
+      /* Error Detail */
+      .error-detail {
+        background: var(--color-background-status-error);
+        border: 1px solid var(--color-border-status-error);
+        border-radius: var(--border-radius-input);
+        padding: var(--space-l);
+      }
+      .error-detail-header {
+        display: flex;
+        align-items: center;
+        gap: var(--space-s);
+        margin-bottom: var(--space-s);
+      }
+      .error-type-badge {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 700;
+        font-family: monospace;
+        background: rgba(217, 21, 21, 0.1);
+        color: var(--color-text-status-error);
+        padding: 2px 8px;
+        border-radius: 4px;
+      }
+      .error-status-code {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--color-text-body-secondary);
+        padding: 2px 8px;
+        border-radius: 4px;
+        background: rgba(0, 0, 0, 0.05);
+      }
+      .error-detail-message {
+        font-size: 14px;
+        color: var(--color-text-status-error);
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      /* Footer */
+      .footer {
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-s);
+        font-size: 12px;
+        color: #c6c6cd;
+        border-top: 1px solid var(--color-border-divider-default);
+        background: #171d25;
+      }
+      .footer-sep {
+        color: var(--color-border-divider-default);
+      }
+
+      /* Data Modal */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 7, 22, 0.5);
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: var(--space-xxl);
+      }
+      .modal {
+        background: var(--color-background-container-content);
+        border-radius: var(--border-radius-container);
+        box-shadow: 0 4px 20px rgba(0, 7, 22, 0.3);
+        width: 100%;
+        max-width: 700px;
+        max-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-l) var(--space-xxl);
+        border-bottom: 1px solid var(--color-border-divider-default);
+      }
+      .modal-header h2 {
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .modal-close {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--color-text-body-secondary);
+        padding: var(--space-xs);
+        border-radius: 4px;
+        display: flex;
+      }
+      .modal-close:hover {
+        background: #f4f4f4;
+      }
+      .modal-body {
+        padding: var(--space-xs);
+        overflow-y: auto;
+        color: var(--color-text-body-default);
+        background: var(--color-background-navigation);
+      }
+      .modal-body .json-tree {
+        display: block;
+        width: 100%;
+        font-family: monospace;
+        font-size: 13px;
+        line-height: 1.5;
+        color: #c5c8c6;
+      }
+      .json-tree details {
+        margin-left: 1em;
+      }
+      .json-tree summary {
+        cursor: pointer;
+        list-style: none;
+      }
+      .json-tree summary::before {
+        content: "▶ ";
+        font-size: 10px;
+      }
+      .json-tree details[open] > summary::before {
+        content: "▼ ";
+      }
+      .json-tree .json-key {
+        color: #81a2be;
+      }
+      .json-tree .json-string {
+        color: #b5bd68;
+      }
+      .json-tree .json-number {
+        color: #de935f;
+      }
+      .json-tree .json-boolean {
+        color: #cc6666;
+      }
+      .json-tree .json-null {
+        color: #969896;
+      }
+    </style>
+
+    <script>
+      function renderJson(data, depth = 0, maxExpand = 2) {
+        if (data === null) return '<span class="json-null">null</span>';
+        if (typeof data === "string") return '<span class="json-string">"' + data.replace(/</g, "&lt;") + '"</span>';
+        if (typeof data === "number") return '<span class="json-number">' + data + "</span>";
+        if (typeof data === "boolean") return '<span class="json-boolean">' + data + "</span>";
+        if (Array.isArray(data)) {
+          if (data.length === 0) return "[]";
+          const items = data.map((v, i) => "<div>" + i + ": " + renderJson(v, depth + 1, maxExpand) + "</div>").join("");
+          return "<details" + (depth < maxExpand ? " open" : "") + "><summary>Array[" + data.length + "]</summary>" + items + "</details>";
+        }
+        if (typeof data === "object") {
+          const keys = Object.keys(data);
+          if (keys.length === 0) return "{}";
+          const items = keys
+            .map((k) => '<div><span class="json-key">"' + k + '"</span>: ' + renderJson(data[k], depth + 1, maxExpand) + "</div>")
+            .join("");
+          return "<details" + (depth < maxExpand ? " open" : "") + "><summary>Object{" + keys.length + "}</summary>" + items + "</details>";
+        }
+        return String(data);
+      }
+    </script>
+    <script>
+      const promptInput = document.getElementById("prompt-input");
+      const sendBtn = document.getElementById("send");
+      const clearBtn = document.getElementById("clear");
+      const responseContainer = document.getElementById("response-container");
+      const loadingContainer = document.getElementById("loading-container");
+      const responseContent = document.getElementById("response-content");
+      const statusBadge = document.getElementById("status-badge");
+      const statusText = document.getElementById("status-text");
+      const viewDataBtn = document.getElementById("viewDataBtn");
+
+      function setLoading(loading) {
+        sendBtn.disabled = loading;
+        loadingContainer.style.display = loading ? "" : "none";
+        if (loading) responseContainer.style.display = "none";
+      }
+
+      function showResult(text, isError) {
+        responseContainer.style.display = "";
+        responseContent.textContent = text;
+        statusBadge.className = "status-badge " + (isError ? "error" : "success");
+        statusText.textContent = isError ? "Error" : "Success";
+      }
+
+      function showError(message, errorType, statusCode) {
+        responseContainer.style.display = "";
+        responseContent.innerHTML = "";
+
+        const errorBox = document.createElement("div");
+        errorBox.className = "error-detail";
+
+        const errorHeader = document.createElement("div");
+        errorHeader.className = "error-detail-header";
+
+        if (errorType) {
+          const typeBadge = document.createElement("span");
+          typeBadge.className = "error-type-badge";
+          typeBadge.textContent = errorType;
+          errorHeader.appendChild(typeBadge);
+        }
+
+        if (statusCode) {
+          const codeBadge = document.createElement("span");
+          codeBadge.className = "error-status-code";
+          codeBadge.textContent = "HTTP " + statusCode;
+          errorHeader.appendChild(codeBadge);
+        }
+
+        const errorMessage = document.createElement("p");
+        errorMessage.className = "error-detail-message";
+        errorMessage.textContent = message;
+
+        errorBox.appendChild(errorHeader);
+        errorBox.appendChild(errorMessage);
+        responseContent.appendChild(errorBox);
+
+        statusBadge.className = "status-badge error";
+        statusText.textContent = "Error";
+      }
+
+      sendBtn.addEventListener("click", async () => {
+        const prompt = promptInput.value.trim();
+        if (!prompt) return;
+        setLoading(true);
+        try {
+          const res = await fetch("/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt }),
+          });
+          const data = await res.json();
+          setLoading(false);
+          if (!res.ok && data.error) {
+            showError(data.error, data.errorType, res.status);
+          } else {
+            showResult(data.result, !res.ok);
+          }
+        } catch (err) {
+          setLoading(false);
+          showError("Request failed: " + err.message, "NetworkError");
+        }
+      });
+
+      promptInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          sendBtn.click();
+        }
+      });
+
+      clearBtn.addEventListener("click", () => {
+        promptInput.value = "";
+        responseContainer.style.display = "none";
+        loadingContainer.style.display = "none";
+        promptInput.focus();
+      });
+
+      const clearDataBtn = document.getElementById("clearDataBtn");
+
+      clearDataBtn.addEventListener("click", () => {
+        const overlay = document.createElement("div");
+        overlay.className = "modal-overlay";
+        overlay.innerHTML = `
+        <div class="modal">
+          <div class="modal-header">
+            <h2>Clear Data</h2>
+            <button class="modal-close" aria-label="Close">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+          <div class="modal-body" style="padding: var(--space-xxl); background: var(--color-background-container-content); color: var(--color-text-body-default); font-size: 14px;">
+            <p>Are you sure you want to clear all data from the database? This action cannot be undone.</p>
+            <div style="display: flex; gap: var(--space-s); justify-content: flex-end; margin-top: var(--space-xl);">
+              <button class="btn btn-normal" id="clearDataCancel">Cancel</button>
+              <button class="btn btn-primary" id="clearDataConfirm" style="background: #d91515; border-color: #d91515;">Yes</button>
+            </div>
+          </div>
+        </div>`;
+        document.body.appendChild(overlay);
+
+        const closeModal = () => overlay.remove();
+        overlay.querySelector(".modal-close").addEventListener("click", closeModal);
+        overlay.addEventListener("click", (e) => {
+          if (e.target === overlay) closeModal();
+        });
+        overlay.querySelector("#clearDataCancel").addEventListener("click", closeModal);
+
+        overlay.querySelector("#clearDataConfirm").addEventListener("click", async () => {
+          try {
+            const res = await fetch("/data", { method: "DELETE" });
+            if (res.ok) {
+              closeModal();
+              showResult("All data has been cleared successfully.", false);
+            } else {
+              const data = await res.json();
+              closeModal();
+              showResult("Failed to clear data: " + (data.error || "Unknown error"), true);
+            }
+          } catch (err) {
+            closeModal();
+            showResult("Failed to clear data: " + err.message, true);
+          }
+        });
+      });
+
+      viewDataBtn.addEventListener("click", async () => {
+        const overlay = document.createElement("div");
+        overlay.className = "modal-overlay";
+        overlay.innerHTML = `
+        <div class="modal">
+          <div class="modal-header">
+            <h2>Database Contents</h2>
+            <button class="modal-close" aria-label="Close">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+          <div class="modal-body">Loading...</div>
+        </div>`;
+        document.body.appendChild(overlay);
+
+        overlay.querySelector(".modal-close").addEventListener("click", () => overlay.remove());
+        overlay.addEventListener("click", (e) => {
+          if (e.target === overlay) overlay.remove();
+        });
+
+        try {
+          const res = await fetch("/data");
+          const data = await res.json();
+          const modalBody = overlay.querySelector(".modal-body");
+          modalBody.textContent = "";
+          const container = document.createElement("div");
+          container.className = "json-tree";
+          container.innerHTML = renderJson(data, 0, 2);
+          modalBody.appendChild(container);
+        } catch (err) {
+          overlay.querySelector(".modal-body").textContent = "Failed to load data: " + err.message;
+        }
+      });
+    </script>
+  </body>
+</html>

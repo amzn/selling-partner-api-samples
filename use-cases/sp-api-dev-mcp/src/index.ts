@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 import { dirname, join } from "path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -26,4 +26,4 @@ if (!serverName || !SERVER_MAP[serverName]) {
 }
 
 const serverFile = join(bundledDir, SERVER_MAP[serverName]);
-await import(serverFile);
+await import(pathToFileURL(serverFile).href);

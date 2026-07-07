@@ -48,14 +48,6 @@ npx -y @amazon-sp-api-release/sp-api-dev-mcp sp-api-dev-assistant-mcp-server
 npx -y @amazon-sp-api-release/sp-api-dev-mcp sp-api-workflow-mcp-server
 ```
 
-### Releasing a New Version
-
-Releases are published automatically via the [Consolidate MCP Servers](.github/workflows/consolidate-dev-mcp-server.yml) GitHub Actions workflow. To trigger a release:
-
-1. Go to **Actions** → **Consolidate MCP Servers** → **Run workflow**
-2. Enter the new version number (e.g. `1.0.0`)
-3. The workflow will build, bundle, publish to npm, and create a GitHub release
-
 **Required secret:** `NPM_TOKEN` — a granular npm access token with read/write permission for `@amazon-sp-api-release/sp-api-dev-mcp`.
 
 ## Learning Resources

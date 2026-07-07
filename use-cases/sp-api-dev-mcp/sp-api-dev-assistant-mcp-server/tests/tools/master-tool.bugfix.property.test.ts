@@ -5,51 +5,51 @@ import { masterCodeGenerationSchema } from "../../src/zod-schemas/code-generatio
 
 // Mock all six dependency tool modules (same pattern as master-tool.property.test.ts)
 vi.mock("../../src/tools/code-generation-tools/get-workflow-guide.js", () => ({
-  GetWorkflowGuide: vi.fn().mockImplementation(() => ({
-    execute: vi.fn().mockResolvedValue({
+  GetWorkflowGuide: vi.fn().mockImplementation(function () {
+    return { execute: vi.fn().mockResolvedValue({
       content: [{ type: "text", text: "workflow-guide-result" }],
-    }),
-  })),
+    }) };
+  }),
 }));
 
 vi.mock("../../src/utils/clone-repo.js", () => ({
-  CloneRepo: vi.fn().mockImplementation(() => ({
-    execute: vi.fn().mockResolvedValue({
+  CloneRepo: vi.fn().mockImplementation(function () {
+    return { execute: vi.fn().mockResolvedValue({
       content: [{ type: "text", text: "clone-repo-result" }],
-    }),
-  })),
+    }) };
+  }),
 }));
 
 vi.mock("../../src/tools/code-generation-tools/get-basic-usage.js", () => ({
-  GetBasicUsage: vi.fn().mockImplementation(() => ({
-    execute: vi.fn().mockResolvedValue({
+  GetBasicUsage: vi.fn().mockImplementation(function () {
+    return { execute: vi.fn().mockResolvedValue({
       content: [{ type: "text", text: "basic-usage-result" }],
-    }),
-  })),
+    }) };
+  }),
 }));
 
 vi.mock("../../src/tools/code-generation-tools/get-categories.js", () => ({
-  GetCategories: vi.fn().mockImplementation(() => ({
-    execute: vi.fn().mockResolvedValue({
+  GetCategories: vi.fn().mockImplementation(function () {
+    return { execute: vi.fn().mockResolvedValue({
       content: [{ type: "text", text: "categories-result" }],
-    }),
-  })),
+    }) };
+  }),
 }));
 
 vi.mock("../../src/tools/code-generation-tools/get-operations.js", () => ({
-  GetOperations: vi.fn().mockImplementation(() => ({
-    execute: vi.fn().mockResolvedValue({
+  GetOperations: vi.fn().mockImplementation(function () {
+    return { execute: vi.fn().mockResolvedValue({
       content: [{ type: "text", text: "operations-result" }],
-    }),
-  })),
+    }) };
+  }),
 }));
 
 vi.mock("../../src/tools/code-generation-tools/get-models.js", () => ({
-  GetModels: vi.fn().mockImplementation(() => ({
-    execute: vi.fn().mockResolvedValue({
+  GetModels: vi.fn().mockImplementation(function () {
+    return { execute: vi.fn().mockResolvedValue({
       content: [{ type: "text", text: "models-result" }],
-    }),
-  })),
+    }) };
+  }),
 }));
 
 import { GetWorkflowGuide } from "../../src/tools/code-generation-tools/get-workflow-guide.js";

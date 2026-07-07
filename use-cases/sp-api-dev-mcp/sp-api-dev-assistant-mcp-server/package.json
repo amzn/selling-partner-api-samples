@@ -35,7 +35,7 @@
     "cheerio": "^1.0.0",
     "dotenv": "^16.4.5",
     "simple-git": "^3.27.0",
-    "undici": "^7.25.0",
+    "undici": "^7.28.0",
     "vectra": "^0.14.0",
     "yaml": "^2.8.2",
     "zod": "^3.22.4",
@@ -52,9 +52,9 @@
     "fast-check": "^4.7.0",
     "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
-    "tsx": "^4.19.1",
+    "tsx": "^4.22.4",
     "typescript": "^5.5.4",
-    "vitest": "^2.1.0"
+    "vitest": "^4.1.9"
   },
   "files": [
     "src/",
