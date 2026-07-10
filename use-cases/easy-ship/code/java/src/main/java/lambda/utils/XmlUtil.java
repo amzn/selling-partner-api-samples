@@ -32,6 +32,8 @@ public class XmlUtil {
         factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
         factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
         factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+        factory.setExpandEntityReferences(false);
+        factory.setXIncludeAware(false);
         DocumentBuilder builder = factory.newDocumentBuilder();
 
         // Parse the XML InputStream
@@ -67,6 +69,8 @@ public class XmlUtil {
         docFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
         docFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
         docFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+        docFactory.setExpandEntityReferences(false);
+        docFactory.setXIncludeAware(false);
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
         // Root element: AmazonEnvelope
@@ -118,9 +122,10 @@ public class XmlUtil {
         docType.appendChild(doc.createTextNode(documentType));
         easyShipDocument.appendChild(docType);
 
-        // Transform document to a String with XXE protections
+        // Transform document to a String
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        transformerFactory.setAttribute("http://javax.xml/transform/secure-processing", true);
+        tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
