@@ -1,7 +1,7 @@
 """
 Amazon SP-API Mock Server
 A professional mock server for testing Amazon Selling Partner API integrations.
-Supports Data Kiosk, Buy Shipping, and Listings APIs.
+Supports Data Kiosk and Buy Shipping APIs.
 """
 
 from fastapi import FastAPI, Request, HTTPException, Body, Query
@@ -25,7 +25,6 @@ logger = logging.getLogger(__name__)
 RESPONSES_DIR = Path("responses")
 DATAKIOSK_DIR = RESPONSES_DIR / "datakiosk"
 SHIPPING_DIR = RESPONSES_DIR / "shipping-guru"
-LISTINGS_DIR = RESPONSES_DIR / "listings-wizard"
 
 def load_json_response(*parts: str) -> Dict[Any, Any]:
     """
@@ -74,18 +73,10 @@ def validate_responses_directory():
         "purchase_shipment_response.json",
         "get_tracking_response.json",
     ]
-    required_listings = [
-        "low_conversion_get_listing_response.json",
-        "high_refund_get_listing_response.json",
-        "low_conversion_patch_listing_response.json",
-        "pricing_performance_patch_listing_response.json",
-        "high_refund_patch_listing_response.json",
-        "pricing_performance_get_competitive_summary_response.json",
-    ]
 
     missing_any = False
 
-    for subdir in [DATAKIOSK_DIR, SHIPPING_DIR, LISTINGS_DIR]:
+    for subdir in [DATAKIOSK_DIR, SHIPPING_DIR]:
         if not subdir.exists():
             logger.warning(f"Expected subdirectory not found: {subdir}")
             missing_any = True
@@ -93,7 +84,6 @@ def validate_responses_directory():
     missing_files = []
     missing_files += _check_required(DATAKIOSK_DIR, required_datakiosk)
     missing_files += _check_required(SHIPPING_DIR, required_shipping)
-    missing_files += _check_required(LISTINGS_DIR, required_listings)
 
     if missing_files:
         missing_any = True
@@ -141,9 +131,7 @@ async def root():
             "auth": "/auth/o2/token",
             "dataKiosk": "/dataKiosk/2023-11-15/*",
             "orders": "/orders/v0/*",
-            "shipping": "/shipping/v2/*",
-            "listings": "/listings/2021-08-01/*",
-            "pricing": "/batches/products/pricing/2022-05-01/*"
+            "shipping": "/shipping/v2/*"
         }
     }
 
@@ -423,131 +411,6 @@ async def get_tracking(trackingId: str = Query(...), carrierId: str = Query(...)
 
     data = load_json_response("shipping-guru", "get_tracking_response.json")
     return JSONResponse(content=data)
-
-# ==================== Listings API ====================
-
-@app.get("/listings/2021-08-01/items/{sellerId}/{sku}")
-def get_listing(sellerId: str, sku: str):
-    """Get listing item."""
-    logger.info(f"Getting listing: {sku}")
-
-    listing_map = {
-        "BICYCLE-GRAY-M": "high_refund_get_listing_response.json",
-        "MOTOR-GEAR-US": "low_conversion_get_listing_response.json"
-    }
-
-    if sku in listing_map:
-        data = load_json_response("listings-wizard", listing_map[sku])
-        return JSONResponse(content=data)
-
-    raise HTTPException(
-        status_code=400,
-        detail=f"SKU '{sku}' is not valid. Try again!"
-    )
-
-@app.patch("/listings/2021-08-01/items/{sellerId}/{sku}")
-def patch_listing(sellerId: str, sku: str, body: dict = Body(...)):
-    """Update listing item."""
-    logger.info(f"Patching listing: {sku}")
-
-    if sku not in ["BICYCLE-GRAY-M", "MOTOR-GEAR-US", "VOLLEYBALL"]:
-        raise HTTPException(
-            status_code=400,
-            detail=f"SKU '{sku}' is not valid. Try again!"
-        )
-
-    try:
-        patches = body.get("patches", [])
-        if not patches:
-            raise ValueError("No patches provided")
-
-        if sku == "MOTOR-GEAR-US":
-            path = patches[0].get("path")
-            product_type = body.get("productType")
-
-            if product_type != "POWERSPORTS_PROTECTIVE_GEAR":
-                raise HTTPException(
-                    status_code=400,
-                    detail="Product type is not valid. Try again!"
-                )
-
-            if path != "/attributes/department":
-                raise HTTPException(
-                    status_code=400,
-                    detail="Path is not valid. Try again!"
-                )
-
-            response_file = "low_conversion_patch_listing_response.json"
-
-        elif sku == "BICYCLE-GRAY-M":
-            quantity = patches[0].get("value", [{}])[0].get("quantity")
-            op = patches[0].get("op")
-
-            if quantity != 4:
-                raise HTTPException(
-                    status_code=400,
-                    detail="Quantity is not valid. Try again!"
-                )
-
-            if op != "merge":
-                raise HTTPException(
-                    status_code=400,
-                    detail="Operation is not valid. Try again!"
-                )
-
-            response_file = "high_refund_patch_listing_response.json"
-
-        elif sku == "VOLLEYBALL":
-            our_price = patches[0].get("value", [{}])[0].get("our_price", [{}])[0].get("schedule", [{}])[0].get(
-                "value_with_tax")
-
-            if our_price is None or our_price > 199.49:
-                raise HTTPException(
-                    status_code=400,
-                    detail="Price is not valid. Try again!"
-                )
-
-            response_file = "pricing_performance_patch_listing_response.json"
-
-        data = load_json_response("listings-wizard", response_file)
-        return JSONResponse(content=data)
-
-    except (KeyError, IndexError, TypeError) as e:
-        logger.error(f"Invalid request body: {e}")
-        raise HTTPException(
-            status_code=400,
-            detail="Request body is not valid. Try again!"
-        )
-
-# ==================== Pricing API ====================
-
-@app.post("/batches/products/pricing/2022-05-01/items/competitiveSummary")
-def get_competitive_summary(body: dict = Body(...)):
-    """Get competitive pricing summary."""
-    logger.info("Getting competitive summary")
-
-    try:
-        requests = body.get("requests", [])
-        if not requests:
-            raise ValueError("No requests provided")
-
-        asin = requests[0].get("asin")
-
-        if asin != "B0CLZHRQK8":
-            raise HTTPException(
-                status_code=400,
-                detail=f"ASIN '{asin}' is not valid. Try again!"
-            )
-
-        data = load_json_response("listings-wizard", "pricing_performance_get_competitive_summary_response.json")
-        return JSONResponse(content=data)
-
-    except (KeyError, IndexError, TypeError) as e:
-        logger.error(f"Invalid request body: {e}")
-        raise HTTPException(
-            status_code=400,
-            detail="Request body is not valid. Try again!"
-        )
 
 if __name__ == "__main__":
     import uvicorn
