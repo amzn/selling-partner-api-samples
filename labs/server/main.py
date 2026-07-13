@@ -130,7 +130,7 @@ async def root():
         "endpoints": {
             "auth": "/auth/o2/token",
             "dataKiosk": "/dataKiosk/2023-11-15/*",
-            "orders": "/orders/v0/*",
+            "orders": "/orders/2026-01-01/*",
             "shipping": "/shipping/v2/*"
         }
     }
@@ -275,12 +275,18 @@ def get_document(documentId: str):
         detail=f"💽 Document ID '{documentId}' is not valid. Try again!"
     )
 
-# ==================== Orders API ====================
+# ==================== Orders API (2026-01-01) ====================
 
-@app.get("/orders/v0/orders/{orderId}")
-def get_order(orderId: str):
-    """Get order details by ID."""
-    logger.info(f"Fetching order: {orderId}")
+@app.get("/orders/2026-01-01/orders/{orderId}")
+def get_order(orderId: str, includedData: Optional[str] = Query(default=None)):
+    """Get order details by ID using the Orders API v2026-01-01.
+
+    Order items are always included. The optional `includedData` query parameter
+    (comma-separated, e.g. `RECIPIENT,FULFILLMENT`) mirrors the real API; the mock
+    returns the full order regardless of which datasets are requested.
+    """
+    requested = [d.strip() for d in includedData.split(",")] if includedData else []
+    logger.info(f"Fetching order: {orderId} (includedData={requested or 'default'})")
 
     if orderId != EXPECTED_ORDER_ID:
         raise HTTPException(

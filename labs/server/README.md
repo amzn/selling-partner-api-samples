@@ -121,7 +121,7 @@ curl http://localhost:8000/health
 |                            | Data Kiosk API | GET    | `/dataKiosk/2023-11-15/queries`                            | List all queries             |
 |                            | Data Kiosk API | GET    | `/dataKiosk/2023-11-15/queries/{queryId}`                  | Get query status             |
 |                            | Data Kiosk API | GET    | `/dataKiosk/2023-11-15/documents/{documentId}`             | Get document data            |
-| **Shipping-Guru (workshop)** | Orders API     | GET    | `/orders/v0/orders/{orderId}`                              | Get order details            |
+| **Shipping-Guru (workshop)** | Orders API (v2026-01-01) | GET    | `/orders/2026-01-01/orders/{orderId}`                      | Get order details (supports `includedData`) |
 |                            | Shipping API   | POST   | `/shipping/v2/shipments/rates`                             | Get shipping rates           |
 |                            | Shipping API   | POST   | `/shipping/v2/shipments`                                   | Purchase shipment            |
 |                            | Shipping API   | PUT    | `/shipping/v2/shipments/{shipmentId}/cancel`               | Cancel shipment              |
