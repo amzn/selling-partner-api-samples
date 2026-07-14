@@ -18,7 +18,7 @@ This directory contains hands-on resources to help you learn and master the **Se
   - Example: diagnosing listing errors, or building a fulfillment solution with Buy Shipping + MLI.
 
 - **`server/`**  
-  A  mock server that powers the [tutorials](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/tutorials) and [workshops](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/workshops).  
+  A  mock server that powers the [tutorials](https://github.com/amzn/selling-partner-api-samples/tree/labs/tutorials) and [workshops](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/workshops).  
   - Run this locally to simulate SP-API endpoints.  
   - **Purpose:** help you understand the **flow of the APIs** without calling SP-API production endpoints.  
   - Example: test Shipping Guru without hitting live SP-API.
