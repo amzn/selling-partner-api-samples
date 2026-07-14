@@ -80,13 +80,7 @@ responses/
 ├── get_order_response.json
 ├── get_rates_response.json
 ├── purchase_shipment_response.json
-├── get_tracking_response.json
-├── get_listing1_response.json
-├── get_listing3_response.json
-├── patch_listing1_response.json
-├── patch_listing2_response.json
-├── patch_listing3_response.json
-└── mock_getCompetitiveSummary_response.json
+└── get_tracking_response.json
 ```
 
 ### Running the Server
@@ -123,14 +117,11 @@ curl http://localhost:8000/health
 
 | Workshop / Tutorial       | API           | Method | Path                                                       | Description                  |
 |----------------------------|---------------|--------|-------------------------------------------------------------|------------------------------|
-| **Listings-Wizard (workshop)** | Listings API   | GET    | `/listings/2021-08-01/items/{sellerId}/{sku}`              | Get listing                  |
-|                            | Listings API   | PATCH  | `/listings/2021-08-01/items/{sellerId}/{sku}`              | Update listing               |
-|                            | Pricing API    | POST   | `/batches/products/pricing/2022-05-01/items/competitiveSummary` | Get competitive summary      |
 | **DataKiosk (tutorial)**   | Data Kiosk API | POST   | `/dataKiosk/2023-11-15/queries`                            | Create query                 |
 |                            | Data Kiosk API | GET    | `/dataKiosk/2023-11-15/queries`                            | List all queries             |
 |                            | Data Kiosk API | GET    | `/dataKiosk/2023-11-15/queries/{queryId}`                  | Get query status             |
 |                            | Data Kiosk API | GET    | `/dataKiosk/2023-11-15/documents/{documentId}`             | Get document data            |
-| **Shipping-Guru (workshop)** | Orders API     | GET    | `/orders/v0/orders/{orderId}`                              | Get order details            |
+| **Shipping-Guru (workshop)** | Orders API (v2026-01-01) | GET    | `/orders/2026-01-01/orders/{orderId}`                      | Get order details (supports `includedData`) |
 |                            | Shipping API   | POST   | `/shipping/v2/shipments/rates`                             | Get shipping rates           |
 |                            | Shipping API   | POST   | `/shipping/v2/shipments`                                   | Purchase shipment            |
 |                            | Shipping API   | PUT    | `/shipping/v2/shipments/{shipmentId}/cancel`               | Cancel shipment              |
