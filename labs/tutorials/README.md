@@ -17,4 +17,4 @@ Tutorials are designed to help you focus on a single API domain at a time, with 
 
 | Tutorial                  | Notebook/File              | Focus APIs             | Learning Goal                                    |
 |----------------------------|----------------------------|------------------------|-------------------------------------------------|
-| Data Kiosk Flow            | [`data-kiosk/data-kiosk-flow.ipynb`](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/tutorials/data-kiosk)    | Data Kiosk API        | Build and visualize queries with the SP-API SDK |
+| Data Kiosk Flow            | [`data-kiosk/data-kiosk-flow.ipynb`](https://github.com/amzn/selling-partner-api-samples/tree/main/labs/tutorials/data-kiosk)    | Data Kiosk API        | Build and visualize queries with the SP-API SDK |

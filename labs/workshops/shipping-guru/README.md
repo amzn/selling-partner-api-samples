@@ -34,9 +34,11 @@ You’ll work through a single Buy Shipping scenario:
 **00-buy-shipping-challenge.ipynb**
 
 - Problem: A seller is having issues purchasing and validating shipping labels through SP-API. 
-- Your task: Debug the order and shipment flow using the Orders and Shipping APIs. 
+- Your task: Debug the order and shipment flow using the **Orders API (v2026-01-01)** and the Shipping API. 
 - Clues: check order ID validity, item identifiers, addresses, rate IDs, and label format. 
 - Deliverable: identify the errors in the workflow and successfully purchase a valid shipping label.
+
+> ℹ️ This workshop uses the modern **Orders API v2026-01-01** (`getOrder` with the `includedData` parameter). It requires `amzn-sp-api >= 1.9.0`, which the notebook installs for you.
 
 ## 🛠️ Tools You’ll Use
 
@@ -73,7 +75,7 @@ You can run these notebooks on Amazon SageMaker → Notebook Instances
 **OR** run them locally in any Jupyter environment:
 
 ```bash
-cd labs/workshops/shipping-guru/buy-shipping-challenge
+cd labs/workshops/shipping-guru
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt

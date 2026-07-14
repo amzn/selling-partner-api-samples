@@ -18,10 +18,10 @@ This directory contains hands-on resources to help you learn and master the **Se
   - Example: diagnosing listing errors, or building a fulfillment solution with Buy Shipping + MLI.
 
 - **`server/`**  
-  A  mock server that powers the [tutorials](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/tutorials) and [workshops](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/workshops).  
+  A  mock server that powers the [tutorials](https://github.com/amzn/selling-partner-api-samples/tree/main/labs/tutorials) and [workshops](https://github.com/amzn/selling-partner-api-samples/tree/main/labs/workshops).  
   - Run this locally to simulate SP-API endpoints.  
   - **Purpose:** help you understand the **flow of the APIs** without calling SP-API production endpoints.  
-  - Example: test Listings Wizard or Shipping Guru without hitting live SP-API.
+  - Example: test Shipping Guru without hitting live SP-API.
 
 ---
 
@@ -46,8 +46,8 @@ In the directory section of Jupyter you would be able to navigate to different w
 
 | Category     | Folder                                                                                      | Description                                                                 | Example                                                |
 |--------------|---------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|--------------------------------------------------------|
-| 📖 Tutorials | [`tutorials/`](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/tutorials) | Guided Jupyter notebooks focused on a single API workflow                   | Querying SKU economics with Data Kiosk                 |
-| 🏋️ Workshops | [`workshops/`](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/workshops) | Multi-step challenges combining multiple APIs to solve real-world problems   | Listing error diagnosis, Fulfillment workflows with MLI |
-| 🖥 Server    | [`server/`](https://github.com/amzn/selling-partner-api-samples/tree/hands-on-labs/labs/server)       | Mock server to run tutorials and workshops locally, and understand API flows | Listings Wizard, Data Kiosk, Shipping Guru             |
+| 📖 Tutorials | [`tutorials/`](https://github.com/amzn/selling-partner-api-samples/tree/main/labs/tutorials) | Guided Jupyter notebooks focused on a single API workflow                   | Querying SKU economics with Data Kiosk                 |
+| 🏋️ Workshops | [`workshops/`](https://github.com/amzn/selling-partner-api-samples/tree/main/labs/workshops) | Multi-step challenges combining multiple APIs to solve real-world problems   | Listing error diagnosis, Fulfillment workflows with MLI |
+| 🖥 Server    | [`server/`](https://github.com/amzn/selling-partner-api-samples/tree/main/labs/server)       | Mock server to run tutorials and workshops locally, and understand API flows | Data Kiosk, Shipping Guru                              |
 
 
