@@ -6,6 +6,7 @@ import {
   cpSync,
   rmSync,
   renameSync,
+  statSync,
 } from "fs";
 import { join } from "path";
 import * as cheerio from "cheerio";
@@ -19,6 +20,9 @@ import { VectraVectorStore } from "./vector-store.js";
 import type { EmbeddingService } from "./embedding-service.js";
 import type { Crawler } from "./crawlers/crawler-interface.js";
 import { logger } from "../../utils/logger.js";
+
+/** A reindex lock older than this is treated as abandoned by a dead process. */
+const REINDEX_LOCK_STALE_MS = 60 * 60 * 1000;
 
 /**
  * Orchestrates the full indexing lifecycle: pre-built index loading,
@@ -107,12 +111,61 @@ export class IndexManager {
       logger.info("Reindex already in progress, skipping");
       return;
     }
+    if (!this.acquireReindexLock()) {
+      logger.info("Reindex already running in another process, skipping");
+      return;
+    }
     this.reindexing = true;
 
     try {
       await this.doReindex(attempt);
     } finally {
       this.reindexing = false;
+      this.releaseReindexLock();
+    }
+  }
+
+  private get reindexLockPath(): string {
+    return join(this.config.dataDir, "reindex.lock");
+  }
+
+  /**
+   * Claim the right to reindex, across processes sharing this data directory.
+   * A lock left behind by a process that died is taken over once it goes stale.
+   */
+  private acquireReindexLock(): boolean {
+    const lockPath = this.reindexLockPath;
+    const contents = JSON.stringify({
+      pid: process.pid,
+      startedAt: new Date().toISOString(),
+    });
+
+    if (!existsSync(this.config.dataDir)) {
+      mkdirSync(this.config.dataDir, { recursive: true });
+    }
+
+    try {
+      writeFileSync(lockPath, contents, { flag: "wx" });
+      return true;
+    } catch {
+      try {
+        const age = Date.now() - statSync(lockPath).mtimeMs;
+        if (age < REINDEX_LOCK_STALE_MS) return false;
+        rmSync(lockPath, { force: true });
+        writeFileSync(lockPath, contents, { flag: "wx" });
+        logger.info("Took over a stale reindex lock");
+        return true;
+      } catch {
+        return false;
+      }
+    }
+  }
+
+  private releaseReindexLock(): void {
+    try {
+      rmSync(this.reindexLockPath, { force: true });
+    } catch (error) {
+      logger.warn("Failed to release reindex lock", error);
     }
   }
 
