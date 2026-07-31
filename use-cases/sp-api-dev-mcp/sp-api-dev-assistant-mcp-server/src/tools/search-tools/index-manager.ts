@@ -199,18 +199,23 @@ export class IndexManager {
             this.config.chunkOverlapTokens,
           );
 
+          const pending: Array<{ chunkIndex: number; text: string }> = [];
           for (let i = 0; i < chunks.length; i++) {
             // Skip chunks that are too short to be meaningful
             if (chunks[i].length < 100) continue;
 
             // Prepend page title to each chunk for better topic context in embeddings
-            const chunkText = `${doc.title}: ${chunks[i]}`;
-            const chunkId = `${doc.url}#chunk-${i}`;
-            const vector = await this.embeddingService.embedDocument(chunkText);
+            pending.push({ chunkIndex: i, text: `${doc.title}: ${chunks[i]}` });
+          }
 
+          const vectors = await this.embeddingService.embedDocumentBatch(
+            pending.map((chunk) => chunk.text),
+          );
+
+          for (let i = 0; i < pending.length; i++) {
             const item: VectorStoreItem = {
-              id: chunkId,
-              text: chunkText,
+              id: `${doc.url}#chunk-${pending[i].chunkIndex}`,
+              text: pending[i].text,
               metadata: {
                 title: doc.title,
                 sourceUrl: doc.url,
@@ -218,11 +223,11 @@ export class IndexManager {
                 category: doc.category,
                 locale: doc.locale,
                 lastUpdated: doc.lastUpdated,
-                chunkIndex: i,
+                chunkIndex: pending[i].chunkIndex,
               },
             };
 
-            await stagingStore.upsert(item, vector);
+            await stagingStore.upsert(item, vectors[i]);
             totalChunks++;
           }
         }

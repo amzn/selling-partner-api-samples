@@ -60,15 +60,21 @@ async function buildIndex() {
 
     const chunks = indexManager.chunkText(cleanText, 256, 50);
 
+    const pending: Array<{ chunkIndex: number; text: string }> = [];
     for (let i = 0; i < chunks.length; i++) {
       if (chunks[i].length < 100) continue;
 
-      const chunkText = `${doc.title}: ${chunks[i]}`;
-      const vector = await embeddingService.embedDocument(chunkText);
+      pending.push({ chunkIndex: i, text: `${doc.title}: ${chunks[i]}` });
+    }
 
+    const vectors = await embeddingService.embedDocumentBatch(
+      pending.map((chunk) => chunk.text),
+    );
+
+    for (let i = 0; i < pending.length; i++) {
       const item: VectorStoreItem = {
-        id: `${doc.url}#chunk-${i}`,
-        text: chunkText,
+        id: `${doc.url}#chunk-${pending[i].chunkIndex}`,
+        text: pending[i].text,
         metadata: {
           title: doc.title,
           sourceUrl: doc.url,
@@ -76,11 +82,11 @@ async function buildIndex() {
           category: doc.category,
           locale: doc.locale,
           lastUpdated: doc.lastUpdated,
-          chunkIndex: i,
+          chunkIndex: pending[i].chunkIndex,
         },
       };
 
-      await vectorStore.upsert(item, vector);
+      await vectorStore.upsert(item, vectors[i]);
       totalChunks++;
     }
   }
