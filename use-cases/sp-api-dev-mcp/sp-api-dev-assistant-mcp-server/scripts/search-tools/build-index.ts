@@ -54,6 +54,8 @@ async function buildIndex() {
   console.log("Processing and embedding...");
   let totalChunks = 0;
 
+  await vectorStore.beginUpdate();
+
   for (const doc of documents) {
     const cleanText = indexManager.stripHtml(doc.htmlContent);
     if (!cleanText) continue;
@@ -84,6 +86,8 @@ async function buildIndex() {
       totalChunks++;
     }
   }
+
+  await vectorStore.endUpdate();
 
   // Write metadata
   const metadata: IndexMetadata = {

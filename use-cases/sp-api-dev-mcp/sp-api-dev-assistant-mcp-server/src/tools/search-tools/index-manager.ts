@@ -129,6 +129,8 @@ export class IndexManager {
     let totalChunks = 0;
     const crawlHistory: IndexMetadata["crawlHistory"] = [];
 
+    await stagingStore.beginUpdate();
+
     for (const [name, crawler] of this.crawlers) {
       try {
         const documents = await crawler.crawl();
@@ -181,6 +183,7 @@ export class IndexManager {
           `Crawler ${name} failed, aborting reindex to preserve existing index`,
           error,
         );
+        await stagingStore.cancelUpdate();
         this.cleanStagingDir(stagingDir);
         if (attempt < 2) {
           logger.info("Retrying reindex in case of transient failure...");
@@ -192,6 +195,7 @@ export class IndexManager {
 
     if (totalChunks === 0) {
       logger.error("No chunks produced. Keeping existing index. Aborting");
+      await stagingStore.cancelUpdate();
       this.cleanStagingDir(stagingDir);
       if (attempt < 2) {
         logger.info("Retrying reindex after zero chunks...");
@@ -199,6 +203,8 @@ export class IndexManager {
       }
       return;
     }
+
+    await stagingStore.endUpdate();
 
     // Atomic swap: rename current → old, staging → current, delete old
     try {
