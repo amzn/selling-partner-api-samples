@@ -133,9 +133,10 @@ export class IndexManager {
 
     for (const [name, crawler] of this.crawlers) {
       try {
-        const documents = await crawler.crawl();
+        let documentsCrawled = 0;
 
-        for (const doc of documents) {
+        for await (const doc of crawler.crawl()) {
+          documentsCrawled++;
           const cleanText = this.stripHtml(doc.htmlContent);
           if (!cleanText) continue;
 
@@ -176,7 +177,7 @@ export class IndexManager {
         crawlHistory.push({
           source: name,
           timestamp: new Date().toISOString(),
-          documentsCrawled: documents.length,
+          documentsCrawled,
         });
       } catch (error) {
         logger.error(

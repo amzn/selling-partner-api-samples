@@ -47,16 +47,14 @@ async function buildIndex() {
   );
 
   const crawler = new SPAPIDocsCrawler(cacheDir);
-  console.log("Crawling SP-API docs (en-US)...");
-  const documents = await crawler.crawl();
-  console.log(`Crawled ${documents.length} pages.`);
-
-  console.log("Processing and embedding...");
+  console.log("Crawling, processing and embedding SP-API docs (en-US)...");
   let totalChunks = 0;
+  let documentsCrawled = 0;
 
   await vectorStore.beginUpdate();
 
-  for (const doc of documents) {
+  for await (const doc of crawler.crawl()) {
+    documentsCrawled++;
     const cleanText = indexManager.stripHtml(doc.htmlContent);
     if (!cleanText) continue;
 
@@ -89,6 +87,8 @@ async function buildIndex() {
 
   await vectorStore.endUpdate();
 
+  console.log(`Crawled ${documentsCrawled} pages.`);
+
   // Write metadata
   const metadata: IndexMetadata = {
     lastSuccessfulIndex: new Date().toISOString(),
@@ -97,7 +97,7 @@ async function buildIndex() {
       {
         source: "sp-api-docs",
         timestamp: new Date().toISOString(),
-        documentsCrawled: documents.length,
+        documentsCrawled,
       },
     ],
   };
