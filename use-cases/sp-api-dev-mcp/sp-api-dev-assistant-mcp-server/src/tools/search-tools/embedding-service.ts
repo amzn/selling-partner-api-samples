@@ -5,12 +5,18 @@
 
 import { pipeline as createPipeline } from "@huggingface/transformers";
 
+/** Documents embedded per forward pass by embedDocumentBatch(). */
+const EMBED_BATCH_SIZE = 32;
+
 export interface EmbeddingService {
   /** Generate a 384-dimension embedding vector for the given text (query prefix). */
   embed(text: string): Promise<number[]>;
 
   /** Generate a 384-dimension embedding vector for a document (passage prefix). */
   embedDocument(text: string): Promise<number[]>;
+
+  /** Generate 384-dimension embedding vectors for several documents at once. */
+  embedDocumentBatch(texts: string[]): Promise<number[][]>;
 
   /** Check if the model is loaded and ready. */
   isReady(): boolean;
@@ -52,6 +58,31 @@ export class TransformersEmbeddingService implements EmbeddingService {
       normalize: true,
     });
     return Array.from(output.data) as number[];
+  }
+
+  /**
+   * Embed several documents per forward pass instead of one at a time.
+   * Vectors are returned in the same order as the supplied texts.
+   */
+  async embedDocumentBatch(texts: string[]): Promise<number[][]> {
+    if (texts.length === 0) return [];
+    await this.ensureModel();
+
+    const vectors: number[][] = [];
+    for (let i = 0; i < texts.length; i += EMBED_BATCH_SIZE) {
+      const batch = texts.slice(i, i + EMBED_BATCH_SIZE);
+      const output = await this.pipeline!(
+        batch.map((text) => `passage: ${text}`),
+        { pooling: "mean", normalize: true },
+      );
+      const [rows, dims] = output.dims;
+      for (let row = 0; row < rows; row++) {
+        vectors.push(
+          Array.from(output.data.slice(row * dims, (row + 1) * dims)) as number[],
+        );
+      }
+    }
+    return vectors;
   }
 
   /** Returns true if the model pipeline has been loaded into memory. */
