@@ -80,6 +80,21 @@ export class VectraVectorStore implements VectorStore {
     });
   }
 
+  async beginUpdate(): Promise<void> {
+    const index = await this.ensureIndex();
+    await index.beginUpdate();
+  }
+
+  async endUpdate(): Promise<void> {
+    const index = await this.ensureIndex();
+    await index.endUpdate();
+  }
+
+  async cancelUpdate(): Promise<void> {
+    const index = await this.ensureIndex();
+    index.cancelUpdate();
+  }
+
   async clear(): Promise<void> {
     const index = await this.ensureIndex();
     const items = await index.listItems();

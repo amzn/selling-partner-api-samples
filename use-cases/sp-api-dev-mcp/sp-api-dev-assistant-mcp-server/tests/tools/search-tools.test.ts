@@ -742,7 +742,7 @@ describe("IndexManager lifecycle", () => {
     const manager = createManager();
     const mockCrawler = {
       name: "test-crawler",
-      crawl: async () => [],
+      crawl: async function* () {},
       getSourceMetadata: () => ({
         name: "test",
         baseUrl: "https://test.com",
