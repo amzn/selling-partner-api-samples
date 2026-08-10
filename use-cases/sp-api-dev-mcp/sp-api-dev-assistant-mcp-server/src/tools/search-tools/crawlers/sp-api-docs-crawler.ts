@@ -26,20 +26,16 @@ export class SPAPIDocsCrawler implements Crawler {
     };
   }
 
-  async crawl(): Promise<RawDocument[]> {
-    const documents: RawDocument[] = [];
-
+  async *crawl(): AsyncGenerator<RawDocument> {
     const pages = await this.discoverPages();
     for (const url of pages) {
       try {
         const doc = await this.fetchAndParsePage(url);
-        if (doc) documents.push(doc);
+        if (doc) yield doc;
       } catch (error) {
         logger.error(`Failed to fetch ${url}: ${error}`);
       }
     }
-
-    return documents;
   }
 
   private async discoverPages(): Promise<string[]> {
