@@ -284,6 +284,11 @@ OUTPUT CHAINING:
   async run(): Promise<void> {
     const transport = new StdioServerTransport();
     await this.server.connect(transport);
+
+    process.stdin.on("close", () => process.exit(0));
+    process.on("SIGTERM", () => process.exit(0));
+    process.on("SIGINT", () => process.exit(0));
+
     // Pre-load embedding model and initialize search index (non-blocking background tasks)
     this.search.embeddingService.preload().catch(() => {});
     this.search.indexManager.initialize().catch(() => {});
