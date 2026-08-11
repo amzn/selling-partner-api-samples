@@ -9,6 +9,7 @@ const db = () => Context.instance.db;
 const DANGEROUS_KEYS = new Set(["__proto__", "constructor", "prototype"]);
 
 export const createReport = async (req: Request, res: Response) => {
+  await db().read();
   const { reportType, marketplaceIds, dataStartTime, dataEndTime, reportOptions } = req.body;
   if (DANGEROUS_KEYS.has(reportType) || !Object.hasOwn(REPORT_GENERATORS, reportType)) {
     res.status(400).json({
@@ -51,9 +52,15 @@ export const createReport = async (req: Request, res: Response) => {
 };
 
 export const getReport = async (req: Request, res: Response) => {
-  const report = db().data.reports[req.params.reportId as string];
+  const reportId = req.params.reportId as string;
+  if (DANGEROUS_KEYS.has(reportId)) {
+    res.status(400).json({ errors: [{ code: "InvalidInput", message: "Invalid reportId" }] });
+    return;
+  }
+  await db().read();
+  const report = db().data.reports[reportId];
   if (!report || report.content !== undefined) {
-    res.status(404).json({ errors: [{ code: "NotFound", message: `Report ${req.params.reportId} not found` }] });
+    res.status(404).json({ errors: [{ code: "NotFound", message: `Report ${reportId} not found` }] });
     return;
   }
   const { content: _, ...metadata } = report;
@@ -61,6 +68,7 @@ export const getReport = async (req: Request, res: Response) => {
 };
 
 export const getReports = async (req: Request, res: Response) => {
+  await db().read();
   const reports = Object.values(db().data.reports)
     .filter((r: any) => r.reportId && !r.content)
     .filter((r: any) => !req.query.reportTypes || (req.query.reportTypes as string).split(",").includes(r.reportType));
@@ -73,6 +81,7 @@ export const cancelReport = async (req: Request, res: Response) => {
     res.status(400).json({ errors: [{ code: "InvalidInput", message: "Invalid reportId" }] });
     return;
   }
+  await db().read();
   const report = db().data.reports[reportId];
   if (!report || report.content !== undefined) {
     res.status(404).json({ errors: [{ code: "NotFound", message: `Report ${reportId} not found` }] });
@@ -84,19 +93,32 @@ export const cancelReport = async (req: Request, res: Response) => {
 };
 
 export const getReportDocument = async (req: Request, res: Response) => {
-  const doc = db().data.reports[req.params.reportDocumentId as string];
-  if (doc?.content === undefined) {
-    res.status(404).json({ errors: [{ code: "NotFound", message: `Document ${req.params.reportDocumentId} not found` }] });
+  const docId = req.params.reportDocumentId as string;
+  if (DANGEROUS_KEYS.has(docId)) {
+    res.status(400).json({ errors: [{ code: "InvalidInput", message: "Invalid reportDocumentId" }] });
     return;
   }
+  await db().read();
+  const doc = db().data.reports[docId];
+  if (doc?.content === undefined) {
+    res.status(404).json({ errors: [{ code: "NotFound", message: `Document ${docId} not found` }] });
+    return;
+  }
+  const host = req.get("host") ?? req.headers.host ?? "localhost:9001";
   res.status(200).json({
-    reportDocumentId: req.params.reportDocumentId,
-    url: `http://${req.host}/reports/download/${req.params.reportDocumentId}`,
+    reportDocumentId: docId,
+    url: `http://${host}/reports/download/${docId}`,
   });
 };
 
 export const downloadReportDocument = async (req: Request, res: Response) => {
-  const doc = db().data.reports[req.params.documentId as string];
+  const docId = req.params.documentId as string;
+  if (DANGEROUS_KEYS.has(docId)) {
+    res.status(400).json({ errors: [{ code: "InvalidInput", message: "Invalid documentId" }] });
+    return;
+  }
+  await db().read();
+  const doc = db().data.reports[docId];
   if (doc?.content === undefined) {
     res.status(404).json({ errors: [{ code: "NotFound", message: "Document not found" }] });
     return;
@@ -107,6 +129,7 @@ export const downloadReportDocument = async (req: Request, res: Response) => {
 
 // Schedule operations — simple DB storage
 export const createReportSchedule = async (req: Request, res: Response) => {
+  await db().read();
   const { reportType, marketplaceIds } = req.body;
   const meta = REPORT_META[reportType];
   if (meta && !meta.schedulable) {
@@ -120,26 +143,39 @@ export const createReportSchedule = async (req: Request, res: Response) => {
 };
 
 export const getReportSchedule = async (req: Request, res: Response) => {
-  const schedule = db().data.reports[req.params.reportScheduleId as string];
+  const scheduleId = req.params.reportScheduleId as string;
+  if (DANGEROUS_KEYS.has(scheduleId)) {
+    res.status(400).json({ errors: [{ code: "InvalidInput", message: "Invalid reportScheduleId" }] });
+    return;
+  }
+  await db().read();
+  const schedule = db().data.reports[scheduleId];
   if (!schedule?.reportScheduleId) {
-    res.status(404).json({ errors: [{ code: "NotFound", message: `Schedule ${req.params.reportScheduleId} not found` }] });
+    res.status(404).json({ errors: [{ code: "NotFound", message: `Schedule ${scheduleId} not found` }] });
     return;
   }
   res.status(200).json(schedule);
 };
 
 export const getReportSchedules = async (req: Request, res: Response) => {
+  await db().read();
   const schedules = Object.values(db().data.reports).filter((r: any) => r.reportScheduleId);
   res.status(200).json({ reportSchedules: schedules });
 };
 
 export const cancelReportSchedule = async (req: Request, res: Response) => {
-  const schedule = db().data.reports[req.params.reportScheduleId as string];
-  if (!schedule?.reportScheduleId) {
-    res.status(404).json({ errors: [{ code: "NotFound", message: `Schedule ${req.params.reportScheduleId} not found` }] });
+  const scheduleId = req.params.reportScheduleId as string;
+  if (DANGEROUS_KEYS.has(scheduleId)) {
+    res.status(400).json({ errors: [{ code: "InvalidInput", message: "Invalid reportScheduleId" }] });
     return;
   }
-  delete db().data.reports[req.params.reportScheduleId as string];
+  await db().read();
+  const schedule = db().data.reports[scheduleId];
+  if (!schedule?.reportScheduleId) {
+    res.status(404).json({ errors: [{ code: "NotFound", message: `Schedule ${scheduleId} not found` }] });
+    return;
+  }
+  delete db().data.reports[scheduleId];
   await db().write();
   res.status(200).send();
 };

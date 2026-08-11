@@ -6,7 +6,7 @@ export const databaseInsertionTool = tool({
   name: "database_insertion",
   description: "Inserts data into the database",
   inputSchema: z.object({
-    api: z.enum(Api),
+    api: z.nativeEnum(Api),
     id: z.string(),
     entity: z.any(),
   }),
