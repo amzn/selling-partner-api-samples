@@ -6,11 +6,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.threeten.bp.OffsetDateTime;
 import software.amazon.spapi.ApiException;
 import software.amazon.spapi.api.vendor.shipments.v1.VendorShippingApi;
 import software.amazon.spapi.models.vendor.shipments.v1.GetShipmentDetailsResponse;
 import software.amazon.spapi.models.vendor.shipments.v1.Shipment;
+
+import java.time.OffsetDateTime;
 
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 

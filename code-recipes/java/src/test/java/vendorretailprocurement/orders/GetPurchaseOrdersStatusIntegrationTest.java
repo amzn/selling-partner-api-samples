@@ -10,7 +10,8 @@ import org.slf4j.LoggerFactory;
 import software.amazon.spapi.ApiException;
 import software.amazon.spapi.api.vendor.orders.v1.VendorOrdersApi;
 import software.amazon.spapi.models.vendor.orders.v1.GetPurchaseOrdersStatusResponse;
-import org.threeten.bp.OffsetDateTime;
+
+import java.time.OffsetDateTime;
 
 @EnabledIfEnvironmentVariable(named = "SP_API_CLIENT_ID", matches = ".+")
 public class GetPurchaseOrdersStatusIntegrationTest {
