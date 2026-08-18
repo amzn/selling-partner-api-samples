@@ -6,10 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.threeten.bp.OffsetDateTime;
 import software.amazon.spapi.api.vendor.shipments.v1.VendorShippingApi;
 import software.amazon.spapi.models.vendor.shipments.v1.TransportationLabels;
 import software.amazon.spapi.models.vendor.shipments.v1.TransportLabel;
+
+import java.time.OffsetDateTime;
 
 /**
  * Integration test for GetShipmentLabels against real SP-API.

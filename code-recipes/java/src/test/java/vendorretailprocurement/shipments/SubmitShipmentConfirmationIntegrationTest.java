@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.threeten.bp.OffsetDateTime;
 import software.amazon.spapi.api.vendor.shipments.v1.VendorShippingApi;
 import software.amazon.spapi.models.vendor.shipments.v1.*;
 
+import java.time.OffsetDateTime;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
