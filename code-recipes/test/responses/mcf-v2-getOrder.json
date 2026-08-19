@@ -1,0 +1,65 @@
+{
+  "order": {
+    "orderId": "MCF-V2-TEST-ORDER-001",
+    "receiveTime": "2026-08-19T17:00:00Z",
+    "fulfillmentConfiguration": {
+      "serviceLevel": { "serviceTiers": ["STANDARD"] },
+      "action": "SHIP",
+      "policy": "FILL_ALL_AVAILABLE"
+    },
+    "status": "COMPLETE",
+    "statusUpdateTime": "2026-08-20T08:29:05Z",
+    "origin": { "countryCode": "US" },
+    "destination": {
+      "deliveryAddress": {
+        "name": "Tom Jones", "addressLine1": "123 Main St", "city": "Anytown",
+        "stateOrRegion": "AZ", "postalCode": "85050", "countryCode": "US"
+      }
+    },
+    "lineItems": [
+      {
+        "lineItemId": "item-001",
+        "product": { "productIdentifier": { "amazonSku": "MY-SKU-001" } },
+        "amount": { "unit": "EACHES", "value": "1" },
+        "cancelledAmount": { "unit": "EACHES", "value": "0" },
+        "unfulfillableAmount": { "unit": "EACHES", "value": "0" }
+      }
+    ],
+    "shipments": [
+      {
+        "amazonShipmentId": "shipmentID-001",
+        "amazonFacility": {
+          "facilityId": "PSP1",
+          "address": {
+            "name": "PSP1", "addressLine1": "1010 W 4th Street", "city": "BEAUMONT",
+            "stateOrRegion": "CA", "postalCode": "92223-2684", "countryCode": "US"
+          }
+        },
+        "status": "SHIPPED",
+        "shipTime": "2026-08-20T08:23:44Z",
+        "deliveryTime": "2026-08-22T06:59:59Z",
+        "items": [
+          {
+            "productIdentifier": { "amazonSku": "MY-SKU-001" },
+            "lineItemId": "item-001",
+            "amount": { "value": "1", "unit": "EACHES" }
+          }
+        ],
+        "packages": [
+          {
+            "packageId": "PKG-abc123def456",
+            "status": "IN_TRANSIT",
+            "tracking": {
+              "carrier": {
+                "carrierCode": "Amazon Logistics",
+                "trackingNumber": "TBA32397232322",
+                "trackingUrl": "https://www.swiship.com/track?id=TBA32397232322"
+              }
+            },
+            "deliveryTime": "2026-08-22T20:00:00Z"
+          }
+        ]
+      }
+    ]
+  }
+}
