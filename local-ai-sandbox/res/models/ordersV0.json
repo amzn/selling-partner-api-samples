@@ -1,0 +1,371 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Use the Orders Selling Partner API to programmatically retrieve order information. With this API, you can develop fast, flexible, and custom applications to manage order synchronization, perform order research, and create demand-based decision support tools. \n\n_Note:_ For the JP, AU, and SG marketplaces, the Orders API supports orders from 2016 onward. For all other marketplaces, the Orders API supports orders for the last two years (orders older than this don't show up in the response).",
+    "version": "v0",
+    "title": "Selling Partner API for Orders",
+    "contact": {
+      "name": "Selling Partner API Developer Support",
+      "url": "https://sellercentral.amazon.com/gp/mws/contactus.html"
+    },
+    "license": {
+      "name": "Apache License 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  },
+  "host": "sellingpartnerapi-na.amazon.com",
+  "schemes": ["https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/orders/v0/orders/{orderId}/shipmentConfirmation": {
+      "post": {
+        "tags": ["ordersV0"],
+        "description": "Updates the shipment confirmation status for a specified order.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 2 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header contains the usage plan rate limits for the operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput might have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
+        "operationId": "confirmShipment",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "An Amazon-defined order identifier, in 3-7-7 format.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "payload",
+            "in": "body",
+            "description": "Request body of `confirmShipment`.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ConfirmShipmentRequest"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success.",
+            "headers": {
+              "x-amzn-RateLimit-Limit": {
+                "type": "string",
+                "description": "Your rate limit (requests per second) for this operation."
+              },
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference identifier."
+              }
+            },
+            "x-amzn-api-sandbox": {
+              "static": [
+                {
+                  "request": {
+                    "parameters": {
+                      "orderId": {
+                        "value": "902-1106328-1059050"
+                      },
+                      "body": {
+                        "value": {
+                          "marketplaceId": "ATVPDKIKX0DER",
+                          "packageDetail": {
+                            "packageReferenceId": "1",
+                            "carrierCode": "FedEx",
+                            "carrierName": "FedEx",
+                            "shippingMethod": "FedEx Ground",
+                            "trackingNumber": "112345678",
+                            "shipDate": "2022-02-11T01:00:00.000Z",
+                            "shipFromSupplySourceId": "057d3fcc-b750-419f-bbcd-4d340c60c430",
+                            "orderItems": [
+                              {
+                                "orderItemId": "79039765272157",
+                                "quantity": 1,
+                                "transparencyCodes": ["09876543211234567890"]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "response": {}
+                }
+              ]
+            }
+          },
+          "400": {
+            "description": "Request has missing or invalid parameters and cannot be parsed.",
+            "schema": {
+              "$ref": "#/definitions/ConfirmShipmentErrorResponse"
+            },
+            "headers": {
+              "x-amzn-RateLimit-Limit": {
+                "type": "string",
+                "description": "Your rate limit (requests per second) for this operation."
+              },
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference identifier."
+              }
+            },
+            "x-amzn-api-sandbox": {
+              "static": [
+                {
+                  "request": {
+                    "parameters": {
+                      "orderId": {
+                        "value": "902-1106328-1059050"
+                      },
+                      "body": {
+                        "value": {
+                          "marketplaceId": "ATVPDKIKX0DER",
+                          "packageDetail": {
+                            "packageReferenceId": "1",
+                            "carrierCode": "FedEx",
+                            "carrierName": "FedEx",
+                            "shippingMethod": "FedEx Ground",
+                            "trackingNumber": "112345678",
+                            "shipDate": "02/21/2022",
+                            "shipFromSupplySourceId": "057d3fcc-b750-419f-bbcd-4d340c60c430",
+                            "orderItems": [
+                              {
+                                "orderItemId": "79039765272157",
+                                "quantity": 1,
+                                "transparencyCodes": ["09876543211234567890"]
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "response": {
+                    "errors": [
+                      {
+                        "code": "Invalid Input",
+                        "message": "Invalid Input"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "401": {
+            "description": "The request's Authorization header is not formatted correctly or does not contain a valid token.",
+            "schema": {
+              "$ref": "#/definitions/ConfirmShipmentErrorResponse"
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference identifier."
+              }
+            }
+          },
+          "403": {
+            "description": "Indicates that access to the resource is forbidden. Possible reasons include Access Denied, Unauthorized, Expired Token, or Invalid Signature.",
+            "schema": {
+              "$ref": "#/definitions/ConfirmShipmentErrorResponse"
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference identifier."
+              }
+            }
+          },
+          "404": {
+            "description": "The specified resource does not exist.",
+            "schema": {
+              "$ref": "#/definitions/ConfirmShipmentErrorResponse"
+            },
+            "headers": {
+              "x-amzn-RateLimit-Limit": {
+                "type": "string",
+                "description": "Your rate limit (requests per second) for this operation."
+              },
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference identifier."
+              }
+            }
+          },
+          "429": {
+            "description": "The frequency of requests was greater than allowed.",
+            "schema": {
+              "$ref": "#/definitions/ConfirmShipmentErrorResponse"
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference identifier."
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected condition occurred that prevented the server from fulfilling the request.",
+            "schema": {
+              "$ref": "#/definitions/ConfirmShipmentErrorResponse"
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference identifier."
+              }
+            }
+          },
+          "503": {
+            "description": "Temporary overloading or maintenance of the server.",
+            "schema": {
+              "$ref": "#/definitions/ConfirmShipmentErrorResponse"
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference identifier."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "MarketplaceId": {
+      "description": "The unobfuscated marketplace identifier.",
+      "type": "string"
+    },
+    "ConfirmShipmentRequest": {
+      "type": "object",
+      "required": ["marketplaceId", "packageDetail"],
+      "properties": {
+        "packageDetail": {
+          "$ref": "#/definitions/PackageDetail"
+        },
+        "codCollectionMethod": {
+          "type": "string",
+          "description": "The COD collection method (only supported in the JP marketplace).",
+          "enum": ["DirectPayment"]
+        },
+        "marketplaceId": {
+          "$ref": "#/definitions/MarketplaceId"
+        }
+      },
+      "description": "The request schema for an shipment confirmation."
+    },
+    "ConfirmShipmentErrorResponse": {
+      "type": "object",
+      "description": "The error response schema for the `confirmShipment` operation.",
+      "properties": {
+        "errors": {
+          "description": "One or more unexpected errors occurred during the `confirmShipment` operation.",
+          "$ref": "#/definitions/ErrorList"
+        }
+      }
+    },
+    "PackageDetail": {
+      "type": "object",
+      "description": "Properties of packages",
+      "required": ["packageReferenceId", "carrierCode", "trackingNumber", "shipDate", "orderItems"],
+      "properties": {
+        "packageReferenceId": {
+          "$ref": "#/definitions/PackageReferenceId"
+        },
+        "carrierCode": {
+          "type": "string",
+          "description": "Identifies the carrier that will deliver the package. This field is required for all marketplaces. For more information, refer to the [`CarrierCode` announcement](https://developer-docs.amazon.com/sp-api/changelog/carriercode-value-required-in-shipment-confirmations-for-br-mx-ca-sg-au-in-jp-marketplaces)."
+        },
+        "carrierName": {
+          "type": "string",
+          "description": "Carrier name that will deliver the package. Required when `carrierCode` is \"Other\" "
+        },
+        "shippingMethod": {
+          "type": "string",
+          "description": "Ship method to be used for shipping the order."
+        },
+        "trackingNumber": {
+          "type": "string",
+          "description": "The tracking number used to obtain tracking and delivery information."
+        },
+        "shipDate": {
+          "type": "string",
+          "description": "The shipping date for the package. Must be in ISO 8601 date/time format.",
+          "format": "date-time"
+        },
+        "shipFromSupplySourceId": {
+          "type": "string",
+          "description": "The unique identifier for the supply source."
+        },
+        "orderItems": {
+          "description": "The list of order items and quantities to be updated.",
+          "$ref": "#/definitions/ConfirmShipmentOrderItemsList"
+        }
+      }
+    },
+    "ConfirmShipmentOrderItemsList": {
+      "type": "array",
+      "description": "A list of order items.",
+      "items": {
+        "$ref": "#/definitions/ConfirmShipmentOrderItem"
+      }
+    },
+    "ConfirmShipmentOrderItem": {
+      "type": "object",
+      "description": "A single order item.",
+      "required": ["orderItemId", "quantity"],
+      "properties": {
+        "orderItemId": {
+          "type": "string",
+          "description": "The order item's unique identifier."
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "The item's quantity."
+        },
+        "transparencyCodes": {
+          "description": "The list of transparency codes.",
+          "$ref": "#/definitions/TransparencyCodeList"
+        }
+      }
+    },
+    "TransparencyCodeList": {
+      "type": "array",
+      "description": "A list of order items.",
+      "items": {
+        "$ref": "#/definitions/TransparencyCode"
+      }
+    },
+    "TransparencyCode": {
+      "type": "string",
+      "description": "The transparency code associated with the item."
+    },
+    "PackageReferenceId": {
+      "type": "string",
+      "description": "A seller-supplied identifier that uniquely identifies a package within the scope of an order. Only positive numeric values are supported."
+    },
+    "ErrorList": {
+      "type": "array",
+      "description": "A list of error responses returned when a request is unsuccessful.",
+      "items": {
+        "$ref": "#/definitions/Error"
+      }
+    },
+    "Error": {
+      "type": "object",
+      "required": ["code", "message"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "An error code that identifies the type of error that occurred."
+        },
+        "message": {
+          "type": "string",
+          "description": "A message that describes the error condition."
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional details that can help the caller understand or fix the issue."
+        }
+      },
+      "description": "Error response returned when the request is unsuccessful."
+    }
+  }
+}

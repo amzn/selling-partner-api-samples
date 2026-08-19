@@ -1,0 +1,84 @@
+{
+  "payload": {
+    "purchaseOrderNumber": "4Z32PABC",
+    "purchaseOrderState": "Closed",
+    "orderDetails": {
+      "purchaseOrderDate": "2019-07-26T11:10:00Z",
+      "purchaseOrderStateChangedDate": "2019-08-25T19:29:23Z",
+      "purchaseOrderType": "RegularOrder",
+      "paymentMethod": "Invoice",
+      "buyingParty": {
+        "partyId": "ABCD"
+      },
+      "sellingParty": {
+        "partyId": "999US"
+      },
+      "shipToParty": {
+        "partyId": "ABCD"
+      },
+      "billToParty": {
+        "partyId": "ABCD"
+      },
+      "shipWindow": "2019-07-26T07:00:00Z--2019-08-03T07:00:00Z",
+      "items": [
+        {
+          "itemSequenceNumber": "1",
+          "amazonProductIdentifier": "B0748G1ABC",
+          "vendorProductIdentifier": "0017817748000",
+          "orderedQuantity": {
+            "amount": 37,
+            "unitOfMeasure": "Eaches",
+            "unitSize": 1
+          },
+          "isBackOrderAllowed": false,
+          "netCost": {
+            "amount": "140",
+            "currencyCode": "USD"
+          },
+          "listPrice": {
+            "amount": "140",
+            "currencyCode": "USD"
+          }
+        },
+        {
+          "itemSequenceNumber": "2",
+          "amazonProductIdentifier": "B0748JMABC",
+          "vendorProductIdentifier": "0017817748000",
+          "orderedQuantity": {
+            "amount": 24,
+            "unitOfMeasure": "Eaches",
+            "unitSize": 1
+          },
+          "isBackOrderAllowed": false,
+          "netCost": {
+            "amount": "15.62",
+            "currencyCode": "USD"
+          },
+          "listPrice": {
+            "amount": "15.62",
+            "currencyCode": "USD"
+          }
+        },
+        {
+          "itemSequenceNumber": "3",
+          "amazonProductIdentifier": "B076SDSABC",
+          "vendorProductIdentifier": "0017817755000",
+          "orderedQuantity": {
+            "amount": 1,
+            "unitOfMeasure": "Eaches",
+            "unitSize": 1
+          },
+          "isBackOrderAllowed": false,
+          "netCost": {
+            "amount": "110.00",
+            "currencyCode": "USD"
+          },
+          "listPrice": {
+            "amount": "110.00",
+            "currencyCode": "USD"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -117,7 +117,7 @@ Everything is now ready to test the authorization sample solution.
 5. Amazon now redirects to the configured redirect URL (tinyURL) and the handler `success` will display the `authorized.html` page with the result from the seller marketplace participations if a seller was authorized (if a vendor is authorized, the page is displayed with an authorization message only).
 
 ## Alternative Local Deployment
-It is possible to use the sample solution without hosting it on AWS or other services. While it is not allowed to use localhost as an OAuth Redirect URL in you app configuration, a tunneling service can be used to share the app over https for testing purposes.
+It is possible to use the sample solution without hosting it on AWS or other services. While it is not allowed to use localhost as an OAuth Redirect URL in your app configuration, an https-enabled URL that redirects to localhost can be used for testing purposes.
 1. Navigate to the `code/python` folder.
 2. Create a virtual environment and activate it
 ```
@@ -132,13 +132,15 @@ pip3 install -r requirements.txt
 ```
 python3 application.py
 ```
-5. Register to use a tunneling service such as `ngrok` and create a tunnel
-```
-ngrok config add-authtoken <token>
-ngrok http 5000
-```
-This provides a forwarding https link
-6. Set `https://ngrok_domain/success` from step 5 as OAuth Redirect URL in your app settings
+5. Create an https-enabled redirect URL using one of the following options:
+   * **Option 1:** Use a URL shortener such as [TinyURL](https://tinyurl.com/) to create an https short URL pointing to `http://127.0.0.1:5000/success`. TinyURL passes query parameters through on redirect, making it a lightweight option that requires no additional tooling.
+   * **Option 2:** Register to use a tunneling service such as `ngrok` and create a tunnel:
+     ```
+     ngrok config add-authtoken <token>
+     ngrok http 5000
+     ```
+     This provides a forwarding https link. Use `https://ngrok_domain/success` as the redirect URL.
+6. Set the https URL from step 5 as OAuth Redirect URL in your app settings
 7. Visit the application domain and test it as previously explained
 
 ### 6. Cleanup

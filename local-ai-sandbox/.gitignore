@@ -1,0 +1,152 @@
+### Universal ###
+# Common files that should be ignored in all projects
+
+# Logs
+*.log
+# Temporary files
+*.tmp
+*~
+
+#Mac
+.DS_Store
+
+*.bak
+
+# Local configuration that shouldn't be shared
+*.local
+
+### Intellij ###
+# IntelliJ IDEA editor files and settings
+
+# IntelliJ IDEA and Other JetBrains IDEs
+.idea/
+*.iml
+*.iws
+*.ipr
+
+.idea_modules/
+out/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+
+.idea/shelf/
+.idea/contentModel.xml
+.idea/dataSources/
+.idea/dataSources.xml
+.idea/dataSources.ids
+
+.idea/dataSources.local.xml
+.idea/sqlDataSources.xml
+.idea/dynamic.xml
+.idea/uiDesigner.xml
+.idea/gradle.xml
+
+.idea/libraries
+.idea/deployment.xml
+.idea/mongoSettings.xml
+.idea/httpRequests
+.idea/caches/
+
+.idea/modules.xml
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/artifacts
+.idea/sonarlint/
+
+*.iml.bak
+*.ipr.bak
+*.iws.bak
+.idea_backup/
+.idea/replstate.xml
+
+.idea/checkstyle-idea.xml
+.idea/encodings.xml
+.idea/misc.xml
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+
+.idea/assetWizardSettings.xml
+.idea/kotlinc.xml
+.idea/inspectionProfiles/
+.idea/codestream.xml
+.idea/aws.xml
+
+.idea/sonarIssues.xml
+.idea/.gitignore
+.idea/remote-mappings.xml
+.idea/**/usage.statistics.xml
+.idea/**/contentModel.xml
+
+.idea/**/dbnavigator.xml
+.idea/**/markdown-navigator.xml
+.idea/**/markdown-navigator-enh.xml
+.idea/**/markdown-navigator/
+.idea/$CACHE_FILE$
+
+.idea/**/azureSettings.xml
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+### Vscode ###
+# Visual Studio Code editor settings and workspace files
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+.history/
+*.vsix
+.ionide
+
+.vs/
+*.code-workspace
+.vscode-test
+.vscodeignore
+.vscode/chrome
+
+.vscode-server/
+.vscode/sftp.json
+.vscode/tags
+.devcontainer/
+
+### Npm ###
+# NPM package manager files and directories
+
+# NPM (Node Package Manager)
+node_modules/
+.npm/
+.node-gyp/
+
+npm-debug.log*
+.npmrc
+.npm-cache/
+.npm-global/
+.node_repl_history
+
+npm-shrinkwrap.json
+.npmignore
+.package-lock.json
+npm-debug.log.*
+
+.npm-debug/
+.npm-tmp/
+.npm-tarball/
+node_modules_*
+.npm-init.js
+
+.npm-update-notifier
+.node_modules.ember-try/
+.npm-version
+.node_history
+.v8flags.*
+
+.babel.json
+package.json.bak
+dist/*

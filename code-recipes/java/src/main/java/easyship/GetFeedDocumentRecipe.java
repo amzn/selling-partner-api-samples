@@ -97,7 +97,7 @@ public class GetFeedDocumentRecipe extends Recipe {
 
     private String getFeedDocumentUrl(String feedDocumentId) {
         try {
-            FeedDocument feedDocument = feedsApi.getFeedDocument(feedDocumentId);
+            FeedDocument feedDocument = feedsApi.getFeedDocument(feedDocumentId, false);
             System.out.println("Feed document URL retrieved " + feedDocument.getUrl());
             return feedDocument.getUrl();
         } catch (ApiException | LWAException e) {
@@ -128,6 +128,11 @@ public class GetFeedDocumentRecipe extends Recipe {
     private String extractDocumentReportReferenceID(String xmlContent) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            factory.setExpandEntityReferences(false);
+            factory.setXIncludeAware(false);
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(new ByteArrayInputStream(xmlContent.getBytes()));
 

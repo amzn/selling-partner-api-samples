@@ -1,0 +1,85 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Creates an AWS Elastic Beanstalk application with a sample environment.
+
+Parameters:
+  ApplicationName:
+    Type: String
+    Default: SpApiSampleAiSandbox
+    Description: Name of the Elastic Beanstalk application.
+
+  EnvironmentName:
+    Type: String
+    Default: SpApiSampleAiSandboxEnv
+    Description: Name of the Elastic Beanstalk environment.
+
+  SourceBucket:
+    Type: String
+
+  SourceKey:
+    Type: String
+
+Resources:
+  ElasticBeanstalkApplication:
+    Type: AWS::ElasticBeanstalk::Application
+    DeletionPolicy: Delete
+    Properties:
+      ApplicationName: !Ref ApplicationName
+      Description: Elastic Beanstalk application created via CloudFormation.
+
+  AppVersion:
+    Type: AWS::ElasticBeanstalk::ApplicationVersion
+    DeletionPolicy: Delete
+    Properties:
+      ApplicationName: !Ref ElasticBeanstalkApplication
+      Description: Application version deployed via CloudFormation.
+      SourceBundle:
+        S3Bucket: !Ref SourceBucket
+        S3Key: !Ref SourceKey
+
+  ElasticBeanstalkEnvironment:
+    Type: AWS::ElasticBeanstalk::Environment
+    DeletionPolicy: Delete
+    DependsOn: AppVersion
+    Properties:
+      ApplicationName: !Ref ElasticBeanstalkApplication
+      EnvironmentName: !Ref EnvironmentName
+      VersionLabel: !Ref AppVersion
+      PlatformArn: !Sub "arn:aws:elasticbeanstalk:${AWS::Region}::platform/Node.js 24 running on 64bit Amazon Linux 2023"
+      OptionSettings:
+        - Namespace: aws:autoscaling:launchconfiguration
+          OptionName: IamInstanceProfile
+          Value: !Ref InstanceProfile
+
+  InstanceRole:
+    Type: AWS::IAM::Role
+    DeletionPolicy: Delete
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AWSElasticBeanstalkWebTier
+      Policies:
+        - PolicyName: BedrockClaudeHaikuInvokePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - bedrock:InvokeModel
+                  - bedrock:InvokeModelWithResponseStream
+                Resource:
+                  - !Sub arn:aws:bedrock:*:${AWS::AccountId}:inference-profile/global.anthropic.claude-haiku-4-5-20251001-v1:0
+                  - 'arn:aws:bedrock:*::foundation-model/anthropic.claude-haiku-4-5-*'
+
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    DeletionPolicy: Delete
+    Properties:
+      InstanceProfileName: ElasticBeanstalkInstanceProfile
+      Roles:
+        - !Ref InstanceRole

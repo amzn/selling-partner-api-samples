@@ -4,11 +4,12 @@
     "carrierId":"GROUNDLING_GO",
     "packageDocumentDetails": [
       {
+        "packageClientReferenceId": "Order_111-1111111-1111111_Package",
         "packageDocuments": [
           {
-            "labelFile": "https://github.com/amzn/selling-partner-api-samples/blob/main/use-cases/shipping-v2/docs/images/mock_label/mock_shipping_label.png",
+            "type": "LABEL",
             "format": "PNG",
-            "type": "LABEL"
+            "contents": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M8AAAMBAQDJ/pLvAAAAAElFTkSuQmCC"
           }
         ],
         "trackingId": "123456789123456789"

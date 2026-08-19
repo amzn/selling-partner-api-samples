@@ -1,0 +1,5 @@
+# Amazon Selling Partner API SDK (>=1.9.0 includes Orders API v2026-01-01)
+amzn-sp-api>=1.9.0
+
+# Jupyter environment for running the notebook locally
+jupyterlab

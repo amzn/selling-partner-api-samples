@@ -1,0 +1,118 @@
+{
+    "payload": {
+        "pagination": {
+            "nextToken": "MDAwMDAwMDAwMQ=="
+        },
+        "orders": [
+            {
+                "purchaseOrderNumber": "2JK3S9VC",
+                "purchaseOrderState": "New",
+                "orderDetails": {
+                    "purchaseOrderDate": "2019-08-20T15:51:00Z",
+                    "purchaseOrderChangedDate": "2019-08-22T16:05:00Z",
+                    "purchaseOrderStateChangedDate": "2019-08-20T15:51:00Z",
+                    "purchaseOrderType": "RegularOrder",
+                    "paymentMethod": "Invoice",
+                    "buyingParty": {
+                        "partyId": "ABCD"
+                    },
+                    "sellingParty": {
+                        "partyId": "999US"
+                    },
+                    "shipToParty": {
+                        "partyId": "ABCD"
+                    },
+                    "billToParty": {
+                        "partyId": "ABCD"
+                    },
+                    "shipWindow": "2019-08-21T07:00:00Z--2019-08-27T07:00:00Z",
+                    "items": [
+                        {
+                            "itemSequenceNumber": "1",
+                            "amazonProductIdentifier": "B07DFVDRAB",
+                            "vendorProductIdentifier": "8806098286500",
+                            "orderedQuantity": {
+                                "amount": 1,
+                                "unitOfMeasure": "Eaches",
+                                "unitSize": 1
+                            },
+                            "isBackOrderAllowed": false,
+                            "netCost": {
+                                "amount": "346.27",
+                                "currencyCode": "USD"
+                            },
+                            "listPrice": {
+                                "amount": "346.27",
+                                "currencyCode": "USD"
+                            }
+                        },
+                        {
+                            "itemSequenceNumber": "2",
+                            "amazonProductIdentifier": "B07DFYF5AB",
+                            "vendorProductIdentifier": "8806098286123",
+                            "orderedQuantity": {
+                                "amount": 2,
+                                "unitOfMeasure": "Eaches",
+                                "unitSize": 1
+                            },
+                            "isBackOrderAllowed": false,
+                            "netCost": {
+                                "amount": "229.47",
+                                "currencyCode": "USD"
+                            },
+                            "listPrice": {
+                                "amount": "229.47",
+                                "currencyCode": "USD"
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "purchaseOrderNumber": "3TRD2IAB",
+                "purchaseOrderState": "New",
+                "orderDetails": {
+                    "purchaseOrderDate": "2019-08-20T16:29:00Z",
+                    "purchaseOrderChangedDate": "2019-08-20T16:50:00Z",
+                    "purchaseOrderStateChangedDate": "2019-08-20T16:29:00Z",
+                    "purchaseOrderType": "RegularOrder",
+                    "paymentMethod": "Invoice",
+                    "buyingParty": {
+                        "partyId": "ABC1"
+                    },
+                    "sellingParty": {
+                        "partyId": "998US"
+                    },
+                    "shipToParty": {
+                        "partyId": "ABC1"
+                    },
+                    "billToParty": {
+                        "partyId": "ABC1"
+                    },
+                    "shipWindow": "2019-08-21T07:00:00Z--2019-08-27T07:00:00Z",
+                    "items": [
+                        {
+                            "itemSequenceNumber": "1",
+                            "amazonProductIdentifier": "B01LNRIIAB",
+                            "vendorProductIdentifier": "B01LNRIIAB",
+                            "orderedQuantity": {
+                                "amount": 5,
+                                "unitOfMeasure": "Cases",
+                                "unitSize": 10
+                            },
+                            "isBackOrderAllowed": true,
+                            "netCost": {
+                                "amount": "94.97",
+                                "currencyCode": "USD"
+                            },
+                            "listPrice": {
+                                "amount": "94.97",
+                                "currencyCode": "USD"
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

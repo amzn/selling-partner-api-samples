@@ -67,7 +67,7 @@ public class DownloadShippingLabelRecipe extends Recipe {
 
     private String getReportDocumentUrl(String reportDocumentId) {
         try {
-            ReportDocument reportDocument = reportsApi.getReportDocument(reportDocumentId);
+            ReportDocument reportDocument = reportsApi.getReportDocument(reportDocumentId, false);
             System.out.println("Report document URL retrieved");
             return reportDocument.getUrl();
         } catch (ApiException | LWAException e) {

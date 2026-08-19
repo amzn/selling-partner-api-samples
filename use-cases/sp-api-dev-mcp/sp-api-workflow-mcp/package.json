@@ -1,0 +1,26 @@
+{
+  "name": "workflow-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for building and executing SP-API workflows using Amazon States Language",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node --test test/*.test.js test/**/*.test.js"
+  },
+  "keywords": [
+    "mcp",
+    "workflow",
+    "sp-api",
+    "amazon",
+    "states-language"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

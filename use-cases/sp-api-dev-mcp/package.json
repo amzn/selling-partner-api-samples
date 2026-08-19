@@ -1,0 +1,55 @@
+{
+  "name": "@amazon-sp-api-release/dev-mcp",
+  "version": "0.0.1",
+  "description": "Consolidated npm package that bundles multiple SP-API MCP servers",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "sp-api-dev-mcp": "./dist/index.js"
+  },
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "build": "tsc",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "test": "echo \"No tests - this is a consolidation package\"",
+    "test:watch": "echo \"No tests\"",
+    "type-check": "tsc --noEmit",
+    "prepublishOnly": "npm run build",
+    "prepare": "echo 'skip prepare for consolidation package'"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^22.5.4",
+    "@typescript-eslint/eslint-plugin": "^8.3.0",
+    "@typescript-eslint/parser": "^8.3.0",
+    "eslint": "^9.9.1",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.3",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.1",
+    "typescript": "^5.5.4"
+  },
+  "files": [
+    "src/",
+    "dist/",
+    "bundled-servers/",
+    "README.md"
+  ],
+  "keywords": [
+    "mcp",
+    "amazon",
+    "sp-api",
+    "model-context-protocol"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
