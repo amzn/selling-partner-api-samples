@@ -9,3 +9,8 @@ updates:
     directory: "/code-recipes/php"
     schedule:
       interval: "weekly"
+
+  - package-ecosystem: "pip"
+    directory: "/code-recipes/python"
+    schedule:
+      interval: "weekly"
