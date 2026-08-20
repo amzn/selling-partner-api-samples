@@ -45,11 +45,11 @@ sourceSets {
 npmInstall.dependsOn("processTestResources")
 
 dependencies {
-	implementation 'com.fasterxml.jackson.jr:jackson-jr-objects:2.22.1'
+	implementation 'com.fasterxml.jackson.jr:jackson-jr-objects:2.22.2'
 	implementation 'software.amazon.spapi:spapi-sdk:1.11.1'
 	implementation 'org.slf4j:slf4j-api:2.0.18'
   runtimeOnly 'ch.qos.logback:logback-classic:1.6.3'
-	testImplementation 'com.fasterxml.jackson.jr:jackson-jr-all:2.22.1'
+	testImplementation 'com.fasterxml.jackson.jr:jackson-jr-all:2.22.2'
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.14.4'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
