@@ -1,0 +1,25 @@
+{
+  "offerResults": [
+    {
+      "item": { "productIdentifier": { "amazonSku": "MY-SKU-001" } },
+      "offers": [
+        {
+          "fulfillmentConfiguration": {
+            "serviceLevel": {
+              "serviceTier": "STANDARD",
+              "deliveryInterval": { "startTime": "2026-07-11T12:00:00Z", "endTime": "2026-07-12T23:59:00Z" }
+            }
+          },
+          "expiryTime": "2026-07-09T20:00:00Z"
+        }
+      ]
+    },
+    {
+      "item": { "productIdentifier": { "amazonSku": "MY-SKU-002" } },
+      "offers": [],
+      "constraints": [
+        { "code": "ItemQuantityNotAvailable", "type": "ValidationError", "message": "MY-SKU-002 is out of stock." }
+      ]
+    }
+  ]
+}
