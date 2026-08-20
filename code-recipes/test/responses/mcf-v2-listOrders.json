@@ -1,0 +1,30 @@
+{
+  "orders": [
+    {
+      "orderId": "MCF-V2-TEST-ORDER-001",
+      "receiveTime": "2026-08-19T17:00:00Z",
+      "status": "PROCESSING",
+      "statusUpdateTime": "2026-08-19T17:00:05Z",
+      "fulfillmentConfiguration": {
+        "serviceLevel": { "serviceTiers": ["STANDARD"] },
+        "action": "SHIP",
+        "policy": "FILL_ALL_AVAILABLE"
+      },
+      "origin": { "countryCode": "US" },
+      "destination": {
+        "deliveryAddress": {
+          "name": "Tom Jones", "addressLine1": "123 Main St", "city": "Anytown",
+          "stateOrRegion": "AZ", "postalCode": "85050", "countryCode": "US"
+        }
+      },
+      "lineItems": [
+        {
+          "lineItemId": "item-001",
+          "product": { "productIdentifier": { "amazonSku": "MY-SKU-001" } },
+          "amount": { "unit": "EACHES", "value": "1" }
+        }
+      ]
+    }
+  ],
+  "pagination": { "nextToken": "nextPageToken" }
+}

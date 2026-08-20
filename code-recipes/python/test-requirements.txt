@@ -1,2 +1,2 @@
 pytest >= 9.1.1
-amzn-sp-api >= 1.6.0
+amzn-sp-api >= 1.11.1

@@ -1,0 +1,30 @@
+{
+  "plannedShipments": [
+    {
+      "estimatedShippingWeight": { "unit": "POUNDS", "value": "0.789" },
+      "items": [
+        { "productIdentifier": { "amazonSku": "MY-SKU-001" }, "amount": { "unit": "EACHES", "value": "1" } }
+      ],
+      "offers": [
+        {
+          "fulfillmentConfiguration": {
+            "serviceLevel": {
+              "serviceTier": "STANDARD",
+              "deliveryInterval": { "startTime": "2026-09-15T07:00:00Z", "endTime": "2026-09-16T06:59:59Z" },
+              "shipInterval": { "startTime": "2026-09-13T07:00:00Z", "endTime": "2026-09-14T06:59:59Z" }
+            },
+            "services": { "packaging": { "packagingOption": "UNBRANDED" } }
+          },
+          "estimatedPrice": {
+            "rollupPrices": [
+              { "type": "FBAPerOrderFulfillmentFee", "value": { "currencyCode": "USD", "amount": "0.0" } },
+              { "type": "FBATransportationFee", "value": { "currencyCode": "USD", "amount": "0.0" } },
+              { "type": "FBAPerUnitFulfillmentFee", "value": { "currencyCode": "USD", "amount": "12.5" } }
+            ],
+            "totalPrice": { "currencyCode": "USD", "amount": "12.5" }
+          }
+        }
+      ]
+    }
+  ]
+}
