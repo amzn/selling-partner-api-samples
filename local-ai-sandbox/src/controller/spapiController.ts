@@ -27,13 +27,20 @@ export const createResponse = async (request: Request, response: Response) => {
 
         const sandboxResponse = responseResult.structuredOutput as z.infer<typeof ResponseSchema>;
         if (sandboxResponse.body) {
-          response.status(sandboxResponse.statusCode).json(JSON.parse(sandboxResponse.body)).send();
-        } else response.status(sandboxResponse.statusCode).send();
+          try {
+            const parsedBody = JSON.parse(sandboxResponse.body);
+            response.status(sandboxResponse.statusCode).json(parsedBody);
+          } catch {
+            response.status(sandboxResponse.statusCode).send(sandboxResponse.body);
+          }
+        } else {
+          response.status(sandboxResponse.statusCode).send();
+        }
       } catch (error) {
         handleAgentError(error, response);
       }
     } else {
-      response.status(validation.statusCode!).json(validation.errors).send();
+      response.status(validation.statusCode!).json(validation.errors);
     }
   });
 };

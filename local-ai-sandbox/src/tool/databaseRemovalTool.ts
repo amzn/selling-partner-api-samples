@@ -6,7 +6,7 @@ export const databaseRemovalTool = tool({
   name: "database_removal",
   description: "Removes data from the database",
   inputSchema: z.object({
-    api: z.enum(Api),
+    api: z.nativeEnum(Api),
     id: z.string(),
   }),
   callback: async (input) => {

@@ -30,12 +30,14 @@ export const callSellingPartnerApiTool = tool({
         signal: controller.signal,
       };
 
-      // Only add headers and body if they are defined
-      if (headers !== undefined) {
-        const store: any = asyncLocalStorage.getStore();
-        headers["x-amz-access-token"] = store.accessToken;
-        fetchOptions.headers = headers;
+      // Always construct headers object and inject access token if available
+      const requestHeaders: Record<string, string> = { ...(headers ?? {}) };
+      const store: any = asyncLocalStorage.getStore();
+      if (store?.accessToken) {
+        requestHeaders["x-amz-access-token"] = store.accessToken;
       }
+      fetchOptions.headers = requestHeaders;
+
       if (body !== undefined) {
         fetchOptions.body = body;
       }
@@ -57,7 +59,8 @@ export const callSellingPartnerApiTool = tool({
 
       // Check if response was successful
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status} ${response.statusText}: ${method} ${url}`);
+        const detail = responseBody ? ` - Response: ${responseBody}` : "";
+        throw new Error(`HTTP ${response.status} ${response.statusText}: ${method} ${url}${detail}`);
       }
 
       // Return successful response as JSON-serializable object

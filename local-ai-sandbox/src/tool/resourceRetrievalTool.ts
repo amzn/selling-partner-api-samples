@@ -7,7 +7,7 @@ export const resourceRetrievalTool = tool({
   name: "resource_retrieval",
   description: "Retrieves resources for a given Api",
   inputSchema: z.object({
-    api: z.enum(Api),
+    api: z.nativeEnum(Api),
   }),
   callback: (input) => {
     console.warn(`Model retrieval for api ${input.api}`);

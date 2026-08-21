@@ -39,7 +39,7 @@ export const databaseLookupTool = tool({
   description:
     "Performs a lookup in the database to retrieve data. Supports single id, multiple ids (batch), or no id (returns all). Use fields parameter to return only specific fields per item. For catalog API, use asin/asins instead of id/ids.",
   inputSchema: z.object({
-    api: z.enum(Api),
+    api: z.nativeEnum(Api),
     id: z.string().optional(),
     ids: z.array(z.string()).optional(),
     asin: z.string().optional(),
