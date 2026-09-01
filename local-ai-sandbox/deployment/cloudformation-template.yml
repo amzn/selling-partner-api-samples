@@ -19,6 +19,12 @@ Parameters:
     Type: String
 
 Resources:
+  AiSandboxQueue:
+    Type: AWS::SQS::Queue
+    DeletionPolicy: Delete
+    Properties:
+      QueueName: AiSandbox
+
   ElasticBeanstalkApplication:
     Type: AWS::ElasticBeanstalk::Application
     DeletionPolicy: Delete
@@ -75,6 +81,15 @@ Resources:
                 Resource:
                   - !Sub arn:aws:bedrock:*:${AWS::AccountId}:inference-profile/global.anthropic.claude-haiku-4-5-20251001-v1:0
                   - 'arn:aws:bedrock:*::foundation-model/anthropic.claude-haiku-4-5-*'
+        - PolicyName: SqsSendMessagePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sqs:SendMessage
+                Resource:
+                  - !GetAtt AiSandboxQueue.Arn
 
   InstanceProfile:
     Type: AWS::IAM::InstanceProfile

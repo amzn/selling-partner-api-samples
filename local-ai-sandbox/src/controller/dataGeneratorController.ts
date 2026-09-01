@@ -33,6 +33,9 @@ export const generateData = async (request: Request, response: Response) => {
         
         ADDITIONAL INFORMATION:
         - id passed to databaseInsertionTool must match entity id and pass schema validation, return error if not
+        - Listings: always include 'sellerId' and 'sku' in the entity. A SKU is
+          only unique per seller, so the tool keys the listing by both. Use the
+          seller ID from the prompt, or a realistic one like AMY6FKRUBY7XV.
     `;
 
   try {

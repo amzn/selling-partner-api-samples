@@ -14,14 +14,22 @@
     }
   },
   "host": "sellingpartnerapi-na.amazon.com",
-  "schemes": ["https"],
-  "consumes": ["application/json"],
-  "produces": ["application/json"],
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "paths": {
     "/orders/2026-01-01/orders": {
       "get": {
-        "tags": ["searchOrders"],
-        "description": "Returns orders that are created or updated during the time period that you specify. You can filter the response for specific types of orders.",
+        "tags": [
+          "searchOrders"
+        ],
+        "description": "Returns orders created or updated during the time period that you specify. You can filter the response for specific types of orders.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.0056 | 20 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.",
         "operationId": "searchOrders",
         "parameters": [
           {
@@ -45,7 +53,7 @@
           {
             "name": "lastUpdatedAfter",
             "in": "query",
-            "description": "The response includes orders updated at or after this time. An update is defined as any change made by Amazon or by the seller, including an update to the order status. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.\n\n**Note**: You must provide exactly one of `createdAfter` and `lastUpdatedAfter`. If `lastUpdatedAfter` is provided, neither `createdAfter` nor `createdBefore` may be provided.",
+            "description": "The response includes orders updated at or after this time. An update is any change made by Amazon or the seller, including changes to order status. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.\n\n**Note**: You must provide exactly one of `createdAfter` and `lastUpdatedAfter`. If `lastUpdatedAfter` is provided, neither `createdAfter` nor `createdBefore` may be provided.",
             "required": false,
             "type": "string",
             "format": "date-time",
@@ -54,7 +62,7 @@
           {
             "name": "lastUpdatedBefore",
             "in": "query",
-            "description": "The response includes orders updated at or before this time. An update is defined as any change made by Amazon or by the seller, including an update to the order status. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.\n\n**Note**: If you include `lastUpdatedAfter` in the request, `lastUpdatedBefore` is optional, and if provided must be equal to or after the `lastUpdatedAfter` date and at least two minutes before the time of the request. If `lastUpdatedBefore` is provided, neither `createdAfter` nor `createdBefore` may be provided.",
+            "description": "The response includes orders updated at or before this time. An update is any change made by Amazon or the seller, including changes to order status. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format.\n\n**Note**: If you include `lastUpdatedAfter` in the request, `lastUpdatedBefore` is optional, and if provided must be equal to or after the `lastUpdatedAfter` date and at least two minutes before the time of the request. If `lastUpdatedBefore` is provided, neither `createdAfter` nor `createdBefore` may be provided.",
             "required": false,
             "type": "string",
             "format": "date-time",
@@ -68,7 +76,15 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": ["PENDING_AVAILABILITY", "PENDING", "UNSHIPPED", "PARTIALLY_SHIPPED", "SHIPPED", "CANCELLED", "UNFULFILLABLE"],
+              "enum": [
+                "PENDING_AVAILABILITY",
+                "PENDING",
+                "UNSHIPPED",
+                "PARTIALLY_SHIPPED",
+                "SHIPPED",
+                "CANCELLED",
+                "UNFULFILLABLE"
+              ],
               "x-docgen-enum-table-extension": [
                 {
                   "value": "PENDING_AVAILABILITY",
@@ -96,11 +112,14 @@
                 },
                 {
                   "value": "UNFULFILLABLE",
-                  "description": "The order cannot be fulfilled. This state only applies to Amazon-fulfilled orders that were not placed on Amazon's retail web site."
+                  "description": "The order cannot be fulfilled. This state only applies to Amazon-fulfilled orders that were not placed on Amazon's retail website."
                 }
               ]
             },
-            "x-example": ["PENDING", "UNSHIPPED"]
+            "x-example": [
+              "PENDING",
+              "UNSHIPPED"
+            ]
           },
           {
             "name": "marketplaceIds",
@@ -112,7 +131,10 @@
               "type": "string"
             },
             "maxItems": 50,
-            "x-example": ["ATVPDKIKX0DER", "A2EUQ1WTGCTBG2"]
+            "x-example": [
+              "ATVPDKIKX0DER",
+              "A2EUQ1WTGCTBG2"
+            ]
           },
           {
             "name": "fulfilledBy",
@@ -122,7 +144,10 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": ["MERCHANT", "AMAZON"],
+              "enum": [
+                "MERCHANT",
+                "AMAZON"
+              ],
               "x-docgen-enum-table-extension": [
                 {
                   "value": "MERCHANT",
@@ -134,7 +159,10 @@
                 }
               ]
             },
-            "x-example": ["AMAZON", "MERCHANT"]
+            "x-example": [
+              "AMAZON",
+              "MERCHANT"
+            ]
           },
           {
             "name": "maxResultsPerPage",
@@ -160,7 +188,19 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": ["BUYER", "RECIPIENT", "PROCEEDS", "EXPENSE", "PROMOTION", "CANCELLATION", "FULFILLMENT", "PACKAGES"],
+              "enum": [
+                "BUYER",
+                "RECIPIENT",
+                "PROCEEDS",
+                "EXPENSE",
+                "PROMOTION",
+                "CANCELLATION",
+                "FULFILLMENT",
+                "PACKAGES",
+                "TAX",
+                "PAYMENT",
+                "FULFILLMENT_ORDERS"
+              ],
               "x-docgen-enum-table-extension": [
                 {
                   "value": "BUYER",
@@ -193,10 +233,25 @@
                 {
                   "value": "PACKAGES",
                   "description": "Information about shipping packages and tracking."
+                },
+                {
+                  "value": "TAX",
+                  "description": "The tax information associated with the order."
+                },
+                {
+                  "value": "PAYMENT",
+                  "description": "The payment information associated with the order."
+                },
+                {
+                  "value": "FULFILLMENT_ORDERS",
+                  "description": "The fulfillment orders associated with this order."
                 }
               ]
             },
-            "x-example": ["BUYER", "PACKAGES"]
+            "x-example": [
+              "BUYER",
+              "PACKAGES"
+            ]
           }
         ],
         "responses": {
@@ -325,8 +380,10 @@
     },
     "/orders/2026-01-01/orders/{orderId}": {
       "get": {
-        "tags": ["getOrder"],
-        "description": "Returns the order that you specify.",
+        "tags": [
+          "getOrder"
+        ],
+        "description": "Returns the order that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.5 | 30 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.",
         "operationId": "getOrder",
         "parameters": [
           {
@@ -345,7 +402,19 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": ["BUYER", "RECIPIENT", "PROCEEDS", "EXPENSE", "PROMOTION", "CANCELLATION", "FULFILLMENT", "PACKAGES"],
+              "enum": [
+                "BUYER",
+                "RECIPIENT",
+                "PROCEEDS",
+                "EXPENSE",
+                "PROMOTION",
+                "CANCELLATION",
+                "FULFILLMENT",
+                "PACKAGES",
+                "TAX",
+                "PAYMENT",
+                "FULFILLMENT_ORDERS"
+              ],
               "x-docgen-enum-table-extension": [
                 {
                   "value": "BUYER",
@@ -361,7 +430,7 @@
                 },
                 {
                   "value": "EXPENSE",
-                  "description": "The cost information applied to the order and order items."
+                  "description": "The cost information about the order and order items."
                 },
                 {
                   "value": "PROMOTION",
@@ -373,15 +442,30 @@
                 },
                 {
                   "value": "FULFILLMENT",
-                  "description": "Information about how this order and order items are processed and shipped."
+                  "description": "Information about how the order and order items are processed and shipped."
                 },
                 {
                   "value": "PACKAGES",
-                  "description": "Shipping packages and tracking information."
+                  "description": "Information about shipping packages and tracking."
+                },
+                {
+                  "value": "TAX",
+                  "description": "The tax information associated with the order."
+                },
+                {
+                  "value": "PAYMENT",
+                  "description": "The payment information associated with the order."
+                },
+                {
+                  "value": "FULFILLMENT_ORDERS",
+                  "description": "The fulfillment orders associated with this order."
                 }
               ]
             },
-            "x-example": ["BUYER", "PACKAGES"]
+            "x-example": [
+              "BUYER",
+              "PACKAGES"
+            ]
           }
         ],
         "responses": {
@@ -513,7 +597,9 @@
     "SearchOrdersResponse": {
       "description": "A list of orders.",
       "type": "object",
-      "required": ["orders"],
+      "required": [
+        "orders"
+      ],
       "properties": {
         "orders": {
           "description": "An array containing all orders that match the search criteria.",
@@ -524,23 +610,23 @@
         },
         "pagination": {
           "$ref": "#/definitions/Pagination",
-          "description": "When a request has results that are not included in the response, pagination occurs. This means the results are divided into individual pages. To retrieve a different page, you must pass the token value as the `paginationToken` query parameter in the subsequent request. All other parameters must be provided with the same values that were provided with the request that generated this token, with the exception of `maxResultsPerPage` and `includedData`, which can be modified between calls. The token will expire after 24 hours. When there are no other pages to fetch, the `pagination` field will be absent from the response."
+          "description": "Pagination occurs when a request has results that exceed the response limit. This means the results are divided into individual pages. To retrieve a different page, you must pass the token value as the `paginationToken` query parameter in the subsequent request. All other parameters must be provided with the same values that were provided with the request that generated this token, with the exception of `maxResultsPerPage` and `includedData`, which can be modified between calls. The token will expire after 24 hours. When there are no other pages to fetch, the `pagination` field will be absent from the response."
         },
         "lastUpdatedBefore": {
           "type": "string",
           "format": "date-time",
-          "description": "Only orders updated before the specified time are returned. The date must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format."
+          "description": "Only orders updated before the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format."
         },
         "createdBefore": {
           "type": "string",
           "format": "date-time",
-          "description": "Only orders placed before the specified time are returned. The date must be in <a href='https://developer-docs.amazon.com/sp-api/docs/iso-8601'>ISO 8601</a> format."
+          "description": "Only orders placed before the specified time are returned. The date must be in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) format."
         }
       }
     },
     "Pagination": {
       "type": "object",
-      "description": "When a request has results that are not included in the response, pagination occurs. This means the results are divided into individual pages. To retrieve a different page, you must pass the token value as the `paginationToken` query parameter in the subsequent request. All other parameters must be provided with the same values that were provided with the request that generated this token, with the exception of `maxResultsPerPage` and `includedData`, which can be modified between calls. The token will expire after 24 hours. When there are no other pages to fetch, the `pagination` field will be absent from the response.",
+      "description": "Pagination occurs when a request has results that exceed the response limit. This means the results are divided into individual pages. To retrieve a different page, you must pass the token value as the `paginationToken` query parameter in the subsequent request. All other parameters must be provided with the same values that were provided with the request that generated this token, with the exception of `maxResultsPerPage` and `includedData`, which can be modified between calls. The token will expire after 24 hours. When there are no other pages to fetch, the `pagination` field will be absent from the response.",
       "properties": {
         "nextToken": {
           "description": "A token that can be used to fetch the next page of results.",
@@ -551,7 +637,9 @@
     "GetOrderResponse": {
       "description": "Order details.",
       "type": "object",
-      "required": ["order"],
+      "required": [
+        "order"
+      ],
       "properties": {
         "order": {
           "description": "All available information about the requested order.",
@@ -562,7 +650,13 @@
     "Order": {
       "description": "Comprehensive information about a customer order.",
       "type": "object",
-      "required": ["orderId", "createdTime", "lastUpdatedTime", "salesChannel", "orderItems"],
+      "required": [
+        "orderId",
+        "createdTime",
+        "lastUpdatedTime",
+        "salesChannel",
+        "orderItems"
+      ],
       "properties": {
         "orderId": {
           "description": "An Amazon-defined order identifier, in 3-7-7 format.",
@@ -588,7 +682,7 @@
         },
         "programs": {
           "type": "array",
-          "description": "Special programs associated with this order that may affect fulfillment or customer experience. \n\n**Possible values**: `AMAZON_BAZAAR`, `AMAZON_BUSINESS`,  `AMAZON_EASY_SHIP`, `AMAZON_HAUL`, `DELIVERY_BY_AMAZON`, `FBM_SHIP_PLUS`, `IN_STORE_PICK_UP`, `PREMIUM`, `PREORDER`, `PRIME`",
+          "description": "Special programs associated with this order that may affect fulfillment or customer experience. \n\n**Possible values**: `AMAZON_BAZAAR`, `AMAZON_BUSINESS`, `AMAZON_EASY_SHIP`, `AMAZON_HAUL`, `DELIVERY_BY_AMAZON`, `FBM_SHIP_PLUS`, `INVOICE_BY_AMAZON`, `IN_STORE_PICK_UP`, `PREMIUM`, `PREORDER`, `PRIME`",
           "items": {
             "type": "string"
           }
@@ -616,6 +710,14 @@
           "description": "Financial information about this order.",
           "$ref": "#/definitions/OrderProceeds"
         },
+        "payment": {
+          "description": "Payment information for the order.",
+          "$ref": "#/definitions/OrderPayment"
+        },
+        "tax": {
+          "description": "Tax-related information for the order.",
+          "$ref": "#/definitions/OrderTax"
+        },
         "fulfillment": {
           "description": "Information about how this order is being processed and shipped.",
           "$ref": "#/definitions/OrderFulfillment"
@@ -633,13 +735,23 @@
           "items": {
             "$ref": "#/definitions/OrderPackage"
           }
+        },
+        "fulfillmentOrders": {
+          "description": "The list of fulfillment orders associated with this customer order. Each entry corresponds to one fulfillment unit created by Amazon for this order. **Note:** Only available for EasyShip orders at present.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FulfillmentOrder"
+          }
         }
       }
     },
     "Alias": {
       "description": "An alternative identifier that provides a different way to reference the same order.",
       "type": "object",
-      "required": ["aliasId", "aliasType"],
+      "required": [
+        "aliasId",
+        "aliasType"
+      ],
       "properties": {
         "aliasId": {
           "description": "The alternative identifier value that can be used to reference this order.",
@@ -668,7 +780,9 @@
     "SalesChannel": {
       "description": "Information about where the customer placed this order.",
       "type": "object",
-      "required": ["channelName"],
+      "required": [
+        "channelName"
+      ],
       "properties": {
         "channelName": {
           "description": "The name of the sales platform or channel where the customer placed this order.\n\n**Possible values**: `AMAZON`, `NON_AMAZON`",
@@ -727,13 +841,44 @@
         "grandTotal": {
           "description": "The total amount that the seller receives from the sale of the order.",
           "$ref": "#/definitions/Money"
+        },
+        "breakdowns": {
+          "description": "Categorized proceeds for the order. Proceed categories are either aggregated across all order items (such as `ITEM`, `SHIPPING`, and `TAX`) or applied at the order level (such as `DELIVERY_TIP`).",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderProceedsBreakdown"
+          }
+        }
+      }
+    },
+    "OrderProceedsBreakdown": {
+      "description": "An entry detailing proceeds information.",
+      "type": "object",
+      "required": [
+        "type",
+        "subtotal"
+      ],
+      "properties": {
+        "type": {
+          "description": "The proceeds category. \n\n**Possible values**: `ITEM`, `SHIPPING`, `GIFT_WRAP`, `COD_FEE`, `TAX`, `DISCOUNT`, `DELIVERY_TIP`, `OTHER`. **Note:** `DELIVERY_TIP` is charged separately and not attributed to a specific item. The remaining categories are aggregated across all order items.",
+          "type": "string"
+        },
+        "status": {
+          "description": "The processing status of the charge. Only present for categories processed separately after checkout, such as `DELIVERY_TIP`.\n\n**Possible values**: `PENDING`, `FINALIZED`.",
+          "type": "string"
+        },
+        "subtotal": {
+          "description": "The monetary amount for the proceeds category.",
+          "$ref": "#/definitions/Money"
         }
       }
     },
     "OrderFulfillment": {
       "description": "Information about how the order is being processed, packed, and shipped to the customer.",
       "type": "object",
-      "required": ["fulfillmentStatus"],
+      "required": [
+        "fulfillmentStatus"
+      ],
       "properties": {
         "fulfillmentStatus": {
           "description": "The current status of the order in the fulfillment process, from pending to handover to carrier.",
@@ -760,7 +905,11 @@
     "OrderItem": {
       "description": "Information about a single product within an order.",
       "type": "object",
-      "required": ["orderItemId", "quantityOrdered", "product"],
+      "required": [
+        "orderItemId",
+        "quantityOrdered",
+        "product"
+      ],
       "properties": {
         "orderItemId": {
           "description": "A unique identifier for this specific item within the order, in 3-7-7 format.",
@@ -774,6 +923,13 @@
         "measurement": {
           "description": "The unit of measure and value for items sold by weight, volume, or other measurements rather than simple count.",
           "$ref": "#/definitions/Measurement"
+        },
+        "associatedOrderItems": {
+          "description": "A list of order items associated with this item. For example, a value-add service purchased with the product.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AssociatedOrderItem"
+          }
         },
         "programs": {
           "type": "array",
@@ -805,13 +961,19 @@
         "fulfillment": {
           "description": "Information about how the order item should be processed, packed, and shipped to the customer.",
           "$ref": "#/definitions/ItemFulfillment"
+        },
+        "tax": {
+          "description": "Tax-related information for this order item.",
+          "$ref": "#/definitions/ItemTax"
         }
       }
     },
     "OrderPackage": {
       "description": "Information about a physical shipping package, including tracking details. **Note:** Only available for merchant-fulfilled (FBM) orders.",
       "type": "object",
-      "required": ["packageReferenceId"],
+      "required": [
+        "packageReferenceId"
+      ],
       "properties": {
         "packageReferenceId": {
           "description": "A unique identifier for this package within the context of the order.",
@@ -1014,7 +1176,15 @@
     "FulfillmentStatus": {
       "description": "The current fulfillment status of an order, indicating where the order is in the fulfillment process from placement to handover to carrier.",
       "type": "string",
-      "enum": ["PENDING_AVAILABILITY", "PENDING", "UNSHIPPED", "PARTIALLY_SHIPPED", "SHIPPED", "CANCELLED", "UNFULFILLABLE"],
+      "enum": [
+        "PENDING_AVAILABILITY",
+        "PENDING",
+        "UNSHIPPED",
+        "PARTIALLY_SHIPPED",
+        "SHIPPED",
+        "CANCELLED",
+        "UNFULFILLABLE"
+      ],
       "x-docgen-enum-table-extension": [
         {
           "value": "PENDING_AVAILABILITY",
@@ -1022,7 +1192,7 @@
         },
         {
           "value": "PENDING",
-          "description": "The order has been placed but is not ready for shipment. Note that for standard orders, the initial order status is `PENDING`. For pre-orders, the initial order status is `PENDING_AVAILABILITY`, and the order passes into the `PENDING` status when payment authorization begins."
+          "description": "The order has been placed but is not ready for shipment. For standard orders, the initial order status is `PENDING`. For pre-orders, the initial order status is `PENDING_AVAILABILITY`, and the order passes into the `PENDING` status when payment authorization begins."
         },
         {
           "value": "UNSHIPPED",
@@ -1030,7 +1200,7 @@
         },
         {
           "value": "PARTIALLY_SHIPPED",
-          "description": "One or more (but not all) items in the order have been shipped."
+          "description": "At least one, but not all, items in the order have been shipped."
         },
         {
           "value": "SHIPPED",
@@ -1042,14 +1212,17 @@
         },
         {
           "value": "UNFULFILLABLE",
-          "description": "The order cannot be fulfilled. This state applies only to Amazon-fulfilled orders that were not placed on Amazon's retail web site."
+          "description": "The order cannot be fulfilled. This state only applies to Amazon-fulfilled orders that were not placed on Amazon's retail website."
         }
       ]
     },
     "Measurement": {
       "type": "object",
       "description": "Specifies the unit of measure and quantity for items that are sold by weight, volume, length, or other measurements rather than simple count.",
-      "required": ["unit", "value"],
+      "required": [
+        "unit",
+        "value"
+      ],
       "properties": {
         "unit": {
           "type": "string",
@@ -1325,7 +1498,15 @@
         "dayOfWeek": {
           "type": "string",
           "description": "Specific day of the week for which operating hours are being defined.",
-          "enum": ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
+          "enum": [
+            "SUN",
+            "MON",
+            "TUE",
+            "WED",
+            "THU",
+            "FRI",
+            "SAT"
+          ],
           "x-docgen-enum-table-extension": [
             {
               "value": "SUN",
@@ -1378,7 +1559,10 @@
         "exceptionDateType": {
           "description": "Operational status of the business on the specified exception date.",
           "type": "string",
-          "enum": ["CLOSED", "OPEN"],
+          "enum": [
+            "CLOSED",
+            "OPEN"
+          ],
           "x-docgen-enum-table-extension": [
             {
               "value": "CLOSED",
@@ -1428,7 +1612,7 @@
       }
     },
     "PreferredDeliveryCapability": {
-      "description": "Special delivery capabilities available at the shipping address that may affect delivery options and methods. \n\n**Possible values:**\n- `HAS_ACCESS_POINT` (Delivery location includes designated pickup or drop-off access points)\n- `PALLET_ENABLED` (Address is equipped to receive large pallet deliveries)\n- `PALLET_DISABLED` (Address cannot accommodate pallet delivery methods)",
+      "description": "Special delivery capabilities available at the shipping address that may affect delivery options and methods. \n\n**Possible values**:\n- `HAS_ACCESS_POINT` (Delivery location includes designated pickup or drop-off access points)\n- `PALLET_ENABLED` (Address is equipped to receive large pallet deliveries)\n- `PALLET_DISABLED` (Address cannot accommodate pallet delivery methods)",
       "type": "string"
     },
     "ItemCondition": {
@@ -1476,6 +1660,10 @@
     "ItemProceedsBreakdown": {
       "description": "Detailed proceeds breakdown for a specific order item.",
       "type": "object",
+      "required": [
+        "type",
+        "subtotal"
+      ],
       "properties": {
         "type": {
           "description": "Category classification of the proceeds breakdown. \n\n**Possible values**: `ITEM`, `SHIPPING`, `GIFT_WRAP`, `COD_FEE`, `OTHER`, `TAX`, `DISCOUNT`",
@@ -1495,7 +1683,7 @@
       }
     },
     "ItemProceedsDetailedBreakdown": {
-      "description": "Further granular breakdown of the subtotal of the proceeds breakdown, only available for TAX and DISCOUNT proceeds type.",
+      "description": "Further granular breakdown of the subtotal of the proceeds breakdown, only available for TAX and DISCOUNT proceeds types.",
       "type": "object",
       "properties": {
         "subtype": {
@@ -1561,7 +1749,7 @@
       "type": "object",
       "properties": {
         "substitutionPreference": {
-          "description": "Substitution preference for an order item when it becomes unavailable during fulfillment",
+          "description": "Substitution preference for an order item when it becomes unavailable during fulfillment.",
           "$ref": "#/definitions/ItemSubstitutionPreference"
         }
       }
@@ -1573,6 +1761,19 @@
         "giftOption": {
           "description": "Gift wrapping and messaging specified for this item.",
           "$ref": "#/definitions/GiftOption"
+        },
+        "serialNumberRequirement": {
+          "description": "Whether serial numbers must be provided for this line item.",
+          "$ref": "#/definitions/SerialNumberRequirement"
+        }
+      },
+      "example": {
+        "giftOption": {
+          "giftMessage": "Happy Holidays! Enjoy your new smart speakers.",
+          "giftWrapLevel": "PREMIUM"
+        },
+        "serialNumberRequirement": {
+          "requirementType": "REQUIRED"
         }
       }
     },
@@ -1608,15 +1809,31 @@
         }
       }
     },
+    "SerialNumberRequirement": {
+      "description": "Whether serial numbers must be provided for this line item.",
+      "type": "object",
+      "properties": {
+        "requirementType": {
+          "description": "The requirement type for this request. \n\n**Possible values**: `REQUIRED`",
+          "type": "string"
+        }
+      }
+    },
     "ItemSubstitutionPreference": {
       "type": "object",
       "description": "Substitution preference for an order item when it becomes unavailable during fulfillment.",
-      "required": ["substitutionType"],
+      "required": [
+        "substitutionType"
+      ],
       "properties": {
         "substitutionType": {
           "type": "string",
           "description": "Source and nature of the substitution preferences for this item.",
-          "enum": ["CUSTOMER_PREFERENCE", "AMAZON_RECOMMENDED", "DO_NOT_SUBSTITUTE"],
+          "enum": [
+            "CUSTOMER_PREFERENCE",
+            "AMAZON_RECOMMENDED",
+            "DO_NOT_SUBSTITUTE"
+          ],
           "x-docgen-enum-table-extension": [
             {
               "value": "CUSTOMER_PREFERENCE",
@@ -1696,7 +1913,9 @@
     "ConstraintType": {
       "type": "string",
       "description": "Classification of the enforcement level required for shipping and delivery constraints.",
-      "enum": ["MANDATORY"],
+      "enum": [
+        "MANDATORY"
+      ],
       "x-docgen-enum-table-extension": [
         {
           "value": "MANDATORY",
@@ -1717,12 +1936,21 @@
     "PackageStatus": {
       "description": "Current status and detailed tracking information for a shipping package throughout the delivery process.",
       "type": "object",
-      "required": ["status"],
+      "required": [
+        "status"
+      ],
       "properties": {
         "status": {
           "description": "Primary status classification of the package in the shipping workflow.",
           "type": "string",
-          "enum": ["PENDING", "IN_TRANSIT", "SHIPPED", "DELIVERED", "CANCELLED", "UNDELIVERABLE"],
+          "enum": [
+            "PENDING",
+            "IN_TRANSIT",
+            "SHIPPED",
+            "DELIVERED",
+            "CANCELLED",
+            "UNDELIVERABLE"
+          ],
           "x-docgen-enum-table-extension": [
             {
               "value": "PENDING",
@@ -1751,7 +1979,7 @@
           ]
         },
         "detailedStatus": {
-          "description": "Granular status information providing specific details about the package's current location and handling stage. \n\n**Possible values:**\n- `PENDING_SCHEDULE` (Package awaiting pickup scheduling)\n- `PENDING_PICK_UP` (Package ready for carrier collection from seller)\n- `PENDING_DROP_OFF` (Package awaiting seller delivery to carrier)\n- `LABEL_CANCELLED` (Shipping label canceled by seller)\n- `PICKED_UP` (Package collected by carrier from seller location)\n- `DROPPED_OFF` (Package delivered to carrier by seller)\n- `AT_ORIGIN_FC` (Package at originating fulfillment center)\n- `AT_DESTINATION_FC` (Package at destination fulfillment center)\n- `DELIVERED` (Package successfully delivered to recipient)\n- `REJECTED_BY_BUYER` (Package refused by intended recipient)\n- `UNDELIVERABLE` (Package cannot be delivered due to address or access issues)\n- `RETURNING_TO_SELLER` (Package in transit back to seller)\n- `RETURNED_TO_SELLER` (Package successfully returned to seller)\n- `LOST` (Package location unknown or confirmed lost)\n- `OUT_FOR_DELIVERY` (Package on delivery vehicle for final delivery)\n- `DAMAGED` (Package damaged during transit)\n",
+          "description": "Granular status information providing specific details about the package's current location and handling stage. \n\n**Possible values**:\n- `PENDING_SCHEDULE` (Package awaiting pickup scheduling)\n- `PENDING_PICK_UP` (Package ready for carrier collection from seller)\n- `PENDING_DROP_OFF` (Package awaiting seller delivery to carrier)\n- `LABEL_CANCELLED` (Shipping label canceled by seller)\n- `PICKED_UP` (Package collected by carrier from seller location)\n- `DROPPED_OFF` (Package delivered to carrier by seller)\n- `AT_ORIGIN_FC` (Package at originating fulfillment center)\n- `AT_DESTINATION_FC` (Package at destination fulfillment center)\n- `DELIVERED` (Package successfully delivered to recipient)\n- `REJECTED_BY_BUYER` (Package refused by intended recipient)\n- `UNDELIVERABLE` (Package cannot be delivered due to address or access issues)\n- `RETURNING_TO_SELLER` (Package in transit back to seller)\n- `RETURNED_TO_SELLER` (Package successfully returned to seller)\n- `LOST` (Package location unknown or confirmed lost)\n- `OUT_FOR_DELIVERY` (Package on delivery vehicle for final delivery)\n- `DAMAGED` (Package damaged during transit)\n",
           "type": "string"
         }
       }
@@ -1759,11 +1987,13 @@
     "PackageItem": {
       "description": "Individual order item contained within a shipping package.",
       "type": "object",
-      "required": ["orderItemId", "quantity"],
+      "required": [
+        "orderItemId",
+        "quantity"
+      ],
       "properties": {
         "orderItemId": {
-          "description": "Unique identifier of the order item included in this package, in 3-7-7 format.",
-          "pattern": "^\\d{3}-\\d{7}-\\d{7}$",
+          "description": "Unique identifier of the order item included in this package.",
           "type": "string"
         },
         "quantity": {
@@ -1776,6 +2006,190 @@
           "items": {
             "type": "string"
           }
+        }
+      }
+    },
+    "OrderPayment": {
+      "description": "Payment information about the order.",
+      "type": "object",
+      "properties": {
+        "paymentExecutions": {
+          "description": "A list of payment executions for the order.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PaymentExecution"
+          }
+        }
+      }
+    },
+    "PaymentExecution": {
+      "description": "Payment execution details for an order.",
+      "type": "object",
+      "properties": {
+        "paymentMethod": {
+          "description": "The payment method used for this payment execution (for example, CashOnDelivery, ConvenienceStore, CreditCard, Invoice, Pix, and so on).",
+          "type": "string"
+        },
+        "paymentAmount": {
+          "description": "The monetary value of the payment execution.",
+          "$ref": "#/definitions/Money"
+        },
+        "acquirerId": {
+          "description": "The unique identifier of the payment processor or acquiring bank that authorizes the payment. \n\n**Note**: This attribute is only available for orders in the Brazil (BR) marketplace when the `paymentMethod` is `CreditCard` or `Pix`.",
+          "type": "string"
+        },
+        "cardBrand": {
+          "description": "The card network or brand used in the payment transaction (for example, Visa or Mastercard).\n\n**Note**: This attribute is only available for orders in the Brazil (BR) marketplace when the `paymentMethod` is `CreditCard`.",
+          "type": "string"
+        },
+        "authorizationCode": {
+          "description": "The unique code that confirms the payment authorization.\n\n**Note**: This attribute is only available for orders in the Brazil (BR) marketplace when the `paymentMethod` is `CreditCard` or `Pix`.",
+          "type": "string"
+        }
+      }
+    },
+    "OrderTax": {
+      "description": "Tax information about the order.",
+      "type": "object",
+      "properties": {
+        "taxRegistrations": {
+          "description": "A list of tax registrations associated with the order.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderTaxRegistration"
+          }
+        },
+        "taxInvoicing": {
+          "description": "Tax invoicing information for the order.",
+          "$ref": "#/definitions/OrderTaxInvoicing"
+        }
+      }
+    },
+    "OrderTaxRegistration": {
+      "description": "Tax registration information for an entity associated with the order.",
+      "type": "object",
+      "properties": {
+        "entityType": {
+          "description": "The type of entity that the tax registration belongs to.\n\n**Possible values**:\n- `BUYER` (Indicates that this is the buyer's tax registration information)\n- `MERCHANT` (Indicates that this is the merchant's tax registration information)\n- `MARKETPLACE` (Indicates that this is the marketplace's tax registration information)",
+          "type": "string"
+        },
+        "legalName": {
+          "description": "The legal name associated with the tax registration.",
+          "type": "string"
+        },
+        "taxRegistrationType": {
+          "description": "The type of the tax registration number.\n\n**Possible values**: `BUSINESS`, `VAT`, `CST`, `CPF`, `CNPJ`",
+          "type": "string"
+        },
+        "taxRegistrationNumber": {
+          "description": "The tax registration number that identifies the entity for tax purposes.",
+          "type": "string"
+        },
+        "taxRegistrationAddress": {
+          "description": "The address associated with the tax registration.",
+          "$ref": "#/definitions/CustomerAddress"
+        },
+        "taxRegistrationAttributes": {
+          "description": "Additional attributes related to the tax registration.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TaxRegistrationAttribute"
+          }
+        }
+      }
+    },
+    "TaxRegistrationAttribute": {
+      "description": "An additional attribute associated with a tax registration.",
+      "type": "object",
+      "properties": {
+        "key": {
+          "description": "The name of the tax registration attribute.\n\n**Possible values**: `TAX_OFFICE`",
+          "type": "string"
+        },
+        "value": {
+          "description": "The value of the tax registration attribute.",
+          "type": "string"
+        }
+      }
+    },
+    "OrderTaxInvoicing": {
+      "description": "Tax invoicing information for the order.",
+      "type": "object",
+      "properties": {
+        "buyerInvoicePreference": {
+          "description": "The buyer's invoicing preference, which indicates whether the seller should issue an individual or a business invoice to the buyer. \n\n **Note**: This attribute is only available in the Turkey marketplace. \n\n**Possible values**:\n- `INDIVIDUAL` (Issues an individual invoice to the buyer)\n- `BUSINESS` (Issues a business invoice to the buyer)",
+          "type": "string"
+        },
+        "invoiceStatus": {
+          "description": "The status of the invoice. Only available for Easy Ship orders and orders in the Brazil marketplace.\n\n**Possible values**:\n- `NOT_REQUIRED` (The order does not require an electronic invoice to be uploaded)\n- `NOT_FOUND` (The order requires an electronic invoice but it is not uploaded)\n- `PROCESSING` (The required electronic invoice was uploaded and is processing)\n- `ERRORED` (The uploaded electronic invoice was not accepted)\n- `ACCEPTED` (The uploaded electronic invoice was accepted)",
+          "type": "string"
+        }
+      }
+    },
+    "AssociatedOrderItem": {
+      "description": "An associated order item that a customer has purchased with the product. For example, a tire installation service purchased with tires.",
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "description": "The order identifier of the associated order item.",
+          "type": "string"
+        },
+        "orderItemId": {
+          "description": "The order item identifier of the associated order item.",
+          "type": "string"
+        },
+        "associationType": {
+          "description": "The type of association between the order items.\n\n**Possible values**:\n- `VALUE_ADD_SERVICE` (The associated item is a service order)",
+          "type": "string"
+        }
+      },
+      "example": {
+        "orderId": "123-4567890-7654321",
+        "orderItemId": "12345678904321",
+        "associationType": "VALUE_ADD_SERVICE"
+      }
+    },
+    "ItemTax": {
+      "description": "Tax information for an order item.",
+      "type": "object",
+      "properties": {
+        "taxCalculationBreakdowns": {
+          "description": "A list of tax calculation breakdowns for the order item.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ItemTaxCalculationBreakdown"
+          }
+        },
+        "taxCollections": {
+          "description": "A list of tax collections for the order item.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ItemTaxCollection"
+          }
+        }
+      }
+    },
+    "ItemTaxCalculationBreakdown": {
+      "description": "Tax calculation breakdowns for an order item.",
+      "type": "object",
+      "properties": {
+        "reportingScheme": {
+          "description": "The tax reporting scheme applied to this order item.\n\n**Possible values**:\n- `UOSS` (Union one stop shop. The item being purchased is held in the EU for shipment)\n- `IOSS` (Import one stop shop. The item being purchased is not held in the EU for shipment)",
+          "type": "string"
+        }
+      }
+    },
+    "ItemTaxCollection": {
+      "description": "Tax collection information for an order item.",
+      "type": "object",
+      "properties": {
+        "model": {
+          "description": "The tax collection model applied to the item.\n\n**Possible values**:\n- `MARKETPLACE_FACILITATOR` (Tax is withheld and remitted to the taxing authority by Amazon on behalf of the seller)",
+          "type": "string"
+        },
+        "responsibleParty": {
+          "description": "The party responsible for withholding the taxes and remitting them to the taxing authority.",
+          "type": "string"
         }
       }
     },
@@ -1798,7 +2212,10 @@
           "type": "string"
         }
       },
-      "required": ["amount", "currencyCode"],
+      "required": [
+        "amount",
+        "currencyCode"
+      ],
       "type": "object"
     },
     "Decimal": {
@@ -1823,7 +2240,10 @@
     },
     "Error": {
       "description": "Error response returned when the request is unsuccessful.",
-      "required": ["code", "message"],
+      "required": [
+        "code",
+        "message"
+      ],
       "type": "object",
       "properties": {
         "code": {
@@ -1843,7 +2263,9 @@
     "ErrorList": {
       "type": "object",
       "description": "A list of error responses returned when a request is unsuccessful.",
-      "required": ["errors"],
+      "required": [
+        "errors"
+      ],
       "properties": {
         "errors": {
           "description": "A list of errors.",
@@ -1851,6 +2273,19 @@
           "items": {
             "$ref": "#/definitions/Error"
           }
+        }
+      }
+    },
+    "FulfillmentOrder": {
+      "description": "Information about a fulfillment order associated with a customer order. A fulfillment order represents a unit of fulfillment created by Amazon for the order. **Note:** Only available for EasyShip orders at present.",
+      "type": "object",
+      "required": [
+        "fulfillmentOrderId"
+      ],
+      "properties": {
+        "fulfillmentOrderId": {
+          "description": "The Fulfillment Order ID assigned by Amazon after fulfillment planning. This identifier is identical to the Shipment ID required by External Fulfillment APIs.",
+          "type": "string"
         }
       }
     }
