@@ -28,9 +28,10 @@
     },
     {
       "api": "listings",
-      "id": "LAUNCH-SKU-001",
+      "id": "A1SANDBOXSELLER|LAUNCH-SKU-001",
       "entity": {
         "sku": "LAUNCH-SKU-001",
+        "sellerId": "A1SANDBOXSELLER",
         "asin": "B0LAUNCH01",
         "productType": "PRODUCT",
         "item_name": [{ "value": "Wireless Bluetooth Speaker 20W", "marketplace_id": "ATVPDKIKX0DER" }],
@@ -41,10 +42,7 @@
             "our_price": [{ "schedule": [{ "value_with_tax": 49.99 }] }]
           }
         ],
-        "fulfillment_availability": [
-          { "fulfillment_channel_code": "DEFAULT", "quantity": 25 },
-          { "fulfillment_channel_code": "AMAZON_NA", "quantity": 50 }
-        ]
+        "fulfillment_availability": [{ "fulfillment_channel_code": "DEFAULT", "quantity": 25 }, { "fulfillment_channel_code": "AMAZON_NA" }]
       }
     },
     {

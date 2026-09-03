@@ -156,7 +156,7 @@ describe("POST /scenarios/:scenarioId/seed (seedScenario)", () => {
 
     expect(Context.instance.engine.get(Api.ORDERS, "111-0000001-0000001")?.orderId).toBe("111-0000001-0000001");
     expect(Context.instance.engine.get(Api.ORDERS, "111-0000002-0000002")?.orderId).toBe("111-0000002-0000002");
-    expect(Context.instance.engine.get(Api.LISTINGS, "LAUNCH-SKU-001")?.sku).toBe("LAUNCH-SKU-001");
+    expect(Context.instance.engine.get(Api.LISTINGS, "A1SANDBOXSELLER|LAUNCH-SKU-001")?.sku).toBe("LAUNCH-SKU-001");
     expect(Context.instance.engine.get(Api.CATALOG, "B0LAUNCH01")?.asin).toBe("B0LAUNCH01");
     expect(Context.instance.engine.get(Api.INVENTORY, "LAUNCH-SKU-001")?.sellerSku).toBe("LAUNCH-SKU-001");
   });

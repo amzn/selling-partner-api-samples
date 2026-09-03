@@ -28,7 +28,7 @@ export interface ApiMetadataOverride {
  *    "…Return Item" -> "External Fulfillment Returns". Listings also needs a resourcePath override.
  */
 export const API_METADATA_OVERRIDES: Record<string, ApiMetadataOverride> = {
-  "listingsItems_2021-08-01.json": { apiName: "Listings", dbNamespace: "listings", resourcePath: "./res/pt-definitions/PRODUCT.json" },
+  "listingsItems_2021-08-01.json": { apiName: "Listings", dbNamespace: "listings" },
   "catalogItems_2022-04-01.json": { apiName: "Catalog Items", dbNamespace: "catalog" },
   "productPricing_2022-05-01.json": { apiName: "Product Pricing", dbNamespace: "pricing" },
   "fbaInventory.json": { apiName: "FBA Inventory", dbNamespace: "inventory" },
