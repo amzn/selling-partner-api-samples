@@ -14,17 +14,29 @@
     }
   },
   "host": "sellingpartnerapi-na.amazon.com",
-  "schemes": ["https"],
-  "consumes": ["application/json"],
-  "produces": ["application/json"],
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "paths": {
     "/listings/2021-08-01/items/{sellerId}/{sku}": {
       "delete": {
-        "tags": ["listings"],
+        "tags": [
+          "listings"
+        ],
         "description": "Delete a listings item for a selling partner.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 5 | 5 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can receive higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.",
         "operationId": "deleteListingsItem",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "sellerId",
@@ -170,11 +182,17 @@
         }
       },
       "get": {
-        "tags": ["listings"],
+        "tags": [
+          "listings"
+        ],
         "description": "Returns details about a listings item for a selling partner.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 5 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can receive higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.",
         "operationId": "getListingsItem",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "sellerId",
@@ -218,7 +236,16 @@
             "required": false,
             "type": "array",
             "items": {
-              "enum": ["summaries", "attributes", "issues", "offers", "fulfillmentAvailability", "procurement", "relationships", "productTypes"],
+              "enum": [
+                "summaries",
+                "attributes",
+                "issues",
+                "offers",
+                "fulfillmentAvailability",
+                "procurement",
+                "relationships",
+                "productTypes"
+              ],
               "x-docgen-enum-table-extension": [
                 {
                   "value": "summaries",
@@ -257,7 +284,9 @@
             },
             "collectionFormat": "csv",
             "x-example": "summaries",
-            "default": ["summaries"]
+            "default": [
+              "summaries"
+            ]
           }
         ],
         "responses": {
@@ -384,11 +413,17 @@
         }
       },
       "patch": {
-        "tags": ["listings"],
+        "tags": [
+          "listings"
+        ],
         "description": "Partially update (patch) a listings item for a selling partner. Only top-level listings item attributes can be patched. Patching nested attributes is not supported.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 5 | 5 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can receive higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.",
         "operationId": "patchListingsItem",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "sellerId",
@@ -410,7 +445,6 @@
             "in": "query",
             "required": true,
             "type": "array",
-            "maxItems": 1,
             "items": {
               "type": "string"
             },
@@ -424,7 +458,10 @@
             "required": false,
             "type": "array",
             "items": {
-              "enum": ["identifiers", "issues"],
+              "enum": [
+                "identifiers",
+                "issues"
+              ],
               "x-docgen-enum-table-extension": [
                 {
                   "value": "identifiers",
@@ -439,13 +476,17 @@
             },
             "collectionFormat": "csv",
             "x-example": "issues",
-            "default": ["issues"]
+            "default": [
+              "issues"
+            ]
           },
           {
             "name": "mode",
             "description": "The mode of operation for the request.",
             "in": "query",
-            "enum": ["VALIDATION_PREVIEW"],
+            "enum": [
+              "VALIDATION_PREVIEW"
+            ],
             "x-docgen-enum-table-extension": [
               {
                 "value": "VALIDATION_PREVIEW",
@@ -582,11 +623,17 @@
         }
       },
       "put": {
-        "tags": ["listings"],
+        "tags": [
+          "listings"
+        ],
         "description": "Creates a new or fully-updates an existing listings item for a selling partner.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 5 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The preceding table indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput can receive higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API documentation.",
         "operationId": "putListingsItem",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "sellerId",
@@ -622,7 +669,10 @@
             "required": false,
             "type": "array",
             "items": {
-              "enum": ["identifiers", "issues"],
+              "enum": [
+                "identifiers",
+                "issues"
+              ],
               "x-docgen-enum-table-extension": [
                 {
                   "value": "identifiers",
@@ -637,13 +687,17 @@
             },
             "collectionFormat": "csv",
             "x-example": "issues",
-            "default": ["issues"]
+            "default": [
+              "issues"
+            ]
           },
           {
             "name": "mode",
             "description": "The mode of operation for the request.",
             "in": "query",
-            "enum": ["VALIDATION_PREVIEW"],
+            "enum": [
+              "VALIDATION_PREVIEW"
+            ],
             "x-docgen-enum-table-extension": [
               {
                 "value": "VALIDATION_PREVIEW",
@@ -782,11 +836,17 @@
     },
     "/listings/2021-08-01/items/{sellerId}": {
       "get": {
-        "tags": ["listings"],
+        "tags": [
+          "listings"
+        ],
         "description": "Search for and return a list of selling partner listings items and their respective details.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 5 | 5 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput might have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "operationId": "searchListingsItems",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "sellerId",
@@ -823,7 +883,16 @@
             "required": false,
             "type": "array",
             "items": {
-              "enum": ["summaries", "attributes", "issues", "offers", "fulfillmentAvailability", "procurement", "relationships", "productTypes"],
+              "enum": [
+                "summaries",
+                "attributes",
+                "issues",
+                "offers",
+                "fulfillmentAvailability",
+                "procurement",
+                "relationships",
+                "productTypes"
+              ],
               "x-docgen-enum-table-extension": [
                 {
                   "value": "summaries",
@@ -862,7 +931,9 @@
             },
             "collectionFormat": "csv",
             "x-example": "summaries",
-            "default": ["summaries"]
+            "default": [
+              "summaries"
+            ]
           },
           {
             "name": "identifiers",
@@ -883,7 +954,17 @@
             "in": "query",
             "required": false,
             "type": "string",
-            "enum": ["ASIN", "EAN", "FNSKU", "GTIN", "ISBN", "JAN", "MINSAN", "SKU", "UPC"],
+            "enum": [
+              "ASIN",
+              "EAN",
+              "FNSKU",
+              "GTIN",
+              "ISBN",
+              "JAN",
+              "MINSAN",
+              "SKU",
+              "UPC"
+            ],
             "x-docgen-enum-table-extension": [
               {
                 "value": "ASIN",
@@ -983,7 +1064,10 @@
             "required": false,
             "type": "array",
             "items": {
-              "enum": ["WARNING", "ERROR"],
+              "enum": [
+                "WARNING",
+                "ERROR"
+              ],
               "type": "string",
               "x-docgen-enum-table-extension": [
                 {
@@ -1006,7 +1090,10 @@
             "required": false,
             "type": "array",
             "items": {
-              "enum": ["BUYABLE", "DISCOVERABLE"],
+              "enum": [
+                "BUYABLE",
+                "DISCOVERABLE"
+              ],
               "type": "string",
               "x-docgen-enum-table-extension": [
                 {
@@ -1029,7 +1116,10 @@
             "required": false,
             "type": "array",
             "items": {
-              "enum": ["BUYABLE", "DISCOVERABLE"],
+              "enum": [
+                "BUYABLE",
+                "DISCOVERABLE"
+              ],
               "type": "string",
               "x-docgen-enum-table-extension": [
                 {
@@ -1051,7 +1141,11 @@
             "in": "query",
             "required": false,
             "type": "string",
-            "enum": ["sku", "createdDate", "lastUpdatedDate"],
+            "enum": [
+              "sku",
+              "createdDate",
+              "lastUpdatedDate"
+            ],
             "x-docgen-enum-table-extension": [
               {
                 "value": "sku",
@@ -1075,7 +1169,10 @@
             "in": "query",
             "required": false,
             "type": "string",
-            "enum": ["ASC", "DESC"],
+            "enum": [
+              "ASC",
+              "DESC"
+            ],
             "x-docgen-enum-table-extension": [
               {
                 "value": "ASC",
@@ -1250,7 +1347,10 @@
           "type": "string"
         }
       },
-      "required": ["code", "message"],
+      "required": [
+        "code",
+        "message"
+      ],
       "type": "object"
     },
     "ErrorList": {
@@ -1264,7 +1364,9 @@
           }
         }
       },
-      "required": ["errors"]
+      "required": [
+        "errors"
+      ]
     },
     "ItemSearchResults": {
       "description": "Selling partner listings items and search related metadata.",
@@ -1285,7 +1387,10 @@
           }
         }
       },
-      "required": ["numberOfResults", "items"],
+      "required": [
+        "numberOfResults",
+        "items"
+      ],
       "type": "object"
     },
     "Item": {
@@ -1328,7 +1433,9 @@
           "$ref": "#/definitions/ItemProductTypes"
         }
       },
-      "required": ["sku"],
+      "required": [
+        "sku"
+      ],
       "type": "object"
     },
     "ItemSummaries": {
@@ -1431,7 +1538,10 @@
           "type": "array",
           "items": {
             "type": "string",
-            "enum": ["BUYABLE", "DISCOVERABLE"],
+            "enum": [
+              "BUYABLE",
+              "DISCOVERABLE"
+            ],
             "x-docgen-enum-table-extension": [
               {
                 "value": "BUYABLE",
@@ -1467,7 +1577,13 @@
           "$ref": "#/definitions/ItemImage"
         }
       },
-      "required": ["marketplaceId", "productType", "status", "createdDate", "lastUpdatedDate"],
+      "required": [
+        "marketplaceId",
+        "productType",
+        "status",
+        "createdDate",
+        "lastUpdatedDate"
+      ],
       "type": "object"
     },
     "ItemImage": {
@@ -1486,7 +1602,11 @@
           "type": "integer"
         }
       },
-      "required": ["link", "height", "width"],
+      "required": [
+        "link",
+        "height",
+        "width"
+      ],
       "type": "object"
     },
     "ItemAttributes": {
@@ -1514,7 +1634,11 @@
         },
         "severity": {
           "description": "The severity of the issue.",
-          "enum": ["ERROR", "WARNING", "INFO"],
+          "enum": [
+            "ERROR",
+            "WARNING",
+            "INFO"
+          ],
           "x-docgen-enum-table-extension": [
             {
               "value": "ERROR",
@@ -1544,14 +1668,21 @@
           "items": {
             "type": "string"
           },
-          "example": ["INVALID_ATTRIBUTE"]
+          "example": [
+            "INVALID_ATTRIBUTE"
+          ]
         },
         "enforcements": {
           "description": "This field provides information about the enforcement actions taken by Amazon that affect the publishing or status of a listing. It also includes details about any associated exemptions.",
           "$ref": "#/definitions/IssueEnforcements"
         }
       },
-      "required": ["code", "message", "severity", "categories"],
+      "required": [
+        "code",
+        "message",
+        "severity",
+        "categories"
+      ],
       "type": "object"
     },
     "IssueEnforcements": {
@@ -1570,7 +1701,10 @@
           "$ref": "#/definitions/IssueExemption"
         }
       },
-      "required": ["actions", "exemption"]
+      "required": [
+        "actions",
+        "exemption"
+      ]
     },
     "IssueEnforcementAction": {
       "description": "The enforcement action taken by Amazon that affect the publishing or status of a listing",
@@ -1582,7 +1716,9 @@
           "example": "LISTING_SUPPRESSED"
         }
       },
-      "required": ["action"]
+      "required": [
+        "action"
+      ]
     },
     "IssueExemption": {
       "description": "Conveying the status of the listed enforcement actions and, if applicable, provides information about the exemption's expiry date.",
@@ -1590,7 +1726,11 @@
       "properties": {
         "status": {
           "description": "This field indicates the current exemption status for the listed enforcement actions. It can take values such as `EXEMPT`, signifying permanent exemption, `EXEMPT_UNTIL_EXPIRY_DATE` indicating temporary exemption until a specified date, or `NOT_EXEMPT` signifying no exemptions, and enforcement actions were already applied.",
-          "enum": ["EXEMPT", "EXEMPT_UNTIL_EXPIRY_DATE", "NOT_EXEMPT"],
+          "enum": [
+            "EXEMPT",
+            "EXEMPT_UNTIL_EXPIRY_DATE",
+            "NOT_EXEMPT"
+          ],
           "x-docgen-enum-table-extension": [
             {
               "value": "EXEMPT",
@@ -1614,7 +1754,9 @@
           "example": "2023-10-28T00:36:48.914Z"
         }
       },
-      "required": ["status"]
+      "required": [
+        "status"
+      ]
     },
     "ItemOffers": {
       "description": "Offer details for the listings item.",
@@ -1632,7 +1774,10 @@
         },
         "offerType": {
           "description": "Type of offer for the listings item.",
-          "enum": ["B2C", "B2B"],
+          "enum": [
+            "B2C",
+            "B2B"
+          ],
           "x-docgen-enum-table-extension": [
             {
               "value": "B2C",
@@ -1657,7 +1802,11 @@
           "$ref": "#/definitions/Audience"
         }
       },
-      "required": ["marketplaceId", "offerType", "price"],
+      "required": [
+        "marketplaceId",
+        "offerType",
+        "price"
+      ],
       "type": "object"
     },
     "ItemProcurement": {
@@ -1668,7 +1817,9 @@
           "$ref": "#/definitions/Money"
         }
       },
-      "required": ["costPrice"],
+      "required": [
+        "costPrice"
+      ],
       "type": "object"
     },
     "ItemRelationships": {
@@ -1693,7 +1844,10 @@
           "type": "array"
         }
       },
-      "required": ["marketplaceId", "relationships"],
+      "required": [
+        "marketplaceId",
+        "relationships"
+      ],
       "type": "object"
     },
     "ItemRelationship": {
@@ -1720,7 +1874,10 @@
         "type": {
           "description": "The type of relationship.",
           "example": "VARIATION",
-          "enum": ["VARIATION", "PACKAGE_HIERARCHY"],
+          "enum": [
+            "VARIATION",
+            "PACKAGE_HIERARCHY"
+          ],
           "x-docgen-enum-table-extension": [
             {
               "value": "VARIATION",
@@ -1734,7 +1891,9 @@
           "type": "string"
         }
       },
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "type": "object"
     },
     "ItemVariationTheme": {
@@ -1753,7 +1912,10 @@
           "type": "string"
         }
       },
-      "required": ["attributes", "theme"],
+      "required": [
+        "attributes",
+        "theme"
+      ],
       "type": "object"
     },
     "ItemProductTypes": {
@@ -1776,7 +1938,10 @@
           "type": "string"
         }
       },
-      "required": ["marketplaceId", "productType"],
+      "required": [
+        "marketplaceId",
+        "productType"
+      ],
       "type": "object"
     },
     "FulfillmentAvailability": {
@@ -1792,7 +1957,9 @@
           "minimum": 0
         }
       },
-      "required": ["fulfillmentChannelCode"],
+      "required": [
+        "fulfillmentChannelCode"
+      ],
       "type": "object"
     },
     "Money": {
@@ -1807,7 +1974,10 @@
           "$ref": "#/definitions/Decimal"
         }
       },
-      "required": ["amount", "currencyCode"],
+      "required": [
+        "amount",
+        "currencyCode"
+      ],
       "type": "object"
     },
     "Decimal": {
@@ -1822,7 +1992,9 @@
           "type": "integer"
         }
       },
-      "required": ["pointsNumber"]
+      "required": [
+        "pointsNumber"
+      ]
     },
     "Audience": {
       "description": "Buyer segment or program this offer is applicable to.",
@@ -1844,7 +2016,12 @@
       "properties": {
         "op": {
           "description": "Type of JSON Patch operation. Supported JSON Patch operations include `add`, `replace`, `merge` and `delete`. Refer to <https://tools.ietf.org/html/rfc6902>.",
-          "enum": ["add", "replace", "merge", "delete"],
+          "enum": [
+            "add",
+            "replace",
+            "merge",
+            "delete"
+          ],
           "x-docgen-enum-table-extension": [
             {
               "value": "add",
@@ -1878,7 +2055,10 @@
           }
         }
       },
-      "required": ["op", "path"],
+      "required": [
+        "op",
+        "path"
+      ],
       "type": "object"
     },
     "ListingsItemPatchRequest": {
@@ -1897,7 +2077,10 @@
           "minItems": 1
         }
       },
-      "required": ["productType", "patches"],
+      "required": [
+        "productType",
+        "patches"
+      ],
       "type": "object"
     },
     "ListingsItemPutRequest": {
@@ -1909,7 +2092,11 @@
         },
         "requirements": {
           "description": "The name of the requirements set for the provided data.",
-          "enum": ["LISTING", "LISTING_PRODUCT_ONLY", "LISTING_OFFER_ONLY"],
+          "enum": [
+            "LISTING",
+            "LISTING_PRODUCT_ONLY",
+            "LISTING_OFFER_ONLY"
+          ],
           "x-docgen-enum-table-extension": [
             {
               "value": "LISTING",
@@ -1932,7 +2119,10 @@
           "additionalProperties": true
         }
       },
-      "required": ["productType", "attributes"],
+      "required": [
+        "productType",
+        "attributes"
+      ],
       "type": "object"
     },
     "ListingsItemSubmissionResponse": {
@@ -1944,7 +2134,11 @@
         },
         "status": {
           "description": "The status of the listings item submission.",
-          "enum": ["ACCEPTED", "INVALID", "VALID"],
+          "enum": [
+            "ACCEPTED",
+            "INVALID",
+            "VALID"
+          ],
           "x-docgen-enum-table-extension": [
             {
               "value": "ACCEPTED",
@@ -1977,7 +2171,11 @@
           "$ref": "#/definitions/ItemIdentifiers"
         }
       },
-      "required": ["sku", "status", "submissionId"],
+      "required": [
+        "sku",
+        "status",
+        "submissionId"
+      ],
       "type": "object"
     },
     "ItemIdentifiers": {

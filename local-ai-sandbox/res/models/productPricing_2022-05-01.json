@@ -14,13 +14,21 @@
     }
   },
   "host": "sellingpartnerapi-na.amazon.com",
-  "schemes": ["https"],
-  "consumes": ["application/json"],
-  "produces": ["application/json"],
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "paths": {
     "/batches/products/pricing/2022-05-01/offer/featuredOfferExpectedPrice": {
       "post": {
-        "tags": ["productPricing"],
+        "tags": [
+          "productPricing"
+        ],
         "description": "Returns the set of responses that correspond to the batched list of up to 40 requests defined in the request body. The response for each successful (HTTP status code 200) request in the set includes the computed listing price at or below which a seller can expect to become the featured offer (before applicable promotions). This is called the featured offer expected price (FOEP). Featured offer is not guaranteed because competing offers might change. Other offers might be featured based on factors such as fulfillment capabilities to a specific customer. The response to an unsuccessful request includes the available error text.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.033 | 1 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API.",
         "operationId": "getFeaturedOfferExpectedPriceBatch",
         "parameters": [
@@ -148,7 +156,9 @@
     },
     "/batches/products/pricing/2022-05-01/items/competitiveSummary": {
       "post": {
-        "tags": ["productPricing"],
+        "tags": [
+          "productPricing"
+        ],
         "description": "Returns the competitive summary response, including featured buying options for the ASIN and `marketplaceId` combination.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.033 | 1 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that are applied to the requested operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may receive higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api) in the Selling Partner API.",
         "operationId": "getCompetitiveSummary",
         "parameters": [
@@ -295,7 +305,10 @@
     "FeaturedOfferExpectedPriceRequestParams": {
       "description": "The parameters for an individual request.",
       "type": "object",
-      "required": ["marketplaceId", "sku"],
+      "required": [
+        "marketplaceId",
+        "sku"
+      ],
       "properties": {
         "marketplaceId": {
           "$ref": "#/definitions/MarketplaceId"
@@ -332,7 +345,9 @@
         },
         {
           "type": "object",
-          "required": ["request"],
+          "required": [
+            "request"
+          ],
           "properties": {
             "request": {
               "$ref": "#/definitions/FeaturedOfferExpectedPriceRequestParams",
@@ -349,7 +364,9 @@
     "CompetitiveSummaryBatchRequest": {
       "description": "The `competitiveSummary` batch request data.",
       "type": "object",
-      "required": ["requests"],
+      "required": [
+        "requests"
+      ],
       "properties": {
         "requests": {
           "description": "A batched list of `competitiveSummary` requests.",
@@ -369,7 +386,13 @@
     "CompetitiveSummaryRequest": {
       "description": "An individual `competitiveSummary` request for an ASIN and `marketplaceId`.",
       "type": "object",
-      "required": ["asin", "marketplaceId", "includedData", "method", "uri"],
+      "required": [
+        "asin",
+        "marketplaceId",
+        "includedData",
+        "method",
+        "uri"
+      ],
       "properties": {
         "asin": {
           "description": "The Amazon Standard Identification Number for the item.",
@@ -409,7 +432,12 @@
     "CompetitiveSummaryIncludedData": {
       "type": "string",
       "description": "The supported data types in the `getCompetitiveSummary` API.",
-      "enum": ["featuredBuyingOptions", "referencePrices", "lowestPricedOffers", "similarItems"],
+      "enum": [
+        "featuredBuyingOptions",
+        "referencePrices",
+        "lowestPricedOffers",
+        "similarItems"
+      ],
       "x-docgen-enum-table-extension": [
         {
           "value": "featuredBuyingOptions",
@@ -432,7 +460,10 @@
     "LowestPricedOffersInput": {
       "description": "The input required for building `LowestPricedOffers` data in the response.",
       "type": "object",
-      "required": ["itemCondition", "offerType"],
+      "required": [
+        "itemCondition",
+        "offerType"
+      ],
       "properties": {
         "itemCondition": {
           "type": "string",
@@ -442,7 +473,9 @@
         "offerType": {
           "type": "string",
           "description": "The input parameter specifies the type of offers requested for `LowestPricedOffers`. This applies to `Consumer` and `Business` offers. `Consumer` is the default `offerType`.",
-          "enum": ["Consumer"],
+          "enum": [
+            "Consumer"
+          ],
           "x-docgen-enum-table-extension": [
             {
               "value": "Consumer",
@@ -455,7 +488,9 @@
     "CompetitiveSummaryBatchResponse": {
       "description": "The response schema for the `competitiveSummaryBatch` operation.",
       "type": "object",
-      "required": ["responses"],
+      "required": [
+        "responses"
+      ],
       "properties": {
         "responses": {
           "description": "The response list for the `competitiveSummaryBatch` operation.",
@@ -476,7 +511,10 @@
     "CompetitiveSummaryResponse": {
       "description": "The response for the individual `competitiveSummary` request in the batch operation.",
       "type": "object",
-      "required": ["status", "body"],
+      "required": [
+        "status",
+        "body"
+      ],
       "properties": {
         "status": {
           "description": "The HTTP status line associated with the response. For more information, refer to [RFC 2616](https://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html).",
@@ -491,7 +529,10 @@
     "CompetitiveSummaryResponseBody": {
       "description": "The `competitiveSummaryResponse` body for a requested ASIN and `marketplaceId`.",
       "type": "object",
-      "required": ["asin", "marketplaceId"],
+      "required": [
+        "asin",
+        "marketplaceId"
+      ],
       "properties": {
         "asin": {
           "description": "The Amazon identifier for the item.",
@@ -538,7 +579,10 @@
     "ReferencePrice": {
       "description": "The reference price for the specified ASIN `marketplaceId` combination.",
       "type": "object",
-      "required": ["name", "price"],
+      "required": [
+        "name",
+        "price"
+      ],
       "properties": {
         "name": {
           "description": "Reference price type (e.g., `CompetitivePriceThreshold`, `WasPrice`, `CompetitivePrice`). For definitions, see the [Product Pricing API Use Case Guide](https://developer-docs.amazon.com/sp-api/docs/product-pricing-api-v2022-05-01-use-case-guide).",
@@ -566,7 +610,9 @@
     "Item": {
       "description": "A similar item for the specified ASIN `marketplaceId` combination.",
       "type": "object",
-      "required": ["asin"],
+      "required": [
+        "asin"
+      ],
       "properties": {
         "asin": {
           "description": "The Amazon identifier for the item.",
@@ -577,12 +623,17 @@
     "FeaturedBuyingOption": {
       "description": "Describes a featured buying option, which includes a list of segmented featured offers for a particular item condition.",
       "type": "object",
-      "required": ["buyingOptionType", "segmentedFeaturedOffers"],
+      "required": [
+        "buyingOptionType",
+        "segmentedFeaturedOffers"
+      ],
       "properties": {
         "buyingOptionType": {
           "description": "The buying option type for the featured offer. `buyingOptionType` represents the buying options that a customer receives on the detail page, such as `B2B`, `Fresh`, and `Subscribe n Save`. `buyingOptionType` currently supports `NEW` as a value.",
           "type": "string",
-          "enum": ["New"],
+          "enum": [
+            "New"
+          ],
           "x-docgen-enum-table-extension": [
             {
               "value": "New",
@@ -609,7 +660,9 @@
         {
           "type": "object",
           "description": "The list of segment information in which the offer is featured.",
-          "required": ["featuredOfferSegments"],
+          "required": [
+            "featuredOfferSegments"
+          ],
           "properties": {
             "featuredOfferSegments": {
               "description": "The list of segment information in which the offer is featured.",
@@ -625,7 +678,10 @@
     "LowestPricedOffer": {
       "description": "Describes the lowest priced offers for the specified item condition and offer type.",
       "type": "object",
-      "required": ["lowestPricedOffersInput", "offers"],
+      "required": [
+        "lowestPricedOffersInput",
+        "offers"
+      ],
       "properties": {
         "lowestPricedOffersInput": {
           "description": "The filtering criteria that are used to retrieve the lowest priced offers that correspond to the `lowestPricedOffersInputs` request.",
@@ -646,7 +702,12 @@
     "Offer": {
       "description": "The offer data of a product.",
       "type": "object",
-      "required": ["sellerId", "condition", "fulfillmentType", "listingPrice"],
+      "required": [
+        "sellerId",
+        "condition",
+        "fulfillmentType",
+        "listingPrice"
+      ],
       "properties": {
         "sellerId": {
           "type": "string",
@@ -757,12 +818,18 @@
     "PrimeDetails": {
       "description": "Amazon Prime details.",
       "type": "object",
-      "required": ["eligibility"],
+      "required": [
+        "eligibility"
+      ],
       "properties": {
         "eligibility": {
           "description": "Indicates whether the offer is an Amazon Prime offer.",
           "type": "string",
-          "enum": ["NATIONAL", "REGIONAL", "NONE"],
+          "enum": [
+            "NATIONAL",
+            "REGIONAL",
+            "NONE"
+          ],
           "x-docgen-enum-table-extension": [
             {
               "value": "NATIONAL",
@@ -783,11 +850,16 @@
     "ShippingOption": {
       "description": "The shipping option available for the offer.",
       "type": "object",
-      "required": ["shippingOptionType", "price"],
+      "required": [
+        "shippingOptionType",
+        "price"
+      ],
       "properties": {
         "shippingOptionType": {
           "description": "The type of shipping option.",
-          "enum": ["DEFAULT"],
+          "enum": [
+            "DEFAULT"
+          ],
           "x-docgen-enum-table-extension": [
             {
               "value": "DEFAULT",
@@ -804,12 +876,19 @@
     "FeaturedOfferSegment": {
       "description": "Describes the segment in which the offer is featured.",
       "type": "object",
-      "required": ["customerMembership", "segmentDetails"],
+      "required": [
+        "customerMembership",
+        "segmentDetails"
+      ],
       "properties": {
         "customerMembership": {
           "description": "The customer membership type that makes up this segment",
           "type": "string",
-          "enum": ["PRIME", "NON_PRIME", "DEFAULT"],
+          "enum": [
+            "PRIME",
+            "NON_PRIME",
+            "DEFAULT"
+          ],
           "x-docgen-enum-table-extension": [
             {
               "value": "PRIME",
@@ -871,7 +950,9 @@
     "Errors": {
       "type": "object",
       "description": "A list of error responses returned when a request is unsuccessful.",
-      "required": ["errors"],
+      "required": [
+        "errors"
+      ],
       "properties": {
         "errors": {
           "description": "One or more unexpected errors occurred during the operation.",
@@ -907,7 +988,9 @@
     "FeaturedOfferExpectedPriceResult": {
       "description": "The FOEP result data for the requested offer.",
       "type": "object",
-      "required": ["resultStatus"],
+      "required": [
+        "resultStatus"
+      ],
       "properties": {
         "featuredOfferExpectedPrice": {
           "$ref": "#/definitions/FeaturedOfferExpectedPrice"
@@ -929,7 +1012,9 @@
     "FeaturedOfferExpectedPrice": {
       "description": "The item price at or below which the target offer may be featured.",
       "type": "object",
-      "required": ["listingPrice"],
+      "required": [
+        "listingPrice"
+      ],
       "properties": {
         "listingPrice": {
           "description": "A computed listing price at or below which a seller can expect to become the featured offer (before applicable promotions).",
@@ -943,7 +1028,9 @@
     },
     "FeaturedOffer": {
       "type": "object",
-      "required": ["offerIdentifier"],
+      "required": [
+        "offerIdentifier"
+      ],
       "properties": {
         "offerIdentifier": {
           "description": "An offer identifier used to identify the merchant of the featured offer. Since this may not belong to the requester, the SKU field is omitted.",
@@ -985,7 +1072,7 @@
     },
     "HttpBody": {
       "description": "Additional HTTP body information that is associated with an individual request within a batch.",
-      "type": "object"
+      "type": "string"
     },
     "HttpUri": {
       "description": "The URI associated with the individual APIs that are called as part of the batch request.",
@@ -996,7 +1083,13 @@
     "HttpMethod": {
       "description": "The HTTP method associated with an individual request within a batch.",
       "type": "string",
-      "enum": ["GET", "PUT", "PATCH", "DELETE", "POST"],
+      "enum": [
+        "GET",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "POST"
+      ],
       "x-docgen-enum-table-extension": [
         {
           "value": "GET",
@@ -1023,7 +1116,10 @@
     "BatchRequest": {
       "description": "The common properties for individual requests within a batch.",
       "type": "object",
-      "required": ["uri", "method"],
+      "required": [
+        "uri",
+        "method"
+      ],
       "properties": {
         "uri": {
           "description": "The URI associated with an individual request within a batch. For `FeaturedOfferExpectedPrice`, this is `/products/pricing/2022-05-01/offer/featuredOfferExpectedPrice`.",
@@ -1043,7 +1139,10 @@
     "BatchResponse": {
       "description": "The common properties for responses to individual requests within a batch.",
       "type": "object",
-      "required": ["status", "headers"],
+      "required": [
+        "status",
+        "headers"
+      ],
       "properties": {
         "headers": {
           "$ref": "#/definitions/HttpHeaders"
@@ -1056,7 +1155,10 @@
     "OfferIdentifier": {
       "description": "Identifies an offer from a particular seller for a specified ASIN.",
       "type": "object",
-      "required": ["marketplaceId", "asin"],
+      "required": [
+        "marketplaceId",
+        "asin"
+      ],
       "properties": {
         "marketplaceId": {
           "$ref": "#/definitions/MarketplaceId",
@@ -1096,7 +1198,9 @@
     },
     "Price": {
       "type": "object",
-      "required": ["listingPrice"],
+      "required": [
+        "listingPrice"
+      ],
       "properties": {
         "listingPrice": {
           "description": "The listing price for the item, excluding any promotions.",
@@ -1131,7 +1235,10 @@
     "FulfillmentType": {
       "type": "string",
       "description": "Indicates whether the item is fulfilled by Amazon or by the seller (merchant).",
-      "enum": ["AFN", "MFN"],
+      "enum": [
+        "AFN",
+        "MFN"
+      ],
       "x-docgen-enum-table-extension": [
         {
           "value": "AFN",
@@ -1164,7 +1271,13 @@
     "Condition": {
       "description": "The condition of the item.",
       "type": "string",
-      "enum": ["New", "Used", "Collectible", "Refurbished", "Club"],
+      "enum": [
+        "New",
+        "Used",
+        "Collectible",
+        "Refurbished",
+        "Club"
+      ],
       "x-docgen-enum-table-extension": [
         {
           "value": "New",
@@ -1201,7 +1314,10 @@
     },
     "Error": {
       "type": "object",
-      "required": ["code", "message"],
+      "required": [
+        "code",
+        "message"
+      ],
       "properties": {
         "code": {
           "type": "string",

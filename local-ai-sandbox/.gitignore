@@ -6,6 +6,7 @@
 # Temporary files
 *.tmp
 *~
+build
 
 #Mac
 .DS_Store

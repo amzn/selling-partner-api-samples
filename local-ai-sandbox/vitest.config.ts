@@ -4,5 +4,9 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "node",
+    env: {
+      MODE: "Seller",
+      TZ: "UTC",
+    },
   },
 });

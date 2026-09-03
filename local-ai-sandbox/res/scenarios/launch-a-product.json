@@ -1,0 +1,320 @@
+{
+  "id": "launch-a-product",
+  "title": "Launch a Product",
+  "tagline": "From listing creation to orders, fulfillment, repricing, and returns — one product, many paths.",
+  "description": "Seeds a discoverable product (ASIN B0LAUNCH01, SKU LAUNCH-SKU-001) with a live merchant-fulfilled listing, FBA inventory, and two pending orders (one MFN, one FBA). From this shared starting state, pick any track to explore the downstream journey.",
+  "seed": [
+    {
+      "api": "catalog",
+      "id": "B0LAUNCH01",
+      "entity": {
+        "asin": "B0LAUNCH01",
+        "summaries": [
+          {
+            "marketplaceId": "ATVPDKIKX0DER",
+            "itemName": "Wireless Bluetooth Speaker 20W",
+            "brand": "SoundPeak",
+            "manufacturer": "SoundPeak Electronics",
+            "itemClassification": "BASE_PRODUCT"
+          }
+        ],
+        "identifiers": [
+          {
+            "marketplaceId": "ATVPDKIKX0DER",
+            "identifiers": [{ "identifierType": "UPC", "identifier": "012345678901" }]
+          }
+        ]
+      }
+    },
+    {
+      "api": "listings",
+      "id": "A1SANDBOXSELLER|LAUNCH-SKU-001",
+      "entity": {
+        "sku": "LAUNCH-SKU-001",
+        "sellerId": "A1SANDBOXSELLER",
+        "asin": "B0LAUNCH01",
+        "productType": "PRODUCT",
+        "item_name": [{ "value": "Wireless Bluetooth Speaker 20W", "marketplace_id": "ATVPDKIKX0DER" }],
+        "purchasable_offer": [
+          {
+            "marketplace_id": "ATVPDKIKX0DER",
+            "currency": "USD",
+            "our_price": [{ "schedule": [{ "value_with_tax": 49.99 }] }]
+          }
+        ],
+        "fulfillment_availability": [{ "fulfillment_channel_code": "DEFAULT", "quantity": 25 }, { "fulfillment_channel_code": "AMAZON_NA" }]
+      }
+    },
+    {
+      "api": "inventory",
+      "id": "LAUNCH-SKU-001",
+      "entity": {
+        "sellerSku": "LAUNCH-SKU-001",
+        "fnSku": "X0LAUNCH01",
+        "asin": "B0LAUNCH01",
+        "productName": "Wireless Bluetooth Speaker 20W",
+        "condition": "NewItem",
+        "totalQuantity": 50,
+        "fulfillableQuantity": 45,
+        "inboundWorkingQuantity": 5,
+        "lastUpdatedTime": "2026-08-10T09:00:00Z"
+      }
+    },
+    {
+      "api": "orders",
+      "id": "111-0000001-0000001",
+      "entity": {
+        "orderId": "111-0000001-0000001",
+        "createdTime": "2026-08-11T14:30:00Z",
+        "lastUpdatedTime": "2026-08-11T14:30:00Z",
+        "salesChannel": { "marketplaceId": "ATVPDKIKX0DER", "channelName": "AMAZON" },
+        "fulfillment": { "fulfillmentStatus": "UNSHIPPED", "fulfilledBy": "MERCHANT" },
+        "buyer": { "buyerInfo": { "email": "buyer-mfn@example.com" } },
+        "recipient": {
+          "shippingAddress": {
+            "name": "Alex Johnson",
+            "addressLine1": "410 Terry Ave N",
+            "city": "Seattle",
+            "stateOrRegion": "WA",
+            "postalCode": "98109",
+            "countryCode": "US"
+          }
+        },
+        "orderItems": [
+          {
+            "orderItemId": "ITEM-MFN-0001",
+            "quantityOrdered": 1,
+            "product": { "sellerSku": "LAUNCH-SKU-001", "asin": "B0LAUNCH01", "title": "Wireless Bluetooth Speaker 20W" },
+            "fulfillment": { "quantityFulfilled": 0, "quantityUnfulfilled": 1 }
+          }
+        ]
+      }
+    },
+    {
+      "api": "orders",
+      "id": "111-0000002-0000002",
+      "entity": {
+        "orderId": "111-0000002-0000002",
+        "createdTime": "2026-08-11T16:00:00Z",
+        "lastUpdatedTime": "2026-08-11T16:00:00Z",
+        "salesChannel": { "marketplaceId": "ATVPDKIKX0DER", "channelName": "AMAZON" },
+        "fulfillment": { "fulfillmentStatus": "UNSHIPPED", "fulfilledBy": "AMAZON" },
+        "buyer": { "buyerInfo": { "email": "buyer-fba@example.com" } },
+        "recipient": {
+          "shippingAddress": {
+            "name": "Sam Rivera",
+            "addressLine1": "1 Infinite Loop",
+            "city": "Cupertino",
+            "stateOrRegion": "CA",
+            "postalCode": "95014",
+            "countryCode": "US"
+          }
+        },
+        "orderItems": [
+          {
+            "orderItemId": "ITEM-FBA-0001",
+            "quantityOrdered": 2,
+            "product": { "sellerSku": "LAUNCH-SKU-001", "asin": "B0LAUNCH01", "title": "Wireless Bluetooth Speaker 20W" },
+            "fulfillment": { "quantityFulfilled": 0, "quantityUnfulfilled": 2 }
+          }
+        ]
+      }
+    }
+  ],
+  "tracks": [
+    {
+      "id": "orders-mfn",
+      "title": "Orders → Merchant Fulfilled",
+      "description": "Find the unshipped MFN order, confirm shipment yourself, verify it flipped to SHIPPED.",
+      "steps": [
+        {
+          "title": "Find unshipped MFN orders",
+          "method": "GET",
+          "path": "/orders/2026-01-01/orders?marketplaceIds=ATVPDKIKX0DER&createdAfter=2026-08-01T00:00:00Z&fulfillmentStatuses=UNSHIPPED",
+          "status": "runnable",
+          "note": "searchOrders — returns both unshipped orders (111-0000001-0000001 MFN, 111-0000002-0000002 FBA)."
+        },
+        {
+          "title": "Get the order details",
+          "method": "GET",
+          "path": "/orders/2026-01-01/orders/111-0000001-0000001?includedData=BUYER,RECIPIENT,FULFILLMENT",
+          "status": "runnable",
+          "note": "getOrder — shows shipping address and current fulfillment status."
+        },
+        {
+          "title": "Confirm shipment",
+          "method": "POST",
+          "path": "/orders/v0/orders/111-0000001-0000001/shipmentConfirmation",
+          "status": "runnable",
+          "note": "confirmShipment — flips order to SHIPPED and creates a package entry.",
+          "body": {
+            "packageDetail": {
+              "packageReferenceId": "PKG-MFN-1",
+              "carrierCode": "UPS",
+              "shipDate": "2026-08-12T10:00:00Z",
+              "trackingNumber": "1Z999AA10123456784",
+              "orderItems": [{ "orderItemId": "ITEM-MFN-0001", "quantity": 1 }]
+            },
+            "marketplaceId": "ATVPDKIKX0DER"
+          }
+        },
+        {
+          "title": "Verify shipped status",
+          "method": "GET",
+          "path": "/orders/2026-01-01/orders/111-0000001-0000001?includedData=FULFILLMENT,PACKAGES",
+          "status": "runnable",
+          "note": "getOrder — fulfillmentStatus is now SHIPPED; package with tracking appears."
+        }
+      ]
+    },
+    {
+      "id": "orders-fba",
+      "title": "Orders → FBA Fulfilled",
+      "description": "The FBA order is fulfilled by Amazon — observe the inventory deduction and order state.",
+      "steps": [
+        {
+          "title": "Find unshipped FBA orders",
+          "method": "GET",
+          "path": "/orders/2026-01-01/orders?marketplaceIds=ATVPDKIKX0DER&createdAfter=2026-08-01T00:00:00Z&fulfillmentStatuses=UNSHIPPED",
+          "status": "runnable",
+          "note": "searchOrders — returns both unshipped orders; identify the FBA one by fulfilledBy: AMAZON."
+        },
+        {
+          "title": "Get the FBA order details",
+          "method": "GET",
+          "path": "/orders/2026-01-01/orders/111-0000002-0000002?includedData=BUYER,RECIPIENT,FULFILLMENT",
+          "status": "runnable",
+          "note": "getOrder — fulfilledBy is AMAZON."
+        },
+        {
+          "title": "Check FBA inventory levels",
+          "method": "GET",
+          "path": "/fba/inventory/v1/summaries?granularityType=Marketplace&granularityId=ATVPDKIKX0DER&marketplaceIds=ATVPDKIKX0DER&sellerSkus=LAUNCH-SKU-001&details=true",
+          "status": "runnable",
+          "note": "getInventorySummaries — shows current fulfillable/inbound quantities for the SKU."
+        }
+      ]
+    },
+    {
+      "id": "repricing",
+      "title": "Repricing",
+      "description": "Check competitive pricing, estimate fees, adjust your price, and measure the impact.",
+      "steps": [
+        {
+          "title": "Get the competitive summary",
+          "method": "POST",
+          "path": "/batches/products/pricing/2022-05-01/items/competitiveSummary",
+          "status": "pass-through",
+          "note": "getCompetitiveSummary — proxied to SP-API production; requires a valid access token."
+        },
+        {
+          "title": "Search the catalog for context",
+          "method": "GET",
+          "path": "/catalog/2022-04-01/items?identifiers=B0LAUNCH01&identifiersType=ASIN&marketplaceIds=ATVPDKIKX0DER",
+          "status": "runnable",
+          "note": "searchCatalogItems — returns the seeded catalog item."
+        },
+        {
+          "title": "Adjust the listing price",
+          "method": "PATCH",
+          "path": "/listings/2021-08-01/items/YOUR_SELLER_ID/LAUNCH-SKU-001?marketplaceIds=ATVPDKIKX0DER",
+          "status": "runnable",
+          "note": "patchListingsItem — the listing is seeded at $49.99; patch to update the price.",
+          "body": {
+            "productType": "PRODUCT",
+            "patches": [
+              {
+                "op": "replace",
+                "path": "/attributes/purchasable_offer",
+                "value": [
+                  {
+                    "marketplace_id": "ATVPDKIKX0DER",
+                    "currency": "USD",
+                    "our_price": [{ "schedule": [{ "value_with_tax": 44.99 }] }]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "title": "Measure order velocity",
+          "method": "GET",
+          "path": "/orders/2026-01-01/orders?marketplaceIds=ATVPDKIKX0DER&createdAfter=2026-08-10T00:00:00Z",
+          "status": "runnable",
+          "note": "searchOrders — compare order volume before/after the price change."
+        }
+      ]
+    },
+    {
+      "id": "returns",
+      "title": "Returns",
+      "description": "Handle a customer return — from reason codes to the return item lifecycle.",
+      "steps": [
+        {
+          "title": "List return reason codes",
+          "method": "GET",
+          "path": "/fba/outbound/... (listReturnReasonCodes)",
+          "status": "planned",
+          "note": "The Fulfillment Outbound API is not onboarded yet."
+        },
+        {
+          "title": "Create a fulfillment return",
+          "method": "PUT",
+          "path": "/fba/outbound/... (createFulfillmentReturn)",
+          "status": "planned",
+          "note": "The Fulfillment Outbound API is not onboarded yet."
+        },
+        {
+          "title": "Watch return status transition",
+          "method": "GET",
+          "path": "/externalFulfillment/2024-09-11/returns",
+          "status": "planned",
+          "note": "External Fulfillment Returns — no handler registered yet."
+        }
+      ]
+    },
+    {
+      "id": "fba-inbound",
+      "title": "FBA Inbound Replenishment",
+      "description": "Replenish FBA inventory — eligibility, prep, packing, placement, transportation.",
+      "steps": [
+        {
+          "title": "Check current inventory",
+          "method": "GET",
+          "path": "/fba/inventory/v1/summaries?granularityType=Marketplace&granularityId=ATVPDKIKX0DER&marketplaceIds=ATVPDKIKX0DER&sellerSkus=LAUNCH-SKU-001&details=true",
+          "status": "runnable",
+          "note": "getInventorySummaries — LAUNCH-SKU-001 has 45 fulfillable + 5 inbound."
+        },
+        {
+          "title": "Check FBA eligibility",
+          "method": "GET",
+          "path": "/fba/inbound/v1/eligibility/itemPreview (getItemEligibilityPreview)",
+          "status": "planned",
+          "note": "The FBA Inbound Eligibility API is not onboarded yet."
+        },
+        {
+          "title": "Create the inbound plan",
+          "method": "POST",
+          "path": "/inbound/fba/2024-03-20/inboundPlans (createInboundPlan)",
+          "status": "planned",
+          "note": "The Fulfillment Inbound v2024 API is not onboarded yet."
+        },
+        {
+          "title": "Generate and confirm options (packing → placement → transportation)",
+          "method": "POST",
+          "path": "/inbound/fba/2024-03-20/inboundPlans/{id}/...",
+          "status": "planned",
+          "note": "The three generate/confirm option pairs — not onboarded yet."
+        },
+        {
+          "title": "Poll the inbound operation status",
+          "method": "GET",
+          "path": "/inbound/fba/2024-03-20/operations/{operationId}",
+          "status": "planned",
+          "note": "Not onboarded yet."
+        }
+      ]
+    }
+  ]
+}

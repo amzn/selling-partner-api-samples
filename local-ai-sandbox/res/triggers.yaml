@@ -1,0 +1,74 @@
+# Triggers Specification
+#
+# Triggers are deterministic, cross-cutting concerns that fire
+# when data changes in the sandbox database. They run outside the AI agent
+# scope and execute after a successful write operation.
+#
+# Each rule defines:
+#   - name: Human-readable identifier
+#   - description: What this trigger does and why
+#   - on: What data event causes this to fire
+#   - handler: The code handler that implements the logic
+#
+# Loop safety: the database layer emits a data event after every write, so
+# handlers that write must pass `{ silent: true }` to engine.put/remove.
+# A silent write emits nothing and therefore cannot re-enter a trigger.
+#
+# Triggers are grouped by domain for organization.
+# Each domain can later be split into its own file (e.g., triggers/orders.yaml).
+#
+# Condition format (uses JSONPath for field access):
+#   condition:
+#     path: "$.path.to.field"    # JSONPath expression against the entity
+#     equals: "value"            # Field must equal this value
+#     notEquals: "value"         # Field must not equal this value
+#     exists: true | false       # Field must / must not exist
+#   Use null for unconditional triggers.
+
+domains:
+  orders:
+    - name: Reduce inventory on order placed
+      description: >
+        When a new order is placed with status PENDING, reduce the
+        listing quantity for each order item's SKU by the quantity
+        ordered. This simulates real-world inventory deduction when
+        a customer purchases an item.
+      on:
+        api: orders
+        event: [INSERT]
+        condition:
+          path: "$.fulfillment.fulfillmentStatus"
+          equals: "PENDING"
+      handler: reduceInventoryOnOrderPlaced
+
+    - name: Send ORDER_CHANGE notification on status change
+      description: >
+        When an order's fulfillment status is updated, sends an ORDER_CHANGE
+        notification to the SQS queue configured in the matching subscription.
+        Does nothing if no ORDER_CHANGE subscription exists. This simulates
+        the real SP-API notification system where sellers subscribe to order
+        change events.
+      on:
+        api: orders
+        event: [UPDATE]
+        condition: null
+      handler: sendOrderChangeNotification
+
+  listings:
+    - name: Process listing submission
+      description: >
+        Catalog matching, the sandbox analogue of Amazon's asynchronous
+        processing after a submission. A full submission (LISTING /
+        LISTING_PRODUCT_ONLY) for an unknown product gets a catalog item
+        created for its ASIN. Offer-only matching an existing item needs
+        nothing; matching nothing is tagged 4005015 when a
+        merchant_suggested_asin was given, else 8560. Listing attributes are
+        never modified. Idempotent: re-running reconciles rather than appends,
+        so correcting the listing clears the issue. Fires on every listings
+        write.
+      on:
+        api: listings
+        event: [INSERT, UPDATE]
+        condition: null
+      handler: processListingSubmission
+

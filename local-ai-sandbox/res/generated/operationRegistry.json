@@ -1,0 +1,638 @@
+{
+  "operations": [
+    {
+      "operationId": "searchCatalogItems",
+      "apiName": "Catalog Items",
+      "apiVersion": "2022-04-01",
+      "modelFile": "catalogItems_2022-04-01.json",
+      "path": "/catalog/2022-04-01/items",
+      "method": "get",
+      "dbNamespace": "catalog",
+      "pathPrefix": "/catalog/2022-04-01/items"
+    },
+    {
+      "operationId": "getCatalogItem",
+      "apiName": "Catalog Items",
+      "apiVersion": "2022-04-01",
+      "modelFile": "catalogItems_2022-04-01.json",
+      "path": "/catalog/2022-04-01/items/{asin}",
+      "method": "get",
+      "dbNamespace": "catalog",
+      "pathPrefix": "/catalog/2022-04-01/items"
+    },
+    {
+      "operationId": "getDocument",
+      "apiName": "Data Kiosk",
+      "apiVersion": "2023-11-15",
+      "modelFile": "dataKiosk_2023-11-15.json",
+      "path": "/dataKiosk/2023-11-15/documents/{documentId}",
+      "method": "get",
+      "dbNamespace": "dataKiosk",
+      "pathPrefix": "/dataKiosk/2023-11-15"
+    },
+    {
+      "operationId": "getQueries",
+      "apiName": "Data Kiosk",
+      "apiVersion": "2023-11-15",
+      "modelFile": "dataKiosk_2023-11-15.json",
+      "path": "/dataKiosk/2023-11-15/queries",
+      "method": "get",
+      "dbNamespace": "dataKiosk",
+      "pathPrefix": "/dataKiosk/2023-11-15"
+    },
+    {
+      "operationId": "createQuery",
+      "apiName": "Data Kiosk",
+      "apiVersion": "2023-11-15",
+      "modelFile": "dataKiosk_2023-11-15.json",
+      "path": "/dataKiosk/2023-11-15/queries",
+      "method": "post",
+      "dbNamespace": "dataKiosk",
+      "pathPrefix": "/dataKiosk/2023-11-15"
+    },
+    {
+      "operationId": "cancelQuery",
+      "apiName": "Data Kiosk",
+      "apiVersion": "2023-11-15",
+      "modelFile": "dataKiosk_2023-11-15.json",
+      "path": "/dataKiosk/2023-11-15/queries/{queryId}",
+      "method": "delete",
+      "dbNamespace": "dataKiosk",
+      "pathPrefix": "/dataKiosk/2023-11-15"
+    },
+    {
+      "operationId": "getQuery",
+      "apiName": "Data Kiosk",
+      "apiVersion": "2023-11-15",
+      "modelFile": "dataKiosk_2023-11-15.json",
+      "path": "/dataKiosk/2023-11-15/queries/{queryId}",
+      "method": "get",
+      "dbNamespace": "dataKiosk",
+      "pathPrefix": "/dataKiosk/2023-11-15"
+    },
+    {
+      "operationId": "batchInventory",
+      "apiName": "External Fulfillment Inventory",
+      "apiVersion": "2024-09-11",
+      "modelFile": "externalFulfillmentInventory_2024-09-11.json",
+      "path": "/externalFulfillment/inventory/2024-09-11/inventories",
+      "method": "post",
+      "dbNamespace": "extFulfillmentInventory",
+      "pathPrefix": "/externalFulfillment/inventory/2024-09-11/inventories"
+    },
+    {
+      "operationId": "listReturns",
+      "apiName": "External Fulfillment Returns",
+      "apiVersion": "2024-09-11",
+      "modelFile": "externalFulfillmentReturns_2024-09-11.json",
+      "path": "/externalFulfillment/2024-09-11/returns",
+      "method": "get",
+      "dbNamespace": "extFulfillmentReturns",
+      "pathPrefix": "/externalFulfillment/2024-09-11/returns"
+    },
+    {
+      "operationId": "getReturn",
+      "apiName": "External Fulfillment Returns",
+      "apiVersion": "2024-09-11",
+      "modelFile": "externalFulfillmentReturns_2024-09-11.json",
+      "path": "/externalFulfillment/2024-09-11/returns/{returnId}",
+      "method": "get",
+      "dbNamespace": "extFulfillmentReturns",
+      "pathPrefix": "/externalFulfillment/2024-09-11/returns"
+    },
+    {
+      "operationId": "getShipments",
+      "apiName": "External Fulfillment Shipments",
+      "apiVersion": "2024-09-11",
+      "modelFile": "externalFulfillmentShipments_2024-09-11.json",
+      "path": "/externalFulfillment/2024-09-11/shipments",
+      "method": "get",
+      "dbNamespace": "extFulfillmentShipments",
+      "pathPrefix": "/externalFulfillment/2024-09-11/shipments"
+    },
+    {
+      "operationId": "getShipment",
+      "apiName": "External Fulfillment Shipments",
+      "apiVersion": "2024-09-11",
+      "modelFile": "externalFulfillmentShipments_2024-09-11.json",
+      "path": "/externalFulfillment/2024-09-11/shipments/{shipmentId}",
+      "method": "get",
+      "dbNamespace": "extFulfillmentShipments",
+      "pathPrefix": "/externalFulfillment/2024-09-11/shipments"
+    },
+    {
+      "operationId": "processShipment",
+      "apiName": "External Fulfillment Shipments",
+      "apiVersion": "2024-09-11",
+      "modelFile": "externalFulfillmentShipments_2024-09-11.json",
+      "path": "/externalFulfillment/2024-09-11/shipments/{shipmentId}",
+      "method": "post",
+      "dbNamespace": "extFulfillmentShipments",
+      "pathPrefix": "/externalFulfillment/2024-09-11/shipments"
+    },
+    {
+      "operationId": "retrieveInvoice",
+      "apiName": "External Fulfillment Shipments",
+      "apiVersion": "2024-09-11",
+      "modelFile": "externalFulfillmentShipments_2024-09-11.json",
+      "path": "/externalFulfillment/2024-09-11/shipments/{shipmentId}/invoice",
+      "method": "get",
+      "dbNamespace": "extFulfillmentShipments",
+      "pathPrefix": "/externalFulfillment/2024-09-11/shipments"
+    },
+    {
+      "operationId": "generateInvoice",
+      "apiName": "External Fulfillment Shipments",
+      "apiVersion": "2024-09-11",
+      "modelFile": "externalFulfillmentShipments_2024-09-11.json",
+      "path": "/externalFulfillment/2024-09-11/shipments/{shipmentId}/invoice",
+      "method": "post",
+      "dbNamespace": "extFulfillmentShipments",
+      "pathPrefix": "/externalFulfillment/2024-09-11/shipments"
+    },
+    {
+      "operationId": "createPackages",
+      "apiName": "External Fulfillment Shipments",
+      "apiVersion": "2024-09-11",
+      "modelFile": "externalFulfillmentShipments_2024-09-11.json",
+      "path": "/externalFulfillment/2024-09-11/shipments/{shipmentId}/packages",
+      "method": "post",
+      "dbNamespace": "extFulfillmentShipments",
+      "pathPrefix": "/externalFulfillment/2024-09-11/shipments"
+    },
+    {
+      "operationId": "updatePackageStatus",
+      "apiName": "External Fulfillment Shipments",
+      "apiVersion": "2024-09-11",
+      "modelFile": "externalFulfillmentShipments_2024-09-11.json",
+      "path": "/externalFulfillment/2024-09-11/shipments/{shipmentId}/packages/{packageId}",
+      "method": "patch",
+      "dbNamespace": "extFulfillmentShipments",
+      "pathPrefix": "/externalFulfillment/2024-09-11/shipments"
+    },
+    {
+      "operationId": "updatePackage",
+      "apiName": "External Fulfillment Shipments",
+      "apiVersion": "2024-09-11",
+      "modelFile": "externalFulfillmentShipments_2024-09-11.json",
+      "path": "/externalFulfillment/2024-09-11/shipments/{shipmentId}/packages/{packageId}",
+      "method": "put",
+      "dbNamespace": "extFulfillmentShipments",
+      "pathPrefix": "/externalFulfillment/2024-09-11/shipments"
+    },
+    {
+      "operationId": "generateShipLabels",
+      "apiName": "External Fulfillment Shipments",
+      "apiVersion": "2024-09-11",
+      "modelFile": "externalFulfillmentShipments_2024-09-11.json",
+      "path": "/externalFulfillment/2024-09-11/shipments/{shipmentId}/shipLabels",
+      "method": "put",
+      "dbNamespace": "extFulfillmentShipments",
+      "pathPrefix": "/externalFulfillment/2024-09-11/shipments"
+    },
+    {
+      "operationId": "retrieveShippingOptions",
+      "apiName": "External Fulfillment Shipments",
+      "apiVersion": "2024-09-11",
+      "modelFile": "externalFulfillmentShipments_2024-09-11.json",
+      "path": "/externalFulfillment/2024-09-11/shipments/{shipmentId}/shippingOptions",
+      "method": "get",
+      "dbNamespace": "extFulfillmentShipments",
+      "pathPrefix": "/externalFulfillment/2024-09-11/shipments"
+    },
+    {
+      "operationId": "getInventorySummaries",
+      "apiName": "FBA Inventory",
+      "apiVersion": "v1",
+      "modelFile": "fbaInventory.json",
+      "path": "/fba/inventory/v1/summaries",
+      "method": "get",
+      "dbNamespace": "inventory",
+      "pathPrefix": "/fba/inventory/v1"
+    },
+    {
+      "operationId": "searchListingsItems",
+      "apiName": "Listings",
+      "apiVersion": "2021-08-01",
+      "modelFile": "listingsItems_2021-08-01.json",
+      "path": "/listings/2021-08-01/items/{sellerId}",
+      "method": "get",
+      "dbNamespace": "listings",
+      "pathPrefix": "/listings/2021-08-01/items"
+    },
+    {
+      "operationId": "deleteListingsItem",
+      "apiName": "Listings",
+      "apiVersion": "2021-08-01",
+      "modelFile": "listingsItems_2021-08-01.json",
+      "path": "/listings/2021-08-01/items/{sellerId}/{sku}",
+      "method": "delete",
+      "dbNamespace": "listings",
+      "pathPrefix": "/listings/2021-08-01/items"
+    },
+    {
+      "operationId": "getListingsItem",
+      "apiName": "Listings",
+      "apiVersion": "2021-08-01",
+      "modelFile": "listingsItems_2021-08-01.json",
+      "path": "/listings/2021-08-01/items/{sellerId}/{sku}",
+      "method": "get",
+      "dbNamespace": "listings",
+      "pathPrefix": "/listings/2021-08-01/items"
+    },
+    {
+      "operationId": "patchListingsItem",
+      "apiName": "Listings",
+      "apiVersion": "2021-08-01",
+      "modelFile": "listingsItems_2021-08-01.json",
+      "path": "/listings/2021-08-01/items/{sellerId}/{sku}",
+      "method": "patch",
+      "dbNamespace": "listings",
+      "pathPrefix": "/listings/2021-08-01/items"
+    },
+    {
+      "operationId": "putListingsItem",
+      "apiName": "Listings",
+      "apiVersion": "2021-08-01",
+      "modelFile": "listingsItems_2021-08-01.json",
+      "path": "/listings/2021-08-01/items/{sellerId}/{sku}",
+      "method": "put",
+      "dbNamespace": "listings",
+      "pathPrefix": "/listings/2021-08-01/items"
+    },
+    {
+      "operationId": "getListingsRestrictions",
+      "apiName": "Listings Restrictions",
+      "apiVersion": "2021-08-01",
+      "modelFile": "listingsRestrictions_2021-08-01.json",
+      "path": "/listings/2021-08-01/restrictions",
+      "method": "get",
+      "dbNamespace": "listingsRestrictions",
+      "pathPrefix": "/listings/2021-08-01/restrictions"
+    },
+    {
+      "operationId": "getDestinations",
+      "apiName": "Notifications",
+      "apiVersion": "v1",
+      "modelFile": "notifications.json",
+      "path": "/notifications/v1/destinations",
+      "method": "get",
+      "dbNamespace": "notifications",
+      "pathPrefix": "/notifications/v1"
+    },
+    {
+      "operationId": "createDestination",
+      "apiName": "Notifications",
+      "apiVersion": "v1",
+      "modelFile": "notifications.json",
+      "path": "/notifications/v1/destinations",
+      "method": "post",
+      "dbNamespace": "notifications",
+      "pathPrefix": "/notifications/v1"
+    },
+    {
+      "operationId": "deleteDestination",
+      "apiName": "Notifications",
+      "apiVersion": "v1",
+      "modelFile": "notifications.json",
+      "path": "/notifications/v1/destinations/{destinationId}",
+      "method": "delete",
+      "dbNamespace": "notifications",
+      "pathPrefix": "/notifications/v1"
+    },
+    {
+      "operationId": "getDestination",
+      "apiName": "Notifications",
+      "apiVersion": "v1",
+      "modelFile": "notifications.json",
+      "path": "/notifications/v1/destinations/{destinationId}",
+      "method": "get",
+      "dbNamespace": "notifications",
+      "pathPrefix": "/notifications/v1"
+    },
+    {
+      "operationId": "getSubscriptions",
+      "apiName": "Notifications",
+      "apiVersion": "v1",
+      "modelFile": "notifications.json",
+      "path": "/notifications/v1/subscriptions",
+      "method": "get",
+      "dbNamespace": "notifications",
+      "pathPrefix": "/notifications/v1"
+    },
+    {
+      "operationId": "getSubscription",
+      "apiName": "Notifications",
+      "apiVersion": "v1",
+      "modelFile": "notifications.json",
+      "path": "/notifications/v1/subscriptions/{notificationType}",
+      "method": "get",
+      "dbNamespace": "notifications",
+      "pathPrefix": "/notifications/v1"
+    },
+    {
+      "operationId": "createSubscription",
+      "apiName": "Notifications",
+      "apiVersion": "v1",
+      "modelFile": "notifications.json",
+      "path": "/notifications/v1/subscriptions/{notificationType}",
+      "method": "post",
+      "dbNamespace": "notifications",
+      "pathPrefix": "/notifications/v1"
+    },
+    {
+      "operationId": "deleteSubscriptionById",
+      "apiName": "Notifications",
+      "apiVersion": "v1",
+      "modelFile": "notifications.json",
+      "path": "/notifications/v1/subscriptions/{notificationType}/{subscriptionId}",
+      "method": "delete",
+      "dbNamespace": "notifications",
+      "pathPrefix": "/notifications/v1"
+    },
+    {
+      "operationId": "getSubscriptionById",
+      "apiName": "Notifications",
+      "apiVersion": "v1",
+      "modelFile": "notifications.json",
+      "path": "/notifications/v1/subscriptions/{notificationType}/{subscriptionId}",
+      "method": "get",
+      "dbNamespace": "notifications",
+      "pathPrefix": "/notifications/v1"
+    },
+    {
+      "operationId": "searchOrders",
+      "apiName": "Orders",
+      "apiVersion": "2026-01-01",
+      "modelFile": "orders_2026-01-01.json",
+      "path": "/orders/2026-01-01/orders",
+      "method": "get",
+      "dbNamespace": "orders",
+      "pathPrefix": "/orders/2026-01-01/orders"
+    },
+    {
+      "operationId": "getOrder",
+      "apiName": "Orders",
+      "apiVersion": "2026-01-01",
+      "modelFile": "orders_2026-01-01.json",
+      "path": "/orders/2026-01-01/orders/{orderId}",
+      "method": "get",
+      "dbNamespace": "orders",
+      "pathPrefix": "/orders/2026-01-01/orders"
+    },
+    {
+      "operationId": "confirmShipment",
+      "apiName": "Orders",
+      "apiVersion": "v0",
+      "modelFile": "ordersV0.json",
+      "path": "/orders/v0/orders/{orderId}/shipmentConfirmation",
+      "method": "post",
+      "dbNamespace": "orders",
+      "pathPrefix": "/orders/v0/orders"
+    },
+    {
+      "operationId": "getCompetitiveSummary",
+      "apiName": "Product Pricing",
+      "apiVersion": "2022-05-01",
+      "modelFile": "productPricing_2022-05-01.json",
+      "path": "/batches/products/pricing/2022-05-01/items/competitiveSummary",
+      "method": "post",
+      "dbNamespace": "pricing",
+      "pathPrefix": "/batches/products/pricing/2022-05-01"
+    },
+    {
+      "operationId": "getFeaturedOfferExpectedPriceBatch",
+      "apiName": "Product Pricing",
+      "apiVersion": "2022-05-01",
+      "modelFile": "productPricing_2022-05-01.json",
+      "path": "/batches/products/pricing/2022-05-01/offer/featuredOfferExpectedPrice",
+      "method": "post",
+      "dbNamespace": "pricing",
+      "pathPrefix": "/batches/products/pricing/2022-05-01"
+    },
+    {
+      "operationId": "searchDefinitionsProductTypes",
+      "apiName": "Product Type Definitions",
+      "apiVersion": "2020-09-01",
+      "modelFile": "definitionsProductTypes_2020-09-01.json",
+      "path": "/definitions/2020-09-01/productTypes",
+      "method": "get",
+      "dbNamespace": "productTypeDefinitions",
+      "pathPrefix": "/definitions/2020-09-01/productTypes"
+    },
+    {
+      "operationId": "getDefinitionsProductType",
+      "apiName": "Product Type Definitions",
+      "apiVersion": "2020-09-01",
+      "modelFile": "definitionsProductTypes_2020-09-01.json",
+      "path": "/definitions/2020-09-01/productTypes/{productType}",
+      "method": "get",
+      "dbNamespace": "productTypeDefinitions",
+      "pathPrefix": "/definitions/2020-09-01/productTypes"
+    },
+    {
+      "operationId": "getReportDocument",
+      "apiName": "Reports",
+      "apiVersion": "2021-06-30",
+      "modelFile": "reports_2021-06-30.json",
+      "path": "/reports/2021-06-30/documents/{reportDocumentId}",
+      "method": "get",
+      "dbNamespace": "reports",
+      "pathPrefix": "/reports/2021-06-30"
+    },
+    {
+      "operationId": "getReports",
+      "apiName": "Reports",
+      "apiVersion": "2021-06-30",
+      "modelFile": "reports_2021-06-30.json",
+      "path": "/reports/2021-06-30/reports",
+      "method": "get",
+      "dbNamespace": "reports",
+      "pathPrefix": "/reports/2021-06-30"
+    },
+    {
+      "operationId": "createReport",
+      "apiName": "Reports",
+      "apiVersion": "2021-06-30",
+      "modelFile": "reports_2021-06-30.json",
+      "path": "/reports/2021-06-30/reports",
+      "method": "post",
+      "dbNamespace": "reports",
+      "pathPrefix": "/reports/2021-06-30"
+    },
+    {
+      "operationId": "cancelReport",
+      "apiName": "Reports",
+      "apiVersion": "2021-06-30",
+      "modelFile": "reports_2021-06-30.json",
+      "path": "/reports/2021-06-30/reports/{reportId}",
+      "method": "delete",
+      "dbNamespace": "reports",
+      "pathPrefix": "/reports/2021-06-30"
+    },
+    {
+      "operationId": "getReport",
+      "apiName": "Reports",
+      "apiVersion": "2021-06-30",
+      "modelFile": "reports_2021-06-30.json",
+      "path": "/reports/2021-06-30/reports/{reportId}",
+      "method": "get",
+      "dbNamespace": "reports",
+      "pathPrefix": "/reports/2021-06-30"
+    },
+    {
+      "operationId": "getReportSchedules",
+      "apiName": "Reports",
+      "apiVersion": "2021-06-30",
+      "modelFile": "reports_2021-06-30.json",
+      "path": "/reports/2021-06-30/schedules",
+      "method": "get",
+      "dbNamespace": "reports",
+      "pathPrefix": "/reports/2021-06-30"
+    },
+    {
+      "operationId": "createReportSchedule",
+      "apiName": "Reports",
+      "apiVersion": "2021-06-30",
+      "modelFile": "reports_2021-06-30.json",
+      "path": "/reports/2021-06-30/schedules",
+      "method": "post",
+      "dbNamespace": "reports",
+      "pathPrefix": "/reports/2021-06-30"
+    },
+    {
+      "operationId": "cancelReportSchedule",
+      "apiName": "Reports",
+      "apiVersion": "2021-06-30",
+      "modelFile": "reports_2021-06-30.json",
+      "path": "/reports/2021-06-30/schedules/{reportScheduleId}",
+      "method": "delete",
+      "dbNamespace": "reports",
+      "pathPrefix": "/reports/2021-06-30"
+    },
+    {
+      "operationId": "getReportSchedule",
+      "apiName": "Reports",
+      "apiVersion": "2021-06-30",
+      "modelFile": "reports_2021-06-30.json",
+      "path": "/reports/2021-06-30/schedules/{reportScheduleId}",
+      "method": "get",
+      "dbNamespace": "reports",
+      "pathPrefix": "/reports/2021-06-30"
+    }
+  ],
+  "models": [
+    {
+      "modelFile": "catalogItems_2022-04-01.json",
+      "apiName": "Catalog Items",
+      "apiVersion": "2022-04-01",
+      "pathPrefix": "/catalog/2022-04-01/items",
+      "dbNamespace": "catalog",
+      "resourcePath": null
+    },
+    {
+      "modelFile": "dataKiosk_2023-11-15.json",
+      "apiName": "Data Kiosk",
+      "apiVersion": "2023-11-15",
+      "pathPrefix": "/dataKiosk/2023-11-15",
+      "dbNamespace": "dataKiosk",
+      "resourcePath": null
+    },
+    {
+      "modelFile": "externalFulfillmentInventory_2024-09-11.json",
+      "apiName": "External Fulfillment Inventory",
+      "apiVersion": "2024-09-11",
+      "pathPrefix": "/externalFulfillment/inventory/2024-09-11/inventories",
+      "dbNamespace": "extFulfillmentInventory",
+      "resourcePath": null
+    },
+    {
+      "modelFile": "externalFulfillmentReturns_2024-09-11.json",
+      "apiName": "External Fulfillment Returns",
+      "apiVersion": "2024-09-11",
+      "pathPrefix": "/externalFulfillment/2024-09-11/returns",
+      "dbNamespace": "extFulfillmentReturns",
+      "resourcePath": null
+    },
+    {
+      "modelFile": "externalFulfillmentShipments_2024-09-11.json",
+      "apiName": "External Fulfillment Shipments",
+      "apiVersion": "2024-09-11",
+      "pathPrefix": "/externalFulfillment/2024-09-11/shipments",
+      "dbNamespace": "extFulfillmentShipments",
+      "resourcePath": null
+    },
+    {
+      "modelFile": "fbaInventory.json",
+      "apiName": "FBA Inventory",
+      "apiVersion": "v1",
+      "pathPrefix": "/fba/inventory/v1",
+      "dbNamespace": "inventory",
+      "resourcePath": null
+    },
+    {
+      "modelFile": "listingsItems_2021-08-01.json",
+      "apiName": "Listings",
+      "apiVersion": "2021-08-01",
+      "pathPrefix": "/listings/2021-08-01/items",
+      "dbNamespace": "listings",
+      "resourcePath": null
+    },
+    {
+      "modelFile": "listingsRestrictions_2021-08-01.json",
+      "apiName": "Listings Restrictions",
+      "apiVersion": "2021-08-01",
+      "pathPrefix": "/listings/2021-08-01/restrictions",
+      "dbNamespace": "listingsRestrictions",
+      "resourcePath": null
+    },
+    {
+      "modelFile": "notifications.json",
+      "apiName": "Notifications",
+      "apiVersion": "v1",
+      "pathPrefix": "/notifications/v1",
+      "dbNamespace": "notifications",
+      "resourcePath": null
+    },
+    {
+      "modelFile": "orders_2026-01-01.json",
+      "apiName": "Orders",
+      "apiVersion": "2026-01-01",
+      "pathPrefix": "/orders/2026-01-01/orders",
+      "dbNamespace": "orders",
+      "resourcePath": null
+    },
+    {
+      "modelFile": "ordersV0.json",
+      "apiName": "Orders",
+      "apiVersion": "v0",
+      "pathPrefix": "/orders/v0/orders",
+      "dbNamespace": "orders",
+      "resourcePath": null
+    },
+    {
+      "modelFile": "productPricing_2022-05-01.json",
+      "apiName": "Product Pricing",
+      "apiVersion": "2022-05-01",
+      "pathPrefix": "/batches/products/pricing/2022-05-01",
+      "dbNamespace": "pricing",
+      "resourcePath": null
+    },
+    {
+      "modelFile": "definitionsProductTypes_2020-09-01.json",
+      "apiName": "Product Type Definitions",
+      "apiVersion": "2020-09-01",
+      "pathPrefix": "/definitions/2020-09-01/productTypes",
+      "dbNamespace": "productTypeDefinitions",
+      "resourcePath": null
+    },
+    {
+      "modelFile": "reports_2021-06-30.json",
+      "apiName": "Reports",
+      "apiVersion": "2021-06-30",
+      "pathPrefix": "/reports/2021-06-30",
+      "dbNamespace": "reports",
+      "resourcePath": null
+    }
+  ]
+}

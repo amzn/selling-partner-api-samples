@@ -14,13 +14,21 @@
     }
   },
   "host": "sellingpartnerapi-na.amazon.com",
-  "schemes": ["https"],
-  "consumes": ["application/json"],
-  "produces": ["application/json"],
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "paths": {
     "/reports/2021-06-30/reports": {
       "get": {
-        "tags": ["reports"],
+        "tags": [
+          "reports"
+        ],
         "operationId": "getReports",
         "description": "Returns report details for the reports that match the filters that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.0222 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "parameters": [
@@ -45,7 +53,13 @@
             "minItems": 1,
             "items": {
               "type": "string",
-              "enum": ["CANCELLED", "DONE", "FATAL", "IN_PROGRESS", "IN_QUEUE"],
+              "enum": [
+                "CANCELLED",
+                "DONE",
+                "FATAL",
+                "IN_PROGRESS",
+                "IN_QUEUE"
+              ],
               "x-docgen-enum-table-extension": [
                 {
                   "value": "CANCELLED",
@@ -131,37 +145,6 @@
                 "type": "string",
                 "description": "Unique request reference identifier."
               }
-            },
-            "x-amzn-api-sandbox": {
-              "static": [
-                {
-                  "request": {
-                    "parameters": {
-                      "reportTypes": {
-                        "value": ["FEE_DISCOUNTS_REPORT", "GET_AFN_INVENTORY_DATA"]
-                      },
-                      "processingStatuses": {
-                        "value": ["IN_QUEUE", "IN_PROGRESS"]
-                      }
-                    }
-                  },
-                  "response": {
-                    "nextToken": "VGhpcyB0b2tlbiBpcyBvcGFxdWUgYW5kIGludGVudGlvbmFsbHkgb2JmdXNjYXRlZA==",
-                    "reports": [
-                      {
-                        "reportId": "ReportId1",
-                        "reportType": "FEE_DISCOUNTS_REPORT",
-                        "dataStartTime": "2024-03-11T13:47:20.677Z",
-                        "dataEndTime": "2024-03-12T13:47:20.677Z",
-                        "createdTime": "2024-03-10T13:47:20.677Z",
-                        "processingStatus": "IN_PROGRESS",
-                        "processingStartTime": "2024-03-10T13:47:20.677Z",
-                        "processingEndTime": "2024-03-12T13:47:20.677Z"
-                      }
-                    ]
-                  }
-                }
-              ]
             }
           },
           "400": {
@@ -178,31 +161,6 @@
                 "type": "string",
                 "description": "Unique request reference identifier."
               }
-            },
-            "x-amzn-api-sandbox": {
-              "static": [
-                {
-                  "request": {
-                    "parameters": {
-                      "reportTypes": {
-                        "value": ["FEE_DISCOUNTS_REPORT", "GET_AFN_INVENTORY_DATA"]
-                      },
-                      "processingStatuses": {
-                        "value": ["BAD_VALUE", "IN_PROGRESS"]
-                      }
-                    }
-                  },
-                  "response": {
-                    "errors": [
-                      {
-                        "code": "400",
-                        "message": "Invalid input",
-                        "details": "Invalid input in processing status"
-                      }
-                    ]
-                  }
-                }
-              ]
             }
           },
           "401": {
@@ -296,7 +254,9 @@
         }
       },
       "post": {
-        "tags": ["reports"],
+        "tags": [
+          "reports"
+        ],
         "operationId": "createReport",
         "description": "Creates a report.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.0167 | 15 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "parameters": [
@@ -325,26 +285,6 @@
                 "type": "string",
                 "description": "Unique request reference identifier."
               }
-            },
-            "x-amzn-api-sandbox": {
-              "static": [
-                {
-                  "request": {
-                    "parameters": {
-                      "body": {
-                        "value": {
-                          "reportType": "GET_MERCHANT_LISTINGS_ALL_DATA",
-                          "dataStartTime": "2024-03-10T20:11:24.000Z",
-                          "marketplaceIds": ["A1PA6795UKMFR9", "ATVPDKIKX0DER"]
-                        }
-                      }
-                    }
-                  },
-                  "response": {
-                    "reportId": "ID323"
-                  }
-                }
-              ]
             }
           },
           "400": {
@@ -361,32 +301,6 @@
                 "type": "string",
                 "description": "Unique request reference identifier."
               }
-            },
-            "x-amzn-api-sandbox": {
-              "static": [
-                {
-                  "request": {
-                    "parameters": {
-                      "body": {
-                        "value": {
-                          "reportType": "BAD_FEE_DISCOUNTS_REPORT",
-                          "dataStartTime": "2024-03-10T20:11:24.000Z",
-                          "marketplaceIds": ["A1PA6795UKMFR9", "ATVPDKIKX0DER"]
-                        }
-                      }
-                    }
-                  },
-                  "response": {
-                    "errors": [
-                      {
-                        "code": "400",
-                        "message": "Invalid input",
-                        "details": "Invalid input"
-                      }
-                    ]
-                  }
-                }
-              ]
             }
           },
           "401": {
@@ -483,7 +397,9 @@
     },
     "/reports/2021-06-30/reports/{reportId}": {
       "delete": {
-        "tags": ["reports"],
+        "tags": [
+          "reports"
+        ],
         "operationId": "cancelReport",
         "description": "Cancels the report that you specify. Only reports with `processingStatus=IN_QUEUE` can be cancelled. Cancelled reports are returned in subsequent calls to the `getReport` and `getReports` operations.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.0222 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "parameters": [
@@ -507,19 +423,6 @@
                 "type": "string",
                 "description": "Unique request reference identifier."
               }
-            },
-            "x-amzn-api-sandbox": {
-              "static": [
-                {
-                  "request": {
-                    "parameters": {
-                      "reportId": {
-                        "value": "ID"
-                      }
-                    }
-                  }
-                }
-              ]
             }
           },
           "400": {
@@ -536,24 +439,6 @@
                 "type": "string",
                 "description": "Unique request reference identifier."
               }
-            },
-            "x-amzn-api-sandbox": {
-              "static": [
-                {
-                  "request": {
-                    "parameters": {}
-                  },
-                  "response": {
-                    "errors": [
-                      {
-                        "code": "400",
-                        "message": "Invalid input",
-                        "details": "Invalid input"
-                      }
-                    ]
-                  }
-                }
-              ]
             }
           },
           "401": {
@@ -647,7 +532,9 @@
         }
       },
       "get": {
-        "tags": ["reports"],
+        "tags": [
+          "reports"
+        ],
         "operationId": "getReport",
         "description": "Returns report details (including the `reportDocumentId`, if available) for the report that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 2 | 15 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "parameters": [
@@ -674,29 +561,6 @@
                 "type": "string",
                 "description": "Unique request reference identifier."
               }
-            },
-            "x-amzn-api-sandbox": {
-              "static": [
-                {
-                  "request": {
-                    "parameters": {
-                      "reportId": {
-                        "value": "ID323"
-                      }
-                    }
-                  },
-                  "response": {
-                    "reportId": "ReportId1",
-                    "reportType": "FEE_DISCOUNTS_REPORT",
-                    "dataStartTime": "2024-03-11T13:47:20.677Z",
-                    "dataEndTime": "2024-03-12T13:47:20.677Z",
-                    "createdTime": "2024-03-10T13:47:20.677Z",
-                    "processingStatus": "IN_PROGRESS",
-                    "processingStartTime": "2024-03-10T13:47:20.677Z",
-                    "processingEndTime": "2024-03-12T13:47:20.677Z"
-                  }
-                }
-              ]
             }
           },
           "400": {
@@ -713,28 +577,6 @@
                 "type": "string",
                 "description": "Unique request reference identifier."
               }
-            },
-            "x-amzn-api-sandbox": {
-              "static": [
-                {
-                  "request": {
-                    "parameters": {
-                      "reportId": {
-                        "value": "badReportId1"
-                      }
-                    }
-                  },
-                  "response": {
-                    "errors": [
-                      {
-                        "code": "400",
-                        "message": "Invalid input",
-                        "details": "Invalid input"
-                      }
-                    ]
-                  }
-                }
-              ]
             }
           },
           "401": {
@@ -831,7 +673,9 @@
     },
     "/reports/2021-06-30/schedules": {
       "get": {
-        "tags": ["reports"],
+        "tags": [
+          "reports"
+        ],
         "operationId": "getReportSchedules",
         "description": "Returns report schedule details that match the filters that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.0222 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "parameters": [
@@ -863,36 +707,6 @@
                 "type": "string",
                 "description": "Unique request reference identifier."
               }
-            },
-            "x-amzn-api-sandbox": {
-              "static": [
-                {
-                  "request": {
-                    "parameters": {
-                      "reportTypes": {
-                        "value": ["FEE_DISCOUNTS_REPORT", "GET_FBA_FULFILLMENT_CUSTOMER_TAXES_DATA"]
-                      }
-                    }
-                  },
-                  "response": {
-                    "reportSchedules": [
-                      {
-                        "reportType": "FEE_DISCOUNTS_REPORT",
-                        "marketplaceIds": ["ATVPDKIKX0DER"],
-                        "reportScheduleId": "ID1",
-                        "period": "PT5M",
-                        "nextReportCreationTime": "2024-03-11T15:03:44.973Z"
-                      },
-                      {
-                        "reportType": "GET_FBA_FULFILLMENT_CUSTOMER_TAXES_DATA",
-                        "reportScheduleId": "ID2",
-                        "period": "PT5M",
-                        "nextReportCreationTime": "2024-03-11T15:03:44.973Z"
-                      }
-                    ]
-                  }
-                }
-              ]
             }
           },
           "400": {
@@ -909,28 +723,6 @@
                 "type": "string",
                 "description": "Unique request reference identifier."
               }
-            },
-            "x-amzn-api-sandbox": {
-              "static": [
-                {
-                  "request": {
-                    "parameters": {
-                      "reportTypes": {
-                        "value": ["BAD_FEE_DISCOUNTS_REPORT", "BAD_GET_FBA_FULFILLMENT_CUSTOMER_TAXES_DATA"]
-                      }
-                    }
-                  },
-                  "response": {
-                    "errors": [
-                      {
-                        "code": "400",
-                        "message": "Invalid input",
-                        "details": "Invalid input"
-                      }
-                    ]
-                  }
-                }
-              ]
             }
           },
           "401": {
@@ -1024,7 +816,9 @@
         }
       },
       "post": {
-        "tags": ["reports"],
+        "tags": [
+          "reports"
+        ],
         "operationId": "createReportSchedule",
         "description": "Creates a report schedule. If a report schedule with the same report type and marketplace IDs already exists, it will be cancelled and replaced with this one.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.0222 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "parameters": [
@@ -1053,27 +847,6 @@
                 "type": "string",
                 "description": "Unique request reference identifier."
               }
-            },
-            "x-amzn-api-sandbox": {
-              "static": [
-                {
-                  "request": {
-                    "parameters": {
-                      "body": {
-                        "value": {
-                          "reportType": "FEE_DISCOUNTS_REPORT",
-                          "period": "PT5M",
-                          "nextReportCreationTime": "2024-03-10T20:11:24.000Z",
-                          "marketplaceIds": ["A1PA6795UKMFR9", "ATVPDKIKX0DER"]
-                        }
-                      }
-                    }
-                  },
-                  "response": {
-                    "reportScheduleId": "ID323"
-                  }
-                }
-              ]
             }
           },
           "400": {
@@ -1090,32 +863,6 @@
                 "type": "string",
                 "description": "Unique request reference identifier."
               }
-            },
-            "x-amzn-api-sandbox": {
-              "static": [
-                {
-                  "request": {
-                    "parameters": {
-                      "body": {
-                        "value": {
-                          "reportType": "BAD_FEE_DISCOUNTS_REPORT",
-                          "period": "PT5M",
-                          "nextReportCreationTime": "2024-03-10T20:11:24.000Z"
-                        }
-                      }
-                    }
-                  },
-                  "response": {
-                    "errors": [
-                      {
-                        "code": "400",
-                        "message": "Invalid input",
-                        "details": "Invalid input"
-                      }
-                    ]
-                  }
-                }
-              ]
             }
           },
           "401": {
@@ -1212,7 +959,9 @@
     },
     "/reports/2021-06-30/schedules/{reportScheduleId}": {
       "delete": {
-        "tags": ["reports"],
+        "tags": [
+          "reports"
+        ],
         "operationId": "cancelReportSchedule",
         "description": "Cancels the report schedule that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.0222 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "parameters": [
@@ -1236,19 +985,6 @@
                 "type": "string",
                 "description": "Unique request reference identifier."
               }
-            },
-            "x-amzn-api-sandbox": {
-              "static": [
-                {
-                  "request": {
-                    "parameters": {
-                      "reportScheduleId": {
-                        "value": "ID"
-                      }
-                    }
-                  }
-                }
-              ]
             }
           },
           "400": {
@@ -1265,24 +1001,6 @@
                 "type": "string",
                 "description": "Unique request reference identifier."
               }
-            },
-            "x-amzn-api-sandbox": {
-              "static": [
-                {
-                  "request": {
-                    "parameters": {}
-                  },
-                  "response": {
-                    "errors": [
-                      {
-                        "code": "400",
-                        "message": "Invalid input",
-                        "details": "Invalid input"
-                      }
-                    ]
-                  }
-                }
-              ]
             }
           },
           "401": {
@@ -1376,7 +1094,9 @@
         }
       },
       "get": {
-        "tags": ["reports"],
+        "tags": [
+          "reports"
+        ],
         "operationId": "getReportSchedule",
         "description": "Returns report schedule details for the report schedule that you specify.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.0222 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "parameters": [
@@ -1403,25 +1123,6 @@
                 "type": "string",
                 "description": "Unique request reference identifier."
               }
-            },
-            "x-amzn-api-sandbox": {
-              "static": [
-                {
-                  "request": {
-                    "parameters": {
-                      "reportScheduleId": {
-                        "value": "ID323"
-                      }
-                    }
-                  },
-                  "response": {
-                    "reportScheduleId": "ReportScheduleId1",
-                    "reportType": "FEE_DISCOUNTS_REPORT",
-                    "period": "PT5M",
-                    "nextReportCreationTime": "2024-03-12T13:47:20.677Z"
-                  }
-                }
-              ]
             }
           },
           "400": {
@@ -1438,28 +1139,6 @@
                 "type": "string",
                 "description": "Unique request reference identifier."
               }
-            },
-            "x-amzn-api-sandbox": {
-              "static": [
-                {
-                  "request": {
-                    "parameters": {
-                      "reportScheduleId": {
-                        "value": "badReportId1"
-                      }
-                    }
-                  },
-                  "response": {
-                    "errors": [
-                      {
-                        "code": "400",
-                        "message": "Invalid input",
-                        "details": "Invalid input"
-                      }
-                    ]
-                  }
-                }
-              ]
             }
           },
           "401": {
@@ -1556,7 +1235,9 @@
     },
     "/reports/2021-06-30/documents/{reportDocumentId}": {
       "get": {
-        "tags": ["reports"],
+        "tags": [
+          "reports"
+        ],
         "description": "Returns the information required for retrieving a report document's contents.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.0167 | 15 |\n\nThe `x-amzn-RateLimit-Limit` response header returns the usage plan rate limits that were applied to the requested operation, when available. The table above indicates the default rate and burst values for this operation. Selling partners whose business demands require higher throughput may see higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits in the Selling Partner API](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
         "operationId": "getReportDocument",
         "parameters": [
@@ -1590,23 +1271,6 @@
                 "type": "string",
                 "description": "Unique request reference identifier."
               }
-            },
-            "x-amzn-api-sandbox": {
-              "static": [
-                {
-                  "request": {
-                    "parameters": {
-                      "reportDocumentId": {
-                        "value": "0356cf79-b8b0-4226-b4b9-0ee058ea5760"
-                      }
-                    }
-                  },
-                  "response": {
-                    "reportDocumentId": "0356cf79-b8b0-4226-b4b9-0ee058ea5760",
-                    "url": "https://d34o8swod1owfl.cloudfront.net/Report_47700__GET_MERCHANT_LISTINGS_ALL_DATA_.txt"
-                  }
-                }
-              ]
             }
           },
           "400": {
@@ -1623,28 +1287,6 @@
                 "type": "string",
                 "description": "Unique request reference identifier."
               }
-            },
-            "x-amzn-api-sandbox": {
-              "static": [
-                {
-                  "request": {
-                    "parameters": {
-                      "reportDocumentId": {
-                        "value": "badDocumentId1"
-                      }
-                    }
-                  },
-                  "response": {
-                    "errors": [
-                      {
-                        "code": "400",
-                        "message": "Invalid input",
-                        "details": "Invalid input"
-                      }
-                    ]
-                  }
-                }
-              ]
             }
           },
           "401": {
@@ -1743,7 +1385,9 @@
     "ErrorList": {
       "type": "object",
       "description": "A list of error responses returned when a request is unsuccessful.",
-      "required": ["errors"],
+      "required": [
+        "errors"
+      ],
       "properties": {
         "errors": {
           "type": "array",
@@ -1756,7 +1400,10 @@
     },
     "Error": {
       "type": "object",
-      "required": ["code", "message"],
+      "required": [
+        "code",
+        "message"
+      ],
       "properties": {
         "code": {
           "type": "string",
@@ -1776,7 +1423,12 @@
     "Report": {
       "type": "object",
       "description": "Detailed information about the report.",
-      "required": ["processingStatus", "reportId", "reportType", "createdTime"],
+      "required": [
+        "processingStatus",
+        "reportId",
+        "reportType",
+        "createdTime"
+      ],
       "properties": {
         "marketplaceIds": {
           "description": "A list of marketplace identifiers for the report.",
@@ -1815,7 +1467,13 @@
         "processingStatus": {
           "description": "The processing status of the report.",
           "type": "string",
-          "enum": ["CANCELLED", "DONE", "FATAL", "IN_PROGRESS", "IN_QUEUE"],
+          "enum": [
+            "CANCELLED",
+            "DONE",
+            "FATAL",
+            "IN_PROGRESS",
+            "IN_QUEUE"
+          ],
           "x-docgen-enum-table-extension": [
             {
               "value": "CANCELLED",
@@ -1865,7 +1523,11 @@
     "CreateReportScheduleSpecification": {
       "type": "object",
       "description": "Information required to create the report schedule.",
-      "required": ["marketplaceIds", "period", "reportType"],
+      "required": [
+        "marketplaceIds",
+        "period",
+        "reportType"
+      ],
       "properties": {
         "reportType": {
           "description": "The report type. Refer to [Report Type Values](https://developer-docs.amazon.com/sp-api/docs/report-type-values) for more information.",
@@ -1991,7 +1653,10 @@
     "CreateReportSpecification": {
       "type": "object",
       "description": "Information required to create the report.",
-      "required": ["marketplaceIds", "reportType"],
+      "required": [
+        "marketplaceIds",
+        "reportType"
+      ],
       "properties": {
         "reportOptions": {
           "$ref": "#/definitions/ReportOptions"
@@ -2031,7 +1696,11 @@
     "ReportSchedule": {
       "description": "Detailed information about a report schedule.",
       "type": "object",
-      "required": ["period", "reportScheduleId", "reportType"],
+      "required": [
+        "period",
+        "reportScheduleId",
+        "reportType"
+      ],
       "properties": {
         "reportScheduleId": {
           "description": "The identifier for the report schedule. This identifier is unique only in combination with a seller ID.",
@@ -2065,7 +1734,9 @@
     "ReportScheduleList": {
       "type": "object",
       "description": "A list of report schedules.",
-      "required": ["reportSchedules"],
+      "required": [
+        "reportSchedules"
+      ],
       "properties": {
         "reportSchedules": {
           "type": "array",
@@ -2079,7 +1750,9 @@
     "CreateReportResponse": {
       "type": "object",
       "description": "The response schema.",
-      "required": ["reportId"],
+      "required": [
+        "reportId"
+      ],
       "properties": {
         "reportId": {
           "description": "The identifier for the report. This identifier is unique only in combination with a seller ID.",
@@ -2089,7 +1762,9 @@
     },
     "GetReportsResponse": {
       "type": "object",
-      "required": ["reports"],
+      "required": [
+        "reports"
+      ],
       "properties": {
         "reports": {
           "description": "The reports.",
@@ -2105,7 +1780,9 @@
     "CreateReportScheduleResponse": {
       "type": "object",
       "description": "Response schema.",
-      "required": ["reportScheduleId"],
+      "required": [
+        "reportScheduleId"
+      ],
       "properties": {
         "reportScheduleId": {
           "description": "The identifier for the report schedule. This identifier is unique only in combination with a seller ID.",
@@ -2116,7 +1793,10 @@
     "ReportDocument": {
       "type": "object",
       "description": "Information required for the report document.",
-      "required": ["reportDocumentId", "url"],
+      "required": [
+        "reportDocumentId",
+        "url"
+      ],
       "properties": {
         "reportDocumentId": {
           "description": "The identifier for the report document. This identifier is unique only in combination with a seller ID.",
@@ -2129,7 +1809,9 @@
         "compressionAlgorithm": {
           "description": "If the report document contents have been compressed, the compression algorithm used is returned in this property and you must decompress the report when you download. Otherwise, you can download the report directly. Refer to [Step 2. Download the report](https://developer-docs.amazon.com/sp-api/docs/reports-api-v2021-06-30-retrieve-a-report#step-2-download-the-report) in the use case guide, where sample code is provided.",
           "type": "string",
-          "enum": ["GZIP"],
+          "enum": [
+            "GZIP"
+          ],
           "x-docgen-enum-table-extension": [
             {
               "value": "GZIP",

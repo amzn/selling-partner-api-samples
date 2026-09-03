@@ -1,95 +1,60 @@
 import express, { Request, Response } from "express";
-import { createProxyMiddleware } from "http-proxy-middleware";
 import { configureLogging } from "@strands-agents/sdk";
-import { Context } from "./database/Context.js";
+import { Context, Api } from "./database/Context.js";
+import { validate as validateOperationRegistry } from "./registry/operationRegistry.js";
 import { AsyncLocalStorage } from "node:async_hooks";
 import { generateData } from "./controller/dataGeneratorController.js";
-import { trackRequest, identifyApiSection, shutdownTelemetry } from "./service/telemetryService.js";
-import {
-  createReport,
-  getReport,
-  getReports,
-  cancelReport,
-  getReportDocument,
-  downloadReportDocument,
-  createReportSchedule,
-  getReportSchedule,
-  getReportSchedules,
-  cancelReportSchedule,
-} from "./controller/reportsController.js";
+import { createOrder, updateOrder, deleteOrder } from "./controller/ordersManagementController.js";
+import { getNotificationSchemas, sendNotification } from "./controller/notificationsManagementController.js";
+import { downloadReportDocument, downloadDataKioskDocument } from "./controller/spapiController.js";
+import { listScenarios, seedScenario } from "./controller/scenariosController.js";
 
 /**
  * APPLICATION SETUP
  */
 const app = express();
 
-/**
- * TELEMETRY MIDDLEWARE (before all routes)
- */
-app.use((req, res, next) => {
-  const start = Date.now();
-  res.on("finish", () => {
-    try {
-      trackRequest(identifyApiSection(req.path), Date.now() - start, res.statusCode);
-    } catch {
-      /* fail-safe */
-    }
-  });
-  next();
-});
-
 const port = process.env.PORT ?? "9001";
-const region = process.env.REGION && ["NA", "EU", "FE"].includes(process.env.REGION) ? process.env.REGION : "NA";
-export const PROD_BACKEND = `https://sellingpartnerapi-${region.toLowerCase()}.amazon.com`;
 configureLogging(console);
 export const asyncLocalStorage = new AsyncLocalStorage();
 
 /**
- * PASS-THROUGH CONFIGURATION (before body parser)
+ * NON-SCHEMA ROUTES (download reports, data kiosk documents)
  */
-const passThroughProxy = createProxyMiddleware({
-  target: PROD_BACKEND,
-  changeOrigin: true,
-});
-
-app.get(["/definitions/2020-09-01/{*splat}", "/listings/2021-08-01/restrictions"], passThroughProxy);
-
-app.post("/batches/products/pricing/2022-05-01/items/competitiveSummary", passThroughProxy);
+app.get("/reports/download/:documentId", downloadReportDocument);
+app.get("/dataKiosk/download/:documentId", downloadDataKioskDocument);
 
 /**
- * SANDBOX PASS-THROUGH CONFIGURATION (before body parser)
- */
-export const SANDBOX_BACKEND = `https://sandbox.sellingpartnerapi-${region.toLowerCase()}.amazon.com`;
-const sandboxProxy = createProxyMiddleware({
-  target: SANDBOX_BACKEND,
-  changeOrigin: true,
-});
-
-app.get("/fba/inventory/v1/summaries", sandboxProxy);
-app.post("/fba/inventory/v1/items", sandboxProxy);
-app.post("/fba/inventory/v1/items/inventory", sandboxProxy);
-app.delete("/fba/inventory/v1/items/{*splat}", sandboxProxy);
-
-/**
- * BODY PARSER (after proxy routes)
+ * BODY PARSER
  */
 app.use(express.json());
 app.use(express.static("public"));
+app.use(express.static("res/response"))
 
 /**
  * RETURN DB CONTENT
  */
-app.get("/data", async (request: Request, response: Response) => {
-  await Context.instance.db.read();
-  const data = Context.instance.db.data;
+app.get("/data", (request: Request, response: Response) => {
+  const data: Record<string, Record<string, unknown>> = {};
+  for (const domain of Object.values(Api)) {
+    const collection = Context.instance.engine.getCollection(domain);
+    if (collection) {
+      const docs: Record<string, unknown> = {};
+      for (const doc of collection.find()) {
+        const { $loki, meta, _key, ...rest } = doc as Record<string, unknown>;
+        docs[_key as string] = rest;
+      }
+      data[domain] = docs;
+    }
+  }
   response.status(200).json(data);
 });
 
 /**
  * CLEAR DB CONTENT
  */
-app.delete("/data", async (request: Request, response: Response) => {
-  await Context.instance.clear();
+app.delete("/data", (request: Request, response: Response) => {
+  Context.instance.clear();
   response.status(200).json({ message: "All data has been cleared." });
 });
 
@@ -99,18 +64,23 @@ app.delete("/data", async (request: Request, response: Response) => {
 app.post("/chat", generateData);
 
 /**
- * REPORTS API (deterministic, no AI agent)
+ * GUIDED SCENARIOS (pre-seeded, runnable SP-API journeys)
  */
-app.post("/reports/2021-06-30/reports", createReport);
-app.get("/reports/2021-06-30/reports", getReports);
-app.get("/reports/2021-06-30/reports/:reportId", getReport);
-app.delete("/reports/2021-06-30/reports/:reportId", cancelReport);
-app.get("/reports/2021-06-30/documents/:reportDocumentId", getReportDocument);
-app.get("/reports/download/:documentId", downloadReportDocument);
-app.post("/reports/2021-06-30/schedules", createReportSchedule);
-app.get("/reports/2021-06-30/schedules", getReportSchedules);
-app.get("/reports/2021-06-30/schedules/:reportScheduleId", getReportSchedule);
-app.delete("/reports/2021-06-30/schedules/:reportScheduleId", cancelReportSchedule);
+app.get("/scenarios", listScenarios);
+app.post("/scenarios/:scenarioId/seed", seedScenario);
+
+/**
+ * ORDERS MANAGEMENT
+ */
+app.post("/manage/orders", createOrder);
+app.put("/manage/orders", updateOrder);
+app.delete("/manage/orders/:orderId", deleteOrder);
+
+/**
+ * NOTIFICATIONS MANAGEMENT
+ */
+app.get("/manage/notifications/schemas", getNotificationSchemas);
+app.post("/manage/notifications/send", sendNotification);
 
 /**
  * GENERIC REQUEST HANDLER
@@ -123,13 +93,6 @@ app.all("/{*splat}", async (req, res) => {
 /**
  * APPLICATION STARTUP
  */
-const shutdown = async () => {
-  await shutdownTelemetry();
-  process.exit(0);
-};
-process.on("SIGINT", shutdown);
-process.on("SIGTERM", shutdown);
-
 console.log(`
    _______     ___   ___  ____   
   / __/ _ \\   / _ | / _ \\/  _/   
@@ -139,6 +102,10 @@ console.log(`
  / / / __ |_/ /_\\ \\  / /         
 /_/ /_/ |_/___/___/ /_/              
 `);
+
+validateOperationRegistry();
+// Init database
+Context.instance;
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);

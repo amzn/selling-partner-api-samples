@@ -1,4 +1,6 @@
-import { Low, Memory } from "lowdb";
+import { DatabaseEngine } from "./DatabaseEngine.js";
+import { type DatabaseEngineConfig } from "./types.js";
+import { dbNamespaces } from "../registry/operationRegistry.js";
 
 export enum Api {
   LISTINGS = "listings",
@@ -10,170 +12,74 @@ export enum Api {
   CATALOG = "catalog",
   PRICING = "pricing",
   REPORTS = "reports",
+  LISTINGS_RESTRICTIONS = "listingsRestrictions",
+  PRODUCT_TYPE_DEFINITIONS = "productTypeDefinitions",
+  NOTIFICATIONS = "notifications",
+  DATA_KIOSK = "dataKiosk",
 }
 
-type Data = Record<Api, Record<string, any>>;
+/**
+ * The `Api` enum is the typed surface used across the app; the registry is the generated source of
+ * truth for which namespaces exist. Fail fast if they diverge so adding an API to the registry
+ * without updating the enum (or vice versa) is caught at construction rather than silently.
+ */
+function assertEnumMatchesRegistry(): void {
+  const enumValues = [...Object.values(Api)].sort();
+  const registryValues = dbNamespaces();
+  const missingFromEnum = registryValues.filter((ns) => !enumValues.includes(ns as Api));
+  const missingFromRegistry = enumValues.filter((v) => !registryValues.includes(v));
+  if (missingFromEnum.length > 0 || missingFromRegistry.length > 0) {
+    throw new Error(
+      `Api enum is out of sync with the operation registry. ` +
+        `In registry but missing from Api enum: [${missingFromEnum.join(", ")}]. ` +
+        `In Api enum but missing from registry: [${missingFromRegistry.join(", ")}]. ` +
+        `Update the Api enum in Context.ts to match res/generated/operationRegistry.json.`,
+    );
+  }
+}
+
+/**
+ * Reads DatabaseEngineConfig from environment variables.
+ * - DB_MODE: "memory" | "persistent" (default: "memory")
+ * - DB_FILE_PATH: path to the persistence file (required when DB_MODE is "persistent")
+ */
+function loadConfigFromEnvironment(): DatabaseEngineConfig {
+  const mode = process.env.DB_MODE === "persistent" ? "persistent" : "memory";
+
+  if (mode === "persistent") {
+    const filePath = process.env.DB_FILE_PATH;
+    if (!filePath) throw new Error("DB_MODE is 'persistent' but DB_FILE_PATH is not set.");
+    return { mode: "persistent", filePath };
+  }
+
+  return { mode: "memory" };
+}
 
 export class Context {
   static #instance: Context;
-  readonly db: Low<Data>;
+  readonly engine: DatabaseEngine;
 
   private constructor() {
-    this.db = new Low(new Memory(), {
-      [Api.LISTINGS]: {},
-      [Api.ORDERS]: {},
-      [Api.INVENTORY]: {},
-      [Api.EXT_FULFILLMENT_INVENTORY]: {},
-      [Api.EXT_FULFILLMENT_RETURNS]: {},
-      [Api.EXT_FULFILLMENT_SHIPMENTS]: {},
-      [Api.CATALOG]: {},
-      [Api.PRICING]: {},
-      [Api.REPORTS]: {},
-    });
-    this.addSeedData();
+    assertEnumMatchesRegistry();
+    const resolvedConfig: DatabaseEngineConfig = loadConfigFromEnvironment();
+    this.engine = new DatabaseEngine(resolvedConfig);
   }
 
-  public async clear() {
-    await this.db.read();
-    for (const key of Object.keys(this.db.data) as (keyof typeof this.db.data)[]) {
-      this.db.data[key] = {};
-    }
-    this.addSeedData();
-    await this.db.write();
-  }
-
-  private addSeedData() {
-    // Catalog seed data
-    this.db.data.catalog.B0F4X2K9LM = {
-      asin: "B0F4X2K9LM",
-      summaries: [
-        {
-          marketplaceId: "ATVPDKIKX0DER",
-          brandName: "GameTech",
-          itemName: "Next-Gen Gaming Console - Upcoming Release",
-          manufacturer: "GameTech Electronics",
-          itemClassification: "BASE_PRODUCT",
-          productType: "VIDEO_GAME_CONSOLE",
-        },
-      ],
-      identifiers: [
-        {
-          marketplaceId: "ATVPDKIKX0DER",
-          identifiers: [
-            { identifierType: "UPC", identifier: "012345678901" },
-            { identifierType: "EAN", identifier: "0012345678901" },
-          ],
-        },
-      ],
-      images: [
-        {
-          marketplaceId: "ATVPDKIKX0DER",
-          images: [{ variant: "MAIN", link: "https://m.media-amazon.com/images/I/example-console.jpg", height: 1000, width: 1000 }],
-        },
-      ],
-      salesRanks: [{ marketplaceId: "ATVPDKIKX0DER", classificationRanks: [{ classificationId: "videogames", title: "Video Games", rank: 42 }] }],
-      dimensions: [
-        {
-          marketplaceId: "ATVPDKIKX0DER",
-          item: {
-            height: { value: 3.9, unit: "INCHES" },
-            length: { value: 15.4, unit: "INCHES" },
-            width: { value: 12.0, unit: "INCHES" },
-            weight: { value: 9.8, unit: "POUNDS" },
-          },
-        },
-      ],
-      relationships: [{ marketplaceId: "ATVPDKIKX0DER", relationships: [] }],
-    };
-    this.db.data.catalog.B0A7M3N5QR = {
-      asin: "B0A7M3N5QR",
-      summaries: [
-        {
-          marketplaceId: "ATVPDKIKX0DER",
-          brandName: "BrewMaster",
-          itemName: "Premium Coffee Maker with Timer",
-          manufacturer: "BrewMaster Home",
-          itemClassification: "BASE_PRODUCT",
-          productType: "COFFEE_MAKER",
-        },
-      ],
-      identifiers: [
-        {
-          marketplaceId: "ATVPDKIKX0DER",
-          identifiers: [
-            { identifierType: "UPC", identifier: "023456789012" },
-            { identifierType: "EAN", identifier: "0023456789012" },
-          ],
-        },
-      ],
-      images: [
-        {
-          marketplaceId: "ATVPDKIKX0DER",
-          images: [
-            { variant: "MAIN", link: "https://m.media-amazon.com/images/I/example-coffee.jpg", height: 1200, width: 1200 },
-            { variant: "PT01", link: "https://m.media-amazon.com/images/I/example-coffee-side.jpg", height: 1200, width: 1200 },
-          ],
-        },
-      ],
-      salesRanks: [{ marketplaceId: "ATVPDKIKX0DER", classificationRanks: [{ classificationId: "kitchen", title: "Kitchen & Dining", rank: 156 }] }],
-      dimensions: [
-        {
-          marketplaceId: "ATVPDKIKX0DER",
-          item: {
-            height: { value: 14.2, unit: "INCHES" },
-            length: { value: 8.5, unit: "INCHES" },
-            width: { value: 6.8, unit: "INCHES" },
-            weight: { value: 5.2, unit: "POUNDS" },
-          },
-        },
-      ],
-      relationships: [{ marketplaceId: "ATVPDKIKX0DER", relationships: [] }],
-    };
-    this.db.data.catalog.B0B8K4L7ST = {
-      asin: "B0B8K4L7ST",
-      summaries: [
-        {
-          marketplaceId: "ATVPDKIKX0DER",
-          brandName: "HydroElite",
-          itemName: "Stainless Steel Water Bottle Set",
-          manufacturer: "HydroElite Outdoors",
-          itemClassification: "VARIATION_PARENT",
-          productType: "WATER_BOTTLE",
-        },
-      ],
-      identifiers: [{ marketplaceId: "ATVPDKIKX0DER", identifiers: [{ identifierType: "UPC", identifier: "034567890123" }] }],
-      images: [
-        {
-          marketplaceId: "ATVPDKIKX0DER",
-          images: [{ variant: "MAIN", link: "https://m.media-amazon.com/images/I/example-bottle.jpg", height: 1500, width: 1500 }],
-        },
-      ],
-      salesRanks: [{ marketplaceId: "ATVPDKIKX0DER", classificationRanks: [{ classificationId: "sports", title: "Sports & Outdoors", rank: 89 }] }],
-      dimensions: [
-        {
-          marketplaceId: "ATVPDKIKX0DER",
-          item: {
-            height: { value: 10.5, unit: "INCHES" },
-            length: { value: 3.2, unit: "INCHES" },
-            width: { value: 3.2, unit: "INCHES" },
-            weight: { value: 0.75, unit: "POUNDS" },
-          },
-        },
-      ],
-      relationships: [
-        {
-          marketplaceId: "ATVPDKIKX0DER",
-          relationships: [{ childAsins: ["B0B8K4L7S1", "B0B8K4L7S2"], type: "VARIATION", variationTheme: { attributes: ["color", "size"] } }],
-        },
-      ],
-    };
-  }
-
+  /** Get or create the singleton */
   public static get instance(): Context {
     if (!Context.#instance) {
       Context.#instance = new Context();
     }
-
     return Context.#instance;
+  }
+
+  /** Reset singleton for test isolation */
+  public static reset(): void {
+    Context.#instance = undefined as unknown as Context;
+  }
+
+  /** Clear all data */
+  public clear(): void {
+    this.engine.clear();
   }
 }
