@@ -1,8 +1,6 @@
 package multichannel_fulfillment.fulfillment_outbound_v2;
 
-import software.amazon.spapi.api.fulfillment.outbound.v2026_07_04.FulfillmentOrdersApi;
-import software.amazon.spapi.api.fulfillment.outbound.v2026_07_04.FulfillmentPreviewsApi;
-import software.amazon.spapi.models.fulfillment.outbound.v2026_07_04.CancelOrderResponse;
+import software.amazon.spapi.api.fulfillment.outbound.v2026_07_04.FulfillmentOutboundApi;
 import software.amazon.spapi.models.fulfillment.outbound.v2026_07_04.CreateOrderResponse;
 import software.amazon.spapi.models.fulfillment.outbound.v2026_07_04.GetOrderPreviewResponse;
 import util.Constants;
@@ -39,16 +37,11 @@ import util.Recipe;
  */
 public class McfCreateAndCancelOrderRecipe extends Recipe {
 
-    private final FulfillmentPreviewsApi fulfillmentPreviewsApi;
-    private final FulfillmentOrdersApi fulfillmentOrdersApi;
+    private final FulfillmentOutboundApi fulfillmentOutboundApi;
 
     public McfCreateAndCancelOrderRecipe() {
         // DEVELOPER NOTE: For production, remove .endpoint(Constants.BACKEND_URL)
-        this.fulfillmentPreviewsApi = new FulfillmentPreviewsApi.Builder()
-                .lwaAuthorizationCredentials(lwaCredentials)
-                .endpoint(Constants.BACKEND_URL)
-                .build();
-        this.fulfillmentOrdersApi = new FulfillmentOrdersApi.Builder()
+        this.fulfillmentOutboundApi = new FulfillmentOutboundApi.Builder()
                 .lwaAuthorizationCredentials(lwaCredentials)
                 .endpoint(Constants.BACKEND_URL)
                 .build();
@@ -84,7 +77,7 @@ public class McfCreateAndCancelOrderRecipe extends Recipe {
         System.out.println("\n--- Step 1: Get Order Preview ---");
         try {
             // SDK 1.11.1: getOrderPreview(GetOrderPreviewRequest body, String xAmznFulfillmentServiceId)
-            GetOrderPreviewResponse response = fulfillmentPreviewsApi.getOrderPreview(
+            GetOrderPreviewResponse response = fulfillmentOutboundApi.getOrderPreview(
                     McfConstants.samplePreviewRequest(), null);
             System.out.println("Order preview retrieved successfully.");
             return response;
@@ -104,7 +97,7 @@ public class McfCreateAndCancelOrderRecipe extends Recipe {
         System.out.println("\n--- Step 2: Create Order ---");
         try {
             // SDK 1.11.1: createOrder(CreateOrderRequest body, String xAmznFulfillmentServiceId)
-            CreateOrderResponse response = fulfillmentOrdersApi.createOrder(
+            CreateOrderResponse response = fulfillmentOutboundApi.createOrder(
                     McfConstants.sampleCreateOrderRequest(), null);
             System.out.println("Fulfillment order created: " + McfConstants.SAMPLE_ORDER_ID);
             return response;
@@ -121,13 +114,12 @@ public class McfCreateAndCancelOrderRecipe extends Recipe {
      * (Accepted). Cancellation is best-effort: it only succeeds if the order has not yet
      * entered fulfillment. To verify, call getOrder and check {@code order.status == "CANCELLED"}.
      */
-    private CancelOrderResponse cancelOrder(String orderId) {
+    private void cancelOrder(String orderId) {
         System.out.println("\n--- Step 3: Cancel Order ---");
         try {
             // SDK 1.11.1: cancelOrder(String orderId, String xAmznFulfillmentServiceId)
-            CancelOrderResponse response = fulfillmentOrdersApi.cancelOrder(orderId, null);
+            fulfillmentOutboundApi.cancelOrder(orderId, null);
             System.out.println("Cancel request accepted for: " + orderId);
-            return response;
         } catch (Exception e) {
             System.err.println("Error cancelling order: " + e.getMessage());
             throw new RuntimeException(e);
