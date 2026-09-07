@@ -6,7 +6,14 @@ const port = 3000
 
 app.use(express.json())
 
-app.use('/resources', express.static('./resources'))
+app.use('/resources', express.static('./resources', {
+    setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.gz')) {
+            res.setHeader('Content-Encoding', 'gzip')
+            res.setHeader('Content-Type', 'text/plain')
+        }
+    }
+}))
 
 app.post('/auth/o2/token', (req, res) => {
     res.json({

@@ -12,7 +12,7 @@ class DownloadShippingLabelRecipeTest extends RecipeTestCase
         $this->recipe = new DownloadShippingLabelRecipe();
         $this->responses = [
             "reports-getReport",
-            "reports-getReportDocument",
+            "reports-getReportDocument-easyship",
             ""
         ];
     }

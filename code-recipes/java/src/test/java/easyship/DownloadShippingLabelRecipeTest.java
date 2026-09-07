@@ -11,7 +11,7 @@ public class DownloadShippingLabelRecipeTest extends RecipeTest {
                 new DownloadShippingLabelRecipe(),
                 List.of(
                     "reports-getReport",
-                    "reports-getReportDocument",
+                    "reports-getReportDocument-easyship",
                     ""
                 )
         );
