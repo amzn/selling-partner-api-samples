@@ -1,7 +1,6 @@
 package multichannel_fulfillment.fulfillment_outbound_v2;
 
-import software.amazon.spapi.api.fulfillment.outbound.v2026_07_04.FulfillmentPreviewsApi;
-import software.amazon.spapi.api.fulfillment.outbound.v2026_07_04.OffersApi;
+import software.amazon.spapi.api.fulfillment.outbound.v2026_07_04.FulfillmentOutboundApi;
 import software.amazon.spapi.models.fulfillment.outbound.v2026_07_04.GetOffersResponse;
 import software.amazon.spapi.models.fulfillment.outbound.v2026_07_04.GetOrderPreviewResponse;
 import util.Constants;
@@ -47,16 +46,11 @@ import util.Recipe;
  */
 public class McfProductPageAndCheckoutPreviewsRecipe extends Recipe {
 
-    private final OffersApi offersApi;
-    private final FulfillmentPreviewsApi fulfillmentPreviewsApi;
+    private final FulfillmentOutboundApi fulfillmentOutboundApi;
 
     public McfProductPageAndCheckoutPreviewsRecipe() {
         // DEVELOPER NOTE: For production, remove .endpoint(Constants.BACKEND_URL)
-        this.offersApi = new OffersApi.Builder()
-                .lwaAuthorizationCredentials(lwaCredentials)
-                .endpoint(Constants.BACKEND_URL)
-                .build();
-        this.fulfillmentPreviewsApi = new FulfillmentPreviewsApi.Builder()
+        this.fulfillmentOutboundApi = new FulfillmentOutboundApi.Builder()
                 .lwaAuthorizationCredentials(lwaCredentials)
                 .endpoint(Constants.BACKEND_URL)
                 .build();
@@ -99,7 +93,7 @@ public class McfProductPageAndCheckoutPreviewsRecipe extends Recipe {
         System.out.println("\n--- Step 1: Get Offers (product-page delivery promise) ---");
         try {
             // SDK 1.11.1: getOffers(GetOffersRequest body, String xAmznFulfillmentServiceId)
-            GetOffersResponse response = offersApi.getOffers(
+            GetOffersResponse response = fulfillmentOutboundApi.getOffers(
                     McfConstants.sampleOffersRequest(), null);
             System.out.println("Offers retrieved successfully.");
             return response;
@@ -129,7 +123,7 @@ public class McfProductPageAndCheckoutPreviewsRecipe extends Recipe {
         System.out.println("\n--- Step 2: Get Order Preview (checkout review) ---");
         try {
             // SDK 1.11.1: getOrderPreview(GetOrderPreviewRequest body, String xAmznFulfillmentServiceId)
-            GetOrderPreviewResponse response = fulfillmentPreviewsApi.getOrderPreview(
+            GetOrderPreviewResponse response = fulfillmentOutboundApi.getOrderPreview(
                     McfConstants.samplePreviewRequest(), null);
             System.out.println("Order preview retrieved successfully.");
             return response;

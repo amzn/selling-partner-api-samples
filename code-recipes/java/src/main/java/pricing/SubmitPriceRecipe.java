@@ -58,7 +58,7 @@ public class SubmitPriceRecipe extends Recipe {
             patchRequest.setPatches(List.of(patchOp));
             
             System.out.println("[Step 4] Submitting price update");
-            ListingsItemSubmissionResponse response = listingsApi.patchListingsItem(patchRequest, sellerId, sku, List.of(marketplaceId), null, "en_US", null);
+            ListingsItemSubmissionResponse response = listingsApi.patchListingsItem(sellerId, sku, List.of(marketplaceId), patchRequest, null, "en_US", null);
             
             System.out.println("Price update submitted: " + response.getStatus());
             
