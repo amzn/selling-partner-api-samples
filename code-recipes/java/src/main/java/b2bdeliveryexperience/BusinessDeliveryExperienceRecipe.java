@@ -76,7 +76,7 @@ public class BusinessDeliveryExperienceRecipe extends Recipe {
      * Checks if an order is a business order.
      */
     private boolean isBusinessOrder(Order order) {
-        return order != null && Boolean.TRUE.equals(order.isIsBusinessOrder());
+        return order != null && Boolean.TRUE.equals(order.getIsBusinessOrder());
     }
 
     /**
@@ -237,7 +237,7 @@ public class BusinessDeliveryExperienceRecipe extends Recipe {
                             .orderItems(confirmItems)
                             .shipDate(OffsetDateTime.now()));
 
-            ordersApi.confirmShipment(request, order.getAmazonOrderId());
+            ordersApi.confirmShipment(order.getAmazonOrderId(), request);
             System.out.println("Shipment confirmed with carrier: " + carrier.getCarrierName());
         } catch (ApiException e) {
             throw new RuntimeException("Failed to confirm shipment", e);

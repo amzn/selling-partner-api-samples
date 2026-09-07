@@ -161,7 +161,7 @@ public class SendInvoiceToBuyerRecipe extends Recipe {
         body.setAttachments(List.of(attachment));
         
         try {
-            messagingApi.sendInvoice(body, orderId, marketplaceIds);
+            messagingApi.sendInvoice(orderId, marketplaceIds, body);
             System.out.println("✅ Invoice message sent successfully");
         } catch (ApiException | LWAException e) {
             throw new RuntimeException("Failed to send invoice message", e);
