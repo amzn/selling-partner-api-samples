@@ -16,6 +16,15 @@ public final class Constants {
     /** US marketplace id. See https://developer-docs.amazon.com/sp-api/docs/marketplace-ids */
     public static final String SAMPLE_MARKETPLACE_ID = "ATVPDKIKX0DER";
 
+    /** Maximum number of attempts to download the report document before giving up. */
+    public static final int DOWNLOAD_MAX_ATTEMPTS = 3;
+
+    /**
+     * Base delay (in milliseconds) used to back off between download retries. The actual delay
+     * grows with each attempt (delay = base * attemptNumber).
+     */
+    public static final long DOWNLOAD_RETRY_BASE_DELAY_MILLIS = 1000L;
+
     /**
      * Sample REPORT_PROCESSING_FINISHED notification. In production you subscribe to this
      * notification (via the Notifications API) instead of polling getReport, and read the

@@ -33,6 +33,15 @@ class RequestAndRetrieveReportRecipe extends Recipe
     /** US marketplace id. See https://developer-docs.amazon.com/sp-api/docs/marketplace-ids */
     private const string SAMPLE_MARKETPLACE_ID = "ATVPDKIKX0DER";
 
+    /** Maximum number of attempts to download the report document before giving up. */
+    private const int DOWNLOAD_MAX_ATTEMPTS = 3;
+
+    /**
+     * Base delay (in microseconds) used to back off between download retries. The actual delay
+     * grows with each attempt (delay = base * attemptNumber).
+     */
+    private const int DOWNLOAD_RETRY_BASE_DELAY_MICROS = 1000000;
+
     /**
      * Sample REPORT_PROCESSING_FINISHED notification. In production you subscribe to this
      * notification (via the Notifications API) instead of polling getReport, and read the
@@ -81,11 +90,10 @@ class RequestAndRetrieveReportRecipe extends Recipe
             return;
         }
 
-        // Step 3: Retrieve the document metadata (pre-signed URL + compression).
-        $document = $this->getReportDocument($reportDocumentId);
-
-        // Step 4: Download and read the report contents.
-        $this->downloadAndReadDocument($document);
+        // Steps 3 & 4: Retrieve the document metadata (pre-signed URL + compression) and download
+        // the report contents, retrying the whole sequence on failure. Each retry re-fetches a
+        // fresh pre-signed URL because it is only valid for a short period of time (5 minutes).
+        $this->downloadAndReadDocument($reportDocumentId);
     }
 
     private function initializeReportsApi(): void
@@ -154,17 +162,15 @@ class RequestAndRetrieveReportRecipe extends Recipe
     }
 
     /**
-     * Step 4: Download the document from the pre-signed URL and print its contents.
+     * Step 4: Download the document and print its contents.
+     *
+     * On failure the download is retried, but each attempt first calls getReportDocument again to
+     * obtain a fresh pre-signed URL. The URL returned by getReportDocument is only valid for a short
+     * period of time, so reusing the same URL on a retry would likely fail as well.
      */
-    private function downloadAndReadDocument(ReportDocument $document): void
+    private function downloadAndReadDocument(string $reportDocumentId): void
     {
-        $url = $document->getUrl();
-        if (empty($url)) {
-            throw new \RuntimeException("Report document metadata does not contain a URL.");
-        }
-
-        echo "[Step 4] Downloading report document from: {$url}\n";
-        $content = $this->downloadDocument($url, $document->getCompressionAlgorithm());
+        $content = $this->downloadDocument($reportDocumentId);
 
         // Most reports are tab-delimited flat files. Print the contents (truncated for readability).
         echo "[Step 4] Report content (first 1000 chars):\n";
@@ -172,7 +178,46 @@ class RequestAndRetrieveReportRecipe extends Recipe
         echo "✅ Report retrieved successfully\n";
     }
 
-    private function downloadDocument(string $url, ?string $compressionAlgorithm): string
+    /**
+     * Download the report document, retrying on failure. Because pre-signed URLs are short-lived,
+     * every attempt re-fetches the document metadata via getReportDocument to get a fresh URL
+     * rather than reusing a URL that may already have expired.
+     */
+    private function downloadDocument(string $reportDocumentId): string
+    {
+        $lastError = null;
+        for ($attempt = 1; $attempt <= self::DOWNLOAD_MAX_ATTEMPTS; $attempt++) {
+            // Re-fetch a fresh pre-signed URL on every attempt (they expire quickly).
+            $document = $this->getReportDocument($reportDocumentId);
+            $url = $document->getUrl();
+            if (empty($url)) {
+                throw new \RuntimeException("Report document metadata does not contain a URL.");
+            }
+
+            echo "[Step 4] Downloading report document (attempt {$attempt} of "
+                . self::DOWNLOAD_MAX_ATTEMPTS . ") from: {$url}\n";
+            try {
+                return $this->fetchUrl($url, $document->getCompressionAlgorithm());
+            } catch (\RuntimeException $e) {
+                $lastError = $e;
+                echo "[Step 4] Download attempt {$attempt} failed: {$e->getMessage()}\n";
+                if ($attempt < self::DOWNLOAD_MAX_ATTEMPTS) {
+                    $this->sleepBeforeRetry($attempt);
+                }
+            }
+        }
+
+        throw new \RuntimeException(
+            "Failed to download report document after " . self::DOWNLOAD_MAX_ATTEMPTS . " attempts.",
+            0,
+            $lastError
+        );
+    }
+
+    /**
+     * Perform a single download of the pre-signed URL and return the (decompressed) body.
+     */
+    private function fetchUrl(string $url, ?string $compressionAlgorithm): string
     {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -194,6 +239,29 @@ class RequestAndRetrieveReportRecipe extends Recipe
             $response = $decoded;
         }
 
-        return $response;
+        return $this->stripByteOrderMark($response);
+    }
+
+    /**
+     * Some reports are encoded as UTF-8 with a leading Byte Order Mark (BOM). The BOM is a
+     * zero-width, non-printing sequence (the bytes 0xEF 0xBB 0xBF) that some tools emit at the
+     * start of a file to signal the encoding. If it is not removed, it becomes part of the first
+     * field of the first row (e.g. the first column header), which breaks header matching and
+     * parsing. Strip it so the content starts with the real data.
+     */
+    private function stripByteOrderMark(string $content): string
+    {
+        if (str_starts_with($content, "\xEF\xBB\xBF")) {
+            return substr($content, 3);
+        }
+        return $content;
+    }
+
+    /**
+     * Back off between download retries using a simple exponential delay.
+     */
+    private function sleepBeforeRetry(int $attempt): void
+    {
+        usleep(self::DOWNLOAD_RETRY_BASE_DELAY_MICROS * $attempt);
     }
 }
