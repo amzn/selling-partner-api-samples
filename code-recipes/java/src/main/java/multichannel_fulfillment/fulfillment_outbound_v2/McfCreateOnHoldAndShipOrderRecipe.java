@@ -1,11 +1,9 @@
 package multichannel_fulfillment.fulfillment_outbound_v2;
 
-import software.amazon.spapi.api.fulfillment.outbound.v2026_07_04.FulfillmentOrdersApi;
-import software.amazon.spapi.api.fulfillment.outbound.v2026_07_04.FulfillmentPreviewsApi;
+import software.amazon.spapi.api.fulfillment.outbound.v2026_07_04.FulfillmentOutboundApi;
 import software.amazon.spapi.models.fulfillment.outbound.v2026_07_04.CreateOrderResponse;
 import software.amazon.spapi.models.fulfillment.outbound.v2026_07_04.GetOrderPreviewResponse;
 import software.amazon.spapi.models.fulfillment.outbound.v2026_07_04.GetOrderResponse;
-import software.amazon.spapi.models.fulfillment.outbound.v2026_07_04.UpdateOrderResponse;
 import util.Constants;
 import util.Recipe;
 
@@ -41,16 +39,11 @@ import util.Recipe;
  */
 public class McfCreateOnHoldAndShipOrderRecipe extends Recipe {
 
-    private final FulfillmentPreviewsApi fulfillmentPreviewsApi;
-    private final FulfillmentOrdersApi fulfillmentOrdersApi;
+    private final FulfillmentOutboundApi fulfillmentOutboundApi;
 
     public McfCreateOnHoldAndShipOrderRecipe() {
         // DEVELOPER NOTE: For production, remove .endpoint(Constants.BACKEND_URL)
-        this.fulfillmentPreviewsApi = new FulfillmentPreviewsApi.Builder()
-                .lwaAuthorizationCredentials(lwaCredentials)
-                .endpoint(Constants.BACKEND_URL)
-                .build();
-        this.fulfillmentOrdersApi = new FulfillmentOrdersApi.Builder()
+        this.fulfillmentOutboundApi = new FulfillmentOutboundApi.Builder()
                 .lwaAuthorizationCredentials(lwaCredentials)
                 .endpoint(Constants.BACKEND_URL)
                 .build();
@@ -89,7 +82,7 @@ public class McfCreateOnHoldAndShipOrderRecipe extends Recipe {
         System.out.println("\n--- Step 1: Get Order Preview ---");
         try {
             // SDK 1.11.1: getOrderPreview(GetOrderPreviewRequest body, String xAmznFulfillmentServiceId)
-            GetOrderPreviewResponse response = fulfillmentPreviewsApi.getOrderPreview(
+            GetOrderPreviewResponse response = fulfillmentOutboundApi.getOrderPreview(
                     McfConstants.samplePreviewRequest(), null);
             System.out.println("Order preview retrieved successfully.");
             return response;
@@ -109,7 +102,7 @@ public class McfCreateOnHoldAndShipOrderRecipe extends Recipe {
         System.out.println("\n--- Step 2: Create Order (action=HOLD) ---");
         try {
             // SDK 1.11.1: createOrder(CreateOrderRequest body, String xAmznFulfillmentServiceId)
-            CreateOrderResponse response = fulfillmentOrdersApi.createOrder(
+            CreateOrderResponse response = fulfillmentOutboundApi.createOrder(
                     McfConstants.sampleCreateOrderOnHoldRequest(), null);
             System.out.println("On-hold order created: " + McfConstants.SAMPLE_ORDER_ID);
             return response;
@@ -126,14 +119,13 @@ public class McfCreateOnHoldAndShipOrderRecipe extends Recipe {
      * order. In this version only the action is required in the body — no need to resend
      * the full order. Returns HTTP 202 (Accepted).
      */
-    private UpdateOrderResponse updateOrderToShip(String orderId) {
+    private void updateOrderToShip(String orderId) {
         System.out.println("\n--- Step 3: Update Order (action=SHIP) ---");
         try {
             // SDK 1.11.1: updateOrder(UpdateOrderRequest body, String orderId, String xAmznFulfillmentServiceId)
-            UpdateOrderResponse response = fulfillmentOrdersApi.updateOrder(
-                    McfConstants.sampleUpdateOrderShipRequest(), orderId, null);
+            fulfillmentOutboundApi.updateOrder(
+                    orderId, McfConstants.sampleUpdateOrderShipRequest(), null);
             System.out.println("Ship request accepted for: " + orderId);
-            return response;
         } catch (Exception e) {
             System.err.println("Error updating order: " + e.getMessage());
             throw new RuntimeException(e);
@@ -150,7 +142,7 @@ public class McfCreateOnHoldAndShipOrderRecipe extends Recipe {
         System.out.println("\n--- Step 4: Get Order ---");
         try {
             // SDK 1.11.1: getOrder(String orderId, String xAmznFulfillmentServiceId, String shipments)
-            GetOrderResponse response = fulfillmentOrdersApi.getOrder(orderId, null, null);
+            GetOrderResponse response = fulfillmentOutboundApi.getOrder(orderId, null, null);
             System.out.println("Order details retrieved for: " + orderId);
             return response;
         } catch (Exception e) {

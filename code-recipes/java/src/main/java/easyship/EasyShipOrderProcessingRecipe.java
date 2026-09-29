@@ -228,7 +228,7 @@ public class EasyShipOrderProcessingRecipe extends Recipe {
             Packages packagesBody = new Packages();
             packagesBody.setPackages(List.of(modelPackage));
 
-            shipmentProcessingApi.createPackages(packagesBody, this.shipment.getId());
+            shipmentProcessingApi.createPackages(this.shipment.getId(), packagesBody);
 
             System.out.println("✅ Package created successfully");
             System.out.println("Package ID: " + this.packageId);
@@ -302,8 +302,8 @@ public class EasyShipOrderProcessingRecipe extends Recipe {
             ShipLabelsResponse response = shipmentProcessingApi.generateShipLabels(
                     this.shipment.getId(),
                     "GENERATE",
-                    labelsInput,
-                    this.shippingOptionId);
+                    this.shippingOptionId,
+                    labelsInput);
 
             if (response.getPackageShipLabelList() != null && !response.getPackageShipLabelList().isEmpty()) {
                 System.out.println("✅ Shipping labels generated successfully");

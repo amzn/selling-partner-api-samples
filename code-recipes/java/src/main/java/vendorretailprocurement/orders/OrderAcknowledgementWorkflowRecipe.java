@@ -78,7 +78,7 @@ public class OrderAcknowledgementWorkflowRecipe extends Recipe {
     private List<Order> findNewOrders() throws ApiException, LWAException {
         GetPurchaseOrdersResponse response = vendorOrdersApi.getPurchaseOrders(
                 10L, OffsetDateTime.now().minusDays(7), OffsetDateTime.now(),
-                "DESC", null, "true", null, null, null, null, "New", null
+                "DESC", null, true, null, null, null, null, "New", null
         );
         if (response.getPayload() != null && response.getPayload().getOrders() != null) {
             List<Order> orders = response.getPayload().getOrders();

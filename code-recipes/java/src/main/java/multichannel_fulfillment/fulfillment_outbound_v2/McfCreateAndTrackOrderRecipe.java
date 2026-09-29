@@ -1,7 +1,6 @@
 package multichannel_fulfillment.fulfillment_outbound_v2;
 
-import software.amazon.spapi.api.fulfillment.outbound.v2026_07_04.FulfillmentOrdersApi;
-import software.amazon.spapi.api.fulfillment.outbound.v2026_07_04.FulfillmentPreviewsApi;
+import software.amazon.spapi.api.fulfillment.outbound.v2026_07_04.FulfillmentOutboundApi;
 import software.amazon.spapi.models.fulfillment.outbound.v2026_07_04.CarrierTracking;
 import software.amazon.spapi.models.fulfillment.outbound.v2026_07_04.CreateOrderResponse;
 import software.amazon.spapi.models.fulfillment.outbound.v2026_07_04.FulfillmentOrder;
@@ -54,16 +53,11 @@ import java.time.OffsetDateTime;
  */
 public class McfCreateAndTrackOrderRecipe extends Recipe {
 
-    private final FulfillmentPreviewsApi fulfillmentPreviewsApi;
-    private final FulfillmentOrdersApi fulfillmentOrdersApi;
+    private final FulfillmentOutboundApi fulfillmentOutboundApi;
 
     public McfCreateAndTrackOrderRecipe() {
         // DEVELOPER NOTE: For production, remove .endpoint(Constants.BACKEND_URL)
-        this.fulfillmentPreviewsApi = new FulfillmentPreviewsApi.Builder()
-                .lwaAuthorizationCredentials(lwaCredentials)
-                .endpoint(Constants.BACKEND_URL)
-                .build();
-        this.fulfillmentOrdersApi = new FulfillmentOrdersApi.Builder()
+        this.fulfillmentOutboundApi = new FulfillmentOutboundApi.Builder()
                 .lwaAuthorizationCredentials(lwaCredentials)
                 .endpoint(Constants.BACKEND_URL)
                 .build();
@@ -104,7 +98,7 @@ public class McfCreateAndTrackOrderRecipe extends Recipe {
         System.out.println("\n--- Step 1: Get Order Preview ---");
         try {
             // SDK 1.11.1: getOrderPreview(GetOrderPreviewRequest body, String xAmznFulfillmentServiceId)
-            GetOrderPreviewResponse response = fulfillmentPreviewsApi.getOrderPreview(
+            GetOrderPreviewResponse response = fulfillmentOutboundApi.getOrderPreview(
                     McfConstants.samplePreviewRequest(), null);
             System.out.println("Order preview retrieved successfully.");
             return response;
@@ -124,7 +118,7 @@ public class McfCreateAndTrackOrderRecipe extends Recipe {
         System.out.println("\n--- Step 2: Create Order ---");
         try {
             // SDK 1.11.1: createOrder(CreateOrderRequest body, String xAmznFulfillmentServiceId)
-            CreateOrderResponse response = fulfillmentOrdersApi.createOrder(
+            CreateOrderResponse response = fulfillmentOutboundApi.createOrder(
                     McfConstants.sampleCreateOrderRequest(), null);
             System.out.println("Fulfillment order created: " + McfConstants.SAMPLE_ORDER_ID);
             return response;
@@ -151,7 +145,7 @@ public class McfCreateAndTrackOrderRecipe extends Recipe {
                     OffsetDateTime.parse(McfConstants.SAMPLE_LIST_ORDERS_UPDATED_AFTER);
             // SDK 1.11.1: listOrders(String xAmznFulfillmentServiceId, OffsetDateTime updatedAfter,
             //                        String pageToken, String shipments)
-            ListOrdersResponse response = fulfillmentOrdersApi.listOrders(
+            ListOrdersResponse response = fulfillmentOutboundApi.listOrders(
                     null, updatedAfter, null, null);
             System.out.println("Orders listed successfully.");
             return response;
@@ -182,7 +176,7 @@ public class McfCreateAndTrackOrderRecipe extends Recipe {
         System.out.println("\n--- Step 4: Get Order ---");
         try {
             // SDK 1.11.1: getOrder(String orderId, String xAmznFulfillmentServiceId, String shipments)
-            GetOrderResponse response = fulfillmentOrdersApi.getOrder(orderId, null, null);
+            GetOrderResponse response = fulfillmentOutboundApi.getOrder(orderId, null, null);
             System.out.println("Order details retrieved for: " + orderId);
             return response;
         } catch (Exception e) {

@@ -70,7 +70,7 @@ public class GetPurchaseOrdersRecipe extends Recipe {
             String orderState) {
         try {
             GetPurchaseOrdersResponse response = vendorOrdersApi.getPurchaseOrders(
-                    100L, createdAfter, createdBefore, "DESC", null, "true",
+                    100L, createdAfter, createdBefore, "DESC", null, true,
                     null, null, null, null, orderState, null
             );
             if (response.getPayload() != null && response.getPayload().getOrders() != null) {
@@ -91,8 +91,8 @@ public class GetPurchaseOrdersRecipe extends Recipe {
             OffsetDateTime changedBefore) {
         try {
             GetPurchaseOrdersResponse response = vendorOrdersApi.getPurchaseOrders(
-                    100L, null, null, "DESC", null, "true",
-                    changedAfter, changedBefore, null, "true", null, null
+                    100L, null, null, "DESC", null, true,
+                    changedAfter, changedBefore, null, true, null, null
             );
             if (response.getPayload() != null && response.getPayload().getOrders() != null) {
                 return response.getPayload().getOrders();
