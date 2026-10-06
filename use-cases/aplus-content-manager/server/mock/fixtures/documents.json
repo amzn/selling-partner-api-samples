@@ -1,0 +1,1782 @@
+{
+ "premium": {
+  "name": "Relaxed Cotton Tee: Premium A+",
+  "contentType": "EBC",
+  "locale": "en-US",
+  "contentModuleList": [
+   {
+    "contentModuleType": "PREMIUM_FULL_BACKGROUND_IMAGE",
+    "premiumFullBackgroundImage": {
+     "headline": {
+      "value": "Made for every day"
+     },
+     "footer": {
+      "textList": [
+       {
+        "value": "Relaxed fit. Cap sleeves. A soft cotton blend that feels good from the first wear to the hundredth."
+       }
+      ]
+     },
+     "desktopImage": {
+      "uploadDestinationId": "aplus-media-library-service-media/6865603d-2ccf-5078-b53e-9909e2574c19.jpg",
+      "altText": "Pink cotton t-shirt on a deck chair in morning light",
+      "imageCropSpecification": {
+       "size": {
+        "width": {
+         "value": 1464,
+         "units": "pixels"
+        },
+        "height": {
+         "value": 600,
+         "units": "pixels"
+        }
+       },
+       "offset": {
+        "x": {
+         "value": 0,
+         "units": "pixels"
+        },
+        "y": {
+         "value": 0,
+         "units": "pixels"
+        }
+       }
+      }
+     },
+     "mobileImage": {
+      "uploadDestinationId": "aplus-media-library-service-media/e9c037fe-be7b-5c0d-8989-89eb0cdb1f4d.jpg",
+      "altText": "Pink cotton t-shirt on a deck chair in morning light",
+      "imageCropSpecification": {
+       "size": {
+        "width": {
+         "value": 600,
+         "units": "pixels"
+        },
+        "height": {
+         "value": 450,
+         "units": "pixels"
+        }
+       },
+       "offset": {
+        "x": {
+         "value": 0,
+         "units": "pixels"
+        },
+        "y": {
+         "value": 0,
+         "units": "pixels"
+        }
+       }
+      }
+     }
+    }
+   },
+   {
+    "contentModuleType": "PREMIUM_IMAGE_TEXT",
+    "premiumImageText": {
+     "positionType": "LEFT",
+     "subheadline": {
+      "value": "90% cotton, 10% rayon"
+     },
+     "headline": {
+      "value": "Soft where it counts"
+     },
+     "bodyText": {
+      "textList": [
+       {
+        "value": "Cotton for breathability, a touch of rayon for drape and a smoother hand feel."
+       },
+       {
+        "value": "The jersey is light enough for warm afternoons and holds up to everyday wear without losing its shape."
+       }
+      ]
+     },
+     "image": {
+      "uploadDestinationId": "aplus-media-library-service-media/4de5b4eb-c6ed-501a-bd87-14c14c44704e.jpg",
+      "altText": "Close-up of the pink cotton jersey knit",
+      "imageCropSpecification": {
+       "size": {
+        "width": {
+         "value": 1464,
+         "units": "pixels"
+        },
+        "height": {
+         "value": 600,
+         "units": "pixels"
+        }
+       },
+       "offset": {
+        "x": {
+         "value": 0,
+         "units": "pixels"
+        },
+        "y": {
+         "value": 0,
+         "units": "pixels"
+        }
+       }
+      }
+     }
+    }
+   },
+   {
+    "contentModuleType": "PREMIUM_IMAGE_CAROUSEL",
+    "premiumImageCarousel": {
+     "headline": {
+      "value": "See it in context"
+     },
+     "carouselCards": [
+      {
+       "imagePanel": {
+        "position": 1,
+        "title": {
+         "value": "Weekend uniform"
+        },
+        "description": {
+         "textList": [
+          {
+           "value": "Pair with light denim and canvas sneakers for an easy weekend outfit."
+          }
+         ]
+        },
+        "desktopImage": {
+         "uploadDestinationId": "aplus-media-library-service-media/34269840-0a7c-5037-aa58-23109bd6134f.jpg",
+         "altText": "Flat lay with jeans, sneakers and a straw hat",
+         "imageCropSpecification": {
+          "size": {
+           "width": {
+            "value": 1464,
+            "units": "pixels"
+           },
+           "height": {
+            "value": 600,
+            "units": "pixels"
+           }
+          },
+          "offset": {
+           "x": {
+            "value": 0,
+            "units": "pixels"
+           },
+           "y": {
+            "value": 0,
+            "units": "pixels"
+           }
+          }
+         }
+        },
+        "mobileImage": {
+         "uploadDestinationId": "aplus-media-library-service-media/f5a5a82f-bc69-521e-9f2e-d1f8be483c58.jpg",
+         "altText": "Flat lay with jeans and sneakers",
+         "imageCropSpecification": {
+          "size": {
+           "width": {
+            "value": 600,
+            "units": "pixels"
+           },
+           "height": {
+            "value": 450,
+            "units": "pixels"
+           }
+          },
+          "offset": {
+           "x": {
+            "value": 0,
+            "units": "pixels"
+           },
+           "y": {
+            "value": 0,
+            "units": "pixels"
+           }
+          }
+         }
+        }
+       }
+      },
+      {
+       "imagePanel": {
+        "position": 2,
+        "title": {
+         "value": "Relaxed, not oversized"
+        },
+        "description": {
+         "textList": [
+          {
+           "value": "Cut with a little extra room through the body; the shoulders stay where they should."
+          }
+         ]
+        },
+        "desktopImage": {
+         "uploadDestinationId": "aplus-media-library-service-media/55414e4d-bd07-5bf6-82af-020b6a20caa6.jpg",
+         "altText": "Tee on a dress form",
+         "imageCropSpecification": {
+          "size": {
+           "width": {
+            "value": 1464,
+            "units": "pixels"
+           },
+           "height": {
+            "value": 600,
+            "units": "pixels"
+           }
+          },
+          "offset": {
+           "x": {
+            "value": 0,
+            "units": "pixels"
+           },
+           "y": {
+            "value": 0,
+            "units": "pixels"
+           }
+          }
+         }
+        },
+        "mobileImage": {
+         "uploadDestinationId": "aplus-media-library-service-media/05650916-e654-5541-bb6f-c7164b244615.jpg",
+         "altText": "Tee on a dress form",
+         "imageCropSpecification": {
+          "size": {
+           "width": {
+            "value": 600,
+            "units": "pixels"
+           },
+           "height": {
+            "value": 450,
+            "units": "pixels"
+           }
+          },
+          "offset": {
+           "x": {
+            "value": 0,
+            "units": "pixels"
+           },
+           "y": {
+            "value": 0,
+            "units": "pixels"
+           }
+          }
+         }
+        }
+       }
+      },
+      {
+       "imagePanel": {
+        "position": 3,
+        "title": {
+         "value": "Ready to hang"
+        },
+        "buttonText": {
+         "value": "Shop the tee"
+        },
+        "asin": {
+         "value": "B0SAMPLE01"
+        },
+        "description": {
+         "textList": [
+          {
+           "value": "Available in pink; part of the relaxed tee family."
+          }
+         ]
+        },
+        "desktopImage": {
+         "uploadDestinationId": "aplus-media-library-service-media/28c0e1dc-da3d-5c93-ae3d-61c28478cc2c.jpg",
+         "altText": "Tee on a hanger against a brick wall",
+         "imageCropSpecification": {
+          "size": {
+           "width": {
+            "value": 1464,
+            "units": "pixels"
+           },
+           "height": {
+            "value": 600,
+            "units": "pixels"
+           }
+          },
+          "offset": {
+           "x": {
+            "value": 0,
+            "units": "pixels"
+           },
+           "y": {
+            "value": 0,
+            "units": "pixels"
+           }
+          }
+         }
+        },
+        "mobileImage": {
+         "uploadDestinationId": "aplus-media-library-service-media/00a19cb7-2ae4-595d-9cdb-84f965c4dc3c.jpg",
+         "altText": "Tee on a hanger",
+         "imageCropSpecification": {
+          "size": {
+           "width": {
+            "value": 600,
+            "units": "pixels"
+           },
+           "height": {
+            "value": 450,
+            "units": "pixels"
+           }
+          },
+          "offset": {
+           "x": {
+            "value": 0,
+            "units": "pixels"
+           },
+           "y": {
+            "value": 0,
+            "units": "pixels"
+           }
+          }
+         }
+        }
+       }
+      }
+     ]
+    }
+   },
+   {
+    "contentModuleType": "PREMIUM_HOTSPOT_IMAGE_TEXT",
+    "premiumHotspotImageText": {
+     "headline": {
+      "value": "Anatomy of the tee"
+     },
+     "mainDescription": {
+      "textList": [
+       {
+        "value": "Tap a point to see what makes this tee comfortable."
+       }
+      ]
+     },
+     "desktopImage": {
+      "uploadDestinationId": "aplus-media-library-service-media/55414e4d-bd07-5bf6-82af-020b6a20caa6.jpg",
+      "altText": "Tee on a dress form with detail points",
+      "imageCropSpecification": {
+       "size": {
+        "width": {
+         "value": 1464,
+         "units": "pixels"
+        },
+        "height": {
+         "value": 600,
+         "units": "pixels"
+        }
+       },
+       "offset": {
+        "x": {
+         "value": 0,
+         "units": "pixels"
+        },
+        "y": {
+         "value": 0,
+         "units": "pixels"
+        }
+       }
+      }
+     },
+     "hotSpots": [
+      {
+       "imageTextHotSpot": {
+        "title": {
+         "value": "Ribbed crew neck"
+        },
+        "xCoordinate": {
+         "value": "420"
+        },
+        "yCoordinate": {
+         "value": "225"
+        },
+        "mobileImage": {
+         "uploadDestinationId": "aplus-media-library-service-media/7517d90d-2196-5775-8c50-1e861b5efe7e.jpg",
+         "altText": "Neckline",
+         "imageCropSpecification": {
+          "size": {
+           "width": {
+            "value": 600,
+            "units": "pixels"
+           },
+           "height": {
+            "value": 450,
+            "units": "pixels"
+           }
+          },
+          "offset": {
+           "x": {
+            "value": 0,
+            "units": "pixels"
+           },
+           "y": {
+            "value": 0,
+            "units": "pixels"
+           }
+          }
+         }
+        }
+       }
+      },
+      {
+       "imageTextHotSpot": {
+        "title": {
+         "value": "Cap sleeve"
+        },
+        "xCoordinate": {
+         "value": "790"
+        },
+        "yCoordinate": {
+         "value": "440"
+        },
+        "mobileImage": {
+         "uploadDestinationId": "aplus-media-library-service-media/df089c9a-2ffb-5278-a4de-0dd42840a0f6.jpg",
+         "altText": "Sleeve",
+         "imageCropSpecification": {
+          "size": {
+           "width": {
+            "value": 600,
+            "units": "pixels"
+           },
+           "height": {
+            "value": 450,
+            "units": "pixels"
+           }
+          },
+          "offset": {
+           "x": {
+            "value": 0,
+            "units": "pixels"
+           },
+           "y": {
+            "value": 0,
+            "units": "pixels"
+           }
+          }
+         }
+        }
+       }
+      },
+      {
+       "imageTextHotSpot": {
+        "title": {
+         "value": "Relaxed body"
+        },
+        "xCoordinate": {
+         "value": "480"
+        },
+        "yCoordinate": {
+         "value": "470"
+        },
+        "mobileImage": {
+         "uploadDestinationId": "aplus-media-library-service-media/498261be-aeaa-5981-aa3c-034ec27d0e3b.jpg",
+         "altText": "Fabric",
+         "imageCropSpecification": {
+          "size": {
+           "width": {
+            "value": 600,
+            "units": "pixels"
+           },
+           "height": {
+            "value": 450,
+            "units": "pixels"
+           }
+          },
+          "offset": {
+           "x": {
+            "value": 0,
+            "units": "pixels"
+           },
+           "y": {
+            "value": 0,
+            "units": "pixels"
+           }
+          }
+         }
+        }
+       }
+      }
+     ]
+    }
+   },
+   {
+    "contentModuleType": "PREMIUM_VIDEO_TEXT",
+    "premiumVideoText": {
+     "positionType": "RIGHT",
+     "title": {
+      "value": "In motion"
+     },
+     "headline": {
+      "value": "See the drape"
+     },
+     "description": {
+      "textList": [
+       {
+        "value": "A short clip of the jersey in motion: the fabric moves with you and falls back into place."
+       }
+      ]
+     },
+     "video": {
+      "videoMediaId": "5e1f2a3b-7c8d-4e9f-a0b1-c2d3e4f5b001",
+      "imageMediaId": "5e1f2a3b-7c8d-4e9f-a0b1-c2d3e4f5b002",
+      "imageCropSpecification": {
+       "size": {
+        "width": {
+         "value": 1280,
+         "units": "pixels"
+        },
+        "height": {
+         "value": 720,
+         "units": "pixels"
+        }
+       },
+       "offset": {
+        "x": {
+         "value": 0,
+         "units": "pixels"
+        },
+        "y": {
+         "value": 0,
+         "units": "pixels"
+        }
+       }
+      }
+     }
+    }
+   },
+   {
+    "contentModuleType": "PREMIUM_TECH_SPECS",
+    "premiumTechSpecs": {
+     "headline": {
+      "value": "Details at a glance"
+     },
+     "columnCount": 2,
+     "techSpecs": [
+      {
+       "techSpec": {
+        "specKey": {
+         "value": "Fabric"
+        },
+        "specValue": {
+         "value": "90% cotton, 10% rayon"
+        }
+       }
+      },
+      {
+       "techSpec": {
+        "specKey": {
+         "value": "Fit"
+        },
+        "specValue": {
+         "value": "Relaxed"
+        }
+       }
+      },
+      {
+       "techSpec": {
+        "specKey": {
+         "value": "Neckline"
+        },
+        "specValue": {
+         "value": "Crew neck"
+        }
+       }
+      },
+      {
+       "techSpec": {
+        "specKey": {
+         "value": "Sleeve"
+        },
+        "specValue": {
+         "value": "Cap sleeve"
+        }
+       }
+      },
+      {
+       "techSpec": {
+        "specKey": {
+         "value": "Care"
+        },
+        "specValue": {
+         "value": "Hand wash only"
+        }
+       }
+      },
+      {
+       "techSpec": {
+        "specKey": {
+         "value": "Origin"
+        },
+        "specValue": {
+         "value": "Made in the USA"
+        }
+       }
+      }
+     ]
+    }
+   },
+   {
+    "contentModuleType": "PREMIUM_FAQ",
+    "premiumFaq": {
+     "colorType": "LIGHT",
+     "faqs": [
+      {
+       "faq": {
+        "question": {
+         "textList": [
+          {
+           "value": "How should I wash this tee?"
+          }
+         ]
+        },
+        "answer": {
+         "textList": [
+          {
+           "value": "Hand wash cold and lay flat to dry to keep the shape and the color."
+          }
+         ]
+        }
+       }
+      },
+      {
+       "faq": {
+        "question": {
+         "textList": [
+          {
+           "value": "How does it fit?"
+          }
+         ]
+        },
+        "answer": {
+         "textList": [
+          {
+           "value": "Relaxed through the body with a classic crew neck. If you prefer a closer fit, size down."
+          }
+         ]
+        }
+       }
+      },
+      {
+       "faq": {
+        "question": {
+         "textList": [
+          {
+           "value": "What is it made of?"
+          }
+         ]
+        },
+        "answer": {
+         "textList": [
+          {
+           "value": "90% cotton, 10% rayon: cotton for breathability, rayon for a smoother drape."
+          }
+         ]
+        }
+       }
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "standard": {
+  "name": "Relaxed Cotton Tee: Standard A+",
+  "contentType": "EBC",
+  "locale": "en-US",
+  "contentModuleList": [
+   {
+    "contentModuleType": "STANDARD_COMPANY_LOGO",
+    "standardCompanyLogo": {
+     "companyLogo": {
+      "uploadDestinationId": "aplus-media-library-service-media/f4b7658d-22a0-536d-ac96-0ee0fb56b64d.png",
+      "altText": "Studio emblem",
+      "imageCropSpecification": {
+       "size": {
+        "width": {
+         "value": 600,
+         "units": "pixels"
+        },
+        "height": {
+         "value": 180,
+         "units": "pixels"
+        }
+       },
+       "offset": {
+        "x": {
+         "value": 0,
+         "units": "pixels"
+        },
+        "y": {
+         "value": 0,
+         "units": "pixels"
+        }
+       }
+      }
+     }
+    }
+   },
+   {
+    "contentModuleType": "STANDARD_HEADER_IMAGE_TEXT",
+    "standardHeaderImageText": {
+     "headline": {
+      "value": "The everyday tee, done right"
+     },
+     "block": {
+      "image": {
+       "uploadDestinationId": "aplus-media-library-service-media/73f5ec9e-d34a-540a-b6b3-8ba59c3c5819.jpg",
+       "altText": "Folded pink tee by a window",
+       "imageCropSpecification": {
+        "size": {
+         "width": {
+          "value": 970,
+          "units": "pixels"
+         },
+         "height": {
+          "value": 600,
+          "units": "pixels"
+         }
+        },
+        "offset": {
+         "x": {
+          "value": 0,
+          "units": "pixels"
+         },
+         "y": {
+          "value": 0,
+          "units": "pixels"
+         }
+        }
+       }
+      },
+      "headline": {
+       "value": "Soft cotton blend, relaxed fit"
+      },
+      "body": {
+       "textList": [
+        {
+         "value": "Made from 90% cotton, 10% rayon, this tee is light, breathable and easy to layer."
+        },
+        {
+         "value": "A relaxed fit with a classic crew neck and cap sleeves: easy to layer, easy to live in."
+        }
+       ]
+      }
+     }
+    }
+   },
+   {
+    "contentModuleType": "STANDARD_IMAGE_TEXT_OVERLAY",
+    "standardImageTextOverlay": {
+     "overlayColorType": "DARK",
+     "block": {
+      "image": {
+       "uploadDestinationId": "aplus-media-library-service-media/ecc130c8-a9d1-57aa-af97-505e92200142.jpg",
+       "altText": "Tee on a deck chair",
+       "imageCropSpecification": {
+        "size": {
+         "width": {
+          "value": 970,
+          "units": "pixels"
+         },
+         "height": {
+          "value": 300,
+          "units": "pixels"
+         }
+        },
+        "offset": {
+         "x": {
+          "value": 0,
+          "units": "pixels"
+         },
+         "y": {
+          "value": 0,
+          "units": "pixels"
+         }
+        }
+       }
+      },
+      "headline": {
+       "value": "Built for warm days"
+      },
+      "body": {
+       "textList": [
+        {
+         "value": "Light jersey that breathes, in a pink that stays put."
+        }
+       ]
+      }
+     }
+    }
+   },
+   {
+    "contentModuleType": "STANDARD_FOUR_IMAGE_TEXT",
+    "standardFourImageText": {
+     "headline": {
+      "value": "Why you will reach for it"
+     },
+     "block1": {
+      "image": {
+       "uploadDestinationId": "aplus-media-library-service-media/203ac9b5-3ee1-5f67-af3d-63144eb3e98a.jpg",
+       "altText": "Fabric swatch",
+       "imageCropSpecification": {
+        "size": {
+         "width": {
+          "value": 220,
+          "units": "pixels"
+         },
+         "height": {
+          "value": 220,
+          "units": "pixels"
+         }
+        },
+        "offset": {
+         "x": {
+          "value": 0,
+          "units": "pixels"
+         },
+         "y": {
+          "value": 0,
+          "units": "pixels"
+         }
+        }
+       }
+      },
+      "headline": {
+       "value": "Soft cotton blend"
+      },
+      "body": {
+       "textList": [
+        {
+         "value": "Cotton with a touch of rayon for drape."
+        }
+       ]
+      }
+     },
+     "block2": {
+      "image": {
+       "uploadDestinationId": "aplus-media-library-service-media/e3c4e84e-a08e-531f-8f69-549acbe2f289.jpg",
+       "altText": "Neckline",
+       "imageCropSpecification": {
+        "size": {
+         "width": {
+          "value": 220,
+          "units": "pixels"
+         },
+         "height": {
+          "value": 220,
+          "units": "pixels"
+         }
+        },
+        "offset": {
+         "x": {
+          "value": 0,
+          "units": "pixels"
+         },
+         "y": {
+          "value": 0,
+          "units": "pixels"
+         }
+        }
+       }
+      },
+      "headline": {
+       "value": "Ribbed crew neck"
+      },
+      "body": {
+       "textList": [
+        {
+         "value": "Sits flat and keeps its shape."
+        }
+       ]
+      }
+     },
+     "block3": {
+      "image": {
+       "uploadDestinationId": "aplus-media-library-service-media/05c54dac-050d-518d-b5c8-1327304eb70d.jpg",
+       "altText": "Cap sleeve",
+       "imageCropSpecification": {
+        "size": {
+         "width": {
+          "value": 220,
+          "units": "pixels"
+         },
+         "height": {
+          "value": 220,
+          "units": "pixels"
+         }
+        },
+        "offset": {
+         "x": {
+          "value": 0,
+          "units": "pixels"
+         },
+         "y": {
+          "value": 0,
+          "units": "pixels"
+         }
+        }
+       }
+      },
+      "headline": {
+       "value": "Cap sleeves"
+      },
+      "body": {
+       "textList": [
+        {
+         "value": "A short sleeve that covers the shoulder."
+        }
+       ]
+      }
+     },
+     "block4": {
+      "image": {
+       "uploadDestinationId": "aplus-media-library-service-media/5aa9278c-d92a-52c2-9513-b75ea3c070f4.jpg",
+       "altText": "Hem",
+       "imageCropSpecification": {
+        "size": {
+         "width": {
+          "value": 220,
+          "units": "pixels"
+         },
+         "height": {
+          "value": 220,
+          "units": "pixels"
+         }
+        },
+        "offset": {
+         "x": {
+          "value": 0,
+          "units": "pixels"
+         },
+         "y": {
+          "value": 0,
+          "units": "pixels"
+         }
+        }
+       }
+      },
+      "headline": {
+       "value": "Clean finish"
+      },
+      "body": {
+       "textList": [
+        {
+         "value": "Double-needle hems on sleeves and body."
+        }
+       ]
+      }
+     }
+    }
+   },
+   {
+    "contentModuleType": "STANDARD_SINGLE_IMAGE_HIGHLIGHTS",
+    "standardSingleImageHighlights": {
+     "image": {
+      "uploadDestinationId": "aplus-media-library-service-media/10adbfaf-3415-57e3-a264-877a75e7f712.jpg",
+      "altText": "Tee on a hanger",
+      "imageCropSpecification": {
+       "size": {
+        "width": {
+         "value": 300,
+         "units": "pixels"
+        },
+        "height": {
+         "value": 300,
+         "units": "pixels"
+        }
+       },
+       "offset": {
+        "x": {
+         "value": 0,
+         "units": "pixels"
+        },
+        "y": {
+         "value": 0,
+         "units": "pixels"
+        }
+       }
+      }
+     },
+     "headline": {
+      "value": "Relaxed fit"
+     },
+     "textBlock1": {
+      "headline": {
+       "value": "Room to move"
+      },
+      "body": {
+       "textList": [
+        {
+         "value": "A little extra ease through the chest and body."
+        }
+       ]
+      }
+     },
+     "textBlock2": {
+      "headline": {
+       "value": "True shoulders"
+      },
+      "body": {
+       "textList": [
+        {
+         "value": "The shoulder seam sits on the shoulder, not down the arm."
+        }
+       ]
+      }
+     },
+     "textBlock3": {
+      "headline": {
+       "value": "Classic length"
+      },
+      "body": {
+       "textList": [
+        {
+         "value": "Long enough to tuck, short enough to leave out."
+        }
+       ]
+      }
+     },
+     "bulletedListBlock": {
+      "headline": {
+       "value": "At a glance"
+      },
+      "block": {
+       "textList": [
+        {
+         "position": 1,
+         "text": {
+          "value": "90% cotton, 10% rayon"
+         }
+        },
+        {
+         "position": 2,
+         "text": {
+          "value": "Relaxed fit, crew neck"
+         }
+        },
+        {
+         "position": 3,
+         "text": {
+          "value": "Cap sleeve"
+         }
+        },
+        {
+         "position": 4,
+         "text": {
+          "value": "Hand wash only"
+         }
+        },
+        {
+         "position": 5,
+         "text": {
+          "value": "Made in the USA"
+         }
+        }
+       ]
+      }
+     }
+    }
+   },
+   {
+    "contentModuleType": "STANDARD_COMPARISON_TABLE",
+    "standardComparisonTable": {
+     "productColumns": [
+      {
+       "position": 1,
+       "image": {
+        "uploadDestinationId": "aplus-media-library-service-media/b38f491c-c5f2-599d-9650-697a5c21e960.jpg",
+        "altText": "Pink tee",
+        "imageCropSpecification": {
+         "size": {
+          "width": {
+           "value": 300,
+           "units": "pixels"
+          },
+          "height": {
+           "value": 300,
+           "units": "pixels"
+          }
+         },
+         "offset": {
+          "x": {
+           "value": 0,
+           "units": "pixels"
+          },
+          "y": {
+           "value": 0,
+           "units": "pixels"
+          }
+         }
+        }
+       },
+       "title": "Relaxed Tee, Pink",
+       "asin": {
+        "value": "B0SAMPLE01"
+       },
+       "highlight": true,
+       "metrics": [
+        {
+         "position": 1,
+         "value": "90% cotton, 10% rayon"
+        },
+        {
+         "position": 2,
+         "value": "Relaxed"
+        },
+        {
+         "position": 3,
+         "value": "Crew neck"
+        },
+        {
+         "position": 4,
+         "value": "Cap sleeve"
+        },
+        {
+         "position": 5,
+         "value": "Hand wash"
+        }
+       ]
+      },
+      {
+       "position": 2,
+       "image": {
+        "uploadDestinationId": "aplus-media-library-service-media/32da5953-2238-5cb1-a99a-ab57de7daf26.jpg",
+        "altText": "White tee",
+        "imageCropSpecification": {
+         "size": {
+          "width": {
+           "value": 300,
+           "units": "pixels"
+          },
+          "height": {
+           "value": 300,
+           "units": "pixels"
+          }
+         },
+         "offset": {
+          "x": {
+           "value": 0,
+           "units": "pixels"
+          },
+          "y": {
+           "value": 0,
+           "units": "pixels"
+          }
+         }
+        }
+       },
+       "title": "Relaxed Tee, White",
+       "asin": {
+        "value": "B0SAMPLE02"
+       },
+       "highlight": false,
+       "metrics": [
+        {
+         "position": 1,
+         "value": "90% cotton, 10% rayon"
+        },
+        {
+         "position": 2,
+         "value": "Relaxed"
+        },
+        {
+         "position": 3,
+         "value": "Crew neck"
+        },
+        {
+         "position": 4,
+         "value": "Cap sleeve"
+        },
+        {
+         "position": 5,
+         "value": "Hand wash"
+        }
+       ]
+      },
+      {
+       "position": 3,
+       "image": {
+        "uploadDestinationId": "aplus-media-library-service-media/545511e5-5d84-5dc5-a90e-1cce647547b6.jpg",
+        "altText": "Heather Grey tee",
+        "imageCropSpecification": {
+         "size": {
+          "width": {
+           "value": 300,
+           "units": "pixels"
+          },
+          "height": {
+           "value": 300,
+           "units": "pixels"
+          }
+         },
+         "offset": {
+          "x": {
+           "value": 0,
+           "units": "pixels"
+          },
+          "y": {
+           "value": 0,
+           "units": "pixels"
+          }
+         }
+        }
+       },
+       "title": "Relaxed Tee, Heather Grey",
+       "asin": {
+        "value": "B0SAMPLE03"
+       },
+       "highlight": false,
+       "metrics": [
+        {
+         "position": 1,
+         "value": "90% cotton, 10% rayon"
+        },
+        {
+         "position": 2,
+         "value": "Relaxed"
+        },
+        {
+         "position": 3,
+         "value": "Crew neck"
+        },
+        {
+         "position": 4,
+         "value": "Cap sleeve"
+        },
+        {
+         "position": 5,
+         "value": "Hand wash"
+        }
+       ]
+      },
+      {
+       "position": 4,
+       "image": {
+        "uploadDestinationId": "aplus-media-library-service-media/cf6058c7-f223-542a-aa09-893798905e10.jpg",
+        "altText": "Navy tee",
+        "imageCropSpecification": {
+         "size": {
+          "width": {
+           "value": 300,
+           "units": "pixels"
+          },
+          "height": {
+           "value": 300,
+           "units": "pixels"
+          }
+         },
+         "offset": {
+          "x": {
+           "value": 0,
+           "units": "pixels"
+          },
+          "y": {
+           "value": 0,
+           "units": "pixels"
+          }
+         }
+        }
+       },
+       "title": "Relaxed Tee, Navy",
+       "asin": {
+        "value": "B0SAMPLE04"
+       },
+       "highlight": false,
+       "metrics": [
+        {
+         "position": 1,
+         "value": "90% cotton, 10% rayon"
+        },
+        {
+         "position": 2,
+         "value": "Relaxed"
+        },
+        {
+         "position": 3,
+         "value": "Crew neck"
+        },
+        {
+         "position": 4,
+         "value": "Cap sleeve"
+        },
+        {
+         "position": 5,
+         "value": "Hand wash"
+        }
+       ]
+      }
+     ],
+     "metricRowLabels": [
+      {
+       "position": 1,
+       "value": "Fabric"
+      },
+      {
+       "position": 2,
+       "value": "Fit"
+      },
+      {
+       "position": 3,
+       "value": "Neckline"
+      },
+      {
+       "position": 4,
+       "value": "Sleeve"
+      },
+      {
+       "position": 5,
+       "value": "Care"
+      }
+     ]
+    }
+   },
+   {
+    "contentModuleType": "STANDARD_TECH_SPECS",
+    "standardTechSpecs": {
+     "headline": {
+      "value": "Details at a glance"
+     },
+     "tableCount": 2,
+     "specificationList": [
+      {
+       "label": {
+        "value": "Fabric"
+       },
+       "description": {
+        "value": "90% cotton, 10% rayon"
+       }
+      },
+      {
+       "label": {
+        "value": "Fit"
+       },
+       "description": {
+        "value": "Relaxed"
+       }
+      },
+      {
+       "label": {
+        "value": "Neckline"
+       },
+       "description": {
+        "value": "Crew neck"
+       }
+      },
+      {
+       "label": {
+        "value": "Sleeve"
+       },
+       "description": {
+        "value": "Cap sleeve"
+       }
+      },
+      {
+       "label": {
+        "value": "Care"
+       },
+       "description": {
+        "value": "Hand wash only"
+       }
+      },
+      {
+       "label": {
+        "value": "Origin"
+       },
+       "description": {
+        "value": "Made in the USA"
+       }
+      }
+     ]
+    }
+   }
+  ]
+ },
+ "brandstory": {
+  "name": "Relaxed Cotton Tee: Brand Story",
+  "contentType": "BrandStory",
+  "locale": "en-US",
+  "contentModuleList": [
+   {
+    "contentModuleType": "BRAND_STORY_IMAGE_WITH_LOGO",
+    "brandStoryImageWithLogo": {
+     "title": {
+      "value": "Made by a small studio"
+     },
+     "description": {
+      "textList": [
+       {
+        "value": "We cut and sew relaxed cotton basics in small batches, in the USA, with fabric we would want to wear ourselves."
+       }
+      ]
+     },
+     "desktopImage": {
+      "uploadDestinationId": "aplus-media-library-service-media/8aa63408-284d-504c-b52f-989326334bfe.jpg",
+      "altText": "Cutting table with rolls of cotton jersey",
+      "imageCropSpecification": {
+       "size": {
+        "width": {
+         "value": 1464,
+         "units": "pixels"
+        },
+        "height": {
+         "value": 625,
+         "units": "pixels"
+        }
+       },
+       "offset": {
+        "x": {
+         "value": 0,
+         "units": "pixels"
+        },
+        "y": {
+         "value": 0,
+         "units": "pixels"
+        }
+       }
+      }
+     },
+     "mobileImage": {
+      "uploadDestinationId": "aplus-media-library-service-media/74b10860-9ee5-5ba3-80a3-3f811ff800d6.jpg",
+      "altText": "Cutting table with rolls of cotton jersey",
+      "imageCropSpecification": {
+       "size": {
+        "width": {
+         "value": 463,
+         "units": "pixels"
+        },
+        "height": {
+         "value": 625,
+         "units": "pixels"
+        }
+       },
+       "offset": {
+        "x": {
+         "value": 0,
+         "units": "pixels"
+        },
+        "y": {
+         "value": 0,
+         "units": "pixels"
+        }
+       }
+      }
+     }
+    }
+   },
+   {
+    "contentModuleType": "BRAND_STORY_ABOUT",
+    "brandStoryAbout": {
+     "logoImage": {
+      "uploadDestinationId": "aplus-media-library-service-media/61c28603-aeb9-53cc-8753-5b0742d3b78f.png",
+      "altText": "Studio emblem",
+      "imageCropSpecification": {
+       "size": {
+        "width": {
+         "value": 362,
+         "units": "pixels"
+        },
+        "height": {
+         "value": 453,
+         "units": "pixels"
+        }
+       },
+       "offset": {
+        "x": {
+         "value": 0,
+         "units": "pixels"
+        },
+        "y": {
+         "value": 0,
+         "units": "pixels"
+        }
+       }
+      }
+     },
+     "title": {
+      "value": "About us"
+     },
+     "slogan": {
+      "textList": [
+       {
+        "value": "Fewer, better basics."
+       },
+       {
+        "value": "Cotton first, small batches, honest construction."
+       }
+      ]
+     }
+    }
+   },
+   {
+    "contentModuleType": "BRAND_STORY_MEDIA_ASSET",
+    "brandStoryMediaAsset": {
+     "title": {
+      "value": "Sewn with care"
+     },
+     "description": {
+      "textList": [
+       {
+        "value": "Every seam is double-needle stitched on machines we maintain ourselves."
+       }
+      ]
+     },
+     "image": {
+      "uploadDestinationId": "aplus-media-library-service-media/a18ea467-48a2-58ae-aade-b909b2e5709c.jpg",
+      "altText": "Sewing machine stitching pink jersey",
+      "imageCropSpecification": {
+       "size": {
+        "width": {
+         "value": 362,
+         "units": "pixels"
+        },
+        "height": {
+         "value": 453,
+         "units": "pixels"
+        }
+       },
+       "offset": {
+        "x": {
+         "value": 0,
+         "units": "pixels"
+        },
+        "y": {
+         "value": 0,
+         "units": "pixels"
+        }
+       }
+      }
+     }
+    }
+   },
+   {
+    "contentModuleType": "BRAND_STORY_FOUR_ASIN",
+    "brandStoryFourAsin": {
+     "title": {
+      "value": "Shop the relaxed tee family"
+     },
+     "asinImages": [
+      {
+       "asinImage": {
+        "productAsin": {
+         "value": "B0SAMPLE01"
+        },
+        "productImage": {
+         "uploadDestinationId": "aplus-media-library-service-media/47b35c39-d1f3-5bbe-9c10-43be80aba88f.jpg",
+         "altText": "Pink tee",
+         "imageCropSpecification": {
+          "size": {
+           "width": {
+            "value": 166,
+            "units": "pixels"
+           },
+           "height": {
+            "value": 166,
+            "units": "pixels"
+           }
+          },
+          "offset": {
+           "x": {
+            "value": 0,
+            "units": "pixels"
+           },
+           "y": {
+            "value": 0,
+            "units": "pixels"
+           }
+          }
+         }
+        }
+       }
+      },
+      {
+       "asinImage": {
+        "productAsin": {
+         "value": "B0SAMPLE02"
+        },
+        "productImage": {
+         "uploadDestinationId": "aplus-media-library-service-media/517116f8-07b6-5443-895f-6ab15c2f29da.jpg",
+         "altText": "White tee",
+         "imageCropSpecification": {
+          "size": {
+           "width": {
+            "value": 166,
+            "units": "pixels"
+           },
+           "height": {
+            "value": 166,
+            "units": "pixels"
+           }
+          },
+          "offset": {
+           "x": {
+            "value": 0,
+            "units": "pixels"
+           },
+           "y": {
+            "value": 0,
+            "units": "pixels"
+           }
+          }
+         }
+        }
+       }
+      },
+      {
+       "asinImage": {
+        "productAsin": {
+         "value": "B0SAMPLE03"
+        },
+        "productImage": {
+         "uploadDestinationId": "aplus-media-library-service-media/3f406db4-28fa-5c2d-aa59-d24c9b69b2df.jpg",
+         "altText": "Heather Grey tee",
+         "imageCropSpecification": {
+          "size": {
+           "width": {
+            "value": 166,
+            "units": "pixels"
+           },
+           "height": {
+            "value": 166,
+            "units": "pixels"
+           }
+          },
+          "offset": {
+           "x": {
+            "value": 0,
+            "units": "pixels"
+           },
+           "y": {
+            "value": 0,
+            "units": "pixels"
+           }
+          }
+         }
+        }
+       }
+      },
+      {
+       "asinImage": {
+        "productAsin": {
+         "value": "B0SAMPLE04"
+        },
+        "productImage": {
+         "uploadDestinationId": "aplus-media-library-service-media/bdfea978-7960-52c1-9def-3d96b5cd671c.jpg",
+         "altText": "Navy tee",
+         "imageCropSpecification": {
+          "size": {
+           "width": {
+            "value": 166,
+            "units": "pixels"
+           },
+           "height": {
+            "value": 166,
+            "units": "pixels"
+           }
+          },
+          "offset": {
+           "x": {
+            "value": 0,
+            "units": "pixels"
+           },
+           "y": {
+            "value": 0,
+            "units": "pixels"
+           }
+          }
+         }
+        }
+       }
+      }
+     ]
+    }
+   },
+   {
+    "contentModuleType": "BRAND_STORY_MEDIA_ASSET",
+    "brandStoryMediaAsset": {
+     "title": {
+      "value": "Fabric first"
+     },
+     "description": {
+      "textList": [
+       {
+        "value": "We start with the jersey and design the tee around how it feels."
+       }
+      ]
+     },
+     "image": {
+      "uploadDestinationId": "aplus-media-library-service-media/0f624422-a72c-5fbb-9e0a-9567e96d40ac.jpg",
+      "altText": "Rolls of pastel cotton jersey",
+      "imageCropSpecification": {
+       "size": {
+        "width": {
+         "value": 362,
+         "units": "pixels"
+        },
+        "height": {
+         "value": 453,
+         "units": "pixels"
+        }
+       },
+       "offset": {
+        "x": {
+         "value": 0,
+         "units": "pixels"
+        },
+        "y": {
+         "value": 0,
+         "units": "pixels"
+        }
+       }
+      }
+     }
+    }
+   },
+   {
+    "contentModuleType": "BRAND_STORY_QUESTIONS",
+    "brandStoryQuestions": {
+     "questionAnswerPairs": [
+      {
+       "questionAnswerPair": {
+        "question": {
+         "value": "Where are the tees made?"
+        },
+        "answer": {
+         "textList": [
+          {
+           "value": "Cut and sewn in the USA in small batches."
+          }
+         ]
+        }
+       }
+      },
+      {
+       "questionAnswerPair": {
+        "question": {
+         "value": "What is the fabric?"
+        },
+        "answer": {
+         "textList": [
+          {
+           "value": "90% cotton, 10% rayon: cotton for breathability, rayon for drape."
+          }
+         ]
+        }
+       }
+      },
+      {
+       "questionAnswerPair": {
+        "question": {
+         "value": "How do I care for it?"
+        },
+        "answer": {
+         "textList": [
+          {
+           "value": "Hand wash cold and lay flat to dry."
+          }
+         ]
+        }
+       }
+      }
+     ]
+    }
+   }
+  ]
+ }
+}
