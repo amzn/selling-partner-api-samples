@@ -1,0 +1,2625 @@
+{
+  "source": "aplusContent_2020-11-01.json",
+  "contentTypes": [
+    "EBC",
+    "EMC",
+    "BrandStory"
+  ],
+  "contentStatus": [
+    "APPROVED",
+    "DRAFT",
+    "REJECTED",
+    "SUBMITTED"
+  ],
+  "contentBadges": [
+    "BULK",
+    "GENERATED",
+    "LAUNCHPAD",
+    "PREMIUM",
+    "STANDARD"
+  ],
+  "asinBadges": [
+    "BRAND_NOT_ELIGIBLE",
+    "CATALOG_NOT_FOUND",
+    "CONTENT_NOT_PUBLISHED",
+    "CONTENT_PUBLISHED"
+  ],
+  "modules": [
+    {
+      "type": "STANDARD_COMPANY_LOGO",
+      "key": "standardCompanyLogo",
+      "tier": "standard",
+      "definition": "StandardCompanyLogoModule",
+      "schema": {
+        "name": "StandardCompanyLogoModule",
+        "fields": [
+          {
+            "name": "companyLogo",
+            "required": true,
+            "type": "ImageComponent"
+          }
+        ]
+      }
+    },
+    {
+      "type": "STANDARD_COMPARISON_TABLE",
+      "key": "standardComparisonTable",
+      "tier": "standard",
+      "definition": "StandardComparisonTableModule",
+      "schema": {
+        "name": "StandardComparisonTableModule",
+        "fields": [
+          {
+            "name": "productColumns",
+            "required": false,
+            "type": "array",
+            "maxItems": 6,
+            "minItems": 0,
+            "item": "StandardComparisonProductBlock",
+            "itemSchema": {
+              "name": "StandardComparisonProductBlock",
+              "fields": [
+                {
+                  "name": "position",
+                  "required": true,
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 6
+                },
+                {
+                  "name": "image",
+                  "required": false,
+                  "type": "ImageComponent"
+                },
+                {
+                  "name": "title",
+                  "required": false,
+                  "type": "string",
+                  "maxLength": 80,
+                  "minLength": 1
+                },
+                {
+                  "name": "asin",
+                  "required": false,
+                  "type": "Asin"
+                },
+                {
+                  "name": "highlight",
+                  "required": false,
+                  "type": "boolean"
+                },
+                {
+                  "name": "metrics",
+                  "required": false,
+                  "type": "array",
+                  "maxItems": 10,
+                  "minItems": 0,
+                  "item": "PlainTextItem",
+                  "itemSchema": {
+                    "name": "PlainTextItem",
+                    "fields": [
+                      {
+                        "name": "position",
+                        "required": true,
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 100
+                      },
+                      {
+                        "name": "value",
+                        "required": true,
+                        "type": "string",
+                        "maxLength": 250,
+                        "minLength": 1
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "metricRowLabels",
+            "required": false,
+            "type": "array",
+            "maxItems": 10,
+            "minItems": 0,
+            "item": "PlainTextItem",
+            "itemSchema": {
+              "name": "PlainTextItem",
+              "fields": [
+                {
+                  "name": "position",
+                  "required": true,
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 100
+                },
+                {
+                  "name": "value",
+                  "required": true,
+                  "type": "string",
+                  "maxLength": 250,
+                  "minLength": 1
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "STANDARD_FOUR_IMAGE_TEXT",
+      "key": "standardFourImageText",
+      "tier": "standard",
+      "definition": "StandardFourImageTextModule",
+      "schema": {
+        "name": "StandardFourImageTextModule",
+        "fields": [
+          {
+            "name": "headline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "block1",
+            "required": false,
+            "type": "StandardImageTextBlock",
+            "schema": {
+              "name": "StandardImageTextBlock",
+              "fields": [
+                {
+                  "name": "image",
+                  "required": false,
+                  "type": "ImageComponent"
+                },
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          },
+          {
+            "name": "block2",
+            "required": false,
+            "type": "StandardImageTextBlock",
+            "schema": {
+              "name": "StandardImageTextBlock",
+              "fields": [
+                {
+                  "name": "image",
+                  "required": false,
+                  "type": "ImageComponent"
+                },
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          },
+          {
+            "name": "block3",
+            "required": false,
+            "type": "StandardImageTextBlock",
+            "schema": {
+              "name": "StandardImageTextBlock",
+              "fields": [
+                {
+                  "name": "image",
+                  "required": false,
+                  "type": "ImageComponent"
+                },
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          },
+          {
+            "name": "block4",
+            "required": false,
+            "type": "StandardImageTextBlock",
+            "schema": {
+              "name": "StandardImageTextBlock",
+              "fields": [
+                {
+                  "name": "image",
+                  "required": false,
+                  "type": "ImageComponent"
+                },
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "STANDARD_FOUR_IMAGE_TEXT_QUADRANT",
+      "key": "standardFourImageTextQuadrant",
+      "tier": "standard",
+      "definition": "StandardFourImageTextQuadrantModule",
+      "schema": {
+        "name": "StandardFourImageTextQuadrantModule",
+        "fields": [
+          {
+            "name": "block1",
+            "required": true,
+            "type": "StandardImageTextBlock",
+            "schema": {
+              "name": "StandardImageTextBlock",
+              "fields": [
+                {
+                  "name": "image",
+                  "required": false,
+                  "type": "ImageComponent"
+                },
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          },
+          {
+            "name": "block2",
+            "required": true,
+            "type": "StandardImageTextBlock",
+            "schema": {
+              "name": "StandardImageTextBlock",
+              "fields": [
+                {
+                  "name": "image",
+                  "required": false,
+                  "type": "ImageComponent"
+                },
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          },
+          {
+            "name": "block3",
+            "required": true,
+            "type": "StandardImageTextBlock",
+            "schema": {
+              "name": "StandardImageTextBlock",
+              "fields": [
+                {
+                  "name": "image",
+                  "required": false,
+                  "type": "ImageComponent"
+                },
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          },
+          {
+            "name": "block4",
+            "required": true,
+            "type": "StandardImageTextBlock",
+            "schema": {
+              "name": "StandardImageTextBlock",
+              "fields": [
+                {
+                  "name": "image",
+                  "required": false,
+                  "type": "ImageComponent"
+                },
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "STANDARD_HEADER_IMAGE_TEXT",
+      "key": "standardHeaderImageText",
+      "tier": "standard",
+      "definition": "StandardHeaderImageTextModule",
+      "schema": {
+        "name": "StandardHeaderImageTextModule",
+        "fields": [
+          {
+            "name": "headline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "block",
+            "required": false,
+            "type": "StandardImageTextBlock",
+            "schema": {
+              "name": "StandardImageTextBlock",
+              "fields": [
+                {
+                  "name": "image",
+                  "required": false,
+                  "type": "ImageComponent"
+                },
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "STANDARD_IMAGE_SIDEBAR",
+      "key": "standardImageSidebar",
+      "tier": "standard",
+      "definition": "StandardImageSidebarModule",
+      "schema": {
+        "name": "StandardImageSidebarModule",
+        "fields": [
+          {
+            "name": "headline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "imageCaptionBlock",
+            "required": false,
+            "type": "StandardImageCaptionBlock",
+            "schema": {
+              "name": "StandardImageCaptionBlock",
+              "fields": [
+                {
+                  "name": "image",
+                  "required": false,
+                  "type": "ImageComponent"
+                },
+                {
+                  "name": "caption",
+                  "required": false,
+                  "type": "TextComponent"
+                }
+              ]
+            }
+          },
+          {
+            "name": "descriptionTextBlock",
+            "required": false,
+            "type": "StandardTextBlock",
+            "schema": {
+              "name": "StandardTextBlock",
+              "fields": [
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          },
+          {
+            "name": "descriptionListBlock",
+            "required": false,
+            "type": "StandardTextListBlock",
+            "schema": {
+              "name": "StandardTextListBlock",
+              "fields": [
+                {
+                  "name": "textList",
+                  "required": true,
+                  "type": "array",
+                  "maxItems": 8,
+                  "minItems": 0,
+                  "item": "TextItem",
+                  "itemSchema": {
+                    "name": "TextItem",
+                    "fields": [
+                      {
+                        "name": "position",
+                        "required": true,
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 100
+                      },
+                      {
+                        "name": "text",
+                        "required": true,
+                        "type": "TextComponent"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "sidebarImageTextBlock",
+            "required": false,
+            "type": "StandardImageTextBlock",
+            "schema": {
+              "name": "StandardImageTextBlock",
+              "fields": [
+                {
+                  "name": "image",
+                  "required": false,
+                  "type": "ImageComponent"
+                },
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          },
+          {
+            "name": "sidebarListBlock",
+            "required": false,
+            "type": "StandardTextListBlock",
+            "schema": {
+              "name": "StandardTextListBlock",
+              "fields": [
+                {
+                  "name": "textList",
+                  "required": true,
+                  "type": "array",
+                  "maxItems": 8,
+                  "minItems": 0,
+                  "item": "TextItem",
+                  "itemSchema": {
+                    "name": "TextItem",
+                    "fields": [
+                      {
+                        "name": "position",
+                        "required": true,
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 100
+                      },
+                      {
+                        "name": "text",
+                        "required": true,
+                        "type": "TextComponent"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "STANDARD_IMAGE_TEXT_OVERLAY",
+      "key": "standardImageTextOverlay",
+      "tier": "standard",
+      "definition": "StandardImageTextOverlayModule",
+      "schema": {
+        "name": "StandardImageTextOverlayModule",
+        "fields": [
+          {
+            "name": "overlayColorType",
+            "required": true,
+            "type": "ColorType",
+            "enum": [
+              "DARK",
+              "LIGHT"
+            ]
+          },
+          {
+            "name": "block",
+            "required": false,
+            "type": "StandardImageTextBlock",
+            "schema": {
+              "name": "StandardImageTextBlock",
+              "fields": [
+                {
+                  "name": "image",
+                  "required": false,
+                  "type": "ImageComponent"
+                },
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "STANDARD_MULTIPLE_IMAGE_TEXT",
+      "key": "standardMultipleImageText",
+      "tier": "standard",
+      "definition": "StandardMultipleImageTextModule",
+      "schema": {
+        "name": "StandardMultipleImageTextModule",
+        "fields": [
+          {
+            "name": "blocks",
+            "required": false,
+            "type": "array",
+            "maxItems": null,
+            "minItems": null,
+            "item": "StandardImageTextCaptionBlock",
+            "itemSchema": {
+              "name": "StandardImageTextCaptionBlock",
+              "fields": [
+                {
+                  "name": "block",
+                  "required": false,
+                  "type": "StandardImageTextBlock",
+                  "schema": {
+                    "name": "StandardImageTextBlock",
+                    "fields": [
+                      {
+                        "name": "image",
+                        "required": false,
+                        "type": "ImageComponent"
+                      },
+                      {
+                        "name": "headline",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "body",
+                        "required": false,
+                        "type": "ParagraphComponent"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "caption",
+                  "required": false,
+                  "type": "TextComponent"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "STANDARD_PRODUCT_DESCRIPTION",
+      "key": "standardProductDescription",
+      "tier": "standard",
+      "definition": "StandardProductDescriptionModule",
+      "schema": {
+        "name": "StandardProductDescriptionModule",
+        "fields": [
+          {
+            "name": "body",
+            "required": true,
+            "type": "ParagraphComponent"
+          }
+        ]
+      }
+    },
+    {
+      "type": "STANDARD_SINGLE_IMAGE_HIGHLIGHTS",
+      "key": "standardSingleImageHighlights",
+      "tier": "standard",
+      "definition": "StandardSingleImageHighlightsModule",
+      "schema": {
+        "name": "StandardSingleImageHighlightsModule",
+        "fields": [
+          {
+            "name": "image",
+            "required": false,
+            "type": "ImageComponent"
+          },
+          {
+            "name": "headline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "textBlock1",
+            "required": false,
+            "type": "StandardTextBlock",
+            "schema": {
+              "name": "StandardTextBlock",
+              "fields": [
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          },
+          {
+            "name": "textBlock2",
+            "required": false,
+            "type": "StandardTextBlock",
+            "schema": {
+              "name": "StandardTextBlock",
+              "fields": [
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          },
+          {
+            "name": "textBlock3",
+            "required": false,
+            "type": "StandardTextBlock",
+            "schema": {
+              "name": "StandardTextBlock",
+              "fields": [
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          },
+          {
+            "name": "bulletedListBlock",
+            "required": false,
+            "type": "StandardHeaderTextListBlock",
+            "schema": {
+              "name": "StandardHeaderTextListBlock",
+              "fields": [
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "block",
+                  "required": false,
+                  "type": "StandardTextListBlock",
+                  "schema": {
+                    "name": "StandardTextListBlock",
+                    "fields": [
+                      {
+                        "name": "textList",
+                        "required": true,
+                        "type": "array",
+                        "maxItems": 8,
+                        "minItems": 0,
+                        "item": "TextItem",
+                        "itemSchema": {
+                          "name": "TextItem",
+                          "fields": [
+                            {
+                              "name": "position",
+                              "required": true,
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 100
+                            },
+                            {
+                              "name": "text",
+                              "required": true,
+                              "type": "TextComponent"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "STANDARD_SINGLE_IMAGE_SPECS_DETAIL",
+      "key": "standardSingleImageSpecsDetail",
+      "tier": "standard",
+      "definition": "StandardSingleImageSpecsDetailModule",
+      "schema": {
+        "name": "StandardSingleImageSpecsDetailModule",
+        "fields": [
+          {
+            "name": "headline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "image",
+            "required": false,
+            "type": "ImageComponent"
+          },
+          {
+            "name": "descriptionHeadline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "descriptionBlock1",
+            "required": false,
+            "type": "StandardTextBlock",
+            "schema": {
+              "name": "StandardTextBlock",
+              "fields": [
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          },
+          {
+            "name": "descriptionBlock2",
+            "required": false,
+            "type": "StandardTextBlock",
+            "schema": {
+              "name": "StandardTextBlock",
+              "fields": [
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          },
+          {
+            "name": "specificationHeadline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "specificationListBlock",
+            "required": false,
+            "type": "StandardHeaderTextListBlock",
+            "schema": {
+              "name": "StandardHeaderTextListBlock",
+              "fields": [
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "block",
+                  "required": false,
+                  "type": "StandardTextListBlock",
+                  "schema": {
+                    "name": "StandardTextListBlock",
+                    "fields": [
+                      {
+                        "name": "textList",
+                        "required": true,
+                        "type": "array",
+                        "maxItems": 8,
+                        "minItems": 0,
+                        "item": "TextItem",
+                        "itemSchema": {
+                          "name": "TextItem",
+                          "fields": [
+                            {
+                              "name": "position",
+                              "required": true,
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 100
+                            },
+                            {
+                              "name": "text",
+                              "required": true,
+                              "type": "TextComponent"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "specificationTextBlock",
+            "required": false,
+            "type": "StandardTextBlock",
+            "schema": {
+              "name": "StandardTextBlock",
+              "fields": [
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "STANDARD_SINGLE_SIDE_IMAGE",
+      "key": "standardSingleSideImage",
+      "tier": "standard",
+      "definition": "StandardSingleSideImageModule",
+      "schema": {
+        "name": "StandardSingleSideImageModule",
+        "fields": [
+          {
+            "name": "imagePositionType",
+            "required": true,
+            "type": "PositionType",
+            "enum": [
+              "LEFT",
+              "RIGHT"
+            ]
+          },
+          {
+            "name": "block",
+            "required": false,
+            "type": "StandardImageTextBlock",
+            "schema": {
+              "name": "StandardImageTextBlock",
+              "fields": [
+                {
+                  "name": "image",
+                  "required": false,
+                  "type": "ImageComponent"
+                },
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "STANDARD_TECH_SPECS",
+      "key": "standardTechSpecs",
+      "tier": "standard",
+      "definition": "StandardTechSpecsModule",
+      "schema": {
+        "name": "StandardTechSpecsModule",
+        "fields": [
+          {
+            "name": "headline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "specificationList",
+            "required": true,
+            "type": "array",
+            "maxItems": 16,
+            "minItems": 4,
+            "item": "StandardTextPairBlock",
+            "itemSchema": {
+              "name": "StandardTextPairBlock",
+              "fields": [
+                {
+                  "name": "label",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "description",
+                  "required": false,
+                  "type": "TextComponent"
+                }
+              ]
+            }
+          },
+          {
+            "name": "tableCount",
+            "required": false,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2
+          }
+        ]
+      }
+    },
+    {
+      "type": "STANDARD_TEXT",
+      "key": "standardText",
+      "tier": "standard",
+      "definition": "StandardTextModule",
+      "schema": {
+        "name": "StandardTextModule",
+        "fields": [
+          {
+            "name": "headline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "body",
+            "required": true,
+            "type": "ParagraphComponent"
+          }
+        ]
+      }
+    },
+    {
+      "type": "STANDARD_THREE_IMAGE_TEXT",
+      "key": "standardThreeImageText",
+      "tier": "standard",
+      "definition": "StandardThreeImageTextModule",
+      "schema": {
+        "name": "StandardThreeImageTextModule",
+        "fields": [
+          {
+            "name": "headline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "block1",
+            "required": false,
+            "type": "StandardImageTextBlock",
+            "schema": {
+              "name": "StandardImageTextBlock",
+              "fields": [
+                {
+                  "name": "image",
+                  "required": false,
+                  "type": "ImageComponent"
+                },
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          },
+          {
+            "name": "block2",
+            "required": false,
+            "type": "StandardImageTextBlock",
+            "schema": {
+              "name": "StandardImageTextBlock",
+              "fields": [
+                {
+                  "name": "image",
+                  "required": false,
+                  "type": "ImageComponent"
+                },
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          },
+          {
+            "name": "block3",
+            "required": false,
+            "type": "StandardImageTextBlock",
+            "schema": {
+              "name": "StandardImageTextBlock",
+              "fields": [
+                {
+                  "name": "image",
+                  "required": false,
+                  "type": "ImageComponent"
+                },
+                {
+                  "name": "headline",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "body",
+                  "required": false,
+                  "type": "ParagraphComponent"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "PREMIUM_IMAGE_TEXT",
+      "key": "premiumImageText",
+      "tier": "premium",
+      "definition": "PremiumImageTextModule",
+      "schema": {
+        "name": "PremiumImageTextModule",
+        "fields": [
+          {
+            "name": "positionType",
+            "required": true,
+            "type": "PositionType",
+            "enum": [
+              "LEFT",
+              "RIGHT"
+            ]
+          },
+          {
+            "name": "subheadline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "headline",
+            "required": true,
+            "type": "TextComponent"
+          },
+          {
+            "name": "bodyText",
+            "required": false,
+            "type": "ParagraphComponent"
+          },
+          {
+            "name": "image",
+            "required": true,
+            "type": "ImageComponent"
+          }
+        ]
+      }
+    },
+    {
+      "type": "PREMIUM_TEXT",
+      "key": "premiumText",
+      "tier": "premium",
+      "definition": "PremiumTextModule",
+      "schema": {
+        "name": "PremiumTextModule",
+        "fields": [
+          {
+            "name": "description",
+            "required": true,
+            "type": "ParagraphComponent"
+          },
+          {
+            "name": "headline",
+            "required": false,
+            "type": "TextComponent"
+          }
+        ]
+      }
+    },
+    {
+      "type": "PREMIUM_FULL_BACKGROUND_TEXT",
+      "key": "premiumFullBackgroundText",
+      "tier": "premium",
+      "definition": "PremiumFullBackgroundTextModule",
+      "schema": {
+        "name": "PremiumFullBackgroundTextModule",
+        "fields": [
+          {
+            "name": "positionType",
+            "required": true,
+            "type": "PositionType",
+            "enum": [
+              "LEFT",
+              "RIGHT"
+            ]
+          },
+          {
+            "name": "colorType",
+            "required": true,
+            "type": "ColorType",
+            "enum": [
+              "DARK",
+              "LIGHT"
+            ]
+          },
+          {
+            "name": "subheadline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "headline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "description",
+            "required": false,
+            "type": "ParagraphComponent"
+          },
+          {
+            "name": "desktopImage",
+            "required": true,
+            "type": "ImageComponent"
+          },
+          {
+            "name": "mobileImage",
+            "required": true,
+            "type": "ImageComponent"
+          }
+        ]
+      }
+    },
+    {
+      "type": "PREMIUM_FULL_BACKGROUND_IMAGE",
+      "key": "premiumFullBackgroundImage",
+      "tier": "premium",
+      "definition": "PremiumFullBackgroundImageModule",
+      "schema": {
+        "name": "PremiumFullBackgroundImageModule",
+        "fields": [
+          {
+            "name": "headline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "footer",
+            "required": false,
+            "type": "ParagraphComponent"
+          },
+          {
+            "name": "desktopImage",
+            "required": true,
+            "type": "ImageComponent"
+          },
+          {
+            "name": "mobileImage",
+            "required": true,
+            "type": "ImageComponent"
+          }
+        ]
+      }
+    },
+    {
+      "type": "PREMIUM_FOUR_COLUMN_IMAGES",
+      "key": "premiumFourColumnImages",
+      "tier": "premium",
+      "definition": "PremiumFourColumnImagesModule",
+      "schema": {
+        "name": "PremiumFourColumnImagesModule",
+        "fields": [
+          {
+            "name": "headline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "columns",
+            "required": true,
+            "type": "array",
+            "maxItems": 4,
+            "minItems": 3,
+            "item": "ImageColumns",
+            "itemSchema": {
+              "name": "ImageColumns",
+              "fields": [
+                {
+                  "name": "imageColumn",
+                  "required": true,
+                  "type": "ImageColumn",
+                  "schema": {
+                    "name": "ImageColumn",
+                    "fields": [
+                      {
+                        "name": "position",
+                        "required": true,
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      {
+                        "name": "image",
+                        "required": true,
+                        "type": "ImageComponent"
+                      },
+                      {
+                        "name": "headline",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "description",
+                        "required": false,
+                        "type": "ParagraphComponent"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "PREMIUM_DUAL_IMAGE_TEXT",
+      "key": "premiumDualImageText",
+      "tier": "premium",
+      "definition": "PremiumDualImageTextModule",
+      "schema": {
+        "name": "PremiumDualImageTextModule",
+        "fields": [
+          {
+            "name": "headline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "columns",
+            "required": true,
+            "type": "array",
+            "maxItems": 2,
+            "minItems": 2,
+            "item": "ImageColumns",
+            "itemSchema": {
+              "name": "ImageColumns",
+              "fields": [
+                {
+                  "name": "imageColumn",
+                  "required": true,
+                  "type": "ImageColumn",
+                  "schema": {
+                    "name": "ImageColumn",
+                    "fields": [
+                      {
+                        "name": "position",
+                        "required": true,
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      {
+                        "name": "image",
+                        "required": true,
+                        "type": "ImageComponent"
+                      },
+                      {
+                        "name": "headline",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "description",
+                        "required": false,
+                        "type": "ParagraphComponent"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "PREMIUM_IMAGE_CAROUSEL",
+      "key": "premiumImageCarousel",
+      "tier": "premium",
+      "definition": "PremiumImageCarouselModule",
+      "schema": {
+        "name": "PremiumImageCarouselModule",
+        "fields": [
+          {
+            "name": "headline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "footer",
+            "required": false,
+            "type": "ParagraphComponent"
+          },
+          {
+            "name": "carouselCards",
+            "required": true,
+            "type": "array",
+            "maxItems": 6,
+            "minItems": 2,
+            "item": "ImageCarouselPanels",
+            "itemSchema": {
+              "name": "ImageCarouselPanels",
+              "fields": [
+                {
+                  "name": "imagePanel",
+                  "required": true,
+                  "type": "ImageCarouselPanel",
+                  "schema": {
+                    "name": "ImageCarouselPanel",
+                    "fields": [
+                      {
+                        "name": "position",
+                        "required": true,
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 6
+                      },
+                      {
+                        "name": "title",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "buttonText",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "asin",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "description",
+                        "required": false,
+                        "type": "ParagraphComponent"
+                      },
+                      {
+                        "name": "desktopImage",
+                        "required": true,
+                        "type": "ImageComponent"
+                      },
+                      {
+                        "name": "mobileImage",
+                        "required": true,
+                        "type": "ImageComponent"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "PREMIUM_NAVIGATION_CAROUSEL",
+      "key": "premiumNavigationCarousel",
+      "tier": "premium",
+      "definition": "PremiumNavigationCarouselModule",
+      "schema": {
+        "name": "PremiumNavigationCarouselModule",
+        "fields": [
+          {
+            "name": "carouselCards",
+            "required": true,
+            "type": "array",
+            "maxItems": 5,
+            "minItems": 2,
+            "item": "NavigationCarouselPanels",
+            "itemSchema": {
+              "name": "NavigationCarouselPanels",
+              "fields": [
+                {
+                  "name": "navigationPanel",
+                  "required": true,
+                  "type": "NavigationCarouselPanel",
+                  "schema": {
+                    "name": "NavigationCarouselPanel",
+                    "fields": [
+                      {
+                        "name": "position",
+                        "required": true,
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 5
+                      },
+                      {
+                        "name": "title",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "navText",
+                        "required": true,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "subtitle",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "description",
+                        "required": false,
+                        "type": "ParagraphComponent"
+                      },
+                      {
+                        "name": "desktopImage",
+                        "required": true,
+                        "type": "ImageComponent"
+                      },
+                      {
+                        "name": "mobileImage",
+                        "required": true,
+                        "type": "ImageComponent"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "PREMIUM_REGIMEN_CAROUSEL",
+      "key": "premiumRegimenCarousel",
+      "tier": "premium",
+      "definition": "PremiumRegimenCarouselModule",
+      "schema": {
+        "name": "PremiumRegimenCarouselModule",
+        "fields": [
+          {
+            "name": "headline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "carouselCards",
+            "required": true,
+            "type": "array",
+            "maxItems": 5,
+            "minItems": 2,
+            "item": "RegimenCarouselPanels",
+            "itemSchema": {
+              "name": "RegimenCarouselPanels",
+              "fields": [
+                {
+                  "name": "regimenPanel",
+                  "required": true,
+                  "type": "RegimenCarouselPanel",
+                  "schema": {
+                    "name": "RegimenCarouselPanel",
+                    "fields": [
+                      {
+                        "name": "position",
+                        "required": true,
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 5
+                      },
+                      {
+                        "name": "title",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "navText",
+                        "required": true,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "description",
+                        "required": false,
+                        "type": "ParagraphComponent"
+                      },
+                      {
+                        "name": "desktopImage",
+                        "required": true,
+                        "type": "ImageComponent"
+                      },
+                      {
+                        "name": "mobileImage",
+                        "required": true,
+                        "type": "ImageComponent"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "PREMIUM_THREE_COLUMN_COMPARISON",
+      "key": "premiumThreeColumnComparison",
+      "tier": "premium",
+      "definition": "PremiumThreeColumnComparisonModule",
+      "schema": {
+        "name": "PremiumThreeColumnComparisonModule",
+        "fields": [
+          {
+            "name": "headline",
+            "required": true,
+            "type": "TextComponent"
+          },
+          {
+            "name": "comparisonProducts",
+            "required": true,
+            "type": "array",
+            "maxItems": 3,
+            "minItems": 3,
+            "item": "ThreeColumnComparisonProduct",
+            "itemSchema": {
+              "name": "ThreeColumnComparisonProduct",
+              "fields": [
+                {
+                  "name": "position",
+                  "required": false,
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 3
+                },
+                {
+                  "name": "productTitle",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "productAsin",
+                  "required": false,
+                  "type": "TextComponent"
+                },
+                {
+                  "name": "image",
+                  "required": false,
+                  "type": "ImageComponent"
+                }
+              ]
+            }
+          },
+          {
+            "name": "comparisonRows",
+            "required": true,
+            "type": "array",
+            "maxItems": 5,
+            "minItems": 2,
+            "item": "ThreeColumnComparisonRow",
+            "itemSchema": {
+              "name": "ThreeColumnComparisonRow",
+              "fields": [
+                {
+                  "name": "position",
+                  "required": false,
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 5
+                },
+                {
+                  "name": "metricValues",
+                  "required": false,
+                  "type": "array",
+                  "maxItems": 3,
+                  "minItems": 3,
+                  "item": "MetricValueItem",
+                  "itemSchema": {
+                    "name": "MetricValueItem",
+                    "fields": [
+                      {
+                        "name": "metricName",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "metricValue",
+                        "required": false,
+                        "type": "ParagraphComponent"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "PREMIUM_COMPARISON_CAROUSEL",
+      "key": "premiumComparisonCarousel",
+      "tier": "premium",
+      "definition": "PremiumComparisonCarouselModule",
+      "schema": {
+        "name": "PremiumComparisonCarouselModule",
+        "fields": [
+          {
+            "name": "headline",
+            "required": true,
+            "type": "TextComponent"
+          },
+          {
+            "name": "comparisonProducts",
+            "required": true,
+            "type": "array",
+            "maxItems": 5,
+            "minItems": 3,
+            "item": "ComparisonProducts",
+            "itemSchema": {
+              "name": "ComparisonProducts",
+              "fields": [
+                {
+                  "name": "comparisonProduct",
+                  "required": true,
+                  "type": "ComparisonProduct",
+                  "schema": {
+                    "name": "ComparisonProduct",
+                    "fields": [
+                      {
+                        "name": "position",
+                        "required": false,
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      {
+                        "name": "productTitle",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "productAsin",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "desktopImage",
+                        "required": false,
+                        "type": "ImageComponent"
+                      },
+                      {
+                        "name": "mobileImage",
+                        "required": false,
+                        "type": "ImageComponent"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "comparisonMetrics",
+            "required": true,
+            "type": "array",
+            "maxItems": 7,
+            "minItems": 3,
+            "item": "ComparisonMetrics",
+            "itemSchema": {
+              "name": "ComparisonMetrics",
+              "fields": [
+                {
+                  "name": "comparisonRow",
+                  "required": true,
+                  "type": "ComparisonRow",
+                  "schema": {
+                    "name": "ComparisonRow",
+                    "fields": [
+                      {
+                        "name": "position",
+                        "required": false,
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      {
+                        "name": "metricName",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "comparisonType",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "additionalInfo",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "comparisonFields",
+                        "required": false,
+                        "type": "array",
+                        "maxItems": null,
+                        "minItems": null,
+                        "item": "ComparisonFields",
+                        "itemSchema": {
+                          "name": "ComparisonFields",
+                          "fields": [
+                            {
+                              "name": "comparisonField",
+                              "required": true,
+                              "type": "PlainTextItem",
+                              "schema": {
+                                "name": "PlainTextItem",
+                                "fields": [
+                                  {
+                                    "name": "position",
+                                    "required": true,
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "maximum": 100
+                                  },
+                                  {
+                                    "name": "value",
+                                    "required": true,
+                                    "type": "string",
+                                    "maxLength": 250,
+                                    "minLength": 1
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "PREMIUM_COMPARISON_SCROLLER",
+      "key": "premiumComparisonScroller",
+      "tier": "premium",
+      "definition": "PremiumComparisonScrollerModule",
+      "schema": {
+        "name": "PremiumComparisonScrollerModule",
+        "fields": [
+          {
+            "name": "headline",
+            "required": true,
+            "type": "TextComponent"
+          },
+          {
+            "name": "showATC",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "showPrices",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "showReviews",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "comparisonProducts",
+            "required": true,
+            "type": "array",
+            "maxItems": 7,
+            "minItems": 3,
+            "item": "ComparisonProducts",
+            "itemSchema": {
+              "name": "ComparisonProducts",
+              "fields": [
+                {
+                  "name": "comparisonProduct",
+                  "required": true,
+                  "type": "ComparisonProduct",
+                  "schema": {
+                    "name": "ComparisonProduct",
+                    "fields": [
+                      {
+                        "name": "position",
+                        "required": false,
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      {
+                        "name": "productTitle",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "productAsin",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "desktopImage",
+                        "required": false,
+                        "type": "ImageComponent"
+                      },
+                      {
+                        "name": "mobileImage",
+                        "required": false,
+                        "type": "ImageComponent"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "comparisonRows",
+            "required": true,
+            "type": "array",
+            "maxItems": 12,
+            "minItems": 5,
+            "item": "ComparisonMetrics",
+            "itemSchema": {
+              "name": "ComparisonMetrics",
+              "fields": [
+                {
+                  "name": "comparisonRow",
+                  "required": true,
+                  "type": "ComparisonRow",
+                  "schema": {
+                    "name": "ComparisonRow",
+                    "fields": [
+                      {
+                        "name": "position",
+                        "required": false,
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      {
+                        "name": "metricName",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "comparisonType",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "additionalInfo",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "comparisonFields",
+                        "required": false,
+                        "type": "array",
+                        "maxItems": null,
+                        "minItems": null,
+                        "item": "ComparisonFields",
+                        "itemSchema": {
+                          "name": "ComparisonFields",
+                          "fields": [
+                            {
+                              "name": "comparisonField",
+                              "required": true,
+                              "type": "PlainTextItem",
+                              "schema": {
+                                "name": "PlainTextItem",
+                                "fields": [
+                                  {
+                                    "name": "position",
+                                    "required": true,
+                                    "type": "integer",
+                                    "minimum": 1,
+                                    "maximum": 100
+                                  },
+                                  {
+                                    "name": "value",
+                                    "required": true,
+                                    "type": "string",
+                                    "maxLength": 250,
+                                    "minLength": 1
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "PREMIUM_HOTSPOT_IMAGE",
+      "key": "premiumHotspotImage",
+      "tier": "premium",
+      "definition": "PremiumHotspotImageModule",
+      "schema": {
+        "name": "PremiumHotspotImageModule",
+        "fields": [
+          {
+            "name": "desktopImage",
+            "required": true,
+            "type": "ImageComponent"
+          },
+          {
+            "name": "hotSpots",
+            "required": true,
+            "type": "array",
+            "maxItems": 6,
+            "minItems": 2,
+            "item": "ImageHotSpots",
+            "itemSchema": {
+              "name": "ImageHotSpots",
+              "fields": [
+                {
+                  "name": "imageHotSpot",
+                  "required": true,
+                  "type": "ImageHotSpot",
+                  "schema": {
+                    "name": "ImageHotSpot",
+                    "fields": [
+                      {
+                        "name": "mobileImage",
+                        "required": true,
+                        "type": "ImageComponent"
+                      },
+                      {
+                        "name": "title",
+                        "required": true,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "description",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "xCoordinate",
+                        "required": true,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "yCoordinate",
+                        "required": true,
+                        "type": "TextComponent"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "PREMIUM_HOTSPOT_IMAGE_TEXT",
+      "key": "premiumHotspotImageText",
+      "tier": "premium",
+      "definition": "PremiumHotspotImageTextModule",
+      "schema": {
+        "name": "PremiumHotspotImageTextModule",
+        "fields": [
+          {
+            "name": "headline",
+            "required": true,
+            "type": "TextComponent"
+          },
+          {
+            "name": "mainDescription",
+            "required": false,
+            "type": "ParagraphComponent"
+          },
+          {
+            "name": "desktopImage",
+            "required": true,
+            "type": "ImageComponent"
+          },
+          {
+            "name": "hotSpots",
+            "required": true,
+            "type": "array",
+            "maxItems": 6,
+            "minItems": 2,
+            "item": "ImageTextHotSpots",
+            "itemSchema": {
+              "name": "ImageTextHotSpots",
+              "fields": [
+                {
+                  "name": "imageTextHotSpot",
+                  "required": true,
+                  "type": "ImageTextHotSpot",
+                  "schema": {
+                    "name": "ImageTextHotSpot",
+                    "fields": [
+                      {
+                        "name": "mobileImage",
+                        "required": true,
+                        "type": "ImageComponent"
+                      },
+                      {
+                        "name": "title",
+                        "required": true,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "xCoordinate",
+                        "required": true,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "yCoordinate",
+                        "required": true,
+                        "type": "TextComponent"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "PREMIUM_FAQ",
+      "key": "premiumFaq",
+      "tier": "premium",
+      "definition": "PremiumFaqModule",
+      "schema": {
+        "name": "PremiumFaqModule",
+        "fields": [
+          {
+            "name": "colorType",
+            "required": false,
+            "type": "ColorType",
+            "enum": [
+              "DARK",
+              "LIGHT"
+            ]
+          },
+          {
+            "name": "faqs",
+            "required": true,
+            "type": "array",
+            "maxItems": 5,
+            "minItems": 2,
+            "item": "Faqs",
+            "itemSchema": {
+              "name": "Faqs",
+              "fields": [
+                {
+                  "name": "faq",
+                  "required": true,
+                  "type": "Faq",
+                  "schema": {
+                    "name": "Faq",
+                    "fields": [
+                      {
+                        "name": "question",
+                        "required": true,
+                        "type": "ParagraphComponent"
+                      },
+                      {
+                        "name": "answer",
+                        "required": true,
+                        "type": "ParagraphComponent"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "PREMIUM_TECH_SPECS",
+      "key": "premiumTechSpecs",
+      "tier": "premium",
+      "definition": "PremiumTechSpecsModule",
+      "schema": {
+        "name": "PremiumTechSpecsModule",
+        "fields": [
+          {
+            "name": "headline",
+            "required": true,
+            "type": "TextComponent"
+          },
+          {
+            "name": "columnCount",
+            "required": false,
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2
+          },
+          {
+            "name": "techSpecs",
+            "required": true,
+            "type": "array",
+            "maxItems": 16,
+            "minItems": 4,
+            "item": "TechSpecs",
+            "itemSchema": {
+              "name": "TechSpecs",
+              "fields": [
+                {
+                  "name": "techSpec",
+                  "required": true,
+                  "type": "TechSpec",
+                  "schema": {
+                    "name": "TechSpec",
+                    "fields": [
+                      {
+                        "name": "specKey",
+                        "required": true,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "specValue",
+                        "required": true,
+                        "type": "TextComponent"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "PREMIUM_VIDEO_TEXT",
+      "key": "premiumVideoText",
+      "tier": "premium",
+      "definition": "PremiumVideoTextModule",
+      "schema": {
+        "name": "PremiumVideoTextModule",
+        "fields": [
+          {
+            "name": "positionType",
+            "required": true,
+            "type": "PositionType",
+            "enum": [
+              "LEFT",
+              "RIGHT"
+            ]
+          },
+          {
+            "name": "title",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "headline",
+            "required": true,
+            "type": "TextComponent"
+          },
+          {
+            "name": "description",
+            "required": false,
+            "type": "ParagraphComponent"
+          },
+          {
+            "name": "video",
+            "required": true,
+            "type": "VideoComponent"
+          }
+        ]
+      }
+    },
+    {
+      "type": "PREMIUM_HERO_VIDEO",
+      "key": "premiumHeroVideo",
+      "tier": "premium",
+      "definition": "PremiumHeroVideoModule",
+      "schema": {
+        "name": "PremiumHeroVideoModule",
+        "fields": [
+          {
+            "name": "headline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "heroVideo",
+            "required": true,
+            "type": "VideoComponent"
+          },
+          {
+            "name": "footer",
+            "required": false,
+            "type": "ParagraphComponent"
+          }
+        ]
+      }
+    },
+    {
+      "type": "PREMIUM_VIDEO_IMAGE_CAROUSEL",
+      "key": "premiumVideoImageCarousel",
+      "tier": "premium",
+      "definition": "PremiumVideoImageCarouselModule",
+      "schema": {
+        "name": "PremiumVideoImageCarouselModule",
+        "fields": [
+          {
+            "name": "headline",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "carouselCards",
+            "required": true,
+            "type": "array",
+            "maxItems": 6,
+            "minItems": 2,
+            "item": "VideoImageCarouselPanels",
+            "itemSchema": {
+              "name": "VideoImageCarouselPanels",
+              "fields": [
+                {
+                  "name": "videoCarouselPanel",
+                  "required": true,
+                  "type": "VideoImageCarouselPanel",
+                  "schema": {
+                    "name": "VideoImageCarouselPanel",
+                    "fields": [
+                      {
+                        "name": "position",
+                        "required": true,
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 6
+                      },
+                      {
+                        "name": "title",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "positionType",
+                        "required": false,
+                        "type": "PositionType",
+                        "enum": [
+                          "LEFT",
+                          "RIGHT"
+                        ]
+                      },
+                      {
+                        "name": "subheadline",
+                        "required": false,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "description",
+                        "required": false,
+                        "type": "ParagraphComponent"
+                      },
+                      {
+                        "name": "desktopImage",
+                        "required": false,
+                        "type": "ImageComponent"
+                      },
+                      {
+                        "name": "mobileImage",
+                        "required": false,
+                        "type": "ImageComponent"
+                      },
+                      {
+                        "name": "video",
+                        "required": false,
+                        "type": "VideoComponent"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "BRAND_STORY_IMAGE_WITH_LOGO",
+      "key": "brandStoryImageWithLogo",
+      "tier": "brandStory",
+      "definition": "BrandStoryImageWithLogoModule",
+      "schema": {
+        "name": "BrandStoryImageWithLogoModule",
+        "fields": [
+          {
+            "name": "title",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "description",
+            "required": false,
+            "type": "ParagraphComponent"
+          },
+          {
+            "name": "desktopImage",
+            "required": true,
+            "type": "ImageComponent"
+          },
+          {
+            "name": "mobileImage",
+            "required": true,
+            "type": "ImageComponent"
+          }
+        ]
+      }
+    },
+    {
+      "type": "BRAND_STORY_FOUR_ASIN",
+      "key": "brandStoryFourAsin",
+      "tier": "brandStory",
+      "definition": "BrandStoryFourAsinModule",
+      "schema": {
+        "name": "BrandStoryFourAsinModule",
+        "fields": [
+          {
+            "name": "title",
+            "required": true,
+            "type": "TextComponent"
+          },
+          {
+            "name": "brandStoreId",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "asinImages",
+            "required": true,
+            "type": "array",
+            "maxItems": 4,
+            "minItems": 4,
+            "item": "AsinImages",
+            "itemSchema": {
+              "name": "AsinImages",
+              "fields": [
+                {
+                  "name": "asinImage",
+                  "required": true,
+                  "type": "AsinImage",
+                  "schema": {
+                    "name": "AsinImage",
+                    "fields": [
+                      {
+                        "name": "productAsin",
+                        "required": true,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "productImage",
+                        "required": true,
+                        "type": "ImageComponent"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "BRAND_STORY_MEDIA_ASSET",
+      "key": "brandStoryMediaAsset",
+      "tier": "brandStory",
+      "definition": "BrandStoryMediaAssetModule",
+      "schema": {
+        "name": "BrandStoryMediaAssetModule",
+        "fields": [
+          {
+            "name": "title",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "description",
+            "required": false,
+            "type": "ParagraphComponent"
+          },
+          {
+            "name": "image",
+            "required": true,
+            "type": "ImageComponent"
+          }
+        ]
+      }
+    },
+    {
+      "type": "BRAND_STORY_ABOUT",
+      "key": "brandStoryAbout",
+      "tier": "brandStory",
+      "definition": "BrandStoryAboutModule",
+      "schema": {
+        "name": "BrandStoryAboutModule",
+        "fields": [
+          {
+            "name": "logoImage",
+            "required": true,
+            "type": "ImageComponent"
+          },
+          {
+            "name": "title",
+            "required": false,
+            "type": "TextComponent"
+          },
+          {
+            "name": "slogan",
+            "required": false,
+            "type": "ParagraphComponent"
+          }
+        ]
+      }
+    },
+    {
+      "type": "BRAND_STORY_QUESTIONS",
+      "key": "brandStoryQuestions",
+      "tier": "brandStory",
+      "definition": "BrandStoryQuestionsModule",
+      "schema": {
+        "name": "BrandStoryQuestionsModule",
+        "fields": [
+          {
+            "name": "questionAnswerPairs",
+            "required": true,
+            "type": "array",
+            "maxItems": 3,
+            "minItems": 3,
+            "item": "QuestionAnswerPairs",
+            "itemSchema": {
+              "name": "QuestionAnswerPairs",
+              "fields": [
+                {
+                  "name": "questionAnswerPair",
+                  "required": true,
+                  "type": "QuestionAnswerPair",
+                  "schema": {
+                    "name": "QuestionAnswerPair",
+                    "fields": [
+                      {
+                        "name": "question",
+                        "required": true,
+                        "type": "TextComponent"
+                      },
+                      {
+                        "name": "answer",
+                        "required": true,
+                        "type": "ParagraphComponent"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

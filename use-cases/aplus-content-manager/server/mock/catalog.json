@@ -1,0 +1,85 @@
+{
+ "B0SAMPLE01": {
+  "asin": "B0SAMPLE01",
+  "title": "Relaxed Cotton Tee, Pink",
+  "brand": "Cotton Studio",
+  "fixtureImages": [
+   "sq-color-pink-650x650.jpg",
+   "sq-hanger-650x650.jpg",
+   "sq-neckline-650x650.jpg",
+   "sq-hem-650x650.jpg",
+   "sq-folded-top-650x650.jpg"
+  ],
+  "bullets": [
+   "90% cotton, 10% rayon",
+   "Relaxed fit, crew neck",
+   "Cap sleeve",
+   "Hand wash only",
+   "Made in the USA"
+  ],
+  "description": "A relaxed-fit crew neck tee in a soft cotton blend (90% cotton, 10% rayon). Cap sleeves, classic length, made in the USA. Hand wash only.",
+  "price": "$19.99"
+ },
+ "B0SAMPLE02": {
+  "asin": "B0SAMPLE02",
+  "title": "Relaxed Cotton Tee, White",
+  "brand": "Cotton Studio",
+  "fixtureImages": [
+   "sq-color-white-650x650.jpg"
+  ],
+  "bullets": [
+   "90% cotton, 10% rayon",
+   "Relaxed fit, crew neck",
+   "Cap sleeve",
+   "Hand wash only",
+   "Made in the USA"
+  ],
+  "description": "A relaxed-fit crew neck tee in a soft cotton blend (90% cotton, 10% rayon). Cap sleeves, classic length, made in the USA. Hand wash only.",
+  "price": "$19.99"
+ },
+ "B0SAMPLE03": {
+  "asin": "B0SAMPLE03",
+  "title": "Relaxed Cotton Tee, Heather Grey",
+  "brand": "Cotton Studio",
+  "fixtureImages": [
+   "sq-color-grey-650x650.jpg"
+  ],
+  "bullets": [
+   "90% cotton, 10% rayon",
+   "Relaxed fit, crew neck",
+   "Cap sleeve",
+   "Hand wash only",
+   "Made in the USA"
+  ],
+  "description": "A relaxed-fit crew neck tee in a soft cotton blend (90% cotton, 10% rayon). Cap sleeves, classic length, made in the USA. Hand wash only.",
+  "price": "$19.99"
+ },
+ "B0SAMPLE04": {
+  "asin": "B0SAMPLE04",
+  "title": "Relaxed Cotton Tee, Navy",
+  "brand": "Cotton Studio",
+  "fixtureImages": [
+   "sq-color-navy-650x650.jpg"
+  ],
+  "bullets": [
+   "90% cotton, 10% rayon",
+   "Relaxed fit, crew neck",
+   "Cap sleeve",
+   "Hand wash only",
+   "Made in the USA"
+  ],
+  "description": "A relaxed-fit crew neck tee in a soft cotton blend (90% cotton, 10% rayon). Cap sleeves, classic length, made in the USA. Hand wash only.",
+  "price": "$19.99"
+ },
+ "B0SAMPLE99": {
+  "asin": "B0SAMPLE99",
+  "title": "Stoneware Coffee Mug, 12 oz (another brand)",
+  "brand": "Other Brand",
+  "bullets": [
+   "Dishwasher safe",
+   "Holds 12 oz"
+  ],
+  "price": "$12.00",
+  "brandNotEligible": true
+ }
+}
