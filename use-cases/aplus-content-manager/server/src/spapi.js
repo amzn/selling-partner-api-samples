@@ -57,6 +57,12 @@ async function accessToken() {
  */
 export async function spapi(method, path, { query, body } = {}) {
   const url = new URL(path, ENDPOINT);
+  // Paths are literals in the routes, but a route parameter travels inside one: never send the access token
+  // anywhere except the configured endpoint, whatever that parameter contained.
+  if (url.origin !== new URL(ENDPOINT).origin)
+    throw Object.assign(new Error(`Refusing to call ${url.origin}: not the configured SP-API endpoint`), {
+      status: 400,
+    });
   for (const [k, v] of Object.entries(query || {})) {
     if (v === undefined || v === null || v === '') continue;
     url.searchParams.set(k, Array.isArray(v) ? v.join(',') : String(v)); // list params are csv (asinSet, includedDataSet, marketplaceIds)

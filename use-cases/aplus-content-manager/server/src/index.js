@@ -43,6 +43,11 @@ const wrap = (fn) => async (req, res) => {
   }
 };
 
+/** A route parameter that travels in an SP-API request path, as one path segment. Express decodes %2F in a
+ *  parameter, so a raw `a%2F..%2Fb` would arrive as `a/../b` and move the call to another operation, carrying
+ *  the access token with it; encoding keeps the value inside its own segment. */
+const seg = (value) => encodeURIComponent(value);
+
 const SELLER_ID = process.env.SP_API_SELLER_ID || '';
 // seller (default) or vendor: decides EBC vs EMC for new documents and how the preview renders the page
 const ACCOUNT_TYPE = process.env.SP_API_ACCOUNT_TYPE === 'vendor' ? 'vendor' : 'seller';
@@ -135,7 +140,7 @@ app.get(
     const included = String(req.query.includedDataSet || 'CONTENTS,METADATA').split(',');
     return MODE === 'mock'
       ? mock.getContentDocument(req.params.crk, included)
-      : spapi('GET', `/aplus/2020-11-01/contentDocuments/${req.params.crk}`, {
+      : spapi('GET', `/aplus/2020-11-01/contentDocuments/${seg(req.params.crk)}`, {
           query: { marketplaceId: MKT, includedDataSet: included },
         });
   }),
@@ -172,7 +177,7 @@ app.post(
   wrap((req) =>
     MODE === 'mock'
       ? mock.updateContentDocument(req.params.crk, req.body.contentDocument)
-      : spapi('POST', `/aplus/2020-11-01/contentDocuments/${req.params.crk}`, {
+      : spapi('POST', `/aplus/2020-11-01/contentDocuments/${seg(req.params.crk)}`, {
           query: { marketplaceId: MKT },
           body: { contentDocument: req.body.contentDocument },
         }),
@@ -184,7 +189,7 @@ app.get(
   wrap((req) =>
     MODE === 'mock'
       ? mock.listAsinRelations(req.params.crk)
-      : spapi('GET', `/aplus/2020-11-01/contentDocuments/${req.params.crk}/asins`, {
+      : spapi('GET', `/aplus/2020-11-01/contentDocuments/${seg(req.params.crk)}/asins`, {
           query: { marketplaceId: MKT, includedDataSet: ['METADATA'] },
         }),
   ),
@@ -195,7 +200,7 @@ app.post(
   wrap((req) =>
     MODE === 'mock'
       ? mock.postAsinRelations(req.params.crk, req.body.asinSet || [])
-      : spapi('POST', `/aplus/2020-11-01/contentDocuments/${req.params.crk}/asins`, {
+      : spapi('POST', `/aplus/2020-11-01/contentDocuments/${seg(req.params.crk)}/asins`, {
           query: { marketplaceId: MKT },
           body: { asinSet: req.body.asinSet || [] },
         }),
@@ -207,7 +212,7 @@ app.post(
   wrap((req) =>
     MODE === 'mock'
       ? mock.submit(req.params.crk)
-      : spapi('POST', `/aplus/2020-11-01/contentDocuments/${req.params.crk}/approvalSubmissions`, {
+      : spapi('POST', `/aplus/2020-11-01/contentDocuments/${seg(req.params.crk)}/approvalSubmissions`, {
           query: { marketplaceId: MKT },
         }),
   ),
@@ -218,7 +223,7 @@ app.post(
   wrap((req) =>
     MODE === 'mock'
       ? mock.suspend(req.params.crk)
-      : spapi('POST', `/aplus/2020-11-01/contentDocuments/${req.params.crk}/suspendSubmissions`, {
+      : spapi('POST', `/aplus/2020-11-01/contentDocuments/${seg(req.params.crk)}/suspendSubmissions`, {
           query: { marketplaceId: MKT },
         }),
   ),
@@ -436,11 +441,13 @@ if (existsSync(fontsDir)) app.use('/fonts', express.static(fontsDir));
 const dist = join(here, '..', '..', 'client', 'dist');
 if (existsSync(dist)) {
   app.use(express.static(dist));
+  // The shell is read once, at startup: restart the server after rebuilding the client.
+  const shell = readFileSync(join(dist, 'index.html'), 'utf8');
   app.get('*', (req, res) => {
     // an unknown API path is an error in the errors[] envelope, not the SPA shell with a 200
     if (req.path.startsWith('/api/'))
       return res.status(404).json({ errors: [{ code: 'NotFound', message: `No route ${req.path}`, details: '' }] });
-    res.sendFile(join(dist, 'index.html'));
+    res.type('html').send(shell);
   });
 }
 

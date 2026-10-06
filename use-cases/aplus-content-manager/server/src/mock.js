@@ -52,10 +52,17 @@ const tierBadge = (doc) =>
       ? ['PREMIUM']
       : ['STANDARD'];
 
+/** Own-property lookup for a map whose keys come from the request (a contentReferenceKey, an ASIN).
+ *  A plain `map[key]` resolves "__proto__" and "constructor" to something on Object.prototype, which is
+ *  truthy, so a missing-key guard would pass and the write after it would land on the prototype. */
+const own = (map, key) => (typeof key === 'string' && Object.hasOwn(map, key) ? map[key] : undefined);
+/** Map keyed by request data: null-prototype, so any key is plain data (`map.__proto__ = x` included). */
+const keyedMap = (entries = []) => Object.assign(Object.create(null), entries);
+
 function initialState() {
-  const documents = structuredClone(seed.documents);
+  const documents = keyedMap(structuredClone(seed.documents));
   for (const d of Object.values(documents)) if (d.contentDocument) d.contentDocument = asAccount(d.contentDocument);
-  const published = {};
+  const published = keyedMap();
   for (const [asin, v] of Object.entries(seed.published))
     published[asin] = typeof v === 'string' ? { EBC: v } : { ...v };
   for (const [name, doc] of Object.entries(fixtures)) {
@@ -104,9 +111,9 @@ const ok = (body) => ({
   headers: { rateLimit: '5.0', requestId: randomUUID() },
   body: { warnings: [], ...body },
 });
-const isPublished = (asin, crk) => Object.values(state.published[asin] || {}).includes(crk);
+const isPublished = (asin, crk) => Object.values(own(state.published, asin) || {}).includes(crk);
 const asinBadges = (doc, asin) => {
-  const item = catalog[asin];
+  const item = own(catalog, asin);
   const out = [isPublished(asin, doc.contentReferenceKey) ? 'CONTENT_PUBLISHED' : 'CONTENT_NOT_PUBLISHED'];
   if (!item) out.push('CATALOG_NOT_FOUND');
   else if (item.brandNotEligible) out.push('BRAND_NOT_ELIGIBLE');
@@ -119,13 +126,13 @@ const asinMetadata = (doc, asin) => ({
   asin,
   badgeSet: asinBadges(doc, asin),
   parent: asin,
-  title: catalog[asin]?.title ?? null,
-  imageUrl: catalogImages(catalog[asin])[0] ?? catalog[asin]?.imageUrl ?? null,
+  title: own(catalog, asin)?.title ?? null,
+  imageUrl: catalogImages(own(catalog, asin))[0] ?? own(catalog, asin)?.imageUrl ?? null,
   contentReferenceKeySet: null,
 });
 const ineligibleWarnings = (asins) =>
   asins
-    .filter((a) => !catalog[a] || catalog[a].brandNotEligible)
+    .filter((a) => !own(catalog, a) || own(catalog, a).brandNotEligible)
     .map((a) => ({
       code: 'ASIN_FAILED_VALIDATION',
       message:
@@ -171,7 +178,7 @@ export const mock = {
   },
 
   getContentDocument(crk, includedDataSet) {
-    const doc = state.documents[crk];
+    const doc = own(state.documents, crk);
     if (!doc) return notFound();
     const want = new Set(includedDataSet);
     return ok({
@@ -238,7 +245,7 @@ export const mock = {
   },
 
   updateContentDocument(crk, document) {
-    const doc = state.documents[crk];
+    const doc = own(state.documents, crk);
     if (!doc) return notFound();
     const errors = validateDocument(document);
     if (errors.length) return { status: 400, body: { errors } };
@@ -254,7 +261,7 @@ export const mock = {
   },
 
   listAsinRelations(crk) {
-    const doc = state.documents[crk];
+    const doc = own(state.documents, crk);
     if (!doc) return notFound();
     return ok({
       warnings: ineligibleWarnings(doc.asinSet),
@@ -264,7 +271,7 @@ export const mock = {
   },
 
   postAsinRelations(crk, asinSet) {
-    const doc = state.documents[crk];
+    const doc = own(state.documents, crk);
     if (!doc) return notFound();
     doc.asinSet = [...new Set(asinSet)]; // full replacement, anything accepted
     if (doc.contentMetadata.status === 'APPROVED')
@@ -273,9 +280,9 @@ export const mock = {
   },
 
   submit(crk) {
-    const doc = state.documents[crk];
+    const doc = own(state.documents, crk);
     if (!doc) return notFound();
-    const bad = doc.asinSet.filter((a) => !catalog[a] || catalog[a].brandNotEligible);
+    const bad = doc.asinSet.filter((a) => !own(catalog, a) || own(catalog, a).brandNotEligible);
     if (bad.length) {
       return {
         status: 403,
@@ -319,7 +326,7 @@ export const mock = {
   },
 
   suspend(crk) {
-    const doc = state.documents[crk];
+    const doc = own(state.documents, crk);
     if (!doc) return notFound();
     for (const [a, fams] of Object.entries(state.published))
       for (const [f, k] of Object.entries(fams)) if (k === crk) delete state.published[a][f];
@@ -370,7 +377,7 @@ export const mock = {
   /** What the live proxy computes from searchContentDocuments + listContentDocumentAsinRelations: for every ASIN
    *  that has a document attached, the published document per family and the attached drafts. */
   aplusIndex() {
-    const index = {};
+    const index = keyedMap();
     for (const doc of Object.values(state.documents)) {
       const md = doc.contentMetadata;
       const tier = md.badgeSet?.includes('PREMIUM')
@@ -404,7 +411,7 @@ export const mock = {
 
   /** Bytes for an uploadDestinationId: uploaded in this session, or one of the fixture images. */
   uploadedImage(id) {
-    return state.uploads.get(id) || (fixtureUploads[id] ? fixtureFile(fixtureUploads[id]) : null);
+    return state.uploads.get(id) || (own(fixtureUploads, id) ? fixtureFile(own(fixtureUploads, id)) : null);
   },
 
   /** Media API stand-in: one call registers the video and its thumbnail as a VIDEO_PAIRING and returns the
@@ -454,7 +461,7 @@ export const mock = {
    *  their title, bullets, description and images come from catalog.json (the listing's attributes). */
   listingItem(asin) {
     const listing = listings.items.find((i) => i.summaries[0].asin === asin);
-    const item = catalog[asin];
+    const item = own(catalog, asin);
     if (!listing || !item)
       return {
         status: 404,
