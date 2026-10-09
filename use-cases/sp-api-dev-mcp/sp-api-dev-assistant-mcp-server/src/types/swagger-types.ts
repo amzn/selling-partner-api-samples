@@ -125,6 +125,7 @@ export interface Parameter {
   type?: string;
   format?: string;
   allowReserved?: boolean;
+  "x-amazon-spds-greedy-path-parameter"?: boolean; // Amazon extension: path value may contain "/"
   items?: Items; // Used for arrays in Swagger 2.0
   collectionFormat?: string;
   default?: any;
