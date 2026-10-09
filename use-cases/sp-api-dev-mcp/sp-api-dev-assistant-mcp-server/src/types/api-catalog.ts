@@ -35,6 +35,7 @@ export interface ApiParameter {
   purpose: string;
   schema?: object;
   default?: any;
+  greedy?: boolean; // Path parameter whose value spans multiple segments (x-amazon-spds-greedy-path-parameter)
 }
 
 export interface ApiResponse {
