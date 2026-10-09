@@ -4,6 +4,10 @@ import { z } from "zod";
 import { ApiCatalog, ApiEndpoint, ApiCategory } from "../types/api-catalog.js";
 import { logger } from "../utils/logger.js";
 import { config } from "../config/index.js";
+import {
+  displayEndpointId,
+  resolveEndpointId,
+} from "../catalog/endpoint-resolver.js";
 
 // Enhanced validation with better error messages
 function createDepthValidator() {
@@ -340,15 +344,7 @@ export class ExploreCatalogTool {
     params: ExploreCatalogParams,
   ): string {
     // Find the endpoint
-    let endpoint: ApiEndpoint | undefined;
-
-    for (const category of this.catalog.categories) {
-      const found = category.endpoints.find((e) => e.id === endpointId);
-      if (found) {
-        endpoint = found;
-        break;
-      }
-    }
+    const endpoint = resolveEndpointId(this.catalog, endpointId);
 
     if (!endpoint) {
       return `# Reference Not Found\n\nThe endpoint '${endpointId}' was not found in the catalog.`;
@@ -558,17 +554,14 @@ export class ExploreCatalogTool {
     depth: number | "full" = "full",
   ): string {
     // Find the endpoint
-    let endpoint: ApiEndpoint | undefined;
-    let categoryName = "";
-
-    for (const category of this.catalog.categories) {
-      const found = category.endpoints.find((e) => e.id === endpointId);
-      if (found) {
-        endpoint = found;
-        categoryName = category.name;
-        break;
-      }
-    }
+    const endpoint = resolveEndpointId(this.catalog, endpointId);
+    const categoryName =
+      this.catalog.categories.find(
+        (c) =>
+          endpoint &&
+          (c.endpoints.includes(endpoint) ||
+            c.subcategories?.some((s) => s.endpoints.includes(endpoint))),
+      )?.name ?? "";
 
     if (!endpoint) {
       return `# Endpoint Not Found\n\nThe endpoint '${endpointId}' was not found in the catalog. Please check the endpoint ID and try again.`;
@@ -576,7 +569,10 @@ export class ExploreCatalogTool {
 
     // Format endpoint details
     let result = `# Endpoint: ${endpoint.name}\n\n`;
-    result += `**ID**: \`${endpoint.id}\`\n`;
+    result += `**ID**: \`${displayEndpointId(
+      endpoint,
+      this.catalog.categories.flatMap((c) => c.endpoints),
+    )}\`\n`;
     result += `**Category**: ${categoryName}\n`;
     result += `**Method**: ${endpoint.method}\n`;
     result += `**Path**: \`${endpoint.path}\`\n\n`;
@@ -738,13 +734,14 @@ export class ExploreCatalogTool {
       result += `| ----------- | ---- | ------ | ----------- |\n`;
 
       for (const endpoint of category.endpoints) {
+        const id = displayEndpointId(endpoint, category.endpoints);
         // Truncate description if too long
         const description =
           endpoint.description.length > 100
             ? `${endpoint.description.substring(0, 97)}...`
             : endpoint.description;
 
-        result += `| \`${endpoint.id}\` | ${endpoint.name} | ${endpoint.method} | ${description} |\n`;
+        result += `| \`${id}\` | ${endpoint.name} | ${endpoint.method} | ${description} |\n`;
       }
     } else {
       result += `No endpoints found in this category.\n`;
@@ -764,12 +761,13 @@ export class ExploreCatalogTool {
           result += `| ----------- | ---- | ------ | ----------- |\n`;
 
           for (const endpoint of subcategory.endpoints) {
+            const id = displayEndpointId(endpoint, subcategory.endpoints);
             const description =
               endpoint.description.length > 100
                 ? `${endpoint.description.substring(0, 97)}...`
                 : endpoint.description;
 
-            result += `| \`${endpoint.id}\` | ${endpoint.name} | ${endpoint.method} | ${description} |\n`;
+            result += `| \`${id}\` | ${endpoint.name} | ${endpoint.method} | ${description} |\n`;
           }
         } else {
           result += `No endpoints found in this subcategory.\n`;
@@ -803,7 +801,7 @@ export class ExploreCatalogTool {
         result += `| ----------- | ---- | ------ | ---- |\n`;
 
         for (const endpoint of category.endpoints) {
-          result += `| \`${endpoint.id}\` | ${endpoint.name} | ${endpoint.method} | \`${endpoint.path}\` |\n`;
+          result += `| \`${displayEndpointId(endpoint, category.endpoints)}\` | ${endpoint.name} | ${endpoint.method} | \`${endpoint.path}\` |\n`;
         }
 
         result += "\n";
