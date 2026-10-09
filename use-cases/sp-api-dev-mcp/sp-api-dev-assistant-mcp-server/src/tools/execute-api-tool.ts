@@ -9,12 +9,18 @@ import { SpApiAuthenticator } from "../auth/sp-api-auth.js";
 export const executeApiSchema = z.object({
   endpoint: z
     .string()
-    .describe("The specific SP-API endpoint to use (required)"),
+    .describe(
+      "The specific SP-API endpoint to use (required). When an operation exists in several " +
+        "API versions, target one with {api}_{version}_{operationId}, e.g. " +
+        "'catalogItems_2022-04-01_getCatalogItem' or 'listingsItems_2021-08-01_patchListingsItem'.",
+    ),
   parameters: z.record(z.any()).describe("Complete set of API parameters"),
   method: z
-    .enum(["GET", "POST", "PUT", "DELETE"])
+    .enum(["GET", "POST", "PUT", "DELETE", "PATCH"])
     .optional()
-    .describe("HTTP method"),
+    .describe(
+      "HTTP method. Optional: the endpoint definition sets the method, and a mismatch is rejected",
+    ),
   additionalHeaders: z
     .record(z.string())
     .optional()
@@ -155,6 +161,14 @@ export class ExecuteApiTool {
         );
       }
 
+      // The endpoint definition decides the HTTP method; sending another verb
+      // would hit a different operation (e.g. POST on a PATCH endpoint)
+      if (params.method && params.method !== endpoint.method) {
+        return this.formatError(
+          `Method '${params.method}' does not match endpoint '${params.endpoint}', which uses ${endpoint.method}`,
+        );
+      }
+
       // Validate parameters
       const validationResult = this.validateParameters(
         endpoint,
@@ -167,8 +181,7 @@ export class ExecuteApiTool {
         );
       }
 
-      // Override method if specified
-      const method = params.method || endpoint.method;
+      const method = endpoint.method;
 
       // Resolve region: explicit param > SP_API_REGION env var > warn + default NA
       const region = this.resolveRegion(params.region);
@@ -228,6 +241,12 @@ export class ExecuteApiTool {
       }
     }
 
+    // Version-qualified ID, e.g. catalogItems_2022-04-01_getCatalogItem
+    const versioned = this.findVersionedEndpoint(endpointId);
+    if (versioned) {
+      return versioned;
+    }
+
     // Fallback: search by original operation ID for backward compatibility
     // But prioritize "Orders" category for common operations like "getOrders"
     const priorityCategories = ["Orders", "FBA Inventory", "Reports"];
@@ -282,6 +301,35 @@ export class ExecuteApiTool {
             return endpoint;
           }
         }
+      }
+    }
+
+    return undefined;
+  }
+
+  /**
+   * Find an endpoint by version-qualified ID ({api}_{version}_{operationId}).
+   * API versions that share an operationId also share the plain ID, which
+   * resolves to the first version loaded; this reaches any specific version.
+   */
+  private findVersionedEndpoint(endpointId: string): ApiEndpoint | undefined {
+    const match = endpointId.match(/^([^_]+)_([^_]+)_(.+)$/);
+    if (!match) {
+      return undefined;
+    }
+    const [, prefix, version, operationId] = match;
+    const plainId = `${prefix}_${operationId}`;
+
+    for (const category of this.catalog.categories) {
+      const endpoints = [
+        ...category.endpoints,
+        ...(category.subcategories ?? []).flatMap((s) => s.endpoints),
+      ];
+      const endpoint = endpoints.find(
+        (e) => e.id === plainId && e.version?.current === version,
+      );
+      if (endpoint) {
+        return endpoint;
       }
     }
 
