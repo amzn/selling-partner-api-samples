@@ -335,6 +335,7 @@ export class CatalogMapper {
           location: param.in as "path" | "query" | "body" | "header",
           required: param.required || false,
           type: param.type || param.schema?.type || "string",
+          collectionFormat: param.collectionFormat,
           description: param.description || "",
           purpose: this.generateParameterPurpose(param),
           schema: param.schema,

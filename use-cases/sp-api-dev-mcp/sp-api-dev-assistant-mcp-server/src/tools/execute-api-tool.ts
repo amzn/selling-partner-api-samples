@@ -5,6 +5,11 @@ import axios from "axios";
 import { ApiCatalog, ApiEndpoint, ApiParameter } from "../types/api-catalog.js";
 import { logger } from "../utils/logger.js";
 import { SpApiAuthenticator } from "../auth/sp-api-auth.js";
+import {
+  displayEndpointId,
+  endpointVersions,
+  resolveEndpointId,
+} from "../catalog/endpoint-resolver.js";
 
 export const executeApiSchema = z.object({
   endpoint: z
@@ -52,6 +57,14 @@ const SP_API_ENDPOINTS = {
 } as const;
 
 type SellingRegion = keyof typeof SP_API_ENDPOINTS;
+
+// Swagger 2 collectionFormat delimiters for array query parameters
+const ARRAY_DELIMITERS: Record<string, string> = {
+  csv: ",",
+  ssv: " ",
+  tsv: "\t",
+  pipes: "|",
+};
 
 const REGION_ALIASES: Record<string, SellingRegion> = {
   // Selling regions
@@ -206,7 +219,29 @@ export class ExecuteApiTool {
       });
 
       // Format the result
-      return this.formatResult(result, params);
+      let formatted = this.formatResult(result, params);
+      if (validationResult.warnings.length > 0) {
+        formatted +=
+          `\n\n## Warnings\n\n` +
+          validationResult.warnings
+            .map((w) => `- ${w} (not sent; this endpoint does not define it)`)
+            .join("\n");
+      }
+
+      // On failure, point at the operation's other versions: a plain ID may
+      // have resolved to an older version than the caller meant
+      const versions = endpointVersions(this.catalog, endpoint);
+      if (!result.success && versions.length > 1) {
+        formatted +=
+          `\n\n## Other Versions\n\n` +
+          `This call used ${displayEndpointId(endpoint, versions)} (${endpoint.path}). ` +
+          `This operation also exists as:\n` +
+          versions
+            .filter((v) => v !== endpoint)
+            .map((v) => `- \`${displayEndpointId(v, versions)}\` (${v.path})`)
+            .join("\n");
+      }
+      return formatted;
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : String(error);
@@ -221,32 +256,20 @@ export class ExecuteApiTool {
    * Find endpoint in the catalog by ID (supports both unique IDs and original operation IDs)
    */
   private findEndpoint(endpointId: string): ApiEndpoint | undefined {
-    // First, try to find by unique ID (new format)
-    for (const category of this.catalog.categories) {
-      const endpoint = category.endpoints.find((e) => e.id === endpointId);
-      if (endpoint) {
-        return endpoint;
-      }
-
-      // Check subcategories if present
-      if (category.subcategories) {
-        for (const subcategory of category.subcategories) {
-          const endpoint = subcategory.endpoints.find(
-            (e) => e.id === endpointId,
-          );
-          if (endpoint) {
-            return endpoint;
-          }
-        }
-      }
+    // Unique ID or a version-qualified ID such as
+    // catalogItems_2022-04-01_getCatalogItem
+    const endpoint = resolveEndpointId(this.catalog, endpointId);
+    if (endpoint) {
+      return endpoint;
     }
 
-    // Version-qualified ID, e.g. catalogItems_2022-04-01_getCatalogItem
-    const versioned = this.findVersionedEndpoint(endpointId);
-    if (versioned) {
-      return versioned;
-    }
+    return this.findByOperationId(endpointId);
+  }
 
+  /**
+   * Find an endpoint by original operation ID (backward compatibility)
+   */
+  private findByOperationId(endpointId: string): ApiEndpoint | undefined {
     // Fallback: search by original operation ID for backward compatibility
     // But prioritize "Orders" category for common operations like "getOrders"
     const priorityCategories = ["Orders", "FBA Inventory", "Reports"];
@@ -308,35 +331,6 @@ export class ExecuteApiTool {
   }
 
   /**
-   * Find an endpoint by version-qualified ID ({api}_{version}_{operationId}).
-   * API versions that share an operationId also share the plain ID, which
-   * resolves to the first version loaded; this reaches any specific version.
-   */
-  private findVersionedEndpoint(endpointId: string): ApiEndpoint | undefined {
-    const match = endpointId.match(/^([^_]+)_([^_]+)_(.+)$/);
-    if (!match) {
-      return undefined;
-    }
-    const [, prefix, version, operationId] = match;
-    const plainId = `${prefix}_${operationId}`;
-
-    for (const category of this.catalog.categories) {
-      const endpoints = [
-        ...category.endpoints,
-        ...(category.subcategories ?? []).flatMap((s) => s.endpoints),
-      ];
-      const endpoint = endpoints.find(
-        (e) => e.id === plainId && e.version?.current === version,
-      );
-      if (endpoint) {
-        return endpoint;
-      }
-    }
-
-    return undefined;
-  }
-
-  /**
    * Resolve the effective region string, falling back to SP_API_REGION,
    * then warning and using "NA" so the request is never silently misrouted.
    * Skipped entirely when SP_API_BASE_URL is explicitly set.
@@ -378,9 +372,24 @@ export class ExecuteApiTool {
       }
     }
 
-    // Check for unknown parameters (warning only)
+    // Unknown parameters are not sent. If another version of this operation
+    // defines one, the caller is on the wrong version and dropping it could
+    // change what the call does (e.g. mode=VALIDATION_PREVIEW turning a
+    // preview into a live write), so reject; otherwise warn.
+    const versions = endpointVersions(this.catalog, endpoint);
     for (const key of Object.keys(parameters)) {
-      if (!endpoint.parameters.some((p) => p.name === key)) {
+      if (endpoint.parameters.some((p) => p.name === key)) {
+        continue;
+      }
+      const other = versions.find(
+        (v) => v !== endpoint && v.parameters.some((p) => p.name === key),
+      );
+      if (other) {
+        errors.push(
+          `'${key}' is not supported by ${displayEndpointId(endpoint, versions)}; ` +
+            `use ${displayEndpointId(other, versions)}`,
+        );
+      } else {
         warnings.push(`Unknown parameter: ${key}`);
       }
     }
@@ -442,11 +451,20 @@ export class ExecuteApiTool {
 
       for (const param of queryParams) {
         if (parameters[param.name] !== undefined) {
-          // Handle array parameters
+          // Handle array parameters: repeated keys only for collectionFormat
+          // "multi"; otherwise one delimited value (Swagger 2 default is csv)
           if (Array.isArray(parameters[param.name])) {
-            for (const value of parameters[param.name]) {
+            if (param.collectionFormat === "multi") {
+              for (const value of parameters[param.name]) {
+                queryParts.push(
+                  `${encodeURIComponent(param.name)}=${encodeURIComponent(value)}`,
+                );
+              }
+            } else {
+              const delimiter =
+                ARRAY_DELIMITERS[param.collectionFormat ?? "csv"] ?? ",";
               queryParts.push(
-                `${encodeURIComponent(param.name)}=${encodeURIComponent(value)}`,
+                `${encodeURIComponent(param.name)}=${encodeURIComponent(parameters[param.name].join(delimiter))}`,
               );
             }
           } else {
