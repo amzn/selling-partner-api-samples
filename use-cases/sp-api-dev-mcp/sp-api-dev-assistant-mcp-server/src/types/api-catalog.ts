@@ -31,6 +31,7 @@ export interface ApiParameter {
   location: "path" | "query" | "body" | "header";
   required: boolean;
   type: string | string[]; // Change this line to allow both string and string[] types
+  collectionFormat?: string; // Swagger 2 array format: csv (default), ssv, tsv, pipes or multi
   description: string;
   purpose: string;
   schema?: object;

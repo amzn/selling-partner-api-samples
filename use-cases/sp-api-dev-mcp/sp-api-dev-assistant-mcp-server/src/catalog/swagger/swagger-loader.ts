@@ -75,6 +75,10 @@ export class SwaggerLoader {
     try {
       const entries = await fs.readdir(directoryPath, { withFileTypes: true });
 
+      // readdir order depends on the filesystem; sort so that endpoint IDs shared
+      // across API versions resolve the same way on every OS
+      entries.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+
       for (const entry of entries) {
         const fullPath = path.join(directoryPath, entry.name);
 
