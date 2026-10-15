@@ -9,6 +9,13 @@ sample_report_type = "GET_FLAT_FILE_OPEN_LISTINGS_DATA"
 # US marketplace id. See https://developer-docs.amazon.com/sp-api/docs/marketplace-ids
 sample_marketplace_id = "ATVPDKIKX0DER"
 
+# Maximum number of attempts to download the report document before giving up.
+download_max_attempts = 3
+
+# Base delay (in seconds) used to back off between download retries. The actual delay
+# grows with each attempt (delay = base * attempt_number).
+download_retry_base_delay_seconds = 1.0
+
 # Sample REPORT_PROCESSING_FINISHED notification. In production you subscribe to this
 # notification (via the Notifications API) instead of polling getReport, and read the
 # reportDocumentId from the payload once processingStatus is DONE.
