@@ -1,0 +1,33 @@
+{
+  "name": "@amzn/aplus-content-manager",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Sample solution: manage Standard and Premium A+ Content with the Selling Partner API, with an approximate product detail page preview.",
+  "type": "module",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,client -c blue,green \"npm run dev -w server\" \"npm run dev -w client\"",
+    "dev:mock": "MODE=mock npm run dev",
+    "build": "npm run build -w client && npm run build -w server",
+    "start": "npm run start -w server",
+    "test": "npm test -w server && npm test -w client",
+    "lint": "eslint . && prettier --check .",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.5",
+    "concurrently": "9.1.2",
+    "eslint": "9.39.5",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "17.12.0",
+    "prettier": "3.9.9",
+    "typescript-eslint": "8.71.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

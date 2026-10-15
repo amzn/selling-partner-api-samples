@@ -1,0 +1,97 @@
+{
+ "sellerId": "AXXXXXXXXXXXXX",
+ "items": [
+  {
+   "sku": "TEE-RELAX-PNK-M",
+   "summaries": [
+    {
+     "marketplaceId": "ATVPDKIKX0DER",
+     "asin": "B0SAMPLE01",
+     "productType": "SHIRT",
+     "conditionType": "new_new",
+     "status": [
+      "BUYABLE",
+      "DISCOVERABLE"
+     ],
+     "itemName": "Relaxed Cotton Tee, Pink",
+     "createdDate": "2025-03-01T09:00:00.000Z",
+     "lastUpdatedDate": "2025-06-01T09:00:00.000Z",
+     "mainImage": {
+      "link": "sq-color-pink-650x650.jpg",
+      "height": 650,
+      "width": 650
+     }
+    }
+   ]
+  },
+  {
+   "sku": "TEE-RELAX-WHT-M",
+   "summaries": [
+    {
+     "marketplaceId": "ATVPDKIKX0DER",
+     "asin": "B0SAMPLE02",
+     "productType": "SHIRT",
+     "conditionType": "new_new",
+     "status": [
+      "BUYABLE",
+      "DISCOVERABLE"
+     ],
+     "itemName": "Relaxed Cotton Tee, White",
+     "createdDate": "2025-03-02T09:00:00.000Z",
+     "lastUpdatedDate": "2025-06-01T09:00:00.000Z",
+     "mainImage": {
+      "link": "sq-color-white-650x650.jpg",
+      "height": 650,
+      "width": 650
+     }
+    }
+   ]
+  },
+  {
+   "sku": "TEE-RELAX-GRY-M",
+   "summaries": [
+    {
+     "marketplaceId": "ATVPDKIKX0DER",
+     "asin": "B0SAMPLE03",
+     "productType": "SHIRT",
+     "conditionType": "new_new",
+     "status": [
+      "BUYABLE",
+      "DISCOVERABLE"
+     ],
+     "itemName": "Relaxed Cotton Tee, Heather Grey",
+     "createdDate": "2025-03-03T09:00:00.000Z",
+     "lastUpdatedDate": "2025-06-01T09:00:00.000Z",
+     "mainImage": {
+      "link": "sq-color-grey-650x650.jpg",
+      "height": 650,
+      "width": 650
+     }
+    }
+   ]
+  },
+  {
+   "sku": "TEE-RELAX-NVY-M",
+   "summaries": [
+    {
+     "marketplaceId": "ATVPDKIKX0DER",
+     "asin": "B0SAMPLE04",
+     "productType": "SHIRT",
+     "conditionType": "new_new",
+     "status": [
+      "BUYABLE",
+      "DISCOVERABLE"
+     ],
+     "itemName": "Relaxed Cotton Tee, Navy",
+     "createdDate": "2025-03-04T09:00:00.000Z",
+     "lastUpdatedDate": "2025-06-01T09:00:00.000Z",
+     "mainImage": {
+      "link": "sq-color-navy-650x650.jpg",
+      "height": 650,
+      "width": 650
+     }
+    }
+   ]
+  }
+ ]
+}

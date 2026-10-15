@@ -1,0 +1,6 @@
+node_modules/
+client/dist/
+docs/
+server/mock/
+shared/module-catalog.json
+package-lock.json

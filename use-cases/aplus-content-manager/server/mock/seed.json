@@ -1,0 +1,135 @@
+{
+ "documents": {
+  "5e1f2a3b-7c8d-4e9f-a0b1-c2d3e4f5a604": {
+   "contentReferenceKey": "5e1f2a3b-7c8d-4e9f-a0b1-c2d3e4f5a604",
+   "contentMetadata": {
+    "name": "Relaxed Cotton Tee, Navy: Standard A+ (draft)",
+    "marketplaceId": "ATVPDKIKX0DER",
+    "status": "DRAFT",
+    "badgeSet": [
+     "STANDARD"
+    ],
+    "updateTime": "2025-06-01T09:00:00.000Z"
+   },
+   "contentDocument": {
+    "name": "Relaxed Cotton Tee, Navy: Standard A+ (draft)",
+    "contentType": "EBC",
+    "locale": "en-US",
+    "contentModuleList": [
+     {
+      "contentModuleType": "STANDARD_HEADER_IMAGE_TEXT",
+      "standardHeaderImageText": {
+       "headline": {
+        "value": "The everyday tee, done right"
+       },
+       "block": {
+        "image": {
+         "uploadDestinationId": "aplus-media-library-service-media/73f5ec9e-d34a-540a-b6b3-8ba59c3c5819.jpg",
+         "altText": "Folded pink tee by a window",
+         "imageCropSpecification": {
+          "size": {
+           "width": {
+            "value": 970,
+            "units": "pixels"
+           },
+           "height": {
+            "value": 600,
+            "units": "pixels"
+           }
+          },
+          "offset": {
+           "x": {
+            "value": 0,
+            "units": "pixels"
+           },
+           "y": {
+            "value": 0,
+            "units": "pixels"
+           }
+          }
+         }
+        },
+        "headline": {
+         "value": "Soft cotton blend, relaxed fit"
+        },
+        "body": {
+         "textList": [
+          {
+           "value": "Made from 90% cotton, 10% rayon, this tee is light, breathable and easy to layer."
+          },
+          {
+           "value": "A relaxed fit with a classic crew neck and cap sleeves: easy to layer, easy to live in."
+          }
+         ]
+        }
+       }
+      }
+     },
+     {
+      "contentModuleType": "STANDARD_TECH_SPECS",
+      "standardTechSpecs": {
+       "headline": {
+        "value": "Details at a glance"
+       },
+       "tableCount": 2,
+       "specificationList": [
+        {
+         "label": {
+          "value": "Fabric"
+         },
+         "description": {
+          "value": "90% cotton, 10% rayon"
+         }
+        },
+        {
+         "label": {
+          "value": "Fit"
+         },
+         "description": {
+          "value": "Relaxed"
+         }
+        },
+        {
+         "label": {
+          "value": "Neckline"
+         },
+         "description": {
+          "value": "Crew neck"
+         }
+        },
+        {
+         "label": {
+          "value": "Sleeve"
+         },
+         "description": {
+          "value": "Cap sleeve"
+         }
+        },
+        {
+         "label": {
+          "value": "Care"
+         },
+         "description": {
+          "value": "Hand wash only"
+         }
+        },
+        {
+         "label": {
+          "value": "Origin"
+         },
+         "description": {
+          "value": "Made in the USA"
+         }
+        }
+       ]
+      }
+     }
+    ]
+   },
+   "asinSet": [
+    "B0SAMPLE04"
+   ]
+  }
+ },
+ "published": {}
+}
