@@ -54,7 +54,7 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.22.4",
     "typescript": "^5.5.4",
-    "vitest": "^4.1.9"
+    "vitest": "^4.1.11"
   },
   "files": [
     "src/",
