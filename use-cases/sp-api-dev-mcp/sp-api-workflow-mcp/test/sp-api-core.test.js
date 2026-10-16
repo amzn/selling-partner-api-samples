@@ -6,7 +6,7 @@ import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert';
 
 import { TokenManager, createAuthHeaders } from '../src/sp-api-core/auth.js';
-import { REGIONAL_ENDPOINTS, getRegionalEndpoint, validateRequestSpec } from '../src/sp-api-core/endpoints.js';
+import { REGIONAL_ENDPOINTS, getRegionalEndpoint, validateRequestSpec, encodePathParam } from '../src/sp-api-core/endpoints.js';
 import { SPAPIClient, SPAPIError, createClient } from '../src/sp-api-core/client.js';
 
 // Auth Tests
@@ -98,6 +98,29 @@ describe('getRegionalEndpoint', () => {
 
   it('should default to NA for unknown region', () => {
     assert.strictEqual(getRegionalEndpoint('unknown'), 'https://sellingpartnerapi-na.amazon.com');
+  });
+});
+
+describe('encodePathParam', () => {
+  const uploadsPath = '/uploads/2020-11-01/uploadDestinations/{resource}';
+
+  it('should keep slashes in a greedy value', () => {
+    assert.strictEqual(encodePathParam(uploadsPath, 'resource', 'aplus/2020-11-01/contentDocuments'), 'aplus/2020-11-01/contentDocuments');
+  });
+
+  it('should drop leading slashes from a greedy value', () => {
+    assert.strictEqual(
+      encodePathParam(uploadsPath, 'resource', '/messaging/v1/orders/123-1234567-1234567/messages/legalDisclosure'),
+      'messaging/v1/orders/123-1234567-1234567/messages/legalDisclosure'
+    );
+  });
+
+  it('should still encode reserved characters inside greedy segments', () => {
+    assert.strictEqual(encodePathParam(uploadsPath, 'resource', 'a b/c?d'), 'a%20b/c%3Fd');
+  });
+
+  it('should encode slashes for parameters that are not greedy', () => {
+    assert.strictEqual(encodePathParam('/listings/2021-08-01/items/{sellerId}/{sku}', 'sku', 'ABC/123'), 'ABC%2F123');
   });
 });
 
@@ -237,6 +260,24 @@ describe('SPAPIClient', () => {
     it('should encode path parameters', () => {
       const url = client.buildUrl('/orders/v0/orders/{orderId}', { orderId: 'order with spaces' }, {});
       assert.ok(url.includes('order%20with%20spaces'));
+    });
+
+    it('should keep slashes in the greedy Uploads resource parameter', () => {
+      const url = client.buildUrl(
+        '/uploads/2020-11-01/uploadDestinations/{resource}',
+        { resource: 'aplus/2020-11-01/contentDocuments' },
+        { marketplaceIds: ['ATVPDKIKX0DER'], contentMD5: 'BQJfM1gTes+SDzArwcrpQA==', contentType: 'image/jpeg' }
+      );
+      assert.strictEqual(
+        url,
+        'https://sellingpartnerapi-na.amazon.com/uploads/2020-11-01/uploadDestinations/aplus/2020-11-01/contentDocuments' +
+          '?marketplaceIds=ATVPDKIKX0DER&contentMD5=BQJfM1gTes%2BSDzArwcrpQA%3D%3D&contentType=image%2Fjpeg'
+      );
+    });
+
+    it('should still encode slashes in non-greedy path parameters', () => {
+      const url = client.buildUrl('/listings/2021-08-01/items/{sellerId}/{sku}', { sellerId: 'A1B2C3', sku: 'ABC/123' }, {});
+      assert.strictEqual(url, 'https://sellingpartnerapi-na.amazon.com/listings/2021-08-01/items/A1B2C3/ABC%2F123');
     });
 
     it('should build URL with query parameters', () => {

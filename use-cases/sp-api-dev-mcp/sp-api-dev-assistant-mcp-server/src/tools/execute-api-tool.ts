@@ -102,6 +102,19 @@ export function resolveRegionEndpoint(region: string): string | null {
   return sellingRegion ? SP_API_ENDPOINTS[sellingRegion] : null;
 }
 
+/**
+ * Encode a path parameter value. Greedy parameters (e.g. the Uploads API
+ * `resource`) span several path segments, so each segment is encoded but the
+ * "/" separators are kept; leading slashes are dropped to avoid "//".
+ */
+export function encodePathParameter(value: unknown, greedy = false): string {
+  const raw = String(value);
+  if (!greedy) {
+    return encodeURIComponent(raw);
+  }
+  return raw.replace(/^\/+/, "").split("/").map(encodeURIComponent).join("/");
+}
+
 export type ExecuteApiParams = z.infer<typeof executeApiSchema>;
 
 interface ExecutionResult {
@@ -380,7 +393,7 @@ export class ExecuteApiTool {
       if (parameters[param.name]) {
         path = path.replace(
           `{${param.name}}`,
-          encodeURIComponent(parameters[param.name]),
+          encodePathParameter(parameters[param.name], param.greedy),
         );
       }
     }
