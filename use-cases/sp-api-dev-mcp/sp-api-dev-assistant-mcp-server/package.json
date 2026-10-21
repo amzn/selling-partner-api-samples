@@ -29,7 +29,7 @@
     "test:watch": "vitest --exclude 'selling-partner-api-sdk/**'"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.11.2",
+    "@modelcontextprotocol/sdk": "^1.32.0",
     "aws4": "^1.13.2",
     "axios": "^1.18.0",
     "cheerio": "^1.0.0",
