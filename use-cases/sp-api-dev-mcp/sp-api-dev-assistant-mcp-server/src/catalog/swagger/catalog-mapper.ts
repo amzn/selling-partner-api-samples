@@ -165,6 +165,7 @@ export class CatalogMapper {
       responses: this.mapResponses(operation),
       relatedEndpoints: this.findRelatedEndpoints(operation, swagger),
       version: this.extractVersionInfo(swagger),
+      deprecated: operation.deprecated === true,
       examples: this.extractExamples(operation, swagger),
     };
   }

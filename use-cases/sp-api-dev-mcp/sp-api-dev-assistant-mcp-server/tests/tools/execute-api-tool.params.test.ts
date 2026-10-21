@@ -96,14 +96,12 @@ const authenticator = {
 } as any;
 
 const respond = (status: number) =>
-  vi
-    .mocked(axios)
-    .mockResolvedValue({
-      status,
-      statusText: "",
-      headers: {},
-      data: {},
-    } as any);
+  vi.mocked(axios).mockResolvedValue({
+    status,
+    statusText: "",
+    headers: {},
+    data: {},
+  } as any);
 
 describe("sp_api_execute across API versions", () => {
   const tool = new ExecuteApiTool(catalog, authenticator);
@@ -144,6 +142,19 @@ describe("sp_api_execute across API versions", () => {
 
     expect((vi.mocked(axios).mock.calls[0][0] as any).url).toContain(
       "includedData=relationships%2Csummaries&mskus=A&mskus=B",
+    );
+  });
+
+  it("sends nothing for an empty array", async () => {
+    respond(200);
+    await tool.execute({
+      endpoint: "catalogItems_searchCatalogItems",
+      parameters: { includedData: [], mskus: [] },
+      region: "NA",
+    } as any);
+
+    expect((vi.mocked(axios).mock.calls[0][0] as any).url).toBe(
+      "https://sellingpartnerapi-na.amazon.com/catalog/2022-04-01/items",
     );
   });
 });

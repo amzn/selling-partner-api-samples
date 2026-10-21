@@ -5,6 +5,7 @@ import { ApiCatalog, ApiEndpoint, ApiCategory } from "../types/api-catalog.js";
 import { logger } from "../utils/logger.js";
 import { config } from "../config/index.js";
 import {
+  allEndpoints,
   displayEndpointId,
   resolveEndpointId,
 } from "../catalog/endpoint-resolver.js";
@@ -569,12 +570,12 @@ export class ExploreCatalogTool {
 
     // Format endpoint details
     let result = `# Endpoint: ${endpoint.name}\n\n`;
-    result += `**ID**: \`${displayEndpointId(
-      endpoint,
-      this.catalog.categories.flatMap((c) => c.endpoints),
-    )}\`\n`;
+    result += `**ID**: \`${displayEndpointId(endpoint, allEndpoints(this.catalog))}\`\n`;
     result += `**Category**: ${categoryName}\n`;
     result += `**Method**: ${endpoint.method}\n`;
+    if (endpoint.deprecated) {
+      result += `**Deprecated**: yes\n`;
+    }
     result += `**Path**: \`${endpoint.path}\`\n\n`;
 
     // Description and purpose
@@ -734,14 +735,14 @@ export class ExploreCatalogTool {
       result += `| ----------- | ---- | ------ | ----------- |\n`;
 
       for (const endpoint of category.endpoints) {
-        const id = displayEndpointId(endpoint, category.endpoints);
+        const id = displayEndpointId(endpoint, allEndpoints(this.catalog));
         // Truncate description if too long
         const description =
           endpoint.description.length > 100
             ? `${endpoint.description.substring(0, 97)}...`
             : endpoint.description;
 
-        result += `| \`${id}\` | ${endpoint.name} | ${endpoint.method} | ${description} |\n`;
+        result += `| \`${id}\` | ${endpoint.name}${endpoint.deprecated ? " (deprecated)" : ""} | ${endpoint.method} | ${description} |\n`;
       }
     } else {
       result += `No endpoints found in this category.\n`;
@@ -761,13 +762,13 @@ export class ExploreCatalogTool {
           result += `| ----------- | ---- | ------ | ----------- |\n`;
 
           for (const endpoint of subcategory.endpoints) {
-            const id = displayEndpointId(endpoint, subcategory.endpoints);
+            const id = displayEndpointId(endpoint, allEndpoints(this.catalog));
             const description =
               endpoint.description.length > 100
                 ? `${endpoint.description.substring(0, 97)}...`
                 : endpoint.description;
 
-            result += `| \`${id}\` | ${endpoint.name} | ${endpoint.method} | ${description} |\n`;
+            result += `| \`${id}\` | ${endpoint.name}${endpoint.deprecated ? " (deprecated)" : ""} | ${endpoint.method} | ${description} |\n`;
           }
         } else {
           result += `No endpoints found in this subcategory.\n`;
@@ -801,7 +802,7 @@ export class ExploreCatalogTool {
         result += `| ----------- | ---- | ------ | ---- |\n`;
 
         for (const endpoint of category.endpoints) {
-          result += `| \`${displayEndpointId(endpoint, category.endpoints)}\` | ${endpoint.name} | ${endpoint.method} | \`${endpoint.path}\` |\n`;
+          result += `| \`${displayEndpointId(endpoint, allEndpoints(this.catalog))}\` | ${endpoint.name}${endpoint.deprecated ? " (deprecated)" : ""} | ${endpoint.method} | \`${endpoint.path}\` |\n`;
         }
 
         result += "\n";

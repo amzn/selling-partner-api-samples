@@ -23,6 +23,7 @@ export interface ApiEndpoint {
   responses: ApiResponse[];
   relatedEndpoints: RelatedEndpoint[];
   version: VersionInfo;
+  deprecated?: boolean; // The spec marks the operation deprecated
   examples: UsageExample[];
 }
 

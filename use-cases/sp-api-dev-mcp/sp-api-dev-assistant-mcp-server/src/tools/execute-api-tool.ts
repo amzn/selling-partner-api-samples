@@ -6,6 +6,7 @@ import { ApiCatalog, ApiEndpoint, ApiParameter } from "../types/api-catalog.js";
 import { logger } from "../utils/logger.js";
 import { SpApiAuthenticator } from "../auth/sp-api-auth.js";
 import {
+  allEndpoints,
   displayEndpointId,
   endpointVersions,
   resolveEndpointId,
@@ -24,7 +25,8 @@ export const executeApiSchema = z.object({
     .enum(["GET", "POST", "PUT", "DELETE", "PATCH"])
     .optional()
     .describe(
-      "HTTP method. Optional: the endpoint definition sets the method, and a mismatch is rejected",
+      "HTTP method. Optional: the endpoint definition sets the method, and a mismatch is rejected, " +
+        "except to pick between an operation defined with two methods (Shipping v2 linkCarrierAccount is PUT and POST)",
     ),
   additionalHeaders: z
     .record(z.string())
@@ -167,7 +169,7 @@ export class ExecuteApiTool {
 
     try {
       // Find the endpoint in the catalog
-      const endpoint = this.findEndpoint(params.endpoint);
+      const endpoint = this.findEndpoint(params.endpoint, params.method);
       if (!endpoint) {
         return this.formatError(
           `Endpoint '${params.endpoint}' not found in the catalog`,
@@ -228,17 +230,28 @@ export class ExecuteApiTool {
             .join("\n");
       }
 
+      const versions = endpointVersions(this.catalog, endpoint);
+      const everything = allEndpoints(this.catalog);
+
+      // A plain ID resolves to the first version loaded, which may be a
+      // deprecated one (orders_getOrder is Orders v0): say so, even on success
+      if (endpoint.deprecated) {
+        const newer = versions.find((v) => v !== endpoint && !v.deprecated);
+        formatted +=
+          `\n\n⚠️ \`${displayEndpointId(endpoint, everything)}\` is deprecated.` +
+          (newer ? ` Use \`${displayEndpointId(newer, everything)}\`.` : "");
+      }
+
       // On failure, point at the operation's other versions: a plain ID may
       // have resolved to an older version than the caller meant
-      const versions = endpointVersions(this.catalog, endpoint);
       if (!result.success && versions.length > 1) {
         formatted +=
           `\n\n## Other Versions\n\n` +
-          `This call used ${displayEndpointId(endpoint, versions)} (${endpoint.path}). ` +
+          `This call used ${displayEndpointId(endpoint, everything)} (${endpoint.path}). ` +
           `This operation also exists as:\n` +
           versions
             .filter((v) => v !== endpoint)
-            .map((v) => `- \`${displayEndpointId(v, versions)}\` (${v.path})`)
+            .map((v) => `- \`${displayEndpointId(v, everything)}\` (${v.path})`)
             .join("\n");
       }
       return formatted;
@@ -255,15 +268,30 @@ export class ExecuteApiTool {
   /**
    * Find endpoint in the catalog by ID (supports both unique IDs and original operation IDs)
    */
-  private findEndpoint(endpointId: string): ApiEndpoint | undefined {
+  private findEndpoint(
+    endpointId: string,
+    method?: string,
+  ): ApiEndpoint | undefined {
     // Unique ID or a version-qualified ID such as
     // catalogItems_2022-04-01_getCatalogItem
-    const endpoint = resolveEndpointId(this.catalog, endpointId);
+    const endpoint = resolveEndpointId(this.catalog, endpointId, method);
     if (endpoint) {
       return endpoint;
     }
 
-    return this.findByOperationId(endpointId);
+    // A bare operationId gets the same twin handling as a plain ID
+    const found = this.findByOperationId(endpointId);
+    if (found && method && found.method !== method) {
+      return (
+        allEndpoints(this.catalog).find(
+          (e) =>
+            e.id === found.id &&
+            e.version?.current === found.version?.current &&
+            e.method === method,
+        ) ?? found
+      );
+    }
+    return found;
   }
 
   /**
@@ -377,6 +405,7 @@ export class ExecuteApiTool {
     // change what the call does (e.g. mode=VALIDATION_PREVIEW turning a
     // preview into a live write), so reject; otherwise warn.
     const versions = endpointVersions(this.catalog, endpoint);
+    const everything = allEndpoints(this.catalog);
     for (const key of Object.keys(parameters)) {
       if (endpoint.parameters.some((p) => p.name === key)) {
         continue;
@@ -386,8 +415,8 @@ export class ExecuteApiTool {
       );
       if (other) {
         errors.push(
-          `'${key}' is not supported by ${displayEndpointId(endpoint, versions)}; ` +
-            `use ${displayEndpointId(other, versions)}`,
+          `'${key}' is not supported by ${displayEndpointId(endpoint, everything)}; ` +
+            `use ${displayEndpointId(other, everything)}`,
         );
       } else {
         warnings.push(`Unknown parameter: ${key}`);
@@ -454,6 +483,10 @@ export class ExecuteApiTool {
           // Handle array parameters: repeated keys only for collectionFormat
           // "multi"; otherwise one delimited value (Swagger 2 default is csv)
           if (Array.isArray(parameters[param.name])) {
+            // An empty array means "not set"; joining it would send `name=`
+            if (parameters[param.name].length === 0) {
+              continue;
+            }
             if (param.collectionFormat === "multi") {
               for (const value of parameters[param.name]) {
                 queryParts.push(
