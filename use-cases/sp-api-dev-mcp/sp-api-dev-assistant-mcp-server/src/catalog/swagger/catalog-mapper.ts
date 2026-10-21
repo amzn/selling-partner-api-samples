@@ -165,6 +165,7 @@ export class CatalogMapper {
       responses: this.mapResponses(operation),
       relatedEndpoints: this.findRelatedEndpoints(operation, swagger),
       version: this.extractVersionInfo(swagger),
+      deprecated: operation.deprecated === true,
       examples: this.extractExamples(operation, swagger),
     };
   }
@@ -335,6 +336,7 @@ export class CatalogMapper {
           location: param.in as "path" | "query" | "body" | "header",
           required: param.required || false,
           type: param.type || param.schema?.type || "string",
+          collectionFormat: param.collectionFormat,
           description: param.description || "",
           purpose: this.generateParameterPurpose(param),
           schema: param.schema,
