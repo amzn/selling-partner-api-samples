@@ -25,6 +25,35 @@ export function getRegionalEndpoint(region) {
 }
 
 /**
+ * Path parameters whose value spans several path segments, keyed by path template.
+ * These are marked x-amazon-spds-greedy-path-parameter in the SP-API models; their
+ * "/" separators must not be encoded or SP-API cannot route the request (403).
+ */
+export const GREEDY_PATH_PARAMS = {
+  '/uploads/2020-11-01/uploadDestinations/{resource}': ['resource']
+};
+
+/**
+ * Encode a path parameter value for the given path template.
+ * Greedy values are encoded per segment, keeping "/" and dropping leading slashes.
+ *
+ * @param {string} path - Path template, e.g. /orders/v0/orders/{orderId}
+ * @param {string} key - Path parameter name
+ * @param {*} value - Parameter value
+ * @returns {string} Encoded value
+ */
+export function encodePathParam(path, key, value) {
+  if (!GREEDY_PATH_PARAMS[path]?.includes(key)) {
+    return encodeURIComponent(value);
+  }
+  const segments = String(value).replace(/^\/+/, '').split('/');
+  if (segments.some((s) => s === '' || s === '.' || s === '..')) {
+    throw new Error(`Invalid path parameter value for ${key}: ${value}`); // "..": escapes the template path
+  }
+  return segments.map(encodeURIComponent).join('/');
+}
+
+/**
  * Validate a request specification
  *
  * @param {object} spec - Request specification
