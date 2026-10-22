@@ -155,9 +155,11 @@ class SPAPIClient {
     const greedyParams = ${JSON.stringify(GREEDY_PATH_PARAMS)}[path] || [];
     let resolvedPath = path;
     for (const [key, value] of Object.entries(pathParams)) {
-      const encoded = greedyParams.includes(key)
-        ? String(value).replace(/^[/]+/, '').split('/').map(encodeURIComponent).join('/')
-        : encodeURIComponent(value);
+      const segments = greedyParams.includes(key) ? String(value).replace(/^[/]+/, '').split('/') : null;
+      if (segments?.some((s) => s === '' || s === '.' || s === '..')) {
+        throw new Error(\`Invalid path parameter value for \${key}: \${value}\`); // "..": escapes the template path
+      }
+      const encoded = segments ? segments.map(encodeURIComponent).join('/') : encodeURIComponent(value);
       resolvedPath = resolvedPath.replace(\`{\${key}}\`, encoded);
     }
 

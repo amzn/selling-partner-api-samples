@@ -112,7 +112,11 @@ export function encodePathParameter(value: unknown, greedy = false): string {
   if (!greedy) {
     return encodeURIComponent(raw);
   }
-  return raw.replace(/^\/+/, "").split("/").map(encodeURIComponent).join("/");
+  const segments = raw.replace(/^\/+/, "").split("/");
+  if (segments.some((s) => s === "" || s === "." || s === "..")) {
+    throw new Error(`Invalid path parameter value: ${raw}`); // "..": escapes the template path
+  }
+  return segments.map(encodeURIComponent).join("/");
 }
 
 export type ExecuteApiParams = z.infer<typeof executeApiSchema>;

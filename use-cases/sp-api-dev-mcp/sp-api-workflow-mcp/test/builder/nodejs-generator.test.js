@@ -33,6 +33,13 @@ describe('generated SP-API client buildUrl', () => {
     );
   });
 
+  it('should reject dot segments in the greedy Uploads resource parameter', () => {
+    assert.throws(
+      () => client.buildUrl('/uploads/2020-11-01/uploadDestinations/{resource}', { resource: '../../../orders/v0/orders/123' }, {}),
+      /Invalid path parameter/
+    );
+  });
+
   it('should still encode slashes in non-greedy path parameters', () => {
     const url = client.buildUrl('/listings/2021-08-01/items/{sellerId}/{sku}', { sellerId: 'A1B2C3', sku: 'ABC/123' }, {});
     assert.strictEqual(url, 'https://sellingpartnerapi-na.amazon.com/listings/2021-08-01/items/A1B2C3/ABC%2F123');

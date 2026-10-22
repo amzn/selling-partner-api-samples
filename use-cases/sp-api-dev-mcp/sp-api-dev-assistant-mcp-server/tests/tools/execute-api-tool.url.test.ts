@@ -26,6 +26,12 @@ describe("encodePathParameter", () => {
     expect(encodePathParameter("a b/c?d", true)).toBe("a%20b/c%3Fd");
   });
 
+  it("rejects dot and empty segments in a greedy value", () => {
+    for (const v of ["../../../orders/v0/orders/123", "a/./b", "a//b"]) {
+      expect(() => encodePathParameter(v, true)).toThrow(/Invalid path parameter/);
+    }
+  });
+
   it("encodes slashes in a non-greedy value", () => {
     expect(encodePathParameter("ABC/123")).toBe("ABC%2F123");
     expect(encodePathParameter("ABC/123", false)).toBe("ABC%2F123");

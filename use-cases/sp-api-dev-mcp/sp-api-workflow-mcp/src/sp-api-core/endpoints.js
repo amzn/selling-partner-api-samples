@@ -46,7 +46,11 @@ export function encodePathParam(path, key, value) {
   if (!GREEDY_PATH_PARAMS[path]?.includes(key)) {
     return encodeURIComponent(value);
   }
-  return String(value).replace(/^\/+/, '').split('/').map(encodeURIComponent).join('/');
+  const segments = String(value).replace(/^\/+/, '').split('/');
+  if (segments.some((s) => s === '' || s === '.' || s === '..')) {
+    throw new Error(`Invalid path parameter value for ${key}: ${value}`); // "..": escapes the template path
+  }
+  return segments.map(encodeURIComponent).join('/');
 }
 
 /**

@@ -119,6 +119,12 @@ describe('encodePathParam', () => {
     assert.strictEqual(encodePathParam(uploadsPath, 'resource', 'a b/c?d'), 'a%20b/c%3Fd');
   });
 
+  it('should reject dot and empty segments in a greedy value', () => {
+    for (const v of ['../../../orders/v0/orders/123', 'a/./b', 'a//b']) {
+      assert.throws(() => encodePathParam(uploadsPath, 'resource', v), /Invalid path parameter/);
+    }
+  });
+
   it('should encode slashes for parameters that are not greedy', () => {
     assert.strictEqual(encodePathParam('/listings/2021-08-01/items/{sellerId}/{sku}', 'sku', 'ABC/123'), 'ABC%2F123');
   });
