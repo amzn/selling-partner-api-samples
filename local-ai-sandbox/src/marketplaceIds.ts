@@ -2,20 +2,20 @@
  * Centralized marketplace ID definitions by region.
  *
  * NA: US, CA, MX, BR
- * EU: UK, DE, FR, IT, ES, NL, SE, PL, TR, SA, AE, IN, EG, BE, ZA, NG
+ * EU: DE, IE, ES, UK, FR, BE, NL, IT, SE, ZA, PL, EG, TR, SA, AE, IN
  * FE: JP, AU, SG
  */
 
 export const MARKETPLACE_IDS_NA = ["ATVPDKIKX0DER", "A2EUQ1WTGCTBG2", "A1AM78C64UM0Y8", "A2Q3Y263D00KWC"] as const;
 
 export const MARKETPLACE_IDS_EU = [
+  "A1PA6795UKMFR9",
   "A28R8C7NBKEWEA",
   "A1RKKUPIHCS9HS",
   "A1F83G8C2ARO7P",
   "A13V1IB3VIYZZH",
   "AMEN7PMS3EDWL",
   "A1805IZSGTT6HS",
-  "A1PA6795UKMFR9",
   "APJ6JRA9NG5V4",
   "A2NODRKZP88ZB9",
   "AE08WJ6YKNBMC",
@@ -51,22 +51,46 @@ export const MARKETPLACE_CURRENCY_MAP: Record<string, string> = {
   A1PA6795UKMFR9: "EUR", // DE
   A13V1IB3VIYZZH: "EUR", // FR
   APJ6JRA9NG5V4: "EUR", // IT
-  AMEN7PMS3EDWL: "EUR", // ES
+  AMEN7PMS3EDWL: "EUR", // BE
   A1805IZSGTT6HS: "EUR", // NL
   A2NODRKZP88ZB9: "SEK", // SE
   A1C3SOZRARQ6R3: "PLN", // PL
-  AE08WJ6YKNBMC: "TRY", // TR
-  A33AVAJ2PDY3EV: "SAR", // SA
-  ARBP9OOSHTCHU: "AED", // AE
+  AE08WJ6YKNBMC: "ZAR", // ZA
+  A33AVAJ2PDY3EV: "TRY", // TR
+  ARBP9OOSHTCHU: "EGP", // EG
   A21TJRUUN4KGV: "INR", // IN
-  A28R8C7NBKEWEA: "EUR", // BE
+  A28R8C7NBKEWEA: "EUR", // IE
+  A1RKKUPIHCS9HS: "EUR", // ES
+  A17E79C6D8DWNP: "SAR", // SA
+  A2VIGQ35RCS4UG: "AED", // AE
 };
+
+/** The regions the sandbox understands. */
+export const REGIONS = ["NA", "EU", "FE"] as const;
+export type Region = (typeof REGIONS)[number];
+
+/**
+ * Resolves the configured region from process.env.REGION.
+ * Defaults to "NA" if unset or invalid.
+ */
+export function resolveRegion(): Region {
+  const value = process.env.REGION;
+  return value && (REGIONS as readonly string[]).includes(value) ? (value as Region) : "NA";
+}
 
 /**
  * Returns the set of allowed marketplace IDs for the configured region.
  * Reads REGION from process.env; defaults to "NA" if unset or invalid.
  */
 export function getAllowedMarketplaceIds(): readonly string[] {
-  const region = process.env.REGION && ["NA", "EU", "FE"].includes(process.env.REGION) ? process.env.REGION : "NA";
-  return MARKETPLACE_IDS_BY_REGION[region];
+  return MARKETPLACE_IDS_BY_REGION[resolveRegion()];
+}
+
+/**
+ * Returns the primary (first-listed) marketplace ID for the configured region
+ * together with its currency. Used to parameterize region-agnostic fixtures.
+ */
+export function getRegionPrimaryMarketplace(): { marketplaceId: string; currency: string } {
+  const marketplaceId = getAllowedMarketplaceIds()[0];
+  return { marketplaceId, currency: MARKETPLACE_CURRENCY_MAP[marketplaceId] ?? "USD" };
 }

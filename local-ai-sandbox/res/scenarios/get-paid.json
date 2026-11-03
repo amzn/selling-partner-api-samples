@@ -1,0 +1,279 @@
+{
+  "id": "get-paid",
+  "title": "Get Paid",
+  "tagline": "Earnings settle, your balance grows, and you pull a payout to the bank — the full money lifecycle across Finances and Transfers.",
+  "description": "A seller's finances, seeded for the configured region's primary marketplace and currency: released and deferred transactions, a period summary, available/reserved/deferred balances, two saved payment methods, a prior payout, and one upcoming expected payout. Reconcile what you earned and check what's available in any REGION. Transfers and Finances are Seller-only, so MODE must be Seller.",
+  "seed": [
+    {
+      "api": "finances",
+      "id": "TXN-SALE-RELEASED-0001",
+      "entity": {
+        "_type": "TRANSACTION",
+        "transactionId": "TXN-SALE-RELEASED-0001",
+        "transactionType": "Shipment",
+        "transactionStatus": "RELEASED",
+        "description": "Order payment, released to balance",
+        "postedDate": "2026-10-02T08:15:00Z",
+        "totalAmount": { "currencyCode": "{{CURRENCY}}", "currencyAmount": 149.90 },
+        "relatedIdentifiers": [{ "relatedIdentifierName": "ORDER_ID", "relatedIdentifierValue": "302-7000001-0000001" }],
+        "marketplaceDetails": { "marketplaceId": "{{MARKETPLACE_ID}}" }
+      }
+    },
+    {
+      "api": "finances",
+      "id": "TXN-SALE-DEFERRED-0002",
+      "entity": {
+        "_type": "TRANSACTION",
+        "transactionId": "TXN-SALE-DEFERRED-0002",
+        "transactionType": "Shipment",
+        "transactionStatus": "DEFERRED",
+        "description": "Order payment, deferred pending delivery",
+        "postedDate": "2026-10-08T11:40:00Z",
+        "totalAmount": { "currencyCode": "{{CURRENCY}}", "currencyAmount": 89.50 },
+        "relatedIdentifiers": [{ "relatedIdentifierName": "ORDER_ID", "relatedIdentifierValue": "302-7000002-0000002" }],
+        "marketplaceDetails": { "marketplaceId": "{{MARKETPLACE_ID}}" }
+      }
+    },
+    {
+      "api": "finances",
+      "id": "TXN-REFUND-0003",
+      "entity": {
+        "_type": "TRANSACTION",
+        "transactionId": "TXN-REFUND-0003",
+        "transactionType": "Refund",
+        "transactionStatus": "RELEASED",
+        "description": "Customer refund",
+        "postedDate": "2026-10-04T16:05:00Z",
+        "totalAmount": { "currencyCode": "{{CURRENCY}}", "currencyAmount": -24.99 },
+        "relatedIdentifiers": [{ "relatedIdentifierName": "ORDER_ID", "relatedIdentifierValue": "302-7000003-0000003" }],
+        "marketplaceDetails": { "marketplaceId": "{{MARKETPLACE_ID}}" }
+      }
+    },
+    {
+      "api": "finances",
+      "id": "TXN-FEE-0004",
+      "entity": {
+        "_type": "TRANSACTION",
+        "transactionId": "TXN-FEE-0004",
+        "transactionType": "Fee",
+        "transactionStatus": "RELEASED",
+        "description": "Referral fee",
+        "postedDate": "2026-10-02T08:15:00Z",
+        "totalAmount": { "currencyCode": "{{CURRENCY}}", "currencyAmount": -22.49 },
+        "relatedIdentifiers": [{ "relatedIdentifierName": "ORDER_ID", "relatedIdentifierValue": "302-7000001-0000001" }],
+        "marketplaceDetails": { "marketplaceId": "{{MARKETPLACE_ID}}" }
+      }
+    },
+    {
+      "api": "finances",
+      "id": "BAL-AVAILABLE",
+      "entity": {
+        "_type": "BALANCE",
+        "balanceType": "AVAILABLE",
+        "amount": { "currencyCode": "{{CURRENCY}}", "currencyAmount": 420.17 },
+        "partnerMetadata": { "accountType": "STANDARD_ORDERS", "marketplaceId": "{{MARKETPLACE_ID}}" }
+      }
+    },
+    {
+      "api": "finances",
+      "id": "BAL-DEFERRED",
+      "entity": {
+        "_type": "BALANCE",
+        "balanceType": "DEFERRED",
+        "amount": { "currencyCode": "{{CURRENCY}}", "currencyAmount": 89.50 },
+        "partnerMetadata": { "accountType": "STANDARD_ORDERS", "marketplaceId": "{{MARKETPLACE_ID}}" }
+      }
+    },
+    {
+      "api": "finances",
+      "id": "BAL-RESERVED",
+      "entity": {
+        "_type": "BALANCE",
+        "balanceType": "RESERVED",
+        "amount": { "currencyCode": "{{CURRENCY}}", "currencyAmount": 35.00 },
+        "partnerMetadata": { "accountType": "STANDARD_ORDERS", "marketplaceId": "{{MARKETPLACE_ID}}" }
+      }
+    },
+    {
+      "api": "finances",
+      "id": "SUM-2026-10",
+      "entity": {
+        "_type": "SUMMARY",
+        "netProceeds": { "currencyCode": "{{CURRENCY}}", "currencyAmount": 544.67 },
+        "periodStart": "2026-10-01T00:00:00Z",
+        "periodEnd": "2026-10-31T23:59:59Z",
+        "partnerMetadata": { "accountType": "STANDARD_ORDERS", "marketplaceId": "{{MARKETPLACE_ID}}" }
+      }
+    },
+    {
+      "api": "transfers",
+      "id": "PM-BANK-6789",
+      "entity": {
+        "_type": "PAYMENT_METHOD",
+        "paymentMethodId": "PM-BANK-6789",
+        "accountHolderName": "Müller Handel GmbH",
+        "paymentMethodType": "BANK_ACCOUNT",
+        "tail": "6789",
+        "assignmentType": "DEFAULT",
+        "marketplaceId": "{{MARKETPLACE_ID}}"
+      }
+    },
+    {
+      "api": "transfers",
+      "id": "PM-CARD-4321",
+      "entity": {
+        "_type": "PAYMENT_METHOD",
+        "paymentMethodId": "PM-CARD-4321",
+        "accountHolderName": "Müller Handel GmbH",
+        "paymentMethodType": "CARD",
+        "tail": "4321",
+        "assignmentType": "BACKUP",
+        "marketplaceId": "{{MARKETPLACE_ID}}",
+        "countryCode": "DE",
+        "expiryDate": "2028-05"
+      }
+    },
+    {
+      "api": "transfers",
+      "id": "PAYOUT-PRIOR-0001",
+      "entity": {
+        "_type": "PAYOUT",
+        "id": "PAYOUT-PRIOR-0001",
+        "currentStatus": "PAID",
+        "statusHistory": [
+          { "status": "PENDING", "lastUpdatedDate": "2026-10-01T06:00:00Z" },
+          { "status": "PAID", "lastUpdatedDate": "2026-10-01T18:30:00Z" }
+        ],
+        "type": "ON_DEMAND",
+        "amount": { "currencyCode": "EUR", "currencyAmount": 310.00 },
+        "accountTail": "6789",
+        "paymentMethod": "BANK_ACCOUNT",
+        "creationDate": "2026-10-01T06:00:00Z",
+        "paymentRail": "SEPA",
+        "partnerMetadata": { "accountType": "STANDARD_ORDERS", "marketplaceId": "{{MARKETPLACE_ID}}" }
+      }
+    },
+    {
+      "api": "transfers",
+      "id": "EXP-PAYOUT-0001",
+      "entity": {
+        "_type": "EXPECTED_PAYOUT",
+        "amount": { "currencyCode": "EUR", "currencyAmount": 420.17 },
+        "status": "SCHEDULED",
+        "scheduledDate": "2026-10-21T06:00:00Z",
+        "accountTail": "6789",
+        "paymentMethod": "BANK_ACCOUNT",
+        "period": { "startDate": "2026-10-07T00:00:00Z", "endDate": "2026-10-20T23:59:59Z" },
+        "partnerMetadata": { "accountType": "STANDARD_ORDERS", "marketplaceId": "{{MARKETPLACE_ID}}" }
+      }
+    }
+  ],
+  "tracks": [
+    {
+      "id": "reconcile-earnings",
+      "title": "Reconcile Earnings",
+      "description": "See what you earned this period and how released funds differ from deferred ones.",
+      "steps": [
+        {
+          "title": "List all October transactions",
+          "method": "GET",
+          "path": "/finances/2024-06-19/transactions?marketplaceId={{MARKETPLACE_ID}}&postedAfter=2026-10-01T00:00:00Z&postedBefore=2026-11-01T00:00:00Z",
+          "status": "runnable",
+          "note": "listTransactions — returns all four seeded transactions (two sales, a refund, a fee) for the region's primary marketplace."
+        },
+        {
+          "title": "Filter to released funds only",
+          "method": "GET",
+          "path": "/finances/2024-06-19/transactions?marketplaceId={{MARKETPLACE_ID}}&transactionStatus=RELEASED",
+          "status": "runnable",
+          "note": "listTransactions — excludes the DEFERRED sale, leaving the released sale, refund, and fee. Deferred funds are not yet payable."
+        },
+        {
+          "title": "Read the period summary",
+          "method": "GET",
+          "path": "/finances/2024-06-19/summary?periodStart=2026-10-01&periodEnd=2026-10-31",
+          "status": "runnable",
+          "note": "listSummary — returns the SUMMARY record with netProceeds for October. The period overlaps the seeded summary window."
+        }
+      ]
+    },
+    {
+      "id": "check-balance",
+      "title": "Check Available Balance",
+      "description": "Find out how much is actually available to pay out, versus held in reserve or still deferred.",
+      "steps": [
+        {
+          "title": "List balances across all marketplaces",
+          "method": "GET",
+          "path": "/finances/2024-06-19/balances",
+          "status": "runnable",
+          "note": "listBalances — returns three balances: AVAILABLE 420.17, DEFERRED 89.50, RESERVED 35.00 (in the region's currency). Only AVAILABLE is withdrawable."
+        },
+        {
+          "title": "Filter to the available balance",
+          "method": "GET",
+          "path": "/finances/2024-06-19/balances?balanceType=AVAILABLE",
+          "status": "runnable",
+          "note": "listBalances — balanceType narrows to just the AVAILABLE balance, the amount you can request as a payout."
+        }
+      ]
+    },
+    {
+      "id": "request-payout",
+      "title": "Request a Payout",
+      "description": "Pick a payment method and pull your available balance to the bank — then watch the guardrails. On-demand payouts are EU-only.",
+      "steps": [
+        {
+          "title": "List saved payment methods",
+          "method": "GET",
+          "path": "/finances/transfers/2024-06-01/paymentMethods?marketplaceId={{MARKETPLACE_ID}}",
+          "status": "runnable",
+          "note": "getPaymentMethods — returns the BANK_ACCOUNT (tail 6789) and CARD (tail 4321). CARD-only countryCode/expiryDate appear only on the card. EU-only: a non-EU marketplaceId is rejected regardless of REGION."
+        },
+        {
+          "title": "Initiate an on-demand payout (EU region only)",
+          "method": "POST",
+          "path": "/finances/transfers/2024-06-01/payouts",
+          "status": "runnable",
+          "note": "initiatePayout — creates a new PENDING payout and returns payoutReferenceId. EU-only; marketplaceId and accountType are both required.",
+          "body": {
+            "marketplaceId": "{{MARKETPLACE_ID}}",
+            "accountType": "STANDARD_ORDERS"
+          }
+        },
+        {
+          "title": "Try again within 24h (expect 429; EU region only)",
+          "method": "POST",
+          "path": "/finances/transfers/2024-06-01/payouts",
+          "status": "runnable",
+          "note": "initiatePayout — a second request for the same marketplace and account type within 24 hours returns 429 QuotaExceeded. Only one on-demand payout per marketplace+accountType per day.",
+          "body": {
+            "marketplaceId": "{{MARKETPLACE_ID}}",
+            "accountType": "STANDARD_ORDERS"
+          }
+        },
+        {
+          "title": "List payouts to confirm it is PENDING",
+          "method": "GET",
+          "path": "/finances/transfers/2024-06-01/payouts",
+          "status": "runnable",
+          "note": "listPayouts — returns your new PENDING payout plus the prior PAID payout, newest first. REGION-driven marketplaceIds filter, so run with REGION=EU."
+        }
+      ]
+    },
+    {
+      "id": "forecast-payouts",
+      "title": "Forecast Upcoming Payouts",
+      "description": "Look ahead at scheduled payouts before they land. On-demand payouts are EU-only.",
+      "steps": [
+        {
+          "title": "List expected payouts",
+          "method": "GET",
+          "path": "/finances/transfers/2024-06-01/payouts/expected",
+          "status": "runnable",
+          "note": "listExpectedPayouts — returns the SCHEDULED expected payout of 420.17 due 2026-10-21, ordered by scheduledDate descending. REGION-driven marketplaceIds filter, so run with REGION=EU."
+        }
+      ]
+    }
+  ]
+}

@@ -9,6 +9,7 @@ import {
   DateComparisonRule,
   EntityExistenceRule,
   EntityFieldCheckRule,
+  FixedMarketplaceAllowlistRule,
   MarketplaceIdValidationRule,
   ModeRestrictionRule,
   MutualExclusivityRule,
@@ -1134,6 +1135,41 @@ const marketplaceIdValidationHandler: RuleHandler = async (rule, context, _resol
 };
 
 registerRuleHandler("marketplaceIdValidation", marketplaceIdValidationHandler);
+
+
+// --- fixedMarketplaceAllowlist Rule Handler ---
+
+/**
+ * Handler for the "fixedMarketplaceAllowlist" check type.
+ * Validates that a marketplace-ID-bearing parameter is one of a fixed allowlist,
+ * independent of the sandbox's REGION-derived marketplace set.
+ *
+ * - If the param is absent/empty: skip (pass) — the schema stage or a
+ *   required-field check is what makes the parameter mandatory
+ * - If the value is a case-sensitive exact match for one of
+ *   `allowedMarketplaceIds`: pass
+ * - Otherwise: fail with the rule's `failAction`
+ */
+const fixedMarketplaceAllowlistHandler: RuleHandler = async (rule, context, _resolvedEntities) => {
+  const typedRule = rule as FixedMarketplaceAllowlistRule;
+
+  const rawValue = resolveParam(context, typedRule.param.name, typedRule.param.source);
+
+  // If param is absent, skip validation
+  if (!isParamPresent(rawValue)) {
+    return { pass: true, resolvedEntities: {} };
+  }
+
+  const value = String(rawValue);
+
+  if (typedRule.allowedMarketplaceIds.includes(value)) {
+    return { pass: true, resolvedEntities: {} };
+  }
+
+  return buildFailResult(rule);
+};
+
+registerRuleHandler("fixedMarketplaceAllowlist", fixedMarketplaceAllowlistHandler);
 
 
 // --- modeRestriction Rule Handler ---

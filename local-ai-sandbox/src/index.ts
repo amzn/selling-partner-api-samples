@@ -8,6 +8,9 @@ import { createOrder, updateOrder, deleteOrder } from "./controller/ordersManage
 import { getNotificationSchemas, sendNotification } from "./controller/notificationsManagementController.js";
 import { downloadReportDocument, downloadDataKioskDocument } from "./controller/spapiController.js";
 import { listScenarios, seedScenario } from "./controller/scenariosController.js";
+import { importCatalogItems, reprocessMatching } from "./controller/catalogManagementController.js";
+import { startMatchingScheduler } from "./service/matchingScheduler.js";
+import { assertGuidanceMatchesRegistry } from "./tool/domainGuidance.js";
 
 /**
  * APPLICATION SETUP
@@ -83,6 +86,12 @@ app.get("/manage/notifications/schemas", getNotificationSchemas);
 app.post("/manage/notifications/send", sendNotification);
 
 /**
+ * CATALOG MANAGEMENT (seed from production, re-run matching)
+ */
+app.post("/manage/catalog/import", importCatalogItems);
+app.post("/manage/catalog/reprocess-matching", reprocessMatching);
+
+/**
  * GENERIC REQUEST HANDLER
  */
 app.all("/{*splat}", async (req, res) => {
@@ -104,8 +113,14 @@ console.log(`
 `);
 
 validateOperationRegistry();
+// Fail fast if the data-generation guidance registry has drifted from the
+// operation registry (a guidance entry naming an unknown namespace).
+assertGuidanceMatchesRegistry();
 // Init database
 Context.instance;
+// Re-evaluate catalog matching on a timer, so a catalog item that arrives
+// after a listing still clears that listing's matching issue.
+startMatchingScheduler();
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);

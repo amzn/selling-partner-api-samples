@@ -35,6 +35,8 @@ DB_MODE=memory
 | `MODE` | Operating mode (`Seller` or `Vendor`). Mode-restricted operations return `403` when accessed in the wrong mode. | `Seller` |
 | `DB_MODE` | Database persistence mode (`memory` or `persistent`)           | `memory` |
 | `DB_FILE_PATH` | File path used when `DB_MODE=persistent` (required in that mode) | — |
+| `MATCHING_INTERVAL_MS` | Interval of the scheduled catalog reconciliation sweep, in milliseconds. `0` disables it. | `60000` |
+| `IMPORT_TIMEOUT_MS` | Per-ASIN timeout for a production catalog import (`POST /manage/catalog/import`) | `10000` |
 
 AWS credentials are resolved through the standard AWS SDK credential chain (environment variables, `~/.aws/credentials`, IAM role, etc.). No additional env vars are needed for Bedrock access beyond valid credentials with the appropriate permissions. Bedrock is only used by the Data Generator (`POST /chat`); SP-API endpoints are served locally and do not call Bedrock.
 
@@ -95,6 +97,13 @@ All SP-API endpoints are validated against their bundled OpenAPI model and serve
 | `GET` | `/definitions/2020-09-01/productTypes` | Product Type Definitions | Pass-through (Production) | Seller, Vendor |
 | `GET` | `/definitions/2020-09-01/productTypes/{productType}` | Product Type Definitions | Pass-through (Production) | Seller, Vendor |
 | `GET` | `/fba/inventory/v1/summaries` | FBA Inventory | Local | Seller |
+| `GET` | `/finances/2024-06-19/transactions` | Finances | Local | Seller |
+| `GET` | `/finances/2024-06-19/balances` | Finances | Local | Seller |
+| `GET` | `/finances/2024-06-19/summary` | Finances | Local | Seller |
+| `GET` | `/finances/transfers/2024-06-01/paymentMethods` | Transfers | Local | Seller |
+| `GET` | `/finances/transfers/2024-06-01/payouts` | Transfers | Local | Seller |
+| `POST` | `/finances/transfers/2024-06-01/payouts` | Transfers | Local | Seller |
+| `GET` | `/finances/transfers/2024-06-01/payouts/expected` | Transfers | Local | Seller |
 | `GET` | `/notifications/v1/destinations` | Notifications | Local | Seller, Vendor |
 | `POST` | `/notifications/v1/destinations` | Notifications | Local | Seller, Vendor |
 | `GET` | `/notifications/v1/destinations/{destinationId}` | Notifications | Local | Seller, Vendor |
@@ -137,6 +146,8 @@ These endpoints are not part of SP-API; they help you generate, seed, inspect, a
 | `DELETE` | `/manage/orders/:orderId` | Deletes an order directly from the database |
 | `GET` | `/manage/notifications/schemas` | Lists the available notification schemas from `res/notification-schemas/` |
 | `POST` | `/manage/notifications/send` | Sends a notification to the SQS destination for a subscription (requires `NotificationType` in the body) |
+| `POST` | `/manage/catalog/import` | Copies real catalog items from production into the sandbox by ASIN. `asins` and `marketplaceId` are both required. Requires a real access token. Reports per-ASIN failures and returns `502` if nothing could be imported. A successful import reconciles catalog matching before responding. |
+| `POST` | `/manage/catalog/reprocess-matching` | Forces a catalog matching sweep over all listings. Mainly useful when `MATCHING_INTERVAL_MS=0` (e.g. in tests). |
 
 ## How It Works
 
@@ -147,6 +158,8 @@ These endpoints are not part of SP-API; they help you generate, seed, inspect, a
 5. **AI Data Generator** — `POST /chat` uses an AI agent (Claude Haiku on Bedrock) to turn natural-language prompts into test data, which it writes to the local database via tools.
 6. **Local database** — Data is persisted in an in-process document database (LokiJS), partitioned by API domain. View it at `GET /data` or clear it with `DELETE /data`. Set `DB_MODE=persistent` with `DB_FILE_PATH` to persist across restarts.
 7. **Event-driven triggers** — Database writes fire declarative triggers defined in `res/triggers.yaml` (e.g., deducting inventory when an order is placed).
+8. **Scheduled catalog reconciliation** — Catalog matching for listings is re-evaluated on a timer (`MATCHING_INTERVAL_MS`), because the listings write trigger cannot notice a catalog item that arrives later. Catalog matching is decided against the sandbox catalog only; use `POST /manage/catalog/import` to seed real ASINs from production first.
+9. **Domain guidance for the Data Generator** — Where a domain's stored document shape differs from its API model (e.g. Listings, Finances, Transfers), the generator retrieves per-domain guidance on demand so generated records match what the handlers read back.
 
 ## Onboarding a New API
 

@@ -94,6 +94,13 @@ import {
   cancelQueryHandler,
   getDocumentHandler,
 } from "../operation/dataKioskOperations.js";
+import { listTransactionsHandler, listBalancesHandler, listSummaryHandler } from "../operation/financesOperations.js";
+import {
+  initiatePayoutHandler,
+  listPayoutsHandler,
+  getPaymentMethodsHandler,
+  listExpectedPayoutsHandler,
+} from "../operation/transfersOperations.js";
 
 export interface OperationEntry {
   operationId: string;
@@ -295,6 +302,15 @@ class OperationHandlerRegistry {
     this.register("Data Kiosk", "2023-11-15", "getQuery", getQueryHandler);
     this.register("Data Kiosk", "2023-11-15", "cancelQuery", cancelQueryHandler);
     this.register("Data Kiosk", "2023-11-15", "getDocument", getDocumentHandler);
+    // Finances is Seller-only.
+    this.register("Finances", "2024-06-19", "listTransactions", listTransactionsHandler, ["Seller"]);
+    this.register("Finances", "2024-06-19", "listBalances", listBalancesHandler, ["Seller"]);
+    this.register("Finances", "2024-06-19", "listSummary", listSummaryHandler, ["Seller"]);
+    // Transfers is Seller-only.
+    this.register("Transfers", "2024-06-01", "initiatePayout", initiatePayoutHandler, ["Seller"]);
+    this.register("Transfers", "2024-06-01", "listPayouts", listPayoutsHandler, ["Seller"]);
+    this.register("Transfers", "2024-06-01", "getPaymentMethods", getPaymentMethodsHandler, ["Seller"]);
+    this.register("Transfers", "2024-06-01", "listExpectedPayouts", listExpectedPayoutsHandler, ["Seller"]);
   }
 
   /**

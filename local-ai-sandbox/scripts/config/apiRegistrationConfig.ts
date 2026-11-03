@@ -35,6 +35,8 @@ export const API_METADATA_OVERRIDES: Record<string, ApiMetadataOverride> = {
   "externalFulfillmentInventory_2024-09-11.json": { apiName: "External Fulfillment Inventory", dbNamespace: "extFulfillmentInventory" },
   "externalFulfillmentReturns_2024-09-11.json": { apiName: "External Fulfillment Returns", dbNamespace: "extFulfillmentReturns" },
   "externalFulfillmentShipments_2024-09-11.json": { apiName: "External Fulfillment Shipments", dbNamespace: "extFulfillmentShipments" },
+  "finances_2024-06-19.json": { apiName: "Finances", dbNamespace: "finances" },
+  "transfers_2024-06-01.json": { apiName: "Transfers", dbNamespace: "transfers" },
 };
 
 export interface ExcludeListEntry {
@@ -84,6 +86,7 @@ export const ALLOWLIST: string[] = [
   "listings-restrictions-api-model",
   "notifications-api-model",
   "data-kiosk-api-model",
+  "finances-api-model",
 ];
 
 /** Facts an exclude-list rule can match against. */

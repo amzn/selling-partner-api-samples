@@ -84,6 +84,70 @@ const marketplaceIdQueryRule = {
   },
 };
 
+/**
+ * The fixed eight-marketplace EU allowlist for Transfers' on-demand payout and
+ * payment-method operations. Unlike the REGION-driven marketplace rules, this set
+ * is constant: the SP-API Transfers model documents EU-only support for these
+ * operations regardless of the sandbox's configured REGION. Each ID is one of the
+ * MARKETPLACE_IDS_EU entries in src/marketplaceIds.ts (country labels per that
+ * file's MARKETPLACE_CURRENCY_MAP).
+ */
+export const TRANSFERS_EU_MARKETPLACE_IDS: string[] = [
+  "A1PA6795UKMFR9", // DE
+  "A13V1IB3VIYZZH", // FR
+  "APJ6JRA9NG5V4", // IT
+  "A1RKKUPIHCS9HS", // ES
+  "A2NODRKZP88ZB9", // SE
+  "A1805IZSGTT6HS", // NL
+  "A1C3SOZRARQ6R3", // PL
+  "AMEN7PMS3EDWL", // BE
+];
+
+/**
+ * Fixed EU allowlist rule for Transfers' body-sourced marketplaceId (initiatePayout).
+ */
+const transfersEuMarketplaceBodyRule = {
+  checkType: "fixedMarketplaceAllowlist" as const,
+  param: { name: "marketplaceId", source: "body" as const },
+  allowedMarketplaceIds: TRANSFERS_EU_MARKETPLACE_IDS,
+  failAction: {
+    statusCode: 400,
+    code: "InvalidInput",
+    message: "marketplaceId is not one of the marketplaces supported for on-demand payouts",
+  },
+};
+
+/**
+ * Fixed EU allowlist rule for Transfers' query-sourced marketplaceId (getPaymentMethods).
+ */
+const transfersEuMarketplaceQueryRule = {
+  checkType: "fixedMarketplaceAllowlist" as const,
+  param: { name: "marketplaceId", source: "query" as const },
+  allowedMarketplaceIds: TRANSFERS_EU_MARKETPLACE_IDS,
+  failAction: {
+    statusCode: 400,
+    code: "InvalidInput",
+    message: "marketplaceId is not one of the marketplaces supported for payment method lookups",
+  },
+};
+
+/**
+ * Shared rule requiring relatedIdentifierName and relatedIdentifierValue to be
+ * supplied together (both or neither) — used by Finances listTransactions and listSummary.
+ */
+const relatedIdentifierTogetherRule = {
+  checkType: "requiredTogether" as const,
+  params: [
+    { name: "relatedIdentifierName", source: "query" as const },
+    { name: "relatedIdentifierValue", source: "query" as const },
+  ],
+  failAction: {
+    statusCode: 400,
+    code: "InvalidInput",
+    message: "relatedIdentifierName and relatedIdentifierValue must be provided together",
+  },
+};
+
 
 /**
  * Maps Validation_Key (apiName:apiVersion:operationId) to its corresponding ValidationPipeline.
@@ -1093,11 +1157,11 @@ export const VALIDATION_REGISTRY = new Map<string, ValidationPipeline>([
         checkType: "arrayItemFieldValue",
         arrayParam: { name: "requests", source: "body" },
         itemField: "uri",
-        expectedValue: "/products/pricing/2022-05-01/offer/featuredOfferExpectedPrice",
+        expectedValue: "/products/pricing/2022-05-01/items/competitiveSummary",
         failAction: {
           statusCode: 400,
           code: "InvalidInput",
-          message: "Each request uri must be '/products/pricing/2022-05-01/offer/featuredOfferExpectedPrice'",
+          message: "Each request uri must be '/products/pricing/2022-05-01/items/competitiveSummary'",
         },
       },
     ]],
@@ -1337,4 +1401,19 @@ export const VALIDATION_REGISTRY = new Map<string, ValidationPipeline>([
       },
     ],
   ],
+
+  // --- Finances ---
+  ["Finances:2024-06-19:listTransactions", [marketplaceIdQueryRule, relatedIdentifierTogetherRule]],
+  ["Finances:2024-06-19:listBalances", [marketplaceIdsQueryRule]],
+  ["Finances:2024-06-19:listSummary", [marketplaceIdsQueryRule, relatedIdentifierTogetherRule]],
+
+  // --- Transfers ---
+  // initiatePayout and getPaymentMethods carry a fixed EU-only marketplace
+  // restriction that does not vary with the sandbox's REGION, so they use the
+  // fixed allowlist rule. listPayouts and listExpectedPayouts filter by the
+  // REGION-driven marketplaceIds set, exactly like Finances listBalances/listSummary.
+  ["Transfers:2024-06-01:initiatePayout", [transfersEuMarketplaceBodyRule]],
+  ["Transfers:2024-06-01:listPayouts", [marketplaceIdsQueryRule]],
+  ["Transfers:2024-06-01:getPaymentMethods", [transfersEuMarketplaceQueryRule]],
+  ["Transfers:2024-06-01:listExpectedPayouts", [marketplaceIdsQueryRule]],
 ]);

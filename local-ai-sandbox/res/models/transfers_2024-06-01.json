@@ -1,0 +1,1287 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "The Selling Partner API for Transfers.",
+    "description": "The Selling Partner API for Transfers enables selling partners to retrieve payment methods and initiate payouts for their seller accounts. This API supports the following marketplaces: DE, FR, IT, ES, SE, NL, PL, and BE.",
+    "version": "2024-06-01",
+    "contact": {
+      "name": "Selling Partner API Developer Support",
+      "url": "https://sellercentral.amazon.com/gp/mws/contactus.html"
+    },
+    "license": {
+      "name": "Apache License 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  },
+  "host": "sellingpartnerapi-na.amazon.com",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/finances/transfers/2024-06-01/payouts": {
+      "post": {
+        "x-amzn-api-internal": "INTERNAL_AND_EXTERNAL",
+        "description": "Initiates an on-demand payout to the seller's default deposit method in Seller Central for the given `marketplaceId` and `accountType`, if eligible. You can only initiate one on-demand payout for each marketplace and account type within a 24-hour period. \n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.017 | 2 |\n\nThe `x-amzn-RateLimit-Limit` response header contains the usage plan rate limits for the operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput might have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
+        "operationId": "initiatePayout",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "The request body for the `initiatePayout` operation.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InitiatePayoutRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "headers": {
+              "x-amzn-RateLimit-Limit": {
+                "description": "Your rate limit (requests per second) for this operation.",
+                "type": "string"
+              },
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/InitiatePayoutResponse"
+            }
+          },
+          "400": {
+            "description": "Request has missing or invalid parameters and cannot be parsed.",
+            "headers": {
+              "x-amzn-RateLimit-Limit": {
+                "description": "Your rate limit (requests per second) for this operation.",
+                "type": "string"
+              },
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "403": {
+            "description": "Indicates that access to the resource is forbidden. Possible reasons include Access Denied, Unauthorized, Expired Token, or Invalid Signature.",
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference identifier."
+              }
+            }
+          },
+          "404": {
+            "description": "The resource specified does not exist.",
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            },
+            "headers": {
+              "x-amzn-RateLimit-Limit": {
+                "type": "string",
+                "description": "Your rate limit (requests per second) for this operation."
+              },
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference identifier."
+              }
+            }
+          },
+          "413": {
+            "description": "The request size exceeded the maximum accepted size.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "415": {
+            "description": "The request payload is in an unsupported format.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "429": {
+            "description": "The frequency of requests was greater than allowed.",
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference identifier."
+              }
+            }
+          },
+          "500": {
+            "description": "An unexpected condition occurred that prevented the server from fulfilling the request.",
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference identifier."
+              }
+            }
+          },
+          "503": {
+            "description": "Temporary overloading or maintenance of the server.",
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            },
+            "headers": {
+              "x-amzn-RequestId": {
+                "type": "string",
+                "description": "Unique request reference identifier."
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "x-amzn-api-internal": "INTERNAL_AND_EXTERNAL",
+        "description": "Retrieve a list of payouts for the selling partner's account. You can filter results by `marketplaceIds`, `accountType`, date range (`createdAfter` and `createdBefore`), or a specific `payoutId`. By default, the response includes payouts for all available marketplaces and account types. Results are grouped by the seller's account groups. Within each account group results are sorted by their creation date, with the most recent appearing first.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.5 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header contains the usage plan rate limits for the operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput might have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
+        "operationId": "listPayouts",
+        "parameters": [
+          {
+            "name": "marketplaceIds",
+            "in": "query",
+            "required": false,
+            "description": "The Amazon stores from which to retrieve payouts. The Amazon store ID is a globally unique identifier assigned to each Amazon store. If omitted, the response includes payouts from all applicable stores. To find the Amazon store ID for your region, refer to [Store Identifiers](https://developer-docs.amazon/sp-api/docs/store-identifiers).",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-example": [
+              "ATVPDKIKX0DER"
+            ]
+          },
+          {
+            "name": "createdAfter",
+            "in": "query",
+            "required": false,
+            "description": "The response only includes payouts created on or after this date-time. The value must be formatted in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format. If omitted, no start date filter is applied.",
+            "type": "string",
+            "format": "date-time",
+            "x-example": "2024-06-01T00:00:00Z"
+          },
+          {
+            "name": "createdBefore",
+            "in": "query",
+            "required": false,
+            "description": "The response only includes payouts created before this date-time. The value must be formatted in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format. If omitted, no end date filter is applied.",
+            "type": "string",
+            "format": "date-time",
+            "x-example": "2024-06-30T00:00:00Z"
+          },
+          {
+            "name": "payoutId",
+            "in": "query",
+            "required": false,
+            "description": "The response only includes the payout matching the specified identifier.",
+            "type": "string",
+            "x-example": "11888387941"
+          },
+          {
+            "name": "accountType",
+            "in": "query",
+            "required": false,
+            "description": "The response only includes payouts associated with the specified account type.",
+            "type": "string",
+            "x-example": "STANDARD_ORDERS"
+          },
+          {
+            "name": "nextToken",
+            "in": "query",
+            "required": false,
+            "description": "The response includes `nextToken` when the number of results exceeds the page size. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until `nextToken` is null. Note that this operation can return empty pages.",
+            "type": "string",
+            "x-example": "jehgri34yo7jr9e8f984tr9i4o"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "headers": {
+              "x-amzn-RateLimit-Limit": {
+                "description": "Your rate limit (requests per second) for this operation.",
+                "type": "string"
+              },
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ListPayoutsResponse"
+            }
+          },
+          "400": {
+            "description": "Request has missing or invalid parameters and cannot be parsed.",
+            "headers": {
+              "x-amzn-RateLimit-Limit": {
+                "description": "Your rate limit (requests per second) for this operation.",
+                "type": "string"
+              },
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "403": {
+            "description": "Indicates that access to the resource is forbidden. Possible reasons include Access Denied, Unauthorized, Expired Token, or Invalid Signature.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "404": {
+            "description": "The resource specified does not exist.",
+            "headers": {
+              "x-amzn-RateLimit-Limit": {
+                "description": "Your rate limit (requests per second) for this operation.",
+                "type": "string"
+              },
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "413": {
+            "description": "The request size exceeded the maximum accepted size.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "415": {
+            "description": "The request payload is in an unsupported format.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "429": {
+            "description": "The frequency of requests was greater than allowed.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "500": {
+            "description": "An unexpected condition occurred that prevented the server from fulfilling the request.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "503": {
+            "description": "Temporary overloading or maintenance of the server.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          }
+        }
+      }
+    },
+    "/finances/transfers/2024-06-01/paymentMethods": {
+      "get": {
+        "x-amzn-api-internal": "INTERNAL_AND_EXTERNAL",
+        "description": "Returns the list of payment methods for the seller, which can be filtered by method type.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| .5 | 30 |\n\nThe `x-amzn-RateLimit-Limit` response header contains the usage plan rate limits for the operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput might have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
+        "operationId": "getPaymentMethods",
+        "parameters": [
+          {
+            "name": "marketplaceId",
+            "in": "query",
+            "required": true,
+            "description": "The identifier of the Amazon store from which you want to retrieve payment methods. For the list of store identifiers, refer to [Store Identifiers](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids).",
+            "type": "string",
+            "x-example": "ATVPDKIKX0DER"
+          },
+          {
+            "name": "paymentMethodTypes",
+            "in": "query",
+            "required": false,
+            "description": "A comma-separated list of the payment method types you want to include in the response.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "BANK_ACCOUNT",
+                "CARD",
+                "SELLER_WALLET"
+              ],
+              "x-docgen-enum-table-extension": [
+                {
+                  "value": "BANK_ACCOUNT",
+                  "description": "The payment is from a bank account."
+                },
+                {
+                  "value": "CARD",
+                  "description": "The payment is from a card."
+                },
+                {
+                  "value": "SELLER_WALLET",
+                  "description": "The payment is from a [Seller Wallet](https://sell.amazon.com/tools/seller-wallet) virtual bank account."
+                }
+              ]
+            },
+            "collectionFormat": "csv",
+            "minItems": 1,
+            "uniqueItems": true,
+            "x-example": "BANK_ACCOUNT,CARD"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "schema": {
+              "$ref": "#/definitions/GetPaymentMethodsResponse"
+            },
+            "headers": {
+              "x-amzn-RateLimit-Limit": {
+                "description": "Your rate limit (requests per second) for this operation.",
+                "type": "string"
+              },
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Request has missing or invalid parameters and cannot be parsed.",
+            "headers": {
+              "x-amzn-RateLimit-Limit": {
+                "description": "Your rate limit (requests per second) for this operation.",
+                "type": "string"
+              },
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "403": {
+            "description": "Indicates that access to the resource is forbidden. Possible reasons include Access Denied, Unauthorized, Expired Token, or Invalid Signature.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "404": {
+            "description": "The resource specified does not exist.",
+            "headers": {
+              "x-amzn-RateLimit-Limit": {
+                "description": "Your rate limit (requests per second) for this operation.",
+                "type": "string"
+              },
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "413": {
+            "description": "The request size exceeded the maximum accepted size.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "415": {
+            "description": "The request payload is in an unsupported format.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "429": {
+            "description": "The frequency of requests was greater than allowed.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "500": {
+            "description": "An unexpected condition occurred that prevented the server from fulfilling the request.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "503": {
+            "description": "Temporary overloading or maintenance of the server.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          }
+        }
+      }
+    },
+    "/finances/transfers/2024-06-01/payouts/expected": {
+      "get": {
+        "description": "Returns the upcoming expected payouts from Amazon associated with a partner's account for the specified parameters.\n\n**Usage Plan:**\n\n| Rate (requests per second) | Burst |\n| ---- | ---- |\n| 0.5 | 10 |\n\nThe `x-amzn-RateLimit-Limit` response header contains the usage plan rate limits for the operation, when available. The preceding table contains the default rate and burst values for this operation. Selling partners whose business demands require higher throughput might have higher rate and burst values than those shown here. For more information, refer to [Usage Plans and Rate Limits](https://developer-docs.amazon.com/sp-api/docs/usage-plans-and-rate-limits-in-the-sp-api).",
+        "operationId": "listExpectedPayouts",
+        "x-amzn-api-internal": "INTERNAL_AND_EXTERNAL",
+        "parameters": [
+          {
+            "name": "marketplaceIds",
+            "in": "query",
+            "required": false,
+            "description": "The Amazon stores from which to retrieve payouts. The Amazon store ID is a globally unique identifier assigned to each Amazon store. If omitted, the response includes payouts from all applicable stores. To find the Amazon store ID for your region, refer to [Store Identifiers](https://developer-docs.amazon/sp-api/docs/store-identifiers).",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "x-example": [
+              "ATVPDKIKX0DER"
+            ]
+          },
+          {
+            "name": "accountType",
+            "in": "query",
+            "required": false,
+            "description": "The response only includes the accounts of the specified account type.",
+            "type": "string",
+            "x-example": "STANDARD_ORDERS"
+          },
+          {
+            "name": "nextToken",
+            "in": "query",
+            "required": false,
+            "description": "The response includes `nextToken` when the number of results exceeds the specified page size. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until `nextToken` is null. Note that this operation can return empty pages.",
+            "type": "string",
+            "x-example": "jehgri34yo7jr9e8f984tr9i4o"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "headers": {
+              "x-amzn-RateLimit-Limit": {
+                "description": "Your rate limit (requests per second) for this operation.",
+                "type": "string"
+              },
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ListExpectedPayoutsResponse"
+            }
+          },
+          "400": {
+            "description": "Request has missing or invalid parameters and cannot be parsed.",
+            "headers": {
+              "x-amzn-RateLimit-Limit": {
+                "description": "Your rate limit (requests per second) for this operation.",
+                "type": "string"
+              },
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "403": {
+            "description": "Indicates that access to the resource is forbidden. Possible reasons include Access Denied, Unauthorized, Expired Token, or Invalid Signature.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "404": {
+            "description": "The resource specified does not exist.",
+            "headers": {
+              "x-amzn-RateLimit-Limit": {
+                "description": "Your rate limit (requests per second) for this operation.",
+                "type": "string"
+              },
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "413": {
+            "description": "The request size exceeded the maximum accepted size.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "415": {
+            "description": "The request payload is in an unsupported format.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "429": {
+            "description": "The frequency of requests was greater than allowed.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "500": {
+            "description": "An unexpected condition occurred that prevented the server from fulfilling the request.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          },
+          "503": {
+            "description": "Temporary overloading or maintenance of the server.",
+            "headers": {
+              "x-amzn-RequestId": {
+                "description": "Unique request reference identifier.",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/ErrorList"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "InitiatePayoutRequest": {
+      "type": "object",
+      "required": [
+        "marketplaceId",
+        "accountType"
+      ],
+      "properties": {
+        "marketplaceId": {
+          "description": "The identifier of the Amazon store. This API supports the following stores: DE, FR, IT, ES, SE, NL, PL, and BE. For a list of possible store IDs, refer to [Store Identifiers](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids).",
+          "$ref": "#/definitions/MarketplaceId"
+        },
+        "accountType": {
+          "description": "The account type in the selected marketplace for which a payout must be initiated. For supported EU marketplaces, the only account type is `Standard Orders`.",
+          "type": "string"
+        }
+      },
+      "description": "The request schema for the `initiatePayout` operation.",
+      "example": {
+        "marketplaceId": "APJ6JRA9NG5V4",
+        "accountType": "Standard Orders"
+      }
+    },
+    "InitiatePayoutResponse": {
+      "type": "object",
+      "required": [
+        "payoutReferenceId"
+      ],
+      "properties": {
+        "payoutReferenceId": {
+          "description": "The financial event group ID for a successfully initiated payout. You can use this ID to track payout information.",
+          "type": "string"
+        }
+      },
+      "description": "The response schema for the `initiatePayout` operation.",
+      "example": {
+        "payoutReferenceId": "3DM7DQi8DPAMOLOSaN5HxT0q2waNwH95fopx3AD2Lgc"
+      }
+    },
+    "ListPayoutsResponse": {
+      "type": "object",
+      "description": "The response schema for the `listPayouts` operation.",
+      "properties": {
+        "payouts": {
+          "description": "A list of payouts matching the request criteria.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Payout"
+          }
+        },
+        "nextToken": {
+          "description": "The response includes `nextToken` when the number of results exceeds the specified page size. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until `nextToken` is null. Note that this operation can return empty pages.",
+          "type": "string"
+        }
+      }
+    },
+    "ListExpectedPayoutsResponse": {
+      "type": "object",
+      "description": "The response schema for the `listExpectedPayouts` operation.",
+      "properties": {
+        "expectedPayouts": {
+          "description": "A list of expected payouts for all of the selling partner's accounts matching the filters.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ExpectedPayout"
+          }
+        },
+        "nextToken": {
+          "description": "The response includes `nextToken` when the number of results exceeds the specified page size. To get the next page of results, call the operation with this token and include the same arguments as the call that produced the token. To get a complete list, call this operation until `nextToken` is null. Note that this operation can return empty pages.",
+          "type": "string"
+        }
+      }
+    },
+    "ExpectedPayout": {
+      "type": "object",
+      "description": "All the information related to an expected payout.",
+      "required": [
+        "partnerMetadata",
+        "status"
+      ],
+      "properties": {
+        "partnerMetadata": {
+          "description": "Metadata that describes the selling partner.",
+          "$ref": "#/definitions/PartnerMetadata"
+        },
+        "amount": {
+          "description": "The total amount of money expected in the payout. Can be null when no payout is expected",
+          "$ref": "#/definitions/Currency"
+        },
+        "status": {
+          "description": "The status of the expected payout.",
+          "$ref": "#/definitions/ExpectedPayoutStatusName"
+        },
+        "period": {
+          "description": "The interval considered for calculating the payout amount.",
+          "$ref": "#/definitions/Period"
+        },
+        "scheduledDate": {
+          "description": "The expected date when the payout would be initiated in Amazon's system.",
+          "$ref": "#/definitions/Date"
+        },
+        "accountTail": {
+          "description": "The last few digits of the payment instrument.",
+          "type": "string"
+        },
+        "paymentMethod": {
+          "description": "The type of payout instrument to which funds will be delivered.",
+          "$ref": "#/definitions/PaymentMethodName"
+        },
+        "relatedIdentifiers": {
+          "description": "Identifiers related to the payout, such as settlement IDs.",
+          "$ref": "#/definitions/RelatedIdentifiers"
+        }
+      }
+    },
+    "ExpectedPayoutStatusName": {
+      "type": "string",
+      "description": "Enumerated set of expected payout status names.",
+      "enum": [
+        "SCHEDULED",
+        "DISABLED",
+        "AT_RISK",
+        "NO_PAYOUT_EXPECTED"
+      ],
+      "x-docgen-enum-table-extension": [
+        {
+          "value": "SCHEDULED",
+          "description": "The payout is scheduled to be executed on the expected date."
+        },
+        {
+          "value": "DISABLED",
+          "description": "Payouts have been disabled for this account."
+        },
+        {
+          "value": "AT_RISK",
+          "description": "The payout may fail because of an invalid deposit instrument."
+        },
+        {
+          "value": "NO_PAYOUT_EXPECTED",
+          "description": "The expected balance is negative, resulting in no payout."
+        }
+      ]
+    },
+    "Payout": {
+      "type": "object",
+      "description": "All the information related to a payout.",
+      "required": [
+        "id",
+        "partnerMetadata",
+        "currentStatus",
+        "statusHistory"
+      ],
+      "properties": {
+        "id": {
+          "description": "The unique identifier of the payout.",
+          "type": "string"
+        },
+        "partnerMetadata": {
+          "description": "Metadata that describes the selling partner.",
+          "$ref": "#/definitions/PartnerMetadata"
+        },
+        "currentStatus": {
+          "description": "The current status of the payout. This value corresponds to the most recent entry in the `statusHistory` list.",
+          "$ref": "#/definitions/PayoutStatusName"
+        },
+        "statusHistory": {
+          "description": "A chronological list of payout status updates.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PayoutStatusEntry"
+          }
+        },
+        "type": {
+          "description": "The type of payout. Can be null when there is no payout.",
+          "$ref": "#/definitions/PayoutTypeName"
+        },
+        "amount": {
+          "description": "The total amount of the payout. Can be null when there is no payout amount to disburse.",
+          "$ref": "#/definitions/Currency"
+        },
+        "accountTail": {
+          "description": "The last few digits of the payment instrument. May be omitted when the configured payment instrument is invalid.",
+          "type": "string"
+        },
+        "paymentMethod": {
+          "description": "The type of payout instrument to which funds are delivered.",
+          "$ref": "#/definitions/PaymentMethodName"
+        },
+        "creationDate": {
+          "description": "The date when the payout was created.",
+          "$ref": "#/definitions/Date"
+        },
+        "paymentRail": {
+          "description": "The underlying payment network or clearing system used to transmit the payout.",
+          "type": "string"
+        },
+        "traceId": {
+          "description": "The banking network's unique identifier for a fund transfer request.",
+          "type": "string",
+          "example": "4B03616UONXSAWP"
+        },
+        "period": {
+          "description": "The time interval for calculating the payout amount.",
+          "$ref": "#/definitions/Period"
+        },
+        "relatedIdentifiers": {
+          "description": "Identifiers related to the payout, such as settlement IDs.",
+          "$ref": "#/definitions/RelatedIdentifiers"
+        }
+      }
+    },
+    "PayoutStatusEntry": {
+      "type": "object",
+      "description": "A record of a payout's status at a specific point in time.",
+      "required": [
+        "status",
+        "lastUpdatedDate"
+      ],
+      "properties": {
+        "status": {
+          "description": "The payout status when this entry was recorded.",
+          "$ref": "#/definitions/PayoutStatusName"
+        },
+        "lastUpdatedDate": {
+          "description": "The date when this status was last updated.",
+          "$ref": "#/definitions/Date"
+        },
+        "failureReason": {
+          "description": "The reason the payout failed.",
+          "type": "string",
+          "example": "Insufficient funds"
+        }
+      }
+    },
+    "PayoutStatusName": {
+      "type": "string",
+      "description": "Enumerated set of payout status names.",
+      "enum": [
+        "STARTED",
+        "IN_TRANSIT",
+        "PAID",
+        "FAILED",
+        "CANCELLED",
+        "NO_PAYOUT"
+      ],
+      "x-docgen-enum-table-extension": [
+        {
+          "value": "STARTED",
+          "description": "The payout has started being processed."
+        },
+        {
+          "value": "IN_TRANSIT",
+          "description": "The payout is sent to the bank for disbursal."
+        },
+        {
+          "value": "PAID",
+          "description": "The payout is successfully deposited in the bank."
+        },
+        {
+          "value": "FAILED",
+          "description": "The payout failed during the disbursal process."
+        },
+        {
+          "value": "CANCELLED",
+          "description": "The payout is cancelled."
+        },
+        {
+          "value": "NO_PAYOUT",
+          "description": "No payout is made for this settlement period."
+        }
+      ]
+    },
+    "PayoutTypeName": {
+      "type": "string",
+      "description": "Enumerated set of payout type names.",
+      "enum": [
+        "SCHEDULED",
+        "ON_DEMAND"
+      ],
+      "x-docgen-enum-table-extension": [
+        {
+          "value": "SCHEDULED",
+          "description": "A payout that is made at a scheduled period."
+        },
+        {
+          "value": "ON_DEMAND",
+          "description": "Ad hoc payouts initiated by the selling partner."
+        }
+      ]
+    },
+    "PaymentMethodName": {
+      "type": "string",
+      "description": "Enumerated set of payment methods for payout transfers.",
+      "enum": [
+        "BANK_ACCOUNT",
+        "DEBIT_CARD"
+      ],
+      "x-docgen-enum-table-extension": [
+        {
+          "value": "BANK_ACCOUNT",
+          "description": "The payment instrument is a bank account."
+        },
+        {
+          "value": "DEBIT_CARD",
+          "description": "The payment instrument is a debit card."
+        }
+      ]
+    },
+    "Currency": {
+      "type": "object",
+      "description": "A currency type and amount.",
+      "properties": {
+        "currencyCode": {
+          "description": "The three-digit currency code in ISO 4217 format.",
+          "type": "string"
+        },
+        "currencyAmount": {
+          "description": "The monetary value.",
+          "$ref": "#/definitions/BigDecimal"
+        }
+      }
+    },
+    "PartnerMetadata": {
+      "type": "object",
+      "description": "Metadata that describes the selling partner.",
+      "required": [
+        "partnerId",
+        "accountType",
+        "marketplaceId"
+      ],
+      "properties": {
+        "partnerId": {
+          "description": "A unique selling partner identifier.",
+          "type": "string"
+        },
+        "accountType": {
+          "description": "The type of the selling partner's account in the payout.",
+          "type": "string"
+        },
+        "marketplaceId": {
+          "description": "The identifier of the store associated with the payout. To find the ID for your store, refer to [Store Identifiers](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids).",
+          "type": "string"
+        }
+      }
+    },
+    "Period": {
+      "type": "object",
+      "description": "The time interval for calculating the payout amount.",
+      "required": [
+        "startDate"
+      ],
+      "properties": {
+        "startDate": {
+          "description": "The starting date for a time interval.",
+          "$ref": "#/definitions/Date"
+        },
+        "endDate": {
+          "description": "The ending date for a time interval.",
+          "$ref": "#/definitions/Date"
+        }
+      }
+    },
+    "RelatedIdentifier": {
+      "type": "object",
+      "description": "Related business identifier of the payout.",
+      "required": [
+        "relatedIdentifierName",
+        "relatedIdentifierValue"
+      ],
+      "properties": {
+        "relatedIdentifierName": {
+          "description": "An enumerated set of related business identifier names.",
+          "$ref": "#/definitions/RelatedIdentifierName"
+        },
+        "relatedIdentifierValue": {
+          "description": "Corresponding value of `RelatedIdentifierName`.",
+          "type": "string"
+        }
+      }
+    },
+    "RelatedIdentifierName": {
+      "type": "string",
+      "description": "Enumerated set of related business identifier names.",
+      "enum": [
+        "SETTLEMENT_ID"
+      ],
+      "x-docgen-enum-table-extension": [
+        {
+          "value": "SETTLEMENT_ID",
+          "description": "The settlement ID associated with a payout."
+        }
+      ]
+    },
+    "RelatedIdentifiers": {
+      "type": "array",
+      "description": "Related business identifiers of the payout.",
+      "items": {
+        "$ref": "#/definitions/RelatedIdentifier"
+      }
+    },
+    "BigDecimal": {
+      "type": "number",
+      "description": "A signed decimal number."
+    },
+    "Date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "A date in [ISO 8601](https://developer-docs.amazon.com/sp-api/docs/iso-8601) date-time format."
+    },
+    "GetPaymentMethodsResponse": {
+      "description": "The response schema for the `getPaymentMethods` operation.",
+      "type": "object",
+      "example": {
+        "paymentMethods": [
+          {
+            "accountHolderName": "John Doe",
+            "paymentMethodId": "0h_TU_CUS_4058fe2a-da6b-4b82-8e48-b20ff2eb4f6d",
+            "paymentMethodType": "BANK_ACCOUNT",
+            "tail": "677",
+            "assignmentType": "DEFAULT_DEPOSIT_METHOD"
+          },
+          {
+            "countryCode": "US",
+            "accountHolderName": "John Doe",
+            "paymentMethodId": "0h_TU_CUS_4058fe2a-da6b-4b82-8e48-b20ff2eb4f6d",
+            "paymentMethodType": "CARD",
+            "expiryDate": {
+              "month": "3",
+              "year": "2029"
+            },
+            "tail": "677"
+          }
+        ]
+      },
+      "properties": {
+        "paymentMethods": {
+          "$ref": "#/definitions/PaymentMethodList"
+        }
+      }
+    },
+    "PaymentMethodList": {
+      "description": "The list of payment methods with payment method details.",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/PaymentMethodDetails"
+      }
+    },
+    "PaymentMethodDetails": {
+      "description": "The details of a payment method.",
+      "type": "object",
+      "properties": {
+        "accountHolderName": {
+          "description": "The name of the account holder who is registered for the payment method.",
+          "type": "string"
+        },
+        "paymentMethodId": {
+          "description": "The payment method identifier.",
+          "type": "string",
+          "example": "0h_TU_CUS_4058fe2a-da6b-4b82-8e48-b20ff2eb4f6d"
+        },
+        "tail": {
+          "description": "The last three or four digits of the payment method.",
+          "type": "string",
+          "example": "321"
+        },
+        "expiryDate": {
+          "description": "The expiration date of the card used for payment.",
+          "$ref": "#/definitions/ExpiryDate"
+        },
+        "countryCode": {
+          "description": "The two-letter country code in ISO 3166-1 alpha-2 format. For payment methods in the `card` category, the code is for the country where the card was issued. For payment methods in the `bank account` category, the code is for the country where the account is located.",
+          "type": "string",
+          "example": "US"
+        },
+        "paymentMethodType": {
+          "description": "The payment method type.",
+          "$ref": "#/definitions/PaymentMethodType"
+        },
+        "assignmentType": {
+          "description": "The payment method assignment type, whether it is assigned as default to the given marketplace or not.",
+          "$ref": "#/definitions/AssignmentType"
+        }
+      }
+    },
+    "ExpiryDate": {
+      "description": "The expiration date of the card used for payment. If the payment method is not `card`, the expiration date is `null`.",
+      "type": "object",
+      "properties": {
+        "month": {
+          "description": "The month the card expires expressed as a number from `1` to `12`.",
+          "type": "string",
+          "example": "3"
+        },
+        "year": {
+          "description": "Year",
+          "type": "string",
+          "example": "2024"
+        }
+      }
+    },
+    "PaymentMethodTypeList": {
+      "type": "array",
+      "example": [
+        "BANK_ACCOUNT, CARD"
+      ],
+      "description": "The list of payment method types that are present.",
+      "items": {
+        "$ref": "#/definitions/PaymentMethodType"
+      }
+    },
+    "PaymentMethodType": {
+      "description": "The type of payment method.",
+      "type": "string",
+      "enum": [
+        "BANK_ACCOUNT",
+        "CARD",
+        "SELLER_WALLET"
+      ],
+      "x-docgen-enum-table-extension": [
+        {
+          "value": "BANK_ACCOUNT",
+          "description": "The payment is from a bank account."
+        },
+        {
+          "value": "CARD",
+          "description": "The payment is from a card."
+        },
+        {
+          "value": "SELLER_WALLET",
+          "description": "The payment is from a [Seller Wallet](https://sell.amazon.com/tools/seller-wallet) virtual bank account."
+        }
+      ]
+    },
+    "AssignmentType": {
+      "description": "The default payment method type.",
+      "type": "string",
+      "enum": [
+        "DEFAULT_DEPOSIT_METHOD"
+      ],
+      "x-docgen-enum-table-extension": [
+        {
+          "value": "DEFAULT_DEPOSIT_METHOD",
+          "description": "The default deposit method."
+        }
+      ]
+    },
+    "MarketplaceId": {
+      "description": "The identifier of the Amazon marketplace. For the list of all marketplace IDs, refer to [Marketplace IDs](https://developer-docs.amazon.com/sp-api/docs/marketplace-ids).",
+      "type": "string",
+      "example": "A1PA6795UKMFR9"
+    },
+    "ErrorList": {
+      "type": "object",
+      "description": "A list of error responses returned when a request is unsuccessful.",
+      "required": [
+        "errors"
+      ],
+      "properties": {
+        "errors": {
+          "type": "array",
+          "description": "array of errors",
+          "items": {
+            "$ref": "#/definitions/Error"
+          },
+          "example": [
+            {
+              "code": "InvalidInput",
+              "message": "The input request had one or more invalid input parameters."
+            }
+          ]
+        }
+      }
+    },
+    "Error": {
+      "description": "Error response returned when the request is unsuccessful.",
+      "properties": {
+        "code": {
+          "description": "An error code that identifies the type of error that occurred.",
+          "type": "string",
+          "example": "InvalidInput"
+        },
+        "message": {
+          "description": "A message that describes the error condition.",
+          "type": "string",
+          "example": "The input request had one or more invalid input parameters."
+        },
+        "details": {
+          "description": "Additional details that can help the caller understand or fix the issue.",
+          "type": "string",
+          "example": "The following input parameters are invalid : [ marketplaceId ]."
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "type": "object",
+      "example": {
+        "code": "InvalidInput",
+        "message": "The input request had one or more invalid input parameters."
+      }
+    }
+  }
+}
