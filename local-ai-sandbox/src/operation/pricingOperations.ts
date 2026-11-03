@@ -176,8 +176,11 @@ export const getFeaturedOfferExpectedPriceBatchHandler: OperationHandler = (
       continue;
     }
 
-    // Step 2: Look up SKU in listings database
-    const listing = Context.instance.engine.get(Api.LISTINGS, sku);
+    // Step 2: Look up SKU in listings database. Listings are keyed by seller and SKU, and a Pricing
+    // request names no seller, so the SKU is matched on its own; one shared by several sellers
+    // cannot be attributed to any of them.
+    const matches = Context.instance.engine.find(Api.LISTINGS, { sku });
+    const listing = matches.length === 1 ? matches[0] : undefined;
 
     if (!listing) {
       responses.push({

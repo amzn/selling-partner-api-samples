@@ -211,6 +211,36 @@
       "pathPrefix": "/fba/inventory/v1"
     },
     {
+      "operationId": "listBalances",
+      "apiName": "Finances",
+      "apiVersion": "2024-06-19",
+      "modelFile": "finances_2024-06-19.json",
+      "path": "/finances/2024-06-19/balances",
+      "method": "get",
+      "dbNamespace": "finances",
+      "pathPrefix": "/finances/2024-06-19"
+    },
+    {
+      "operationId": "listSummary",
+      "apiName": "Finances",
+      "apiVersion": "2024-06-19",
+      "modelFile": "finances_2024-06-19.json",
+      "path": "/finances/2024-06-19/summary",
+      "method": "get",
+      "dbNamespace": "finances",
+      "pathPrefix": "/finances/2024-06-19"
+    },
+    {
+      "operationId": "listTransactions",
+      "apiName": "Finances",
+      "apiVersion": "2024-06-19",
+      "modelFile": "finances_2024-06-19.json",
+      "path": "/finances/2024-06-19/transactions",
+      "method": "get",
+      "dbNamespace": "finances",
+      "pathPrefix": "/finances/2024-06-19"
+    },
+    {
       "operationId": "searchListingsItems",
       "apiName": "Listings",
       "apiVersion": "2021-08-01",
@@ -519,6 +549,46 @@
       "method": "get",
       "dbNamespace": "reports",
       "pathPrefix": "/reports/2021-06-30"
+    },
+    {
+      "operationId": "getPaymentMethods",
+      "apiName": "Transfers",
+      "apiVersion": "2024-06-01",
+      "modelFile": "transfers_2024-06-01.json",
+      "path": "/finances/transfers/2024-06-01/paymentMethods",
+      "method": "get",
+      "dbNamespace": "transfers",
+      "pathPrefix": "/finances/transfers/2024-06-01"
+    },
+    {
+      "operationId": "listPayouts",
+      "apiName": "Transfers",
+      "apiVersion": "2024-06-01",
+      "modelFile": "transfers_2024-06-01.json",
+      "path": "/finances/transfers/2024-06-01/payouts",
+      "method": "get",
+      "dbNamespace": "transfers",
+      "pathPrefix": "/finances/transfers/2024-06-01"
+    },
+    {
+      "operationId": "initiatePayout",
+      "apiName": "Transfers",
+      "apiVersion": "2024-06-01",
+      "modelFile": "transfers_2024-06-01.json",
+      "path": "/finances/transfers/2024-06-01/payouts",
+      "method": "post",
+      "dbNamespace": "transfers",
+      "pathPrefix": "/finances/transfers/2024-06-01"
+    },
+    {
+      "operationId": "listExpectedPayouts",
+      "apiName": "Transfers",
+      "apiVersion": "2024-06-01",
+      "modelFile": "transfers_2024-06-01.json",
+      "path": "/finances/transfers/2024-06-01/payouts/expected",
+      "method": "get",
+      "dbNamespace": "transfers",
+      "pathPrefix": "/finances/transfers/2024-06-01"
     }
   ],
   "models": [
@@ -568,6 +638,14 @@
       "apiVersion": "v1",
       "pathPrefix": "/fba/inventory/v1",
       "dbNamespace": "inventory",
+      "resourcePath": null
+    },
+    {
+      "modelFile": "finances_2024-06-19.json",
+      "apiName": "Finances",
+      "apiVersion": "2024-06-19",
+      "pathPrefix": "/finances/2024-06-19",
+      "dbNamespace": "finances",
       "resourcePath": null
     },
     {
@@ -632,6 +710,14 @@
       "apiVersion": "2021-06-30",
       "pathPrefix": "/reports/2021-06-30",
       "dbNamespace": "reports",
+      "resourcePath": null
+    },
+    {
+      "modelFile": "transfers_2024-06-01.json",
+      "apiName": "Transfers",
+      "apiVersion": "2024-06-01",
+      "pathPrefix": "/finances/transfers/2024-06-01",
+      "dbNamespace": "transfers",
       "resourcePath": null
     }
   ]

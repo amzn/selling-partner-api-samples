@@ -1,6 +1,7 @@
 {
   "id": "launch-a-product",
   "title": "Launch a Product",
+  "regions": ["NA", "EU", "FE"],
   "tagline": "From listing creation to orders, fulfillment, repricing, and returns — one product, many paths.",
   "description": "Seeds a discoverable product (ASIN B0LAUNCH01, SKU LAUNCH-SKU-001) with a live merchant-fulfilled listing, FBA inventory, and two pending orders (one MFN, one FBA). From this shared starting state, pick any track to explore the downstream journey.",
   "seed": [
@@ -11,7 +12,7 @@
         "asin": "B0LAUNCH01",
         "summaries": [
           {
-            "marketplaceId": "ATVPDKIKX0DER",
+            "marketplaceId": "{{MARKETPLACE_ID}}",
             "itemName": "Wireless Bluetooth Speaker 20W",
             "brand": "SoundPeak",
             "manufacturer": "SoundPeak Electronics",
@@ -20,7 +21,7 @@
         ],
         "identifiers": [
           {
-            "marketplaceId": "ATVPDKIKX0DER",
+            "marketplaceId": "{{MARKETPLACE_ID}}",
             "identifiers": [{ "identifierType": "UPC", "identifier": "012345678901" }]
           }
         ]
@@ -28,21 +29,23 @@
     },
     {
       "api": "listings",
-      "id": "A1SANDBOXSELLER|LAUNCH-SKU-001",
+      "id": "LAUNCH-SKU-001",
       "entity": {
         "sku": "LAUNCH-SKU-001",
-        "sellerId": "A1SANDBOXSELLER",
         "asin": "B0LAUNCH01",
         "productType": "PRODUCT",
-        "item_name": [{ "value": "Wireless Bluetooth Speaker 20W", "marketplace_id": "ATVPDKIKX0DER" }],
+        "item_name": [{ "value": "Wireless Bluetooth Speaker 20W", "marketplace_id": "{{MARKETPLACE_ID}}" }],
         "purchasable_offer": [
           {
-            "marketplace_id": "ATVPDKIKX0DER",
-            "currency": "USD",
+            "marketplace_id": "{{MARKETPLACE_ID}}",
+            "currency": "{{CURRENCY}}",
             "our_price": [{ "schedule": [{ "value_with_tax": 49.99 }] }]
           }
         ],
-        "fulfillment_availability": [{ "fulfillment_channel_code": "DEFAULT", "quantity": 25 }, { "fulfillment_channel_code": "AMAZON_NA" }]
+        "fulfillment_availability": [
+          { "fulfillment_channel_code": "DEFAULT", "quantity": 25 },
+          { "fulfillment_channel_code": "AMAZON_NA", "quantity": 50 }
+        ]
       }
     },
     {
@@ -67,7 +70,7 @@
         "orderId": "111-0000001-0000001",
         "createdTime": "2026-08-11T14:30:00Z",
         "lastUpdatedTime": "2026-08-11T14:30:00Z",
-        "salesChannel": { "marketplaceId": "ATVPDKIKX0DER", "channelName": "AMAZON" },
+        "salesChannel": { "marketplaceId": "{{MARKETPLACE_ID}}", "channelName": "AMAZON" },
         "fulfillment": { "fulfillmentStatus": "UNSHIPPED", "fulfilledBy": "MERCHANT" },
         "buyer": { "buyerInfo": { "email": "buyer-mfn@example.com" } },
         "recipient": {
@@ -97,7 +100,7 @@
         "orderId": "111-0000002-0000002",
         "createdTime": "2026-08-11T16:00:00Z",
         "lastUpdatedTime": "2026-08-11T16:00:00Z",
-        "salesChannel": { "marketplaceId": "ATVPDKIKX0DER", "channelName": "AMAZON" },
+        "salesChannel": { "marketplaceId": "{{MARKETPLACE_ID}}", "channelName": "AMAZON" },
         "fulfillment": { "fulfillmentStatus": "UNSHIPPED", "fulfilledBy": "AMAZON" },
         "buyer": { "buyerInfo": { "email": "buyer-fba@example.com" } },
         "recipient": {
@@ -130,7 +133,7 @@
         {
           "title": "Find unshipped MFN orders",
           "method": "GET",
-          "path": "/orders/2026-01-01/orders?marketplaceIds=ATVPDKIKX0DER&createdAfter=2026-08-01T00:00:00Z&fulfillmentStatuses=UNSHIPPED",
+          "path": "/orders/2026-01-01/orders?marketplaceIds={{MARKETPLACE_ID}}&createdAfter=2026-08-01T00:00:00Z&fulfillmentStatuses=UNSHIPPED",
           "status": "runnable",
           "note": "searchOrders — returns both unshipped orders (111-0000001-0000001 MFN, 111-0000002-0000002 FBA)."
         },
@@ -155,7 +158,7 @@
               "trackingNumber": "1Z999AA10123456784",
               "orderItems": [{ "orderItemId": "ITEM-MFN-0001", "quantity": 1 }]
             },
-            "marketplaceId": "ATVPDKIKX0DER"
+            "marketplaceId": "{{MARKETPLACE_ID}}"
           }
         },
         {
@@ -175,7 +178,7 @@
         {
           "title": "Find unshipped FBA orders",
           "method": "GET",
-          "path": "/orders/2026-01-01/orders?marketplaceIds=ATVPDKIKX0DER&createdAfter=2026-08-01T00:00:00Z&fulfillmentStatuses=UNSHIPPED",
+          "path": "/orders/2026-01-01/orders?marketplaceIds={{MARKETPLACE_ID}}&createdAfter=2026-08-01T00:00:00Z&fulfillmentStatuses=UNSHIPPED",
           "status": "runnable",
           "note": "searchOrders — returns both unshipped orders; identify the FBA one by fulfilledBy: AMAZON."
         },
@@ -189,7 +192,7 @@
         {
           "title": "Check FBA inventory levels",
           "method": "GET",
-          "path": "/fba/inventory/v1/summaries?granularityType=Marketplace&granularityId=ATVPDKIKX0DER&marketplaceIds=ATVPDKIKX0DER&sellerSkus=LAUNCH-SKU-001&details=true",
+          "path": "/fba/inventory/v1/summaries?granularityType=Marketplace&granularityId={{MARKETPLACE_ID}}&marketplaceIds={{MARKETPLACE_ID}}&sellerSkus=LAUNCH-SKU-001&details=true",
           "status": "runnable",
           "note": "getInventorySummaries — shows current fulfillable/inbound quantities for the SKU."
         }
@@ -210,14 +213,14 @@
         {
           "title": "Search the catalog for context",
           "method": "GET",
-          "path": "/catalog/2022-04-01/items?identifiers=B0LAUNCH01&identifiersType=ASIN&marketplaceIds=ATVPDKIKX0DER",
+          "path": "/catalog/2022-04-01/items?identifiers=B0LAUNCH01&identifiersType=ASIN&marketplaceIds={{MARKETPLACE_ID}}",
           "status": "runnable",
           "note": "searchCatalogItems — returns the seeded catalog item."
         },
         {
           "title": "Adjust the listing price",
           "method": "PATCH",
-          "path": "/listings/2021-08-01/items/YOUR_SELLER_ID/LAUNCH-SKU-001?marketplaceIds=ATVPDKIKX0DER",
+          "path": "/listings/2021-08-01/items/YOUR_SELLER_ID/LAUNCH-SKU-001?marketplaceIds={{MARKETPLACE_ID}}",
           "status": "runnable",
           "note": "patchListingsItem — the listing is seeded at $49.99; patch to update the price.",
           "body": {
@@ -228,8 +231,8 @@
                 "path": "/attributes/purchasable_offer",
                 "value": [
                   {
-                    "marketplace_id": "ATVPDKIKX0DER",
-                    "currency": "USD",
+                    "marketplace_id": "{{MARKETPLACE_ID}}",
+                    "currency": "{{CURRENCY}}",
                     "our_price": [{ "schedule": [{ "value_with_tax": 44.99 }] }]
                   }
                 ]
@@ -240,7 +243,7 @@
         {
           "title": "Measure order velocity",
           "method": "GET",
-          "path": "/orders/2026-01-01/orders?marketplaceIds=ATVPDKIKX0DER&createdAfter=2026-08-10T00:00:00Z",
+          "path": "/orders/2026-01-01/orders?marketplaceIds={{MARKETPLACE_ID}}&createdAfter=2026-08-10T00:00:00Z",
           "status": "runnable",
           "note": "searchOrders — compare order volume before/after the price change."
         }
@@ -282,7 +285,7 @@
         {
           "title": "Check current inventory",
           "method": "GET",
-          "path": "/fba/inventory/v1/summaries?granularityType=Marketplace&granularityId=ATVPDKIKX0DER&marketplaceIds=ATVPDKIKX0DER&sellerSkus=LAUNCH-SKU-001&details=true",
+          "path": "/fba/inventory/v1/summaries?granularityType=Marketplace&granularityId={{MARKETPLACE_ID}}&marketplaceIds={{MARKETPLACE_ID}}&sellerSkus=LAUNCH-SKU-001&details=true",
           "status": "runnable",
           "note": "getInventorySummaries — LAUNCH-SKU-001 has 45 fulfillable + 5 inbound."
         },

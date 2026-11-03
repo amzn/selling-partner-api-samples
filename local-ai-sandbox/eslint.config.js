@@ -27,6 +27,10 @@ export default tseslint.config(
     rules: {
       ...vitest.configs.recommended.rules,
       "@typescript-eslint/unbound-method": "off",
+      // Recognize assertion helpers (e.g. assertGracefulDegradation) that wrap
+      // expect(...) calls, so tests delegating their assertions to a shared
+      // assert* helper are not flagged as having no assertions.
+      "vitest/expect-expect": ["error", { assertFunctionNames: ["expect", "assert*"] }],
     },
   },
 );

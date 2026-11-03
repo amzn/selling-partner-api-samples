@@ -84,6 +84,52 @@ export interface ListingDoc {
 // --- Constants ---
 
 /**
+ * Data-generation guidance for the Listings domain, consumed by the data
+ * generator's `guidance_retrieval` tool (see src/tool/domainGuidance.ts).
+ *
+ * It lives beside `ListingDoc` because it documents facts about the stored
+ * shape that neither the API model nor the product type definition can tell
+ * the generator: a listing is described by two documents (the API model
+ * defines the envelope, the product type definition defines what belongs
+ * inside `attributes`), and neither mentions the sandbox's own
+ * system-managed fields such as `mfnAvailability`. Keeping it next to the
+ * document shape it describes is what stops the two from drifting apart.
+ */
+export const LISTINGS_GENERATION_GUIDANCE = `
+        - Listings: always include 'sellerId' and 'sku' in the entity. A SKU is
+          only unique per seller, so the tool keys the listing by both. Use the
+          seller ID from the prompt, or a realistic one like AMY6FKRUBY7XV.
+        - Listings: the stored entity is
+          { sellerId, sku, productType, marketplaceId, attributes, asin,
+            mfnAvailability, createdDate, lastUpdatedDate }.
+          Product data goes under 'attributes' — never at the top level — in the
+          instance form the product type definition specifies, e.g.
+          item_name: [{ value, marketplace_id, language_tag }]. Always include item_name,
+          purchasable_offer and fulfillment_availability; without an offer or a
+          quantity the listing reads back as not buyable. A price is nested
+          exactly as
+          purchasable_offer: [{ marketplace_id, currency,
+            our_price: [{ schedule: [{ value_with_tax }] }] }]
+          — a flattened our_price such as [{ value }] does not register as an
+          offer.
+        - Listings: when creating or adding a listing, always include 'asin' —
+          the seller's 'merchant_suggested_asin' when the prompt gives one, else
+          a plausible new one ("B0" plus 8 uppercase alphanumerics). It is the
+          product's catalog identity, and the sandbox creates the matching
+          catalog item from it, so never write to the catalog API yourself.
+        - Listings: 'mfnAvailability' is the live merchant-fulfilled stock ledger
+          and has no counterpart in either schema. Mirror every
+          fulfillment_availability entry that carries a quantity AND a merchant
+          channel (fulfillment_channel_code 'DEFAULT') as
+          { fulfillmentChannelCode, quantity }. Amazon-fulfilled channels
+          (AMAZON_*) are stocked through the inventory API, so they never appear
+          in mfnAvailability.
+        - FBA (Amazon-fulfilled) stock belongs to the 'inventory' API, keyed by
+          seller SKU alone, and each entity needs a 'sellerSku' field.
+          'extFulfillmentInventory' is the unrelated External Fulfillment API —
+          never use it for FBA.`;
+
+/**
  * Sales-term (offer) attributes, from the "offer" property group of the
  * PRODUCT-rooted product type definitions. Seller PUT semantics: product
  * facts are REPLACED, but sales terms are MERGED — omitting a sales-term

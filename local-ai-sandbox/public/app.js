@@ -2670,3 +2670,129 @@ async function loadScenarioCards() {
 }
 
 loadScenarioCards();
+
+// ===== Catalog Tab Logic =====
+const catalogAsinsInput = document.getElementById("catalog-import-asins");
+const catalogMarketplaceInput = document.getElementById("catalog-import-marketplace");
+const catalogTokenInput = document.getElementById("catalog-import-token");
+const catalogStatus = document.getElementById("catalog-status");
+const btnImportCatalog = document.getElementById("btn-import-catalog");
+
+function showCatalogStatus(message, isError) {
+  catalogStatus.className = "notification-status " + (isError ? "error" : "success");
+  catalogStatus.textContent = message;
+  catalogStatus.style.display = "block";
+}
+
+/**
+ * Shows or clears a catalog field error. `.order-form-field .field-error` is
+ * `display: none` by default, so the message has to be toggled visible as well
+ * as written — matching showFieldError / showNotificationFieldError, which also
+ * mark the input itself so it picks up the error border.
+ */
+function setCatalogFieldError(id, input, message) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.textContent = message || "";
+    el.style.display = message ? "block" : "none";
+  }
+  if (input) input.classList.toggle("invalid", Boolean(message));
+}
+
+/** Splits the textarea into ASINs on commas, whitespace, or newlines. */
+function parseAsinInput(raw) {
+  return raw
+    .split(/[\s,]+/)
+    .map(function (value) {
+      return value.trim().toUpperCase();
+    })
+    .filter(function (value) {
+      return value !== "";
+    });
+}
+
+btnImportCatalog.addEventListener("click", async () => {
+  setCatalogFieldError("error-catalog-asins", catalogAsinsInput, "");
+  setCatalogFieldError("error-catalog-marketplace", catalogMarketplaceInput, "");
+  setCatalogFieldError("error-catalog-token", catalogTokenInput, "");
+  catalogStatus.style.display = "none";
+
+  const asins = parseAsinInput(catalogAsinsInput.value);
+  const marketplaceId = catalogMarketplaceInput.value.trim();
+  // The token is read straight out of the field and never stored or logged:
+  // it is a live production credential.
+  const token = catalogTokenInput.value.trim();
+
+  let invalid = false;
+  if (asins.length === 0) {
+    setCatalogFieldError("error-catalog-asins", catalogAsinsInput, "Enter at least one ASIN");
+    invalid = true;
+  }
+  if (asins.length > 20) {
+    setCatalogFieldError("error-catalog-asins", catalogAsinsInput, "A single import is limited to 20 ASINs");
+    invalid = true;
+  }
+  if (!marketplaceId) {
+    setCatalogFieldError("error-catalog-marketplace", catalogMarketplaceInput, "A marketplace is required — a catalog item exists per marketplace");
+    invalid = true;
+  }
+  if (!token) {
+    setCatalogFieldError("error-catalog-token", catalogTokenInput, "An access token is required — production is the only source for a real ASIN");
+    invalid = true;
+  }
+  if (invalid) return;
+
+  const body = { asins: asins, marketplaceId: marketplaceId };
+
+  btnImportCatalog.disabled = true;
+  const originalLabel = btnImportCatalog.textContent;
+  btnImportCatalog.textContent = "Importing...";
+
+  try {
+    const res = await fetch("/manage/catalog/import", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-amz-access-token": token },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      let message = "Imported " + data.imported.length + " catalog item" + (data.imported.length === 1 ? "" : "s") + ": " + data.imported.join(", ");
+      if (data.failed && data.failed.length > 0) {
+        message +=
+          ". Skipped " +
+          data.failed.length +
+          ": " +
+          data.failed
+            .map(function (f) {
+              return f.asin + " (" + f.reason + ")";
+            })
+            .join(", ");
+      }
+      if (data.reconciled) {
+        message += ". Matching re-evaluated " + data.reconciled.evaluated + " listing(s), " + data.reconciled.changed + " changed.";
+      }
+      showCatalogStatus(message, false);
+      fetchDataViewer();
+    } else {
+      let message = data.error || "Import failed";
+      if (data.failed && data.failed.length > 0) {
+        message +=
+          ": " +
+          data.failed
+            .map(function (f) {
+              return f.asin + " (" + f.reason + ")";
+            })
+            .join(", ");
+      }
+      showCatalogStatus(message, true);
+    }
+  } catch (err) {
+    showCatalogStatus("Import failed: " + err.message, true);
+  } finally {
+    btnImportCatalog.textContent = originalLabel;
+    btnImportCatalog.disabled = false;
+  }
+});
+
+

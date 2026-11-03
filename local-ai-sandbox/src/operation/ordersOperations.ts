@@ -110,33 +110,15 @@ export const getOrderHandler: OperationHandler = async (validationResult) => {
 function buildQuery(queryParams: Record<string, unknown>): Record<string, unknown> {
   const conditions: Record<string, unknown>[] = [];
 
-  const createdAfter = queryParams.createdAfter as string | undefined;
-  const createdBefore = queryParams.createdBefore as string | undefined;
-  const lastUpdatedAfter = queryParams.lastUpdatedAfter as string | undefined;
-  const lastUpdatedBefore = queryParams.lastUpdatedBefore as string | undefined;
-  const fulfillmentStatus = queryParams.fulfillmentStatus as string | string[] | undefined;
+  // Date range filters (createdTime / lastUpdatedTime) are applied after the
+  // query by applyDateFilters, comparing instants rather than raw strings.
+  const fulfillmentStatuses = queryParams.fulfillmentStatuses as string | string[] | undefined;
   const marketplaceIds = queryParams.marketplaceIds as string | string[] | undefined;
   const fulfilledBy = queryParams.fulfilledBy as string | string[] | undefined;
 
-  // createdTime range filter
-  if (createdAfter || createdBefore) {
-    const dateCondition: Record<string, unknown> = {};
-    if (createdAfter) dateCondition["$gte"] = createdAfter;
-    if (createdBefore) dateCondition["$lte"] = createdBefore;
-    conditions.push({ createdTime: dateCondition });
-  }
-
-  // lastUpdatedTime range filter
-  if (lastUpdatedAfter || lastUpdatedBefore) {
-    const dateCondition: Record<string, unknown> = {};
-    if (lastUpdatedAfter) dateCondition["$gte"] = lastUpdatedAfter;
-    if (lastUpdatedBefore) dateCondition["$lte"] = lastUpdatedBefore;
-    conditions.push({ lastUpdatedTime: dateCondition });
-  }
-
   // fulfillment.fulfillmentStatus filter
-  if (fulfillmentStatus) {
-    const statuses = Array.isArray(fulfillmentStatus) ? fulfillmentStatus : [fulfillmentStatus];
+  if (fulfillmentStatuses) {
+    const statuses = Array.isArray(fulfillmentStatuses) ? fulfillmentStatuses : [fulfillmentStatuses];
     conditions.push({ "fulfillment.fulfillmentStatus": { $in: statuses } });
   }
 
@@ -157,11 +139,38 @@ function buildQuery(queryParams: Record<string, unknown>): Record<string, unknow
   return { $and: conditions };
 }
 
+/** Epoch ms for an ISO 8601 string or Date (the schema layer may deserialize date-times); undefined when absent or unparseable. */
+function toEpochMs(value: unknown): number | undefined {
+  if (value === undefined || value === null || value === "") return undefined;
+  const ms = value instanceof Date ? value.getTime() : new Date(value as string).getTime();
+  return Number.isNaN(ms) ? undefined : ms;
+}
+
+/** Inclusive instant-range check; an unparseable stored value fails when a bound is set. */
+function withinRange(value: unknown, after: unknown, before: unknown): boolean {
+  const afterMs = toEpochMs(after);
+  const beforeMs = toEpochMs(before);
+  if (afterMs === undefined && beforeMs === undefined) return true;
+  const valueMs = toEpochMs(value);
+  if (valueMs === undefined) return false;
+  if (afterMs !== undefined && valueMs < afterMs) return false;
+  if (beforeMs !== undefined && valueMs > beforeMs) return false;
+  return true;
+}
+
+function applyDateFilters(orders: Record<string, unknown>[], queryParams: Record<string, unknown>): Record<string, unknown>[] {
+  return orders.filter(
+    (o) =>
+      withinRange(o.createdTime, queryParams.createdAfter, queryParams.createdBefore) &&
+      withinRange(o.lastUpdatedTime, queryParams.lastUpdatedAfter, queryParams.lastUpdatedBefore),
+  );
+}
+
 export const searchOrdersHandler: OperationHandler = async (validationResult) => {
   const { queryParams } = validationResult;
   const includedDataParam = queryParams.includedData as string | string[] | undefined;
 
-  const collection = Context.instance.engine.find(Api.ORDERS, buildQuery(queryParams));
+  const collection = applyDateFilters(Context.instance.engine.find(Api.ORDERS, buildQuery(queryParams)), queryParams);
   if (!collection) {
     return {
       statusCode: 200,

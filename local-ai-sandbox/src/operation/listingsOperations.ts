@@ -308,9 +308,22 @@ function matchesIdentifiers(doc: ListingDoc, identifiers: string[], identifiersT
   }
 }
 
-function withinDateRange(value: string, after?: string, before?: string): boolean {
-  if (after && value < after) return false;
-  if (before && value > before) return false;
+/** Epoch ms for an ISO 8601 string or a Date (the schema layer may deserialize date-times); undefined when absent or unparseable. */
+function toEpochMs(value: unknown): number | undefined {
+  if (value === undefined || value === null || value === "") return undefined;
+  const ms = value instanceof Date ? value.getTime() : new Date(value as string).getTime();
+  return Number.isNaN(ms) ? undefined : ms;
+}
+
+/** Inclusive range check on instants, so differing ISO formats (Z vs offset, with/without millis) compare correctly. */
+function withinDateRange(value: string, after?: unknown, before?: unknown): boolean {
+  const afterMs = toEpochMs(after);
+  const beforeMs = toEpochMs(before);
+  if (afterMs === undefined && beforeMs === undefined) return true;
+  const valueMs = toEpochMs(value);
+  if (valueMs === undefined) return false;
+  if (afterMs !== undefined && valueMs < afterMs) return false;
+  if (beforeMs !== undefined && valueMs > beforeMs) return false;
   return true;
 }
 

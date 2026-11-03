@@ -16,6 +16,8 @@ export enum Api {
   PRODUCT_TYPE_DEFINITIONS = "productTypeDefinitions",
   NOTIFICATIONS = "notifications",
   DATA_KIOSK = "dataKiosk",
+  FINANCES = "finances",
+  TRANSFERS = "transfers",
 }
 
 /**

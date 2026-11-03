@@ -70,6 +70,23 @@
         </svg>
         Orders
       </button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="tab-panel-catalog" id="tab-catalog">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+          <line x1="12" y1="22.08" x2="12" y2="12" />
+        </svg>
+        Catalog
+      </button>
       <button class="tab" role="tab" aria-selected="false" aria-controls="tab-panel-notifications" id="tab-notifications">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
@@ -551,6 +568,60 @@
                   <span class="form-error-message" id="form-error-message"></span>
                 </div>
               </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Panel: Catalog -->
+      <div class="tab-panel" id="tab-panel-catalog" role="tabpanel" aria-labelledby="tab-catalog">
+        <div class="content-wrapper">
+          <div class="notifications-header">
+            <h2 class="hero-title">Catalog</h2>
+            <p class="header-description">
+              Seed the sandbox catalog from the real Amazon catalog, so an offer-only listing can be attached to a genuine ASIN without drawing a
+              matching issue. Importing is a deliberate, separate step, so catalog matching itself never depends on a call to production.
+            </p>
+          </div>
+          <div id="catalog-container">
+            <div class="container-body" id="catalog-body">
+              <!-- Import from production -->
+              <div class="order-form-section">
+                <div class="order-form-section-title">Import ASINs from production</div>
+                <div class="order-form-row">
+                  <div class="order-form-field">
+                    <label for="catalog-import-asins">ASINs *</label>
+                    <textarea
+                      id="catalog-import-asins"
+                      rows="3"
+                      placeholder="B08N5WRWNW, B0CHX1W1XY — comma, space or newline separated (max 20)"
+                    ></textarea>
+                    <span class="field-error" id="error-catalog-asins"></span>
+                  </div>
+                </div>
+                <div class="order-form-row">
+                  <div class="order-form-field">
+                    <label for="catalog-import-marketplace">Marketplace ID *</label>
+                    <input type="text" id="catalog-import-marketplace" placeholder="e.g. A1PA6795UKMFR9 — must match the configured region" />
+                    <span class="field-error" id="error-catalog-marketplace"></span>
+                  </div>
+                  <div class="order-form-field">
+                    <label for="catalog-import-token">Access token *</label>
+                    <input type="password" id="catalog-import-token" placeholder="x-amz-access-token" autocomplete="off" spellcheck="false" />
+                    <span class="field-error" id="error-catalog-token"></span>
+                  </div>
+                </div>
+                <div class="order-form-actions">
+                  <button type="button" class="btn btn-primary" id="btn-import-catalog">Import ASINs</button>
+                </div>
+              </div>
+
+              <p class="catalog-hint">
+                Catalog matching is re-evaluated automatically after an import, and again every minute, so a listing tagged for an ASIN you import
+                clears without further action.
+              </p>
+
+              <div id="catalog-status" class="notification-status" style="display: none"></div>
             </div>
           </div>
         </div>

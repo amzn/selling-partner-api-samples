@@ -5,10 +5,21 @@ import z from "zod";
 
 /**
  * Resolves the storage key for generated data. Listings are keyed by seller
- * and SKU, so a generated listing must carry both or it would be written
- * somewhere getListingsItem cannot find it.
+ * and SKU, and FBA inventory by seller SKU alone, so a generated entity must
+ * carry those fields or it would be written somewhere the readers cannot
+ * find it.
  */
 function resolveKey(api: Api, id: string, entity: Record<string, unknown> | undefined): { key: string; sku?: string } | { error: string } {
+  if (api === Api.INVENTORY) {
+    // getInventorySummaries filters on the `sellerSku` field while listing availability and the
+    // order trigger look the record up by key, so the key has to be the bare SKU and nothing else.
+    const sellerSku = entity?.sellerSku;
+    if (typeof sellerSku !== "string" || sellerSku === "") {
+      return { error: "FBA inventory needs a non-empty 'sellerSku' in the entity; it is the record's key. Add sellerSku and retry." };
+    }
+    return { key: sellerSku };
+  }
+
   if (api !== Api.LISTINGS) return { key: id };
 
   // Returned alongside the key so the stored document cannot disagree with the

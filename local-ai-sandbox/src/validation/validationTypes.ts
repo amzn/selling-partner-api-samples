@@ -298,9 +298,25 @@ export interface StringLengthLimitRule extends BaseValidationRule {
   normalizeWhitespace?: boolean;
 }
 
+/**
+ * Validates that a marketplace-ID-bearing parameter is one of a fixed allowlist,
+ * independent of the sandbox's REGION-derived marketplace set. Used by operations
+ * whose real-world EU restriction does not vary with the sandbox's configured region
+ * (Transfers' initiatePayout and getPaymentMethods, per the SP-API model's documented
+ * EU-only support for on-demand payouts and payment-method lookups).
+ */
+export interface FixedMarketplaceAllowlistRule extends BaseValidationRule {
+  checkType: "fixedMarketplaceAllowlist";
+  param: {
+    name: string;
+    source: "path" | "query" | "body";
+  };
+  allowedMarketplaceIds: string[];
+}
+
 // --- Discriminated Union and Pipeline ---
 
-export type ValidationRule = EntityExistenceRule | MutualExclusivityRule | AtMostOneAllowedRule | RequiredTogetherRule | AtLeastOneRequiredRule | ConditionalExclusionRule | BusinessRuleCheck | DateComparisonRule | OrderItemExistenceRule | QuantityLimitRule | ReportTypeSupportedRule | ReportMetaValidationRule | EntityFieldCheckRule | ReportSchedulableRule | MarketplaceIdValidationRule | ConditionalRequirementRule | ModeRestrictionRule | BatchSizeLimitRule | ArrayItemFieldValueRule | StringLengthLimitRule;
+export type ValidationRule = EntityExistenceRule | MutualExclusivityRule | AtMostOneAllowedRule | RequiredTogetherRule | AtLeastOneRequiredRule | ConditionalExclusionRule | BusinessRuleCheck | DateComparisonRule | OrderItemExistenceRule | QuantityLimitRule | ReportTypeSupportedRule | ReportMetaValidationRule | EntityFieldCheckRule | ReportSchedulableRule | MarketplaceIdValidationRule | ConditionalRequirementRule | ModeRestrictionRule | BatchSizeLimitRule | ArrayItemFieldValueRule | StringLengthLimitRule | FixedMarketplaceAllowlistRule;
 
 export type ValidationPipeline = ValidationRule[];
 
@@ -501,6 +517,13 @@ export const StringLengthLimitRuleSchema = z.object({
   failAction: FailActionSchema,
 });
 
+export const FixedMarketplaceAllowlistRuleSchema = z.object({
+  checkType: z.literal("fixedMarketplaceAllowlist"),
+  param: ParamRefSchema,
+  allowedMarketplaceIds: z.array(z.string()).min(1),
+  failAction: FailActionSchema,
+});
+
 export const ValidationRuleSchema = z.discriminatedUnion("checkType", [
   EntityExistenceRuleSchema,
   MutualExclusivityRuleSchema,
@@ -522,4 +545,5 @@ export const ValidationRuleSchema = z.discriminatedUnion("checkType", [
   BatchSizeLimitRuleSchema,
   ArrayItemFieldValueRuleSchema,
   StringLengthLimitRuleSchema,
+  FixedMarketplaceAllowlistRuleSchema,
 ]);
