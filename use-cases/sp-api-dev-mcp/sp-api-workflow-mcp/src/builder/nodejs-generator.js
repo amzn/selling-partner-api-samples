@@ -6,6 +6,8 @@
  * and workflow executor with readline-based human interaction.
  */
 
+import { GREEDY_PATH_PARAMS } from '../sp-api-core/endpoints.js';
+
 /**
  * Generate a Node.js console app from a workflow schema
  *
@@ -149,9 +151,16 @@ class SPAPIClient {
   }
 
   buildUrl(path, pathParams, queryParams) {
+    // Greedy path params (e.g. Uploads resource) span several segments, so keep their "/"
+    const greedyParams = ${JSON.stringify(GREEDY_PATH_PARAMS)}[path] || [];
     let resolvedPath = path;
     for (const [key, value] of Object.entries(pathParams)) {
-      resolvedPath = resolvedPath.replace(\`{\${key}}\`, encodeURIComponent(value));
+      const segments = greedyParams.includes(key) ? String(value).replace(/^[/]+/, '').split('/') : null;
+      if (segments?.some((s) => s === '' || s === '.' || s === '..')) {
+        throw new Error(\`Invalid path parameter value for \${key}: \${value}\`); // "..": escapes the template path
+      }
+      const encoded = segments ? segments.map(encodeURIComponent).join('/') : encodeURIComponent(value);
+      resolvedPath = resolvedPath.replace(\`{\${key}}\`, encoded);
     }
 
     const queryParts = [];

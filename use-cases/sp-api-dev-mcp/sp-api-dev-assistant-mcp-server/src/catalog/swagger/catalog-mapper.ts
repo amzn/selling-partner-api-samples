@@ -338,6 +338,7 @@ export class CatalogMapper {
           description: param.description || "",
           purpose: this.generateParameterPurpose(param),
           schema: param.schema,
+          greedy: param["x-amazon-spds-greedy-path-parameter"] === true,
         });
       }
     }

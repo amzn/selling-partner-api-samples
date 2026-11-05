@@ -9,6 +9,7 @@
  */
 
 import { TokenManager, createAuthHeaders } from './auth.js';
+import { encodePathParam } from './endpoints.js';
 
 /**
  * SP-API Client class
@@ -103,7 +104,7 @@ export class SPAPIClient {
     // Replace path parameters: /orders/{orderId} -> /orders/123
     let resolvedPath = path;
     for (const [key, value] of Object.entries(pathParams)) {
-      resolvedPath = resolvedPath.replace(`{${key}}`, encodeURIComponent(value));
+      resolvedPath = resolvedPath.replace(`{${key}}`, encodePathParam(path, key, value));
     }
 
     // Check for unresolved path params
