@@ -5,16 +5,29 @@ import axios from "axios";
 import { ApiCatalog, ApiEndpoint, ApiParameter } from "../types/api-catalog.js";
 import { logger } from "../utils/logger.js";
 import { SpApiAuthenticator } from "../auth/sp-api-auth.js";
+import {
+  allEndpoints,
+  displayEndpointId,
+  endpointVersions,
+  resolveEndpointId,
+} from "../catalog/endpoint-resolver.js";
 
 export const executeApiSchema = z.object({
   endpoint: z
     .string()
-    .describe("The specific SP-API endpoint to use (required)"),
+    .describe(
+      "The specific SP-API endpoint to use (required). When an operation exists in several " +
+        "API versions, target one with {api}_{version}_{operationId}, e.g. " +
+        "'catalogItems_2022-04-01_getCatalogItem' or 'listingsItems_2021-08-01_patchListingsItem'.",
+    ),
   parameters: z.record(z.any()).describe("Complete set of API parameters"),
   method: z
-    .enum(["GET", "POST", "PUT", "DELETE"])
+    .enum(["GET", "POST", "PUT", "DELETE", "PATCH"])
     .optional()
-    .describe("HTTP method"),
+    .describe(
+      "HTTP method. Optional: the endpoint definition sets the method, and a mismatch is rejected, " +
+        "except to pick between an operation defined with two methods (Shipping v2 linkCarrierAccount is PUT and POST)",
+    ),
   additionalHeaders: z
     .record(z.string())
     .optional()
@@ -46,6 +59,14 @@ const SP_API_ENDPOINTS = {
 } as const;
 
 type SellingRegion = keyof typeof SP_API_ENDPOINTS;
+
+// Swagger 2 collectionFormat delimiters for array query parameters
+const ARRAY_DELIMITERS: Record<string, string> = {
+  csv: ",",
+  ssv: " ",
+  tsv: "\t",
+  pipes: "|",
+};
 
 const REGION_ALIASES: Record<string, SellingRegion> = {
   // Selling regions
@@ -148,10 +169,18 @@ export class ExecuteApiTool {
 
     try {
       // Find the endpoint in the catalog
-      const endpoint = this.findEndpoint(params.endpoint);
+      const endpoint = this.findEndpoint(params.endpoint, params.method);
       if (!endpoint) {
         return this.formatError(
           `Endpoint '${params.endpoint}' not found in the catalog`,
+        );
+      }
+
+      // The endpoint definition decides the HTTP method; sending another verb
+      // would hit a different operation (e.g. POST on a PATCH endpoint)
+      if (params.method && params.method !== endpoint.method) {
+        return this.formatError(
+          `Method '${params.method}' does not match endpoint '${params.endpoint}', which uses ${endpoint.method}`,
         );
       }
 
@@ -167,8 +196,7 @@ export class ExecuteApiTool {
         );
       }
 
-      // Override method if specified
-      const method = params.method || endpoint.method;
+      const method = endpoint.method;
 
       // Resolve region: explicit param > SP_API_REGION env var > warn + default NA
       const region = this.resolveRegion(params.region);
@@ -193,7 +221,40 @@ export class ExecuteApiTool {
       });
 
       // Format the result
-      return this.formatResult(result, params);
+      let formatted = this.formatResult(result, params);
+      if (validationResult.warnings.length > 0) {
+        formatted +=
+          `\n\n## Warnings\n\n` +
+          validationResult.warnings
+            .map((w) => `- ${w} (not sent; this endpoint does not define it)`)
+            .join("\n");
+      }
+
+      const versions = endpointVersions(this.catalog, endpoint);
+      const everything = allEndpoints(this.catalog);
+
+      // A plain ID resolves to the first version loaded, which may be a
+      // deprecated one (orders_getOrder is Orders v0): say so, even on success
+      if (endpoint.deprecated) {
+        const newer = versions.find((v) => v !== endpoint && !v.deprecated);
+        formatted +=
+          `\n\n⚠️ \`${displayEndpointId(endpoint, everything)}\` is deprecated.` +
+          (newer ? ` Use \`${displayEndpointId(newer, everything)}\`.` : "");
+      }
+
+      // On failure, point at the operation's other versions: a plain ID may
+      // have resolved to an older version than the caller meant
+      if (!result.success && versions.length > 1) {
+        formatted +=
+          `\n\n## Other Versions\n\n` +
+          `This call used ${displayEndpointId(endpoint, everything)} (${endpoint.path}). ` +
+          `This operation also exists as:\n` +
+          versions
+            .filter((v) => v !== endpoint)
+            .map((v) => `- \`${displayEndpointId(v, everything)}\` (${v.path})`)
+            .join("\n");
+      }
+      return formatted;
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : String(error);
@@ -207,27 +268,36 @@ export class ExecuteApiTool {
   /**
    * Find endpoint in the catalog by ID (supports both unique IDs and original operation IDs)
    */
-  private findEndpoint(endpointId: string): ApiEndpoint | undefined {
-    // First, try to find by unique ID (new format)
-    for (const category of this.catalog.categories) {
-      const endpoint = category.endpoints.find((e) => e.id === endpointId);
-      if (endpoint) {
-        return endpoint;
-      }
-
-      // Check subcategories if present
-      if (category.subcategories) {
-        for (const subcategory of category.subcategories) {
-          const endpoint = subcategory.endpoints.find(
-            (e) => e.id === endpointId,
-          );
-          if (endpoint) {
-            return endpoint;
-          }
-        }
-      }
+  private findEndpoint(
+    endpointId: string,
+    method?: string,
+  ): ApiEndpoint | undefined {
+    // Unique ID or a version-qualified ID such as
+    // catalogItems_2022-04-01_getCatalogItem
+    const endpoint = resolveEndpointId(this.catalog, endpointId, method);
+    if (endpoint) {
+      return endpoint;
     }
 
+    // A bare operationId gets the same twin handling as a plain ID
+    const found = this.findByOperationId(endpointId);
+    if (found && method && found.method !== method) {
+      return (
+        allEndpoints(this.catalog).find(
+          (e) =>
+            e.id === found.id &&
+            e.version?.current === found.version?.current &&
+            e.method === method,
+        ) ?? found
+      );
+    }
+    return found;
+  }
+
+  /**
+   * Find an endpoint by original operation ID (backward compatibility)
+   */
+  private findByOperationId(endpointId: string): ApiEndpoint | undefined {
     // Fallback: search by original operation ID for backward compatibility
     // But prioritize "Orders" category for common operations like "getOrders"
     const priorityCategories = ["Orders", "FBA Inventory", "Reports"];
@@ -330,9 +400,25 @@ export class ExecuteApiTool {
       }
     }
 
-    // Check for unknown parameters (warning only)
+    // Unknown parameters are not sent. If another version of this operation
+    // defines one, the caller is on the wrong version and dropping it could
+    // change what the call does (e.g. mode=VALIDATION_PREVIEW turning a
+    // preview into a live write), so reject; otherwise warn.
+    const versions = endpointVersions(this.catalog, endpoint);
+    const everything = allEndpoints(this.catalog);
     for (const key of Object.keys(parameters)) {
-      if (!endpoint.parameters.some((p) => p.name === key)) {
+      if (endpoint.parameters.some((p) => p.name === key)) {
+        continue;
+      }
+      const other = versions.find(
+        (v) => v !== endpoint && v.parameters.some((p) => p.name === key),
+      );
+      if (other) {
+        errors.push(
+          `'${key}' is not supported by ${displayEndpointId(endpoint, everything)}; ` +
+            `use ${displayEndpointId(other, everything)}`,
+        );
+      } else {
         warnings.push(`Unknown parameter: ${key}`);
       }
     }
@@ -394,11 +480,24 @@ export class ExecuteApiTool {
 
       for (const param of queryParams) {
         if (parameters[param.name] !== undefined) {
-          // Handle array parameters
+          // Handle array parameters: repeated keys only for collectionFormat
+          // "multi"; otherwise one delimited value (Swagger 2 default is csv)
           if (Array.isArray(parameters[param.name])) {
-            for (const value of parameters[param.name]) {
+            // An empty array means "not set"; joining it would send `name=`
+            if (parameters[param.name].length === 0) {
+              continue;
+            }
+            if (param.collectionFormat === "multi") {
+              for (const value of parameters[param.name]) {
+                queryParts.push(
+                  `${encodeURIComponent(param.name)}=${encodeURIComponent(value)}`,
+                );
+              }
+            } else {
+              const delimiter =
+                ARRAY_DELIMITERS[param.collectionFormat ?? "csv"] ?? ",";
               queryParts.push(
-                `${encodeURIComponent(param.name)}=${encodeURIComponent(value)}`,
+                `${encodeURIComponent(param.name)}=${encodeURIComponent(parameters[param.name].join(delimiter))}`,
               );
             }
           } else {
