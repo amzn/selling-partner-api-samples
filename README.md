@@ -15,39 +15,14 @@ This repository contains sample code in various programming languages for use ca
 - [License](#license)
 
 ## About this Repo
-This repository contains two types of sample code:
+This repository contains the following types of sample code:
 - [Code Recipes](code-recipes): Easy to read sample code for common use cases of Amazon Selling Partner API. Recipes are written in multiple programming languages, and you can read or browse through them and copy parts of them over into your codebase.
-- [Sample Solutions](use-cases): More complex solutions to demonstrate specific use cases in more detail.
+- [Sample AI Sandbox](local-ai-sandbox): A local development tool for testing SP-API integrations before deploying to production. It validates requests against SP-API OpenAPI schemas and serves responses from deterministic, local operation handlers backed by an in-process database — helping catch integration issues early in the development cycle.
+- [Sample Solutions](use-cases): More complex solutions (including MCPs) to demonstrate specific use cases in more detail.
 
 We welcome contributions to this repo in the form of fixes or improvements to existing content. For more information on contributing, please see the [CONTRIBUTING](CONTRIBUTING.md) guide.
 
 This is considered an intermediate learning resource, and should typically be referenced after reading the [SP-API Documentation](https://developer-docs.amazon.com/sp-api). Please see [Learning Resources](#learning-resources) for additional resources.
-
-## Local MCP for SP-API
-
-The [`@amazon-sp-api-release/sp-api-dev-mcp`](https://www.npmjs.com/package/@amazon-sp-api-release/sp-api-dev-mcp) package is a local MCP (Model Context Protocol) server for SP-API that bundles multiple developer tools into a single npm package. It is published from the [`sp-api-dev-mcp`](https://github.com/amzn/selling-partner-api-samples/tree/main/use-cases/sp-api-dev-mcp) source in the selling-partner-api-samples GitHub repository.
-
-### Installation
-
-```bash
-npm install -g @amazon-sp-api-release/sp-api-dev-mcp
-```
-
-### Available Servers
-
-| Server | Command |
-|--------|---------|
-| SP-API Dev Assistant | `sp-api-dev-assistant-mcp-server` |
-| SP-API Workflow Builder | `sp-api-workflow-mcp` |
-
-### Usage with npx
-
-```bash
-npx -y @amazon-sp-api-release/sp-api-dev-mcp sp-api-dev-assistant-mcp-server
-npx -y @amazon-sp-api-release/sp-api-dev-mcp sp-api-workflow-mcp-server
-```
-
-**Required secret:** `NPM_TOKEN` — a granular npm access token with read/write permission for `@amazon-sp-api-release/sp-api-dev-mcp`.
 
 ## Learning Resources
 * [SP-API Website](https://developer.amazonservices.com)
