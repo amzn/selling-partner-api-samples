@@ -24,6 +24,6 @@
     "react-dom": "^19.0.0",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^7.18.2",
-    "vite": "^8.0.16"
+    "vite": "^8.3.5"
   }
 }
