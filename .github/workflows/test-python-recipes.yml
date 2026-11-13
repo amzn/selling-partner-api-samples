@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: '14'
       - name: Setup and start backend mock
-        working-directory: ./code-recipes/test
+        working-directory: ./3-code-recipes/test
         run: |
           npm install
           npm start & sleep 5
@@ -31,10 +31,10 @@ jobs:
           python-version: '3.12'
           cache: 'pip'
       - name: Install dependencies
-        working-directory: ./code-recipes/python
+        working-directory: ./3-code-recipes/python
         run: |
           python -m pip install --upgrade pip
           pip install -r test-requirements.txt
       - name: Run tests
-        working-directory: ./code-recipes/python
+        working-directory: ./3-code-recipes/python
         run: pytest tests
