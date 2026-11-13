@@ -17,7 +17,7 @@ The bug is related to the following use case and programming language:
 
 **Relevant code section**
 The root-cause of the bug is related to the following sections of the code:
-* [e.g. selling-partner-api-samples/use-cases/.../MyClass.java]
+* [e.g. selling-partner-api-samples/3-code-recipes/.../MyClass.java]
 * ...
 
 **To reproduce**
