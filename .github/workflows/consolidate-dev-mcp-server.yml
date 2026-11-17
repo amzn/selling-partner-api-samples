@@ -29,7 +29,7 @@ jobs:
 
       # Used by dev-assistant parser integration tests
       - name: Clone selling-partner-api-sdk (for integration tests)
-        run: git clone --depth 1 https://github.com/amzn/selling-partner-api-sdk.git use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server/selling-partner-api-sdk
+        run: git clone --depth 1 https://github.com/amzn/selling-partner-api-sdk.git 1-sp-api-application-setup/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server/selling-partner-api-sdk
 
       - uses: actions/setup-node@v4
         with:
@@ -37,20 +37,20 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           cache: 'npm'
           cache-dependency-path: |
-            use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server/package-lock.json
-            use-cases/sp-api-dev-mcp/sp-api-workflow-mcp/package-lock.json
+            1-sp-api-application-setup/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server/package-lock.json
+            1-sp-api-application-setup/sp-api-dev-mcp/sp-api-workflow-mcp/package-lock.json
 
       # ── Build sp-api-dev-assistant-mcp-server ────────────────────────
       - name: Install sp-api-dev-assistant-mcp-server dependencies
-        working-directory: use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server
+        working-directory: 1-sp-api-application-setup/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server
         run: npm ci
 
       - name: Build sp-api-dev-assistant-mcp-server
-        working-directory: use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server
+        working-directory: 1-sp-api-application-setup/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server
         run: npm run build
 
       - name: Run sp-api-dev-assistant-mcp-server tests
-        working-directory: use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server
+        working-directory: 1-sp-api-application-setup/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server
         run: npm test
 
       - name: Get date for crawl cache key
@@ -60,23 +60,23 @@ jobs:
       - name: Restore crawl cache (daily TTL)
         uses: actions/cache@v4
         with:
-          path: use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server/build/crawl-cache
+          path: 1-sp-api-application-setup/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server/build/crawl-cache
           key: sp-api-docs-crawl-${{ steps.crawl-date.outputs.date }}
           restore-keys: |
             sp-api-docs-crawl-
 
       - name: Build pre-built search/Vectra index for sp-api-dev-assistant
-        working-directory: use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server
+        working-directory: 1-sp-api-application-setup/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server
         timeout-minutes: 30
         run: npm run build:index
 
       # ── Build sp-api-workflow-mcp ────────────────────────────────────
       - name: Install sp-api-workflow-mcp dependencies
-        working-directory: use-cases/sp-api-dev-mcp/sp-api-workflow-mcp
+        working-directory: 1-sp-api-application-setup/sp-api-dev-mcp/sp-api-workflow-mcp
         run: npm ci
 
       - name: Run sp-api-workflow-mcp tests
-        working-directory: use-cases/sp-api-dev-mcp/sp-api-workflow-mcp
+        working-directory: 1-sp-api-application-setup/sp-api-dev-mcp/sp-api-workflow-mcp
         run: npm test
 
       # ── Bundle servers into sp-api-dev-mcp ───────────────────────────
@@ -84,11 +84,11 @@ jobs:
         run: npm install -g esbuild
 
       - name: Create bundled-servers directory
-        working-directory: use-cases/sp-api-dev-mcp
+        working-directory: 1-sp-api-application-setup/sp-api-dev-mcp
         run: mkdir -p bundled-servers
 
       - name: Bundle sp-api-dev-assistant-mcp-server
-        working-directory: use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server
+        working-directory: 1-sp-api-application-setup/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server
         run: |
           esbuild dist/index.js \
             --bundle \
@@ -102,7 +102,7 @@ jobs:
             --outfile=../bundled-servers/sp-api-dev-assistant-mcp-server.mjs
 
       - name: Bundle sp-api-workflow-mcp
-        working-directory: use-cases/sp-api-dev-mcp/sp-api-workflow-mcp
+        working-directory: 1-sp-api-application-setup/sp-api-dev-mcp/sp-api-workflow-mcp
         run: |
           esbuild index.js \
             --bundle \
@@ -112,13 +112,13 @@ jobs:
 
       - name: Copy dev-assistant data (OpenAPI models, pre-built index and resources)
         run: |
-          mkdir -p use-cases/sp-api-dev-mcp/bundled-servers/sp-api-dev-assistant-data
-          cp -r use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server/dist/data use-cases/sp-api-dev-mcp/bundled-servers/sp-api-dev-assistant-data/
-          cp -r use-cases/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server/dist/resources use-cases/sp-api-dev-mcp/bundled-servers/sp-api-dev-assistant-data/
-          cp -r ../selling-partner-api-models/models use-cases/sp-api-dev-mcp/bundled-servers/models
+          mkdir -p 1-sp-api-application-setup/sp-api-dev-mcp/bundled-servers/sp-api-dev-assistant-data
+          cp -r 1-sp-api-application-setup/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server/dist/data 1-sp-api-application-setup/sp-api-dev-mcp/bundled-servers/sp-api-dev-assistant-data/
+          cp -r 1-sp-api-application-setup/sp-api-dev-mcp/sp-api-dev-assistant-mcp-server/dist/resources 1-sp-api-application-setup/sp-api-dev-mcp/bundled-servers/sp-api-dev-assistant-data/
+          cp -r ../selling-partner-api-models/models 1-sp-api-application-setup/sp-api-dev-mcp/bundled-servers/models
 
       - name: Create sp-api-dev-assistant-mcp-server wrapper
-        working-directory: use-cases/sp-api-dev-mcp
+        working-directory: 1-sp-api-application-setup/sp-api-dev-mcp
         run: |
           cat > bundled-servers/sp-api-dev-assistant-mcp-server-wrapper.mjs << 'EOF'
           #!/usr/bin/env node
@@ -135,12 +135,12 @@ jobs:
           EOF
 
       - name: Make bundled servers executable
-        working-directory: use-cases/sp-api-dev-mcp
+        working-directory: 1-sp-api-application-setup/sp-api-dev-mcp
         run: chmod +x bundled-servers/*.mjs
 
       # ── Update sp-api-dev-mcp package.json ──────────────────────────
       - name: Update package.json
-        working-directory: use-cases/sp-api-dev-mcp
+        working-directory: 1-sp-api-application-setup/sp-api-dev-mcp
         run: |
           node --input-type=module << 'EOF'
           import { readFileSync, writeFileSync } from 'fs';
@@ -162,7 +162,7 @@ jobs:
 
       # ── Set scope and version ────────────────────────────────────────
       - name: Update package name to @amazon-sp-api-release scope
-        working-directory: use-cases/sp-api-dev-mcp
+        working-directory: 1-sp-api-application-setup/sp-api-dev-mcp
         run: |
           node --input-type=module << 'EOF'
           import { readFileSync, writeFileSync } from 'fs';
@@ -172,7 +172,7 @@ jobs:
           EOF
 
       - name: Set version in package.json
-        working-directory: use-cases/sp-api-dev-mcp
+        working-directory: 1-sp-api-application-setup/sp-api-dev-mcp
         env:
           VERSION: ${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}
         run: |
@@ -180,15 +180,15 @@ jobs:
           echo "Updated package.json version to $VERSION"
 
       - name: Install dependencies
-        working-directory: use-cases/sp-api-dev-mcp
+        working-directory: 1-sp-api-application-setup/sp-api-dev-mcp
         run: npm install
 
       - name: Build for production
-        working-directory: use-cases/sp-api-dev-mcp
+        working-directory: 1-sp-api-application-setup/sp-api-dev-mcp
         run: npm run build
 
       - name: Publish to npm
-        working-directory: use-cases/sp-api-dev-mcp
+        working-directory: 1-sp-api-application-setup/sp-api-dev-mcp
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -232,7 +232,7 @@ jobs:
             | sp-api-workflow-mcp-server | `sp-api-workflow-mcp-server` |
 
             ### What's Changed
-            See the [CHANGELOG](https://github.com/${{ github.repository }}/blob/main/use-cases/sp-api-dev-mcp/CHANGELOG.md) for details.
+            See the [CHANGELOG](https://github.com/${{ github.repository }}/blob/main/1-sp-api-application-setup/sp-api-dev-mcp/CHANGELOG.md) for details.
 
             ### Package
             - NPM: https://www.npmjs.com/package/@amazon-sp-api-release/sp-api-dev-mcp/v/${{ inputs.newVersionNumber || github.event.inputs.newVersionNumber }}
