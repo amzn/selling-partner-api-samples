@@ -45,7 +45,7 @@ sourceSets {
 npmInstall.dependsOn("processTestResources")
 
 dependencies {
-	implementation 'com.fasterxml.jackson.jr:jackson-jr-all:2.22.4'
+	implementation 'com.fasterxml.jackson.jr:jackson-jr-all:2.23.0'
 	implementation 'com.squareup.okhttp3:okhttp:5.5.1'
 	implementation 'software.amazon.spapi:spapi-sdk:1.13.0'
 	implementation 'org.slf4j:slf4j-api:2.0.20'
