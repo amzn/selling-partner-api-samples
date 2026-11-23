@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { configureLogging } from "@strands-agents/sdk";
-import { Context, Api } from "./database/Context.js";
+import { Context } from "./database/Context.js";
 import { validate as validateOperationRegistry } from "./registry/operationRegistry.js";
 import { AsyncLocalStorage } from "node:async_hooks";
 import { generateData } from "./controller/dataGeneratorController.js";
@@ -11,13 +11,19 @@ import { listScenarios, seedScenario } from "./controller/scenariosController.js
 import { importCatalogItems, reprocessMatching } from "./controller/catalogManagementController.js";
 import { startMatchingScheduler } from "./service/matchingScheduler.js";
 import { assertGuidanceMatchesRegistry } from "./tool/domainGuidance.js";
+import { snapshotData } from "./tool/dataGenerationCore.js";
+import { mcpRouter } from "./mcp/mcpServer.js";
+import { localhostHostValidation } from "@modelcontextprotocol/sdk/server/middleware/hostHeaderValidation.js";
 
 /**
  * APPLICATION SETUP
  */
 const app = express();
 
-const port = process.env.PORT ?? "9001";
+const port = Number(process.env.PORT ?? "9001");
+// Loopback by default: the sandbox has no authentication. Set HOST deliberately to widen the bind.
+const host = process.env.HOST ?? "127.0.0.1";
+const mcpEnabled = process.env.MCP_ENABLED !== "false";
 configureLogging(console);
 export const asyncLocalStorage = new AsyncLocalStorage();
 
@@ -38,19 +44,7 @@ app.use(express.static("res/response"))
  * RETURN DB CONTENT
  */
 app.get("/data", (request: Request, response: Response) => {
-  const data: Record<string, Record<string, unknown>> = {};
-  for (const domain of Object.values(Api)) {
-    const collection = Context.instance.engine.getCollection(domain);
-    if (collection) {
-      const docs: Record<string, unknown> = {};
-      for (const doc of collection.find()) {
-        const { $loki, meta, _key, ...rest } = doc as Record<string, unknown>;
-        docs[_key as string] = rest;
-      }
-      data[domain] = docs;
-    }
-  }
-  response.status(200).json(data);
+  response.status(200).json(snapshotData());
 });
 
 /**
@@ -92,6 +86,14 @@ app.post("/manage/catalog/import", importCatalogItems);
 app.post("/manage/catalog/reprocess-matching", reprocessMatching);
 
 /**
+ * MCP SERVER (Claude Code and other MCP clients; loopback only, see src/mcp/mcpServer.ts)
+ * Mounted before the generic handler, which would otherwise treat /mcp as an SP-API path.
+ */
+if (mcpEnabled) {
+  app.use("/mcp", localhostHostValidation(), mcpRouter);
+}
+
+/**
  * GENERIC REQUEST HANDLER
  */
 app.all("/{*splat}", async (req, res) => {
@@ -117,11 +119,12 @@ validateOperationRegistry();
 // operation registry (a guidance entry naming an unknown namespace).
 assertGuidanceMatchesRegistry();
 // Init database
-Context.instance;
+void Context.instance;
 // Re-evaluate catalog matching on a timer, so a catalog item that arrives
 // after a listing still clears that listing's matching issue.
 startMatchingScheduler();
 
-app.listen(port, () => {
-  console.log(`App listening on port ${port}`);
+app.listen(port, host, () => {
+  console.log(`App listening on http://${host}:${String(port)}`);
+  if (mcpEnabled) console.log(`MCP server available at http://localhost:${String(port)}/mcp`);
 });

@@ -55,6 +55,10 @@ Resources:
         - Namespace: aws:autoscaling:launchconfiguration
           OptionName: IamInstanceProfile
           Value: !Ref InstanceProfile
+        # The MCP endpoint (/mcp) is for local use with Claude Code only; never serve it from a deployed instance.
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionName: MCP_ENABLED
+          Value: "false"
 
   InstanceRole:
     Type: AWS::IAM::Role

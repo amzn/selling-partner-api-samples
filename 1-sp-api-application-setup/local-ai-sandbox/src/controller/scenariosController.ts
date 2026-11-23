@@ -157,24 +157,60 @@ export function resolveScenarioForRegion(scenarioId: string): Scenario | undefin
   return resolveScenariosForRegion().find((s) => s.id === scenarioId);
 }
 
+/** Summaries of the scenarios available for the configured region (shared by HTTP and MCP). */
+export function summarizeScenarios() {
+  return resolveScenariosForRegion().map((s) => ({
+    id: s.id,
+    title: s.title,
+    tagline: s.tagline,
+    description: s.description,
+    seedCount: s.seed.length,
+    tracks: s.tracks.map((t) => ({
+      id: t.id,
+      title: t.title,
+      description: t.description,
+      steps: t.steps,
+      runnableCount: t.steps.filter((st) => st.status === "runnable").length,
+    })),
+  }));
+}
+
+export interface SeedResult {
+  scenarioId: string;
+  title: string;
+  seeded: Record<string, string[]>;
+  seedCount: number;
+  message: string;
+}
+
+/**
+ * Writes a region-resolved scenario's fixture data. Returns undefined when the scenario is
+ * unknown or hidden in the configured region; throws if the fixtures fail to load.
+ */
+export function seedScenarioById(scenarioId: string): SeedResult | undefined {
+  const scenario = resolveScenarioForRegion(scenarioId);
+  if (!scenario) return undefined;
+
+  const engine = Context.instance.engine;
+  const seededByApi: Record<string, string[]> = {};
+  for (const { api, id, entity } of scenario.seed) {
+    engine.put(api, id, structuredClone(entity));
+    (seededByApi[api] ??= []).push(id);
+  }
+
+  return {
+    scenarioId: scenario.id,
+    title: scenario.title,
+    seeded: seededByApi,
+    seedCount: scenario.seed.length,
+    message: `Seeded ${String(scenario.seed.length)} entities for '${scenario.title}'. Pick a track to explore.`,
+  };
+}
+
 /** GET /scenarios — list guided scenarios available for the configured region. */
 export const listScenarios = (_request: Request, response: Response): void => {
   try {
-    const scenarios = resolveScenariosForRegion().map((s) => ({
-      id: s.id,
-      title: s.title,
-      tagline: s.tagline,
-      description: s.description,
-      seedCount: s.seed.length,
-      tracks: s.tracks.map((t) => ({
-        id: t.id,
-        title: t.title,
-        description: t.description,
-        steps: t.steps,
-        runnableCount: t.steps.filter((st) => st.status === "runnable").length,
-      })),
-    }));
-    response.status(200).json({ scenarios });
+    response.status(200).json({ scenarios: summarizeScenarios() });
   } catch (error) {
     console.error("Failed to load scenarios:", error);
     response.status(500).json({ errors: [{ code: "ScenarioLoadFailure", message: "Failed to load scenario definitions" }] });
@@ -186,32 +222,19 @@ export const seedScenario = (request: Request, response: Response): void => {
   const rawId = request.params.scenarioId;
   const scenarioId = Array.isArray(rawId) ? rawId[0] : rawId;
 
-  let scenario: Scenario | undefined;
+  let result: SeedResult | undefined;
   try {
-    scenario = resolveScenarioForRegion(scenarioId);
+    result = seedScenarioById(scenarioId);
   } catch (error) {
     console.error("Failed to load scenarios:", error);
     response.status(500).json({ errors: [{ code: "ScenarioLoadFailure", message: "Failed to load scenario definitions" }] });
     return;
   }
 
-  if (!scenario) {
+  if (!result) {
     response.status(404).json({ errors: [{ code: "NotFound", message: `Scenario '${scenarioId}' not found` }] });
     return;
   }
 
-  const engine = Context.instance.engine;
-  const seededByApi: Record<string, string[]> = {};
-  for (const { api, id, entity } of scenario.seed) {
-    engine.put(api, id, structuredClone(entity));
-    (seededByApi[api] ??= []).push(id);
-  }
-
-  response.status(200).json({
-    scenarioId: scenario.id,
-    title: scenario.title,
-    seeded: seededByApi,
-    seedCount: scenario.seed.length,
-    message: `Seeded ${String(scenario.seed.length)} entities for '${scenario.title}'. Pick a track to explore.`,
-  });
+  response.status(200).json(result);
 };

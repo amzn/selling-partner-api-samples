@@ -1,8 +1,7 @@
 import { tool } from "@strands-agents/sdk";
 import { Api } from "../database/Context.js";
 import z from "zod";
-import * as fs from "node:fs";
-import { getModelPath } from "../registry/operationRegistry.js";
+import { retrieveModel } from "./dataGenerationCore.js";
 
 export const resourceRetrievalTool = tool({
   name: "resource_retrieval",
@@ -12,7 +11,6 @@ export const resourceRetrievalTool = tool({
   }),
   callback: (input) => {
     console.warn(`Model retrieval for api ${input.api}`);
-    const path = getModelPath(input.api);
-    return path ? fs.readFileSync(path, "utf8") : "No model found";
+    return retrieveModel(input.api) ?? "No model found";
   },
 });

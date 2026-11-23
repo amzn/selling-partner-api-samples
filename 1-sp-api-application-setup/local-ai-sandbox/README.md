@@ -37,6 +37,8 @@ DB_MODE=memory
 | `DB_FILE_PATH` | File path used when `DB_MODE=persistent` (required in that mode) | — |
 | `MATCHING_INTERVAL_MS` | Interval of the scheduled catalog reconciliation sweep, in milliseconds. `0` disables it. | `60000` |
 | `IMPORT_TIMEOUT_MS` | Per-ASIN timeout for a production catalog import (`POST /manage/catalog/import`) | `10000` |
+| `HOST` | Interface the server binds to. The sandbox has no authentication, so it stays on loopback unless you deliberately widen it. | `127.0.0.1` |
+| `MCP_ENABLED` | Serves the MCP endpoint at `/mcp` for Claude Code and other MCP clients. Set to `false` to remove it (the CloudFormation template does). | `true` |
 
 AWS credentials are resolved through the standard AWS SDK credential chain (environment variables, `~/.aws/credentials`, IAM role, etc.). No additional env vars are needed for Bedrock access beyond valid credentials with the appropriate permissions. Bedrock is only used by the Data Generator (`POST /chat`); SP-API endpoints are served locally and do not call Bedrock.
 
@@ -55,7 +57,29 @@ npm run build
 npm run start
 ```
 
-The server starts on `http://localhost:9001` by default.
+The server starts on `http://localhost:9001` by default, bound to `127.0.0.1`.
+
+## Use with Claude Code (MCP)
+
+The sandbox serves an [MCP](https://modelcontextprotocol.io) endpoint at `http://localhost:9001/mcp`. It lets Claude Code generate test data **itself**: it reads the same API models and stored-shape guidance the `/chat` Data Generator uses, inserts the records, then checks them by calling the sandbox's SP-API endpoints. `/chat` stays available and unchanged.
+
+1. Start the sandbox: `npm run dev`
+2. Open Claude Code in this folder. The project's `.mcp.json` registers the server as `sp-api-sandbox`. Approve it when prompted, then check with `claude mcp list`.
+3. Ask for data, for example *"Create three unshipped orders for one seller and confirm they come back from getOrders"*, or use the prompt `/mcp__sp-api-sandbox__generate_test_data`.
+
+| Tool | Description |
+|------|-------------|
+| `list_apis` | API namespaces, which ones have guidance, and the current `MODE`/`REGION` |
+| `get_api_model` | Raw OpenAPI model for an API |
+| `get_generation_guidance` | How stored documents differ from the API model (authoritative where they differ) |
+| `insert_entities` | Insert up to 100 records per call, with a result for each record; writes fire the data triggers |
+| `get_data` | Stored documents, optionally for one API (same as `GET /data`) |
+| `clear_data` | Clear the database (same as `DELETE /data`) |
+| `list_scenarios` / `seed_scenario` | List and seed the guided scenarios |
+
+The MCP server runs inside the sandbox process, so it shares the database the SP-API endpoints read from. It has no authentication. It is meant for local use only: requests whose `Host` header is not localhost are rejected, the server binds to loopback by default, and deployed instances set `MCP_ENABLED=false`.
+
+**Running Claude Code inside a [Strands Box](https://strandsagents.com/docs/user-guide/box/guides/run-claude-code/):** the box's egress allowlist and `policy.dw` must also permit `http://localhost:9001`. Without that, the policy blocks the MCP connection and the `curl` checks.
 
 ## Supported SP-API Endpoints
 
