@@ -7,8 +7,10 @@ import {
   loadScenarios,
   resolveScenariosForRegion,
   __resetScenarioCacheForTests,
+  SCENARIO_SELLER_ID,
   type Scenario,
 } from "../../src/controller/scenariosController.js";
+import { listingKey } from "../../src/operation/listingsItemModel.js";
 import { MARKETPLACE_IDS_ALL, MARKETPLACE_IDS_NA, MARKETPLACE_CURRENCY_MAP } from "../../src/marketplaceIds.js";
 
 interface TrackSummary {
@@ -186,7 +188,9 @@ describe("POST /scenarios/:scenarioId/seed (seedScenario)", () => {
 
     expect(Context.instance.engine.get(Api.ORDERS, "111-0000001-0000001")?.orderId).toBe("111-0000001-0000001");
     expect(Context.instance.engine.get(Api.ORDERS, "111-0000002-0000002")?.orderId).toBe("111-0000002-0000002");
-    expect(Context.instance.engine.get(Api.LISTINGS, "LAUNCH-SKU-001")?.sku).toBe("LAUNCH-SKU-001");
+    // Listings are keyed by seller and SKU, not the bare SKU, so the fixture
+    // lands under the same key getListingsItem resolves.
+    expect(Context.instance.engine.get(Api.LISTINGS, listingKey(SCENARIO_SELLER_ID, "LAUNCH-SKU-001"))?.sku).toBe("LAUNCH-SKU-001");
     expect(Context.instance.engine.get(Api.CATALOG, "B0LAUNCH01")?.asin).toBe("B0LAUNCH01");
     expect(Context.instance.engine.get(Api.INVENTORY, "LAUNCH-SKU-001")?.sellerSku).toBe("LAUNCH-SKU-001");
   });

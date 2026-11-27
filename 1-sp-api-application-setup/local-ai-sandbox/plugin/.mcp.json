@@ -1,0 +1,6 @@
+{
+  "sp-api-sandbox": {
+    "type": "http",
+    "url": "http://localhost:9001/mcp"
+  }
+}

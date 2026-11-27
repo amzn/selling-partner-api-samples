@@ -8,6 +8,7 @@ import { localhostHostValidation } from "@modelcontextprotocol/sdk/server/middle
 import { Api, Context } from "../../src/database/Context.js";
 import { listingKey } from "../../src/operation/listingsItemModel.js";
 import { createMcpServer, mcpRouter } from "../../src/mcp/mcpServer.js";
+import { SCENARIO_SELLER_ID } from "../../src/controller/scenariosController.js";
 
 function firstText(result: unknown): string {
   const content = (result as { content: { type: string; text: string }[] }).content;
@@ -37,6 +38,8 @@ describe("MCP server", () => {
         "get_api_model",
         "get_data",
         "get_generation_guidance",
+        "get_sandbox_context",
+        "get_scenario",
         "insert_entities",
         "list_apis",
         "list_scenarios",
@@ -48,6 +51,63 @@ describe("MCP server", () => {
 
     const prompt = await client.getPrompt({ name: "generate_test_data", arguments: { request: "two unshipped orders" } });
     expect(JSON.stringify(prompt.messages)).toContain("two unshipped orders");
+  });
+
+  it("list_scenarios indexes without inlining step detail", async () => {
+    const body = JSON.parse(firstText(await client.callTool({ name: "list_scenarios", arguments: {} }))) as {
+      id: string;
+      tracks: { id: string; stepCount: number; steps?: unknown }[];
+    }[];
+
+    expect(body.length).toBeGreaterThan(0);
+    for (const scenario of body) {
+      for (const track of scenario.tracks) {
+        expect(track.stepCount).toBeGreaterThan(0);
+        // The index must stay cheap: steps belong to get_scenario.
+        expect(track.steps).toBeUndefined();
+      }
+    }
+  });
+
+  it("get_scenario returns the full steps and rejects an unknown id", async () => {
+    const body = JSON.parse(firstText(await client.callTool({ name: "get_scenario", arguments: { scenarioId: "launch-a-product" } }))) as {
+      id: string;
+      tracks: { steps: { method: string; path: string; status: string }[] }[];
+    };
+    expect(body.id).toBe("launch-a-product");
+    expect(body.tracks[0].steps.length).toBeGreaterThan(0);
+    expect(body.tracks[0].steps[0].method).toBeTruthy();
+
+    const missing = await client.callTool({ name: "get_scenario", arguments: { scenarioId: "nope" } });
+    expect(missing.isError).toBe(true);
+  });
+
+  it("get_sandbox_context reports the base URL and scenario seller", async () => {
+    const body = JSON.parse(firstText(await client.callTool({ name: "get_sandbox_context", arguments: {} }))) as {
+      baseUrl: string;
+      mode: string;
+      scenarioSellerId: string;
+      marketplaceId: string;
+    };
+    expect(body.baseUrl).toMatch(/^http:\/\/localhost:\d+$/);
+    expect(body.mode).toBe("Seller");
+    expect(body.scenarioSellerId).toBe(SCENARIO_SELLER_ID);
+    expect(body.marketplaceId).toBeTruthy();
+  });
+
+  it("scenario step paths carry no unsubstituted placeholders", async () => {
+    const body = JSON.parse(firstText(await client.callTool({ name: "get_scenario", arguments: { scenarioId: "launch-a-product" } }))) as {
+      tracks: { steps: { path: string }[] }[];
+    };
+
+    // An agent sends these paths as given, so a leftover placeholder or the old
+    // YOUR_SELLER_ID literal would become a failed request it cannot diagnose.
+    for (const track of body.tracks) {
+      for (const step of track.steps) {
+        expect(step.path).not.toContain("{{");
+        expect(step.path).not.toContain("YOUR_SELLER_ID");
+      }
+    }
   });
 
   it("list_apis reports every namespace", async () => {

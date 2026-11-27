@@ -31,6 +31,7 @@
       "api": "listings",
       "id": "LAUNCH-SKU-001",
       "entity": {
+        "sellerId": "{{SELLER_ID}}",
         "sku": "LAUNCH-SKU-001",
         "asin": "B0LAUNCH01",
         "productType": "PRODUCT",
@@ -220,7 +221,7 @@
         {
           "title": "Adjust the listing price",
           "method": "PATCH",
-          "path": "/listings/2021-08-01/items/YOUR_SELLER_ID/LAUNCH-SKU-001?marketplaceIds={{MARKETPLACE_ID}}",
+          "path": "/listings/2021-08-01/items/{{SELLER_ID}}/LAUNCH-SKU-001?marketplaceIds={{MARKETPLACE_ID}}",
           "status": "runnable",
           "note": "patchListingsItem — the listing is seeded at $49.99; patch to update the price.",
           "body": {

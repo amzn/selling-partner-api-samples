@@ -1,0 +1,16 @@
+{
+  "description": "Checks that the local SP-API sandbox is reachable, so skills fail with a clear reason instead of a connection error",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session-start.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

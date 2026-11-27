@@ -1,0 +1,20 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "sp-api-sandbox",
+  "description": "The local Sample AI Sandbox for SP-API, packaged for Claude Code: the sandbox MCP server plus skills for generating test data, walking guided scenarios, driving notifications, and onboarding a new API.",
+  "owner": {
+    "name": "Selling Partner API Samples"
+  },
+  "plugins": [
+    {
+      "name": "sp-api-sandbox",
+      "description": "Drive the local SP-API sandbox from Claude Code: generate and verify test data, walk guided scenarios end to end, send notifications, and onboard a new API.",
+      "author": {
+        "name": "Selling Partner API Samples"
+      },
+      "source": "./plugin",
+      "category": "development",
+      "homepage": "https://github.com/amzn/selling-partner-api-samples"
+    }
+  ]
+}

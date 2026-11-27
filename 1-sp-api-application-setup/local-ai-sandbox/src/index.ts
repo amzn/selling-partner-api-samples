@@ -7,7 +7,7 @@ import { generateData } from "./controller/dataGeneratorController.js";
 import { createOrder, updateOrder, deleteOrder } from "./controller/ordersManagementController.js";
 import { getNotificationSchemas, sendNotification } from "./controller/notificationsManagementController.js";
 import { downloadReportDocument, downloadDataKioskDocument } from "./controller/spapiController.js";
-import { listScenarios, seedScenario } from "./controller/scenariosController.js";
+import { listScenarios, getScenario, seedScenario } from "./controller/scenariosController.js";
 import { importCatalogItems, reprocessMatching } from "./controller/catalogManagementController.js";
 import { startMatchingScheduler } from "./service/matchingScheduler.js";
 import { assertGuidanceMatchesRegistry } from "./tool/domainGuidance.js";
@@ -64,6 +64,7 @@ app.post("/chat", generateData);
  * GUIDED SCENARIOS (pre-seeded, runnable SP-API journeys)
  */
 app.get("/scenarios", listScenarios);
+app.get("/scenarios/:scenarioId", getScenario);
 app.post("/scenarios/:scenarioId/seed", seedScenario);
 
 /**

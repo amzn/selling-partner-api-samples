@@ -59,23 +59,44 @@ npm run start
 
 The server starts on `http://localhost:9001` by default, bound to `127.0.0.1`.
 
-## Use with Claude Code (MCP)
+## Use with Claude Code (plugin)
 
-The sandbox serves an [MCP](https://modelcontextprotocol.io) endpoint at `http://localhost:9001/mcp`. It lets Claude Code generate test data **itself**: it reads the same API models and stored-shape guidance the `/chat` Data Generator uses, inserts the records, then checks them by calling the sandbox's SP-API endpoints. `/chat` stays available and unchanged.
+The sandbox ships as a Claude Code **plugin**: an [MCP](https://modelcontextprotocol.io) server at `http://localhost:9001/mcp` for the data, plus skills that teach Claude how to drive it. Claude generates test data **itself** — it reads the same API models and stored-shape guidance the `/chat` Data Generator uses, inserts the records, then checks them by calling the sandbox's SP-API endpoints. `/chat` stays available and unchanged.
 
 1. Start the sandbox: `npm run dev`
-2. Open Claude Code in this folder. The project's `.mcp.json` registers the server as `sp-api-sandbox`. Approve it when prompted, then check with `claude mcp list`.
-3. Ask for data, for example *"Create three unshipped orders for one seller and confirm they come back from getOrders"*, or use the prompt `/mcp__sp-api-sandbox__generate_test_data`.
+2. Add this folder as a plugin marketplace, then install the plugin:
+   ```
+   /plugin marketplace add ./1-sp-api-application-setup/local-ai-sandbox
+   /plugin install sp-api-sandbox@sp-api-sandbox
+   ```
+   Approve the MCP server when prompted, then check with `claude mcp list`.
+3. Just ask — for example *"Create three unshipped orders for one seller and confirm they come back from getOrders"*, or *"walk me through the launch-a-product repricing track"*. Or run `/scenario launch-a-product orders-mfn`.
+
+### Skills
+
+The skills load on their own when a request matches; you don't invoke them by name.
+
+| Skill | Covers |
+|-------|--------|
+| `sandbox-test-data` | Generating test data: picking the namespace, reading the guidance, keying rules, inserting, verifying |
+| `sandbox-scenarios` | Walking a guided scenario end to end: seed, run the track's steps, verify each change |
+| `sandbox-notifications` | Destinations, subscriptions, sending notifications, and the order-status trigger |
+| `sandbox-onboard-api` | Adding a new SP-API to the sandbox (the pipeline in `docs/onboarding-new-api.md`) |
+
+### MCP tools
 
 | Tool | Description |
 |------|-------------|
+| `get_sandbox_context` | Base URL, mode, region, resolved marketplace/currency, and the scenario seller id |
 | `list_apis` | API namespaces, which ones have guidance, and the current `MODE`/`REGION` |
 | `get_api_model` | Raw OpenAPI model for an API |
 | `get_generation_guidance` | How stored documents differ from the API model (authoritative where they differ) |
 | `insert_entities` | Insert up to 100 records per call, with a result for each record; writes fire the data triggers |
 | `get_data` | Stored documents, optionally for one API (same as `GET /data`) |
 | `clear_data` | Clear the database (same as `DELETE /data`) |
-| `list_scenarios` / `seed_scenario` | List and seed the guided scenarios |
+| `list_scenarios` | Index of the guided scenarios and their tracks |
+| `get_scenario` | One scenario in full, with every track's steps region-resolved |
+| `seed_scenario` | Seed a scenario's fixture data |
 
 The MCP server runs inside the sandbox process, so it shares the database the SP-API endpoints read from. It has no authentication. It is meant for local use only: requests whose `Host` header is not localhost are rejected, the server binds to loopback by default, and deployed instances set `MCP_ENABLED=false`.
 

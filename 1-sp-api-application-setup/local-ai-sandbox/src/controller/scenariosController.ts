@@ -4,6 +4,7 @@ import * as path from "node:path";
 import { z } from "zod";
 import { Api, Context } from "../database/Context.js";
 import { getRegionPrimaryMarketplace, resolveRegion, REGIONS } from "../marketplaceIds.js";
+import { resolveKey } from "../tool/dataGenerationCore.js";
 
 /**
  * Guided scenarios — pre-seeded, runnable SP-API journeys (parity plan, Workstream C).
@@ -15,9 +16,10 @@ import { getRegionPrimaryMarketplace, resolveRegion, REGIONS } from "../marketpl
  * fixtures describe a consistent snapshot, so firing INSERT triggers would double-apply.
  *
  * Region awareness:
- * - A fixture may use the placeholders {{MARKETPLACE_ID}} and {{CURRENCY}}; these are
- *   substituted with the configured region's primary marketplace and currency at load
- *   time, so a region-agnostic scenario works under any REGION.
+ * - A fixture may use the placeholders {{MARKETPLACE_ID}}, {{CURRENCY}} and {{SELLER_ID}};
+ *   these are substituted with the configured region's primary marketplace and currency,
+ *   and the sandbox's canonical scenario seller, at load time, so a region-agnostic
+ *   scenario works under any REGION.
  * - A scenario or an individual track may declare an optional `regions` allowlist. When
  *   present, the scenario is hidden (and the track dropped) outside those regions. This is
  *   how get-paid keeps its on-demand-payout tracks EU-only — the SP-API Transfers model
@@ -29,6 +31,17 @@ const SCENARIOS_DIR = "./res/scenarios";
 /** Placeholder tokens substituted with region-specific values at load time. */
 const MARKETPLACE_PLACEHOLDER = "{{MARKETPLACE_ID}}";
 const CURRENCY_PLACEHOLDER = "{{CURRENCY}}";
+const SELLER_PLACEHOLDER = "{{SELLER_ID}}";
+
+/**
+ * The seller every scenario fixture belongs to.
+ *
+ * Listings are keyed by seller *and* SKU, so a fixture that omits the seller is
+ * written somewhere `getListingsItem` cannot read it back. Scenarios declare
+ * {{SELLER_ID}} rather than a literal, so the fixture and the runnable step
+ * paths that reference it cannot disagree.
+ */
+export const SCENARIO_SELLER_ID = "A1SANDBOXSELLER";
 
 const SeedEntitySchema = z.object({
   api: z.enum(Api),
@@ -105,10 +118,16 @@ function allowedInRegion(regions: readonly string[] | undefined, region: string)
   return !regions || regions.includes(region);
 }
 
-/** Recursively substitute the marketplace/currency placeholders throughout an unknown value. */
+/** Recursively substitute the marketplace/currency/seller placeholders throughout an unknown value. */
 function substituteNode(value: unknown, marketplaceId: string, currency: string): unknown {
   if (typeof value === "string") {
-    return value.split(MARKETPLACE_PLACEHOLDER).join(marketplaceId).split(CURRENCY_PLACEHOLDER).join(currency);
+    return value
+      .split(MARKETPLACE_PLACEHOLDER)
+      .join(marketplaceId)
+      .split(CURRENCY_PLACEHOLDER)
+      .join(currency)
+      .split(SELLER_PLACEHOLDER)
+      .join(SCENARIO_SELLER_ID);
   }
   if (Array.isArray(value)) {
     return value.map((item) => substituteNode(item, marketplaceId, currency));
@@ -157,6 +176,36 @@ export function resolveScenarioForRegion(scenarioId: string): Scenario | undefin
   return resolveScenariosForRegion().find((s) => s.id === scenarioId);
 }
 
+/**
+ * Lightweight index of the scenarios available for the configured region: one
+ * line per scenario and per track, with no step detail.
+ *
+ * `summarizeScenarios` inlines every step of every track, which the web UI wants
+ * (it fetches once and renders client-side) but an agent does not — that payload
+ * grows with each scenario and most of it is irrelevant to the one track being
+ * walked. Agents list with this, then fetch the one scenario they picked with
+ * `describeScenario`.
+ */
+export function indexScenarios() {
+  return resolveScenariosForRegion().map((s) => ({
+    id: s.id,
+    title: s.title,
+    tagline: s.tagline,
+    seedCount: s.seed.length,
+    tracks: s.tracks.map((t) => ({
+      id: t.id,
+      title: t.title,
+      stepCount: t.steps.length,
+      runnableCount: t.steps.filter((st) => st.status === "runnable").length,
+    })),
+  }));
+}
+
+/** One region-resolved scenario in full, including every track's steps. */
+export function describeScenario(scenarioId: string) {
+  return summarizeScenarios().find((s) => s.id === scenarioId);
+}
+
 /** Summaries of the scenarios available for the configured region (shared by HTTP and MCP). */
 export function summarizeScenarios() {
   return resolveScenariosForRegion().map((s) => ({
@@ -194,8 +243,17 @@ export function seedScenarioById(scenarioId: string): SeedResult | undefined {
   const engine = Context.instance.engine;
   const seededByApi: Record<string, string[]> = {};
   for (const { api, id, entity } of scenario.seed) {
-    engine.put(api, id, structuredClone(entity));
-    (seededByApi[api] ??= []).push(id);
+    // Resolve the key the operation handlers read from, rather than trusting the
+    // fixture's id: listings are keyed by seller *and* SKU and FBA inventory by
+    // seller SKU, so a literal id would write the record where no handler looks.
+    const document = structuredClone(entity);
+    const resolved = resolveKey(api, id, document);
+    if ("error" in resolved) {
+      throw new Error(`Scenario '${scenario.id}' fixture ${api}/${id} cannot be keyed: ${resolved.error}`);
+    }
+
+    engine.put(api, resolved.key, document);
+    (seededByApi[api] ??= []).push(resolved.key);
   }
 
   return {
@@ -215,6 +273,28 @@ export const listScenarios = (_request: Request, response: Response): void => {
     console.error("Failed to load scenarios:", error);
     response.status(500).json({ errors: [{ code: "ScenarioLoadFailure", message: "Failed to load scenario definitions" }] });
   }
+};
+
+/** GET /scenarios/:scenarioId — one guided scenario in full, or 404 when unknown/hidden. */
+export const getScenario = (request: Request, response: Response): void => {
+  const rawId = request.params.scenarioId;
+  const scenarioId = Array.isArray(rawId) ? rawId[0] : rawId;
+
+  let scenario: ReturnType<typeof describeScenario>;
+  try {
+    scenario = describeScenario(scenarioId);
+  } catch (error) {
+    console.error("Failed to load scenarios:", error);
+    response.status(500).json({ errors: [{ code: "ScenarioLoadFailure", message: "Failed to load scenario definitions" }] });
+    return;
+  }
+
+  if (!scenario) {
+    response.status(404).json({ errors: [{ code: "NotFound", message: `Scenario '${scenarioId}' not found` }] });
+    return;
+  }
+
+  response.status(200).json(scenario);
 };
 
 /** POST /scenarios/:scenarioId/seed — deterministically write the scenario's fixture data. */

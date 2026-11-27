@@ -1,0 +1,9 @@
+{
+  "name": "sp-api-sandbox",
+  "version": "1.0.0",
+  "description": "Drive the local Sample AI Sandbox for SP-API from Claude Code: generate and verify test data, walk guided scenarios end to end, send notifications, and onboard a new API. Bundles the sandbox's MCP server.",
+  "author": {
+    "name": "Selling Partner API Samples"
+  },
+  "homepage": "https://github.com/amzn/selling-partner-api-samples"
+}

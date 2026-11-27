@@ -17,12 +17,22 @@ import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/
 import { z } from "zod";
 import { Api, Context } from "../database/Context.js";
 import { CURRENT_MODE } from "../registry/operationRegistry.js";
-import { resolveRegion } from "../marketplaceIds.js";
+import { getRegionPrimaryMarketplace, resolveRegion } from "../marketplaceIds.js";
 import { domainsWithGuidance } from "../tool/domainGuidance.js";
 import { insertEntity, noGuidanceMessage, retrieveGuidance, retrieveModel, snapshotData } from "../tool/dataGenerationCore.js";
-import { seedScenarioById, summarizeScenarios } from "../controller/scenariosController.js";
+import { describeScenario, indexScenarios, seedScenarioById, SCENARIO_SELLER_ID } from "../controller/scenariosController.js";
 
 export const MAX_BATCH_SIZE = 100;
+
+/**
+ * The loopback URL the sandbox's SP-API endpoints answer on.
+ *
+ * Skills and agents need this to turn a scenario's bare step path into a request
+ * they can actually send, and hardcoding it in prose would drift from PORT.
+ */
+export function sandboxBaseUrl(): string {
+  return `http://localhost:${process.env.PORT ?? "9001"}`;
+}
 
 const apiSchema = z.enum(Api).describe("Sandbox API namespace (see list_apis)");
 
@@ -155,10 +165,52 @@ export function createMcpServer(): McpServer {
   server.registerTool(
     "list_scenarios",
     {
-      description: "Lists the guided scenarios (pre-built, consistent fixture sets with runnable SP-API steps) available in the configured region.",
+      description:
+        "Lists the guided scenarios (pre-built, consistent fixture sets with runnable SP-API steps) available in the configured region, " +
+        "with one line per scenario and track. Call get_scenario for a chosen scenario's full steps.",
       annotations: { readOnlyHint: true },
     },
-    () => json(summarizeScenarios()),
+    () => json(indexScenarios()),
+  );
+
+  server.registerTool(
+    "get_scenario",
+    {
+      description:
+        "Returns one guided scenario in full: every track with its ordered steps (method, path, status, note, body). " +
+        "Paths are already region-resolved — call them against the sandbox base URL from get_sandbox_context.",
+      inputSchema: { scenarioId: z.string().min(1) },
+      annotations: { readOnlyHint: true },
+    },
+    ({ scenarioId }) => {
+      const scenario = describeScenario(scenarioId);
+      return scenario ? json(scenario) : errorText(`Scenario '${scenarioId}' not found (or not available in this region).`);
+    },
+  );
+
+  server.registerTool(
+    "get_sandbox_context",
+    {
+      description:
+        "Returns the ambient facts needed to call the sandbox: base URL, operating mode, region, the resolved primary " +
+        "marketplace and currency, and the seller id that owns the scenario fixtures. Call this before walking a scenario.",
+      annotations: { readOnlyHint: true },
+    },
+    () => {
+      const { marketplaceId, currency } = getRegionPrimaryMarketplace();
+      return json({
+        baseUrl: sandboxBaseUrl(),
+        mode: CURRENT_MODE,
+        region: resolveRegion(),
+        marketplaceId,
+        currency,
+        scenarioSellerId: SCENARIO_SELLER_ID,
+        notes: [
+          "Scenario step paths already have {{MARKETPLACE_ID}}, {{CURRENCY}} and {{SELLER_ID}} substituted — send them as given.",
+          "Step status 'runnable' works against this sandbox; 'pass-through' is proxied to real SP-API and needs a valid access token; 'planned' is not implemented yet — skip it.",
+        ],
+      });
+    },
   );
 
   server.registerTool(
